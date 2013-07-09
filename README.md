@@ -1,4 +1,3 @@
-perconik-corona
-===============
+# PerConIK Corona Plugin
 
-User activity tracking in Eclipse
+User activity tracking in Eclipse.
