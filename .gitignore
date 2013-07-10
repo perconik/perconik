@@ -1,6 +1,10 @@
-*.class
+bin
+data
+doc
+target
+tmp
 
-# Package Files #
-*.jar
-*.war
-*.ear
+.metadata
+.project
+.classpath
+.settings
