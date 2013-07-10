@@ -1,3 +1,3 @@
-# PerConIK Corona Plugin
+# PerConIK Eclipse Integration
 
 User activity tracking in Eclipse.
