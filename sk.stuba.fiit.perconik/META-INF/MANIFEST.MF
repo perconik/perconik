@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK
 Bundle-SymbolicName: sk.stuba.fiit.perconik;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: sk.stuba.fiit.perconik.Activator
+Bundle-Activator: sk.stuba.fiit.perconik.plugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
