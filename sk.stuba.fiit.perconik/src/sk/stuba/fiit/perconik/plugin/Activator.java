@@ -1,4 +1,3 @@
-
 package sk.stuba.fiit.perconik.plugin;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
