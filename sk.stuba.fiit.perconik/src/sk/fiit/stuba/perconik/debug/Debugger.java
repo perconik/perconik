@@ -1,7 +1,8 @@
-package sk.stuba.fiit.perconik.plugin;
+package sk.fiit.stuba.perconik.debug;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import sk.stuba.fiit.perconik.plugin.Activator;
 
 public class Debugger
 {

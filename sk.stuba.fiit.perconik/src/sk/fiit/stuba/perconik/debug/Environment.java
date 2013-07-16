@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.plugin;
+package sk.fiit.stuba.perconik.debug;
 
 public class Environment
 {
