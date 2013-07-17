@@ -50,4 +50,22 @@ public final class Workbenches
 		
 		return window.getActivePage();
 	}
+	
+	public static final IWorkbenchWindow waitForActiveWindow()
+	{
+		IWorkbenchWindow window;
+		
+		while ((window = getActiveWindow()) == null);
+		
+		return window;
+	}
+
+	public static final IWorkbenchPage waitForActivePage()
+	{
+		IWorkbenchPage page;
+		
+		while ((page = getActivePage()) == null);
+		
+		return page;
+	}
 }
