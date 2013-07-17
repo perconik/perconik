@@ -5,7 +5,7 @@
          id="sk.stuba.fiir.perconik.debug.startup"
          point="org.eclipse.ui.startup">
       <startup
-            class="sk.stuba.fiit.perconik.plugin.Activator$Startup">
+            class="sk.stuba.fiit.perconik.debug.plugin.Activator$Startup">
       </startup>
    </extension>
 

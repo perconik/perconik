@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Debug
 Bundle-SymbolicName: sk.stuba.fiit.perconik.debug;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: sk.stuba.fiit.perconik.plugin.Activator
+Bundle-Activator: sk.stuba.fiit.perconik.debug.plugin.Activator
 Require-Bundle: sk.stuba.fiit.perconik.core;bundle-version="1.0.0",
  org.eclipse.core.runtime,
  org.eclipse.ui

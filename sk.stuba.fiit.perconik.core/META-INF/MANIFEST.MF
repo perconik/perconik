@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Core
 Bundle-SymbolicName: sk.stuba.fiit.perconik.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: sk.stuba.fiit.perconik.plugin.Activator
+Bundle-Activator: sk.stuba.fiit.perconik.core.plugin.Activator
 Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.core.filesystem;bundle-version="1.4.0",
  org.eclipse.core.resources;bundle-version="3.8.100",
@@ -21,6 +21,12 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: sk.stuba.fiit.perconik.adapters,
- sk.stuba.fiit.perconik.listeners,
- sk.stuba.fiit.perconik.utilities
+Export-Package: sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.listeners",
+ sk.stuba.fiit.perconik.core.environment,
+ sk.stuba.fiit.perconik.core.listeners;
+  uses:="org.eclipse.debug.core,
+   org.eclipse.core.commands.operations,
+   org.eclipse.core.filebuffers,
+   org.eclipse.ui,
+   org.eclipse.ltk.core.refactoring.history",
+ sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.ui"

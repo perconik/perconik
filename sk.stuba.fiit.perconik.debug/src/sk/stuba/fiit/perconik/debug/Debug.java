@@ -3,7 +3,8 @@ package sk.stuba.fiit.perconik.debug;
 import java.io.PrintStream;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import sk.stuba.fiit.perconik.plugin.Activator;
+import sk.stuba.fiit.perconik.core.environment.Environment;
+import sk.stuba.fiit.perconik.debug.plugin.Activator;
 
 public final class Debug
 {
