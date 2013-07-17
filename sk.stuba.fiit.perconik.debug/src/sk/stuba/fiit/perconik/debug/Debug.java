@@ -1,4 +1,4 @@
-package sk.fiit.stuba.perconik.debug;
+package sk.stuba.fiit.perconik.debug;
 
 import java.io.PrintStream;
 import org.eclipse.core.runtime.IStatus;

@@ -1,4 +1,4 @@
-package sk.fiit.stuba.perconik.debug.listeners;
+package sk.stuba.fiit.perconik.debug.listeners;
 
 public class LaunchDebugListener
 {

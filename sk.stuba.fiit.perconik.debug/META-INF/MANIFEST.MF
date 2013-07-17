@@ -10,5 +10,5 @@ Require-Bundle: sk.stuba.fiit.perconik.core;bundle-version="1.0.0",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: sk.fiit.stuba.perconik.debug,
- sk.fiit.stuba.perconik.debug.listeners
+Export-Package: sk.stuba.fiit.perconik.debug,
+ sk.stuba.fiit.perconik.debug.listeners
