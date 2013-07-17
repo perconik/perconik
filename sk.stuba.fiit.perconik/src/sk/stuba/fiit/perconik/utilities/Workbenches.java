@@ -1,12 +1,10 @@
-// TODO draft
-
-/*
-
 package sk.stuba.fiit.perconik.utilities;
 
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import sk.fiit.stuba.perconik.debug.Debug;
 
 public final class Workbenches
 {
@@ -15,28 +13,41 @@ public final class Workbenches
 		throw new AssertionError();
 	}
 	
-	public static IWorkbenchWindow getActiveWorkbenchWindow()
+	public static final IWorkbench getWorkbench()
 	{
-		IWorkbench workbench = null;
-		
 		try
 		{
-			workbench = PlatformUI.getWorkbench();
+			return PlatformUI.getWorkbench();
 		}
 		catch (IllegalStateException e)
+		{
+			Debug.error("Workbench has not been created yet.", e);
+			
+			return null;
+		}
+	}
+	
+	public static final IWorkbenchWindow getActiveWindow()
+	{
+		IWorkbench workbench = getWorkbench(); 
+		
+		if (workbench == null)
 		{
 			return null;
 		}
 		
-		IWorkbenchWindow window = null;
+		return workbench.getActiveWorkbenchWindow();
+	}
+	
+	public static final IWorkbenchPage getActivePage()
+	{
+		IWorkbenchWindow window = getActiveWindow();
 		
-		if (workbench != null)
+		if (window == null)
 		{
-			window = workbench.getActiveWorkbenchWindow();
+			return null;
 		}
 		
-		return window;
+		return window.getActivePage();
 	}
 }
-
-*/
