@@ -1,14 +1,17 @@
 package sk.fiit.stuba.perconik.debug;
 
+import java.io.PrintStream;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import sk.stuba.fiit.perconik.plugin.Activator;
 
-public class Debugger
+public class Debug
 {
-	static final String PLUGIN_ID = Activator.PLUGIN_ID;
+	private static final String PLUGIN_ID = Activator.PLUGIN_ID;
 
-	private Debugger()
+	private static final PrintStream out = System.out;
+	
+	private Debug()
 	{
 		throw new AssertionError();
 	}
@@ -18,17 +21,17 @@ public class Debugger
 		Activator.getDefault().getLog().log(status);
 	}
 	
-	public static void debug(final String message)
+	public static void print(final String message)
 	{
 		if (Environment.debug)
 		{
-			System.out.println(message);
+			out.println(message);
 		}
 	}
 	
-	public static void debug(final String format, final Object ... args)
+	public static void print(final String format, final Object ... args)
 	{
-		debug(String.format(format, args));
+		print(String.format(format, args));
 	}
 
 	public static void notice(final String message)
