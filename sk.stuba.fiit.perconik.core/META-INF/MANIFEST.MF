@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: PerConIK
+Bundle-Name: PerConIK Core
 Bundle-SymbolicName: sk.stuba.fiit.perconik.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: sk.stuba.fiit.perconik.plugin.Activator
@@ -21,3 +21,6 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
+Export-Package: sk.stuba.fiit.perconik.adapters,
+ sk.stuba.fiit.perconik.listeners,
+ sk.stuba.fiit.perconik.utilities

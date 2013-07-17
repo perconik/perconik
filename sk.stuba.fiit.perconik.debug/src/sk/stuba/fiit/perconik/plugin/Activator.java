@@ -16,7 +16,7 @@ public class Activator extends AbstractUIPlugin
 	/**
 	 * The plug-in identifier.
 	 */
-	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.core";
+	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.debug";
 
 	/**
 	 * The shared instance.
@@ -44,12 +44,27 @@ public class Activator extends AbstractUIPlugin
 	{
 		public Startup() throws Exception
 		{
-			// TODO
+// TODO rm
+//			String name = Defaults.settingsPath().getFileName().toString();
+//			
+//			this.settings = ClassPathResourceLoader.getDefault().loadSettings(name);
 		}
 		
 		public final void earlyStartup()
 		{
-			// TODO
+			System.out.println("Hello world from earlyStartup");
+// TODO rm
+//			try
+//			{
+//				for (String name: this.settings.getAsArray("loggers"))
+//				{
+//					Loggers.register((Logger) Class.forName(name).newInstance());
+//				}
+//			}
+//			catch (Exception e)
+//			{
+//				throw new IllegalStateException(e);
+//			}
 		}
 	}
 
