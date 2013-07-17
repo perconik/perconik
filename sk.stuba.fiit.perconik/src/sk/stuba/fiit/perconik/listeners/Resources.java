@@ -52,8 +52,38 @@ public final class Resources
 		return Sets.newHashSet(resources.values());
 	}
 
+	public static final Resource<FileBufferListener> getFileBufferResource()
+	{
+		return KnownResources.fileBuffer;
+	}
+
 	public static final Resource<LaunchListener> getLaunchResource()
 	{
 		return KnownResources.launch;
+	}
+	
+	public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource()
+	{
+		return KnownResources.launchConfiguration;
+	}
+
+	public static final Resource<OperationHistoryListener> getOperationHistoryResource()
+	{
+		return KnownResources.operationHistory;
+	}
+
+	public static final Resource<PartListener> getPartResource()
+	{
+		return KnownResources.part;
+	}
+
+	public static final Resource<RefactoringExecutionListener> getRefactoringExecutionResource()
+	{
+		return KnownResources.refactoringExecution;
+	}
+
+	public static final Resource<SelectionListener> getSelectionResource()
+	{
+		return KnownResources.selection;
 	}
 }
