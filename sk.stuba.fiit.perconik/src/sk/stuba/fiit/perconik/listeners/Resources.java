@@ -10,20 +10,6 @@ import com.google.common.collect.Sets;
 
 public final class Resources
 {
-//	private static final TypeToken<Resource<LaunchListener>> launch = new TypeToken<Resource<LaunchListener>>() {};
-//	
-//	private static final TypeToInstanceMap<Resource<?>> resources;
-//	
-//	static
-//	{
-//		Builder<Resource<?>> builder = ImmutableTypeToInstanceMap.builder();
-//		
-//		// TODO
-//		builder.put(launch, create(LaunchHandler.INSTANCE));
-//		
-//		resources = builder.build();
-//	}
-	
 	private static final SetMultimap<Class<?>, Resource<?>> resources = Multimaps.synchronizedSetMultimap(HashMultimap.<Class<?>, Resource<?>>create());
 	
 	private Resources()
@@ -65,13 +51,7 @@ public final class Resources
 	{
 		return Sets.newHashSet(resources.values());
 	}
-		
-	// TODO rm
-//	public static final <T extends Resource<?>> T getResource(final TypeToken<T> type)
-//	{
-//		return (T) resources.get(type);
-//	}
-	
+
 	public static final Resource<LaunchListener> getLaunchResource()
 	{
 		return KnownResources.launch;
