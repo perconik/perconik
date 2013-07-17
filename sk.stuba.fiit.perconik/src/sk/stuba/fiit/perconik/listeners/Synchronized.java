@@ -15,7 +15,7 @@ class Synchronized
 	
 	private static class SynchronizedObject<T> implements Serializable
 	{
-		private static final long serialVersionUID = -4544158938099292339L;
+		private static final long serialVersionUID = 0L;
 
 		final T delegate;
 		
@@ -47,7 +47,7 @@ class Synchronized
 	
 	private static final class SynchronizedResource<T extends Listener> extends SynchronizedObject<Resource<T>> implements Resource<T>
 	{
-		private static final long serialVersionUID = -6955488978911597292L;
+		private static final long serialVersionUID = 0L;
 
 		SynchronizedResource(final Resource<T> resource, final Object mutex)
 		{
@@ -104,7 +104,7 @@ class Synchronized
 	
 	private static final class SynchronizedPool<T extends Listener> extends SynchronizedObject<Pool<T>> implements Pool<T>
 	{
-		private static final long serialVersionUID = -3478838239933812834L;
+		private static final long serialVersionUID = 0L;
 
 		SynchronizedPool(final Pool<T> pool, final Object mutex)
 		{
@@ -167,6 +167,55 @@ class Synchronized
 		}
 	}
 	
+	private static final class SynchronizedHandler<T extends Listener> extends SynchronizedObject<Handler<T>> implements Handler<T>
+	{
+		private static final long serialVersionUID = 0L;
+
+		SynchronizedHandler(final Handler<T> handler, final Object mutex)
+		{
+			super(handler, mutex);
+		}
+
+		@Override
+		public final boolean equals(final Object o)
+		{
+			if (o == this)
+			{
+				return true;
+			}
+
+			synchronized (this.mutex)
+			{
+				return this.delegate.equals(o);
+			}
+		}
+		
+		@Override
+		public final int hashCode()
+		{
+			synchronized (this.mutex)
+			{
+				return this.delegate.hashCode();
+			}
+		}
+
+		public final void add(final T listener)
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.add(listener);
+			}
+		}
+
+		public final void remove(final T listener)
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.remove(listener);
+			}
+		}
+	}
+	
 	static final <T extends Listener> Resource<T> resource(final Resource<T> resource)
 	{
 		return new SynchronizedResource<>(resource, new Object());
@@ -175,5 +224,10 @@ class Synchronized
 	static final <T extends Listener> Pool<T> pool(final Pool<T> pool)
 	{
 		return new SynchronizedPool<>(pool, new Object());
+	}
+	
+	static final <T extends Listener> Handler<T> handler(final Handler<T> handler)
+	{
+		return new SynchronizedHandler<>(handler, new Object());
 	}
 }
