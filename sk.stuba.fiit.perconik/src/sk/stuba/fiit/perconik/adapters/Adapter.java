@@ -1,4 +1,6 @@
-package sk.stuba.fiit.perconik.listeners;
+package sk.stuba.fiit.perconik.adapters;
+
+import sk.stuba.fiit.perconik.listeners.Listener;
 
 public abstract class Adapter implements Listener
 {
