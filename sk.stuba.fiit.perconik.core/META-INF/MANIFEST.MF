@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK
-Bundle-SymbolicName: sk.stuba.fiit.perconik;singleton:=true
+Bundle-SymbolicName: sk.stuba.fiit.perconik.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: sk.stuba.fiit.perconik.plugin.Activator
 Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
