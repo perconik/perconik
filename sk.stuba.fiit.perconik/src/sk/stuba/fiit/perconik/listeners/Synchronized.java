@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import com.google.common.base.Preconditions;
 
-public class Synchronized
+class Synchronized
 {
 	private Synchronized()
 	{

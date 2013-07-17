@@ -1,42 +1,24 @@
 package sk.stuba.fiit.perconik.listeners;
 
-import com.google.common.base.Preconditions;
-
-final class GenericResource<T extends Listener> implements Resource<T>
+final class GenericResource<T extends Listener> extends AbstractResource<T>
 {
-	private final Pool<T> pool;
+	private final String name;
 	
 	GenericResource(final Pool<T> pool)
 	{
-		this.pool = Preconditions.checkNotNull(pool);
+		super(pool);
+		
+		this.name = pool.toString().replace("Pool", "") + "Resource";
 	}
-	
-	public final void register(final T listener)
+
+	@Override
+	public final String toString()
 	{
-		listener.preRegister();
-		
-		this.pool.add(listener);
-		
-		listener.postRegister();
+		return this.getName();
 	}
-	
-	public final void unregister(final T listener)
+
+	public final String getName()
 	{
-		listener.preUnregister();
-		
-		this.pool.remove(listener);
-		
-		listener.postUnregister();
-	}
-	
-	public final void unregisterAll(final Class<? super T> type)
-	{
-		for (T listener: this.pool.toCollection())
-		{
-			if (type.isInstance(listener))
-			{
-				this.unregister(listener);
-			}
-		}
+		return this.name;
 	}
 }
