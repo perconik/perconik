@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import sk.stuba.fiit.perconik.plugin.Activator;
 
-public class Debug
+public final class Debug
 {
 	private static final String PLUGIN_ID = Activator.PLUGIN_ID;
 
