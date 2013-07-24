@@ -4,7 +4,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import sk.fiit.stuba.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.core.environment.Environment;
+import sk.stuba.fiit.perconik.core.plugin.Activator;
 
 public final class Workbenches
 {
@@ -21,7 +22,10 @@ public final class Workbenches
 		}
 		catch (IllegalStateException e)
 		{
-			Debug.error("Workbench has not been created yet.", e);
+			if (Environment.debug)
+			{
+				PluginConsole.of(Activator.getDefault()).error("Workbench has not been created yet.", e);
+			}
 			
 			return null;
 		}
