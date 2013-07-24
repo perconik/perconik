@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.listeners",
+Export-Package: sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.core.listeners",
  sk.stuba.fiit.perconik.core.environment,
  sk.stuba.fiit.perconik.core.listeners;
   uses:="org.eclipse.debug.core,
@@ -29,4 +29,18 @@ Export-Package: sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.percon
    org.eclipse.core.filebuffers,
    org.eclipse.ui,
    org.eclipse.ltk.core.refactoring.history",
- sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.ui"
+ sk.stuba.fiit.perconik.core.plugin;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
+ sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.core.runtime,org.eclipse.ui"
+Import-Package: com.google.common.annotations,
+ com.google.common.base,
+ com.google.common.base.internal,
+ com.google.common.cache,
+ com.google.common.collect,
+ com.google.common.eventbus,
+ com.google.common.hash,
+ com.google.common.io,
+ com.google.common.math,
+ com.google.common.net,
+ com.google.common.primitives,
+ com.google.common.reflect,
+ com.google.common.util.concurrent
