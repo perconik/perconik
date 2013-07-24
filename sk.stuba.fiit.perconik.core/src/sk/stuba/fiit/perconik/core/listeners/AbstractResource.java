@@ -29,7 +29,7 @@ abstract class AbstractResource<T extends Listener> implements Resource<T>
 		listener.postUnregister();
 	}
 	
-	public final void unregisterAll(final Class<? super T> type)
+	public final void unregisterAll(final Class<? extends Listener> type)
 	{
 		for (T listener: this.pool.toCollection())
 		{

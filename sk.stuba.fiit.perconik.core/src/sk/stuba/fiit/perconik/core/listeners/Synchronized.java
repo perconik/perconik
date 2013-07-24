@@ -93,7 +93,7 @@ class Synchronized
 			}
 		}
 
-		public final void unregisterAll(final Class<? super T> type)
+		public final void unregisterAll(final Class<? extends Listener> type)
 		{
 			synchronized (this.mutex)
 			{

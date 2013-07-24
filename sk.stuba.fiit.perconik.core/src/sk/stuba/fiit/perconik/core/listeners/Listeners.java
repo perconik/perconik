@@ -82,9 +82,9 @@ public final class Listeners
 		unregisterAll(Listener.class);
 	}
 	
-	public static final void unregisterAll(final Class<? super Listener> type)
+	public static final void unregisterAll(final Class<? extends Listener> type)
 	{
-		for (Resource<?> resource: Resources.getResources())
+		for (Resource<?> resource: Resources.forListener(type))
 		{
 			resource.unregisterAll(type);
 		}

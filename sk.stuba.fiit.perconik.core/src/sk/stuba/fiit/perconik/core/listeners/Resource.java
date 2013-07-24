@@ -6,5 +6,5 @@ public interface Resource<T extends Listener>
 	
 	public void unregister(T listener);
 	
-	public void unregisterAll(Class<? super T> type);
+	public void unregisterAll(Class<? extends Listener> type);
 }
