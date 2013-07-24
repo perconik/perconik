@@ -37,7 +37,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 		
 		public final Builder<T> arrayList()
 		{
-			Preconditions.checkState(this.strategy == null);
+			Preconditions.checkState(this.implementation == null);
 			
 			this.implementation = Lists.newArrayList();
 			
@@ -46,7 +46,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 		
 		public final Builder<T> hashSet()
 		{
-			Preconditions.checkState(this.strategy == null);
+			Preconditions.checkState(this.implementation == null);
 			
 			this.implementation = Sets.newHashSet();
 			
@@ -55,7 +55,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 
 		public final Builder<T> linkedList()
 		{
-			Preconditions.checkState(this.strategy == null);
+			Preconditions.checkState(this.implementation == null);
 			
 			this.implementation = Lists.newLinkedList();
 			
@@ -64,7 +64,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 
 		public final Builder<T> linkedHashSet()
 		{
-			Preconditions.checkState(this.strategy == null);
+			Preconditions.checkState(this.implementation == null);
 			
 			this.implementation = Sets.newLinkedHashSet();
 			
