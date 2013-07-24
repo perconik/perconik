@@ -43,12 +43,10 @@ public class Activator extends AbstractUIPlugin
 	{
 		public Startup() throws Exception
 		{
-			// TODO
 		}
 		
 		public final void earlyStartup()
 		{
-			// TODO
 		}
 	}
 
