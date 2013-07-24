@@ -12,7 +12,6 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin
 {
-
 	/**
 	 * The plug-in identifier.
 	 */

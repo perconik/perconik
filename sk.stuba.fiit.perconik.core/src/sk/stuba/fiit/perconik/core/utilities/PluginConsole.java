@@ -29,6 +29,19 @@ public final class PluginConsole
 		this.plugin.getLog().log(status);
 	}
 	
+	public final void put(final String message)
+	{
+		if (Environment.debug)
+		{
+			this.out.print(message);
+		}
+	}
+
+	public final void put(final String format, final Object ... args)
+	{
+		put(String.format(format, args));
+	}
+
 	public final void print(final String message)
 	{
 		if (Environment.debug)

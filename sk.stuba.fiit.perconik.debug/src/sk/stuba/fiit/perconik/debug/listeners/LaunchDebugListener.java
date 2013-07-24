@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
-public class LaunchDebugListener
+
+public class LaunchDebugListener extends AbstractDebugListener
 {
 	// TODO
 }
