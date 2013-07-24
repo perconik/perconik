@@ -23,12 +23,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Export-Package: sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.core.listeners",
  sk.stuba.fiit.perconik.core.environment,
- sk.stuba.fiit.perconik.core.listeners;
-  uses:="org.eclipse.debug.core,
-   org.eclipse.core.commands.operations,
-   org.eclipse.core.filebuffers,
-   org.eclipse.ui,
-   org.eclipse.ltk.core.refactoring.history",
+ sk.stuba.fiit.perconik.core.listeners,
  sk.stuba.fiit.perconik.core.plugin;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
  sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.core.runtime,org.eclipse.ui"
 Import-Package: com.google.common.annotations,
