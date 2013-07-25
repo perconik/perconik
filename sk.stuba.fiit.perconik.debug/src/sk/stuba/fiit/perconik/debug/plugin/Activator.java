@@ -5,6 +5,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.listeners.DebugListeners;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -53,58 +54,45 @@ public class Activator extends AbstractUIPlugin
 	{
 		public Startup() throws Exception
 		{
-			Debug.put("Constructing %s ...", this.getClass().getCanonicalName());
-// TODO rm
-//			String name = Defaults.settingsPath().getFileName().toString();
-//			
-//			this.settings = ClassPathResourceLoader.getDefault().loadSettings(name);
-			
-			Debug.print("done");
+			Debug.print("Constructing %s ... done", this.getClass().getCanonicalName());
 		}
 		
 		public final void earlyStartup()
 		{
-			Debug.put("Early startup %s ...", this.getClass().getCanonicalName());
-			
-			System.out.println("Hello world from earlyStartup");
-// TODO rm
-//			try
-//			{
-//				for (String name: this.settings.getAsArray("loggers"))
-//				{
-//					Loggers.register((Logger) Class.forName(name).newInstance());
-//				}
-//			}
-//			catch (Exception e)
-//			{
-//				throw new IllegalStateException(e);
-//			}
-			
-			Debug.print("done");
+			Debug.print("Executing early startup %s ... done", this.getClass().getCanonicalName());
 		}
 	}
 
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
-		this.console.put("Starting %s ...", PLUGIN_ID);
+		this.console.put("Starting %s ... ", PLUGIN_ID);
 		
 		super.start(context);
 
 		plugin = this;
 		
 		this.console.print("done");
+	
+		DebugListeners.registerAll();
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		this.console.put("Stopping %s ...", PLUGIN_ID);
+		DebugListeners.unregisterAll();
+
+		this.console.put("Stopping %s ... ", PLUGIN_ID);
 		
 		plugin = null;
 
 		super.stop(context);
 		
 		this.console.print("done");
+	}
+	
+	public final PluginConsole getConsole()
+	{
+		return this.console;
 	}
 }

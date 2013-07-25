@@ -1,11 +1,10 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
-import sk.stuba.fiit.perconik.core.listeners.Listener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
 import com.google.common.base.Preconditions;
 
-public abstract class AbstractDebugListener implements Listener
+public abstract class AbstractDebugListener implements DebugListener
 {
 	private final PluginConsole console; 
 	
