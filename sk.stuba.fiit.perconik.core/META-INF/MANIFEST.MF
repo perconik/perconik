@@ -21,12 +21,7 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.core.listeners",
- sk.stuba.fiit.perconik.core.environment,
- sk.stuba.fiit.perconik.core.listeners,
- sk.stuba.fiit.perconik.core.plugin;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
- sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.core.runtime,org.eclipse.ui"
-Import-Package: com.google.common.annotations,
+Export-Package: com.google.common.annotations,
  com.google.common.base,
  com.google.common.base.internal,
  com.google.common.cache,
@@ -38,4 +33,16 @@ Import-Package: com.google.common.annotations,
  com.google.common.net,
  com.google.common.primitives,
  com.google.common.reflect,
- com.google.common.util.concurrent
+ com.google.common.util.concurrent,
+ difflib,
+ difflib.myers,
+ sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.core.listeners",
+ sk.stuba.fiit.perconik.core.environment,
+ sk.stuba.fiit.perconik.core.listeners,
+ sk.stuba.fiit.perconik.core.plugin;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
+ sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.core.runtime,org.eclipse.ui",
+ uk.ac.open.crc.intt
+Bundle-ClassPath: .,
+ lib/diffutils-1.2.1.jar,
+ lib/guava-14.0.jar,
+ lib/intt.jar
