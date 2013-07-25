@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
+import java.util.Collection;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 abstract class AbstractResource<T extends Listener> implements Resource<T>
 {
@@ -38,5 +40,24 @@ abstract class AbstractResource<T extends Listener> implements Resource<T>
 				this.unregister(listener);
 			}
 		}
+	}
+	
+	public final <U extends Listener> Collection<U> getRegistered(final Class<U> type)
+	{
+		Collection<T> listeners = this.pool.toCollection();
+		Collection<U> filtered  = Lists.newArrayListWithCapacity(listeners.size());
+		
+		for (T listener: listeners)
+		{
+			if (type.isInstance(listener))
+			{
+				@SuppressWarnings("unchecked")
+				U casted = (U) listener;
+				
+				filtered.add(casted);
+			}
+		}
+		
+		return filtered;
 	}
 }

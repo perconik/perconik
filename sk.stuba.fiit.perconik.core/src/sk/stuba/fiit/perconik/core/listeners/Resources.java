@@ -31,14 +31,30 @@ public final class Resources
 	{
 		resources.remove(Preconditions.checkNotNull(type), Preconditions.checkNotNull(resource));
 	}
-	
+		
 	public static final <T extends Listener> Set<Resource<? extends T>> forListener(final Class<T> type)
 	{
 		Set<Resource<? extends T>> result = Sets.newHashSet();
 		
 		for (Entry<Class<?>, Resource<?>> entry: resources.entries())
 		{
-			if (type.isAssignableFrom(entry.getKey()))
+			boolean assignable = type.isAssignableFrom(entry.getKey());
+			
+			// TODO reconsider this matching
+			if (assignable == false)
+			{
+				for (Class<?> supertype: type.getInterfaces())
+				{
+					if (supertype == entry.getKey())
+					{
+						assignable = true;
+						
+						break;
+					}
+				}
+			}
+			
+			if (assignable)
 			{
 				result.add((Resource<? extends T>) entry.getValue());
 			}

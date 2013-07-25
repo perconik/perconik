@@ -1,5 +1,11 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 public final class Listeners
 {
 	private Listeners()
@@ -77,6 +83,35 @@ public final class Listeners
 		Resources.getSelectionResource().unregister(listener);
 	}
 	
+	public static final Collection<Listener> registered()
+	{
+		return registered(Listener.class);
+	}
+	
+	public static final <T extends Listener> Collection<T> registered(final Class<T> type)
+	{
+		List<T> listeners = Lists.newArrayList();
+		
+		for (Resource<? extends T> resource: Resources.forListener(type))
+		{
+			listeners.addAll(resource.getRegistered(type));
+		}
+		
+		return listeners;
+	}
+
+	public static final Map<Resource<?>, Collection<Listener>> registeredMap()
+	{
+		Map<Resource<?>, Collection<Listener>> map = Maps.newHashMap();
+		
+		for (Resource<?> resource: Resources.getResources())
+		{
+			map.put(resource, resource.getRegistered(Listener.class));
+		}
+		
+		return map;
+	}
+
 	public static final void unregisterAll()
 	{
 		unregisterAll(Listener.class);

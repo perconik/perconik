@@ -100,6 +100,14 @@ class Synchronized
 				this.delegate.unregisterAll(type);
 			}
 		}
+
+		public final <U extends Listener> Collection<U> getRegistered(final Class<U> type)
+		{
+			synchronized (this.mutex)
+			{
+				return this.delegate.getRegistered(type);
+			}
+		}
 	}
 	
 	private static final class SynchronizedPool<T extends Listener> extends SynchronizedObject<Pool<T>> implements Pool<T>
