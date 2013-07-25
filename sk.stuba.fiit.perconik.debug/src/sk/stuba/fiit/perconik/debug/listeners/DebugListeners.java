@@ -46,15 +46,15 @@ public final class DebugListeners
 	
 	public static final void printRegistered(final PluginConsole console, final Class<? extends Listener> type)
 	{
-		console.put(debugRegistered(type));
+		console.put(dumpRegistered(type));
 	}
 	
 	public static final void printRegisteredMap(final PluginConsole console)
 	{
-		console.put(debugRegisteredMap());
+		console.put(dumpRegisteredMap());
 	}
 
-	private static final String debugRegistered(final Class<? extends Listener> type)
+	private static final String dumpRegistered(final Class<? extends Listener> type)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
@@ -77,7 +77,7 @@ public final class DebugListeners
 		return builder.toString();
 	}
 
-	private static final String debugRegisteredMap()
+	private static final String dumpRegisteredMap()
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		

@@ -21,10 +21,10 @@ public final class DebugResources
 	
 	public static final void printRegistered(final PluginConsole console)
 	{
-		console.put(debugRegistered());
+		console.put(dumpRegisteredMap());
 	}	
 
-	private static final String debugRegistered()
+	private static final String dumpRegisteredMap()
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
