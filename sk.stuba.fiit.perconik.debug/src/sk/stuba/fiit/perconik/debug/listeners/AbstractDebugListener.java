@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
 import com.google.common.base.Preconditions;
@@ -103,6 +106,16 @@ public abstract class AbstractDebugListener implements DebugListener
 			return this.name;
 		}
 	}
+	
+	private static final class TimeUtilities
+	{
+		private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		
+		static final String format(final Date date)
+		{
+			return formatter.format(date);
+		}
+	}
 
 	public final void preRegister()
 	{
@@ -172,6 +185,11 @@ public abstract class AbstractDebugListener implements DebugListener
 	protected final void print(final String format, final Object ... args)
 	{
 		this.console.print(format, args);
+	}
+	
+	protected final void printTime()
+	{
+		this.console.print("[%s]", TimeUtilities.format(new Date()));
 	}
 
 	protected final void notice(final String message)

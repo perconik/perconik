@@ -50,15 +50,23 @@ public final class LaunchDebugListener extends AbstractDebugListener implements 
 		try
 		{
 			String  mode        = launch.getLaunchMode();
+			
 			String  name        = configuration.getName();
-			String  application = configuration.getAttribute("application", "");
-			String  product     = configuration.getAttribute("product", "");
+			String  application = configuration.getAttribute("application", "?");
+			String  product     = configuration.getAttribute("product", "?");
 			boolean useProduct  = configuration.getAttribute("useProduct", false);
 			
 			builder.append("mode: ").appendln(mode);
 			builder.append("name: ").appendln(name);
 			builder.append("application: ").appendln(application);
-			builder.append("product: ").append(product).append(" use (").append(useProduct).appendln(")");
+			builder.append("product: ").append(product).append(" (use ").append(useProduct).appendln(")");
+			
+//			Map<Object, Object> attributes = configuration.getAttributes();
+//			
+//			for (Entry<Object, Object> entry: attributes.entrySet())
+//			{
+//				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+//			}
 		}
 		catch (CoreException e)
 		{
