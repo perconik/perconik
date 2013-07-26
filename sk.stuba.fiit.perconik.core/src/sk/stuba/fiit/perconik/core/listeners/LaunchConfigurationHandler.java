@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.core.listeners;
 
 import org.eclipse.debug.core.DebugPlugin;
 
-
 enum LaunchConfigurationHandler implements Handler<LaunchConfigurationListener>
 {
 	INSTANCE;
