@@ -3,10 +3,20 @@ package sk.stuba.fiit.perconik.core.listeners;
 // TODO consider adding
 /*
 
+add custom
+
+MarkSelectionListener
+StructuredSelectionListener
+TextSelectionListener
+
+add existing
+
 IRefactoringHistoryListener
 
 IWindowListener
 IWorkbenchListener
+
+consider adding
 
 IPartListener2
 ILaunchesListener
