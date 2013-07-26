@@ -24,7 +24,7 @@ public final class DebugResources
 		console.put(dumpRegisteredMap());
 	}	
 
-	private static final String dumpRegisteredMap()
+	static final String dumpRegisteredMap()
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		

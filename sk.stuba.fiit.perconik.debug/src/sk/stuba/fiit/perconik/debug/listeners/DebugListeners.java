@@ -63,7 +63,7 @@ public final class DebugListeners
 		console.put(dumpRegisteredMap());
 	}
 
-	private static final String dumpRegistered(final Class<? extends Listener> type)
+	static final String dumpRegistered(final Class<? extends Listener> type)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
@@ -86,7 +86,7 @@ public final class DebugListeners
 		return builder.toString();
 	}
 
-	private static final String dumpRegisteredMap()
+	static final String dumpRegisteredMap()
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
