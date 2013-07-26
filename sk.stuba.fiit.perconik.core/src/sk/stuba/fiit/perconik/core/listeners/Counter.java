@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.listeners;
 
 import java.util.Map;
 
-public interface CountingListener extends Listener
+public interface Counter extends Listener
 {
 	public Map<Key, Long> getCounts();
 
