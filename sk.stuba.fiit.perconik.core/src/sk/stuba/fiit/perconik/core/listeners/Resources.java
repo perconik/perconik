@@ -88,6 +88,11 @@ public final class Resources
 		return KnownResources.operationHistory;
 	}
 
+	public static final Resource<PageListener> getPageResource()
+	{
+		return KnownResources.page;
+	}
+
 	public static final Resource<PartListener> getPartResource()
 	{
 		return KnownResources.part;

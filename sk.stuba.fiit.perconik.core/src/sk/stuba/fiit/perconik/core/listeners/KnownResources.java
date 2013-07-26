@@ -10,6 +10,8 @@ class KnownResources
 	
 	static final Resource<OperationHistoryListener> operationHistory;
 	
+	static final Resource<PageListener> page;
+	
 	static final Resource<PartListener> part;
 	
 	static final Resource<RefactoringExecutionListener> refactoringExecution;
@@ -22,6 +24,7 @@ class KnownResources
 		launch               = build(LaunchListener.class, LaunchHandler.INSTANCE);
 		launchConfiguration  = build(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE);
 		operationHistory     = build(OperationHistoryListener.class, OperationHistoryHandler.INSTANCE);
+		page                 = build(PageListener.class, PageHandler.INSTANCE);
 		part                 = build(PartListener.class, PartHandler.INSTANCE);
 		refactoringExecution = build(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE);
 		selection            = build(SelectionListener.class, SelectionHandler.INSTANCE);

@@ -32,7 +32,12 @@ public final class Listeners
 	{
 		Resources.getOperationHistoryResource().register(listener);
 	}
-	
+
+	public static final void register(final PageListener listener)
+	{
+		Resources.getPageResource().register(listener);
+	}
+
 	public static final void register(final PartListener listener)
 	{
 		Resources.getPartResource().register(listener);
@@ -68,11 +73,16 @@ public final class Listeners
 		Resources.getOperationHistoryResource().unregister(listener);
 	}
 
+	public static final void unregister(final PageListener listener)
+	{
+		Resources.getPageResource().unregister(listener);
+	}
+
 	public static final void unregister(final PartListener listener)
 	{
 		Resources.getPartResource().unregister(listener);
 	}
-	
+
 	public static final void unregister(final RefactoringExecutionListener listener)
 	{
 		Resources.getRefactoringExecutionResource().unregister(listener);
