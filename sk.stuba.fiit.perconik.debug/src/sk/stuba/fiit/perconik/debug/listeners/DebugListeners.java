@@ -23,8 +23,10 @@ public final class DebugListeners
 	{
 		PluginConsole console = Activator.getDefault().getConsole();
 		
+		// TODO load from configuration
+		
 		Listeners.register(new FileBufferDebugListener(console));
-		Listeners.register(new LaunchConfigurationDebugListener(console));
+		//Listeners.register(new LaunchConfigurationDebugListener(console));
 		Listeners.register(new LaunchDebugListener(console));
 		Listeners.register(new OperationHistoryDebugListener(console));
 		Listeners.register(new PageDebugListener(console));
