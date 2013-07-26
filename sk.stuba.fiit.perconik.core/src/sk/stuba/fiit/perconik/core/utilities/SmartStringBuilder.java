@@ -551,7 +551,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public final SmartStringBuilder tab()
 	{
-		return this.tab(this.delta);
+		return this.tab(1);
 	}
 	
 	public final SmartStringBuilder tab(int k)
@@ -561,14 +561,14 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			throw new IllegalArgumentException();
 		}
 		
-		this.indent = Math.min(this.indent + k, Integer.MAX_VALUE);
+		this.indent = Math.min(this.indent + k * this.delta, Integer.MAX_VALUE);
 
 		return this;
 	}
 
 	public final SmartStringBuilder untab()
 	{
-		return this.untab(this.delta);
+		return this.untab(1);
 	}
 
 	public final SmartStringBuilder untab(int k)
@@ -578,7 +578,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			throw new IllegalArgumentException();
 		}
 		
-		this.indent = Math.max(this.indent - k, 0);
+		this.indent = Math.max(this.indent - k * this.delta, 0);
 		
 		return this;
 	}
