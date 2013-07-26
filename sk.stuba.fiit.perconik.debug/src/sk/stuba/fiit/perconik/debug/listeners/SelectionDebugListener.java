@@ -31,6 +31,7 @@ public final class SelectionDebugListener extends AbstractDebugListener implemen
 	static final String dumpSelection(final ISelection selection)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
+
 		
 
 		return builder.toString();

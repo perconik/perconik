@@ -43,7 +43,10 @@ public final class PageDebugListener extends AbstractDebugListener implements Pa
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 		
+		String label = page.getLabel();
 
+		builder.append("label: ").appendln(label);
+		
 		return builder.toString();
 	}
 }

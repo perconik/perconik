@@ -84,9 +84,34 @@ public final class FileBufferDebugListener extends AbstractDebugListener impleme
 	
 	static final String dumpFileBuffer(final IFileBuffer buffer)
 	{
+		// TODO refactor dump* methods into separate helper class
+		
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 		
+		IPath location = buffer.getLocation();
+		
+		long modificationStamp = buffer.getModificationStamp();
+		
+		boolean commitable     = buffer.isCommitable();
+		boolean dirty          = buffer.isDirty();
+		boolean shared         = buffer.isShared();
+		boolean stateValidated = buffer.isStateValidated();
+		
+		boolean synchronizationContextRequested = buffer.isSynchronizationContextRequested();
+		boolean synchronizedWithFileSystem      = buffer.isSynchronized();
 
+		builder.append("location: ").appendln(location);
+		
+		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
+		
+		builder.append("commitable: ").appendln(commitable);
+		builder.append("dirty: ").appendln(dirty);
+		builder.append("shared: ").appendln(shared);
+		builder.append("state validated: ").appendln(stateValidated);
+		
+		builder.append("synchronization context requested: ").appendln(synchronizationContextRequested);
+		builder.append("synchronized with file system: ").appendln(synchronizedWithFileSystem);
+		
 		return builder.toString();
 	}
 }

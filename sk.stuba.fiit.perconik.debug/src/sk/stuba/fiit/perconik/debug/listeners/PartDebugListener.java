@@ -55,7 +55,12 @@ public final class PartDebugListener extends AbstractDebugListener implements Pa
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 		
+		String title   = part.getTitle();
+		String tooltip = part.getTitleToolTip();
 
+		builder.append("title: ").appendln(title);
+		builder.append("tooltip: ").appendln(tooltip);
+		
 		return builder.toString();
 	}
 }
