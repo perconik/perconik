@@ -1,5 +1,20 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
+// TODO consider adding
+/*
+
+IRefactoringHistoryListener
+
+IWindowListener
+IWorkbenchListener
+
+IPartListener2
+ILaunchesListener
+ILaunchesListener2
+
+
+ */
+
 class KnownResources
 {
 	static final Resource<FileBufferListener> fileBuffer;
