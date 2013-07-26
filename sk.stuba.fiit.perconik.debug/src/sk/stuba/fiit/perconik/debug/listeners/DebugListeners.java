@@ -23,7 +23,14 @@ public final class DebugListeners
 	{
 		PluginConsole console = Activator.getDefault().getConsole();
 		
+		Listeners.register(new FileBufferDebugListener(console));
+		Listeners.register(new LaunchConfigurationDebugListener(console));
 		Listeners.register(new LaunchDebugListener(console));
+		Listeners.register(new OperationHistoryDebugListener(console));
+		Listeners.register(new PageDebugListener(console));
+		Listeners.register(new PartDebugListener(console));
+		Listeners.register(new RefactoringExecutionDebugListener(console));
+		Listeners.register(new SelectionDebugListener(console));
 	}
 	
 	public static final void unregisterAll()
