@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.debug.Debug;
 
 public final class RefactoringExecutionDebugListener extends AbstractDebugListener implements RefactoringExecutionListener
 {
@@ -24,14 +24,6 @@ public final class RefactoringExecutionDebugListener extends AbstractDebugListen
 	
 	private final void printRefactoringExecutionEventg(final RefactoringExecutionEvent event)
 	{
-		this.put(dumpRefactoringExecutionEvent(event));
+		this.put(Debug.dumpRefactoringExecutionEvent(event));
 	}
-	
-	static final String dumpRefactoringExecutionEvent(final RefactoringExecutionEvent event)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-		
-
-		return builder.toString();
-	}	
 }

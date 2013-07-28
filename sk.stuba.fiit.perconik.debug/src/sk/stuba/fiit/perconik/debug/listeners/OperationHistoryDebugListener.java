@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.debug.Debug;
 
 public final class OperationHistoryDebugListener extends AbstractDebugListener implements OperationHistoryListener
 {
@@ -24,14 +24,6 @@ public final class OperationHistoryDebugListener extends AbstractDebugListener i
 	
 	private final void printOperationHistoryEvent(final OperationHistoryEvent event)
 	{
-		this.put(dumpOperationHistoryEvent(event));
-	}
-	
-	static final String dumpOperationHistoryEvent(final OperationHistoryEvent event)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-		
-
-		return builder.toString();
+		this.put(Debug.dumpOperationHistoryEvent(event));
 	}
 }

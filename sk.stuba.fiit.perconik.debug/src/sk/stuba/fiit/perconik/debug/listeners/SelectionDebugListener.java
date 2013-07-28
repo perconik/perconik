@@ -4,7 +4,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.debug.Debug;
 
 public final class SelectionDebugListener extends AbstractDebugListener implements SelectionListener
 {
@@ -25,15 +25,6 @@ public final class SelectionDebugListener extends AbstractDebugListener implemen
 
 	private final void printSelection(final ISelection selection)
 	{
-		this.put(dumpSelection(selection));
-	}
-	
-	static final String dumpSelection(final ISelection selection)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-
-		
-
-		return builder.toString();
+		this.put(Debug.dumpSelection(selection));
 	}
 }

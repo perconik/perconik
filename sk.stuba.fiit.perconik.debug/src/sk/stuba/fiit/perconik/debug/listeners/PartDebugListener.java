@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.debug.Debug;
 
 public final class PartDebugListener extends AbstractDebugListener implements PartListener
 {
@@ -48,19 +48,6 @@ public final class PartDebugListener extends AbstractDebugListener implements Pa
 	
 	private final void printPage(final IWorkbenchPart part)
 	{
-		this.put(dumpPart(part));
-	}
-	
-	static final String dumpPart(final IWorkbenchPart part)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-		
-		String title   = part.getTitle();
-		String tooltip = part.getTitleToolTip();
-
-		builder.append("title: ").appendln(title);
-		builder.append("tooltip: ").appendln(tooltip);
-		
-		return builder.toString();
+		this.put(Debug.dumpPart(part));
 	}
 }

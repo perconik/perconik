@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.ui.IWorkbenchPage;
 import sk.stuba.fiit.perconik.core.listeners.PageListener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.debug.Debug;
 
 public final class PageDebugListener extends AbstractDebugListener implements PageListener
 {
@@ -36,17 +36,6 @@ public final class PageDebugListener extends AbstractDebugListener implements Pa
 	
 	private final void printPage(final IWorkbenchPage page)
 	{
-		this.put(dumpPage(page));
-	}
-	
-	static final String dumpPage(final IWorkbenchPage page)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-		
-		String label = page.getLabel();
-
-		builder.append("label: ").appendln(label);
-		
-		return builder.toString();
+		this.put(Debug.dumpPage(page));
 	}
 }

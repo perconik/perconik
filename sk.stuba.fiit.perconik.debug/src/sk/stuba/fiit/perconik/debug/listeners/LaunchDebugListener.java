@@ -2,10 +2,9 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.debug.Debug;
 
 public final class LaunchDebugListener extends AbstractDebugListener implements LaunchListener
 {
@@ -40,25 +39,11 @@ public final class LaunchDebugListener extends AbstractDebugListener implements 
 	{
 		try
 		{
-			this.put(dumpLaunch(launch));
+			this.put(Debug.dumpLaunch(launch));
 		}
 		catch (CoreException e)
 		{
 			error("Launch error", e);
 		}
-	}
-	
-	static final String dumpLaunch(final ILaunch launch) throws CoreException
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-		
-		ILaunchConfiguration configuration = launch.getLaunchConfiguration();
-		
-		String  mode = launch.getLaunchMode();
-		
-		builder.append("mode: ").appendln(mode);
-		builder.appendln("configuration:").lines(LaunchConfigurationDebugListener.dumpLaunchConfiguration(configuration));
-
-		return builder.toString();
-	}
+	}	
 }
