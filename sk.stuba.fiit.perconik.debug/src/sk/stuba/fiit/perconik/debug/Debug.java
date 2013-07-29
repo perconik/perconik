@@ -114,7 +114,11 @@ public final class Debug
 		boolean synchronizedWithFileSystem      = buffer.isSynchronized();
 
 		builder.append("location: ").appendln(location);
-		builder.appendln("status:").lines(dumpStatus(status));
+		
+		if (status != null)
+		{
+			builder.appendln("status:").lines(dumpStatus(status));
+		}
 		
 		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
 		
@@ -214,7 +218,11 @@ public final class Debug
 		builder.append("type: ").appendln(type);
 		
 		builder.appendln("operation:").lines(dumpUndoableOperation(operation));
-		builder.appendln("status:").lines(dumpStatus(status));
+		
+		if (status != null)
+		{
+			builder.appendln("status:").lines(dumpStatus(status));
+		}
 		
 		return builder.toString();
 	}
