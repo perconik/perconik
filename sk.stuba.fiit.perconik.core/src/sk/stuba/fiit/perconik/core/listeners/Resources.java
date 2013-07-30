@@ -68,6 +68,11 @@ public final class Resources
 		return Sets.newHashSet(resources.values());
 	}
 
+	public static final Resource<ElementChangedListener> getElementChangedResource()
+	{
+		return KnownResources.elementChanged;
+	}
+
 	public static final Resource<FileBufferListener> getFileBufferResource()
 	{
 		return KnownResources.fileBuffer;
@@ -81,6 +86,11 @@ public final class Resources
 	public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource()
 	{
 		return KnownResources.launchConfiguration;
+	}
+
+	public static final Resource<LaunchesListener> getLaunchesResource()
+	{
+		return KnownResources.launches;
 	}
 
 	public static final Resource<OperationHistoryListener> getOperationHistoryResource()
@@ -98,13 +108,43 @@ public final class Resources
 		return KnownResources.part;
 	}
 
+	public static final Resource<PerspectiveListener> getPerspectiveResource()
+	{
+		return KnownResources.perspective;
+	}
+
 	public static final Resource<RefactoringExecutionListener> getRefactoringExecutionResource()
 	{
 		return KnownResources.refactoringExecution;
 	}
 
+	public static final Resource<RefactoringHistoryListener> getRefactoringHistoryResource()
+	{
+		return KnownResources.refactoringHistory;
+	}
+
+	public static final Resource<ResourceChangeListener> getResourceChangeResource()
+	{
+		return KnownResources.resourceChange;
+	}
+
 	public static final Resource<SelectionListener> getSelectionResource()
 	{
 		return KnownResources.selection;
+	}
+
+	public static final Resource<TestRunListener> getTestRunResource()
+	{
+		return KnownResources.testRun;
+	}
+
+	public static final Resource<WindowListener> getWindowResource()
+	{
+		return KnownResources.window;
+	}
+
+	public static final Resource<WorkbenchListener> getWorkbenchResource()
+	{
+		return KnownResources.workbench;
 	}
 }
