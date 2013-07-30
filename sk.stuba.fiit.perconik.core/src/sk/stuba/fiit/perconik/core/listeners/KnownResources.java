@@ -9,20 +9,6 @@ MarkSelectionListener
 StructuredSelectionListener
 TextSelectionListener
 
-add existing
-
-IRefactoringHistoryListener
-
-IWindowListener
-IWorkbenchListener
-
-consider adding
-
-IPartListener2
-ILaunchesListener
-ILaunchesListener2
-
-
  */
 
 class KnownResources
