@@ -19,10 +19,10 @@ class KnownResources
 
 	static final Resource<LaunchListener> launch;
 	
-	static final Resource<LaunchConfigurationListener> launchConfiguration;
-	
 	static final Resource<LaunchesListener> launches;
 
+	static final Resource<LaunchConfigurationListener> launchConfiguration;
+	
 	static final Resource<OperationHistoryListener> operationHistory;
 	
 	static final Resource<PageListener> page;

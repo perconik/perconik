@@ -83,14 +83,14 @@ public final class Resources
 		return KnownResources.launch;
 	}
 	
-	public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource()
-	{
-		return KnownResources.launchConfiguration;
-	}
-
 	public static final Resource<LaunchesListener> getLaunchesResource()
 	{
 		return KnownResources.launches;
+	}
+
+	public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource()
+	{
+		return KnownResources.launchConfiguration;
 	}
 
 	public static final Resource<OperationHistoryListener> getOperationHistoryResource()

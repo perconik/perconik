@@ -30,11 +30,11 @@ public class FileBufferAdapter extends Adapter implements FileBufferListener
 	{
 	}
 
-	public void stateValidationChanged(IFileBuffer buffer, boolean isStateValidated)
+	public void stateValidationChanged(IFileBuffer buffer, boolean stateValidated)
 	{
 	}
 
-	public void dirtyStateChanged(IFileBuffer buffer, boolean isDirty)
+	public void dirtyStateChanged(IFileBuffer buffer, boolean dirty)
 	{
 	}
 

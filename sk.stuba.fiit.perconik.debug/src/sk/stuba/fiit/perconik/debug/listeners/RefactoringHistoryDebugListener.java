@@ -17,5 +17,6 @@ public final class RefactoringHistoryDebugListener extends AbstractDebugListener
 	
 	public final void historyNotification(final RefactoringHistoryEvent event)
 	{
+		// TODO
 	}
 }

@@ -17,8 +17,10 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.core.runtime.StatusSeverity;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
@@ -148,6 +150,27 @@ public final class Debug
 		return builder.toString();
 	}
 
+	public static final String dumpLaunches(final ILaunch[] launches) throws CoreException
+	{
+		SmartStringBuilder builder = new SmartStringBuilder().tab();
+
+		builder.appendln("launches:");
+		
+		if (launches.length != 0)
+		{
+			for (ILaunch launch: launches)
+			{
+				builder.lines(dumpLaunch(launch));
+			}
+		}
+		else
+		{
+			builder.append("none");
+		}
+		
+		return builder.toString();
+	}
+	
 	public static final String dumpLaunchConfiguration(final ILaunchConfiguration configuration) throws CoreException
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
@@ -233,7 +256,7 @@ public final class Debug
 
 		int type = event.getEventType();
 		
-		builder.append("type: ").appendln(type);
+		builder.append("type: ").appendln(type); // TODO -> to enum
 		
 		builder.appendln("operation:").lines(dumpUndoableOperation(operation));
 		
@@ -249,8 +272,10 @@ public final class Debug
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 		
-		String label = page.getLabel();
-
+		Class<?> type  = page.getClass();
+		String   label = page.getLabel();
+	
+		builder.append("class: ").appendln(type);
 		builder.append("label: ").appendln(label);
 		
 		return builder.toString();
@@ -260,15 +285,17 @@ public final class Debug
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 		
-		String title   = part.getTitle();
-		String tooltip = part.getTitleToolTip();
-	
+		Class<?> type    = part.getClass();
+		String   title   = part.getTitle();
+		String   tooltip = part.getTitleToolTip();
+		
+		builder.append("class: ").appendln(type);
 		builder.append("title: ").appendln(title);
 		builder.append("tooltip: ").appendln(tooltip);
 		
 		return builder.toString();
 	}
-	
+
 	public static final String dumpRefactoringDescriptorProxy(final RefactoringDescriptorProxy proxy)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
@@ -429,5 +456,41 @@ public final class Debug
 		builder.append("undo: ").appendln(undo);
 		
 		return builder.toString();		
+	}
+	
+	public static final String dumpWindow(final IWorkbenchWindow window)
+	{
+		SmartStringBuilder builder = new SmartStringBuilder().tab();
+	
+		Class<?> type       = window.getClass();
+		int      pagesCount = window.getPages().length;
+	
+		IWorkbenchPage activePage = window.getActivePage();
+		
+		builder.append("class: ").appendln(type);
+		builder.append("pages: ").appendln(pagesCount);
+		
+		builder.appendln("active page:").lines(dumpPage(activePage));
+		
+		return builder.toString();
+	}
+
+	public static final String dumpWorkbench(final IWorkbench workbench)
+	{
+		SmartStringBuilder builder = new SmartStringBuilder().tab();
+
+		Class<?> type        = workbench.getClass();
+		int      windowCount = workbench.getWorkbenchWindowCount();
+		
+		boolean starting = workbench.isStarting();
+		boolean closing  = workbench.isClosing();
+
+		builder.append("class: ").appendln(type);
+		builder.append("windows: ").appendln(windowCount);
+		
+		builder.append("starting: ").appendln(starting);
+		builder.append("closing: ").appendln(closing);
+		
+		return builder.toString();
 	}
 }

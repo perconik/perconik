@@ -18,11 +18,6 @@ public final class Listeners
 		Resources.getElementChangedResource().register(listener);
 	}
 
-	public static final void register(final LaunchesListener listener)
-	{
-		Resources.getLaunchesResource().register(listener);
-	}
-
 	public static final void register(final FileBufferListener listener)
 	{
 		Resources.getFileBufferResource().register(listener);
@@ -31,6 +26,11 @@ public final class Listeners
 	public static final void register(final LaunchListener listener)
 	{
 		Resources.getLaunchResource().register(listener);
+	}
+
+	public static final void register(final LaunchesListener listener)
+	{
+		Resources.getLaunchesResource().register(listener);
 	}
 
 	public static final void register(final LaunchConfigurationListener listener)
@@ -108,16 +108,16 @@ public final class Listeners
 		Resources.getLaunchResource().unregister(listener);
 	}
 
-	public static final void unregister(final LaunchConfigurationListener listener)
-	{
-		Resources.getLaunchConfigurationResource().unregister(listener);
-	}
-	
 	public static final void unregister(final LaunchesListener listener)
 	{
 		Resources.getLaunchesResource().unregister(listener);
 	}
 
+	public static final void unregister(final LaunchConfigurationListener listener)
+	{
+		Resources.getLaunchConfigurationResource().unregister(listener);
+	}
+	
 	public static final void unregister(final OperationHistoryListener listener)
 	{
 		Resources.getOperationHistoryResource().unregister(listener);

@@ -53,13 +53,13 @@ public final class FileBufferDebugListener extends AbstractDebugListener impleme
 		this.printFileBuffer(buffer);
 	}
 
-	public final void stateValidationChanged(final IFileBuffer buffer, final boolean isStateValidated)
+	public final void stateValidationChanged(final IFileBuffer buffer, final boolean stateValidated)
 	{
 		this.printHeader("State validation changed");
 		this.printFileBuffer(buffer);
 	}
 
-	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean isDirty)
+	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty)
 	{
 		this.printHeader("Dirty state changed");
 		this.printFileBuffer(buffer);

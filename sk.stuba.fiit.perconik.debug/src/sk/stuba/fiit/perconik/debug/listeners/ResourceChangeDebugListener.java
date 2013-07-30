@@ -20,6 +20,7 @@ public final class ResourceChangeDebugListener extends AbstractDebugListener imp
 	
 	public final void resourceChanged(final IResourceChangeEvent event)
 	{
+		// TODO
 	}
 
 	public final Set<ResourceChangeEventType> getEventTypes()
