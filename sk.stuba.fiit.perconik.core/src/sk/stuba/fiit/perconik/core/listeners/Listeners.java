@@ -13,6 +13,16 @@ public final class Listeners
 		throw new AssertionError();
 	}
 
+	public static final void register(final ElementChangedListener listener)
+	{
+		Resources.getElementChangedResource().register(listener);
+	}
+
+	public static final void register(final LaunchesListener listener)
+	{
+		Resources.getLaunchesResource().register(listener);
+	}
+
 	public static final void register(final FileBufferListener listener)
 	{
 		Resources.getFileBufferResource().register(listener);
@@ -43,16 +53,51 @@ public final class Listeners
 		Resources.getPartResource().register(listener);
 	}
 	
+	public static final void register(final PerspectiveListener listener)
+	{
+		Resources.getPerspectiveResource().register(listener);
+	}
+
 	public static final void register(final RefactoringExecutionListener listener)
 	{
 		Resources.getRefactoringExecutionResource().register(listener);
 	}
 	
+	public static final void register(final RefactoringHistoryListener listener)
+	{
+		Resources.getRefactoringHistoryResource().register(listener);
+	}
+
+	public static final void register(final ResourceChangeListener listener)
+	{
+		Resources.getResourceChangeResource().register(listener);
+	}
+
 	public static final void register(final SelectionListener listener)
 	{
 		Resources.getSelectionResource().register(listener);
 	}
 	
+	public static final void register(final TestRunListener listener)
+	{
+		Resources.getTestRunResource().register(listener);
+	}
+
+	public static final void register(final WindowListener listener)
+	{
+		Resources.getWindowResource().register(listener);
+	}
+
+	public static final void register(final WorkbenchListener listener)
+	{
+		Resources.getWorkbenchResource().register(listener);
+	}
+
+	public static final void unregister(final ElementChangedListener listener)
+	{
+		Resources.getElementChangedResource().unregister(listener);
+	}
+
 	public static final void unregister(final FileBufferListener listener)
 	{
 		Resources.getFileBufferResource().unregister(listener);
@@ -68,6 +113,11 @@ public final class Listeners
 		Resources.getLaunchConfigurationResource().unregister(listener);
 	}
 	
+	public static final void unregister(final LaunchesListener listener)
+	{
+		Resources.getLaunchesResource().unregister(listener);
+	}
+
 	public static final void unregister(final OperationHistoryListener listener)
 	{
 		Resources.getOperationHistoryResource().unregister(listener);
@@ -83,16 +133,46 @@ public final class Listeners
 		Resources.getPartResource().unregister(listener);
 	}
 
+	public static final void unregister(final PerspectiveListener listener)
+	{
+		Resources.getPerspectiveResource().unregister(listener);
+	}
+
 	public static final void unregister(final RefactoringExecutionListener listener)
 	{
 		Resources.getRefactoringExecutionResource().unregister(listener);
 	}
 	
+	public static final void unregister(final RefactoringHistoryListener listener)
+	{
+		Resources.getRefactoringHistoryResource().unregister(listener);
+	}
+
+	public static final void unregister(final ResourceChangeListener listener)
+	{
+		Resources.getResourceChangeResource().unregister(listener);
+	}
+
 	public static final void unregister(final SelectionListener listener)
 	{
 		Resources.getSelectionResource().unregister(listener);
 	}
 	
+	public static final void unregister(final TestRunListener listener)
+	{
+		Resources.getTestRunResource().unregister(listener);
+	}
+
+	public static final void unregister(final WindowListener listener)
+	{
+		Resources.getWindowResource().unregister(listener);
+	}
+
+	public static final void unregister(final WorkbenchListener listener)
+	{
+		Resources.getWorkbenchResource().unregister(listener);
+	}
+
 	public static final Collection<Listener> registered()
 	{
 		return registered(Listener.class);
