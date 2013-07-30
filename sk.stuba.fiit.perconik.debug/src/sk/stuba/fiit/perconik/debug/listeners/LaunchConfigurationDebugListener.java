@@ -19,19 +19,19 @@ public final class LaunchConfigurationDebugListener extends AbstractDebugListene
 	
 	public final void launchConfigurationAdded(final ILaunchConfiguration configuration)
 	{
-		this.print("Launch added:");
+		this.printHeader("Launch added");
 		this.printLaunchConfiguration(configuration);
 	}
 
 	public final void launchConfigurationRemoved(final ILaunchConfiguration configuration)
 	{
-		this.print("Launch removed:");
+		this.printHeader("Launch removed");
 		this.printLaunchConfiguration(configuration);
 	}
 
 	public final void launchConfigurationChanged(final ILaunchConfiguration configuration)
 	{
-		this.print("Launch changed:");
+		this.printHeader("Launch changed");
 		this.printLaunchConfiguration(configuration);
 	}
 	

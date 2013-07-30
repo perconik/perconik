@@ -19,19 +19,19 @@ public final class LaunchDebugListener extends AbstractDebugListener implements 
 	
 	public final void launchAdded(final ILaunch launch)
 	{
-		this.print("Launch added:");
+		this.printHeader("Launch added");
 		this.printLaunch(launch);
 	}
 
 	public final void launchRemoved(final ILaunch launch)
 	{
-		this.print("Launch removed:");
+		this.printHeader("Launch removed");
 		this.printLaunch(launch);
 	}
 
 	public final void launchChanged(final ILaunch launch)
 	{
-		this.print("Launch changed:");
+		this.printHeader("Launch changed");
 		this.printLaunch(launch);
 	}
 	

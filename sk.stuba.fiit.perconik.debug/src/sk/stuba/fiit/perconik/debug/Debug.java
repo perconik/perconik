@@ -19,6 +19,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.runtime.StatusSeverity;
 import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
@@ -206,6 +207,23 @@ public final class Debug
 		return builder.toString();
 	}	
 	
+	public static final String dumpMarkSelection(final IMarkSelection selection)
+	{
+		SmartStringBuilder builder = new SmartStringBuilder().tab();
+	
+		boolean empty = selection.isEmpty();
+		
+		int offset = selection.getOffset();
+		int length = selection.getLength();
+	
+		builder.append("empty: ").appendln(empty);
+		
+		builder.append("offset: ").appendln(offset);
+		builder.append("length: ").appendln(length);
+		
+		return builder.toString();
+	}
+
 	public static final String dumpOperationHistoryEvent(final OperationHistoryEvent event)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
@@ -307,19 +325,34 @@ public final class Debug
 		}
 	}
 
-	public static final String dumpMarkSelection(final IMarkSelection selection)
+	public static final String dumpStatus(final IStatus status)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
-
-		boolean empty = selection.isEmpty();
+	
+		int code     = status.getCode();
+		int severity = status.getSeverity();
 		
-		int offset = selection.getOffset();
-		int length = selection.getLength();
-
-		builder.append("empty: ").appendln(empty);
+		String plugin  = status.getPlugin();
+		String message = status.getMessage();
 		
-		builder.append("offset: ").appendln(offset);
-		builder.append("length: ").appendln(length);
+		boolean ok    = status.isOK();
+		boolean multi = status.isMultiStatus();
+	
+		Throwable throwable = status.getException();
+	
+		builder.append("code: ").appendln(code);
+		builder.format("severity: %s (%d)", StatusSeverity.valueOf(severity), severity).appendln();
+		
+		builder.append("plugin: ").appendln(plugin);
+		builder.append("message: ").appendln(message);
+		
+		builder.append("ok: ").appendln(ok);
+		builder.append("multi: ").appendln(multi);
+	
+		if (throwable != null)
+		{
+			builder.appendln("exception:").lines(dumpThrowable(throwable));
+		}
 		
 		return builder.toString();
 	}
@@ -396,37 +429,5 @@ public final class Debug
 		builder.append("undo: ").appendln(undo);
 		
 		return builder.toString();		
-	}
-
-	public static final String dumpStatus(final IStatus status)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
-
-		int code     = status.getCode();
-		int severity = status.getSeverity();
-		
-		String plugin  = status.getPlugin();
-		String message = status.getMessage();
-		
-		boolean ok    = status.isOK();
-		boolean multi = status.isMultiStatus();
-
-		Throwable throwable = status.getException();
-
-		builder.append("code: ").appendln(code);
-		builder.append("severity: ").appendln(severity);
-		
-		builder.append("plugin: ").appendln(plugin);
-		builder.append("message: ").appendln(message);
-		
-		builder.append("ok: ").appendln(ok);
-		builder.append("multi: ").appendln(multi);
-
-		if (throwable != null)
-		{
-			builder.appendln("exception:").lines(dumpThrowable(throwable));
-		}
-		
-		return builder.toString();
 	}
 }

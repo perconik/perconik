@@ -18,7 +18,7 @@ public final class OperationHistoryDebugListener extends AbstractDebugListener i
 	
 	public final void historyNotification(final OperationHistoryEvent event)
 	{
-		this.print("Operation history:");
+		this.printHeader("Operation history");
 		this.printOperationHistoryEvent(event);
 	}
 	

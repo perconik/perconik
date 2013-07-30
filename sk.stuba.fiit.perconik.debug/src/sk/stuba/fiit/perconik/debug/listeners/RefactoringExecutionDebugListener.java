@@ -18,7 +18,7 @@ public final class RefactoringExecutionDebugListener extends AbstractDebugListen
 	
 	public final void executionNotification(final RefactoringExecutionEvent event)
 	{
-		this.print("Refactoring execution:");
+		this.printHeader("Refactoring execution");
 		this.printRefactoringExecutionEventg(event);
 	}
 	

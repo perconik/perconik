@@ -187,6 +187,11 @@ public abstract class AbstractDebugListener implements DebugListener
 		this.console.print(format, args);
 	}
 	
+	protected final void printHeader(final String title)
+	{
+		this.console.print("%s:", title);
+	}
+	
 	protected final void printTime()
 	{
 		this.console.print("[%s]", TimeUtilities.format(new Date()));

@@ -19,61 +19,61 @@ public final class FileBufferDebugListener extends AbstractDebugListener impleme
 	
 	public final void bufferCreated(final IFileBuffer buffer)
 	{
-		this.print("File buffer created:");
+		this.printHeader("File buffer created");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void bufferDisposed(final IFileBuffer buffer)
 	{
-		this.print("File buffer disposed:");
+		this.printHeader("File buffer disposed");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void bufferContentAboutToBeReplaced(final IFileBuffer buffer)
 	{
-		this.print("File buffer content about to be replaced:");
+		this.printHeader("File buffer content about to be replaced");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void bufferContentReplaced(final IFileBuffer buffer)
 	{
-		this.print("File buffer content replaced:");
+		this.printHeader("File buffer content replaced");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void stateChanging(final IFileBuffer buffer)
 	{
-		this.print("State changing:");
+		this.printHeader("State changing");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void stateChangeFailed(final IFileBuffer buffer)
 	{
-		this.print("State change failed:");
+		this.printHeader("State change failed");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void stateValidationChanged(final IFileBuffer buffer, final boolean isStateValidated)
 	{
-		this.print("State validation changed:");
+		this.printHeader("State validation changed");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean isDirty)
 	{
-		this.print("Dirty state changed:");
+		this.printHeader("Dirty state changed");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void underlyingFileMoved(final IFileBuffer buffer, final IPath path)
 	{
-		this.print("Underlying file moved:");
+		this.printHeader("Underlying file moved");
 		this.printFileBuffer(buffer);
 	}
 
 	public final void underlyingFileDeleted(final IFileBuffer buffer)
 	{
-		this.print("Underlying file deleted:");
+		this.printHeader("Underlying file deleted");
 		this.printFileBuffer(buffer);
 	}
 	

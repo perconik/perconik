@@ -18,19 +18,19 @@ public final class PageDebugListener extends AbstractDebugListener implements Pa
 
 	public final void pageOpened(final IWorkbenchPage page)
 	{
-		this.print("Page opened:");
+		this.printHeader("Page opened");
 		this.printPage(page);
 	}
 
 	public final void pageClosed(final IWorkbenchPage page)
 	{
-		this.print("Page closed:");
+		this.printHeader("Page closed");
 		this.printPage(page);
 	}
 
 	public final void pageActivated(final IWorkbenchPage page)
 	{
-		this.print("Page activated:");
+		this.printHeader("Page activated");
 		this.printPage(page);
 	}
 	

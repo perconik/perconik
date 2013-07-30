@@ -19,7 +19,7 @@ public final class SelectionDebugListener extends AbstractDebugListener implemen
 	
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
-		this.print("Selection changed:");
+		this.printHeader("Selection changed");
 		this.printSelection(selection);
 	}
 
