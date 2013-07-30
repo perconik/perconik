@@ -75,6 +75,7 @@ public class Activator extends AbstractUIPlugin
 		this.console.print("done");
 	
 		DebugListeners.registerAll();
+		DebugListeners.printRegisteredMap(this.console);
 	}
 
 	@Override
