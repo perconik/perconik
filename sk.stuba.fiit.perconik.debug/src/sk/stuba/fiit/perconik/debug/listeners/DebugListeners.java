@@ -90,7 +90,7 @@ public final class DebugListeners
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
-		builder.appendln("Registered listeners map:").tab();
+		builder.format("Registered resource to listeners map:").tab();
 		
 		Map<Resource<?>, Collection<Listener>> map = Listeners.registeredMap();
 		
