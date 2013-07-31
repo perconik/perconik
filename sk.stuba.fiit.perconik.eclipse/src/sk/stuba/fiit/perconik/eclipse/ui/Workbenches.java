@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.eclipse.ui;
 
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
@@ -31,11 +32,14 @@ public final class Workbenches
 			return null;
 		}
 	}
-	
+
 	public static final IWorkbenchWindow getActiveWindow()
 	{
-		IWorkbench workbench = getWorkbench(); 
-		
+		return getActiveWindow(getWorkbench());
+	}
+	
+	public static final IWorkbenchWindow getActiveWindow(final IWorkbench workbench)
+	{
 		if (workbench == null)
 		{
 			return null;
@@ -46,8 +50,11 @@ public final class Workbenches
 	
 	public static final IWorkbenchPage getActivePage()
 	{
-		IWorkbenchWindow window = getActiveWindow();
-		
+		return getActivePage(getActiveWindow());
+	}
+
+	public static final IWorkbenchPage getActivePage(final IWorkbenchWindow window)
+	{
 		if (window == null)
 		{
 			return null;
@@ -56,21 +63,69 @@ public final class Workbenches
 		return window.getActivePage();
 	}
 	
+	public static final IWorkbenchPart getActivePart()
+	{
+		return getActivePart(getActivePage());
+	}
+
+	public static final IWorkbenchPart getActivePart(final IWorkbenchPage page)
+	{
+		if (page == null)
+		{
+			return null;
+		}
+		
+		return page.getActivePart();
+	}
+
+	public static final IWorkbench waitForWorkbench()
+	{
+		IWorkbench workbench;
+		
+		while ((workbench = getWorkbench()) == null) {}
+		
+		return workbench;
+	}
+
 	public static final IWorkbenchWindow waitForActiveWindow()
+	{
+		return waitForActiveWindow(getWorkbench());
+	}
+
+	public static final IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench)
 	{
 		IWorkbenchWindow window;
 		
-		while ((window = getActiveWindow()) == null);
+		while ((window = getActiveWindow(workbench)) == null) {}
 		
 		return window;
 	}
 
 	public static final IWorkbenchPage waitForActivePage()
 	{
+		return waitForActivePage(getActiveWindow());
+	}
+	
+	public static final IWorkbenchPage waitForActivePage(final IWorkbenchWindow window)
+	{
 		IWorkbenchPage page;
 		
-		while ((page = getActivePage()) == null);
+		while ((page = getActivePage(window)) == null) {}
 		
 		return page;
+	}
+	
+	public static final IWorkbenchPart waitForActivePart()
+	{
+		return waitForActivePart(getActivePage());
+	}
+	
+	public static final IWorkbenchPart waitForActivePart(final IWorkbenchPage page)
+	{
+		IWorkbenchPart part;
+		
+		while ((part = getActivePart(page)) == null) {}
+		
+		return part;
 	}
 }
