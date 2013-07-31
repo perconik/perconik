@@ -3,6 +3,8 @@ package sk.stuba.fiit.perconik.core.listeners;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import sk.stuba.fiit.perconik.core.resources.Resource;
+import sk.stuba.fiit.perconik.core.resources.Resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
