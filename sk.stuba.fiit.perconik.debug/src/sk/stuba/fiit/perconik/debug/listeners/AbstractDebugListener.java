@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
@@ -106,16 +104,6 @@ public abstract class AbstractDebugListener implements DebugListener
 			return this.name;
 		}
 	}
-	
-	private static final class TimeUtilities
-	{
-		private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		
-		static final String format(final Date date)
-		{
-			return formatter.format(date);
-		}
-	}
 
 	public final void preRegister()
 	{
@@ -167,6 +155,31 @@ public abstract class AbstractDebugListener implements DebugListener
 		return this.getClass().getCanonicalName();
 	}
 
+	protected final void printHeader(final String title)
+	{
+		this.console.print(Debug.dumpHeader(title));
+	}
+
+	protected final void printBlock(final Object key, final Object value)
+	{
+		this.console.print(Debug.dumpBlock(key, value));
+	}
+
+	protected final void printLine(final Object key, final Object value)
+	{
+		this.console.print(Debug.dumpLine(key, value));
+	}
+
+	protected final void printTime()
+	{
+		this.console.print(Debug.dumpTime());
+	}
+
+	protected final void printTime(final Date date)
+	{
+		this.console.print(Debug.dumpTime(date));
+	}
+
 	protected final void put(final String message)
 	{
 		this.console.put(message);
@@ -187,16 +200,6 @@ public abstract class AbstractDebugListener implements DebugListener
 		this.console.print(format, args);
 	}
 	
-	protected final void printHeader(final String title)
-	{
-		this.console.print("%s:", title);
-	}
-	
-	protected final void printTime()
-	{
-		this.console.print("[%s]", TimeUtilities.format(new Date()));
-	}
-
 	protected final void notice(final String message)
 	{
 		this.console.notice(message);

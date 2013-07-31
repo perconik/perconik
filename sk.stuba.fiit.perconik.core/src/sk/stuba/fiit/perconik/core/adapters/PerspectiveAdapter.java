@@ -7,31 +7,31 @@ import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 
 public class PerspectiveAdapter extends Adapter implements PerspectiveListener
 {
-	public void perspectiveOpened(IWorkbenchPage page, IPerspectiveDescriptor perspective)
+	public void perspectiveOpened(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public void perspectiveClosed(IWorkbenchPage page, IPerspectiveDescriptor perspective)
+	public void perspectiveClosed(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective)
+	public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor perspective)
+	public void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public void perspectivePreDeactivate(IWorkbenchPage page, IPerspectiveDescriptor perspective)
+	public void perspectivePreDeactivate(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, IWorkbenchPartReference part, String change)
+	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, String change)
 	{
 	}
 
-	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String change)
+	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, IWorkbenchPartReference reference, String change)
 	{
 	}
 

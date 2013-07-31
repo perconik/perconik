@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.debug;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
@@ -18,9 +21,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
+import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
@@ -103,9 +108,70 @@ public final class Debug
 		console().error(message, e);
 	}
 	
+	private static final SmartStringBuilder builder()
+	{
+		return builder();
+	}
+	
+	public static final String dumpHeader(final String title)
+	{
+		SmartStringBuilder builder = new SmartStringBuilder();
+		
+		builder.appendln().append(dumpTime()).appendln();
+		builder.format("%s:", title);
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpClass(final Class<?> type)
+	{
+		String name = type.getCanonicalName();
+		
+		if (name != null)
+		{
+			return name;
+		}
+		
+		return type.getName();
+	}
+	
+	public static final String dumpBlock(final Object key, final Object value)
+	{
+		SmartStringBuilder builder = builder();
+	
+		return builder.append(key).appendln(':').lines(value).toString();
+	}
+
+	public static final String dumpLine(final Object key, final Object value)
+	{
+		SmartStringBuilder builder = builder();
+	
+		return builder.append(key).append(": ").appendln(value).toString();
+	}
+	
+	public static final String dumpTime()
+	{
+		return dumpTime(new Date());
+	}
+
+	public static final String dumpTime(final Date date)
+	{
+		return TimeUtilities.format(date);
+	}
+
+	private static final class TimeUtilities
+	{
+		private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		
+		static final String format(final Date date)
+		{
+			return formatter.format(date);
+		}
+	}
+
 	public static final String dumpFileBuffer(final IFileBuffer buffer)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		IPath   location = buffer.getLocation();
 		IStatus status   = buffer.getStatus();
@@ -142,7 +208,7 @@ public final class Debug
 	
 	public static final String dumpLaunch(final ILaunch launch) throws CoreException
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		ILaunchConfiguration configuration = launch.getLaunchConfiguration();
 		
@@ -156,7 +222,7 @@ public final class Debug
 
 	public static final String dumpLaunches(final ILaunch[] launches) throws CoreException
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		builder.appendln("launches:");
 		
@@ -177,7 +243,7 @@ public final class Debug
 	
 	public static final String dumpLaunchConfiguration(final ILaunchConfiguration configuration) throws CoreException
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		ILaunchConfigurationType type = configuration.getType();
 		IFile file = configuration.getFile();
@@ -217,7 +283,7 @@ public final class Debug
 
 	public static final String dumpLaunchConfigurationType(final ILaunchConfigurationType type)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		String name             = type.getName();
 		String category         = type.getCategory();
@@ -236,7 +302,7 @@ public final class Debug
 	
 	public static final String dumpMarkSelection(final IMarkSelection selection)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 	
 		boolean empty = selection.isEmpty();
 		
@@ -253,7 +319,7 @@ public final class Debug
 
 	public static final String dumpOperationHistoryEvent(final OperationHistoryEvent event)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		IUndoableOperation operation = event.getOperation();
 		IStatus            status    = event.getStatus();
@@ -274,12 +340,12 @@ public final class Debug
 
 	public static final String dumpPage(final IWorkbenchPage page)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		Class<?> type  = page.getClass();
 		String   label = page.getLabel();
 	
-		builder.append("class: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("label: ").appendln(label);
 		
 		return builder.toString();
@@ -287,22 +353,66 @@ public final class Debug
 
 	public static final String dumpPart(final IWorkbenchPart part)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		Class<?> type    = part.getClass();
 		String   title   = part.getTitle();
 		String   tooltip = part.getTitleToolTip();
 		
-		builder.append("class: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("title: ").appendln(title);
 		builder.append("tooltip: ").appendln(tooltip);
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpPartReference(final IWorkbenchPartReference reference)
+	{
+		SmartStringBuilder builder = builder();
+		
+		Class<?> type = reference.getClass();
+		String   id   = reference.getId();
+		
+		String   name    = reference.getPartName();
+		String   title   = reference.getTitle();
+		String   tooltip = reference.getTitleToolTip();
+		
+		boolean dirty = reference.isDirty();
+
+		builder.append("type: ").appendln(type);
+		builder.append("id: ").appendln(id);
+		
+		builder.append("name: ").appendln(name);
+		builder.append("title: ").appendln(title);
+		builder.append("tooltip: ").appendln(tooltip);
+		
+		builder.append("dirty: ").appendln(dirty);
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpPerspectiveDescriptor(final IPerspectiveDescriptor descriptor)
+	{
+		SmartStringBuilder builder = builder();
+		
+		Class<?> type = descriptor.getClass();
+		String   id   = descriptor.getId();
+
+		String   label       = descriptor.getLabel();
+		String   description = descriptor.getDescription();
+
+		builder.append("type: ").appendln(type);
+		builder.append("id: ").appendln(id);
+		
+		builder.append("label: ").appendln(label);
+		builder.append("description: ").appendln(description);
 		
 		return builder.toString();
 	}
 
 	public static final String dumpRefactoringDescriptorProxy(final RefactoringDescriptorProxy proxy)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		String project     = proxy.getProject();
 		String description = proxy.getDescription();
@@ -318,7 +428,7 @@ public final class Debug
 
 	public static final String dumpRefactoringExecutionEvent(final RefactoringExecutionEvent event)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		RefactoringExecutionEventType type = RefactoringExecutionEventType.valueOf(event.getEventType());
 		
@@ -332,7 +442,7 @@ public final class Debug
 	
 	public static final String dumpRefactoringHistoryEvent(final RefactoringHistoryEvent event)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 		
 		RefactoringHistoryEventType type = RefactoringHistoryEventType.valueOf(event.getEventType());
 		
@@ -360,7 +470,7 @@ public final class Debug
 		}
 		else
 		{
-			SmartStringBuilder builder = new SmartStringBuilder().tab();
+			SmartStringBuilder builder = builder();
 
 			boolean empty = selection.isEmpty();
 			
@@ -372,7 +482,7 @@ public final class Debug
 
 	public static final String dumpStatus(final IStatus status)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 	
 		int code = status.getCode();
 		
@@ -405,7 +515,7 @@ public final class Debug
 
 	public static final String dumpStructuredSelection(final IStructuredSelection selection)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		boolean empty = selection.isEmpty();
 		
@@ -420,7 +530,7 @@ public final class Debug
 
 	public static final String dumpTextSelection(final ITextSelection selection)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		boolean empty = selection.isEmpty();
 		
@@ -447,12 +557,12 @@ public final class Debug
 	
 	public static final String dumpThrowable(final Throwable throwable)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		Class<?> type    = throwable.getClass();
 		String   message = throwable.getMessage();
 
-		builder.append("class: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("message: ").appendln(message);
 		
 		return builder.toString();
@@ -460,7 +570,7 @@ public final class Debug
 	
 	public static final String dumpUndoableOperation(final IUndoableOperation operation)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		String label = operation.getLabel();
 
@@ -479,14 +589,14 @@ public final class Debug
 	
 	public static final String dumpWindow(final IWorkbenchWindow window)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 	
 		Class<?> type       = window.getClass();
 		int      pagesCount = window.getPages().length;
 	
 		IWorkbenchPage activePage = window.getActivePage();
 		
-		builder.append("class: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("pages: ").appendln(pagesCount);
 		
 		builder.appendln("active page:").lines(dumpPage(activePage));
@@ -496,7 +606,7 @@ public final class Debug
 
 	public static final String dumpWorkbench(final IWorkbench workbench)
 	{
-		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		SmartStringBuilder builder = builder();
 
 		Class<?> type        = workbench.getClass();
 		int      windowCount = workbench.getWorkbenchWindowCount();
@@ -504,7 +614,7 @@ public final class Debug
 		boolean starting = workbench.isStarting();
 		boolean closing  = workbench.isClosing();
 
-		builder.append("class: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("windows: ").appendln(windowCount);
 		
 		builder.append("starting: ").appendln(starting);

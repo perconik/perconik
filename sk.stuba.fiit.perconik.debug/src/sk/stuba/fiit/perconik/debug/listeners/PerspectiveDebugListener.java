@@ -4,6 +4,7 @@ import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
+import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class PerspectiveDebugListener extends AbstractDebugListener implements PerspectiveListener
@@ -17,43 +18,74 @@ public final class PerspectiveDebugListener extends AbstractDebugListener implem
 		super(console);
 	}
 	
-	public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
+	public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		// TODO
+		this.printHeader("Perspective opened");
+		this.printPage(page);
+		this.printPerspectiveDescriptor(descriptor);
 	}
 
-	public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
+	public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		// TODO
+		this.printHeader("Perspective closed");
+		this.printPage(page);
+		this.printPerspectiveDescriptor(descriptor);
 	}
 
-	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
+	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		// TODO
+		this.printHeader("Perspective activated");
+		this.printPage(page);
+		this.printPerspectiveDescriptor(descriptor);
 	}
 
-	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
+	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		// TODO
+		this.printHeader("Perspective deactivated");
+		this.printPage(page);
+		this.printPerspectiveDescriptor(descriptor);
 	}
 
-	public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
+	public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		// TODO
+		this.printHeader("Perspective pre deactivate");
+		this.printPage(page);
+		this.printPerspectiveDescriptor(descriptor);
 	}
 
-	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor perspective, final IWorkbenchPartReference part, String change)
+	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change)
 	{
-		// TODO
 	}
 
-	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor perspective, final String change)
+	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change)
 	{
-		// TODO
+		this.printHeader("Perspective changed");
+		this.printPage(page);
+		this.printPerspectiveDescriptor(descriptor);
+		this.printPartReference(reference);
+		this.printLine("change", change);
 	}
 
 	public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after)
 	{
-		// TODO
+		this.printHeader("Perspective saved");
+		this.printPage(page);
+		this.put(Debug.dumpBlock("before:", Debug.dumpPerspectiveDescriptor(before)));
+		this.put(Debug.dumpBlock("after:",  Debug.dumpPerspectiveDescriptor(after)));
+	}
+	
+	private final void printPage(final IWorkbenchPage page)
+	{
+		this.put(Debug.dumpPage(page));
+	}
+	
+	private final void printPartReference(final IWorkbenchPartReference reference)
+	{
+		this.put(Debug.dumpPartReference(reference));
+	}
+
+	private final void printPerspectiveDescriptor(final IPerspectiveDescriptor descriptor)
+	{
+		this.put(Debug.dumpPerspectiveDescriptor(descriptor));
 	}
 }

@@ -23,11 +23,11 @@ public final class Strings
 		
 		String name = o.getClass().getCanonicalName();
 		
-		if (result != toDefaultString(o) || com.google.common.base.Strings.isNullOrEmpty(name))
+		if (name == null || result != toDefaultString(o))
 		{
 			return result;
 		}
-
+		
 		return name + "@" + Integer.toHexString(o.hashCode());
 	}
 }
