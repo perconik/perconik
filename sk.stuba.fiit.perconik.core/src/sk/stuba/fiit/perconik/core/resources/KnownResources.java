@@ -4,7 +4,7 @@ import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
-import sk.stuba.fiit.perconik.core.listeners.DebugEventSetListener;
+import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
@@ -49,7 +49,7 @@ class KnownResources
 
 	static Resource<CompletionListener> completion;
 
-	static Resource<DebugEventSetListener> debugEventSet;
+	static Resource<DebugEventsListener> debugEvents;
 
 	static Resource<DocumentChangeListener> documentChange;
 
@@ -91,7 +91,7 @@ class KnownResources
 		commandExecution     = build(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE);
 		commandManagerChange = build(CommandManagerChangeListener.class, CommandManagerChangeHandler.INSTANCE);
 		completion           = build(CompletionListener.class, CompletionHandler.INSTANCE);
-		debugEventSet        = build(DebugEventSetListener.class, DebugEventSetHandler.INSTANCE);
+		debugEvents          = build(DebugEventsListener.class, DebugEventsHandler.INSTANCE);
 		documentChange       = build(DocumentChangeListener.class, DocumentChangeHandler.INSTANCE);
 		fileBuffer           = build(FileBufferListener.class, FileBufferHandler.INSTANCE);
 		javaElementChange    = build(JavaElementChangeListener.class, JavaElementChangeHandler.INSTANCE);

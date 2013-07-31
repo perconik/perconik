@@ -6,7 +6,7 @@ import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
-import sk.stuba.fiit.perconik.core.listeners.DebugEventSetListener;
+import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
@@ -111,9 +111,9 @@ public final class Resources
 		return KnownResources.completion;
 	}
 
-	public static final Resource<DebugEventSetListener> getDebugEventSetResource()
+	public static final Resource<DebugEventsListener> getDebugEventsResource()
 	{
-		return KnownResources.debugEventSet;
+		return KnownResources.debugEvents;
 	}
 
 	public static final Resource<DocumentChangeListener> getDocumentChangeResource()

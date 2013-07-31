@@ -35,9 +35,9 @@ public final class Listeners
 		Resources.getCompletionResource().register(listener);
 	}
 	
-	public static final void register(final DebugEventSetListener listener)
+	public static final void register(final DebugEventsListener listener)
 	{
-		Resources.getDebugEventSetResource().register(listener);
+		Resources.getDebugEventsResource().register(listener);
 	}
 	
 	public static final void register(final DocumentChangeListener listener)
@@ -145,9 +145,9 @@ public final class Listeners
 		Resources.getCompletionResource().unregister(listener);
 	}
 
-	public static final void unregister(final DebugEventSetListener listener)
+	public static final void unregister(final DebugEventsListener listener)
 	{
-		Resources.getDebugEventSetResource().unregister(listener);
+		Resources.getDebugEventsResource().unregister(listener);
 	}
 
 	public static final void unregister(final DocumentChangeListener listener)
