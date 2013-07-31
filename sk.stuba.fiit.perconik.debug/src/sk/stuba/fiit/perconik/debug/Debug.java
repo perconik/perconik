@@ -110,15 +110,15 @@ public final class Debug
 	
 	private static final SmartStringBuilder builder()
 	{
-		return builder();
+		return new SmartStringBuilder().tab();
 	}
 	
 	public static final String dumpHeader(final String title)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
-		builder.appendln().append(dumpTime()).appendln();
-		builder.format("%s:", title);
+		builder.appendln().appendln(dumpTime()).appendln();
+		builder.format("%s:", title).appendln();
 		
 		return builder.toString();
 	}
@@ -224,13 +224,12 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 
-		builder.appendln("launches:");
-		
 		if (launches.length != 0)
 		{
-			for (ILaunch launch: launches)
+			for (int i = 0; i < launches.length; i ++)
 			{
-				builder.lines(dumpLaunch(launch));
+				builder.format("launch %d:", i);
+				builder.lines(dumpLaunch(launches[i]));
 			}
 		}
 		else
@@ -309,6 +308,8 @@ public final class Debug
 		int offset = selection.getOffset();
 		int length = selection.getLength();
 	
+		builder.appendln("category: mark");
+		
 		builder.append("empty: ").appendln(empty);
 		
 		builder.append("offset: ").appendln(offset);
@@ -379,7 +380,7 @@ public final class Debug
 		
 		boolean dirty = reference.isDirty();
 
-		builder.append("type: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("id: ").appendln(id);
 		
 		builder.append("name: ").appendln(name);
@@ -401,7 +402,7 @@ public final class Debug
 		String   label       = descriptor.getLabel();
 		String   description = descriptor.getDescription();
 
-		builder.append("type: ").appendln(type);
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("id: ").appendln(id);
 		
 		builder.append("label: ").appendln(label);
@@ -472,8 +473,11 @@ public final class Debug
 		{
 			SmartStringBuilder builder = builder();
 
+			Class<?> type = selection.getClass();
+			
 			boolean empty = selection.isEmpty();
 			
+			builder.append("class: ").appendln(dumpClass(type));
 			builder.append("empty: ").appendln(empty);
 			
 			return builder.toString();
@@ -521,6 +525,8 @@ public final class Debug
 		
 		int size = selection.size();
 
+		builder.appendln("category: structured");
+		
 		builder.append("empty: ").appendln(empty);
 		
 		builder.append("size: ").appendln(size);
@@ -542,6 +548,8 @@ public final class Debug
 
 		String text = selection.getText();
 
+		builder.appendln("category: text");
+		
 		builder.append("empty: ").appendln(empty);
 		
 		builder.append("start line: ").appendln(start);

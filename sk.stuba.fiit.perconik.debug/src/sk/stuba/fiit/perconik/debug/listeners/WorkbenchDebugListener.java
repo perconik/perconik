@@ -20,8 +20,9 @@ public final class WorkbenchDebugListener extends AbstractDebugListener implemen
 	{
 		this.printHeader("Workbench pre shutdown");
 		this.printWorkbench(workbench);
+		this.printLine("forced", forced);
 
-		return forced;
+		return true;
 	}
 
 	public final void postShutdown(final IWorkbench workbench)

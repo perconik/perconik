@@ -7,7 +7,7 @@ public class WorkbenchDebugListener extends Adapter implements WorkbenchListener
 {
 	public boolean preShutdown(IWorkbench workbench, boolean forced)
 	{
-		return forced;
+		return true;
 	}
 
 	public void postShutdown(IWorkbench workbench)

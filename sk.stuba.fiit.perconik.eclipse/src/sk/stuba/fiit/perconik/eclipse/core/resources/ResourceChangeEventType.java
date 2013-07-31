@@ -21,25 +21,11 @@ public enum ResourceChangeEventType implements IntegralConstant
 	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_DELETE
 	 */
 	PRE_DELETE(IResourceChangeEvent.PRE_DELETE),
-
-	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_AUTO_BUILD
-	 */
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	PRE_AUTO_BUILD(IResourceChangeEvent.PRE_AUTO_BUILD),
 	
 	/**
 	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_BUILD
 	 */
 	PRE_BUILD(IResourceChangeEvent.PRE_BUILD),
-
-	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#POST_AUTO_BUILD
-	 */
-	@Deprecated
-	@SuppressWarnings("deprecation")
-	POST_AUTO_BUILD(IResourceChangeEvent.POST_AUTO_BUILD),
 	
 	/**
 	 * @see org.eclipse.core.resources.IResourceChangeEvent#POST_BUILD

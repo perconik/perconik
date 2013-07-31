@@ -157,27 +157,27 @@ public abstract class AbstractDebugListener implements DebugListener
 
 	protected final void printHeader(final String title)
 	{
-		this.console.print(Debug.dumpHeader(title));
+		this.console.put(Debug.dumpHeader(title));
 	}
 
 	protected final void printBlock(final Object key, final Object value)
 	{
-		this.console.print(Debug.dumpBlock(key, value));
+		this.console.put(Debug.dumpBlock(key, value));
 	}
 
 	protected final void printLine(final Object key, final Object value)
 	{
-		this.console.print(Debug.dumpLine(key, value));
+		this.console.put(Debug.dumpLine(key, value));
 	}
 
 	protected final void printTime()
 	{
-		this.console.print(Debug.dumpTime());
+		this.console.put(Debug.dumpTime());
 	}
 
 	protected final void printTime(final Date date)
 	{
-		this.console.print(Debug.dumpTime(date));
+		this.console.put(Debug.dumpTime(date));
 	}
 
 	protected final void put(final String message)
