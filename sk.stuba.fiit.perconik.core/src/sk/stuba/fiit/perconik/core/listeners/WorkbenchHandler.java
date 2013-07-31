@@ -3,6 +3,8 @@ package sk.stuba.fiit.perconik.core.listeners;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
+//TODO check if listener works after active window changes, probably not
+
 enum WorkbenchHandler implements Handler<WorkbenchListener>
 {
 	INSTANCE;
@@ -14,7 +16,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener>
 			@Override
 			public final void run()
 			{
-				Workbenches.getWorkbench().addWorkbenchListener(listener);
+				Workbenches.waitForWorkbench().addWorkbenchListener(listener);
 			}
 		};
 	
@@ -28,7 +30,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener>
 			@Override
 			public final void run()
 			{
-				Workbenches.getWorkbench().removeWorkbenchListener(listener);
+				Workbenches.waitForWorkbench().removeWorkbenchListener(listener);
 			}
 		};
 	

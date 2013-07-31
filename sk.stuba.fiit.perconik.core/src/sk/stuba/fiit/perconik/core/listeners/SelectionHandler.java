@@ -3,6 +3,8 @@ package sk.stuba.fiit.perconik.core.listeners;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
+//TODO check if listener works after active window changes, probably not
+
 enum SelectionHandler implements Handler<SelectionListener>
 {
 	INSTANCE;
