@@ -68,14 +68,14 @@ public final class Resources
 		return Sets.newHashSet(resources.values());
 	}
 
-	public static final Resource<ElementChangedListener> getElementChangedResource()
-	{
-		return KnownResources.elementChanged;
-	}
-
 	public static final Resource<FileBufferListener> getFileBufferResource()
 	{
 		return KnownResources.fileBuffer;
+	}
+
+	public static final Resource<JavaElementChangeListener> getJavaElementChangeResource()
+	{
+		return KnownResources.javaElementChange;
 	}
 
 	public static final Resource<LaunchListener> getLaunchResource()

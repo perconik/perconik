@@ -13,16 +13,16 @@ public final class Listeners
 		throw new AssertionError();
 	}
 
-	public static final void register(final ElementChangedListener listener)
-	{
-		Resources.getElementChangedResource().register(listener);
-	}
-
 	public static final void register(final FileBufferListener listener)
 	{
 		Resources.getFileBufferResource().register(listener);
 	}
 	
+	public static final void register(final JavaElementChangeListener listener)
+	{
+		Resources.getJavaElementChangeResource().register(listener);
+	}
+
 	public static final void register(final LaunchListener listener)
 	{
 		Resources.getLaunchResource().register(listener);
@@ -93,14 +93,14 @@ public final class Listeners
 		Resources.getWorkbenchResource().register(listener);
 	}
 
-	public static final void unregister(final ElementChangedListener listener)
-	{
-		Resources.getElementChangedResource().unregister(listener);
-	}
-
 	public static final void unregister(final FileBufferListener listener)
 	{
 		Resources.getFileBufferResource().unregister(listener);
+	}
+
+	public static final void unregister(final JavaElementChangeListener listener)
+	{
+		Resources.getJavaElementChangeResource().unregister(listener);
 	}
 
 	public static final void unregister(final LaunchListener listener)

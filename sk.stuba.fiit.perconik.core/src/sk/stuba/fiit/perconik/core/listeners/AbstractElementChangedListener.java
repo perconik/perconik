@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.Set;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.ElementChangedEventType;
 
-public abstract class AbstractElementChangedListener extends AbstractFilteringListener<ElementChangedEventType> implements ElementChangedListener
+public abstract class AbstractElementChangedListener extends AbstractFilteringListener<ElementChangedEventType> implements JavaElementChangeListener
 {
 	protected AbstractElementChangedListener()
 	{

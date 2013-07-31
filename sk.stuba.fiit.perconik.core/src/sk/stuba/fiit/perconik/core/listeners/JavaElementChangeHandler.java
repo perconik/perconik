@@ -2,16 +2,16 @@ package sk.stuba.fiit.perconik.core.listeners;
 
 import org.eclipse.jdt.core.JavaCore;
 
-enum ElementChangedHandler implements Handler<ElementChangedListener>
+enum JavaElementChangeHandler implements Handler<JavaElementChangeListener>
 {
 	INSTANCE;
 	
-	public final void add(final ElementChangedListener listener)
+	public final void add(final JavaElementChangeListener listener)
 	{
 		JavaCore.addElementChangedListener(listener, Handlers.mask(listener));
 	}
 
-	public final void remove(final ElementChangedListener listener)
+	public final void remove(final JavaElementChangeListener listener)
 	{
 		JavaCore.removeElementChangedListener(listener);
 	}

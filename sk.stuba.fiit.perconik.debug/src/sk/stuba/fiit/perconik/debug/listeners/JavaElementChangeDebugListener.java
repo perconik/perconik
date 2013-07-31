@@ -3,17 +3,17 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import java.util.EnumSet;
 import java.util.Set;
 import org.eclipse.jdt.core.ElementChangedEvent;
-import sk.stuba.fiit.perconik.core.listeners.ElementChangedListener;
+import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.ElementChangedEventType;
 
-public final class ElementChangedDebugListener extends AbstractDebugListener implements ElementChangedListener
+public final class JavaElementChangeDebugListener extends AbstractDebugListener implements JavaElementChangeListener
 {
-	public ElementChangedDebugListener()
+	public JavaElementChangeDebugListener()
 	{
 	}
 	
-	public ElementChangedDebugListener(final PluginConsole console)
+	public JavaElementChangeDebugListener(final PluginConsole console)
 	{
 		super(console);
 	}

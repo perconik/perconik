@@ -25,8 +25,8 @@ public final class DebugListeners
 		
 		// TODO load from configuration
 		
-		Listeners.register(new ElementChangedDebugListener(console));
 		Listeners.register(new FileBufferDebugListener(console));
+		Listeners.register(new JavaElementChangeDebugListener(console));
 		//Listeners.register(new LaunchDebugListener(console));
 		Listeners.register(new LaunchesDebugListener(console));
 		//Listeners.register(new LaunchConfigurationDebugListener(console));

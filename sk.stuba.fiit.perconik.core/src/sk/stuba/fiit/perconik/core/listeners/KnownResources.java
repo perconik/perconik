@@ -29,9 +29,9 @@ TextSelectionListener
 
 class KnownResources
 {
-	static final Resource<ElementChangedListener> elementChanged;
-
 	static final Resource<FileBufferListener> fileBuffer;
+
+	static final Resource<JavaElementChangeListener> javaElementChange;
 
 	static final Resource<LaunchListener> launch;
 	
@@ -63,8 +63,8 @@ class KnownResources
 
 	static
 	{
-		elementChanged       = build(ElementChangedListener.class, ElementChangedHandler.INSTANCE);
 		fileBuffer           = build(FileBufferListener.class, FileBufferHandler.INSTANCE);
+		javaElementChange    = build(JavaElementChangeListener.class, JavaElementChangeHandler.INSTANCE);
 		launch               = build(LaunchListener.class, LaunchHandler.INSTANCE);
 		launchConfiguration  = build(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE);
 		launches             = build(LaunchesListener.class, LaunchesHandler.INSTANCE);
