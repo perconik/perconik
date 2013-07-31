@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class RefactoringHistoryDebugListener extends AbstractDebugListener implements RefactoringHistoryListener
 {

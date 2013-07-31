@@ -3,8 +3,8 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class LaunchDebugListener extends AbstractDebugListener implements LaunchListener
 {

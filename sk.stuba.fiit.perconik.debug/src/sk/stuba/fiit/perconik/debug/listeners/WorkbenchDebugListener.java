@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.ui.IWorkbench;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class WorkbenchDebugListener extends AbstractDebugListener implements WorkbenchListener
 {

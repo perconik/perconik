@@ -21,10 +21,10 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import sk.stuba.fiit.perconik.core.runtime.StatusSeverity;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.collect.ImmutableList;
 
 public final class Debug

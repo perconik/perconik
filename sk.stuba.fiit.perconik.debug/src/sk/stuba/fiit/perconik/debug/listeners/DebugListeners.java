@@ -7,10 +7,10 @@ import sk.stuba.fiit.perconik.core.listeners.Listener;
 import sk.stuba.fiit.perconik.core.listeners.Listeners;
 import sk.stuba.fiit.perconik.core.listeners.Resource;
 import sk.stuba.fiit.perconik.core.listeners.Resources;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
-import sk.stuba.fiit.perconik.core.utilities.SmartStringBuilder;
-import sk.stuba.fiit.perconik.core.utilities.Strings;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.utilities.Strings;
 
 public final class DebugListeners
 {

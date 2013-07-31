@@ -5,49 +5,18 @@ Bundle-SymbolicName: sk.stuba.fiit.perconik.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: sk.stuba.fiit.perconik.core.plugin.Activator
 Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
- org.eclipse.core.filesystem;bundle-version="1.4.0",
- org.eclipse.core.resources;bundle-version="3.8.100",
  org.eclipse.core.runtime,
  org.eclipse.debug.core;bundle-version="3.8.0",
- org.eclipse.jdt;bundle-version="3.9.0",
  org.eclipse.jdt.core;bundle-version="3.9.0",
  org.eclipse.jdt.junit;bundle-version="3.7.200",
- org.eclipse.jdt.junit.core,
- org.eclipse.jdt.junit.runtime;bundle-version="3.4.400",
- org.eclipse.jdt.ui;bundle-version="3.9.0",
- org.eclipse.jface.text;bundle-version="3.8.100",
  org.eclipse.ltk.core.refactoring,
- org.eclipse.team.core;bundle-version="3.7.0",
- org.eclipse.ui
+ org.eclipse.ui,
+ sk.stuba.fiit.perconik.libraries;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.utilities;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.eclipse
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: com.google.common.annotations,
- com.google.common.base,
- com.google.common.base.internal,
- com.google.common.cache,
- com.google.common.collect,
- com.google.common.eventbus,
- com.google.common.hash,
- com.google.common.io,
- com.google.common.math,
- com.google.common.net,
- com.google.common.primitives,
- com.google.common.reflect,
- com.google.common.util.concurrent,
- difflib,
- difflib.myers,
- sk.stuba.fiit.perconik.core.adapters;uses:="sk.stuba.fiit.perconik.core.listeners",
- sk.stuba.fiit.perconik.core.environment,
+Export-Package: sk.stuba.fiit.perconik.core.adapters,
  sk.stuba.fiit.perconik.core.listeners,
- sk.stuba.fiit.perconik.core.plugin;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
- sk.stuba.fiit.perconik.core.resources,
- sk.stuba.fiit.perconik.core.runtime,
- sk.stuba.fiit.perconik.core.utilities;uses:="org.eclipse.core.runtime,org.eclipse.ui",
- sk.stuba.fiit.perconik.jdt.core,
- sk.stuba.fiit.perconik.jdt.core.dom,
- uk.ac.open.crc.intt
-Bundle-ClassPath: .,
- lib/diffutils-1.2.1.jar,
- lib/guava-14.0.jar,
- lib/intt.jar
+ sk.stuba.fiit.perconik.core.plugin

@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class PartDebugListener extends AbstractDebugListener implements PartListener
 {

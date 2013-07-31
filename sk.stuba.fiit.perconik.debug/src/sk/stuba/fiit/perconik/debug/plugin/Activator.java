@@ -3,9 +3,9 @@ package sk.stuba.fiit.perconik.debug.plugin;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.listeners.DebugListeners;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -45,7 +45,7 @@ public class Activator extends AbstractUIPlugin
 	 * 
 	 * @return Returns the shared instance.
 	 */
-	public static Activator getDefault()
+	public static final Activator getDefault()
 	{
 		return plugin;
 	}

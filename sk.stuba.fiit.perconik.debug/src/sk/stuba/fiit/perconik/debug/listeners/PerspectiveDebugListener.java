@@ -4,7 +4,7 @@ import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class PerspectiveDebugListener extends AbstractDebugListener implements PerspectiveListener
 {

@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class RefactoringExecutionDebugListener extends AbstractDebugListener implements RefactoringExecutionListener
 {

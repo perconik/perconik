@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public final class TestRunDebugListener extends AbstractDebugListener implements TestRunListener
 {

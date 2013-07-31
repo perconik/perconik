@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
-import sk.stuba.fiit.perconik.core.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.core.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
 final class Handlers
 {

@@ -3,8 +3,8 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import sk.stuba.fiit.perconik.core.utilities.PluginConsole;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.google.common.base.Preconditions;
 
 public abstract class AbstractDebugListener implements DebugListener
