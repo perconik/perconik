@@ -3,18 +3,6 @@ package sk.stuba.fiit.perconik.core.listeners;
 // TODO consider adding
 /*
 
-add
-
-IExecutionListener
-IExecutionListenerWithChecks
-ICommandListener
-ICommandManagerListener
-
-IDocumentListener
-ICompletionListener
-
-IDebugEventSetListener
-
 add experimental
 
 StyledTextListener extends org.eclipse.swt.widgets.Listener
