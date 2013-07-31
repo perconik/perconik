@@ -1,11 +1,10 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
 import org.eclipse.core.resources.IResourceDelta;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import com.google.common.collect.ImmutableSet;
 
 public enum ResourceDeltaKind implements IntegralConstant
 {
@@ -39,7 +38,7 @@ public enum ResourceDeltaKind implements IntegralConstant
 	 */
 	REMOVED_PHANTOM(IResourceDelta.REMOVED_PHANTOM);
 	
-	public static final Set<ResourceDeltaKind> ALL_WITH_PHANTOMS = Collections.unmodifiableSet(EnumSet.of(CHANGED, ADDED, REMOVED, ADDED_PHANTOM, REMOVED_PHANTOM));
+	public static final Set<ResourceDeltaKind> ALL_WITH_PHANTOMS = ImmutableSet.of(ADDED, REMOVED, CHANGED, ADDED_PHANTOM, REMOVED_PHANTOM);
 	
 	private static final IntegralConstantSupport<ResourceDeltaKind> integers = IntegralConstantSupport.of(ResourceDeltaKind.class);
 
