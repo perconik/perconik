@@ -3,7 +3,9 @@ package sk.stuba.fiit.perconik.core.listeners;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
-//TODO check if listener works after active window changes, probably not
+// TODO refactor workbench fetching
+// TODO fix bug when listener is registered on one active window and unregistered on another active window (because active windows changed)
+// TODO check if listener works after active window changes, probably not
 
 enum WorkbenchHandler implements Handler<WorkbenchListener>
 {
