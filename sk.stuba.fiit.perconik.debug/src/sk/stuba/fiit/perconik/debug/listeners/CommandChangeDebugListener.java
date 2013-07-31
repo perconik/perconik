@@ -1,0 +1,31 @@
+package sk.stuba.fiit.perconik.debug.listeners;
+
+import org.eclipse.core.commands.CommandEvent;
+import org.eclipse.core.commands.operations.OperationHistoryEvent;
+import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
+import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+
+public final class CommandChangeDebugListener extends AbstractDebugListener implements CommandChangeListener
+{
+	public CommandChangeDebugListener()
+	{
+	}
+	
+	public CommandChangeDebugListener(final PluginConsole console)
+	{
+		super(console);
+	}
+	
+	public final void commandChanged(final CommandEvent event)
+	{
+		this.printHeader("Command changed");
+		this.printCommandEvent(event);
+	}
+	
+	private final void printCommandEvent(final CommandEvent event)
+	{
+		this.put(Debug.dumpCommandEvent(event));
+	}
+}

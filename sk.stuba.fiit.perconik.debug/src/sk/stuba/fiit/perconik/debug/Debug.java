@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
+import org.eclipse.core.commands.CommandEvent;
+import org.eclipse.core.commands.CommandManagerEvent;
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 import org.eclipse.core.filebuffers.IFileBuffer;
@@ -11,9 +13,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
@@ -167,6 +171,51 @@ public final class Debug
 		{
 			return formatter.format(date);
 		}
+	}
+	
+	public static final String dumpCommandEvent(final CommandEvent event)
+	{
+		SmartStringBuilder builder = builder();
+		
+		// TODO
+	
+		return builder.toString();
+	}
+	
+	public static final String dumpCommandManagerEvent(final CommandManagerEvent event)
+	{
+		SmartStringBuilder builder = builder();
+		
+		// TODO
+	
+		return builder.toString();
+	}
+	
+	public static final String dumpDebugEvent(final DebugEvent event)
+	{
+		SmartStringBuilder builder = builder();
+		
+		// TODO
+	
+		return builder.toString();
+	}
+
+	public static final String dumpDebugEvents(final DebugEvent[] events)
+	{
+		SmartStringBuilder builder = builder();
+		
+		// TODO
+	
+		return builder.toString();
+	}
+	
+	public static final String dumpDocumentEvent(final DocumentEvent event)
+	{
+		SmartStringBuilder builder = builder();
+		
+		// TODO
+	
+		return builder.toString();
 	}
 
 	public static final String dumpFileBuffer(final IFileBuffer buffer)
