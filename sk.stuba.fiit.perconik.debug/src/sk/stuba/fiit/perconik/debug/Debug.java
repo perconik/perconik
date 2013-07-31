@@ -17,13 +17,17 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
+import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringExecutionEventType;
+import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.collect.ImmutableList;
 
@@ -254,9 +258,9 @@ public final class Debug
 		IUndoableOperation operation = event.getOperation();
 		IStatus            status    = event.getStatus();
 
-		int type = event.getEventType();
+		OperationHistoryEventType type = OperationHistoryEventType.valueOf(event.getEventType());
 		
-		builder.append("type: ").appendln(type); // TODO -> to enum
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
 		
 		builder.appendln("operation:").lines(dumpUndoableOperation(operation));
 		
@@ -316,11 +320,25 @@ public final class Debug
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 		
-		int type = event.getEventType();
-
+		RefactoringExecutionEventType type = RefactoringExecutionEventType.valueOf(event.getEventType());
+		
 		RefactoringDescriptorProxy descriptor = event.getDescriptor();
-
-		builder.append("type: ").appendln(type);
+		
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+		builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpRefactoringHistoryEvent(final RefactoringHistoryEvent event)
+	{
+		SmartStringBuilder builder = new SmartStringBuilder().tab();
+		
+		RefactoringHistoryEventType type = RefactoringHistoryEventType.valueOf(event.getEventType());
+		
+		RefactoringDescriptorProxy descriptor = event.getDescriptor();
+		
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
 		builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
 		
 		return builder.toString();
@@ -356,8 +374,9 @@ public final class Debug
 	{
 		SmartStringBuilder builder = new SmartStringBuilder().tab();
 	
-		int code     = status.getCode();
-		int severity = status.getSeverity();
+		int code = status.getCode();
+		
+		StatusSeverity severity = StatusSeverity.valueOf(status.getSeverity());
 		
 		String plugin  = status.getPlugin();
 		String message = status.getMessage();
@@ -368,7 +387,7 @@ public final class Debug
 		Throwable throwable = status.getException();
 	
 		builder.append("code: ").appendln(code);
-		builder.format("severity: %s (%d)", StatusSeverity.valueOf(severity), severity).appendln();
+		builder.format("severity: %s (%d)", severity, severity.getValue()).appendln();
 		
 		builder.append("plugin: ").appendln(plugin);
 		builder.append("message: ").appendln(message);

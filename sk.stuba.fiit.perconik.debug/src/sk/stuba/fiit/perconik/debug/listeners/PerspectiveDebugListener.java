@@ -19,33 +19,41 @@ public final class PerspectiveDebugListener extends AbstractDebugListener implem
 	
 	public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
 	{
+		// TODO
 	}
 
 	public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
 	{
+		// TODO
 	}
 
 	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
 	{
+		// TODO
 	}
 
 	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
 	{
+		// TODO
 	}
 
 	public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor perspective)
 	{
+		// TODO
 	}
 
 	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor perspective, final IWorkbenchPartReference part, String change)
 	{
+		// TODO
 	}
 
 	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor perspective, final String change)
 	{
+		// TODO
 	}
 
 	public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after)
 	{
+		// TODO
 	}
 }
