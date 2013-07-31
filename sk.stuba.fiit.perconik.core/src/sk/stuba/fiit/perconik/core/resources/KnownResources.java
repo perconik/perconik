@@ -1,5 +1,11 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
+import sk.stuba.fiit.perconik.core.listeners.DebugEventSetListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
@@ -35,6 +41,18 @@ TextSelectionListener
 
 class KnownResources
 {
+	static Resource<CommandChangeListener> commandChange;
+
+	static Resource<CommandExecutionListener> commandExecution;
+
+	static Resource<CommandManagerChangeListener> commandManagerChange;
+
+	static Resource<CompletionListener> completion;
+
+	static Resource<DebugEventSetListener> debugEventSet;
+
+	static Resource<DocumentChangeListener> documentChange;
+
 	static final Resource<FileBufferListener> fileBuffer;
 
 	static final Resource<JavaElementChangeListener> javaElementChange;
@@ -69,6 +87,12 @@ class KnownResources
 
 	static
 	{
+		commandChange        = build(CommandChangeListener.class, CommandChangeHandler.INSTANCE);
+		commandExecution     = build(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE);
+		commandManagerChange = build(CommandManagerChangeListener.class, CommandManagerChangeHandler.INSTANCE);
+		completion           = build(CompletionListener.class, CompletionHandler.INSTANCE);
+		debugEventSet        = build(DebugEventSetListener.class, DebugEventSetHandler.INSTANCE);
+		documentChange       = build(DocumentChangeListener.class, DocumentChangeHandler.INSTANCE);
 		fileBuffer           = build(FileBufferListener.class, FileBufferHandler.INSTANCE);
 		javaElementChange    = build(JavaElementChangeListener.class, JavaElementChangeHandler.INSTANCE);
 		launch               = build(LaunchListener.class, LaunchHandler.INSTANCE);

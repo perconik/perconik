@@ -15,6 +15,36 @@ public final class Listeners
 		throw new AssertionError();
 	}
 
+	public static final void register(final CommandChangeListener listener)
+	{
+		Resources.getCommandChangeResource().register(listener);
+	}
+	
+	public static final void register(final CommandExecutionListener listener)
+	{
+		Resources.getCommandExecutionResource().register(listener);
+	}
+	
+	public static final void register(final CommandManagerChangeListener listener)
+	{
+		Resources.getCommandManagerChangeResource().register(listener);
+	}
+	
+	public static final void register(final CompletionListener listener)
+	{
+		Resources.getCompletionResource().register(listener);
+	}
+	
+	public static final void register(final DebugEventSetListener listener)
+	{
+		Resources.getDebugEventSetResource().register(listener);
+	}
+	
+	public static final void register(final DocumentChangeListener listener)
+	{
+		Resources.getDocumentChangeResource().register(listener);
+	}
+	
 	public static final void register(final FileBufferListener listener)
 	{
 		Resources.getFileBufferResource().register(listener);
@@ -93,6 +123,36 @@ public final class Listeners
 	public static final void register(final WorkbenchListener listener)
 	{
 		Resources.getWorkbenchResource().register(listener);
+	}
+
+	public static final void unregister(final CommandChangeListener listener)
+	{
+		Resources.getCommandChangeResource().unregister(listener);
+	}
+
+	public static final void unregister(final CommandExecutionListener listener)
+	{
+		Resources.getCommandExecutionResource().unregister(listener);
+	}
+
+	public static final void unregister(final CommandManagerChangeListener listener)
+	{
+		Resources.getCommandManagerChangeResource().unregister(listener);
+	}
+
+	public static final void unregister(final CompletionListener listener)
+	{
+		Resources.getCompletionResource().unregister(listener);
+	}
+
+	public static final void unregister(final DebugEventSetListener listener)
+	{
+		Resources.getDebugEventSetResource().unregister(listener);
+	}
+
+	public static final void unregister(final DocumentChangeListener listener)
+	{
+		Resources.getDocumentChangeResource().unregister(listener);
 	}
 
 	public static final void unregister(final FileBufferListener listener)

@@ -2,6 +2,12 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Map.Entry;
 import java.util.Set;
+import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
+import sk.stuba.fiit.perconik.core.listeners.DebugEventSetListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
@@ -34,11 +40,6 @@ public final class Resources
 		throw new AssertionError();
 	}
 	
-	static final <T extends Listener> Resource<T> create(final Handler<T> handler)
-	{
-		return new GenericResource<>(Pools.getPoolFactory().create(handler));
-	}
-
 	public static final <T extends Listener> void register(final Class<T> type, final Resource<T> resource)
 	{
 		resources.put(Preconditions.checkNotNull(type), Preconditions.checkNotNull(resource));
@@ -55,23 +56,23 @@ public final class Resources
 		
 		for (Entry<Class<?>, Resource<?>> entry: resources.entries())
 		{
-			boolean assignable = type.isAssignableFrom(entry.getKey());
+//			boolean assignable = type.isAssignableFrom(entry.getKey());
+//			
+//			// TODO reconsider this matching
+//			if (assignable == false)
+//			{
+//				for (Class<?> supertype: type.getInterfaces())
+//				{
+//					if (supertype == entry.getKey())
+//					{
+//						assignable = true;
+//						
+//						break;
+//					}
+//				}
+//			}
 			
-			// TODO reconsider this matching
-			if (assignable == false)
-			{
-				for (Class<?> supertype: type.getInterfaces())
-				{
-					if (supertype == entry.getKey())
-					{
-						assignable = true;
-						
-						break;
-					}
-				}
-			}
-			
-			if (assignable)
+			if (type.isAssignableFrom(entry.getKey()))
 			{
 				result.add((Resource<? extends T>) entry.getValue());
 			}
@@ -83,6 +84,41 @@ public final class Resources
 	public static final Set<Resource<?>> getResources()
 	{
 		return Sets.newHashSet(resources.values());
+	}
+
+	static final <T extends Listener> Resource<T> create(final Handler<T> handler)
+	{
+		return new GenericResource<>(Pools.getPoolFactory().create(handler));
+	}
+
+	public static final Resource<CommandChangeListener> getCommandChangeResource()
+	{
+		return KnownResources.commandChange;
+	}
+
+	public static final Resource<CommandExecutionListener> getCommandExecutionResource()
+	{
+		return KnownResources.commandExecution;
+	}
+
+	public static final Resource<CommandManagerChangeListener> getCommandManagerChangeResource()
+	{
+		return KnownResources.commandManagerChange;
+	}
+
+	public static final Resource<CompletionListener> getCompletionResource()
+	{
+		return KnownResources.completion;
+	}
+
+	public static final Resource<DebugEventSetListener> getDebugEventSetResource()
+	{
+		return KnownResources.debugEventSet;
+	}
+
+	public static final Resource<DocumentChangeListener> getDocumentChangeResource()
+	{
+		return KnownResources.documentChange;
 	}
 
 	public static final Resource<FileBufferListener> getFileBufferResource()
