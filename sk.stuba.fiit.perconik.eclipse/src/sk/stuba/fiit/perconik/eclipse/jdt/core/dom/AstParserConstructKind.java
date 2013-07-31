@@ -30,7 +30,7 @@ public enum AstParserConstructKind implements IntegralConstant, TypeConstant<AST
 	EXPRESSION(ASTParser.K_EXPRESSION, Expression.class),
 	
 	/**
-	 * @see orgorg.eclipse.jdt.core.dom.ASTParser#K_STATEMENTS
+	 * @see org.eclipse.jdt.core.dom.ASTParser#K_STATEMENTS
 	 */
 	STATEMENTS(ASTParser.K_STATEMENTS, Statement.class);
 
