@@ -10,6 +10,7 @@ import org.eclipse.core.commands.Category;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.CommandEvent;
 import org.eclipse.core.commands.CommandManagerEvent;
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.IParameter;
 import org.eclipse.core.commands.ParameterType;
 import org.eclipse.core.commands.ParameterValuesException;
@@ -26,10 +27,16 @@ import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.junit.model.ITestCaseElement;
+import org.eclipse.jdt.junit.model.ITestElement;
+import org.eclipse.jdt.junit.model.ITestRunSession;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.contentassist.ContentAssistEvent;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
@@ -350,6 +357,30 @@ public final class Debug
 		return builder.toString();
 	}
 	
+	public static final String dumpCompletionProposal(final ICompletionProposal proposal)
+	{
+		SmartStringBuilder builder = builder();
+
+		String displayString  = proposal.getDisplayString();
+		String additionalInfo = proposal.getAdditionalProposalInfo();
+		
+		builder.append("display string: ").appendln(displayString);
+		builder.append("additional info: ").appendln(additionalInfo);
+		
+		return builder.toString();
+	}
+
+	public static final String dumpContentAssistEvent(final ContentAssistEvent event)
+	{
+		SmartStringBuilder builder = builder();
+
+		boolean autoActivated = event.isAutoActivated;
+		
+		builder.append("auto activated: ").appendln(autoActivated);
+
+		return builder.toString();
+	}
+	
 	public static final String dumpDebugEvent(final DebugEvent event)
 	{
 		SmartStringBuilder builder = builder();
@@ -430,6 +461,32 @@ public final class Debug
 		
 		return builder.toString();
 	}
+	
+	public static final String dumpExecutionEvent(final ExecutionEvent event) throws NotDefinedException, ParameterValuesException
+	{
+		SmartStringBuilder builder = builder();
+
+		Command command = event.getCommand();
+		
+		Map<?, ?> parameters = event.getParameters();
+		
+		builder.appendln("command:").lines(dumpCommand(command));
+		builder.appendln("parameters:").tab();
+		
+		if (!parameters.isEmpty())
+		{
+			for (Entry<?, ?> entry: parameters.entrySet())
+			{
+				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+			}
+		}
+		else
+		{
+			builder.append("none");
+		}
+		
+		return builder.toString();
+	}
 
 	public static final String dumpFileBuffer(final IFileBuffer buffer)
 	{
@@ -468,6 +525,20 @@ public final class Debug
 		return builder.toString();
 	}
 	
+	public static final String dumpJavaProject(final IJavaProject project)
+	{
+		SmartStringBuilder builder = builder();
+
+		String name = project.getElementName();
+
+		IPath path = project.getPath();
+
+		builder.append("name: ").appendln(name);
+		builder.append("path: ").appendln(path);
+		
+		return builder.toString();
+	}
+
 	public static final String dumpLaunch(final ILaunch launch) throws CoreException
 	{
 		SmartStringBuilder builder = builder();
@@ -848,7 +919,71 @@ public final class Debug
 		
 		return builder.toString();
 	}
+	
+	public static final String dumpTestCaseElement(final ITestCaseElement element)
+	{
+		SmartStringBuilder builder = builder();
 
+		ITestRunSession session = element.getTestRunSession();
+
+		String className  = element.getTestClassName();
+		String methodName = element.getTestMethodName();
+
+		double elapsedTime = element.getElapsedTimeInSeconds();
+
+		ITestElement.ProgressState progressState = element.getProgressState();
+		
+		ITestElement.Result resultExcludingChildren = element.getTestResult(false);
+		ITestElement.Result resultIncludingChildren = element.getTestResult(true);
+
+		builder.appendln("session:").lines(dumpTestRunSession(session));
+		
+		builder.append("class name: ").appendln(className);
+		builder.append("method name: ").appendln(methodName);
+		
+		builder.append("elapsed time: ").append(elapsedTime).appendln(" (in seconds)");
+		
+		builder.append("progress state: ").appendln(progressState);
+		
+		builder.append("result excluding children: ").appendln(resultExcludingChildren);
+		builder.append("result including children: ").appendln(resultIncludingChildren);
+		
+		return builder.toString();
+	}
+
+	public static final String dumpTestRunSession(final ITestRunSession session)
+	{
+		SmartStringBuilder builder = builder();
+
+		IJavaProject project = session.getLaunchedProject();
+		
+		String name = session.getTestRunName();
+
+		double elapsedTime = session.getElapsedTimeInSeconds();
+
+		ITestElement.ProgressState progressState = session.getProgressState();
+		
+		ITestElement.Result resultExcludingChildren = session.getTestResult(false);
+		ITestElement.Result resultIncludingChildren = session.getTestResult(true);
+		
+		ITestElement[] children = session.getChildren();
+
+		builder.append("run name: ").appendln(name);
+		
+		builder.appendln("project:").lines(dumpJavaProject(project));
+		
+		builder.append("elapsed time: ").append(elapsedTime).appendln(" (in seconds)");
+		
+		builder.append("progress state: ").appendln(progressState);
+		
+		builder.append("result excluding children: ").appendln(resultExcludingChildren);
+		builder.append("result including children: ").appendln(resultIncludingChildren);
+
+		builder.append("children: ").appendln(children.length);
+
+		return builder.toString();
+	}
+	
 	public static final String dumpTextSelection(final ITextSelection selection)
 	{
 		SmartStringBuilder builder = builder();

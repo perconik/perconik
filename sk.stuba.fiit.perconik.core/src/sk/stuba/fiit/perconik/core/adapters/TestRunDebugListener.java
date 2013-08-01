@@ -18,11 +18,11 @@ public class TestRunDebugListener extends Adapter implements TestRunListener
 	{
 	}
 
-	public void testCaseStarted(ITestCaseElement testCaseElement)
+	public void testCaseStarted(ITestCaseElement element)
 	{
 	}
 
-	public void testCaseFinished(ITestCaseElement testCaseElement)
+	public void testCaseFinished(ITestCaseElement element)
 	{
 	}
 }

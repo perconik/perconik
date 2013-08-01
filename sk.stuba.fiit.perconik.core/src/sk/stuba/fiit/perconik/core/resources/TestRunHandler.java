@@ -52,7 +52,7 @@ enum TestRunHandler implements Handler<TestRunListener>
 		@Override
 		public final boolean equals(final Object o)
 		{
-			return this == o || this.listener.equals(o);
+			return this.listener.equals(o);
 		}
 
 		@Override
