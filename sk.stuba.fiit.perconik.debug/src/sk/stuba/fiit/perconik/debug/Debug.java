@@ -3,9 +3,18 @@ package sk.stuba.fiit.perconik.debug;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import org.eclipse.core.commands.Category;
+import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.CommandEvent;
 import org.eclipse.core.commands.CommandManagerEvent;
+import org.eclipse.core.commands.IParameter;
+import org.eclipse.core.commands.ParameterType;
+import org.eclipse.core.commands.ParameterValuesException;
+import org.eclipse.core.commands.State;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 import org.eclipse.core.filebuffers.IFileBuffer;
@@ -18,6 +27,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
@@ -35,6 +45,8 @@ import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
+import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
+import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringExecutionEventType;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
@@ -173,12 +185,131 @@ public final class Debug
 		}
 	}
 	
-	public static final String dumpCommandEvent(final CommandEvent event)
+	public static final String dumpCategory(final Category category) throws NotDefinedException
 	{
 		SmartStringBuilder builder = builder();
 		
-		// TODO
+		Class<?> type = category.getClass();
+		String   id   = category.getId();
+		
+		String   name        = null;
+		String   description = null;
+		
+		boolean defined = category.isDefined();
+		
+		if (defined)
+		{
+			name        = category.getName();
+			description = category.getDescription();
+		}
+
+		builder.append("class: ").appendln(type);
+		builder.append("identifier: ").appendln(id);
+		
+		builder.append("name: ").appendln(name);
+		builder.append("description: ").appendln(description);
+		
+		builder.append("defined: ").appendln(defined);
 	
+		return builder.toString();
+	}
+	
+	public static final String dumpCommand(final Command command) throws NotDefinedException, ParameterValuesException
+	{
+		SmartStringBuilder builder = builder();
+		
+		Class<?> type     = command.getClass();
+		String   id       = command.getId();
+		
+		String   name     = null;
+		Category category = null;
+		
+		IParameter[]  parameters = new IParameter[0];
+		ParameterType returnType = null;
+
+		String[] stateIds = command.getStateIds();
+		
+		boolean defined = command.isDefined();
+		boolean enabled = command.isEnabled();
+		boolean handled = command.isHandled();
+
+		if (defined)
+		{
+			name     = command.getName();
+			category = command.getCategory();
+			
+			parameters = command.getParameters();
+			returnType = command.getReturnType();
+		}
+		
+		builder.append("class: ").appendln(dumpClass(type));
+		builder.append("identifier: ").appendln(id);
+		
+		builder.append("name: ").appendln(name);
+		builder.appendln("category:").lines(dumpCategory(category));
+
+		builder.appendln("parameters:").lines(dumpParameters(parameters));
+		builder.append("return type: ").appendln(returnType);
+
+		builder.appendln("states:").tab();
+
+		if (stateIds.length != 0)
+		{
+			for (String stateId: stateIds)
+			{
+				State state = command.getState(stateId);
+				
+				builder.append(state.getId()).append(": ").appendln(state.getValue());
+			}
+		}
+		else
+		{
+			builder.append("none");
+		}
+		
+		builder.untab();
+		
+		builder.append("defined: ").appendln(defined);
+		builder.append("enabled: ").appendln(enabled);
+		builder.append("handled: ").appendln(handled);
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpCommandEvent(final CommandEvent event) throws NotDefinedException, ParameterValuesException
+	{
+		SmartStringBuilder builder = builder();
+		
+		Command command = event.getCommand();
+		
+		boolean nameChanged        = event.isNameChanged();
+		boolean categoryChanged    = event.isCategoryChanged();
+		boolean descriptionChanged = event.isDescriptionChanged();
+
+		boolean definedChanged = event.isDefinedChanged();
+		boolean enabledChanged = event.isEnabledChanged();		
+		boolean handledChanged = event.isHandledChanged();
+		
+		boolean parametersChanged = event.isParametersChanged();
+		boolean returnTypeChanged = event.isReturnTypeChanged();
+
+		boolean helpContextIdChanged = event.isHelpContextIdChanged();
+
+		builder.appendln("command:").lines(dumpCommand(command));
+		
+		builder.append("name changed: ").appendln(nameChanged);
+		builder.append("category changed: ").appendln(categoryChanged);
+		builder.append("description changed: ").appendln(descriptionChanged);
+		
+		builder.append("defined changed: ").appendln(definedChanged);
+		builder.append("enabled changed: ").appendln(enabledChanged);
+		builder.append("handled changed: ").appendln(handledChanged);
+		
+		builder.append("parameters changed: ").appendln(parametersChanged);
+		builder.append("return type changed: ").appendln(returnTypeChanged);
+		
+		builder.append("help context identifier changed: ").appendln(helpContextIdChanged);
+		
 		return builder.toString();
 	}
 	
@@ -186,8 +317,36 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 		
-		// TODO
-	
+		String  commandId      = event.getCommandId();
+		boolean commandDefined = event.isCommandDefined();
+		boolean commandChanged = event.isCommandChanged();
+		
+		String  categoryId      = event.getCategoryId();
+		boolean categoryDefined = event.isCategoryDefined();
+		boolean categoryChanged = event.isCategoryChanged();
+
+		String  parameterTypeId      = event.getParameterTypeId();
+		boolean parameterTypeDefined = event.isParameterTypeDefined();
+		boolean parameterTypeChanged = event.isParameterTypeChanged();
+		
+		builder.appendln("command:").tab();
+		
+		builder.append("identifier: ").appendln(commandId);
+		builder.append("defined: ").appendln(commandDefined);
+		builder.append("changed: ").appendln(commandChanged);
+		
+		builder.untab().appendln("category:").tab();
+		
+		builder.append("identifier: ").appendln(categoryId);
+		builder.append("defined: ").appendln(categoryDefined);
+		builder.append("changed: ").appendln(categoryChanged);
+		
+		builder.untab().appendln("parameter type:").tab();
+		
+		builder.append("identifier: ").appendln(parameterTypeId);
+		builder.append("defined: ").appendln(parameterTypeDefined);
+		builder.append("changed: ").appendln(parameterTypeChanged);
+		
 		return builder.toString();
 	}
 	
@@ -195,8 +354,22 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 		
-		// TODO
+		Object data = event.getData();
+
+		DebugEventKind   kind   = DebugEventKind.valueOf(event.getKind());
+		DebugEventDetail detail = DebugEventDetail.valueOf(event.getDetail());
+
+		boolean evaluation = event.isEvaluation();
+		boolean stepStart  = event.isStepStart();
 	
+		builder.append("data: ").appendln(data);
+
+		builder.format("kind: %s (%d)", kind, kind.getValue()).appendln();
+		builder.format("detail: %s (%d)", detail, detail.getValue()).appendln();
+		
+		builder.append("evaluation: ").appendln(evaluation);
+		builder.append("step start: ").appendln(stepStart);
+		
 		return builder.toString();
 	}
 
@@ -204,8 +377,32 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 		
-		// TODO
+		if (events.length != 0)
+		{
+			for (int i = 0; i < events.length; i ++)
+			{
+				builder.format("event %d:", i);
+				builder.lines(dumpDebugEvent(events[i]));
+			}
+		}
+		else
+		{
+			builder.append("none");
+		}
+		
+		return builder.toString();
+	}
+
+	public static final String dumpDocument(final IDocument document)
+	{
+		SmartStringBuilder builder = builder();
+		
+		int length = document.getLength();
+		int lines  = document.getNumberOfLines();
 	
+		builder.append("length: ").appendln(length);
+		builder.append("lines: ").appendln(lines);
+		
 		return builder.toString();
 	}
 	
@@ -213,8 +410,24 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 		
-		// TODO
-	
+		IDocument document = event.getDocument();
+		
+		int offset = event.getOffset();
+		int length = event.getLength();
+
+		String text = event.getText();
+
+		long modificationStamp = event.getModificationStamp();
+		
+		builder.appendln("document:").lines(dumpDocument(document));
+		
+		builder.append("offset: ").appendln(offset);
+		builder.append("length: ").appendln(length);
+
+		builder.append("text: \"").append(text).appendln("\"");
+		
+		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
+		
 		return builder.toString();
 	}
 
@@ -401,6 +614,59 @@ public final class Debug
 		return builder.toString();
 	}
 
+	public static final String dumpParameter(final IParameter parameter) throws ParameterValuesException
+	{
+		SmartStringBuilder builder = builder();
+		
+		String id   = parameter.getId();
+		String name = parameter.getName();
+		
+		boolean optional = parameter.isOptional();
+		
+		Map<?, ?> values = parameter.getValues().getParameterValues();
+		
+		builder.append("identifier: ").appendln(id);
+		builder.append("name: ").appendln(name);
+		
+		builder.append("optional: ").appendln(optional);
+		
+		builder.appendln("values:").tab();
+
+		if (!values.isEmpty())
+		{
+			for (Entry<?, ?> entry: values.entrySet())
+			{
+				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+			}
+		}
+		else
+		{
+			builder.append("none");
+		}
+		
+		return builder.toString();
+	}
+
+	public static final String dumpParameters(final IParameter[] parameters) throws ParameterValuesException
+	{
+		SmartStringBuilder builder = builder();
+		
+		if (parameters.length != 0)
+		{
+			for (int i = 0; i < parameters.length; i ++)
+			{
+				builder.format("parameter %d:", i);
+				builder.lines(dumpParameter(parameters[i]));
+			}
+		}
+		else
+		{
+			builder.append("none");
+		}
+		
+		return builder.toString();
+	}
+
 	public static final String dumpPart(final IWorkbenchPart part)
 	{
 		SmartStringBuilder builder = builder();
@@ -430,7 +696,7 @@ public final class Debug
 		boolean dirty = reference.isDirty();
 
 		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("id: ").appendln(id);
+		builder.append("identifier: ").appendln(id);
 		
 		builder.append("name: ").appendln(name);
 		builder.append("title: ").appendln(title);
@@ -452,7 +718,7 @@ public final class Debug
 		String   description = descriptor.getDescription();
 
 		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("id: ").appendln(id);
+		builder.append("identifier: ").appendln(id);
 		
 		builder.append("label: ").appendln(label);
 		builder.append("description: ").appendln(description);
@@ -607,7 +873,7 @@ public final class Debug
 		builder.append("offset: ").appendln(offset);
 		builder.append("length: ").appendln(length);
 
-		builder.append("text: \"").append(text).appendln('"');
+		builder.append("text: \"").append(text).appendln("\"");
 
 		return builder.toString();
 	}
