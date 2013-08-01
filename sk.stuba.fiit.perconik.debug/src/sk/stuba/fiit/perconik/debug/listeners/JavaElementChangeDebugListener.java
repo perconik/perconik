@@ -4,8 +4,9 @@ import java.util.EnumSet;
 import java.util.Set;
 import org.eclipse.jdt.core.ElementChangedEvent;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
+import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.ElementChangedEventType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementChangeEventType;
 
 public final class JavaElementChangeDebugListener extends AbstractDebugListener implements JavaElementChangeListener
 {
@@ -20,11 +21,17 @@ public final class JavaElementChangeDebugListener extends AbstractDebugListener 
 	
 	public final void elementChanged(final ElementChangedEvent event)
 	{
-		// TODO
+		this.printHeader("Java element changed");
+		this.printJavaElementChangeEvent(event);
 	}
 
-	public final Set<ElementChangedEventType> getEventTypes()
+	public final Set<JavaElementChangeEventType> getEventTypes()
 	{
-		return EnumSet.allOf(ElementChangedEventType.class);
+		return EnumSet.allOf(JavaElementChangeEventType.class);
+	}
+	
+	private final void printJavaElementChangeEvent(final ElementChangedEvent event)
+	{
+		this.put(Debug.dumpJavaElementChangeEvent(event));
 	}
 }
