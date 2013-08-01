@@ -585,12 +585,12 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final SmartStringBuilder lines(Object o)
 	{
-		return this.lines(String.valueOf(o));
+		return this.lines(o);
 	}
 	
 	public final SmartStringBuilder lines(String s)
 	{
-		for (String line: Arrays.asList(s.split("\r?\n|\r")))
+		for (String line: Arrays.asList(String.valueOf(s).split("\r?\n|\r")))
 		{
 			this.appendln(line);
 		}
