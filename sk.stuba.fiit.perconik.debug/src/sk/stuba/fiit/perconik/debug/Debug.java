@@ -210,139 +210,6 @@ public final class Debug
 		}
 	}
 	
-	public static final String dumpJavaElement(final IJavaElement element)
-	{
-		SmartStringBuilder builder = builder();
-
-		JavaElementType type = JavaElementType.valueOf(element.getElementType());
-
-		String name = element.getElementName();
-		IPath  path = element.getPath();
-		
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		
-		builder.append("name: ").appendln(name);
-		builder.append("path: ").appendln(path);
-		
-		return builder.toString();
-	}
-
-	public static final String dumpJavaElementChangeEvent(final ElementChangedEvent event)
-	{
-		SmartStringBuilder builder = builder();
-
-		JavaElementChangeEventType type = JavaElementChangeEventType.valueOf(event.getType());
-
-		IJavaElementDelta delta = event.getDelta();
-		
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		
-		builder.appendln("delta:").lines(dumpJavaElementDelta(delta));
-		
-		return builder.toString();
-	}
-
-	public static final String dumpJavaElementDelta(final IJavaElementDelta delta)
-	{
-		SmartStringBuilder builder = builder();
-
-		JavaElementDeltaKind      kind  = JavaElementDeltaKind.valueOf(delta.getKind());
-		Set<JavaElementDeltaFlag> flags = JavaElementDeltaFlag.setOf(delta.getFlags());
-
-		CompilationUnit unit    = delta.getCompilationUnitAST();
-		IJavaElement    element = delta.getElement();
-
-		builder.append("kind: ").appendln(kind);
-		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
-
-		builder.appendln("unit:").lines(dumpCompliationUnit(unit));
-		builder.appendln("element:").lines(dumpJavaElement(element));
-		
-		return builder.toString();
-	}
-
-	public static final String dumpResource(final IResource resource)
-	{
-		SmartStringBuilder builder = builder();
-
-		ResourceType type = ResourceType.valueOf(resource.getType());
-		
-		String name     = resource.getName();
-		IPath  location = resource.getLocation();
-
-		long localStamp        = resource.getLocalTimeStamp();
-		long modificationStamp = resource.getModificationStamp();
-
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		
-		builder.append("name: ").appendln(name);
-		builder.append("location: ").appendln(location);
-		
-		builder.append("local stamp: ").appendln(localStamp < 0 ? "unknown" : localStamp);
-		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
-		
-		return builder.toString();
-	}
-	
-	public static final String dumpResourceChangeEvent(final IResourceChangeEvent event)
-	{
-		SmartStringBuilder builder = builder();
-
-		ResourceChangeEventType type = ResourceChangeEventType.valueOf(event.getType());
-		
-		ProjectBuildKind buildKind = ProjectBuildKind.valueOf(event.getBuildKind());
-
-		IResource      resource = event.getResource();
-		IResourceDelta delta    = event.getDelta();
-		
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		
-		builder.append("build kind: ").appendln(buildKind);
-		
-		builder.appendln("resource:").lines(resource == null ? "none" : dumpResource(resource));		
-		builder.appendln("delta:").lines(dumpResourceDelta(delta));
-		
-		return builder.toString();
-	}
-
-	public static final String dumpResourceDelta(final IResourceDelta delta)
-	{
-		SmartStringBuilder builder = builder();
-
-		ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
-		Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
-
-		IResource resource = delta.getResource();
-
-		builder.append("kind: ").appendln(kind);
-		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
-
-		builder.appendln("resource:").lines(dumpResource(resource));
-		
-		return builder.toString();
-	}
-
-	public static final String dumpCompliationUnit(final CompilationUnit unit)
-	{
-		SmartStringBuilder builder = builder();
-
-		AstNodeType type = AstNodeType.valueOf(unit.getNodeType());
-		
-		Set<AstNodeFlag> flags = AstNodeFlag.setOf(unit.getFlags());
-		
-		int startPosition = unit.getStartPosition();
-		int length        = unit.getLength();
-		
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		
-		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
-		
-		builder.append("start position: ").appendln(startPosition);
-		builder.append("length: ").appendln(length);
-		
-		return builder.toString();
-	}
-	
 	public static final String dumpCategory(final Category category) throws NotDefinedException
 	{
 		SmartStringBuilder builder = builder();
@@ -508,6 +375,27 @@ public final class Debug
 		return builder.toString();
 	}
 	
+	public static final String dumpCompliationUnit(final CompilationUnit unit)
+	{
+		SmartStringBuilder builder = builder();
+	
+		AstNodeType type = AstNodeType.valueOf(unit.getNodeType());
+		
+		Set<AstNodeFlag> flags = AstNodeFlag.setOf(unit.getFlags());
+		
+		int startPosition = unit.getStartPosition();
+		int length        = unit.getLength();
+		
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+		
+		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+		
+		builder.append("start position: ").appendln(startPosition);
+		builder.append("length: ").appendln(length);
+		
+		return builder.toString();
+	}
+
 	public static final String dumpCompletionProposal(final ICompletionProposal proposal)
 	{
 		SmartStringBuilder builder = builder();
@@ -676,6 +564,57 @@ public final class Debug
 		return builder.toString();
 	}
 	
+	public static final String dumpJavaElement(final IJavaElement element)
+	{
+		SmartStringBuilder builder = builder();
+	
+		JavaElementType type = JavaElementType.valueOf(element.getElementType());
+	
+		String name = element.getElementName();
+		IPath  path = element.getPath();
+		
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+		
+		builder.append("name: ").appendln(name);
+		builder.append("path: ").appendln(path);
+		
+		return builder.toString();
+	}
+
+	public static final String dumpJavaElementChangeEvent(final ElementChangedEvent event)
+	{
+		SmartStringBuilder builder = builder();
+	
+		JavaElementChangeEventType type = JavaElementChangeEventType.valueOf(event.getType());
+	
+		IJavaElementDelta delta = event.getDelta();
+		
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+		
+		builder.appendln("delta:").lines(dumpJavaElementDelta(delta));
+		
+		return builder.toString();
+	}
+
+	public static final String dumpJavaElementDelta(final IJavaElementDelta delta)
+	{
+		SmartStringBuilder builder = builder();
+	
+		JavaElementDeltaKind      kind  = JavaElementDeltaKind.valueOf(delta.getKind());
+		Set<JavaElementDeltaFlag> flags = JavaElementDeltaFlag.setOf(delta.getFlags());
+	
+		CompilationUnit unit    = delta.getCompilationUnitAST();
+		IJavaElement    element = delta.getElement();
+	
+		builder.append("kind: ").appendln(kind);
+		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+	
+		builder.appendln("unit:").lines(dumpCompliationUnit(unit));
+		builder.appendln("element:").lines(dumpJavaElement(element));
+		
+		return builder.toString();
+	}
+
 	public static final String dumpJavaProject(final IJavaProject project)
 	{
 		SmartStringBuilder builder = builder();
@@ -988,6 +927,67 @@ public final class Debug
 		
 		builder.format("type: %s (%d)", type, type.getValue()).appendln();
 		builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
+		
+		return builder.toString();
+	}
+
+	public static final String dumpResource(final IResource resource)
+	{
+		SmartStringBuilder builder = builder();
+	
+		ResourceType type = ResourceType.valueOf(resource.getType());
+		
+		String name     = resource.getName();
+		IPath  location = resource.getLocation();
+	
+		long localStamp        = resource.getLocalTimeStamp();
+		long modificationStamp = resource.getModificationStamp();
+	
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+		
+		builder.append("name: ").appendln(name);
+		builder.append("location: ").appendln(location);
+		
+		builder.append("local stamp: ").appendln(localStamp < 0 ? "unknown" : localStamp);
+		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
+		
+		return builder.toString();
+	}
+
+	public static final String dumpResourceChangeEvent(final IResourceChangeEvent event)
+	{
+		SmartStringBuilder builder = builder();
+	
+		ResourceChangeEventType type = ResourceChangeEventType.valueOf(event.getType());
+		
+		ProjectBuildKind buildKind = ProjectBuildKind.valueOf(event.getBuildKind());
+	
+		IResource      resource = event.getResource();
+		IResourceDelta delta    = event.getDelta();
+		
+		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+		
+		builder.append("build kind: ").appendln(buildKind);
+		
+		builder.appendln("resource:").lines(resource == null ? "none" : dumpResource(resource));		
+		builder.appendln("delta:").lines(dumpResourceDelta(delta));
+		
+		return builder.toString();
+	}
+
+	public static final String dumpResourceDelta(final IResourceDelta delta)
+	{
+		SmartStringBuilder builder = builder();
+	
+		ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
+		Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
+	
+		IResource resource = delta.getResource();
+	
+		builder.append("kind: ").appendln(kind);
+		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+	
+		builder.appendln("resource:").lines(dumpResource(resource));
 		
 		return builder.toString();
 	}
