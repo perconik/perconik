@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.ElementChangedEvent;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
-public enum ElementChangedEventType implements IntegralConstant
+public enum JavaElementChangeEventType implements IntegralConstant
 {
 	/**
 	 * @see org.eclipse.jdt.core.ElementChangedEvent#POST_CHANGE
@@ -24,11 +24,11 @@ public enum ElementChangedEventType implements IntegralConstant
 	@SuppressWarnings("deprecation")
 	PRE_AUTO_BUILD(ElementChangedEvent.PRE_AUTO_BUILD);
 	
-	private static final IntegralConstantSupport<ElementChangedEventType> integers = IntegralConstantSupport.of(ElementChangedEventType.class);
+	private static final IntegralConstantSupport<JavaElementChangeEventType> integers = IntegralConstantSupport.of(JavaElementChangeEventType.class);
 
 	private final int value;
 	
-	private ElementChangedEventType(final int value)
+	private JavaElementChangeEventType(final int value)
 	{
 		this.value = value;
 	}
@@ -43,12 +43,12 @@ public enum ElementChangedEventType implements IntegralConstant
 		return integers.getConstantsAsInteger();
 	}
 
-	public static final int valuesAsInteger(Set<ElementChangedEventType> values)
+	public static final int valuesAsInteger(Set<JavaElementChangeEventType> values)
 	{
 		return IntegralConstantSupport.constantsAsInteger(values);
 	}
 
-	public static final ElementChangedEventType valueOf(final int value)
+	public static final JavaElementChangeEventType valueOf(final int value)
 	{
 		return integers.getConstant(value);
 	}
