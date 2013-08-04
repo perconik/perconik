@@ -39,19 +39,21 @@ TextSelectionListener
 
  */
 
-class KnownResources
+public class DefaultResources
 {
-	static Resource<CommandChangeListener> commandChange;
+	private static final ResourceService service = new GenericResourceService();
+	
+	static final Resource<CommandChangeListener> commandChange;
 
-	static Resource<CommandExecutionListener> commandExecution;
+	static final Resource<CommandExecutionListener> commandExecution;
 
-	static Resource<CommandManagerChangeListener> commandManagerChange;
+	static final Resource<CommandManagerChangeListener> commandManagerChange;
 
-	static Resource<CompletionListener> completion;
+	static final Resource<CompletionListener> completion;
 
-	static Resource<DebugEventsListener> debugEvents;
+	static final Resource<DebugEventsListener> debugEvents;
 
-	static Resource<DocumentChangeListener> documentChange;
+	static final Resource<DocumentChangeListener> documentChange;
 
 	static final Resource<FileBufferListener> fileBuffer;
 
@@ -111,17 +113,132 @@ class KnownResources
 		workbench            = build(WorkbenchListener.class, WorkbenchHandler.INSTANCE);
 	}
 	
-	private KnownResources()
+	private DefaultResources()
 	{
 		throw new AssertionError();
 	}
 	
-	private static final <T extends Listener> Resource<T> build(final Class<T> type, Handler<T> handler)
+	public static final ResourceService getDefaultResourceService()
 	{
-		Resource<T> resource = Resources.create(handler);
+		return DefaultResources.service;
+	}
+
+	private static final <T extends Listener> Resource<T> build(final Class<T> type, final Handler<T> handler)
+	{
+		Resource<T> resource = new GenericResource<>(Pools.getPoolFactory().create(handler));
 		
-		Resources.register(type, resource);
+		DefaultResources.getDefaultResourceService().register(type, resource);
 		
 		return resource;
+	}
+
+	public static final Resource<CommandChangeListener> getCommandChangeResource()
+	{
+		return DefaultResources.commandChange;
+	}
+
+	public static final Resource<CommandExecutionListener> getCommandExecutionResource()
+	{
+		return DefaultResources.commandExecution;
+	}
+
+	public static final Resource<CommandManagerChangeListener> getCommandManagerChangeResource()
+	{
+		return DefaultResources.commandManagerChange;
+	}
+
+	public static final Resource<CompletionListener> getCompletionResource()
+	{
+		return DefaultResources.completion;
+	}
+
+	public static final Resource<DebugEventsListener> getDebugEventsResource()
+	{
+		return DefaultResources.debugEvents;
+	}
+
+	public static final Resource<DocumentChangeListener> getDocumentChangeResource()
+	{
+		return DefaultResources.documentChange;
+	}
+
+	public static final Resource<FileBufferListener> getFileBufferResource()
+	{
+		return DefaultResources.fileBuffer;
+	}
+
+	public static final Resource<JavaElementChangeListener> getJavaElementChangeResource()
+	{
+		return DefaultResources.javaElementChange;
+	}
+
+	public static final Resource<LaunchListener> getLaunchResource()
+	{
+		return DefaultResources.launch;
+	}
+	
+	public static final Resource<LaunchesListener> getLaunchesResource()
+	{
+		return DefaultResources.launches;
+	}
+
+	public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource()
+	{
+		return DefaultResources.launchConfiguration;
+	}
+
+	public static final Resource<OperationHistoryListener> getOperationHistoryResource()
+	{
+		return DefaultResources.operationHistory;
+	}
+
+	public static final Resource<PageListener> getPageResource()
+	{
+		return DefaultResources.page;
+	}
+
+	public static final Resource<PartListener> getPartResource()
+	{
+		return DefaultResources.part;
+	}
+
+	public static final Resource<PerspectiveListener> getPerspectiveResource()
+	{
+		return DefaultResources.perspective;
+	}
+
+	public static final Resource<RefactoringExecutionListener> getRefactoringExecutionResource()
+	{
+		return DefaultResources.refactoringExecution;
+	}
+
+	public static final Resource<RefactoringHistoryListener> getRefactoringHistoryResource()
+	{
+		return DefaultResources.refactoringHistory;
+	}
+
+	public static final Resource<ResourceChangeListener> getResourceChangeResource()
+	{
+		return DefaultResources.resourceChange;
+	}
+
+	public static final Resource<SelectionListener> getSelectionResource()
+	{
+		return DefaultResources.selection;
+	}
+
+	public static final Resource<TestRunListener> getTestRunResource()
+	{
+		return DefaultResources.testRun;
+	}
+
+	public static final Resource<WindowListener> getWindowResource()
+	{
+		return DefaultResources.window;
+	}
+
+	public static final Resource<WorkbenchListener> getWorkbenchResource()
+	{
+		return DefaultResources.workbench;
 	}
 }

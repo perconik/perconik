@@ -30,7 +30,7 @@ public final class DebugResources
 		
 		builder.appendln("Registered resources:").tab();
 		
-		Set<Resource<?>> resources = Resources.getResources();
+		Set<Resource<?>> resources = Resources.registered();
 
 		if (!resources.isEmpty())
 		{
