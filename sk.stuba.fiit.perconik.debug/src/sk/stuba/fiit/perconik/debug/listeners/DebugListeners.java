@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import sk.stuba.fiit.perconik.core.listeners.DefaultListeners;
 import sk.stuba.fiit.perconik.core.listeners.Listener;
 import sk.stuba.fiit.perconik.core.listeners.Listeners;
 import sk.stuba.fiit.perconik.core.resources.Resource;
@@ -26,34 +25,34 @@ public final class DebugListeners
 		PluginConsole console = Activator.getDefault().getConsole();
 		
 		// TODO load from configuration
-		
-		DefaultListeners.register(new CommandChangeDebugListener(console));
-		DefaultListeners.register(new CommandExecutionDebugListener(console));
-		DefaultListeners.register(new CommandManagerChangeDebugListener(console));
-		DefaultListeners.register(new CompletionDebugListener(console));
-		DefaultListeners.register(new DebugEventsDebugListener(console));
-		DefaultListeners.register(new DocumentChangeDebugListener(console));
-		DefaultListeners.register(new FileBufferDebugListener(console));
-		DefaultListeners.register(new JavaElementChangeDebugListener(console));
-		//DefaultListeners.register(new LaunchDebugListener(console));
-		DefaultListeners.register(new LaunchesDebugListener(console));
-		//DefaultListeners.register(new LaunchConfigurationDebugListener(console));
-		DefaultListeners.register(new OperationHistoryDebugListener(console));
-		DefaultListeners.register(new PageDebugListener(console));
-		DefaultListeners.register(new PartDebugListener(console));
-		DefaultListeners.register(new PerspectiveDebugListener(console));
-		DefaultListeners.register(new RefactoringExecutionDebugListener(console));
-		DefaultListeners.register(new RefactoringHistoryDebugListener(console));
-		DefaultListeners.register(new ResourceChangeDebugListener(console));
-		DefaultListeners.register(new SelectionDebugListener(console));
-		DefaultListeners.register(new TestRunDebugListener(console));
-		DefaultListeners.register(new WindowDebugListener(console));
-		DefaultListeners.register(new WorkbenchDebugListener(console));
+				
+		Listeners.register(new CommandChangeDebugListener(console));
+		Listeners.register(new CommandExecutionDebugListener(console));
+		Listeners.register(new CommandManagerChangeDebugListener(console));
+		Listeners.register(new CompletionDebugListener(console));
+		Listeners.register(new DebugEventsDebugListener(console));
+		Listeners.register(new DocumentChangeDebugListener(console));
+		Listeners.register(new FileBufferDebugListener(console));
+		Listeners.register(new JavaElementChangeDebugListener(console));
+		//Listeners.register(new LaunchDebugListener(console));
+		Listeners.register(new LaunchesDebugListener(console));
+		//Listeners.register(new LaunchConfigurationDebugListener(console));
+		Listeners.register(new OperationHistoryDebugListener(console));
+		Listeners.register(new PageDebugListener(console));
+		Listeners.register(new PartDebugListener(console));
+		Listeners.register(new PerspectiveDebugListener(console));
+		Listeners.register(new RefactoringExecutionDebugListener(console));
+		Listeners.register(new RefactoringHistoryDebugListener(console));
+		Listeners.register(new ResourceChangeDebugListener(console));
+		Listeners.register(new SelectionDebugListener(console));
+		Listeners.register(new TestRunDebugListener(console));
+		Listeners.register(new WindowDebugListener(console));
+		Listeners.register(new WorkbenchDebugListener(console));
 	}
 	
 	public static final void unregisterAll()
 	{
-		for (Resource<?> resource: Resources.forListener(Listener.class))
+		for (Resource<?> resource: Resources.assignable(Listener.class))
 		{
 			resource.unregisterAll(DebugListener.class);
 		}

@@ -11,5 +11,7 @@ public interface ResourceService
 
 	public Set<Resource<?>> registered();
 
-	public <T extends Listener> Set<Resource<? extends T>> forListener(Class<T> type);
+	public <T extends Listener> Set<Resource<? super T>> registerable(Class<T> type);
+
+	public <T extends Listener> Set<Resource<? extends T>> assignable(Class<T> type);
 }

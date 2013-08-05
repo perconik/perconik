@@ -15,6 +15,22 @@ public final class Listeners
 		throw new AssertionError();
 	}
 
+	public static final <T extends Listener> void register(final T listener)
+	{
+		for(Resource<? super T> resource: Resources.registerable((Class<T>) listener.getClass()))
+		{
+			resource.register(listener);
+		}
+	}
+
+	public static final <T extends Listener> void unregister(final T listener)
+	{
+		for(Resource<? super T> resource: Resources.registerable((Class<T>) listener.getClass()))
+		{
+			resource.unregister(listener);
+		}
+	}
+
 	public static final Collection<Listener> registered()
 	{
 		return registered(Listener.class);
@@ -24,7 +40,7 @@ public final class Listeners
 	{
 		List<T> listeners = Lists.newArrayList();
 		
-		for (Resource<? extends T> resource: Resources.forListener(type))
+		for (Resource<? extends T> resource: Resources.assignable(type))
 		{
 			listeners.addAll(resource.getRegistered(type));
 		}
@@ -51,7 +67,7 @@ public final class Listeners
 	
 	public static final void unregisterAll(final Class<? extends Listener> type)
 	{
-		for (Resource<?> resource: Resources.forListener(type))
+		for (Resource<?> resource: Resources.assignable(type))
 		{
 			resource.unregisterAll(type);
 		}

@@ -60,8 +60,13 @@ public final class Resources
 		return service.get().registered();
 	}
 
-	public static final <T extends Listener> Set<Resource<? extends T>> forListener(Class<T> type)
+	public static final <T extends Listener> Set<Resource<? super T>> registerable(Class<T> type)
 	{
-		return service.get().forListener(type);
+		return service.get().registerable(type);
+	}
+	
+	public static final <T extends Listener> Set<Resource<? extends T>> assignable(Class<T> type)
+	{
+		return service.get().assignable(type);
 	}
 }

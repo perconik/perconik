@@ -33,29 +33,73 @@ final class GenericResourceService implements ResourceService
 		return Sets.newHashSet(this.resources.values());
 	}
 
-	public final <T extends Listener> Set<Resource<? extends T>> forListener(final Class<T> type)
+	public final <T extends Listener> Set<Resource<? super T>> registerable(final Class<T> type)
+	{
+		Set<Resource<? super T>> result = Sets.newHashSet();
+		
+		for (Entry<Class<?>, Resource<?>> entry: this.resources.entries())
+		{
+			boolean matched = type == entry.getKey();
+			
+			if (!matched)
+			{
+				for (Class<?> supertype: type.getInterfaces())
+				{
+					if (supertype == entry.getKey())
+					{
+						matched = true;
+						
+						break;
+					}
+				}
+			}
+			
+			if (matched)
+			{
+				result.add((Resource<? super T>) entry.getValue());
+			}
+		}
+		
+		return result;
+	}
+
+	public final <T extends Listener> Set<Resource<? extends T>> assignable(final Class<T> type)
 	{
 		Set<Resource<? extends T>> result = Sets.newHashSet();
 		
 		for (Entry<Class<?>, Resource<?>> entry: this.resources.entries())
 		{
-//			boolean assignable = type.isAssignableFrom(entry.getKey());
-//			
-//			// TODO reconsider this matching
-//			if (assignable == false)
+			boolean matched = type.isAssignableFrom(entry.getKey());
+
+// TODO improve matching
+//
+//			if (!matched)
 //			{
 //				for (Class<?> supertype: type.getInterfaces())
 //				{
 //					if (supertype == entry.getKey())
 //					{
-//						assignable = true;
+//						matched = true;
 //						
 //						break;
 //					}
 //				}
 //			}
+
+//			System.out.println("--------");
+//			System.out.println(Resources.registerable(Listener.class));
+//			System.out.println(Resources.registerable(DebugListener.class));
+//			System.out.println(Resources.registerable(LaunchListener.class));
+//			System.out.println(Resources.registerable(LaunchDebugListener.class));
+//			System.out.println("--------");
+//			System.out.println(Resources.assignable(Listener.class));
+//			System.out.println(Resources.assignable(DebugListener.class));
+//			System.out.println(Resources.assignable(LaunchListener.class));
+//			System.out.println(Resources.assignable(LaunchDebugListener.class));
+//			System.out.println("--------");
+//			System.exit(1);
 			
-			if (type.isAssignableFrom(entry.getKey()))
+			if (matched)
 			{
 				result.add((Resource<? extends T>) entry.getValue());
 			}
