@@ -9,3 +9,11 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
+Export-Package: com.gratex.perconik.iactivitysvc,
+ com.gratex.perconik.plugin,
+ org.tempuri
+Bundle-ClassPath: .,
+ lib/webservices-api.jar,
+ lib/webservices-extra-api.jar,
+ lib/webservices-extra.jar,
+ lib/webservices-rt.jar
