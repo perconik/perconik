@@ -1,8 +1,7 @@
-package sk.stuba.fiit.perconik.core.listeners;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
 import com.google.common.collect.ImmutableSet;
-import sk.stuba.fiit.perconik.core.adapters.Adapter;
 
 public abstract class AbstractFilteringListener<T> extends Adapter implements FilteringListener<T>
 {

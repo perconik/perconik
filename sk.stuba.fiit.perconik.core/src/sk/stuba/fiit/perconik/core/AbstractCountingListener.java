@@ -1,7 +1,6 @@
-package sk.stuba.fiit.perconik.core.listeners;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Map;
-import sk.stuba.fiit.perconik.core.adapters.Adapter;
 import com.google.common.util.concurrent.AtomicLongMap;
 
 public abstract class AbstractCountingListener extends Adapter implements CountingListener

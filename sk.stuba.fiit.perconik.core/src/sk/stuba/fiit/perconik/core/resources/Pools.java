@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 
 class Pools
@@ -27,7 +27,7 @@ class Pools
 		Pools.factory = Preconditions.checkNotNull(factory);
 	}
 	
-	static final PoolFactory getPoolFactory()
+	public static final PoolFactory getPoolFactory()
 	{
 		return Pools.factory;
 	}

@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
 
 interface PoolFactory
 {

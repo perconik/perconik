@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
+import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 

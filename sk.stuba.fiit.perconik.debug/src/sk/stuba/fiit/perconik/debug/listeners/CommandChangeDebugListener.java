@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.core.commands.CommandEvent;
 import org.eclipse.core.commands.common.CommandException;
 import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
+import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 

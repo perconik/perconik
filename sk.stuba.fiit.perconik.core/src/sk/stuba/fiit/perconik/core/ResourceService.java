@@ -1,7 +1,6 @@
-package sk.stuba.fiit.perconik.core.resources;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
 
 public interface ResourceService
 {

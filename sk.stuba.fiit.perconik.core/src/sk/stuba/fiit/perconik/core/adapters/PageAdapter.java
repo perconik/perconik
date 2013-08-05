@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.ui.IWorkbenchPage;
+import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.PageListener;
 
 public class PageAdapter extends Adapter implements PageListener

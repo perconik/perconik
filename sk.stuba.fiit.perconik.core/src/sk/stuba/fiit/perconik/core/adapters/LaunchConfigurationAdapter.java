@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.debug.core.ILaunchConfiguration;
+import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 
 public class LaunchConfigurationAdapter extends Adapter implements LaunchConfigurationListener

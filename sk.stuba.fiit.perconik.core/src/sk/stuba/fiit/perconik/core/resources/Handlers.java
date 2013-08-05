@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.listeners.FilteringListener;
+import sk.stuba.fiit.perconik.core.FilteringListener;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 

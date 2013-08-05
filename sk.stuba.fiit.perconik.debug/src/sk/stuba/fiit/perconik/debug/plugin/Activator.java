@@ -4,7 +4,7 @@ import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.listeners.DebugListeners;
+import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 /**

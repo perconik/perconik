@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

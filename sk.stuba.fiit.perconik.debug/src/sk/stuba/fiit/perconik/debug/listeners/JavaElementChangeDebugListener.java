@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.Set;
 import org.eclipse.jdt.core.ElementChangedEvent;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
+import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementChangeEventType;

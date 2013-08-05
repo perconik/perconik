@@ -1,7 +1,6 @@
-package sk.stuba.fiit.perconik.core.resources;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Collection;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
 
 public interface Resource<T extends Listener>
 {
@@ -11,5 +10,5 @@ public interface Resource<T extends Listener>
 	
 	public void unregisterAll(Class<? extends Listener> type);
 	
-	public <U extends Listener> Collection<U> getRegistered(Class<U> type);
+	public <U extends Listener> Collection<U> registered(Class<U> type);
 }

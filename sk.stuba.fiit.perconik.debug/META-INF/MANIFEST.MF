@@ -22,5 +22,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Export-Package: sk.stuba.fiit.perconik.debug,
  sk.stuba.fiit.perconik.debug.listeners,
- sk.stuba.fiit.perconik.debug.plugin,
- sk.stuba.fiit.perconik.debug.resources
+ sk.stuba.fiit.perconik.debug.plugin

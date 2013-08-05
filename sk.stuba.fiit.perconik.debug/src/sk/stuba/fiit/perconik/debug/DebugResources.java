@@ -1,8 +1,8 @@
-package sk.stuba.fiit.perconik.debug.resources;
+package sk.stuba.fiit.perconik.debug;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.resources.Resource;
-import sk.stuba.fiit.perconik.core.resources.Resources;
+import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;

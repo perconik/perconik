@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.base.Preconditions;
 
 class Synchronized
@@ -102,11 +103,11 @@ class Synchronized
 			}
 		}
 
-		public final <U extends Listener> Collection<U> getRegistered(final Class<U> type)
+		public final <U extends Listener> Collection<U> registered(final Class<U> type)
 		{
 			synchronized (this.mutex)
 			{
-				return this.delegate.getRegistered(type);
+				return this.delegate.registered(type);
 			}
 		}
 	}

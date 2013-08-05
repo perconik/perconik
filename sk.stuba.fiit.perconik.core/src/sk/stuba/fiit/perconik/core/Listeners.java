@@ -1,10 +1,8 @@
-package sk.stuba.fiit.perconik.core.listeners;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import sk.stuba.fiit.perconik.core.resources.Resource;
-import sk.stuba.fiit.perconik.core.resources.Resources;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -42,7 +40,7 @@ public final class Listeners
 		
 		for (Resource<? extends T> resource: Resources.assignable(type))
 		{
-			listeners.addAll(resource.getRegistered(type));
+			listeners.addAll(resource.registered(type));
 		}
 		
 		return listeners;
@@ -54,7 +52,7 @@ public final class Listeners
 		
 		for (Resource<?> resource: Resources.registered())
 		{
-			map.put(resource, resource.getRegistered(Listener.class));
+			map.put(resource, resource.registered(Listener.class));
 		}
 		
 		return map;

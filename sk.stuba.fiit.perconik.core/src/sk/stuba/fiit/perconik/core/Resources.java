@@ -1,7 +1,7 @@
-package sk.stuba.fiit.perconik.core.resources;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import com.google.common.base.Preconditions;
 
 public final class Resources

@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -43,7 +44,7 @@ abstract class AbstractResource<T extends Listener> implements Resource<T>
 		}
 	}
 	
-	public final <U extends Listener> Collection<U> getRegistered(final Class<U> type)
+	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{
 		Collection<T> listeners = this.pool.toCollection();
 		Collection<U> filtered  = Lists.newArrayListWithCapacity(listeners.size());

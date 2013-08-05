@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 
 public class PartAdapter extends Adapter implements PartListener

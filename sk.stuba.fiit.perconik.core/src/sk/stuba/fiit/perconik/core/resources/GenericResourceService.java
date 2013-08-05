@@ -2,7 +2,9 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Map.Entry;
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.ResourceService;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimaps;

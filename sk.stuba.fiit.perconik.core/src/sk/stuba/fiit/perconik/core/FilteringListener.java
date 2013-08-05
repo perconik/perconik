@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.listeners;
+package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
 

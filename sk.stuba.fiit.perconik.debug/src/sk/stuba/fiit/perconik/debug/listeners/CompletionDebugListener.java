@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.jface.text.contentassist.ContentAssistEvent;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
+import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 

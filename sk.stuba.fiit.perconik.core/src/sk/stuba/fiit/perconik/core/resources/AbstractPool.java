@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
+import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 
 abstract class AbstractPool<T extends Listener> implements Pool<T>

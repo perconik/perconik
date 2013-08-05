@@ -1,7 +1,6 @@
-package sk.stuba.fiit.perconik.debug.listeners;
+package sk.stuba.fiit.perconik.debug;
 
 import java.util.Date;
-import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.google.common.base.Preconditions;
 

@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.ResourceService;
 import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
@@ -11,7 +14,6 @@ import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchesListener;
-import sk.stuba.fiit.perconik.core.listeners.Listener;
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
 import sk.stuba.fiit.perconik.core.listeners.PageListener;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
