@@ -14,7 +14,7 @@ public class Activator extends AbstractUIPlugin
 	/**
 	 * The plug-in identifier.
 	 */
-	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.ui";
+	public static final String PLUGIN_ID = "com.gratex.perconik.services";
 
 	/**
 	 * The shared instance.
