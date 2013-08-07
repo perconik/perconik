@@ -29,12 +29,12 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public SmartStringBuilder(CharSequence sequence)
 	{
-		this.builder = this.initialize(new StringBuilder(sequence));
+		this.builder = this.initialize(new StringBuilder(String.valueOf(sequence)));
 	}
 	
 	public SmartStringBuilder(String string)
 	{
-		this.builder = this.initialize(new StringBuilder(string));
+		this.builder = this.initialize(new StringBuilder(String.valueOf(string)));
 	}
 	
 	private final StringBuilder initialize(final StringBuilder builder)
