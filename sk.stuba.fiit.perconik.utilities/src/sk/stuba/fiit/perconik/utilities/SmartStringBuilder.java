@@ -202,6 +202,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
+	public final boolean isEmpty()
+	{
+		return this.builder.length() == 0;
+	}
+	
 	@Override
 	public final String toString()
 	{
