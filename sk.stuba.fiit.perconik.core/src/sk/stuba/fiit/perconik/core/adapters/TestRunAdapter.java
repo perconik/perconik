@@ -5,7 +5,7 @@ import org.eclipse.jdt.junit.model.ITestRunSession;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 
-public class TestRunDebugListener extends Adapter implements TestRunListener
+public class TestRunAdapter extends Adapter implements TestRunListener
 {
 	public void sessionLaunched(ITestRunSession session)
 	{

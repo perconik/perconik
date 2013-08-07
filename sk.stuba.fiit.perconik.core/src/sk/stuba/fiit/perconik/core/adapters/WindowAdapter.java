@@ -4,7 +4,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 
-public class WindowDebugListener extends Adapter implements WindowListener
+public class WindowAdapter extends Adapter implements WindowListener
 {
 	public void windowOpened(IWorkbenchWindow window)
 	{
