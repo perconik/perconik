@@ -30,12 +30,17 @@ final class GenericResourceService implements ResourceService
 	
 	public final <T extends Listener> void register(final Class<T> type, final Resource<T> resource)
 	{
-		this.resources.put(Preconditions.checkNotNull(type), Preconditions.checkNotNull(resource));
+		Preconditions.checkNotNull(type);
+		Preconditions.checkNotNull(resource);
+		
+		this.resources.put(type, resource);
 	}
 	
 	public final <T extends Listener> void unregister(final Class<T> type, final Resource<T> resource)
 	{
-		this.resources.remove(Preconditions.checkNotNull(type), Preconditions.checkNotNull(resource));
+		resource.unregisterAll(type);
+		
+		this.resources.remove(type, resource);
 	}
 		
 	public final Set<Resource<?>> registered()
