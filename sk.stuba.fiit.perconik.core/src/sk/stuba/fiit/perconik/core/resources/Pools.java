@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 
 class Pools
 {
-	private enum DefaultPoolFactory implements PoolFactory
+	private enum DefaultPoolFactory implements GenericPoolFactory
 	{
 		INSTANCE;
 		
@@ -15,19 +15,19 @@ class Pools
 		}
 	}
 	
-	private static PoolFactory factory = DefaultPoolFactory.INSTANCE;
+	private static GenericPoolFactory factory = DefaultPoolFactory.INSTANCE;
 	
 	private Pools()
 	{
 		throw new AssertionError();
 	}
 
-	static final void setPoolFactory(final PoolFactory factory)
+	static final void setPoolFactory(final GenericPoolFactory factory)
 	{
 		Pools.factory = Preconditions.checkNotNull(factory);
 	}
 	
-	public static final PoolFactory getPoolFactory()
+	public static final GenericPoolFactory getPoolFactory()
 	{
 		return Pools.factory;
 	}
