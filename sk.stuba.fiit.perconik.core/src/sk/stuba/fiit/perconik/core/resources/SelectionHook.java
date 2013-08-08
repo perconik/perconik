@@ -1,11 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Arrays;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListener> implements WindowListener
 {
@@ -43,16 +40,7 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
 	@Override
 	final void preRegisterInternal()
 	{
-		final Runnable addListener = new Runnable()
-		{
-			@Override
-			public final void run()
-			{
-				addAll(Arrays.asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
-			}
-		};
-	
-		Display.getDefault().asyncExec(addListener);
+		Hooks.addWindowsAsynchronouslyTo(this);
 	}
 	
 	public final void windowOpened(final IWorkbenchWindow window)
