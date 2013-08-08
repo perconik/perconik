@@ -3,29 +3,30 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.Map;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
-import sk.stuba.fiit.perconik.core.resources.SelectionHandler.InternalSelectionHook;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 final class HookSupport<H extends Hook<?, T>, T extends Listener>
 {
-	private final Map<T, H> map;
+	private final HookFactory<H, T> factory;
 	
-	HookSupport()
+	private final Map<T, H> hooks;
+	
+	HookSupport(final HookFactory<H, T> factory)
 	{
-		this.map = Maps.newConcurrentMap();
+		this.factory = Preconditions.checkNotNull(factory);
+		this.hooks   = Maps.newHashMap();
 	}
 	
 	final void hook(final Resource<? super H> resource, final T listener)
 	{
-		H hook = this.map.get(listener);
+		H hook = this.hooks.get(listener);
 		
 		if (hook == null)
 		{
-			// TODO edit
-			hook = (H) new InternalSelectionHook((SelectionListener) listener);
+			hook = this.factory.create(listener);
 			
-			this.map.put(listener, hook);
+			this.hooks.put(listener, hook);
 		}
 		
 		resource.register(hook);
@@ -33,7 +34,7 @@ final class HookSupport<H extends Hook<?, T>, T extends Listener>
 	
 	final void unhook(final Resource<? super H> resource, final T listener)
 	{
-		H hook = this.map.get(listener);
+		H hook = this.hooks.get(listener);
 		
 		if (hook != null)
 		{
