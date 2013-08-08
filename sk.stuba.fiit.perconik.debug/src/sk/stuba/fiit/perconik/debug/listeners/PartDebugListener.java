@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
@@ -17,38 +17,56 @@ public final class PartDebugListener extends AbstractDebugListener implements Pa
 		super(console);
 	}
 	
-	public final void partOpened(final IWorkbenchPart part)
+	public final void partOpened(final IWorkbenchPartReference reference)
 	{
 		this.printHeader("Part opened");
-		this.printPart(part);
+		this.printPartReference(reference);
 	}
 
-	public final void partClosed(final IWorkbenchPart part)
+	public final void partClosed(final IWorkbenchPartReference reference)
 	{
 		this.printHeader("Part closed");
-		this.printPart(part);
+		this.printPartReference(reference);
 	}
 
-	public final void partActivated(final IWorkbenchPart part)
+	public final void partActivated(final IWorkbenchPartReference reference)
 	{
 		this.printHeader("Part activated");
-		this.printPart(part);
+		this.printPartReference(reference);
 	}
 
-	public final void partDeactivated(final IWorkbenchPart part)
+	public final void partDeactivated(final IWorkbenchPartReference reference)
 	{
 		this.printHeader("Part deactivated");
-		this.printPart(part);
+		this.printPartReference(reference);
 	}
 
-	public final void partBroughtToTop(final IWorkbenchPart part)
+	public final void partVisible(final IWorkbenchPartReference reference)
+	{
+		this.printHeader("Part visible");
+		this.printPartReference(reference);
+	}
+
+	public final void partHidden(final IWorkbenchPartReference reference)
+	{
+		this.printHeader("Part hidden");
+		this.printPartReference(reference);
+	}
+
+	public final void partBroughtToTop(final IWorkbenchPartReference reference)
 	{
 		this.printHeader("Part brought to top");
-		this.printPart(part);
+		this.printPartReference(reference);
+	}
+
+	public final void partInputChanged(final IWorkbenchPartReference reference)
+	{
+		this.printHeader("Part input changed");
+		this.printPartReference(reference);
 	}
 	
-	private final void printPart(final IWorkbenchPart part)
+	private final void printPartReference(final IWorkbenchPartReference reference)
 	{
-		this.put(Debug.dumpPart(part));
+		this.put(Debug.dumpPartReference(reference));
 	}
 }

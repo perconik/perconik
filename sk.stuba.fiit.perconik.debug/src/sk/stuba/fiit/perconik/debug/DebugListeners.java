@@ -9,7 +9,6 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.debug.listeners.PageDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
@@ -37,6 +36,7 @@ public final class DebugListeners
 //		Listeners.register(new CompletionDebugListener(console));
 //		Listeners.register(new DebugEventsDebugListener(console));
 //		Listeners.register(new DocumentChangeDebugListener(console));
+
 //		Listeners.register(new FileBufferDebugListener(console));
 //		Listeners.register(new JavaElementChangeDebugListener(console));
 //		//Listeners.register(new LaunchDebugListener(console));
