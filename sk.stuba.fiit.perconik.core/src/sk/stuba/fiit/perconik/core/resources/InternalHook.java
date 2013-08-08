@@ -1,23 +1,32 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import java.util.Collection;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 abstract class InternalHook<U, T extends Listener> extends AbstractHook<U, T>
 {
 	private final String name;
 	
-	InternalHook(final Set<U> objects, final T listener)
+	InternalHook(final Collection<U> objects, final T listener)
 	{
-		super(Sets.<U>newSetFromMap(Maps.<U, Boolean>newConcurrentMap()), listener);
+		super(set(objects), listener);
 		
-		this.name = this.name(listener);
+		this.name = name(listener);
 	}
 	
-	private final String name(final T listener)
+	private static final <U> Set<U> set(final Collection<U> objects)
+	{
+		Set<U> set = Sets.newIdentityHashSet();
+		
+		set.addAll(objects);
+		
+		return set;
+	}
+	
+	private static final String name(final Listener listener)
 	{
 		SmartStringBuilder name = new SmartStringBuilder();
 		
@@ -69,7 +78,7 @@ abstract class InternalHook<U, T extends Listener> extends AbstractHook<U, T>
 	@Override
 	public final void postUnregister()
 	{
-		this.removeAll();
+		this.removeAll(this.objects);
 		this.postUnregisterInternal();
 	}
 	

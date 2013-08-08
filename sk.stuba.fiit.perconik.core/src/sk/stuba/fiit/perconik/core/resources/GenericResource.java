@@ -10,10 +10,10 @@ final class GenericResource<T extends Listener> extends AbstractResource<T>
 	{
 		super(pool);
 		
-		this.name = this.name(pool);
+		this.name = name(pool);
 	}
 	
-	private final String name(final Pool<T> pool)
+	private static final String name(final Pool<?> pool)
 	{
 		return pool.toString().replace("Pool", "") + "Resource";
 	}

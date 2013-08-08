@@ -19,13 +19,13 @@ final class GenericResourceService implements ResourceService
 	
 	GenericResourceService()
 	{
-		this.name      = this.name();
+		this.name      = name(this.getClass());
 		this.resources = Multimaps.synchronizedSetMultimap(HashMultimap.<Class<?>, Resource<?>>create());
 	}
 	
-	private final String name()
+	private static final String name(final Class<?> type)
 	{
-		return this.getClass().getCanonicalName();
+		return type.getClass().getCanonicalName();
 	}
 	
 	public final <T extends Listener> void register(final Class<T> type, final Resource<T> resource)

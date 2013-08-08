@@ -274,6 +274,14 @@ class Synchronized
 			}
 		}
 
+		public final Collection<U> objects()
+		{
+			synchronized (this.mutex)
+			{
+				return this.delegate.objects();
+			}
+		}
+
 		public final T forListener()
 		{
 			synchronized (this.mutex)

@@ -1,24 +1,24 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 
 abstract class AbstractHook<U, T extends Listener> extends Adapter implements Hook<U, T>
 {
-	final Set<U> objects;
+	final Collection<U> objects;
 	
 	final T listener;
 	
-	AbstractHook(final Set<U> objects, final T listener)
+	AbstractHook(final Collection<U> implementation, final T listener)
 	{
-		this.objects  = Preconditions.checkNotNull(objects);
+		this.objects  = Preconditions.checkNotNull(implementation);
 		this.listener = Preconditions.checkNotNull(listener);
 	}
 	
-	// TODO
-	final void addAll(final Set<U> objects)
+	final void addAll(final Collection<U> objects)
 	{
 		for (U object: objects)
 		{
@@ -26,12 +26,17 @@ abstract class AbstractHook<U, T extends Listener> extends Adapter implements Ho
 		}
 	}
 	
-	final void removeAll()
+	final void removeAll(final Collection<U> objects)
 	{
-		for (U object: this.objects)
+		for (U object: objects)
 		{
 			this.remove(object);
 		}
+	}
+	
+	public final Collection<U> objects()
+	{
+		return new ArrayList<>(this.objects);
 	}
 	
 	public final T forListener()

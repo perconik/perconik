@@ -19,11 +19,11 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 	{
 		super(builder.handler, builder.implementation);
 		
-		this.name     = this.name(this.handler);
+		this.name     = name(this.handler);
 		this.strategy = Preconditions.checkNotNull(builder.strategy);
 	}
 	
-	private final String name(final Handler<T> handler)
+	private static final String name(final Handler<?> handler)
 	{
 		String name = handler.getClass().getCanonicalName();
 		
