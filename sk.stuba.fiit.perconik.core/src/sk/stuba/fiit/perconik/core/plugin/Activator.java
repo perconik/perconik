@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
 import org.eclipse.ui.IStartup;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -10,7 +10,7 @@ import org.osgi.framework.BundleContext;
  * @author Pavol Zbell
  * @version 0.0.1
  */
-public class Activator extends AbstractUIPlugin
+public class Activator extends AbstractPlugin
 {
 	/**
 	 * The plug-in identifier.

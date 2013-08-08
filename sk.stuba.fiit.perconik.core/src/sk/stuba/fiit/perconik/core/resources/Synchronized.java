@@ -226,6 +226,8 @@ class Synchronized
 		}
 	}
 	
+	// TODO add sync hook
+	
 	static final <T extends Listener> Resource<T> resource(final Resource<T> resource)
 	{
 		return new SynchronizedResource<>(resource, new Object());

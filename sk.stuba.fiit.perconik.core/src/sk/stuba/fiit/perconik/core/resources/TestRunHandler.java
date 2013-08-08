@@ -10,13 +10,33 @@ enum TestRunHandler implements Handler<TestRunListener>
 {
 	INSTANCE;
 	
-	private static final class TestRunProxy extends org.eclipse.jdt.junit.TestRunListener
+	private static final class TestRunProxy extends org.eclipse.jdt.junit.TestRunListener implements TestRunListener
 	{
 		private final TestRunListener listener;
 		
 		public TestRunProxy(final TestRunListener listener)
 		{
 			this.listener = Preconditions.checkNotNull(listener);
+		}
+
+		public final void preRegister()
+		{
+			this.listener.preRegister();
+		}
+
+		public final void postRegister()
+		{
+			this.listener.postRegister();
+		}
+
+		public final void preUnregister()
+		{
+			this.listener.preUnregister();
+		}
+
+		public final void postUnregister()
+		{
+			this.listener.postUnregister();
 		}
 
 		@Override

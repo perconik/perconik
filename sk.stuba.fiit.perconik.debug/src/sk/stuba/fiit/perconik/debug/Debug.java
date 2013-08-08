@@ -1202,7 +1202,7 @@ public final class Debug
 	
 		Class<?> type       = window.getClass();
 		int      pagesCount = window.getPages().length;
-	
+
 		IWorkbenchPage activePage = window.getActivePage();
 		
 		builder.append("class: ").appendln(dumpClass(type));

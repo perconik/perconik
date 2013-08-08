@@ -1,11 +1,10 @@
 package sk.stuba.fiit.perconik.debug.plugin;
 
 import org.eclipse.ui.IStartup;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -13,7 +12,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
  * @author Pavol Zbell
  * @version 0.0.1
  */
-public class Activator extends AbstractUIPlugin
+public class Activator extends AbstractPlugin
 {
 	/**
 	 * The plug-in identifier.
@@ -24,19 +23,12 @@ public class Activator extends AbstractUIPlugin
 	 * The shared instance.
 	 */
 	private static Activator plugin;
-	
-	/**
-	 * The plug-in console. 
-	 */
-	private final PluginConsole console;
 
 	/**
-	 * The constructor
+	 * The constructor.
 	 */
 	public Activator()
 	{
-		this.console = PluginConsole.of(this);
-		
 		this.console.print("Constructing %s ... done", this.getClass().getCanonicalName());
 	}
 
@@ -82,6 +74,7 @@ public class Activator extends AbstractUIPlugin
 	public final void stop(final BundleContext context) throws Exception
 	{
 		DebugListeners.unregisterAll();
+		DebugListeners.printRegisteredMap(this.console);
 
 		this.console.put("Stopping %s ... ", PLUGIN_ID);
 		
@@ -90,10 +83,5 @@ public class Activator extends AbstractUIPlugin
 		super.stop(context);
 		
 		this.console.print("done");
-	}
-	
-	public final PluginConsole getConsole()
-	{
-		return this.console;
 	}
 }

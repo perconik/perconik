@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.ui;
 
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 
@@ -37,31 +39,29 @@ public final class Editors
 		return (ISourceViewer) editor.getAdapter(ITextOperationTarget.class);
 	}
 	
-// TODO rm?
-//
-//	public static final StyledText getStyledText(final IEditorPart editor)
-//	{
-//		ISourceViewer viewer = getSourceViewer(editor);
-//		
-//		if (viewer == null)
-//		{
-//			return null;
-//		}
-//
-//		return viewer.getTextWidget();
-//	}
-//
-//	public static final IDocument getDocument(final IEditorPart editor)
-//	{
-//		ISourceViewer viewer = getSourceViewer(editor);
-//		
-//		if (viewer == null)
-//		{
-//			return null;
-//		}
-//
-//		return viewer.getDocument();
-//	}
+	public static final StyledText getStyledText(final IEditorPart editor)
+	{
+		ISourceViewer viewer = getSourceViewer(editor);
+		
+		if (viewer == null)
+		{
+			return null;
+		}
+
+		return viewer.getTextWidget();
+	}
+
+	public static final IDocument getDocument(final IEditorPart editor)
+	{
+		ISourceViewer viewer = getSourceViewer(editor);
+		
+		if (viewer == null)
+		{
+			return null;
+		}
+
+		return viewer.getDocument();
+	}
 	
 	public static final IEditorPart waitForActiveEditor()
 	{

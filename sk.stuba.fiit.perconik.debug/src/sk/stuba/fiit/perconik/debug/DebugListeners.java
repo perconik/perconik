@@ -45,28 +45,28 @@ public final class DebugListeners
 		
 		// TODO load from configuration
 				
-		Listeners.register(new CommandChangeDebugListener(console));
-		Listeners.register(new CommandExecutionDebugListener(console));
-		Listeners.register(new CommandManagerChangeDebugListener(console));
-		Listeners.register(new CompletionDebugListener(console));
-		Listeners.register(new DebugEventsDebugListener(console));
-		Listeners.register(new DocumentChangeDebugListener(console));
-		Listeners.register(new FileBufferDebugListener(console));
-		Listeners.register(new JavaElementChangeDebugListener(console));
-		//Listeners.register(new LaunchDebugListener(console));
-		Listeners.register(new LaunchesDebugListener(console));
-		//Listeners.register(new LaunchConfigurationDebugListener(console));
-		Listeners.register(new OperationHistoryDebugListener(console));
-		Listeners.register(new PageDebugListener(console));
-		Listeners.register(new PartDebugListener(console));
-		Listeners.register(new PerspectiveDebugListener(console));
-		Listeners.register(new RefactoringExecutionDebugListener(console));
-		Listeners.register(new RefactoringHistoryDebugListener(console));
-		Listeners.register(new ResourceChangeDebugListener(console));
+//		Listeners.register(new CommandChangeDebugListener(console));
+//		Listeners.register(new CommandExecutionDebugListener(console));
+//		Listeners.register(new CommandManagerChangeDebugListener(console));
+//		Listeners.register(new CompletionDebugListener(console));
+//		Listeners.register(new DebugEventsDebugListener(console));
+//		Listeners.register(new DocumentChangeDebugListener(console));
+//		Listeners.register(new FileBufferDebugListener(console));
+//		Listeners.register(new JavaElementChangeDebugListener(console));
+//		//Listeners.register(new LaunchDebugListener(console));
+//		Listeners.register(new LaunchesDebugListener(console));
+//		//Listeners.register(new LaunchConfigurationDebugListener(console));
+//		Listeners.register(new OperationHistoryDebugListener(console));
+//		Listeners.register(new PageDebugListener(console));
+//		Listeners.register(new PartDebugListener(console));
+//		Listeners.register(new PerspectiveDebugListener(console));
+//		Listeners.register(new RefactoringExecutionDebugListener(console));
+//		Listeners.register(new RefactoringHistoryDebugListener(console));
+//		Listeners.register(new ResourceChangeDebugListener(console));
 		Listeners.register(new SelectionDebugListener(console));
-		Listeners.register(new TestRunDebugListener(console));
-		Listeners.register(new WindowDebugListener(console));
-		Listeners.register(new WorkbenchDebugListener(console));
+//		Listeners.register(new TestRunDebugListener(console));
+//		Listeners.register(new WindowDebugListener(console));
+//		Listeners.register(new WorkbenchDebugListener(console));
 	}
 	
 	public static final void unregisterAll()

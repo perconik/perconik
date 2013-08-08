@@ -13,11 +13,19 @@ import com.google.common.collect.Sets;
 
 final class GenericResourceService implements ResourceService
 {
+	private final String name;
+	
 	private final SetMultimap<Class<?>, Resource<?>> resources;
 	
 	GenericResourceService()
 	{
+		this.name      = this.name();
 		this.resources = Multimaps.synchronizedSetMultimap(HashMultimap.<Class<?>, Resource<?>>create());
+	}
+	
+	private final String name()
+	{
+		return this.getClass().getCanonicalName();
 	}
 	
 	public final <T extends Listener> void register(final Class<T> type, final Resource<T> resource)
@@ -108,5 +116,16 @@ final class GenericResourceService implements ResourceService
 		}
 		
 		return result;
+	}
+
+	@Override
+	public final String toString()
+	{
+		return this.getName();
+	}
+
+	public final String getName()
+	{
+		return this.name;
 	}
 }
