@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.debug;
 
-import java.util.Set;
+import java.util.Collections;
+import java.util.List;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
+import com.google.common.collect.Lists;
 
 public final class DebugResources
 {
@@ -30,10 +32,12 @@ public final class DebugResources
 		
 		builder.appendln("Registered resources:").tab();
 		
-		Set<Resource<?>> resources = Resources.registered();
+		List<Resource<?>> resources = Lists.newArrayList(Resources.registered());
 
 		if (!resources.isEmpty())
 		{
+			Collections.sort(resources, Strings.toStringComparator());
+			
 			for (Resource<?> resource: resources)
 			{
 				builder.appendln(toString(resource));

@@ -1,36 +1,21 @@
 package sk.stuba.fiit.perconik.debug;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.debug.listeners.CommandChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CommandExecutionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CommandManagerChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CompletionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.DebugEventsDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.DocumentChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.FileBufferDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.JavaElementChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchesDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.OperationHistoryDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PageDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PerspectiveDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.RefactoringExecutionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.RefactoringHistoryDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.ResourceChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.SelectionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.TestRunDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.WindowDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.WorkbenchDebugListener;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public final class DebugListeners
 {
@@ -103,10 +88,12 @@ public final class DebugListeners
 		
 		builder.appendln("Registered listeners:").tab();
 		
-		Collection<? extends Listener> listeners = Listeners.registered(type);
-		
+		List<? extends Listener> listeners = Lists.newArrayList(Listeners.registered(type));
+
 		if (!listeners.isEmpty())
 		{
+			Collections.sort(listeners, Strings.toStringComparator());
+			
 			for (Listener listener: listeners)
 			{
 				builder.appendln(toString(listener));
@@ -126,7 +113,9 @@ public final class DebugListeners
 		
 		builder.appendln("Registered resource to listeners map:").tab();
 		
-		Map<Resource<?>, Collection<Listener>> map = Listeners.registeredMap();
+		Map<Resource<?>, Collection<Listener>> map = Maps.newTreeMap(Strings.toStringComparator());
+		
+		map.putAll(Listeners.registeredMap());
 		
 		if (!map.isEmpty())
 		{
@@ -136,10 +125,12 @@ public final class DebugListeners
 				
 				builder.appendln(DebugResources.toString(resource)).tab();
 	
-				Collection<Listener> listeners = entry.getValue();
+				List<Listener> listeners = Lists.newArrayList(entry.getValue());
 				
 				if (!listeners.isEmpty())
 				{
+					Collections.sort(listeners, Strings.toStringComparator());
+					
 					for (Listener listener: listeners)
 					{
 						builder.appendln(toString(listener));
