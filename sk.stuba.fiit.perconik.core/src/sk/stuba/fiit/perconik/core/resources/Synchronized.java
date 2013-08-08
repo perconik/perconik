@@ -338,7 +338,7 @@ class Synchronized
 		return new SynchronizedHandler<>(handler, new Object());
 	}
 	
-	static final <U, T extends Listener> Hook<U, T> handler(final Hook<U, T> hook)
+	static final <U, T extends Listener> Hook<U, T> hook(final Hook<U, T> hook)
 	{
 		return new SynchronizedHook<>(hook, new Object());
 	}
