@@ -14,20 +14,44 @@ public final class Strings
 	
 	public static final String toCanonicalString(final Object o)
 	{
-		String result = o.toString();
-		
-		if (result == null)
-		{
-			return toDefaultString(o);
-		}
-		
 		String name = o.getClass().getCanonicalName();
 		
-		if (name == null || result != toDefaultString(o))
+		if (name == null)
 		{
-			return result;
+			return null;
 		}
 		
 		return name + "@" + Integer.toHexString(o.hashCode());
+	}
+	
+	public static final String toImplementedString(final Object o)
+	{
+		String result = o.toString();
+		
+		if (result == toDefaultString(o))
+		{
+			return null;
+		}
+		
+		return result;
+	}
+
+	public static final String toStringFallback(final Object o)
+	{
+		String result = toImplementedString(o);
+		
+		if (result != null)
+		{
+			return result;
+		}
+
+		result = toCanonicalString(o);
+		
+		if (result == null)
+		{
+			return result;
+		}
+
+		return toDefaultString(o);
 	}
 }

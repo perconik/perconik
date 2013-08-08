@@ -58,12 +58,12 @@ public final class DebugListeners
 //		//Listeners.register(new LaunchConfigurationDebugListener(console));
 //		Listeners.register(new OperationHistoryDebugListener(console));
 //		Listeners.register(new PageDebugListener(console));
-//		Listeners.register(new PartDebugListener(console));
+		Listeners.register(new PartDebugListener(console));
 //		Listeners.register(new PerspectiveDebugListener(console));
 //		Listeners.register(new RefactoringExecutionDebugListener(console));
 //		Listeners.register(new RefactoringHistoryDebugListener(console));
 //		Listeners.register(new ResourceChangeDebugListener(console));
-		Listeners.register(new SelectionDebugListener(console));
+//		Listeners.register(new SelectionDebugListener(console));
 //		Listeners.register(new TestRunDebugListener(console));
 //		Listeners.register(new WindowDebugListener(console));
 //		Listeners.register(new WorkbenchDebugListener(console));
@@ -79,7 +79,7 @@ public final class DebugListeners
 
 	public static final String toString(final Listener listener)
 	{
-		return Strings.toCanonicalString(listener);
+		return Strings.toStringFallback(listener);
 	}
 
 	public static final void printRegistered(final PluginConsole console)

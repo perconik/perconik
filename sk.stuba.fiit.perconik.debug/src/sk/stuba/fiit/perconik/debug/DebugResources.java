@@ -16,7 +16,7 @@ public final class DebugResources
 	
 	public static final String toString(final Resource<?> resource)
 	{
-		return Strings.toCanonicalString(resource);
+		return Strings.toStringFallback(resource);
 	}
 	
 	public static final void printRegistered(final PluginConsole console)
