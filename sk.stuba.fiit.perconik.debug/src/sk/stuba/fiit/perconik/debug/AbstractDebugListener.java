@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.debug;
 
 import java.util.Date;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.base.Preconditions;
 
 public abstract class AbstractDebugListener implements DebugListener
@@ -151,7 +152,7 @@ public abstract class AbstractDebugListener implements DebugListener
 	@Override
 	public String toString()
 	{
-		return this.getClass().getCanonicalName();
+		return Strings.toCanonicalString(this);
 	}
 
 	protected final void printHeader(final String title)

@@ -1,40 +1,21 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
-
-//TODO check if listener works after active window changes, probably not
+import sk.stuba.fiit.perconik.core.resources.PerspectiveHook.Support;
 
 enum PerspectiveHandler implements Handler<PerspectiveListener>
 {
 	INSTANCE;
 	
+	private final Support support = new Support();
+	
 	public final void register(final PerspectiveListener listener)
 	{
-		final Runnable addListener = new Runnable()
-		{
-			@Override
-			public final void run()
-			{
-				Workbenches.waitForActiveWindow().addPerspectiveListener(listener);
-			}
-		};
-	
-		Display.getDefault().asyncExec(addListener);
+		this.support.hook(DefaultResources.window, listener);
 	}
 
 	public final void unregister(final PerspectiveListener listener)
 	{
-		final Runnable removeListener = new Runnable()
-		{
-			@Override
-			public final void run()
-			{
-				Workbenches.waitForActiveWindow().removePerspectiveListener(listener);
-			}
-		};
-	
-		Display.getDefault().asyncExec(removeListener);
+		this.support.unhook(DefaultResources.window, listener);
 	}
 }

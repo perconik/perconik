@@ -1,40 +1,21 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
-
-//TODO check if listener works after active window changes, probably not
+import sk.stuba.fiit.perconik.core.resources.PartHook.Support;
 
 enum PartHandler implements Handler<PartListener>
 {
 	INSTANCE;
 	
+	private final Support support = new Support();
+	
 	public final void register(final PartListener listener)
 	{
-		final Runnable addListener = new Runnable()
-		{
-			@Override
-			public final void run()
-			{
-				Workbenches.waitForActivePage().addPartListener(listener);
-			}
-		};
-	
-		Display.getDefault().asyncExec(addListener);
+		this.support.hook(DefaultResources.page, listener);
 	}
 
 	public final void unregister(final PartListener listener)
 	{
-		final Runnable removeListener = new Runnable()
-		{
-			@Override
-			public final void run()
-			{
-				Workbenches.waitForActivePage().removePartListener(listener);
-			}
-		};
-	
-		Display.getDefault().asyncExec(removeListener);
+		this.support.unhook(DefaultResources.page, listener);
 	}
 }

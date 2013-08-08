@@ -1,11 +1,12 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import com.google.common.base.Preconditions;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import com.google.common.base.Preconditions;
 
 abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 {
+	// TODO compute names on toString() calls
+	
 	private final String name;
 	
 	private final InternalHandler<T, L> handler;
@@ -35,16 +36,14 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 	
 	private static final String name(final InternalHandler<?, ?> handler)
 	{
-		SmartStringBuilder name = new SmartStringBuilder();
-		
-		name.append(handler.listener.getClass().getCanonicalName());
+		String name = handler.getClass().getCanonicalName();
 		
 		if (name.isEmpty())
 		{
-			name.append(handler.listener.getClass().getName());
+			name = handler.getClass().getName();
 		}
 		
-		return name.replaceLast(".", ".Internal").replaceLast("Listener", "Hook").toString();
+		return name.replace("Handler", "Hook") + " for " + handler.listener;
 	}
 
 	@Override
