@@ -226,7 +226,94 @@ class Synchronized
 		}
 	}
 	
-	// TODO add sync hook
+	private static final class SynchronizedHook<U, T extends Listener> extends SynchronizedObject<Hook<U, T>> implements Hook<U, T>
+	{
+		private static final long serialVersionUID = 0L;
+
+		SynchronizedHook(final Hook<U, T> handler, final Object mutex)
+		{
+			super(handler, mutex);
+		}
+
+		@Override
+		public final boolean equals(final Object o)
+		{
+			if (o == this)
+			{
+				return true;
+			}
+
+			synchronized (this.mutex)
+			{
+				return this.delegate.equals(o);
+			}
+		}
+		
+		@Override
+		public final int hashCode()
+		{
+			synchronized (this.mutex)
+			{
+				return this.delegate.hashCode();
+			}
+		}
+
+		public final void add(final U object)
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.add(object);
+			}
+		}
+
+		public final void remove(final U object)
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.remove(object);
+			}
+		}
+
+		public final T forListener()
+		{
+			synchronized (this.mutex)
+			{
+				return this.delegate.forListener();
+			}
+		}
+
+		public final void preRegister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.preRegister();
+			}
+		}
+
+		public final void postRegister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.postRegister();
+			}
+		}
+
+		public final void preUnregister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.preUnregister();
+			}
+		}
+
+		public final void postUnregister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.preUnregister();
+			}
+		}
+	}
 	
 	static final <T extends Listener> Resource<T> resource(final Resource<T> resource)
 	{
@@ -241,5 +328,10 @@ class Synchronized
 	static final <T extends Listener> Handler<T> handler(final Handler<T> handler)
 	{
 		return new SynchronizedHandler<>(handler, new Object());
+	}
+	
+	static final <U, T extends Listener> Hook<U, T> handler(final Hook<U, T> hook)
+	{
+		return new SynchronizedHook<>(hook, new Object());
 	}
 }
