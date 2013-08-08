@@ -11,11 +11,26 @@ enum SelectionHandler implements Handler<SelectionListener>
 {
 	INSTANCE;
 
-	static final class InternalSelectionHook extends InternalHook<IWorkbenchWindow, SelectionListener> implements WindowListener
+	private static final class InternalSelectionHook extends InternalHook<IWorkbenchWindow, SelectionListener> implements WindowListener
 	{
 		InternalSelectionHook(final SelectionListener listener)
 		{
 			super(listener);
+		}
+		
+		private enum Factory implements HookFactory<SelectionListener>
+		{
+			INSTANCE;
+
+			public final Hook<?, SelectionListener> create(final SelectionListener listener)
+			{
+				return Synchronized.hook(new InternalSelectionHook(listener));
+			}
+		}
+		
+		static HookFactory<SelectionListener> getHookFactory()
+		{
+			return Factory.INSTANCE;
 		}
 
 		@Override
@@ -64,7 +79,7 @@ enum SelectionHandler implements Handler<SelectionListener>
 		}
 	}
 	
-	private final HookSupport<InternalSelectionHook, SelectionListener> support = new HookSupport<>();
+	private final HookSupport<InternalSelectionHook, SelectionListener> support = HookSupport.using(InternalSelectionHook.getHookFactory());
 	
 	public final void add(final SelectionListener listener)
 	{

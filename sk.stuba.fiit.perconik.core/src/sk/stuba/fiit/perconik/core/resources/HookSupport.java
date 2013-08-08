@@ -8,14 +8,19 @@ import com.google.common.collect.Maps;
 
 final class HookSupport<H extends Hook<?, T>, T extends Listener>
 {
-	private final HookFactory<H, T> factory;
+	private final HookFactory<T> factory;
 	
 	private final Map<T, H> hooks;
 	
-	HookSupport(final HookFactory<H, T> factory)
+	private HookSupport(final HookFactory<T> factory)
 	{
 		this.factory = Preconditions.checkNotNull(factory);
 		this.hooks   = Maps.newHashMap();
+	}
+	
+	static final <H extends Hook<?, T>, T extends Listener> HookSupport<H, T> using(final HookFactory<T> factory)
+	{
+		return new HookSupport<>(factory);
 	}
 	
 	final void hook(final Resource<? super H> resource, final T listener)
@@ -24,7 +29,7 @@ final class HookSupport<H extends Hook<?, T>, T extends Listener>
 		
 		if (hook == null)
 		{
-			hook = this.factory.create(listener);
+			hook = (H) this.factory.create(listener);
 			
 			this.hooks.put(listener, hook);
 		}
