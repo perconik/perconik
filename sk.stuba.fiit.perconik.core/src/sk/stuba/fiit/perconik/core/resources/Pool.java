@@ -3,13 +3,13 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
 
-interface Pool<T extends Listener>
+interface Pool<L extends Listener>
 {
-	public boolean contains(T listener);
+	public boolean contains(L listener);
 	
-	public void add(T listener);
+	public void add(L listener);
 	
-	public void remove(T listener);
+	public void remove(L listener);
 	
-	public Collection<T> toCollection();
+	public Collection<L> toCollection();
 }

@@ -45,12 +45,12 @@ public final class Resources
 		return Resources.service.get();
 	}
 	
-	public static final <T extends Listener> void register(Class<T> type, Resource<T> resource)
+	public static final <L extends Listener> void register(Class<L> type, Resource<L> resource)
 	{
 		getResourceService().register(type, resource);
 	}
 
-	public static final <T extends Listener> void unregister(Class<T> type, Resource<T> resource)
+	public static final <L extends Listener> void unregister(Class<L> type, Resource<L> resource)
 	{
 		service.get().unregister(type, resource);
 	}
@@ -60,12 +60,12 @@ public final class Resources
 		return service.get().registered();
 	}
 
-	public static final <T extends Listener> Set<Resource<? super T>> registerable(Class<T> type)
+	public static final <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type)
 	{
 		return service.get().registerable(type);
 	}
 	
-	public static final <T extends Listener> Set<Resource<? extends T>> assignable(Class<T> type)
+	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
 	{
 		return service.get().assignable(type);
 	}

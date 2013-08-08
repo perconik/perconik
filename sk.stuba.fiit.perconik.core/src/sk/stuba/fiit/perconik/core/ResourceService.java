@@ -4,13 +4,13 @@ import java.util.Set;
 
 public interface ResourceService
 {
-	public <T extends Listener> void register(Class<T> type, Resource<T> resource);
+	public <L extends Listener> void register(Class<L> type, Resource<L> resource);
 
-	public <T extends Listener> void unregister(Class<T> type, Resource<T> resource);
+	public <L extends Listener> void unregister(Class<L> type, Resource<L> resource);
 
 	public Set<Resource<?>> registered();
 
-	public <T extends Listener> Set<Resource<? super T>> registerable(Class<T> type);
+	public <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type);
 
-	public <T extends Listener> Set<Resource<? extends T>> assignable(Class<T> type);
+	public <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type);
 }

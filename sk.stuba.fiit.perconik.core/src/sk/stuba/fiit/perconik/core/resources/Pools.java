@@ -9,7 +9,7 @@ class Pools
 	{
 		INSTANCE;
 		
-		public final <T extends Listener> Pool<T> create(final Handler<T> handler)
+		public final <L extends Listener> Pool<L> create(final Handler<L> handler)
 		{
 			return Synchronized.pool(GenericPool.builder(handler).identity().hashSet().build());
 		}

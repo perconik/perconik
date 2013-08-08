@@ -24,11 +24,11 @@ enum SelectionHandler implements Handler<SelectionListener>
 
 			public final Hook<?, SelectionListener> create(final SelectionListener listener)
 			{
-				return Synchronized.hook(new InternalSelectionHook(listener));
+				return new InternalSelectionHook(listener);
 			}
 		}
 		
-		static HookFactory<SelectionListener> getHookFactory()
+		static final HookFactory<SelectionListener> getHookFactory()
 		{
 			return Factory.INSTANCE;
 		}

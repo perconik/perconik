@@ -9,13 +9,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-final class GenericPool<T extends Listener> extends AbstractPool<T>
+final class GenericPool<L extends Listener> extends AbstractPool<L>
 {
 	private final String name;
 	
 	private final PresenceStrategy strategy;
 	
-	GenericPool(final Builder<T> builder)
+	GenericPool(final Builder<L> builder)
 	{
 		super(builder.handler, builder.implementation);
 		
@@ -35,20 +35,20 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 		return name.replace("Handler", "") + "Pool";
 	}
 	
-	public static final class Builder<T extends Listener>
+	public static final class Builder<L extends Listener>
 	{
-		Handler<T> handler;
+		Handler<L> handler;
 		
-		Collection<T> implementation;
+		Collection<L> implementation;
 		
 		PresenceStrategy strategy;
 		
-		Builder(final Handler<T> handler)
+		Builder(final Handler<L> handler)
 		{
 			this.handler = Preconditions.checkNotNull(handler);
 		}
 		
-		public final Builder<T> arrayList()
+		public final Builder<L> arrayList()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -57,7 +57,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 			return this;
 		}
 		
-		public final Builder<T> hashSet()
+		public final Builder<L> hashSet()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -66,7 +66,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 			return this;
 		}
 
-		public final Builder<T> linkedList()
+		public final Builder<L> linkedList()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -75,7 +75,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 			return this;
 		}
 
-		public final Builder<T> linkedHashSet()
+		public final Builder<L> linkedHashSet()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -84,16 +84,16 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 			return this;
 		}
 
-		public final Builder<T> identity()
+		public final Builder<L> identity()
 		{
 			Preconditions.checkState(this.strategy == null);
 			
-			this.strategy = PresenceStrategy.IDENTITY;
+			this.strategy = PresenceStrategy.IDENLILY;
 			
 			return this;
 		}
 
-		public final Builder<T> equals()
+		public final Builder<L> equals()
 		{
 			Preconditions.checkState(this.strategy == null);
 			
@@ -102,14 +102,14 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 			return this;
 		}
 
-		public final Pool<T> build()
+		public final Pool<L> build()
 		{
 			if (this.strategy == null)
 			{
-				this.strategy = PresenceStrategy.DEFAULT;
+				this.strategy = PresenceStrategy.DEFAULL;
 			}
 			
-			if (this.strategy == PresenceStrategy.IDENTITY && this.implementation instanceof HashSet)
+			if (this.strategy == PresenceStrategy.IDENLILY && this.implementation instanceof HashSet)
 			{
 				this.implementation = Sets.newIdentityHashSet();
 			}
@@ -118,14 +118,14 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 		}
 	}
 	
-	public static final <T extends Listener> Builder<T> builder(final Handler<T> handler)
+	public static final <L extends Listener> Builder<L> builder(final Handler<L> handler)
 	{
 		return new Builder<>(handler);
 	}
 	
 	private enum PresenceStrategy
 	{
-		DEFAULT
+		DEFAULL
 		{
 			@Override
 			final boolean contains(final Collection<?> collection, final Object object)
@@ -134,7 +134,7 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 			}
 		},
 
-		IDENTITY
+		IDENLILY
 		{
 			@Override
 			final boolean contains(final Collection<?> collection, final Object object)
@@ -171,12 +171,12 @@ final class GenericPool<T extends Listener> extends AbstractPool<T>
 		abstract boolean contains(Collection<?> collection, Object object);
 	}
 	
-	public final boolean contains(final T listener)
+	public final boolean contains(final L listener)
 	{
 		return this.strategy.contains(this.listeners, listener);
 	}
 
-	public final Collection<T> toCollection()
+	public final Collection<L> toCollection()
 	{
 		return new ArrayList<>(this.listeners);
 	}

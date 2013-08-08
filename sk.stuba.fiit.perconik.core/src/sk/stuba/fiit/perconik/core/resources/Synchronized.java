@@ -47,11 +47,11 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedResource<T extends Listener> extends SynchronizedObject<Resource<T>> implements Resource<T>
+	private static final class SynchronizedResource<L extends Listener> extends SynchronizedObject<Resource<L>> implements Resource<L>
 	{
 		private static final long serialVersionUID = 0L;
 
-		SynchronizedResource(final Resource<T> resource, final Object mutex)
+		SynchronizedResource(final Resource<L> resource, final Object mutex)
 		{
 			super(resource, mutex);
 		}
@@ -79,7 +79,7 @@ class Synchronized
 			}
 		}
 		
-		public final void register(final T listener)
+		public final void register(final L listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -87,7 +87,7 @@ class Synchronized
 			}
 		}
 
-		public final void unregister(final T listener)
+		public final void unregister(final L listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -112,11 +112,11 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedPool<T extends Listener> extends SynchronizedObject<Pool<T>> implements Pool<T>
+	private static final class SynchronizedPool<L extends Listener> extends SynchronizedObject<Pool<L>> implements Pool<L>
 	{
 		private static final long serialVersionUID = 0L;
 
-		SynchronizedPool(final Pool<T> pool, final Object mutex)
+		SynchronizedPool(final Pool<L> pool, final Object mutex)
 		{
 			super(pool, mutex);
 		}
@@ -144,7 +144,7 @@ class Synchronized
 			}
 		}
 
-		public final boolean contains(final T listener)
+		public final boolean contains(final L listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -152,7 +152,7 @@ class Synchronized
 			}
 		}
 		
-		public final void add(final T listener)
+		public final void add(final L listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -160,7 +160,7 @@ class Synchronized
 			}
 		}
 		
-		public final void remove(final T listener)
+		public final void remove(final L listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -168,7 +168,7 @@ class Synchronized
 			}
 		}
 		
-		public final Collection<T> toCollection()
+		public final Collection<L> toCollection()
 		{
 			synchronized (this.mutex)
 			{
@@ -177,11 +177,11 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedHandler<T extends Listener> extends SynchronizedObject<Handler<T>> implements Handler<T>
+	private static final class SynchronizedHandler<L extends Listener> extends SynchronizedObject<Handler<L>> implements Handler<L>
 	{
 		private static final long serialVersionUID = 0L;
 
-		SynchronizedHandler(final Handler<T> handler, final Object mutex)
+		SynchronizedHandler(final Handler<L> handler, final Object mutex)
 		{
 			super(handler, mutex);
 		}
@@ -209,7 +209,7 @@ class Synchronized
 			}
 		}
 
-		public final void add(final T listener)
+		public final void add(final L listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -217,7 +217,7 @@ class Synchronized
 			}
 		}
 
-		public final void remove(final T listener)
+		public final void remove(final L listener)
 		{
 			synchronized (this.mutex)
 			{

@@ -2,11 +2,11 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 
-final class GenericResource<T extends Listener> extends AbstractResource<T>
+final class GenericResource<L extends Listener> extends AbstractResource<L>
 {
 	private final String name;
 	
-	GenericResource(final Pool<T> pool)
+	GenericResource(final Pool<L> pool)
 	{
 		super(pool);
 		

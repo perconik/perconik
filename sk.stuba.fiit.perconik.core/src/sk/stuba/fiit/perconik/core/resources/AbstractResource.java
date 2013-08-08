@@ -6,16 +6,16 @@ import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
-abstract class AbstractResource<T extends Listener> implements Resource<T>
+abstract class AbstractResource<L extends Listener> implements Resource<L>
 {
-	private final Pool<T> pool;
+	private final Pool<L> pool;
 	
-	AbstractResource(final Pool<T> pool)
+	AbstractResource(final Pool<L> pool)
 	{
 		this.pool = Preconditions.checkNotNull(pool);
 	}
 	
-	public final void register(final T listener)
+	public final void register(final L listener)
 	{
 		listener.preRegister();
 		
@@ -24,7 +24,7 @@ abstract class AbstractResource<T extends Listener> implements Resource<T>
 		listener.postRegister();
 	}
 	
-	public final void unregister(final T listener)
+	public final void unregister(final L listener)
 	{
 		listener.preUnregister();
 		
@@ -35,7 +35,7 @@ abstract class AbstractResource<T extends Listener> implements Resource<T>
 	
 	public final void unregisterAll(final Class<? extends Listener> type)
 	{
-		for (T listener: this.pool.toCollection())
+		for (L listener: this.pool.toCollection())
 		{
 			if (type.isInstance(listener))
 			{
@@ -46,10 +46,10 @@ abstract class AbstractResource<T extends Listener> implements Resource<T>
 	
 	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{
-		Collection<T> listeners = this.pool.toCollection();
+		Collection<L> listeners = this.pool.toCollection();
 		Collection<U> filtered  = Lists.newArrayListWithCapacity(listeners.size());
 		
-		for (T listener: listeners)
+		for (L listener: listeners)
 		{
 			if (type.isInstance(listener))
 			{

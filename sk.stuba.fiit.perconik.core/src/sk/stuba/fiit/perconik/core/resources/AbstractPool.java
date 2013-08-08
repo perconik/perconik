@@ -4,19 +4,19 @@ import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 
-abstract class AbstractPool<T extends Listener> implements Pool<T>
+abstract class AbstractPool<L extends Listener> implements Pool<L>
 {
-	final Handler<T> handler;
+	final Handler<L> handler;
 	
-	final Collection<T> listeners;
+	final Collection<L> listeners;
 	
-	AbstractPool(final Handler<T> handler, final Collection<T> implementation)
+	AbstractPool(final Handler<L> handler, final Collection<L> implementation)
 	{
 		this.handler   = Preconditions.checkNotNull(handler);
 		this.listeners = Preconditions.checkNotNull(implementation);
 	}
 	
-	public final void add(final T listener)
+	public final void add(final L listener)
 	{
 		if (!this.contains(listener))
 		{
@@ -25,7 +25,7 @@ abstract class AbstractPool<T extends Listener> implements Pool<T>
 		}
 	}
 	
-	public final void remove(final T listener)
+	public final void remove(final L listener)
 	{
 		this.handler.remove(listener);
 		this.listeners.remove(listener);

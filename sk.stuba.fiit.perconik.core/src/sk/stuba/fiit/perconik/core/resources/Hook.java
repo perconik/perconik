@@ -12,4 +12,11 @@ interface Hook<U, T extends Listener> extends Listener
 	public Collection<U> objects();
 	
 	public T forListener();
+
+	// TODO
+//	public Collection<T> getObjects();
+//	
+//	public U getListener();
+//	
+//	public L forListener();
 }

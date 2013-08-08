@@ -28,7 +28,7 @@ final class GenericResourceService implements ResourceService
 		return type.getClass().getCanonicalName();
 	}
 	
-	public final <T extends Listener> void register(final Class<T> type, final Resource<T> resource)
+	public final <L extends Listener> void register(final Class<L> type, final Resource<L> resource)
 	{
 		Preconditions.checkNotNull(type);
 		Preconditions.checkNotNull(resource);
@@ -36,7 +36,7 @@ final class GenericResourceService implements ResourceService
 		this.resources.put(type, resource);
 	}
 	
-	public final <T extends Listener> void unregister(final Class<T> type, final Resource<T> resource)
+	public final <L extends Listener> void unregister(final Class<L> type, final Resource<L> resource)
 	{
 		resource.unregisterAll(type);
 		
@@ -48,9 +48,9 @@ final class GenericResourceService implements ResourceService
 		return Sets.newHashSet(this.resources.values());
 	}
 
-	public final <T extends Listener> Set<Resource<? super T>> registerable(final Class<T> type)
+	public final <L extends Listener> Set<Resource<? super L>> registerable(final Class<L> type)
 	{
-		Set<Resource<? super T>> result = Sets.newHashSet();
+		Set<Resource<? super L>> result = Sets.newHashSet();
 		
 		for (Entry<Class<?>, Resource<?>> entry: this.resources.entries())
 		{
@@ -71,22 +71,22 @@ final class GenericResourceService implements ResourceService
 			
 			if (matched)
 			{
-				result.add((Resource<? super T>) entry.getValue());
+				result.add((Resource<? super L>) entry.getValue());
 			}
 		}
 		
 		return result;
 	}
 
-	public final <T extends Listener> Set<Resource<? extends T>> assignable(final Class<T> type)
+	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
 	{
-		Set<Resource<? extends T>> result = Sets.newHashSet();
+		Set<Resource<? extends L>> result = Sets.newHashSet();
 		
 		for (Entry<Class<?>, Resource<?>> entry: this.resources.entries())
 		{
 			boolean matched = type.isAssignableFrom(entry.getKey());
 
-// TODO improve matching
+// LODO improve matching
 //
 //			if (!matched)
 //			{
@@ -116,7 +116,7 @@ final class GenericResourceService implements ResourceService
 			
 			if (matched)
 			{
-				result.add((Resource<? extends T>) entry.getValue());
+				result.add((Resource<? extends L>) entry.getValue());
 			}
 		}
 		

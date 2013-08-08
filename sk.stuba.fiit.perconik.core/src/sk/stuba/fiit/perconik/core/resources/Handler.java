@@ -2,9 +2,9 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 
-interface Handler<T extends Listener>
+interface Handler<L extends Listener>
 {
-	public void add(T listener);
+	public void add(L listener);
 	
-	public void remove(T listener);
+	public void remove(L listener);
 }

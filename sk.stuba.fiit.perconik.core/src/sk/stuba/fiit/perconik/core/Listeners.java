@@ -13,17 +13,17 @@ public final class Listeners
 		throw new AssertionError();
 	}
 
-	public static final <T extends Listener> void register(final T listener)
+	public static final <L extends Listener> void register(final L listener)
 	{
-		for(Resource<? super T> resource: Resources.registerable((Class<T>) listener.getClass()))
+		for(Resource<? super L> resource: Resources.registerable((Class<L>) listener.getClass()))
 		{
 			resource.register(listener);
 		}
 	}
 
-	public static final <T extends Listener> void unregister(final T listener)
+	public static final <L extends Listener> void unregister(final L listener)
 	{
-		for(Resource<? super T> resource: Resources.registerable((Class<T>) listener.getClass()))
+		for(Resource<? super L> resource: Resources.registerable((Class<L>) listener.getClass()))
 		{
 			resource.unregister(listener);
 		}
@@ -34,11 +34,11 @@ public final class Listeners
 		return registered(Listener.class);
 	}
 	
-	public static final <T extends Listener> Collection<T> registered(final Class<T> type)
+	public static final <L extends Listener> Collection<L> registered(final Class<L> type)
 	{
-		List<T> listeners = Lists.newArrayList();
+		List<L> listeners = Lists.newArrayList();
 		
-		for (Resource<? extends T> resource: Resources.assignable(type))
+		for (Resource<? extends L> resource: Resources.assignable(type))
 		{
 			listeners.addAll(resource.registered(type));
 		}

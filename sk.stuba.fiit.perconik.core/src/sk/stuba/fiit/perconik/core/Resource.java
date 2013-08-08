@@ -2,11 +2,11 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Collection;
 
-public interface Resource<T extends Listener>
+public interface Resource<L extends Listener>
 {
-	public void register(T listener);
+	public void register(L listener);
 	
-	public void unregister(T listener);
+	public void unregister(L listener);
 	
 	public void unregisterAll(Class<? extends Listener> type);
 	
