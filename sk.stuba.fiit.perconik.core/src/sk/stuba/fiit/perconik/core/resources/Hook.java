@@ -3,21 +3,13 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
 
-interface Hook<U, T extends Listener> extends Listener
+interface Hook<T, L extends Listener> extends Listener
 {
-	// TODO refactor
-	public void add(U object);
+	public void add(T object);
 
-	public void remove(U object);
+	public void remove(T object);
 	
-	public Collection<U> objects();
+	public Collection<T> toCollection();
 	
-	public T forListener();
-
-	// TODO
-//	public Collection<T> getObjects();
-//	
-//	public U getListener();
-//	
-//	public L forListener();
+	public L forListener();
 }

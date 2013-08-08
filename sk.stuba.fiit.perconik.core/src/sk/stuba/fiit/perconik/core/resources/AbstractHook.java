@@ -1,46 +1,47 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 
-abstract class AbstractHook<U, T extends Listener> extends Adapter implements Hook<U, T>
+abstract class AbstractHook<T, L extends Listener> extends Adapter implements Hook<T, L>
 {
-	final Collection<U> objects;
+	private final Pool<T> pool;
 	
-	final T listener;
-	
-	AbstractHook(final Collection<U> implementation, final T listener)
+	AbstractHook(final Pool<T> pool)
 	{
-		this.objects  = Preconditions.checkNotNull(implementation);
-		this.listener = Preconditions.checkNotNull(listener);
+		this.pool = Preconditions.checkNotNull(pool);
 	}
 	
-	final void addAll(final Collection<U> objects)
+	public final void add(final T object)
 	{
-		for (U object: objects)
+		this.pool.add(object);
+	}
+
+	final void addAll(final Collection<T> objects)
+	{
+		for (T object: objects)
 		{
 			this.add(object);
 		}
 	}
-	
-	final void removeAll(final Collection<U> objects)
+
+	public final void remove(final T object)
 	{
-		for (U object: objects)
+		this.pool.remove(object);
+	}
+	
+	final void removeAll(final Collection<T> objects)
+	{
+		for (T object: objects)
 		{
 			this.remove(object);
 		}
 	}
 	
-	public final Collection<U> objects()
+	public final Collection<T> toCollection()
 	{
-		return new ArrayList<>(this.objects);
-	}
-	
-	public final T forListener()
-	{
-		return this.listener;
+		return this.pool.toCollection();
 	}
 }

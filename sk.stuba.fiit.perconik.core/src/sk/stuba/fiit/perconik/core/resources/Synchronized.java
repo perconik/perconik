@@ -112,11 +112,11 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedPool<L extends Listener> extends SynchronizedObject<Pool<L>> implements Pool<L>
+	private static final class SynchronizedPool<T> extends SynchronizedObject<Pool<T>> implements Pool<T>
 	{
 		private static final long serialVersionUID = 0L;
 
-		SynchronizedPool(final Pool<L> pool, final Object mutex)
+		SynchronizedPool(final Pool<T> pool, final Object mutex)
 		{
 			super(pool, mutex);
 		}
@@ -144,7 +144,7 @@ class Synchronized
 			}
 		}
 
-		public final boolean contains(final L listener)
+		public final boolean contains(final T listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -152,7 +152,7 @@ class Synchronized
 			}
 		}
 		
-		public final void add(final L listener)
+		public final void add(final T listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -160,7 +160,7 @@ class Synchronized
 			}
 		}
 		
-		public final void remove(final L listener)
+		public final void remove(final T listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -168,7 +168,7 @@ class Synchronized
 			}
 		}
 		
-		public final Collection<L> toCollection()
+		public final Collection<T> toCollection()
 		{
 			synchronized (this.mutex)
 			{
@@ -177,11 +177,11 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedHandler<L extends Listener> extends SynchronizedObject<Handler<L>> implements Handler<L>
+	private static final class SynchronizedHandler<T> extends SynchronizedObject<Handler<T>> implements Handler<T>
 	{
 		private static final long serialVersionUID = 0L;
 
-		SynchronizedHandler(final Handler<L> handler, final Object mutex)
+		SynchronizedHandler(final Handler<T> handler, final Object mutex)
 		{
 			super(handler, mutex);
 		}
@@ -209,7 +209,7 @@ class Synchronized
 			}
 		}
 
-		public final void register(final L listener)
+		public final void register(final T listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -217,7 +217,7 @@ class Synchronized
 			}
 		}
 
-		public final void unregister(final L listener)
+		public final void unregister(final T listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -226,11 +226,11 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedHook<U, T extends Listener> extends SynchronizedObject<Hook<U, T>> implements Hook<U, T>
+	private static final class SynchronizedHook<T, L extends Listener> extends SynchronizedObject<Hook<T, L>> implements Hook<T, L>
 	{
 		private static final long serialVersionUID = 0L;
 
-		SynchronizedHook(final Hook<U, T> handler, final Object mutex)
+		SynchronizedHook(final Hook<T, L> handler, final Object mutex)
 		{
 			super(handler, mutex);
 		}
@@ -258,7 +258,7 @@ class Synchronized
 			}
 		}
 
-		public final void add(final U object)
+		public final void add(final T object)
 		{
 			synchronized (this.mutex)
 			{
@@ -266,7 +266,7 @@ class Synchronized
 			}
 		}
 
-		public final void remove(final U object)
+		public final void remove(final T object)
 		{
 			synchronized (this.mutex)
 			{
@@ -274,15 +274,15 @@ class Synchronized
 			}
 		}
 
-		public final Collection<U> objects()
+		public final Collection<T> toCollection()
 		{
 			synchronized (this.mutex)
 			{
-				return this.delegate.objects();
+				return this.delegate.toCollection();
 			}
 		}
 
-		public final T forListener()
+		public final L forListener()
 		{
 			synchronized (this.mutex)
 			{
@@ -323,22 +323,22 @@ class Synchronized
 		}
 	}
 	
-	static final <T extends Listener> Resource<T> resource(final Resource<T> resource)
+	static final <L extends Listener> Resource<L> resource(final Resource<L> resource)
 	{
 		return new SynchronizedResource<>(resource, new Object());
 	}
 	
-	static final <T extends Listener> Pool<T> pool(final Pool<T> pool)
+	static final <T> Pool<T> pool(final Pool<T> pool)
 	{
 		return new SynchronizedPool<>(pool, new Object());
 	}
 	
-	static final <T extends Listener> Handler<T> handler(final Handler<T> handler)
+	static final <T> Handler<T> handler(final Handler<T> handler)
 	{
 		return new SynchronizedHandler<>(handler, new Object());
 	}
 	
-	static final <U, T extends Listener> Hook<U, T> hook(final Hook<U, T> hook)
+	static final <T, L extends Listener> Hook<T, L> hook(final Hook<T, L> hook)
 	{
 		return new SynchronizedHook<>(hook, new Object());
 	}

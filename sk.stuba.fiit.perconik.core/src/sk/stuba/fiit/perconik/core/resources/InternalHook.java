@@ -1,72 +1,57 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
+import com.google.common.base.Preconditions;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-import com.google.common.collect.Sets;
 
-abstract class InternalHook<U, T extends Listener> extends AbstractHook<U, T>
+abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 {
 	private final String name;
 	
-	InternalHook(final T listener)
+	private final InternalHandler<T, L> handler;
+	
+	InternalHook(final InternalHandler<T, L> handler)
 	{
-		this(Collections.<U>emptySet(), listener);
+		super(pool(handler));
+		
+		this.name    = name(handler);
+		this.handler = Preconditions.checkNotNull(handler);
+	}
+
+	static abstract class InternalHandler<T, L extends Listener> implements Handler<T>
+	{
+		final L listener;
+		
+		InternalHandler(final L listener)
+		{
+			this.listener = Preconditions.checkNotNull(listener);
+		}
 	}
 	
-	InternalHook(final Collection<U> objects, final T listener)
+	private static final <T> Pool<T> pool(final InternalHandler<T, ?> handler)
 	{
-		super(set(objects), listener);
-		
-		this.name = name(listener);
+		return Pools.getObjectPoolFactory().create(handler);
 	}
 	
-	private static final <U> Set<U> set(final Collection<U> objects)
-	{
-		Set<U> set = Sets.newIdentityHashSet();
-		
-		set.addAll(objects);
-		
-		return set;
-	}
-	
-	private static final String name(final Listener listener)
+	private static final String name(final InternalHandler<?, ?> handler)
 	{
 		SmartStringBuilder name = new SmartStringBuilder();
 		
-		name.append(listener.getClass().getCanonicalName());
+		name.append(handler.listener.getClass().getCanonicalName());
 		
 		if (name.isEmpty())
 		{
-			name.append(listener.getClass().getName());
+			name.append(handler.listener.getClass().getName());
 		}
 		
 		return name.replaceLast(".", ".Internal").replaceLast("Listener", "Hook").toString();
 	}
 
-	public final void add(final U object)
-	{
-		this.objects.add(object);
-		this.addInternal(object);
-	}
-
-	public final void remove(final U object)
-	{
-		this.removeInternal(object);
-		this.objects.remove(object);
-	}
-	
-	abstract void addInternal(U object);
-	
-	abstract void removeInternal(U object);
-
 	@Override
 	public final void preRegister()
 	{
 		this.preRegisterInternal();
-		this.addAll(this.objects);
+		this.addAll(this.toCollection());
 	}
 
 	@Override
@@ -84,7 +69,7 @@ abstract class InternalHook<U, T extends Listener> extends AbstractHook<U, T>
 	@Override
 	public final void postUnregister()
 	{
-		this.removeAll(this.objects);
+		this.removeAll(this.toCollection());
 		this.postUnregisterInternal();
 	}
 	
@@ -104,6 +89,11 @@ abstract class InternalHook<U, T extends Listener> extends AbstractHook<U, T>
 	{
 	}
 	
+	public final L forListener()
+	{
+		return this.handler.listener;
+	}
+
 	@Override
 	public final String toString()
 	{

@@ -5,14 +5,14 @@ import com.google.common.base.Preconditions;
 
 abstract class AbstractPool<T> implements Pool<T>
 {
+	final Collection<T> objects;
+	
 	final Handler<T> handler;
 	
-	final Collection<T> listeners;
-	
-	AbstractPool(final Handler<T> handler, final Collection<T> implementation)
+	AbstractPool(final Collection<T> implementation, final Handler<T> handler)
 	{
-		this.handler   = Preconditions.checkNotNull(handler);
-		this.listeners = Preconditions.checkNotNull(implementation);
+		this.objects = Preconditions.checkNotNull(implementation);
+		this.handler = Preconditions.checkNotNull(handler);
 	}
 	
 	public final void add(final T listener)
@@ -20,13 +20,13 @@ abstract class AbstractPool<T> implements Pool<T>
 		if (!this.contains(listener))
 		{
 			this.handler.register(listener);
-			this.listeners.add(listener);
+			this.objects.add(listener);
 		}
 	}
 	
 	public final void remove(final T listener)
 	{
 		this.handler.unregister(listener);
-		this.listeners.remove(listener);
+		this.objects.remove(listener);
 	}
 }

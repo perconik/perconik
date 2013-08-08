@@ -1,34 +1,45 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 
 class Pools
 {
-	private enum DefaultPoolFactory implements ListenerPoolFactory
+	private enum DefaultPoolFactory implements PoolFactory
 	{
 		INSTANCE;
 		
-		public final <L extends Listener> Pool<L> create(final Handler<L> handler)
+		public final <T> Pool<T> create(final Handler<T> handler)
 		{
 			return Synchronized.pool(GenericPool.builder(handler).identity().hashSet().build());
 		}
 	}
 	
-	private static ListenerPoolFactory factory = DefaultPoolFactory.INSTANCE;
+	private static PoolFactory objectPoolFactory = DefaultPoolFactory.INSTANCE;
+	
+	private static PoolFactory listenerPoolFactory = DefaultPoolFactory.INSTANCE;
 	
 	private Pools()
 	{
 		throw new AssertionError();
 	}
-
-	static final void setListenerPoolFactory(final ListenerPoolFactory factory)
+	
+	static final void setObjectPoolFactory(final PoolFactory factory)
 	{
-		Pools.factory = Preconditions.checkNotNull(factory);
+		objectPoolFactory = Preconditions.checkNotNull(factory);
 	}
 	
-	public static final ListenerPoolFactory getListenerPoolFactory()
+	static final void setListenerPoolFactory(final PoolFactory factory)
 	{
-		return Pools.factory;
+		listenerPoolFactory = Preconditions.checkNotNull(factory);
+	}
+
+	static final PoolFactory getObjectPoolFactory()
+	{
+		return objectPoolFactory;
+	}
+	
+	static final PoolFactory getListenerPoolFactory()
+	{
+		return listenerPoolFactory;
 	}
 }

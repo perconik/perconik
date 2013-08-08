@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -17,7 +16,7 @@ final class GenericPool<T> extends AbstractPool<T>
 	
 	GenericPool(final Builder<T> builder)
 	{
-		super(builder.handler, builder.implementation);
+		super(builder.implementation, builder.handler);
 		
 		this.name     = name(this.handler);
 		this.strategy = Preconditions.checkNotNull(builder.strategy);
@@ -118,7 +117,7 @@ final class GenericPool<T> extends AbstractPool<T>
 		}
 	}
 	
-	public static final <L extends Listener> Builder<L> builder(final Handler<L> handler)
+	public static final <T> Builder<T> builder(final Handler<T> handler)
 	{
 		return new Builder<>(handler);
 	}
@@ -173,12 +172,12 @@ final class GenericPool<T> extends AbstractPool<T>
 	
 	public final boolean contains(final T listener)
 	{
-		return this.strategy.contains(this.listeners, listener);
+		return this.strategy.contains(this.objects, listener);
 	}
 
 	public final Collection<T> toCollection()
 	{
-		return new ArrayList<>(this.listeners);
+		return new ArrayList<>(this.objects);
 	}
 	
 	@Override
