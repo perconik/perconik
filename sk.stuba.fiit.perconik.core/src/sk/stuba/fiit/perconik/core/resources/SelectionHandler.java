@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import java.util.Arrays;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
@@ -14,7 +15,7 @@ enum SelectionHandler implements Handler<SelectionListener>
 	{
 		InternalSelectionHook(final SelectionListener listener)
 		{
-			super(null, listener);
+			super(listener);
 		}
 
 		@Override
@@ -37,10 +38,7 @@ enum SelectionHandler implements Handler<SelectionListener>
 				@Override
 				public final void run()
 				{
-					for (IWorkbenchWindow window: Workbenches.waitForWorkbench().getWorkbenchWindows())
-					{
-						add(window);
-					}
+					addAll(Arrays.asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
 				}
 			};
 		

@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
@@ -9,6 +10,11 @@ import com.google.common.collect.Sets;
 abstract class InternalHook<U, T extends Listener> extends AbstractHook<U, T>
 {
 	private final String name;
+	
+	InternalHook(final T listener)
+	{
+		this(Collections.<U>emptySet(), listener);
+	}
 	
 	InternalHook(final Collection<U> objects, final T listener)
 	{
