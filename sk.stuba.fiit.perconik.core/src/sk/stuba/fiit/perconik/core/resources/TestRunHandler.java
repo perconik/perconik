@@ -88,12 +88,12 @@ enum TestRunHandler implements Handler<TestRunListener>
 		}
 	}
 	
-	public final void add(final TestRunListener listener)
+	public final void register(final TestRunListener listener)
 	{
 		JUnitCore.addTestRunListener(new TestRunProxy(listener));
 	}
 
-	public final void remove(final TestRunListener listener)
+	public final void unregister(final TestRunListener listener)
 	{
 		JUnitCore.addTestRunListener(new TestRunProxy(listener));
 	}

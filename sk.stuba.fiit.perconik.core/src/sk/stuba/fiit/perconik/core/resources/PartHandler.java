@@ -10,7 +10,7 @@ enum PartHandler implements Handler<PartListener>
 {
 	INSTANCE;
 	
-	public final void add(final PartListener listener)
+	public final void register(final PartListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -24,7 +24,7 @@ enum PartHandler implements Handler<PartListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final PartListener listener)
+	public final void unregister(final PartListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

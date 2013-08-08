@@ -9,13 +9,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-final class GenericPool<L extends Listener> extends AbstractPool<L>
+final class GenericPool<T> extends AbstractPool<T>
 {
 	private final String name;
 	
 	private final PresenceStrategy strategy;
 	
-	GenericPool(final Builder<L> builder)
+	GenericPool(final Builder<T> builder)
 	{
 		super(builder.handler, builder.implementation);
 		
@@ -35,20 +35,20 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 		return name.replace("Handler", "") + "Pool";
 	}
 	
-	public static final class Builder<L extends Listener>
+	public static final class Builder<T>
 	{
-		Handler<L> handler;
+		Handler<T> handler;
 		
-		Collection<L> implementation;
+		Collection<T> implementation;
 		
 		PresenceStrategy strategy;
 		
-		Builder(final Handler<L> handler)
+		Builder(final Handler<T> handler)
 		{
 			this.handler = Preconditions.checkNotNull(handler);
 		}
 		
-		public final Builder<L> arrayList()
+		public final Builder<T> arrayList()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -57,7 +57,7 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 			return this;
 		}
 		
-		public final Builder<L> hashSet()
+		public final Builder<T> hashSet()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -66,7 +66,7 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 			return this;
 		}
 
-		public final Builder<L> linkedList()
+		public final Builder<T> linkedList()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -75,7 +75,7 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 			return this;
 		}
 
-		public final Builder<L> linkedHashSet()
+		public final Builder<T> linkedHashSet()
 		{
 			Preconditions.checkState(this.implementation == null);
 			
@@ -84,7 +84,7 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 			return this;
 		}
 
-		public final Builder<L> identity()
+		public final Builder<T> identity()
 		{
 			Preconditions.checkState(this.strategy == null);
 			
@@ -93,7 +93,7 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 			return this;
 		}
 
-		public final Builder<L> equals()
+		public final Builder<T> equals()
 		{
 			Preconditions.checkState(this.strategy == null);
 			
@@ -102,7 +102,7 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 			return this;
 		}
 
-		public final Pool<L> build()
+		public final Pool<T> build()
 		{
 			if (this.strategy == null)
 			{
@@ -171,12 +171,12 @@ final class GenericPool<L extends Listener> extends AbstractPool<L>
 		abstract boolean contains(Collection<?> collection, Object object);
 	}
 	
-	public final boolean contains(final L listener)
+	public final boolean contains(final T listener)
 	{
 		return this.strategy.contains(this.listeners, listener);
 	}
 
-	public final Collection<L> toCollection()
+	public final Collection<T> toCollection()
 	{
 		return new ArrayList<>(this.listeners);
 	}

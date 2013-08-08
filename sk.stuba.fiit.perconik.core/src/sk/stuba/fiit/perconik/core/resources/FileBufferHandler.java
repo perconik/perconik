@@ -7,12 +7,12 @@ enum FileBufferHandler implements Handler<FileBufferListener>
 {
 	INSTANCE;
 	
-	public final void add(final FileBufferListener listener)
+	public final void register(final FileBufferListener listener)
 	{
 		FileBuffers.getTextFileBufferManager().addFileBufferListener(listener);
 	}
 
-	public final void remove(final FileBufferListener listener)
+	public final void unregister(final FileBufferListener listener)
 	{
 		FileBuffers.getTextFileBufferManager().removeFileBufferListener(listener);
 	}

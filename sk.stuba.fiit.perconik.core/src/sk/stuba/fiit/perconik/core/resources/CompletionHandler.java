@@ -7,12 +7,12 @@ enum CompletionHandler implements Handler<CompletionListener>
 {
 	INSTANCE;
 	
-	public final void add(final CompletionListener listener)
+	public final void register(final CompletionListener listener)
 	{
 		// TODO
 	}
 
-	public final void remove(final CompletionListener listener)
+	public final void unregister(final CompletionListener listener)
 	{
 		// TODO
 	}

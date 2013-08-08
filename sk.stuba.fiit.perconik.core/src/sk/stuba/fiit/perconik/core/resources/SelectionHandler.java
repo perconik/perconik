@@ -81,12 +81,12 @@ enum SelectionHandler implements Handler<SelectionListener>
 	
 	private final HookSupport<InternalSelectionHook, SelectionListener> support = HookSupport.using(InternalSelectionHook.getHookFactory());
 	
-	public final void add(final SelectionListener listener)
+	public final void register(final SelectionListener listener)
 	{
 		this.support.hook(DefaultResources.window, listener);
 	}
 
-	public final void remove(final SelectionListener listener)
+	public final void unregister(final SelectionListener listener)
 	{
 		this.support.unhook(DefaultResources.window, listener);
 	}

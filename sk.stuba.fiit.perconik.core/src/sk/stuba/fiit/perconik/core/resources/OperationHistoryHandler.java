@@ -7,12 +7,12 @@ enum OperationHistoryHandler implements Handler<OperationHistoryListener>
 {
 	INSTANCE;
 	
-	public final void add(final OperationHistoryListener listener)
+	public final void register(final OperationHistoryListener listener)
 	{
 		OperationHistoryFactory.getOperationHistory().addOperationHistoryListener(listener);
 	}
 
-	public final void remove(final OperationHistoryListener listener)
+	public final void unregister(final OperationHistoryListener listener)
 	{
 		OperationHistoryFactory.getOperationHistory().removeOperationHistoryListener(listener);
 	}

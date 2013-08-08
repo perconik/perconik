@@ -7,12 +7,12 @@ enum ResourceChangeHandler implements Handler<ResourceChangeListener>
 {
 	INSTANCE;
 	
-	public final void add(final ResourceChangeListener listener)
+	public final void register(final ResourceChangeListener listener)
 	{
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener, Handlers.mask(listener));
 	}
 
-	public final void remove(final ResourceChangeListener listener)
+	public final void unregister(final ResourceChangeListener listener)
 	{
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(listener);
 	}

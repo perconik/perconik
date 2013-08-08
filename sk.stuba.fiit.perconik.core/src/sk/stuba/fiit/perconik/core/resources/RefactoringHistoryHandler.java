@@ -7,12 +7,12 @@ enum RefactoringHistoryHandler implements Handler<RefactoringHistoryListener>
 {
 	INSTANCE;
 	
-	public final void add(final RefactoringHistoryListener listener)
+	public final void register(final RefactoringHistoryListener listener)
 	{
 		RefactoringCore.getHistoryService().addHistoryListener(listener);
 	}
 
-	public final void remove(final RefactoringHistoryListener listener)
+	public final void unregister(final RefactoringHistoryListener listener)
 	{
 		RefactoringCore.getHistoryService().removeHistoryListener(listener);
 	}

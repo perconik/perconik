@@ -209,19 +209,19 @@ class Synchronized
 			}
 		}
 
-		public final void add(final L listener)
+		public final void register(final L listener)
 		{
 			synchronized (this.mutex)
 			{
-				this.delegate.add(listener);
+				this.delegate.register(listener);
 			}
 		}
 
-		public final void remove(final L listener)
+		public final void unregister(final L listener)
 		{
 			synchronized (this.mutex)
 			{
-				this.delegate.remove(listener);
+				this.delegate.unregister(listener);
 			}
 		}
 	}

@@ -7,12 +7,12 @@ enum RefactoringExecutionHandler implements Handler<RefactoringExecutionListener
 {
 	INSTANCE;
 	
-	public final void add(final RefactoringExecutionListener listener)
+	public final void register(final RefactoringExecutionListener listener)
 	{
 		RefactoringCore.getHistoryService().addExecutionListener(listener);
 	}
 
-	public final void remove(final RefactoringExecutionListener listener)
+	public final void unregister(final RefactoringExecutionListener listener)
 	{
 		RefactoringCore.getHistoryService().removeExecutionListener(listener);
 	}

@@ -127,7 +127,7 @@ public class DefaultResources
 
 	private static final <T extends Listener> Resource<T> build(final Class<T> type, final Handler<T> handler)
 	{
-		Resource<T> resource = new GenericResource<>(Pools.getPoolFactory().create(handler));
+		Resource<T> resource = new GenericResource<>(Pools.getListenerPoolFactory().create(handler));
 		
 		DefaultResources.getDefaultResourceService().register(type, resource);
 		

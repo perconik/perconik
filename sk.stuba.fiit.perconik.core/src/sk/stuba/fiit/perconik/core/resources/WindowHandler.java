@@ -8,7 +8,7 @@ enum WindowHandler implements Handler<WindowListener>
 {
 	INSTANCE;
 	
-	public final void add(final WindowListener listener)
+	public final void register(final WindowListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -22,7 +22,7 @@ enum WindowHandler implements Handler<WindowListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final WindowListener listener)
+	public final void unregister(final WindowListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

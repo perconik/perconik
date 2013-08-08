@@ -9,7 +9,7 @@ enum DocumentChangeHandler implements Handler<DocumentChangeListener>
 {
 	INSTANCE;
 	
-	public final void add(final DocumentChangeListener listener)
+	public final void register(final DocumentChangeListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -25,7 +25,7 @@ enum DocumentChangeHandler implements Handler<DocumentChangeListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final DocumentChangeListener listener)
+	public final void unregister(final DocumentChangeListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

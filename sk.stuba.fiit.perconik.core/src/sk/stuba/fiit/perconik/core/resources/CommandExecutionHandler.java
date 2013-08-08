@@ -12,7 +12,7 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 {
 	INSTANCE;
 	
-	public final void add(final CommandExecutionListener listener)
+	public final void register(final CommandExecutionListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -29,7 +29,7 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final CommandExecutionListener listener)
+	public final void unregister(final CommandExecutionListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

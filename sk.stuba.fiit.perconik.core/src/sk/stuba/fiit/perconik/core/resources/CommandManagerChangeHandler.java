@@ -7,12 +7,12 @@ enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener
 {
 	INSTANCE;
 	
-	public final void add(final CommandManagerChangeListener listener)
+	public final void register(final CommandManagerChangeListener listener)
 	{
 		// TODO
 	}
 
-	public final void remove(final CommandManagerChangeListener listener)
+	public final void unregister(final CommandManagerChangeListener listener)
 	{
 		// TODO
 	}

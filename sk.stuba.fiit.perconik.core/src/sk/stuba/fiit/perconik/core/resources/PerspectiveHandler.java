@@ -10,7 +10,7 @@ enum PerspectiveHandler implements Handler<PerspectiveListener>
 {
 	INSTANCE;
 	
-	public final void add(final PerspectiveListener listener)
+	public final void register(final PerspectiveListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -24,7 +24,7 @@ enum PerspectiveHandler implements Handler<PerspectiveListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final PerspectiveListener listener)
+	public final void unregister(final PerspectiveListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

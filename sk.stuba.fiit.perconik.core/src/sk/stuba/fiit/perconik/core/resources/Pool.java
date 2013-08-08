@@ -1,15 +1,14 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
-import sk.stuba.fiit.perconik.core.Listener;
 
-interface Pool<L extends Listener>
+interface Pool<T>
 {
-	public boolean contains(L listener);
+	public boolean contains(T object);
 	
-	public void add(L listener);
+	public void add(T object);
 	
-	public void remove(L listener);
+	public void remove(T object);
 	
-	public Collection<L> toCollection();
+	public Collection<T> toCollection();
 }

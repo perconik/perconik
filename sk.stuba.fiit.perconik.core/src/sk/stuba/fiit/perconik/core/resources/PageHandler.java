@@ -10,7 +10,7 @@ enum PageHandler implements Handler<PageListener>
 {
 	INSTANCE;
 	
-	public final void add(final PageListener listener)
+	public final void register(final PageListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -24,7 +24,7 @@ enum PageHandler implements Handler<PageListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final PageListener listener)
+	public final void unregister(final PageListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

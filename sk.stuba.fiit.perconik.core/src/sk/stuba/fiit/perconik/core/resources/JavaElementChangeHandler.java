@@ -7,12 +7,12 @@ enum JavaElementChangeHandler implements Handler<JavaElementChangeListener>
 {
 	INSTANCE;
 	
-	public final void add(final JavaElementChangeListener listener)
+	public final void register(final JavaElementChangeListener listener)
 	{
 		JavaCore.addElementChangedListener(listener, Handlers.mask(listener));
 	}
 
-	public final void remove(final JavaElementChangeListener listener)
+	public final void unregister(final JavaElementChangeListener listener)
 	{
 		JavaCore.removeElementChangedListener(listener);
 	}

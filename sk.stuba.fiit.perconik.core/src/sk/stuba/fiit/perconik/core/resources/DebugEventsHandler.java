@@ -7,12 +7,12 @@ enum DebugEventsHandler implements Handler<DebugEventsListener>
 {
 	INSTANCE;
 	
-	public final void add(final DebugEventsListener listener)
+	public final void register(final DebugEventsListener listener)
 	{
 		DebugPlugin.getDefault().addDebugEventListener(listener);
 	}
 
-	public final void remove(final DebugEventsListener listener)
+	public final void unregister(final DebugEventsListener listener)
 	{
 		DebugPlugin.getDefault().removeDebugEventListener(listener);
 	}

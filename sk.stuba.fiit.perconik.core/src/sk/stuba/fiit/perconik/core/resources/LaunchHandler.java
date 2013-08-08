@@ -7,12 +7,12 @@ enum LaunchHandler implements Handler<LaunchListener>
 {
 	INSTANCE;
 	
-	public final void add(final LaunchListener listener)
+	public final void register(final LaunchListener listener)
 	{
 		DebugPlugin.getDefault().getLaunchManager().addLaunchListener(listener);
 	}
 
-	public final void remove(final LaunchListener listener)
+	public final void unregister(final LaunchListener listener)
 	{
 		DebugPlugin.getDefault().getLaunchManager().removeLaunchListener(listener);
 	}

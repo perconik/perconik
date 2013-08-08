@@ -8,7 +8,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener>
 {
 	INSTANCE;
 	
-	public final void add(final WorkbenchListener listener)
+	public final void register(final WorkbenchListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -22,7 +22,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void remove(final WorkbenchListener listener)
+	public final void unregister(final WorkbenchListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{
