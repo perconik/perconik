@@ -9,6 +9,7 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
+import sk.stuba.fiit.perconik.debug.listeners.PageDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;

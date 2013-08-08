@@ -11,11 +11,11 @@ enum PartHandler implements Handler<PartListener>
 	
 	public final void register(final PartListener listener)
 	{
-		this.support.hook(DefaultResources.page, listener);
+		this.support.hook(DefaultResources.window, listener);
 	}
 
 	public final void unregister(final PartListener listener)
 	{
-		this.support.unhook(DefaultResources.page, listener);
+		this.support.unhook(DefaultResources.window, listener);
 	}
 }
