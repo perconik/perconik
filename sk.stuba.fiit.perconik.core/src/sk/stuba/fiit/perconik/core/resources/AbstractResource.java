@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 
 abstract class AbstractResource<L extends Listener> implements Resource<L>
 {
-	private final Pool<L> pool;
+	final Pool<L> pool;
 	
 	AbstractResource(final Pool<L> pool)
 	{

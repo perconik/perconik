@@ -5,17 +5,12 @@ import com.google.common.base.Preconditions;
 
 abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 {
-	// TODO compute names on toString() calls
-	
-	private final String name;
-	
 	private final InternalHandler<T, L> handler;
 	
 	InternalHook(final InternalHandler<T, L> handler)
 	{
-		super(pool(handler));
+		super(Pools.getObjectPoolFactory().create(handler));
 		
-		this.name    = name(handler);
 		this.handler = Preconditions.checkNotNull(handler);
 	}
 
@@ -27,23 +22,6 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 		{
 			this.listener = Preconditions.checkNotNull(listener);
 		}
-	}
-	
-	private static final <T> Pool<T> pool(final InternalHandler<T, ?> handler)
-	{
-		return Pools.getObjectPoolFactory().create(handler);
-	}
-	
-	private static final String name(final InternalHandler<?, ?> handler)
-	{
-		String name = handler.getClass().getCanonicalName();
-		
-		if (name.isEmpty())
-		{
-			name = handler.getClass().getName();
-		}
-		
-		return name.replace("Handler", "Hook") + " for " + handler.listener;
 	}
 
 	@Override
@@ -101,6 +79,13 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 
 	public final String getName()
 	{
-		return this.name;
+		String name = this.handler.getClass().getCanonicalName();
+		
+		if (name.isEmpty())
+		{
+			name = this.handler.getClass().getName();
+		}
+		
+		return name.replace("Handler", "Hook") + " for " + this.handler.listener;
 	}
 }

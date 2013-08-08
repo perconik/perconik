@@ -10,28 +10,13 @@ import com.google.common.collect.Sets;
 
 final class GenericPool<T> extends AbstractPool<T>
 {
-	private final String name;
-	
 	private final PresenceStrategy strategy;
 	
 	GenericPool(final Builder<T> builder)
 	{
 		super(builder.implementation, builder.handler);
 		
-		this.name     = name(this.handler);
 		this.strategy = Preconditions.checkNotNull(builder.strategy);
-	}
-	
-	private static final String name(final Handler<?> handler)
-	{
-		String name = handler.getClass().getCanonicalName();
-		
-		if (name == null)
-		{
-			name = handler.getClass().getName();
-		}
-		
-		return name.replace("Handler", "") + "Pool";
 	}
 	
 	public static final class Builder<T>
@@ -188,6 +173,13 @@ final class GenericPool<T> extends AbstractPool<T>
 
 	public final String getName()
 	{
-		return this.name;
+		String name = this.handler.getClass().getCanonicalName();
+		
+		if (name == null)
+		{
+			name = this.handler.getClass().getName();
+		}
+		
+		return name.replace("Handler", "Pool");
 	}
 }

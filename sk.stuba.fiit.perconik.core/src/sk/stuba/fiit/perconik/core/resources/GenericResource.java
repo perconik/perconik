@@ -4,18 +4,9 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 final class GenericResource<L extends Listener> extends AbstractResource<L>
 {
-	private final String name;
-	
 	GenericResource(final Pool<L> pool)
 	{
 		super(pool);
-		
-		this.name = name(pool);
-	}
-	
-	private static final String name(final Pool<?> pool)
-	{
-		return pool.toString().replace("Pool", "") + "Resource";
 	}
 
 	@Override
@@ -26,6 +17,6 @@ final class GenericResource<L extends Listener> extends AbstractResource<L>
 
 	public final String getName()
 	{
-		return this.name;
+		return this.pool.toString().replace("Pool", "Resource");
 	}
 }
