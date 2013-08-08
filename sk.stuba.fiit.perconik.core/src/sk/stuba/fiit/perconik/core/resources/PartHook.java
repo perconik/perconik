@@ -28,15 +28,11 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
 
 		public final void register(final IWorkbenchWindow window)
 		{
-			System.out.println("ADDING part LISTENER");//TODO
-			
 			window.getPartService().addPartListener(this.listener);
 		}
 
 		public final void unregister(final IWorkbenchWindow window)
 		{
-			System.out.println("REMOVING part LISTENER");
-			
 			window.getPartService().removePartListener(this.listener);
 		}
 	}
@@ -65,62 +61,3 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
 	{
 	}
 }
-
-// TODO
-//final class PartHook extends InternalHook<IWorkbenchPage, PartListener> implements PageListener
-//{
-//	PartHook(final PartListener listener)
-//	{
-//		super(new InternalPageHandler(listener));
-//	}
-//	
-//	static final class Support extends AbstractHookSupport<PartHook, IWorkbenchPage, PartListener>
-//	{
-//		public final Hook<IWorkbenchPage, PartListener> create(final PartListener listener)
-//		{
-//			return new PartHook(listener);
-//		}
-//	}
-//
-//	private static final class InternalPageHandler extends InternalHandler<IWorkbenchPage, PartListener>
-//	{
-//		InternalPageHandler(final PartListener listener)
-//		{
-//			super(listener);
-//		}
-//
-//		public final void register(final IWorkbenchPage page)
-//		{
-//			System.out.println("ADDING part LISTENER");//TODO
-//			
-//			page.addPartListener(this.listener);
-//		}
-//
-//		public final void unregister(final IWorkbenchPage page)
-//		{
-//			System.out.println("REMOVING part LISTENER");
-//			
-//			page.removePartListener(this.listener);
-//		}
-//	}
-//	
-//	@Override
-//	final void preRegisterInternal()
-//	{
-//		Hooks.addPagesAsynchronouslyTo(this);
-//	}
-//	
-//	public final void pageOpened(final IWorkbenchPage page)
-//	{
-//		this.add(page);
-//	}
-//
-//	public final void pageClosed(final IWorkbenchPage page)
-//	{
-//		this.remove(page);
-//	}
-//
-//	public final void pageActivated(final IWorkbenchPage page)
-//	{
-//	}
-//}

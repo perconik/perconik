@@ -28,13 +28,11 @@ final class PageHook extends InternalHook<IWorkbenchWindow, PageListener> implem
 
 		public final void register(final IWorkbenchWindow window)
 		{
-			System.out.println("ADDING page LISTENER"); // TODO
 			window.addPageListener(this.listener);
 		}
 
 		public final void unregister(final IWorkbenchWindow window)
 		{
-			System.out.println("REMOVING page LISTENER");
 			window.removePageListener(this.listener);
 		}
 	}
