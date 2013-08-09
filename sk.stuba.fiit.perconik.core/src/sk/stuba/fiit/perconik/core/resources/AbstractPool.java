@@ -15,18 +15,18 @@ abstract class AbstractPool<T> implements Pool<T>
 		this.handler = Preconditions.checkNotNull(handler);
 	}
 	
-	public final void add(final T listener)
+	public final void add(final T object)
 	{
-		if (!this.contains(listener))
+		if (!this.contains(object))
 		{
-			this.handler.register(listener);
-			this.objects.add(listener);
+			this.handler.register(object);
+			this.objects.add(object);
 		}
 	}
 	
-	public final void remove(final T listener)
+	public final void remove(final T object)
 	{
-		this.handler.unregister(listener);
-		this.objects.remove(listener);
+		this.handler.unregister(object);
+		this.objects.remove(object);
 	}
 }

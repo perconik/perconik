@@ -155,9 +155,9 @@ final class GenericPool<T> extends AbstractPool<T>
 		abstract boolean contains(Collection<?> collection, Object object);
 	}
 	
-	public final boolean contains(final T listener)
+	public final boolean contains(final T object)
 	{
-		return this.strategy.contains(this.objects, listener);
+		return this.strategy.contains(this.objects, object);
 	}
 
 	public final Collection<T> toCollection()
