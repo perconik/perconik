@@ -20,19 +20,19 @@ public final class CompletionDebugListener extends AbstractDebugListener impleme
 	
 	public final void assistSessionStarted(final ContentAssistEvent event)
 	{
-		this.printHeader("Conten assist session started");
+		this.printHeader("Content assist session started");
 		this.printContentAssistEvent(event);
 	}
 
 	public final void assistSessionRestarted(final ContentAssistEvent event)
 	{
-		this.printHeader("Conten assist session ");
+		this.printHeader("Content assist session ");
 		this.printContentAssistEvent(event);
 	}
 
 	public final void assistSessionEnded(final ContentAssistEvent event)
 	{
-		this.printHeader("Conten assist session ");
+		this.printHeader("Content assist session ");
 		this.printContentAssistEvent(event);
 	}
 
