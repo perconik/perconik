@@ -6,8 +6,6 @@ import org.eclipse.ui.commands.ICommandService;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
-//TODO check if listener works after active window changes, probably not
-
 enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 {
 	INSTANCE;

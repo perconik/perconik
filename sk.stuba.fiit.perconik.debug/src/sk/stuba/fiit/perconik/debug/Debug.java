@@ -404,7 +404,7 @@ public final class Debug
 		String additionalInfo = proposal.getAdditionalProposalInfo();
 		
 		builder.append("display string: ").appendln(displayString);
-		builder.append("additional info: ").appendln(additionalInfo);
+		builder.append("additional info: ").append(additionalInfo.length()).appendln(" characters");
 		
 		return builder.toString();
 	}

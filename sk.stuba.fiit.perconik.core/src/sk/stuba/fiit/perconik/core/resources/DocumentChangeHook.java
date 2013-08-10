@@ -32,22 +32,18 @@ final class DocumentChangeHook extends InternalHook<IEditorPart, DocumentChangeL
 
 		public final void register(final IEditorPart editor)
 		{
+			// TODO refactor, doc can be null, pool should be of docs not editors
+			
 			IDocument document = Editors.getDocument(editor);
 			
-			if (document != null)
-			{
-				document.addDocumentListener(this.listener);
-			}
+			document.addDocumentListener(this.listener);
 		}
 
 		public final void unregister(final IEditorPart editor)
 		{
 			IDocument document = Editors.getDocument(editor);
 			
-			if (document != null)
-			{
-				document.removeDocumentListener(this.listener);
-			}
+			document.removeDocumentListener(this.listener);
 		}
 	}
 	

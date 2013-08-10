@@ -35,6 +35,8 @@ StyledTextListener extends org.eclipse.swt.widgets.Listener
 
 add custom
 
+EditorListener
+
 MarkSelectionListener
 StructuredSelectionListener
 TextSelectionListener

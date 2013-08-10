@@ -23,7 +23,7 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 			this.listener = Preconditions.checkNotNull(listener);
 		}
 	}
-
+	
 	@Override
 	public final void preRegister()
 	{
