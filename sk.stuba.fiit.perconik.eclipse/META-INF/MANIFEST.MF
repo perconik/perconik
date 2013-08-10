@@ -4,7 +4,8 @@ Bundle-Name: PerConIK Eclipse API Extensions
 Bundle-SymbolicName: sk.stuba.fiit.perconik.eclipse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: sk.stuba.fiit.perconik.eclipse.core.commands.operations,
+Export-Package: sk.stuba.fiit.perconik.eclipse.core.commands,
+ sk.stuba.fiit.perconik.eclipse.core.commands.operations,
  sk.stuba.fiit.perconik.eclipse.core.resources,
  sk.stuba.fiit.perconik.eclipse.core.runtime,
  sk.stuba.fiit.perconik.eclipse.debug.core,
