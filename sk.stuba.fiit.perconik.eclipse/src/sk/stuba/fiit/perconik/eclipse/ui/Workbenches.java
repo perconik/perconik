@@ -89,7 +89,7 @@ public final class Workbenches
 
 	public static final IWorkbenchWindow waitForActiveWindow()
 	{
-		return waitForActiveWindow(getWorkbench());
+		return waitForActiveWindow(waitForWorkbench());
 	}
 
 	public static final IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench)
@@ -103,7 +103,7 @@ public final class Workbenches
 
 	public static final IWorkbenchPage waitForActivePage()
 	{
-		return waitForActivePage(getActiveWindow());
+		return waitForActivePage(waitForActiveWindow());
 	}
 	
 	public static final IWorkbenchPage waitForActivePage(final IWorkbenchWindow window)
@@ -117,7 +117,7 @@ public final class Workbenches
 	
 	public static final IWorkbenchPart waitForActivePart()
 	{
-		return waitForActivePart(getActivePage());
+		return waitForActivePart(waitForActivePage());
 	}
 	
 	public static final IWorkbenchPart waitForActivePart(final IWorkbenchPage page)

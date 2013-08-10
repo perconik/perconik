@@ -65,7 +65,7 @@ public final class Editors
 	
 	public static final IEditorPart waitForActiveEditor()
 	{
-		return waitForActiveEditor(Workbenches.getActivePage());
+		return waitForActiveEditor(Workbenches.waitForActivePage());
 	}
 
 	public static final IEditorPart waitForActiveEditor(final IWorkbenchPage page)
