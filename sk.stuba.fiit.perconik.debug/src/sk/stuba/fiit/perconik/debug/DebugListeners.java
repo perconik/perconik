@@ -9,7 +9,9 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.debug.listeners.CompletionDebugListener;
+import sk.stuba.fiit.perconik.debug.listeners.CommandChangeDebugListener;
+import sk.stuba.fiit.perconik.debug.listeners.CommandExecutionDebugListener;
+import sk.stuba.fiit.perconik.debug.listeners.CommandManagerChangeDebugListener;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
@@ -29,7 +31,7 @@ public final class DebugListeners
 		PluginConsole console = Activator.getDefault().getConsole();
 		
 		// TODO load from configuration
-				
+
 //		Listeners.register(new CommandChangeDebugListener(console));
 //		Listeners.register(new CommandExecutionDebugListener(console));
 //		Listeners.register(new CommandManagerChangeDebugListener(console));

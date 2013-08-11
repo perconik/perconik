@@ -243,13 +243,15 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 		
-		Class<?> type     = command.getClass();
-		String   id       = command.getId();
+		Class<?> type = command.getClass();
+		String   id   = command.getId();
 		
-		String   name     = null;
+		String name        = null;
+		String description = null;
+		
 		Category category = null;
 		
-		IParameter[]  parameters = new IParameter[0];
+		IParameter[]  parameters = null;
 		ParameterType returnType = null;
 
 		String[] stateIds = command.getStateIds();
@@ -260,7 +262,9 @@ public final class Debug
 
 		if (defined)
 		{
-			name     = command.getName();
+			name        = command.getName();
+			description = command.getDescription();
+			
 			category = command.getCategory();
 			
 			parameters = command.getParameters();
@@ -271,8 +275,15 @@ public final class Debug
 		builder.append("identifier: ").appendln(id);
 		
 		builder.append("name: ").appendln(name);
-		builder.appendln("category:").lines(dumpCategory(category));
+		builder.append("description: ").appendln(description);
+		
+		builder.appendln("category:").lines(category == null ? "null" : dumpCategory(category));
 
+		if (parameters == null)
+		{
+			parameters = new IParameter[0];
+		}
+		
 		builder.appendln("parameters:").lines(dumpParameters(parameters));
 		builder.append("return type: ").appendln(returnType);
 
@@ -289,7 +300,7 @@ public final class Debug
 		}
 		else
 		{
-			builder.append("none");
+			builder.appendln("none");
 		}
 		
 		builder.untab();
@@ -312,7 +323,7 @@ public final class Debug
 		boolean descriptionChanged = event.isDescriptionChanged();
 
 		boolean definedChanged = event.isDefinedChanged();
-		boolean enabledChanged = event.isEnabledChanged();		
+		boolean enabledChanged = event.isEnabledChanged();
 		boolean handledChanged = event.isHandledChanged();
 		
 		boolean parametersChanged = event.isParametersChanged();
@@ -457,7 +468,7 @@ public final class Debug
 		}
 		else
 		{
-			builder.append("none");
+			builder.appendln("none");
 		}
 		
 		return builder.toString();
@@ -521,7 +532,7 @@ public final class Debug
 		}
 		else
 		{
-			builder.append("none");
+			builder.appendln("none");
 		}
 		
 		return builder.toString();
@@ -657,7 +668,7 @@ public final class Debug
 		}
 		else
 		{
-			builder.append("none");
+			builder.appendln("none");
 		}
 		
 		return builder.toString();
@@ -802,7 +813,7 @@ public final class Debug
 		}
 		else
 		{
-			builder.append("none");
+			builder.appendln("none");
 		}
 		
 		return builder.toString();
@@ -822,7 +833,7 @@ public final class Debug
 		}
 		else
 		{
-			builder.append("none");
+			builder.appendln("none");
 		}
 		
 		return builder.toString();

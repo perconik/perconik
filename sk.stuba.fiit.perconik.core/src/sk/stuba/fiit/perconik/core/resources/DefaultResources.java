@@ -29,9 +29,17 @@ import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 // TODO consider adding
 /*
 
+add
+
+ICategoryListener
+
 add experimental
 
 StyledTextListener extends org.eclipse.swt.widgets.Listener
+
+IHandlerListener
+IContextListener
+IContextManagerListener
 
 add custom
 

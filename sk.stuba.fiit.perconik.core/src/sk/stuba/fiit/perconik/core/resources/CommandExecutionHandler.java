@@ -1,10 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.commands.ICommandService;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.eclipse.core.commands.Commands;
 
 enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 {
@@ -17,10 +15,7 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 			@Override
 			public final void run()
 			{
-				IWorkbench      workbench = Workbenches.waitForWorkbench();
-				ICommandService service   = (ICommandService) workbench.getAdapter(ICommandService.class);
-				
-				service.addExecutionListener(listener);
+				Commands.waitForCommandService().addExecutionListener(listener);
 			}
 		};
 	
@@ -34,10 +29,7 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 			@Override
 			public final void run()
 			{
-				IWorkbench      workbench = Workbenches.waitForWorkbench();
-				ICommandService service   = (ICommandService) workbench.getAdapter(ICommandService.class);
-				
-				service.removeExecutionListener(listener);
+				Commands.waitForCommandService().removeExecutionListener(listener);
 			}
 		};
 	

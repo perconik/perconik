@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
-
 
 enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener>
 {
@@ -9,11 +9,29 @@ enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener
 	
 	public final void register(final CommandManagerChangeListener listener)
 	{
-		// TODO
+		final Runnable addListener = new Runnable()
+		{
+			@Override
+			public final void run()
+			{
+				// TODO
+			}
+		};
+	
+		Display.getDefault().asyncExec(addListener);
 	}
 
 	public final void unregister(final CommandManagerChangeListener listener)
 	{
-		// TODO
+		final Runnable removeListener = new Runnable()
+		{
+			@Override
+			public final void run()
+			{
+				// TODO
+			}
+		};
+	
+		Display.getDefault().asyncExec(removeListener);
 	}
 }
