@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
+import sk.stuba.fiit.perconik.core.services.ListenerService;
 
 public final class DefaultListeners
 {
@@ -8,7 +9,22 @@ public final class DefaultListeners
 	{
 		throw new AssertionError();
 	}
-
+	
+	private static final class ServiceHolder
+	{
+		static final ListenerService service = new GenericListenerService();
+		
+		private ServiceHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+	
+	public static final ListenerService getDefaultListenerService()
+	{
+		return ServiceHolder.service;
+	}
+	
 	public static final void register(final CommandChangeListener listener)
 	{
 		DefaultResources.getCommandChangeResource().register(listener);

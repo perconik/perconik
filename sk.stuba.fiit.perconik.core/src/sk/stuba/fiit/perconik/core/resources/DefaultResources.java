@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.ResourceService;
 import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
@@ -25,6 +24,7 @@ import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.core.services.ResourceService;
 
 // TODO consider adding
 /*
@@ -53,8 +53,6 @@ TextSelectionListener
 
 public class DefaultResources
 {
-	private static final ResourceService service = new GenericResourceService();
-	
 	static final Resource<CommandChangeListener> commandChange;
 
 	static final Resource<CommandExecutionListener> commandExecution;
@@ -130,9 +128,19 @@ public class DefaultResources
 		throw new AssertionError();
 	}
 	
+	private static final class ServiceHolder
+	{
+		static final ResourceService service = new GenericResourceService();
+		
+		private ServiceHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+	
 	public static final ResourceService getDefaultResourceService()
 	{
-		return DefaultResources.service;
+		return ServiceHolder.service;
 	}
 
 	private static final <T extends Listener> Resource<T> build(final Class<T> type, final Handler<T> handler)

@@ -2,12 +2,11 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
+import sk.stuba.fiit.perconik.core.services.ResourceService;
 import com.google.common.base.Preconditions;
 
 public final class Resources
 {
-	static final ServiceAccessor service = ServiceAccessor.INSTANCE;
-	
 	private Resources()
 	{
 		throw new AssertionError();
@@ -37,12 +36,12 @@ public final class Resources
 	
 	public static final void setResourceService(final ResourceService service)
 	{
-		Resources.service.set(service);
+		ServiceAccessor.INSTANCE.set(service);
 	}
 	
 	public static final ResourceService getResourceService()
 	{
-		return Resources.service.get();
+		return ServiceAccessor.INSTANCE.get();
 	}
 	
 	public static final <L extends Listener> void register(Class<L> type, Resource<L> resource)
@@ -52,21 +51,21 @@ public final class Resources
 
 	public static final <L extends Listener> void unregister(Class<L> type, Resource<L> resource)
 	{
-		service.get().unregister(type, resource);
+		getResourceService().unregister(type, resource);
 	}
 
 	public static final Set<Resource<?>> registered()
 	{
-		return service.get().registered();
+		return getResourceService().registered();
 	}
 
 	public static final <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type)
 	{
-		return service.get().registerable(type);
+		return getResourceService().registerable(type);
 	}
 	
 	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
 	{
-		return service.get().assignable(type);
+		return getResourceService().assignable(type);
 	}
 }
