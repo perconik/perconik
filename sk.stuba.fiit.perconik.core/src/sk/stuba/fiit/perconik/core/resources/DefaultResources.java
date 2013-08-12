@@ -24,6 +24,7 @@ import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.core.services.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.ResourceService;
 
 // TODO consider adding
@@ -128,21 +129,6 @@ public class DefaultResources
 		throw new AssertionError();
 	}
 	
-	private static final class ServiceHolder
-	{
-		static final ResourceService service = new GenericResourceService();
-		
-		private ServiceHolder()
-		{
-			throw new AssertionError();
-		}
-	}
-	
-	public static final ResourceService getDefaultResourceService()
-	{
-		return ServiceHolder.service;
-	}
-
 	private static final <T extends Listener> Resource<T> build(final Class<T> type, final Handler<T> handler)
 	{
 		Resource<T> resource = new GenericResource<>(Pools.getListenerPoolFactory().create(handler));
@@ -260,5 +246,35 @@ public class DefaultResources
 	public static final Resource<WorkbenchListener> getWorkbenchResource()
 	{
 		return DefaultResources.workbench;
+	}
+
+	private static final class ServiceHolder
+	{
+		static final ResourceService service = new GenericResourceService();
+		
+		private ServiceHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+
+	private static final class ProviderHolder
+	{
+		static final ResourceProvider provider = new GenericResourceProvider();
+		
+		private ProviderHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+
+	public static final ResourceService getDefaultResourceService()
+	{
+		return ServiceHolder.service;
+	}
+
+	public static final ResourceProvider getDefaultResourceProvider()
+	{
+		return ProviderHolder.provider;
 	}
 }

@@ -1,9 +1,8 @@
 package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.resources.DefaultResources;
+import sk.stuba.fiit.perconik.core.services.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.ResourceService;
-import com.google.common.base.Preconditions;
 
 public final class Resources
 {
@@ -12,38 +11,6 @@ public final class Resources
 		throw new AssertionError();
 	}
 
-	private static enum ServiceAccessor
-	{
-		INSTANCE;
-		
-		private ResourceService service;
-		
-		final synchronized void set(final ResourceService service)
-		{
-			this.service = Preconditions.checkNotNull(service);
-		}
-		
-		final synchronized ResourceService get()
-		{
-			if (this.service != null)
-			{
-				return this.service;
-			}
-			
-			return DefaultResources.getDefaultResourceService();
-		}
-	}
-	
-	public static final void setResourceService(final ResourceService service)
-	{
-		ServiceAccessor.INSTANCE.set(service);
-	}
-	
-	public static final ResourceService getResourceService()
-	{
-		return ServiceAccessor.INSTANCE.get();
-	}
-	
 	public static final <L extends Listener> void register(Class<L> type, Resource<L> resource)
 	{
 		getResourceService().register(type, resource);
@@ -59,13 +26,33 @@ public final class Resources
 		return getResourceService().registered();
 	}
 
+	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
+	{
+		return getResourceService().assignable(type);
+	}
+
 	public static final <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type)
 	{
 		return getResourceService().registerable(type);
 	}
-	
-	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
+
+	public static final void setResourceService(final ResourceService service)
 	{
-		return getResourceService().assignable(type);
+		Internals.setApi(ResourceService.class, service);
+	}
+
+	public static final void setResourceProvider(final ResourceProvider provider)
+	{
+		Internals.setApi(ResourceProvider.class, provider);
+	}
+
+	public static final ResourceService getResourceService()
+	{
+		return Internals.getApi(ResourceService.class);
+	}
+
+	public static final ResourceProvider getResourceProvider()
+	{
+		return Internals.getApi(ResourceProvider.class);
 	}
 }
