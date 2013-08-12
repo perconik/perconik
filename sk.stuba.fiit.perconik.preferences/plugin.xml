@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="sk.stuba.fiit.perconik.preferences"
+         name="PerConIK Preferences"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="sk.stuba.fiit.perconik.preferences.Initializer">
+      </initializer>
+   </extension>
+
+</plugin>

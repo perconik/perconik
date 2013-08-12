@@ -3,6 +3,7 @@
 <plugin>
    <extension
          id="sk.stuba.fiir.perconik.debug.startup"
+         name="PerConIK Debug Startup"
          point="org.eclipse.ui.startup">
       <startup
             class="sk.stuba.fiit.perconik.debug.plugin.Activator$Startup">
