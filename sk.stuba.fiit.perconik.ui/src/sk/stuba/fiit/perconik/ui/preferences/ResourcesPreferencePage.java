@@ -28,31 +28,26 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import sk.stuba.fiit.perconik.ui.utilities.Buttons;
+import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 
-public class ResourcesPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
+public final class ResourcesPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
 {
 	private CheckboxTableViewer tableViewer;
 
 	private Button addButton;
 	
-	private Button editButton;
+	private Button removeButton;
 	
 	private Button importButton;
 	
 	private Button exportButton;
-	
-	private Button removeButton;
-	
-	private Button restoreButton;
-	
-	private Button revertButton;
-
 	
 	@Override
 	public final void init(final IWorkbench workbench)
@@ -97,24 +92,24 @@ public class ResourcesPreferencePage extends PreferencePage implements IWorkbenc
 
 		TableColumn column1 = new TableColumn(table, SWT.NONE);
 		column1.setText("col 1");
-		int minWidth = computeMinimumColumnWidth(gc, column1.getText());
+		int minWidth = Tables.getMinimumColumnWidth(gc, column1.getText());
 		columnLayout.setColumnData(column1, new ColumnWeightData(2, minWidth, true));
 
 		TableColumn column2 = new TableColumn(table, SWT.NONE);
 		column2.setText("col 2");
-		minWidth = computeMinimumColumnWidth(gc, column2.getText());
+		minWidth =  Tables.getMinimumColumnWidth(gc, column2.getText());
 		columnLayout.setColumnData(column2, new ColumnWeightData(1, minWidth, true));
 
 		TableColumn column3 = new TableColumn(table, SWT.NONE);
 		column3.setText("col 3");
-		minWidth = computeMinimumColumnWidth(gc, column3.getText());
+		minWidth =  Tables.getMinimumColumnWidth(gc, column3.getText());
 		columnLayout.setColumnData(column3, new ColumnWeightData(3, minWidth, true));
 
 		TableColumn column4 = new TableColumn(table, SWT.NONE);
 		column4.setAlignment(SWT.CENTER);
 		column4.setText("col 4");
-		minWidth = computeMinimumColumnWidth(gc, column4.getText());
-		minWidth = Math.max(minWidth, computeMinimumColumnWidth(gc, "hello"));// TODO
+		minWidth =  Tables.getMinimumColumnWidth(gc, column4.getText());
+		minWidth = Math.max(minWidth,  Tables.getMinimumColumnWidth(gc, "hello"));// TODO
 		columnLayout.setColumnData(column4, new ColumnPixelData(minWidth, false, false));
 
 		gc.dispose();
@@ -177,18 +172,8 @@ public class ResourcesPreferencePage extends PreferencePage implements IWorkbenc
 
 		this.addButton = new Button(buttons, SWT.PUSH);
 		this.addButton.setText("Add");
-		this.addButton.setLayoutData(getButtonGridData(this.addButton));
+		this.addButton.setLayoutData(Buttons.getGridData(this.addButton));
 		this.addButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-				// TODO
-			}
-		});
-
-		this.editButton = new Button(buttons, SWT.PUSH);
-		this.editButton.setText("Edit");
-		this.editButton.setLayoutData(getButtonGridData(this.editButton));
-		this.editButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
 				// TODO
@@ -197,7 +182,7 @@ public class ResourcesPreferencePage extends PreferencePage implements IWorkbenc
 
 		this.removeButton = new Button(buttons, SWT.PUSH);
 		this.removeButton.setText("Remove");
-		this.removeButton.setLayoutData(getButtonGridData(this.removeButton));
+		this.removeButton.setLayoutData(Buttons.getGridData(this.removeButton));
 		this.removeButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
@@ -205,33 +190,11 @@ public class ResourcesPreferencePage extends PreferencePage implements IWorkbenc
 			}
 		});
 
-		createSeparator(buttons);
-
-		this.restoreButton = new Button(buttons, SWT.PUSH);
-		this.restoreButton.setText("Restore");
-		this.restoreButton.setLayoutData(getButtonGridData(this.restoreButton));
-		this.restoreButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-				// TODO restoreDeleted();
-			}
-		});
-
-		this.revertButton = new Button(buttons, SWT.PUSH);
-		this.revertButton.setText("revert");
-		this.revertButton.setLayoutData(getButtonGridData(this.revertButton));
-		this.revertButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event e) {
-				// TODO revert();
-			}
-		});
-
-		createSeparator(buttons);
+		Widgets.createSeparator(buttons);
 
 		this.importButton = new Button(buttons, SWT.PUSH);
 		this.importButton.setText("Import");
-		this.importButton.setLayoutData(getButtonGridData(this.importButton));
+		this.importButton.setLayoutData(Buttons.getGridData(this.importButton));
 		this.importButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
@@ -241,7 +204,7 @@ public class ResourcesPreferencePage extends PreferencePage implements IWorkbenc
 
 		this.exportButton = new Button(buttons, SWT.PUSH);
 		this.exportButton.setText("Export");
-		this.exportButton.setLayoutData(getButtonGridData(this.exportButton));
+		this.exportButton.setLayoutData(Buttons.getGridData(this.exportButton));
 		this.exportButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
@@ -260,47 +223,14 @@ public class ResourcesPreferencePage extends PreferencePage implements IWorkbenc
 		return parent;
 	}
 	
-	final static Label createSeparator(final Composite parent)
-	{
-		Label separator = new Label(parent, SWT.NONE);
-	
-		separator.setVisible(false);
-		
-		GridData data = new GridData();
-		
-		data.horizontalAlignment = GridData.FILL;
-		data.verticalAlignment   = GridData.BEGINNING;
-		data.heightHint          = 4;
-		
-		separator.setLayoutData(data);
-		
-		return separator;
-	}
-	
-	protected final void updateButtons()
+	private final void updateButtons()
 	{
 		IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
 		
 		int selectionCount = selection.size();
 		int itemCount      = this.tableViewer.getTable().getItemCount();
 		
-		boolean canRestore = false;
-		boolean canRevert  = false;
-		
-		this.editButton.setEnabled(selectionCount == 1);
-		this.exportButton.setEnabled(selectionCount > 0);
 		this.removeButton.setEnabled(selectionCount > 0 && selectionCount <= itemCount);
-		this.restoreButton.setEnabled(canRestore);
-		this.revertButton.setEnabled(canRevert);
-	}
-	
-	private static final GridData getButtonGridData(final Button button)
-	{
-		return new GridData(GridData.FILL_HORIZONTAL);
-	}
-	
-	private final static int computeMinimumColumnWidth(final GC gc, final String s)
-	{
-		return gc.stringExtent(s).x + 10;
+		this.exportButton.setEnabled(selectionCount > 0);
 	}
 }

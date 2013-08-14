@@ -20,4 +20,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface.text
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPoBundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: sk.stuba.fiit.perconik.ui.plugin
+Export-Package: sk.stuba.fiit.perconik.ui.plugin,
+ sk.stuba.fiit.perconik.ui.preferences,
+ sk.stuba.fiit.perconik.ui.utilities

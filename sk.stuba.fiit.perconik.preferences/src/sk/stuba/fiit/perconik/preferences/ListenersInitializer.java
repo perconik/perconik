@@ -4,9 +4,11 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.preferences.plugin.Activator;
 
-public final class Initializer extends AbstractPreferenceInitializer
+public final class ListenersInitializer extends AbstractPreferenceInitializer
 {
-	public Initializer()
+	static final String key = Activator.PLUGIN_ID + ".listeners"; 
+	
+	public ListenersInitializer()
 	{
 	}
 
@@ -15,6 +17,6 @@ public final class Initializer extends AbstractPreferenceInitializer
 	{
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		
-		//store. // TODO
+		//store.setDefault(key, defaultObject);
 	}
 }
