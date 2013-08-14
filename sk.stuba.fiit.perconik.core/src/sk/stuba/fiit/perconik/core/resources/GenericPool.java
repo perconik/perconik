@@ -27,7 +27,7 @@ final class GenericPool<T> extends AbstractPool<T>
 		
 		PresenceStrategy strategy;
 		
-		Builder(final Handler<T> handler)
+		public Builder(final Handler<T> handler)
 		{
 			this.handler = Preconditions.checkNotNull(handler);
 		}
@@ -86,7 +86,7 @@ final class GenericPool<T> extends AbstractPool<T>
 			return this;
 		}
 
-		public final Pool<T> build()
+		public final GenericPool<T> build()
 		{
 			if (this.strategy == null)
 			{

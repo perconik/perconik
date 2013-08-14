@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
-import sk.stuba.fiit.perconik.core.services.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.ListenerService;
 
 public final class DefaultListeners
@@ -11,6 +10,31 @@ public final class DefaultListeners
 		throw new AssertionError();
 	}
 	
+	private static final class ServiceHolder
+	{
+		static final ListenerService service;
+		
+		static
+		{
+			GenericListenerService.Builder builder = GenericListenerService.builder();
+			
+			builder.provider(new GenericListenerProvider());
+			builder.manager(new GenericListenerManager());
+			
+			service = builder.build();
+		}
+		
+		private ServiceHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+
+	public static final ListenerService getDefaultListenerService()
+	{
+		return ServiceHolder.service;
+	}
+
 	public static final void register(final CommandChangeListener listener)
 	{
 		DefaultResources.getCommandChangeResource().register(listener);
@@ -229,35 +253,5 @@ public final class DefaultListeners
 	public static final void unregister(final WorkbenchListener listener)
 	{
 		DefaultResources.getWorkbenchResource().unregister(listener);
-	}
-
-	private static final class ServiceHolder
-	{
-		static final ListenerService service = new GenericListenerService();
-		
-		private ServiceHolder()
-		{
-			throw new AssertionError();
-		}
-	}
-
-	private static final class ProviderHolder
-	{
-		static final ListenerProvider provider = new GenericListenerProvider();
-		
-		private ProviderHolder()
-		{
-			throw new AssertionError();
-		}
-	}
-
-	public static final ListenerService getDefaultListenerService()
-	{
-		return ServiceHolder.service;
-	}
-
-	public static final ListenerProvider getDefaultListenerProvider()
-	{
-		return ProviderHolder.provider;
 	}
 }

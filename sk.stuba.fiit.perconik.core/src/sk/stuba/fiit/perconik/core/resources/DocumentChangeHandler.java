@@ -11,11 +11,11 @@ enum DocumentChangeHandler implements Handler<DocumentChangeListener>
 	
 	public final void register(final DocumentChangeListener listener)
 	{
-		this.support.hook(DefaultResources.part, listener);
+		this.support.hook(DefaultResources.getPartResource(), listener);
 	}
 
 	public final void unregister(final DocumentChangeListener listener)
 	{
-		this.support.unhook(DefaultResources.part, listener);
+		this.support.unhook(DefaultResources.getPartResource(), listener);
 	}
 }

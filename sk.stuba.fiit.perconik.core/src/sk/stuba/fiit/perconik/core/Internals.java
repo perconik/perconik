@@ -3,9 +3,7 @@ package sk.stuba.fiit.perconik.core;
 import java.util.Map;
 import sk.stuba.fiit.perconik.core.listeners.DefaultListeners;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
-import sk.stuba.fiit.perconik.core.services.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.ListenerService;
-import sk.stuba.fiit.perconik.core.services.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.ResourceService;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
@@ -25,21 +23,9 @@ final class Internals
 			}
 		});
 
-		setApi(ResourceProvider.class, new Supplier<ResourceProvider>() {
-			public final ResourceProvider get() {
-				return DefaultResources.getDefaultResourceProvider();
-			}
-		});
-
 		setApi(ListenerService.class, new Supplier<ListenerService>() {
 			public final ListenerService get() {
 				return DefaultListeners.getDefaultListenerService();
-			}
-		});
-
-		setApi(ListenerProvider.class, new Supplier<ListenerProvider>() {
-			public final ListenerProvider get() {
-				return DefaultListeners.getDefaultListenerProvider();
 			}
 		});
 	}
@@ -86,7 +72,7 @@ final class Internals
 	{
 		synchronized (lock)
 		{
-			T implementation = api.cast(suppliers.get(api));
+			T implementation = api.cast(suppliers.get(api).get());
 			
 			if (implementation != null)
 			{

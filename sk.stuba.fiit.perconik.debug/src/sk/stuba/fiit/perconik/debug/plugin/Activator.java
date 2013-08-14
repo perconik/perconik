@@ -67,14 +67,14 @@ public class Activator extends AbstractPlugin
 		this.console.print("done");
 	
 		DebugListeners.registerAll();
-		DebugListeners.printRegisteredMap(this.console);
+		DebugListeners.printRegisterations(this.console);
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
 		DebugListeners.unregisterAll();
-		DebugListeners.printRegisteredMap(this.console);
+		DebugListeners.printRegisterations(this.console);
 
 		this.console.put("Stopping %s ... ", PLUGIN_ID);
 		

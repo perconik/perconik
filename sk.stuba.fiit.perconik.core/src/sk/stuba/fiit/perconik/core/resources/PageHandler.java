@@ -11,11 +11,11 @@ enum PageHandler implements Handler<PageListener>
 	
 	public final void register(final PageListener listener)
 	{
-		this.support.hook(DefaultResources.window, listener);
+		this.support.hook(DefaultResources.getWindowResource(), listener);
 	}
 
 	public final void unregister(final PageListener listener)
 	{
-		this.support.unhook(DefaultResources.window, listener);
+		this.support.unhook(DefaultResources.getWindowResource(), listener);
 	}
 }

@@ -3,20 +3,16 @@ package sk.stuba.fiit.perconik.debug;
 import java.util.Date;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.Strings;
-import com.google.common.base.Preconditions;
 
-public abstract class AbstractDebugListener implements DebugListener
+public abstract class AbstractDebugListener extends DebugObject implements DebugListener
 {
-	private final PluginConsole console; 
-	
 	protected AbstractDebugListener()
 	{
-		this(Debug.getDefaultConsole());
 	}
 	
 	protected AbstractDebugListener(final PluginConsole console)
 	{
-		this.console = Preconditions.checkNotNull(console);
+		super(console);
 	}
 	
 	protected final void action(final String name)
@@ -157,71 +153,26 @@ public abstract class AbstractDebugListener implements DebugListener
 
 	protected final void printHeader(final String title)
 	{
-		this.console.put(Debug.dumpHeader(title));
+		this.put(Debug.dumpHeader(title));
 	}
 
 	protected final void printBlock(final Object key, final Object value)
 	{
-		this.console.put(Debug.dumpBlock(key, value));
+		this.put(Debug.dumpBlock(key, value));
 	}
 
 	protected final void printLine(final Object key, final Object value)
 	{
-		this.console.put(Debug.dumpLine(key, value));
+		this.put(Debug.dumpLine(key, value));
 	}
 
 	protected final void printTime()
 	{
-		this.console.put(Debug.dumpTime());
+		this.put(Debug.dumpTime());
 	}
 
 	protected final void printTime(final Date date)
 	{
-		this.console.put(Debug.dumpTime(date));
-	}
-
-	protected final void put(final String message)
-	{
-		this.console.put(message);
-	}
-
-	protected final void put(final String format, final Object ... args)
-	{
-		this.console.put(format, args);
-	}
-
-	protected final void print(final String message)
-	{
-		this.console.print(message);
-	}
-
-	protected final void print(final String format, final Object ... args)
-	{
-		this.console.print(format, args);
-	}
-	
-	protected final void notice(final String message)
-	{
-		this.console.notice(message);
-	}
-
-	protected final void notice(final String format, Object ... args)
-	{
-		this.console.notice(format, args);
-	}
-
-	protected final void warning(final String message)
-	{
-		this.console.warning(message);
-	}
-
-	protected final void warning(final String format, Object ... args)
-	{
-		this.console.warning(format, args);
-	}
-
-	protected final void error(final String message, final Exception e)
-	{
-		this.console.error(message, e);
+		this.put(Debug.dumpTime(date));
 	}
 }

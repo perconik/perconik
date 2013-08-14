@@ -1,29 +1,29 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
-import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.AbstractListenerService;
-import sk.stuba.fiit.perconik.core.services.ResourceService;
 
 final class GenericListenerService extends AbstractListenerService
 {
-	GenericListenerService()
+	GenericListenerService(final Builder builder)
 	{
+		super(builder);
 	}
-
-	@Override
-	protected final ResourceService service()
+	
+	public static final class Builder extends AbstractListenerService.Builder
 	{
-		return Resources.getResourceService();
+		public Builder()
+		{
+		}
+		
+		@Override
+		public GenericListenerService build()
+		{
+			return new GenericListenerService(this);
+		}
 	}
-
-	@Override
-	public final String toString()
+	
+	public static final Builder builder()
 	{
-		return this.getName();
-	}
-
-	public final String getName()
-	{
-		return this.getClass().getCanonicalName();
+		return new Builder();
 	}
 }

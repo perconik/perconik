@@ -1,8 +1,7 @@
 package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.services.ResourceProvider;
-import sk.stuba.fiit.perconik.core.services.ResourceService;
+import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 
 public final class Resources
 {
@@ -13,46 +12,38 @@ public final class Resources
 
 	public static final <L extends Listener> void register(Class<L> type, Resource<L> resource)
 	{
-		getResourceService().register(type, resource);
+		Services.getResourceService().getResourceManager().register(type, resource);
 	}
 
 	public static final <L extends Listener> void unregister(Class<L> type, Resource<L> resource)
 	{
-		getResourceService().unregister(type, resource);
+		Services.getResourceService().getResourceManager().unregister(type, resource);
 	}
 
 	public static final Set<Resource<?>> registered()
 	{
-		return getResourceService().registered();
+		return Services.getResourceService().getResourceManager().registered();
 	}
 
 	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
 	{
-		return getResourceService().assignable(type);
+		return Services.getResourceService().getResourceManager().assignable(type);
 	}
 
 	public static final <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type)
 	{
-		return getResourceService().registerable(type);
+		return Services.getResourceService().getResourceManager().registerable(type);
 	}
-
-	public static final void setResourceService(final ResourceService service)
+	
+	public static final String getName(final Resource<?> resource)
 	{
-		Internals.setApi(ResourceService.class, service);
-	}
-
-	public static final void setResourceProvider(final ResourceProvider provider)
-	{
-		Internals.setApi(ResourceProvider.class, provider);
-	}
-
-	public static final ResourceService getResourceService()
-	{
-		return Internals.getApi(ResourceService.class);
-	}
-
-	public static final ResourceProvider getResourceProvider()
-	{
-		return Internals.getApi(ResourceProvider.class);
+		String name = DefaultResources.getName(resource);
+		
+		if (name != null)
+		{
+			return name;
+		}
+		
+		return resource.toString();
 	}
 }
