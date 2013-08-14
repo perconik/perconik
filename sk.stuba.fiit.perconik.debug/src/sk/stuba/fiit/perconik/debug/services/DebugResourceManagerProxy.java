@@ -4,20 +4,31 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.ResourceManager;
+import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
 import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public class DebugResourceManagerProxy extends DebugObjectProxy<ResourceManager> implements DebugResourceManager
 {
-	public DebugResourceManagerProxy(final ResourceManager manager)
-	{
-		super(manager);
-	}
-	
-	public DebugResourceManagerProxy(final ResourceManager manager, final PluginConsole console)
+	private DebugResourceManagerProxy(final ResourceManager manager, final PluginConsole console)
 	{
 		super(manager, console);
+	}
+
+	public static final DebugResourceManagerProxy of(final ResourceManager manager)
+	{
+		return of(manager, Debug.getDefaultConsole());
+	}
+
+	public static final DebugResourceManagerProxy of(final ResourceManager manager, final PluginConsole console)
+	{
+		if (manager instanceof DebugResourceManagerProxy)
+		{
+			return (DebugResourceManagerProxy) manager;
+		}
+		
+		return new DebugResourceManagerProxy(manager, console);
 	}
 
 	public final <L extends Listener> void register(final Class<L> type, final Resource<L> resource)
