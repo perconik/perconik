@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.debug.services;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.ListenerProvider;
+import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
@@ -19,7 +20,13 @@ public class DebugListenerProviderProxy extends DebugObjectProxy<ListenerProvide
 
 	public final <L extends Listener> L forClass(final Class<L> type)
 	{
-		return this.delegate().forClass(type);
+		this.put("Requesting listener for ", type, " ... ");
+		
+		L listener = this.delegate().forClass(type);
+		
+		this.print(listener != null ? "done (" + DebugListeners.toString(listener) + ")" : "failed");
+		
+		return listener;
 	}
 
 	public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException
