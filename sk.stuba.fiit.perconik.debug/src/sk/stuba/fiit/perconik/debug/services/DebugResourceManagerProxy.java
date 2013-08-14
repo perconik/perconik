@@ -21,32 +21,26 @@ public class DebugResourceManagerProxy extends DebugObjectProxy<ResourceManager>
 
 	public final <L extends Listener> void register(final Class<L> type, final Resource<L> resource)
 	{
-		// TODO Auto-generated method stub
-		
+		this.delegate().register(type, resource);
 	}
 
 	public final <L extends Listener> void unregister(final Class<L> type, final Resource<L> resource)
 	{
-		// TODO Auto-generated method stub
-		
+		this.delegate().unregister(type, resource);
 	}
 
 	public final Set<Resource<?>> registered()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().registered();
 	}
 
 	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().assignable(type);
 	}
 
 	public final <L extends Listener> Set<Resource<? super L>> registerable(final Class<L> type)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().registerable(type);
 	}
-
 }

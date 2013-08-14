@@ -19,13 +19,11 @@ public class DebugResourceProviderProxy extends DebugObjectProxy<ResourceProvide
 
 	public final Resource<?> forName(final String name)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().forName(name);
 	}
 
 	public final Iterable<Resource<?>> resources()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().resources();
 	}
 }

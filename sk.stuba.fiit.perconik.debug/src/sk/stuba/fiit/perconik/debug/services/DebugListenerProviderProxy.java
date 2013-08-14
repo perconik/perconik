@@ -19,19 +19,16 @@ public class DebugListenerProviderProxy extends DebugObjectProxy<ListenerProvide
 
 	public final <L extends Listener> L forClass(final Class<L> type)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().forClass(type);
 	}
 
 	public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().loadClass(name);
 	}
 
 	public final Iterable<Class<? extends Listener>> loadedClasses()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().loadedClasses();
 	}
 }

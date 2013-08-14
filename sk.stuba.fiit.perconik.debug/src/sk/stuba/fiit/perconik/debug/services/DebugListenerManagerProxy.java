@@ -22,31 +22,26 @@ public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager>
 
 	public final <L extends Listener> void register(final L listener)
 	{
-		// TODO Auto-generated method stub
-		
+		this.delegate().register(listener);
 	}
 
 	public final <L extends Listener> void unregister(final L listener)
 	{
-		// TODO Auto-generated method stub
-		
+		this.delegate().unregister(listener);
 	}
 
 	public final void unregisterAll(final Class<? extends Listener> type)
 	{
-		// TODO Auto-generated method stub
-		
+		this.delegate().unregisterAll(type);
 	}
 
 	public final <L extends Listener> Collection<L> registered(final Class<L> type)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().registered(type);
 	}
 
 	public final Map<Resource<?>, Collection<Listener>> registrations()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.delegate().registrations();
 	}
 }
