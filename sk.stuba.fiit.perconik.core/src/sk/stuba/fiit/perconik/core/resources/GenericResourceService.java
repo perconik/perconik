@@ -16,7 +16,7 @@ final class GenericResourceService extends AbstractResourceService
 		}
 		
 		@Override
-		public GenericResourceService build()
+		public final GenericResourceService build()
 		{
 			return new GenericResourceService(this);
 		}

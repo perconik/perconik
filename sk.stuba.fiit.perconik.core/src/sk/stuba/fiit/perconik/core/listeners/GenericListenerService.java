@@ -16,7 +16,7 @@ final class GenericListenerService extends AbstractListenerService
 		}
 		
 		@Override
-		public GenericListenerService build()
+		public final GenericListenerService build()
 		{
 			return new GenericListenerService(this);
 		}
