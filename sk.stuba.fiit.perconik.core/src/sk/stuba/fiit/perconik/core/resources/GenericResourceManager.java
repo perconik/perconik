@@ -1,44 +1,106 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.AbstractResourceManager;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 final class GenericResourceManager extends AbstractResourceManager
 {
-	private final SetMultimap<Class<? extends Listener>, Resource<?>> storage;
+	private final SetMultimap<Class<? extends Listener>, Resource<?>> map;
 	
 	GenericResourceManager()
 	{
-		this.storage = Multimaps.synchronizedSetMultimap(HashMultimap.<Class<? extends Listener>, Resource<?>>create());
+		this.map = HashMultimap.create();
 	}
 	
 	@Override
-	protected final <L extends Listener> boolean put(Class<L> type, Resource<L> resource)
+	protected final SetMultimap<Class<? extends Listener>, Resource<?>> map()
 	{
-		return this.storage.put(type, resource);
+		return this.map;
+	}
+	
+	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
+	{
+		Set<Resource<? extends L>> result = Sets.newHashSet();
+		
+		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.map.entries())
+		{
+			boolean matched = type.isAssignableFrom(entry.getKey());
+
+// TODO improve matching
+//
+//			if (!matched)
+//			{
+//				for (Class<?> supertype: type.getInterfaces())
+//				{
+//					if (supertype == entry.getKey())
+//					{
+//						matched = true;
+//						
+//						break;
+//					}
+//				}
+//			}
+
+//			System.out.println("--------");
+//			System.out.println(Resources.registerable(Listener.class));
+//			System.out.println(Resources.registerable(DebugListener.class));
+//			System.out.println(Resources.registerable(LaunchListener.class));
+//			System.out.println(Resources.registerable(LaunchDebugListener.class));
+//			System.out.println("--------");
+//			System.out.println(Resources.assignable(Listener.class));
+//			System.out.println(Resources.assignable(DebugListener.class));
+//			System.out.println(Resources.assignable(LaunchListener.class));
+//			System.out.println(Resources.assignable(LaunchDebugListener.class));
+//			System.out.println("--------");
+//			System.exit(1);
+			
+			if (matched)
+			{
+				result.add((Resource<? extends L>) entry.getValue());
+			}
+		}
+		
+		return result;
 	}
 
-	@Override
-	protected final <L extends Listener> boolean remove(Class<L> type, Resource<L> resource)
+	public final <L extends Listener> Set<Resource<? super L>> registerable(final Class<L> type)
 	{
-		return this.storage.remove(type, resource);
+		Set<Resource<? super L>> result = Sets.newHashSet();
+		
+		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.map.entries())
+		{
+			boolean matched = type == entry.getKey();
+			
+			if (!matched)
+			{
+				for (Class<?> supertype: type.getInterfaces())
+				{
+					if (supertype == entry.getKey())
+					{
+						matched = true;
+						
+						break;
+					}
+				}
+			}
+			
+			if (matched)
+			{
+				result.add((Resource<? super L>) entry.getValue());
+			}
+		}
+		
+		return result;
 	}
 
-	@Override
-	protected final Set<Entry<Class<? extends Listener>, Resource<?>>> entries()
+	public final SetMultimap<Class<? extends Listener>, Resource<?>> registrations()
 	{
-		return this.storage.entries();
-	}
-
-	public final Set<Resource<?>> registered()
-	{
-		return Sets.newHashSet(this.storage.values());
+		return HashMultimap.create(this.map);
 	}
 }

@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
+import com.google.common.collect.SetMultimap;
 
 public final class Resources
 {
@@ -20,11 +21,6 @@ public final class Resources
 		Services.getResourceService().getResourceManager().unregister(type, resource);
 	}
 
-	public static final Set<Resource<?>> registered()
-	{
-		return Services.getResourceService().getResourceManager().registered();
-	}
-
 	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
 	{
 		return Services.getResourceService().getResourceManager().assignable(type);
@@ -34,7 +30,12 @@ public final class Resources
 	{
 		return Services.getResourceService().getResourceManager().registerable(type);
 	}
-	
+
+	public static final SetMultimap<Class<? extends Listener>, Resource<?>> registrations()
+	{
+		return Services.getResourceService().getResourceManager().registrations();
+	}
+
 	public static final String getName(final Resource<?> resource)
 	{
 		String name = DefaultResources.getName(resource);

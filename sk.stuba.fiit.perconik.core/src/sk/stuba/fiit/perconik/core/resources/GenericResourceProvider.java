@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+import java.util.Set;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.AbstractResourceProvider;
@@ -58,5 +59,10 @@ final class GenericResourceProvider extends AbstractResourceProvider
 	protected final BiMap<String, Resource<?>> map()
 	{
 		return this.map;
+	}
+	
+	public final Set<Resource<?>> resources()
+	{
+		return this.map().values();
 	}
 }

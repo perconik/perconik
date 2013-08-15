@@ -21,7 +21,7 @@ final class GenericListenerProvider extends AbstractListenerProvider
 	}
 
 	@Override
-	protected final Class<? extends Listener> loadClassInternal(String name) throws ClassNotFoundException
+	protected final Class<? extends Listener> load(String name) throws ClassNotFoundException
 	{
 		Class<?> c = ClassLoader.getSystemClassLoader().loadClass(name);
 		
@@ -37,7 +37,7 @@ final class GenericListenerProvider extends AbstractListenerProvider
 	}
 	
 	@Override
-	protected final void validateClassInternal(final Class<? extends Listener> type)
+	protected final void validate(final Class<? extends Listener> type)
 	{
 		if (type.isInterface() || type.isAnnotation() || type.isEnum())
 		{
