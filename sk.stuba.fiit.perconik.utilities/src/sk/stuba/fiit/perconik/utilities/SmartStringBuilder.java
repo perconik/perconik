@@ -206,6 +206,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	{
 		this.builder.setLength(0);
 		
+		this.newLine = true;
+		
 		return this;
 	}
 
@@ -218,7 +220,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	{
 		String content = this.builder.toString();
 		
-		this.setLength(0);
+		this.truncate();
 		
 		return content;
 	}
