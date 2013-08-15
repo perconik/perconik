@@ -201,10 +201,26 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		
 		return this;
 	}
+	
+	public final SmartStringBuilder truncate()
+	{
+		this.builder.setLength(0);
+		
+		return this;
+	}
 
 	public final boolean isEmpty()
 	{
 		return this.builder.length() == 0;
+	}
+	
+	public final String flush()
+	{
+		String content = this.builder.toString();
+		
+		this.setLength(0);
+		
+		return content;
 	}
 	
 	@Override
