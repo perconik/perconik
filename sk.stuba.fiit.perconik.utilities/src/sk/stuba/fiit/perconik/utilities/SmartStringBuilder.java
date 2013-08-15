@@ -611,11 +611,24 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public final SmartStringBuilder lines(String s)
 	{
-		for (String line: Arrays.asList(String.valueOf(s).split("\r?\n|\r")))
+		String[] lines = String.valueOf(s).split("\r?\n|\r");
+
+		int last = lines.length - 1;
+
+		for (int i = 0; i < last; i ++)
 		{
-			this.appendln(line);
+			this.appendln(lines[i]);
 		}
 		
+		if (s.endsWith("\r") || s.endsWith("\n"))
+		{
+			this.appendln(lines[last]);
+		}
+		else
+		{
+			this.append(lines[last]);
+		}
+
 		return this;
 	}
 
