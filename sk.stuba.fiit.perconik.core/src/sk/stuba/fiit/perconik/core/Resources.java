@@ -26,9 +26,9 @@ public final class Resources
 		return Services.getResourceService().getResourceManager().assignable(type);
 	}
 
-	public static final <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type)
+	public static final <L extends Listener> Set<Resource<? super L>> registrable(Class<L> type)
 	{
-		return Services.getResourceService().getResourceManager().registerable(type);
+		return Services.getResourceService().getResourceManager().registrable(type);
 	}
 
 	public static final SetMultimap<Class<? extends Listener>, Resource<?>> registrations()

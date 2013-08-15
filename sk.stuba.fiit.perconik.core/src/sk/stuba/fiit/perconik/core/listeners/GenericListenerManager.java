@@ -39,7 +39,7 @@ final class GenericListenerManager extends AbstractListenerManager
 	{
 		Multimap<Resource<?>, Listener> registrations = ArrayListMultimap.create();
 		
-		for (Resource<?> resource: this.manager().registerable(Listener.class))
+		for (Resource<?> resource: this.manager().registrable(Listener.class))
 		{
 			registrations.putAll(resource, resource.registered(Listener.class));
 		}

@@ -69,7 +69,7 @@ final class GenericResourceManager extends AbstractResourceManager
 		return result;
 	}
 
-	public final <L extends Listener> Set<Resource<? super L>> registerable(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? super L>> registrable(final Class<L> type)
 	{
 		Set<Resource<? super L>> result = Sets.newHashSet();
 		

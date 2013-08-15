@@ -13,7 +13,7 @@ public interface ResourceManager
 
 	public <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type);
 
-	public <L extends Listener> Set<Resource<? super L>> registerable(Class<L> type);
+	public <L extends Listener> Set<Resource<? super L>> registrable(Class<L> type);
 
 	public SetMultimap<Class<? extends Listener>, Resource<?>> registrations();
 }

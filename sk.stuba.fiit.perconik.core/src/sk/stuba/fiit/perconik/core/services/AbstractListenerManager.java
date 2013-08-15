@@ -13,7 +13,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	
 	public final <L extends Listener> void register(final L listener)
 	{
-		for(Resource<? super L> resource: this.manager().registerable((Class<L>) listener.getClass()))
+		for(Resource<? super L> resource: this.manager().registrable((Class<L>) listener.getClass()))
 		{
 			resource.register(listener);
 		}
@@ -21,7 +21,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 
 	public final <L extends Listener> void unregister(final L listener)
 	{
-		for(Resource<? super L> resource: this.manager().registerable((Class<L>) listener.getClass()))
+		for(Resource<? super L> resource: this.manager().registrable((Class<L>) listener.getClass()))
 		{
 			resource.unregister(listener);
 		}
