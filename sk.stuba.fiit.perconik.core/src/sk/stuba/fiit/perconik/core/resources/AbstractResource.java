@@ -1,12 +1,13 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+import sk.stuba.fiit.perconik.core.AbstractRegistrable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
-abstract class AbstractResource<L extends Listener> implements Resource<L>
+abstract class AbstractResource<L extends Listener> extends AbstractRegistrable implements Resource<L>
 {
 	final Pool<L> pool;
 	

@@ -13,18 +13,32 @@ public abstract class AbstractResourceManager extends AbstractManager implements
 	
 	protected abstract SetMultimap<Class<? extends Listener>, Resource<?>> map();
 	
-	public final <L extends Listener> void register(final Class<L> type, final Resource<L> resource)
+	public final <L extends Listener> void register(final Class<L> type, final Resource<? super L> resource)
 	{
 		Preconditions.checkNotNull(type);
-		Preconditions.checkNotNull(resource);
+
+		resource.preRegister();
 		
 		this.map().put(type, resource);
+		
+		resource.postRegister();
 	}
 	
-	public final <L extends Listener> void unregister(final Class<L> type, final Resource<L> resource)
+	public final <L extends Listener> void unregister(final Class<L> type, final Resource<? super L> resource)
 	{
+		resource.preUnregister();
 		resource.unregisterAll(type);
 		
 		this.map().remove(type, resource);
+		
+		resource.postUnregister();
+	}
+	
+	public final <L extends Listener> void unregisterAll(final Class<L> type)
+	{
+		for (Resource<? super L> resource: this.registrable(type))
+		{
+			this.unregister(type, resource);
+		}
 	}
 }

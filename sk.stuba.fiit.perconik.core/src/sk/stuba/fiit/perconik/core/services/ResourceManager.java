@@ -7,9 +7,11 @@ import com.google.common.collect.SetMultimap;
 
 public interface ResourceManager
 {
-	public <L extends Listener> void register(Class<L> type, Resource<L> resource);
+	public <L extends Listener> void register(Class<L> type, Resource<? super L> resource);
 
-	public <L extends Listener> void unregister(Class<L> type, Resource<L> resource);
+	public <L extends Listener> void unregister(Class<L> type, Resource<? super L> resource);
+	
+	public <L extends Listener> void unregisterAll(Class<L> type);
 
 	public <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type);
 

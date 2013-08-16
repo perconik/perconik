@@ -44,5 +44,4 @@ public final class Listeners
 	{
 		return Services.getListenerService().getListenerManager().registrations();
 	}
-
 }

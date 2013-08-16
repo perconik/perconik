@@ -1,12 +1,5 @@
 package sk.stuba.fiit.perconik.core;
 
-public interface Listener
+public interface Listener extends Registrable
 {
-	public void preRegister();
-
-	public void postRegister();
-
-	public void preUnregister();
-
-	public void postUnregister();
 }

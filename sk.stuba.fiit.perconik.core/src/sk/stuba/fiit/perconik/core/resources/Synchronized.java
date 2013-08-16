@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.base.Preconditions;
 
@@ -47,7 +48,49 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedResource<L extends Listener> extends SynchronizedObject<Resource<L>> implements Resource<L>
+	private static class SynchronizedRegistrable<R extends Registrable> extends SynchronizedObject<R> implements Registrable
+	{
+		private static final long serialVersionUID = 0L;
+
+		SynchronizedRegistrable(final R registrable, final Object mutex)
+		{
+			super(registrable, mutex);
+		}
+		
+		public final void preRegister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.preRegister();
+			}
+		}
+
+		public final void postRegister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.postRegister();
+			}
+		}
+
+		public final void preUnregister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.preUnregister();
+			}
+		}
+
+		public final void postUnregister()
+		{
+			synchronized (this.mutex)
+			{
+				this.delegate.preUnregister();
+			}
+		}
+	}
+	
+	private static final class SynchronizedResource<L extends Listener> extends SynchronizedRegistrable<Resource<L>> implements Resource<L>
 	{
 		private static final long serialVersionUID = 0L;
 
@@ -226,7 +269,7 @@ class Synchronized
 		}
 	}
 	
-	private static final class SynchronizedHook<T, L extends Listener> extends SynchronizedObject<Hook<T, L>> implements Hook<T, L>
+	private static final class SynchronizedHook<T, L extends Listener> extends SynchronizedRegistrable<Hook<T, L>> implements Hook<T, L>
 	{
 		private static final long serialVersionUID = 0L;
 
@@ -287,38 +330,6 @@ class Synchronized
 			synchronized (this.mutex)
 			{
 				return this.delegate.forListener();
-			}
-		}
-
-		public final void preRegister()
-		{
-			synchronized (this.mutex)
-			{
-				this.delegate.preRegister();
-			}
-		}
-
-		public final void postRegister()
-		{
-			synchronized (this.mutex)
-			{
-				this.delegate.postRegister();
-			}
-		}
-
-		public final void preUnregister()
-		{
-			synchronized (this.mutex)
-			{
-				this.delegate.preUnregister();
-			}
-		}
-
-		public final void postUnregister()
-		{
-			synchronized (this.mutex)
-			{
-				this.delegate.preUnregister();
 			}
 		}
 	}
