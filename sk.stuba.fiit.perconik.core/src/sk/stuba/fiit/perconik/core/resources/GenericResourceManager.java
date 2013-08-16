@@ -30,37 +30,7 @@ final class GenericResourceManager extends AbstractResourceManager
 		
 		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.map.entries())
 		{
-			boolean matched = type.isAssignableFrom(entry.getKey());
-
-// TODO improve matching
-//
-//			if (!matched)
-//			{
-//				for (Class<?> supertype: type.getInterfaces())
-//				{
-//					if (supertype == entry.getKey())
-//					{
-//						matched = true;
-//						
-//						break;
-//					}
-//				}
-//			}
-
-//			System.out.println("--------");
-//			System.out.println(Resources.registerable(Listener.class));
-//			System.out.println(Resources.registerable(DebugListener.class));
-//			System.out.println(Resources.registerable(LaunchListener.class));
-//			System.out.println(Resources.registerable(LaunchDebugListener.class));
-//			System.out.println("--------");
-//			System.out.println(Resources.assignable(Listener.class));
-//			System.out.println(Resources.assignable(DebugListener.class));
-//			System.out.println(Resources.assignable(LaunchListener.class));
-//			System.out.println(Resources.assignable(LaunchDebugListener.class));
-//			System.out.println("--------");
-//			System.exit(1);
-			
-			if (matched)
+			if (type.isAssignableFrom(entry.getKey()))
 			{
 				result.add((Resource<? extends L>) entry.getValue());
 			}
