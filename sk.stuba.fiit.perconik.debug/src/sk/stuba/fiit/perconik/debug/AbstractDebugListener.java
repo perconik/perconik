@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.debug;
 
 import java.util.Date;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.Strings;
 
 public abstract class AbstractDebugListener extends DebugObject implements DebugListener
@@ -10,7 +9,7 @@ public abstract class AbstractDebugListener extends DebugObject implements Debug
 	{
 	}
 	
-	protected AbstractDebugListener(final PluginConsole console)
+	protected AbstractDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.services;
 import sk.stuba.fiit.perconik.core.services.AbstractResourceService;
 import sk.stuba.fiit.perconik.core.services.ResourceService;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class DebugResourceServiceWrapper extends AbstractResourceService
 {
@@ -35,7 +35,7 @@ public final class DebugResourceServiceWrapper extends AbstractResourceService
 		return of(service, Debug.getDefaultConsole());
 	}
 	
-	public static final DebugResourceServiceWrapper of(final ResourceService service, final PluginConsole console)
+	public static final DebugResourceServiceWrapper of(final ResourceService service, final DebugConsole console)
 	{
 		Builder builder = builder();
 		

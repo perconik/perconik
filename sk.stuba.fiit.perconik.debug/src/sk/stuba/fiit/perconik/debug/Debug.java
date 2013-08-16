@@ -63,7 +63,6 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceChangeEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
@@ -86,7 +85,7 @@ public final class Debug
 	
 	private static final class ConsoleHolder
 	{
-		static final PluginConsole console = PluginConsole.of(Activator.getDefault());
+		static final DebugConsole console = DebugConsole.of(Activator.getDefault());
 		
 		private ConsoleHolder()
 		{
@@ -94,12 +93,12 @@ public final class Debug
 		}
 	}
 	
-	public static final PluginConsole getDefaultConsole()
+	public static final DebugConsole getDefaultConsole()
 	{
 		return ConsoleHolder.console;
 	}
 	
-	private static final PluginConsole console()
+	private static final DebugConsole console()
 	{
 		return getDefaultConsole();
 	}

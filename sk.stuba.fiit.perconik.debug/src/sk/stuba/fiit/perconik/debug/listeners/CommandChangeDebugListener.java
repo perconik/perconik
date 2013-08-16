@@ -5,7 +5,7 @@ import org.eclipse.core.commands.common.CommandException;
 import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class CommandChangeDebugListener extends AbstractDebugListener implements CommandChangeListener
 {
@@ -13,7 +13,7 @@ public final class CommandChangeDebugListener extends AbstractDebugListener impl
 	{
 	}
 	
-	public CommandChangeDebugListener(final PluginConsole console)
+	public CommandChangeDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

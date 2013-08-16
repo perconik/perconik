@@ -6,7 +6,7 @@ import org.eclipse.jdt.core.ElementChangedEvent;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementChangeEventType;
 
 public final class JavaElementChangeDebugListener extends AbstractDebugListener implements JavaElementChangeListener
@@ -15,7 +15,7 @@ public final class JavaElementChangeDebugListener extends AbstractDebugListener 
 	{
 	}
 	
-	public JavaElementChangeDebugListener(final PluginConsole console)
+	public JavaElementChangeDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

@@ -4,7 +4,7 @@ import org.eclipse.debug.core.DebugEvent;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class DebugEventsDebugListener extends AbstractDebugListener implements DebugEventsListener
 {
@@ -12,7 +12,7 @@ public final class DebugEventsDebugListener extends AbstractDebugListener implem
 	{
 	}
 	
-	public DebugEventsDebugListener(final PluginConsole console)
+	public DebugEventsDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

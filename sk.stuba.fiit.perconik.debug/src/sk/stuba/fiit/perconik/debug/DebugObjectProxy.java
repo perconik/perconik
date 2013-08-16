@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.debug;
 
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.google.common.base.Preconditions;
 
 public abstract class DebugObjectProxy<T> extends ForwardingDebugObject
@@ -12,7 +11,7 @@ public abstract class DebugObjectProxy<T> extends ForwardingDebugObject
 		this(object, Debug.getDefaultConsole());
 	}
 
-	protected DebugObjectProxy(final T object, final PluginConsole console)
+	protected DebugObjectProxy(final T object, final DebugConsole console)
 	{
 		super(console);
 		

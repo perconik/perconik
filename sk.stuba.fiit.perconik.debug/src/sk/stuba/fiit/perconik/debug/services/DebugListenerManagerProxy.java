@@ -1,18 +1,18 @@
 package sk.stuba.fiit.perconik.debug.services;
 
 import java.util.Collection;
-import java.util.Map;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.ListenerManager;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import com.google.common.collect.Multimap;
 
 public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager> implements DebugListenerManager
 {
-	private DebugListenerManagerProxy(final ListenerManager manager, final PluginConsole console)
+	private DebugListenerManagerProxy(final ListenerManager manager, final DebugConsole console)
 	{
 		super(manager, console);
 	}
@@ -22,7 +22,7 @@ public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager>
 		return of(manager, Debug.getDefaultConsole());
 	}
 
-	public static final DebugListenerManagerProxy of(final ListenerManager manager, final PluginConsole console)
+	public static final DebugListenerManagerProxy of(final ListenerManager manager, final DebugConsole console)
 	{
 		if (manager instanceof DebugListenerManagerProxy)
 		{
@@ -34,27 +34,32 @@ public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager>
 
 	public final <L extends Listener> void register(final L listener)
 	{
-		this.print("Registering listener ", DebugListeners.toString(listener));
+		this.print("Registering listener %s", DebugListeners.toString(listener));
+		this.tab();
 		
 		this.delegate().register(listener);
 		
-		this.print("Listener ", DebugListeners.toString(listener), " registered");
+		this.untab();
 	}
 
 	public final <L extends Listener> void unregister(final L listener)
 	{
-		this.print("Unregistering listener ", DebugListeners.toString(listener));
+		this.print("Unregistering listener %s", DebugListeners.toString(listener));
+		this.tab();
 		
 		this.delegate().unregister(listener);
 		
-		this.print("Listener ", DebugListeners.toString(listener), " unregistered");
+		this.untab();
 	}
 
 	public final void unregisterAll(final Class<? extends Listener> type)
 	{
-		this.print("Unregistering all listeners assignable to ", type);
+		this.print("Unregistering all listeners assignable to %s", DebugListeners.toString(type));
+		this.tab();
 		
 		this.delegate().unregisterAll(type);
+		
+		this.untab();
 	}
 
 	public final <L extends Listener> Collection<L> registered(final Class<L> type)
@@ -62,7 +67,7 @@ public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager>
 		return this.delegate().registered(type);
 	}
 
-	public final Map<Resource<?>, Collection<Listener>> registrations()
+	public final Multimap<Resource<?>, Listener> registrations()
 	{
 		return this.delegate().registrations();
 	}

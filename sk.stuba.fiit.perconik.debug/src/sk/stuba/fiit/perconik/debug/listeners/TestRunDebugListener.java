@@ -5,7 +5,7 @@ import org.eclipse.jdt.junit.model.ITestRunSession;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class TestRunDebugListener extends AbstractDebugListener implements TestRunListener
 {
@@ -13,7 +13,7 @@ public final class TestRunDebugListener extends AbstractDebugListener implements
 	{
 	}
 	
-	public TestRunDebugListener(final PluginConsole console)
+	public TestRunDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

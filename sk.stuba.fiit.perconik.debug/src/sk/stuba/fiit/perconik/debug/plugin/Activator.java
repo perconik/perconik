@@ -4,6 +4,8 @@ import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
+import sk.stuba.fiit.perconik.debug.DebugResources;
+import sk.stuba.fiit.perconik.debug.DebugServices;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
 /**
@@ -41,17 +43,44 @@ public class Activator extends AbstractPlugin
 	{
 		return plugin;
 	}
-
-	public static final class Startup implements IStartup
+	
+	private static abstract class Hook
 	{
-		public Startup() throws Exception
+		Hook()
 		{
-			Debug.print("Constructing %s ... done", this.getClass().getCanonicalName());
+			Debug.print("Constructing %s ... done", this.getClass());
 		}
-		
+	}
+
+	public static final class Startup extends Hook implements IStartup
+	{
 		public final void earlyStartup()
 		{
-			Debug.print("Executing early startup %s ... done", this.getClass().getCanonicalName());
+			Debug.print("Executing early startup %s", this.getClass());
+			
+			Debug.put("Wrapping resources into debug objects ... ");
+			DebugResources.wrapAll();
+			Debug.print("done");
+
+			Debug.put("Wrapping core services into debug objects ... ");
+			DebugServices.wrapAll();
+			Debug.print("done");
+			
+			DebugResources.printRegistrations();
+			
+			DebugListeners.registerAll();
+			DebugListeners.printRegistrations();
+		}
+	}
+	
+	public static final class Shutdown extends Hook 
+	{
+		public final void earlyShutdown()
+		{
+			Debug.print("Executing early shutdown %s", this.getClass());
+			
+			DebugListeners.unregisterAll();
+			DebugListeners.printRegistrations();
 		}
 	}
 
@@ -65,17 +94,13 @@ public class Activator extends AbstractPlugin
 		plugin = this;
 		
 		this.console.print("done");
-	
-		DebugListeners.registerAll();
-		DebugListeners.printRegisterations(this.console);
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		DebugListeners.unregisterAll();
-		DebugListeners.printRegisterations(this.console);
-
+		new Shutdown().earlyShutdown();
+		
 		this.console.put("Stopping %s ... ", PLUGIN_ID);
 		
 		plugin = null;

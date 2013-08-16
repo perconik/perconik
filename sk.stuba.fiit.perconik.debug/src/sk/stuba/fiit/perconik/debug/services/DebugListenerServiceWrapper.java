@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug.services;
 import sk.stuba.fiit.perconik.core.services.AbstractListenerService;
 import sk.stuba.fiit.perconik.core.services.ListenerService;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class DebugListenerServiceWrapper extends AbstractListenerService
 {
@@ -35,7 +35,7 @@ public final class DebugListenerServiceWrapper extends AbstractListenerService
 		return of(service, Debug.getDefaultConsole());
 	}
 	
-	public static final DebugListenerServiceWrapper of(final ListenerService service, final PluginConsole console)
+	public static final DebugListenerServiceWrapper of(final ListenerService service, final DebugConsole console)
 	{
 		Builder builder = builder();
 		

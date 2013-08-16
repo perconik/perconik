@@ -1,14 +1,12 @@
 package sk.stuba.fiit.perconik.debug;
 
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
-
 public abstract class ForwardingDebugObject extends DebugObject
 {
 	protected ForwardingDebugObject()
 	{
 	}
 	
-	protected ForwardingDebugObject(final PluginConsole console)
+	protected ForwardingDebugObject(final DebugConsole console)
 	{
 		super(console);
 	}
@@ -16,7 +14,7 @@ public abstract class ForwardingDebugObject extends DebugObject
 	protected abstract Object delegate();
 	
 	@Override
-	public final String toString()
+	public String toString()
 	{
 		return this.delegate().toString();
 	}

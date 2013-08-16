@@ -1,44 +1,19 @@
 package sk.stuba.fiit.perconik.debug;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.SortedSet;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.debug.listeners.CommandChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CommandExecutionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CommandManagerChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CompletionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.DebugEventsDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.DocumentChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.FileBufferDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.JavaElementChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchConfigurationDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.LaunchesDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.OperationHistoryDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PageDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PerspectiveDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.RefactoringExecutionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.RefactoringHistoryDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.ResourceChangeDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.SelectionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.TestRunDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.WindowDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.WorkbenchDebugListener;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
 
 public final class DebugListeners
 {
@@ -49,11 +24,11 @@ public final class DebugListeners
 	
 	public static final void registerAll()
 	{
-		PluginConsole console = Activator.getDefault().getConsole();
+		DebugConsole console = Debug.getDefaultConsole();
 		
 		// TODO load from configuration
 
-//		.class,CommandChangeDebugListener(console));
+//		Listeners.register(new CommandChangeDebugListener(console));
 //		Listeners.register(new CommandExecutionDebugListener(console));
 //		Listeners.register(new CommandManagerChangeDebugListener(console));
 //		Listeners.register(new CompletionDebugListener(console));
@@ -62,7 +37,7 @@ public final class DebugListeners
 //		Listeners.register(new FileBufferDebugListener(console));
 //		Listeners.register(new JavaElementChangeDebugListener(console));
 //		//Listeners.register(new LaunchDebugListener(console));
-//		Listeners.register(new LaunchesDebugListener(console));
+		Listeners.register(new LaunchesDebugListener(console));
 //		//Listeners.register(new LaunchConfigurationDebugListener(console));
 //		Listeners.register(new OperationHistoryDebugListener(console));
 //		Listeners.register(new PageDebugListener(console));
@@ -85,6 +60,11 @@ public final class DebugListeners
 		}
 	}
 
+	public static final String toString(final Class<? extends Listener> type)
+	{
+		return type.getName();
+	}
+	
 	public static final String toString(final Listener listener)
 	{
 		return Strings.toStringFallback(listener);
@@ -120,19 +100,29 @@ public final class DebugListeners
 //		};
 //	}
 
-	public static final void printRegistered(final PluginConsole console)
+	public static final void printRegistered()
 	{
-		printRegistered(console, Listener.class);
+		printRegistered(Listener.class);
 	}
 	
-	public static final void printRegistered(final PluginConsole console, final Class<? extends Listener> type)
+	public static final void printRegistered(final Class<? extends Listener> type)
+	{
+		printRegistered(type, Debug.getDefaultConsole());
+	}
+	
+	public static final void printRegistered(final Class<? extends Listener> type, final DebugConsole console)
 	{
 		console.put(dumpRegistered(type));
 	}
-	
-	public static final void printRegisterations(final PluginConsole console)
+
+	public static final void printRegistrations()
 	{
-		console.put(dumpRegisterations());
+		printRegisterations(Debug.getDefaultConsole());
+	}
+	
+	public static final void printRegisterations(final DebugConsole console)
+	{
+		console.put(dumpRegistrations());
 	}
 
 	static final String dumpRegistered(final Class<? extends Listener> type)
@@ -160,25 +150,25 @@ public final class DebugListeners
 		return builder.toString();
 	}
 
-	static final String dumpRegisterations()
+	static final String dumpRegistrations()
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
 		builder.appendln("Registered resource to listeners map:").tab();
 		
-		Map<Resource<?>, Collection<Listener>> map = Maps.newTreeMap(Strings.toStringComparator());
+		Multimap<Resource<?>, Listener> map = Listeners.registrations();
+
+		SortedSet<Resource<?>> resources = Sets.newTreeSet(Strings.toStringComparator());
 		
-		map.putAll(Listeners.registrations());
+		resources.addAll(map.keySet());
 		
 		if (!map.isEmpty())
 		{
-			for (Entry<Resource<?>, Collection<Listener>> entry: map.entrySet())
+			for (Resource<?> resource: resources)
 			{
-				Resource<?> resource = entry.getKey();
-				
 				builder.appendln(DebugResources.toString(resource)).tab();
 	
-				List<Listener> listeners = Lists.newArrayList(entry.getValue());
+				List<Listener> listeners = Lists.newArrayList(map.get(resource));
 				
 				if (!listeners.isEmpty())
 				{

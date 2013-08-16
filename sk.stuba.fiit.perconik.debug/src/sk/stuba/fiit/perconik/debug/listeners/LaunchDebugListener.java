@@ -5,7 +5,7 @@ import org.eclipse.debug.core.ILaunch;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class LaunchDebugListener extends AbstractDebugListener implements LaunchListener
 {
@@ -13,7 +13,7 @@ public final class LaunchDebugListener extends AbstractDebugListener implements 
 	{
 	}
 	
-	public LaunchDebugListener(final PluginConsole console)
+	public LaunchDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

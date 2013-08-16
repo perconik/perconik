@@ -4,7 +4,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class DocumentChangeDebugListener extends AbstractDebugListener implements DocumentChangeListener
 {
@@ -12,7 +12,7 @@ public final class DocumentChangeDebugListener extends AbstractDebugListener imp
 	{
 	}
 	
-	public DocumentChangeDebugListener(final PluginConsole console)
+	public DocumentChangeDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

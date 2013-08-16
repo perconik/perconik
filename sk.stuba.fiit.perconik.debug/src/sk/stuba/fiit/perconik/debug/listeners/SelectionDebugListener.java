@@ -5,7 +5,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class SelectionDebugListener extends AbstractDebugListener implements SelectionListener
 {
@@ -13,7 +13,7 @@ public final class SelectionDebugListener extends AbstractDebugListener implemen
 	{
 	}
 	
-	public SelectionDebugListener(final PluginConsole console)
+	public SelectionDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

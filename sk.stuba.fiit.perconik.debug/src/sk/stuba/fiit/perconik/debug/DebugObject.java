@@ -1,20 +1,29 @@
 package sk.stuba.fiit.perconik.debug;
 
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.google.common.base.Preconditions;
 
 public abstract class DebugObject
 {
-	private final PluginConsole console; 
+	private final DebugConsole console; 
 	
 	protected DebugObject()
 	{
 		this(Debug.getDefaultConsole());
 	}
 	
-	protected DebugObject(final PluginConsole console)
+	protected DebugObject(final DebugConsole console)
 	{
 		this.console = Preconditions.checkNotNull(console);
+	}
+	
+	protected final void tab()
+	{
+		this.console.tab();
+	}
+	
+	protected final void untab()
+	{
+		this.console.untab();
 	}
 	
 	protected final void put(final String message)

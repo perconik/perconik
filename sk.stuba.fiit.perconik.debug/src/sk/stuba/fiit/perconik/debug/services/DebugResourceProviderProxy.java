@@ -3,13 +3,13 @@ package sk.stuba.fiit.perconik.debug.services;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.ResourceProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
 import sk.stuba.fiit.perconik.debug.DebugResources;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 public class DebugResourceProviderProxy extends DebugObjectProxy<ResourceProvider> implements DebugResourceProvider
 {
-	private DebugResourceProviderProxy(final ResourceProvider provider, final PluginConsole console)
+	private DebugResourceProviderProxy(final ResourceProvider provider, final DebugConsole console)
 	{
 		super(provider, console);
 	}
@@ -19,7 +19,7 @@ public class DebugResourceProviderProxy extends DebugObjectProxy<ResourceProvide
 		return of(provider, Debug.getDefaultConsole());
 	}
 
-	public static final DebugResourceProviderProxy of(final ResourceProvider provider, final PluginConsole console)
+	public static final DebugResourceProviderProxy of(final ResourceProvider provider, final DebugConsole console)
 	{
 		if (provider instanceof DebugResourceProviderProxy)
 		{
@@ -31,7 +31,7 @@ public class DebugResourceProviderProxy extends DebugObjectProxy<ResourceProvide
 
 	public final Resource<?> forName(final String name)
 	{
-		this.put("Requesting resource by name ", name, " ... ");
+		this.put("Requesting resource by name %s ... ", name);
 		
 		Resource<?> resource = this.delegate().forName(name);
 		

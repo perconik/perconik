@@ -2,12 +2,19 @@ package sk.stuba.fiit.perconik.debug;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedSet;
+import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.resources.DebugResourceProxy;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeParameter;
+import com.google.common.reflect.TypeToken;
 
 public final class DebugResources
 {
@@ -16,23 +23,62 @@ public final class DebugResources
 		throw new AssertionError();
 	}
 	
+	public static final void wrapAll()
+	{
+		for (Entry<Class<? extends Listener>, Resource<?>> entry: Resources.registrations().entries())
+		{
+			wrapInternal(entry.getKey(), entry.getValue());
+		}
+	}
+
+	private static <L extends Listener> void wrapInternal(final Class<L> type, final Resource<?> resource)
+	{
+		@SuppressWarnings("serial")
+		TypeToken<Resource<L>> token = new TypeToken<Resource<L>>(){}.where(new TypeParameter<L>(){}, TypeToken.of(type));
+		
+		Resource<L> casted = (Resource<L>) token.getRawType().cast(resource);
+		
+		Resources.unregister(type, casted);
+		Resources.register(type, DebugResourceProxy.of(casted));
+	}
+
+	public static final String toString(final Class<? extends Resource<?>> type)
+	{
+		return type.getName();
+	}
+	
 	public static final String toString(final Resource<?> resource)
 	{
 		return Strings.toStringFallback(resource);
 	}
 	
-	public static final void printRegistered(final PluginConsole console)
+	public static final void printRegistered()
 	{
-		console.put(dumpRegisteredMap());
-	}	
+		printRegistered(Debug.getDefaultConsole());
+	}
+	
+	public static final void printRegistered(final DebugConsole console)
+	{
+		console.put(dumpRegistered());
+	}
+	
+	public static final void printRegistrations()
+	{
+		printRegistrations(Debug.getDefaultConsole());
+	}
+	
+	public static final void printRegistrations(final DebugConsole console)
+	{
+		console.put(dumpRegistrations());
+	}
 
-	static final String dumpRegisteredMap()
+	static final String dumpRegistered()
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
 		
 		builder.appendln("Registered resources:").tab();
 		
-		List<Resource<?>> resources = Lists.newArrayList(Resources.registered());
+		List<Resource<?>> resources = Lists.newArrayList(Resources.registrations().values());
 
 		if (!resources.isEmpty())
 		{
@@ -48,6 +94,51 @@ public final class DebugResources
 			builder.appendln("none");
 		}
 		
+		return builder.toString();
+	}
+	
+	static final String dumpRegistrations()
+	{
+		SmartStringBuilder builder = new SmartStringBuilder();
+		
+		builder.appendln("Registered listener type to resources map:").tab();
+		
+		SetMultimap<Class<? extends Listener>, Resource<?>> map = Resources.registrations();
+		
+		SortedSet<Class<? extends Listener>> types = Sets.newTreeSet(Strings.toStringComparator());
+		
+		types.addAll(map.keySet());
+		
+		if (!map.isEmpty())
+		{
+			for (Class<? extends Listener> type: types)
+			{
+				builder.appendln(DebugListeners.toString(type)).tab();
+	
+				List<Resource<?>> resources = Lists.newArrayList(map.get(type));
+				
+				if (!resources.isEmpty())
+				{
+					Collections.sort(resources, Strings.toStringComparator());
+					
+					for (Resource<?> resource: resources)
+					{
+						builder.appendln(toString(resource));
+					}
+				}
+				else
+				{
+					builder.appendln("none");
+				}
+				
+				builder.untab();
+			}
+		}
+		else
+		{
+			builder.appendln("none");
+		}
+
 		return builder.toString();
 	}
 }

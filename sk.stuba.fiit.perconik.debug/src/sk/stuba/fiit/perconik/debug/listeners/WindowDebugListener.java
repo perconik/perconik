@@ -4,7 +4,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class WindowDebugListener extends AbstractDebugListener implements WindowListener
 {
@@ -12,7 +12,7 @@ public final class WindowDebugListener extends AbstractDebugListener implements 
 	{
 	}
 	
-	public WindowDebugListener(final PluginConsole console)
+	public WindowDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

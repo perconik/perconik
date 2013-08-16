@@ -4,7 +4,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
 
 public final class PartDebugListener extends AbstractDebugListener implements PartListener
 {
@@ -12,7 +12,7 @@ public final class PartDebugListener extends AbstractDebugListener implements Pa
 	{
 	}
 	
-	public PartDebugListener(final PluginConsole console)
+	public PartDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}
