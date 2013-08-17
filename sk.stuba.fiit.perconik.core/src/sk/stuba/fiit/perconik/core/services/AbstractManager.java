@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.services;
 
-abstract class AbstractManager
+public abstract class AbstractManager
 {
-	AbstractManager()
+	protected AbstractManager()
 	{
 	}
 

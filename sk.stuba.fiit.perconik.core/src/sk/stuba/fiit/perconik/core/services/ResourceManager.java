@@ -2,10 +2,11 @@ package sk.stuba.fiit.perconik.core.services;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Manager;
 import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.collect.SetMultimap;
 
-public interface ResourceManager
+public interface ResourceManager extends Manager
 {
 	public <L extends Listener> void register(Class<L> type, Resource<? super L> resource);
 

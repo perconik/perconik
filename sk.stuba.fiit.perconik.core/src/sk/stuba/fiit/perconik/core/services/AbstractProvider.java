@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.services;
 
-abstract class AbstractProvider
+public abstract class AbstractProvider
 {
-	AbstractProvider()
+	protected AbstractProvider()
 	{
 	}
 	

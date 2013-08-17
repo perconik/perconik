@@ -2,10 +2,11 @@ package sk.stuba.fiit.perconik.core.services;
 
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Manager;
 import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.collect.Multimap;
 
-public interface ListenerManager
+public interface ListenerManager extends Manager
 {
 	public <L extends Listener> void register(final L listener);
 

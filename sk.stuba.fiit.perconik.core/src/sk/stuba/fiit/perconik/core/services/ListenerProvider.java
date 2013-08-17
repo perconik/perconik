@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.core.services;
 
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Provider;
 
-public interface ListenerProvider
+public interface ListenerProvider extends Provider
 {
 	public <L extends Listener> L forClass(Class<L> type);
 	

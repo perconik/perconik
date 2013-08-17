@@ -3,14 +3,14 @@ package sk.stuba.fiit.perconik.core.services;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Resource;
 
-public abstract class AbstractResourceService extends AbstractService<ResourceProvider, ResourceManager> implements ResourceService
+public abstract class AbstractResourceService extends AbstractServiceBase<ResourceProvider, ResourceManager> implements ResourceService
 {
 	protected AbstractResourceService(final Builder builder)
 	{
 		super(builder);
 	}
 	
-	protected static abstract class Builder extends AbstractService.Builder<ResourceProvider, ResourceManager>
+	protected static abstract class Builder extends AbstractServiceBase.Builder<ResourceProvider, ResourceManager>
 	{
 		protected Builder()
 		{
