@@ -10,6 +10,18 @@ public final class Services
 		throw new AssertionError();
 	}
 	
+	public static final void start()
+	{
+		getResourceService().start();
+		getListenerService().start();
+	}
+	
+	public static final void stop()
+	{
+		getListenerService().stop();
+		getResourceService().stop();
+	}
+	
 	public static final void setResourceService(final ResourceService service)
 	{
 		Internals.setApi(ResourceService.class, service);

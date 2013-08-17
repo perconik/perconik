@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="sk.stuba.fiir.perconik.core.startup"
+         id="sk.stuba.fiit.perconik.core.startup"
          name="PerConIK Core Startup"
          point="org.eclipse.ui.startup">
       <startup

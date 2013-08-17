@@ -47,9 +47,4 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		
 		return type;
 	}
-
-	public final Iterable<Class<? extends Listener>> loadedClasses()
-	{
-		return this.map().values();
-	}
 }

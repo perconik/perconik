@@ -8,5 +8,5 @@ public interface ListenerProvider
 	
 	public Class<? extends Listener> loadClass(String name) throws ClassNotFoundException;
 
-	public Iterable<Class<? extends Listener>> loadedClasses();
+	public Iterable<Class<? extends Listener>> classes();
 }

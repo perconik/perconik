@@ -23,6 +23,14 @@ final class GenericListenerManager extends AbstractListenerManager
 		return Services.getResourceService().getResourceManager();
 	}
 	
+	public final void unregisterAll(final Class<? extends Listener> type)
+	{
+		for (Resource<?> resource: this.manager().assignable(type))
+		{
+			resource.unregisterAll(type);
+		}
+	}
+	
 	public final <L extends Listener> Collection<L> registered(final Class<L> type)
 	{
 		List<L> listeners = Lists.newArrayList();

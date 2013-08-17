@@ -18,7 +18,7 @@ public final class DefaultListeners
 		{
 			GenericListenerService.Builder builder = GenericListenerService.builder();
 			
-			builder.provider(new GenericListenerProvider());
+			builder.provider(GenericListenerProvider.builder().build());
 			builder.manager(new GenericListenerManager());
 			
 			service = builder.build();

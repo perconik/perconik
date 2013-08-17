@@ -11,22 +11,32 @@ public final class Resources
 		throw new AssertionError();
 	}
 
-	public static final <L extends Listener> void register(Class<L> type, Resource<L> resource)
+	public static final <L extends Listener> void register(final Class<L> type, final Resource<? super L> resource)
 	{
 		Services.getResourceService().getResourceManager().register(type, resource);
 	}
 
-	public static final <L extends Listener> void unregister(Class<L> type, Resource<L> resource)
+	public static final <L extends Listener> void unregister(final Class<L> type, final Resource<? super L> resource)
 	{
 		Services.getResourceService().getResourceManager().unregister(type, resource);
 	}
+	
+	public static final <L extends Listener> void unregisterAll()
+	{
+		Services.getResourceService().getResourceManager().unregisterAll(Listener.class);
+	}
+	
+	public static final <L extends Listener> void unregisterAll(final Class<L> type)
+	{
+		Services.getResourceService().getResourceManager().unregisterAll(type);
+	}
 
-	public static final <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type)
+	public static final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
 	{
 		return Services.getResourceService().getResourceManager().assignable(type);
 	}
 
-	public static final <L extends Listener> Set<Resource<? super L>> registrable(Class<L> type)
+	public static final <L extends Listener> Set<Resource<? super L>> registrable(final Class<L> type)
 	{
 		return Services.getResourceService().getResourceManager().registrable(type);
 	}

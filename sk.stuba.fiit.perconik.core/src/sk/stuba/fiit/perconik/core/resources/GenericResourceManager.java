@@ -19,9 +19,17 @@ final class GenericResourceManager extends AbstractResourceManager
 	}
 	
 	@Override
-	protected final SetMultimap<Class<? extends Listener>, Resource<?>> map()
+	protected final SetMultimap<Class<? extends Listener>, Resource<?>> multimap()
 	{
 		return this.map;
+	}
+	
+	public final <L extends Listener> void unregisterAll(final Class<L> type)
+	{
+		for (Resource<?> resource: this.multimap().get(type))
+		{
+			this.unregister(type, Unsafe.cast(type, resource));
+		}
 	}
 	
 	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)

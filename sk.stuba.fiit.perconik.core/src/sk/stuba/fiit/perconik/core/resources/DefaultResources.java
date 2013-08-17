@@ -24,6 +24,8 @@ import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.core.resources.GenericResourceProvider.Builder;
+import sk.stuba.fiit.perconik.core.services.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.ResourceService;
 
 // TODO consider adding
@@ -97,30 +99,36 @@ public class DefaultResources
 
 	static final Resource<WorkbenchListener> workbench;
 	
+	static final ResourceProvider provider;
+
 	static
 	{
-		commandChange        = build(CommandChangeListener.class, CommandChangeHandler.INSTANCE);
-		commandExecution     = build(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE);
-		commandManagerChange = build(CommandManagerChangeListener.class, CommandManagerChangeHandler.INSTANCE);
-		completion           = build(CompletionListener.class, CompletionHandler.INSTANCE);
-		debugEvents          = build(DebugEventsListener.class, DebugEventsHandler.INSTANCE);
-		documentChange       = build(DocumentChangeListener.class, DocumentChangeHandler.INSTANCE);
-		fileBuffer           = build(FileBufferListener.class, FileBufferHandler.INSTANCE);
-		javaElementChange    = build(JavaElementChangeListener.class, JavaElementChangeHandler.INSTANCE);
-		launch               = build(LaunchListener.class, LaunchHandler.INSTANCE);
-		launchConfiguration  = build(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE);
-		launches             = build(LaunchesListener.class, LaunchesHandler.INSTANCE);
-		operationHistory     = build(OperationHistoryListener.class, OperationHistoryHandler.INSTANCE);
-		page                 = build(PageListener.class, PageHandler.INSTANCE);
-		part                 = build(PartListener.class, PartHandler.INSTANCE);
-		perspective          = build(PerspectiveListener.class, PerspectiveHandler.INSTANCE);
-		refactoringExecution = build(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE);
-		refactoringHistory   = build(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE);
-		resourceChange       = build(ResourceChangeListener.class, ResourceChangeHandler.INSTANCE);
-		selection            = build(SelectionListener.class, SelectionHandler.INSTANCE);
-		testRun              = build(TestRunListener.class, TestRunHandler.INSTANCE);
-		window               = build(WindowListener.class, WindowHandler.INSTANCE);
-		workbench            = build(WorkbenchListener.class, WorkbenchHandler.INSTANCE);
+		Builder builder = GenericResourceProvider.builder();
+		
+		commandChange        = forge(CommandChangeListener.class, CommandChangeHandler.INSTANCE, builder);
+		commandExecution     = forge(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE, builder);
+		commandManagerChange = forge(CommandManagerChangeListener.class, CommandManagerChangeHandler.INSTANCE, builder);
+		completion           = forge(CompletionListener.class, CompletionHandler.INSTANCE, builder);
+		debugEvents          = forge(DebugEventsListener.class, DebugEventsHandler.INSTANCE, builder);
+		documentChange       = forge(DocumentChangeListener.class, DocumentChangeHandler.INSTANCE, builder);
+		fileBuffer           = forge(FileBufferListener.class, FileBufferHandler.INSTANCE, builder);
+		javaElementChange    = forge(JavaElementChangeListener.class, JavaElementChangeHandler.INSTANCE, builder);
+		launch               = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
+		launchConfiguration  = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
+		launches             = forge(LaunchesListener.class, LaunchesHandler.INSTANCE, builder);
+		operationHistory     = forge(OperationHistoryListener.class, OperationHistoryHandler.INSTANCE, builder);
+		page                 = forge(PageListener.class, PageHandler.INSTANCE, builder);
+		part                 = forge(PartListener.class, PartHandler.INSTANCE, builder);
+		perspective          = forge(PerspectiveListener.class, PerspectiveHandler.INSTANCE, builder);
+		refactoringExecution = forge(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE, builder);
+		refactoringHistory   = forge(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE, builder);
+		resourceChange       = forge(ResourceChangeListener.class, ResourceChangeHandler.INSTANCE, builder);
+		selection            = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
+		testRun              = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
+		window               = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
+		workbench            = forge(WorkbenchListener.class, WorkbenchHandler.INSTANCE, builder);
+		
+		provider = builder.build();
 	}
 	
 	private DefaultResources()
@@ -136,7 +144,7 @@ public class DefaultResources
 		{
 			GenericResourceService.Builder builder = GenericResourceService.builder();
 			
-			builder.provider(GenericResourceProvider.builder().build());
+			builder.provider(provider);
 			builder.manager(new GenericResourceManager());
 			
 			service = builder.build();
@@ -163,12 +171,11 @@ public class DefaultResources
 		return null;
 	}
 
-	private static final <T extends Listener> Resource<T> build(final Class<T> type, final Handler<T> handler)
+	private static final <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder)
 	{
-		Resource<T> resource = new GenericResource<>(Pools.getListenerPoolFactory().create(handler));
+		Resource<L> resource = new GenericResource<>(Pools.getListenerPoolFactory().create(handler));
 
-		// TODO provider still holds no resources
-		getDefaultResourceService().getResourceManager().register(type, resource);
+		builder.add(type, resource);
 		
 		return resource;
 	}
