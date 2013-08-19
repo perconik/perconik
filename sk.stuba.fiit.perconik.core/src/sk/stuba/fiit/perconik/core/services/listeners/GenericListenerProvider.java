@@ -1,8 +1,7 @@
-package sk.stuba.fiit.perconik.core.listeners;
+package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.services.AbstractListenerProvider;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -22,7 +21,7 @@ final class GenericListenerProvider extends AbstractListenerProvider
 		}
 	}
 	
-	public static final class Builder
+	public static final class Builder implements ListenerProvider.Builder
 	{
 		BiMap<String, Class<? extends Listener>> map;
 
@@ -31,7 +30,7 @@ final class GenericListenerProvider extends AbstractListenerProvider
 			this.map = HashBiMap.create();
 		}
 		
-		public final <L extends Listener> Builder add(final Class<L> type)
+		public final Builder add(final Class<? extends Listener> type)
 		{
 			Preconditions.checkNotNull(type);
 			

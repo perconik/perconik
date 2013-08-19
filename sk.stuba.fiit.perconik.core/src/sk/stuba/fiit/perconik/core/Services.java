@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core;
 
-import sk.stuba.fiit.perconik.core.services.ListenerService;
-import sk.stuba.fiit.perconik.core.services.ResourceService;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 
 public final class Services
 {

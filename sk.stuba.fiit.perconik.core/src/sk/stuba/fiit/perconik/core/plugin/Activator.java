@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
+import sk.stuba.fiit.perconik.core.Services;
+import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
 /**
@@ -41,12 +43,18 @@ public class Activator extends AbstractPlugin
 
 	public static final class Startup implements IStartup
 	{
-		public Startup() throws Exception
-		{
-		}
-		
 		public final void earlyStartup()
 		{
+			// TODO set services before start using custom extension point
+			Services.start();
+		}
+	}
+	
+	public static final class Shutdown implements IShutdown
+	{
+		public final void earlyShutdown()
+		{
+			Services.stop();
 		}
 	}
 
@@ -61,6 +69,8 @@ public class Activator extends AbstractPlugin
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
+		new Shutdown().earlyShutdown();
+		
 		plugin = null;
 
 		super.stop(context);

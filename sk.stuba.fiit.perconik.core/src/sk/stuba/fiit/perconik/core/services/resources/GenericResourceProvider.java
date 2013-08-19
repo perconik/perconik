@@ -1,10 +1,9 @@
-package sk.stuba.fiit.perconik.core.resources;
+package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.core.services.AbstractResourceProvider;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -26,7 +25,7 @@ final class GenericResourceProvider extends AbstractResourceProvider
 		this.multimap = ImmutableSetMultimap.copyOf(builder.multimap); 
 	}
 	
-	public static final class Builder
+	public static final class Builder implements ResourceProvider.Builder
 	{
 		BiMap<String, Resource<?>> map;
 		

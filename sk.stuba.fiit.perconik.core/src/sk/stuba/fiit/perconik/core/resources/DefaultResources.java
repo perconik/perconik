@@ -24,9 +24,12 @@ import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
-import sk.stuba.fiit.perconik.core.resources.GenericResourceProvider.Builder;
-import sk.stuba.fiit.perconik.core.services.ResourceProvider;
-import sk.stuba.fiit.perconik.core.services.ResourceService;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceProviders;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 
 // TODO consider adding
 /*
@@ -103,7 +106,7 @@ public class DefaultResources
 
 	static
 	{
-		Builder builder = GenericResourceProvider.builder();
+		Builder builder = ResourceProviders.builder();
 		
 		commandChange        = forge(CommandChangeListener.class, CommandChangeHandler.INSTANCE, builder);
 		commandExecution     = forge(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE, builder);
@@ -142,12 +145,7 @@ public class DefaultResources
 		
 		static
 		{
-			GenericResourceService.Builder builder = GenericResourceService.builder();
-			
-			builder.provider(provider);
-			builder.manager(new GenericResourceManager());
-			
-			service = builder.build();
+			service = ResourceServices.create(provider, ResourceManagers.create());
 		}
 		
 		private ServiceHolder()

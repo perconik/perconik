@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.services;
+package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
@@ -16,4 +16,11 @@ public interface ResourceProvider extends Provider
 	public Iterable<Class<? extends Listener>> classes();
 	
 	public Iterable<Resource<?>> resources();
+
+	public interface Builder
+	{
+		public <L extends Listener> Builder add(final Class<L> type, final Resource<L> resource);
+		
+		public ResourceProvider build(); 
+	}
 }

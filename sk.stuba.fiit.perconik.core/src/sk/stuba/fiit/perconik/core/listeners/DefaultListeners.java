@@ -1,10 +1,21 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
-import sk.stuba.fiit.perconik.core.services.ListenerService;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagers;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
 
 public final class DefaultListeners
 {
+	static final ListenerProvider provider;
+	
+	static
+	{
+		provider = ListenerProviders.builder().build();
+	}
+	
 	private DefaultListeners()
 	{
 		throw new AssertionError();
@@ -16,12 +27,7 @@ public final class DefaultListeners
 		
 		static
 		{
-			GenericListenerService.Builder builder = GenericListenerService.builder();
-			
-			builder.provider(GenericListenerProvider.builder().build());
-			builder.manager(new GenericListenerManager());
-			
-			service = builder.build();
+			service = ListenerServices.create(provider, ListenerManagers.create());
 		}
 		
 		private ServiceHolder()

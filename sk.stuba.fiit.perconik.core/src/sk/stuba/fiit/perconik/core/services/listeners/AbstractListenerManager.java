@@ -1,8 +1,10 @@
-package sk.stuba.fiit.perconik.core.services;
+package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.services.AbstractManager;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 
 public abstract class AbstractListenerManager extends AbstractManager implements ListenerManager
 {

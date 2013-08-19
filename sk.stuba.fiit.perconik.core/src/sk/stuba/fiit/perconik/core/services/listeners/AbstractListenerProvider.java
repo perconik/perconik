@@ -1,6 +1,7 @@
-package sk.stuba.fiit.perconik.core.services;
+package sk.stuba.fiit.perconik.core.services.listeners;
 
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 import com.google.common.collect.BiMap;
 
 public abstract class AbstractListenerProvider extends AbstractProvider implements ListenerProvider

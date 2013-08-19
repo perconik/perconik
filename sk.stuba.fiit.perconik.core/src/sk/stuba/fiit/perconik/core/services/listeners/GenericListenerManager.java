@@ -1,12 +1,11 @@
-package sk.stuba.fiit.perconik.core.listeners;
+package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Collection;
 import java.util.List;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Services;
-import sk.stuba.fiit.perconik.core.services.AbstractListenerManager;
-import sk.stuba.fiit.perconik.core.services.ResourceManager;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;

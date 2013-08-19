@@ -1,7 +1,8 @@
-package sk.stuba.fiit.perconik.core.services;
+package sk.stuba.fiit.perconik.core.services.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
