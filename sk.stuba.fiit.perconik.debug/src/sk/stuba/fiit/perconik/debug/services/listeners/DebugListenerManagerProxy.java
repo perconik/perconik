@@ -1,28 +1,28 @@
-package sk.stuba.fiit.perconik.debug.services;
+package sk.stuba.fiit.perconik.debug.services.listeners;
 
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.services.ListenerManager;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
+import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import com.google.common.collect.Multimap;
 
-public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager> implements DebugListenerManager
+public class DebugListenerManagerProxy extends DebugNameableProxy<ListenerManager> implements DebugListenerManager
 {
 	private DebugListenerManagerProxy(final ListenerManager manager, final DebugConsole console)
 	{
 		super(manager, console);
 	}
 	
-	public static final DebugListenerManagerProxy of(final ListenerManager manager)
+	public static final DebugListenerManagerProxy wrap(final ListenerManager manager)
 	{
-		return of(manager, Debug.getDefaultConsole());
+		return wrap(manager, Debug.getDefaultConsole());
 	}
 
-	public static final DebugListenerManagerProxy of(final ListenerManager manager, final DebugConsole console)
+	public static final DebugListenerManagerProxy wrap(final ListenerManager manager, final DebugConsole console)
 	{
 		if (manager instanceof DebugListenerManagerProxy)
 		{
@@ -31,7 +31,17 @@ public class DebugListenerManagerProxy extends DebugObjectProxy<ListenerManager>
 		
 		return new DebugListenerManagerProxy(manager, console);
 	}
-
+	
+	public static final ListenerManager unwrap(final ListenerManager manager)
+	{
+		if (manager instanceof DebugListenerManagerProxy)
+		{
+			return ((DebugListenerManagerProxy) manager).delegate();
+		}
+		
+		return manager;
+	}
+	
 	public final <L extends Listener> void register(final L listener)
 	{
 		this.print("Registering listener %s", DebugListeners.toString(listener));

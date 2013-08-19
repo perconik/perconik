@@ -51,8 +51,8 @@ public abstract class ForwardingPluginConsole extends ForwardingObject
 		this.delegate().warning(format, args);
 	}
 
-	public void error(final String message, final Exception e)
+	public void error(final String message, final Throwable failure)
 	{
-		this.delegate().error(message, e);
+		this.delegate().error(message, failure);
 	}
 }

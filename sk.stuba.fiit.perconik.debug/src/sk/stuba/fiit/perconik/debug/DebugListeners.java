@@ -8,7 +8,6 @@ import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.debug.listeners.LaunchesDebugListener;
-import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.collect.Lists;
@@ -54,6 +53,7 @@ public final class DebugListeners
 	
 	public static final void unregisterAll()
 	{
+		// TODO rm? refactor? or wat?
 		for (Resource<?> resource: Resources.assignable(Listener.class))
 		{
 			resource.unregisterAll(DebugListener.class);
@@ -70,7 +70,8 @@ public final class DebugListeners
 		return Strings.toStringFallback(listener);
 	}
 
-	// TODO
+	// TODO make debug listener provider with these classes
+	
 //	public static final Set<Class<? extends DebugListener>> getListenerClasses()
 //	{
 //		@SuppressWarnings("unchecked")

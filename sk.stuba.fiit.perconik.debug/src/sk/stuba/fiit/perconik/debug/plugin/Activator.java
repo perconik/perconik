@@ -3,9 +3,7 @@ package sk.stuba.fiit.perconik.debug.plugin;
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugResources;
-import sk.stuba.fiit.perconik.debug.DebugServices;
+import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
 /**
@@ -26,12 +24,18 @@ public class Activator extends AbstractPlugin
 	 */
 	private static Activator plugin;
 
+	final DebugLoader loader;
+	
 	/**
 	 * The constructor.
 	 */
 	public Activator()
 	{
-		this.console.print("Constructing %s ... done", this.getClass().getCanonicalName());
+		this.console.put("Constructing %s ... ", this.getClass());
+		
+		this.loader = DebugLoader.create();
+		
+		this.console.print("done");
 	}
 
 	/**
@@ -56,31 +60,27 @@ public class Activator extends AbstractPlugin
 	{
 		public final void earlyStartup()
 		{
-			Debug.print("Executing early startup %s", this.getClass());
+			Debug.print("Executing early startup %s:", this.getClass());
+			Debug.tab();
 			
-			Debug.put("Wrapping resources into debug objects ... ");
-			DebugResources.wrapAll();
-			Debug.print("done");
+			getDefault().loader.load();
 
-			Debug.put("Wrapping core services into debug objects ... ");
-			DebugServices.wrapAll();
-			Debug.print("done");
-			
-			DebugResources.printRegistrations();
-			
-			DebugListeners.registerAll();
-			DebugListeners.printRegistrations();
+			Debug.untab();
+			Debug.print("Early startup %s finished", this.getClass());
 		}
 	}
-	
-	public static final class Shutdown extends Hook 
+
+	public static final class Shutdown extends Hook implements IShutdown
 	{
 		public final void earlyShutdown()
 		{
-			Debug.print("Executing early shutdown %s", this.getClass());
+			Debug.print("Executing early shutdown %s:", this.getClass());
+			Debug.tab();
+
+			getDefault().loader.unload();
 			
-			DebugListeners.unregisterAll();
-			DebugListeners.printRegistrations();
+			Debug.untab();
+			Debug.print("Early shutdown %s finished", this.getClass());
 		}
 	}
 

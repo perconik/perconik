@@ -1,29 +1,29 @@
-package sk.stuba.fiit.perconik.debug.services;
+package sk.stuba.fiit.perconik.debug.services.resources;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.services.ResourceManager;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
+import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResources;
 import com.google.common.collect.SetMultimap;
 
-public class DebugResourceManagerProxy extends DebugObjectProxy<ResourceManager> implements DebugResourceManager
+public class DebugResourceManagerProxy extends DebugNameableProxy<ResourceManager> implements DebugResourceManager
 {
 	private DebugResourceManagerProxy(final ResourceManager manager, final DebugConsole console)
 	{
 		super(manager, console);
 	}
 
-	public static final DebugResourceManagerProxy of(final ResourceManager manager)
+	public static final DebugResourceManagerProxy wrap(final ResourceManager manager)
 	{
-		return of(manager, Debug.getDefaultConsole());
+		return wrap(manager, Debug.getDefaultConsole());
 	}
 
-	public static final DebugResourceManagerProxy of(final ResourceManager manager, final DebugConsole console)
+	public static final DebugResourceManagerProxy wrap(final ResourceManager manager, final DebugConsole console)
 	{
 		if (manager instanceof DebugResourceManagerProxy)
 		{
@@ -33,7 +33,17 @@ public class DebugResourceManagerProxy extends DebugObjectProxy<ResourceManager>
 		return new DebugResourceManagerProxy(manager, console);
 	}
 
-	public final <L extends Listener> void register(final Class<L> type, final Resource<L> resource)
+	public static final ResourceManager unwrap(final ResourceManager manager)
+	{
+		if (manager instanceof DebugResourceManagerProxy)
+		{
+			return ((DebugResourceManagerProxy) manager).delegate();
+		}
+		
+		return manager;
+	}
+	
+	public final <L extends Listener> void register(final Class<L> type, final Resource<? super L> resource)
 	{
 		this.print("Registering resource %s to listener type %s", DebugResources.toString(resource), DebugListeners.toString(type));
 		this.tab();
@@ -43,12 +53,22 @@ public class DebugResourceManagerProxy extends DebugObjectProxy<ResourceManager>
 		this.untab();
 	}
 
-	public final <L extends Listener> void unregister(final Class<L> type, final Resource<L> resource)
+	public final <L extends Listener> void unregister(final Class<L> type, final Resource<? super L> resource)
 	{
 		this.print("Unregistering resource %s from listener type %s", DebugResources.toString(resource), DebugListeners.toString(type));
 		this.tab();
 		
 		this.delegate().unregister(type, resource);
+		
+		this.untab();
+	}
+
+	public final <L extends Listener> void unregisterAll(final Class<L> type)
+	{
+		this.print("Unregistering all resources from listener type %s", DebugListeners.toString(type));
+		this.tab();
+		
+		this.delegate().unregisterAll(type);
 		
 		this.untab();
 	}

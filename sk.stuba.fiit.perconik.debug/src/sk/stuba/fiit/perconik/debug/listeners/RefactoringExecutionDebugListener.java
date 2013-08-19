@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
-import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 

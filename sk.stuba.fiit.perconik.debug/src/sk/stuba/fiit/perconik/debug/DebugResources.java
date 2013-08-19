@@ -2,19 +2,15 @@ package sk.stuba.fiit.perconik.debug;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.SortedSet;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.debug.resources.DebugResourceProxy;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.common.reflect.TypeParameter;
-import com.google.common.reflect.TypeToken;
 
 public final class DebugResources
 {
@@ -23,24 +19,57 @@ public final class DebugResources
 		throw new AssertionError();
 	}
 	
-	public static final void wrapAll()
-	{
-		for (Entry<Class<? extends Listener>, Resource<?>> entry: Resources.registrations().entries())
-		{
-			wrapInternal(entry.getKey(), entry.getValue());
-		}
-	}
-
-	private static <L extends Listener> void wrapInternal(final Class<L> type, final Resource<?> resource)
-	{
-		@SuppressWarnings("serial")
-		TypeToken<Resource<L>> token = new TypeToken<Resource<L>>(){}.where(new TypeParameter<L>(){}, TypeToken.of(type));
-		
-		Resource<L> casted = (Resource<L>) token.getRawType().cast(resource);
-		
-		Resources.unregister(type, casted);
-		Resources.register(type, DebugResourceProxy.of(casted));
-	}
+	// TODO rm
+//	public static final void wrapAll()
+//	{
+//		for (Entry<Class<? extends Listener>, Resource<?>> entry: Resources.registrations().entries())
+//		{
+//			cast(entry.getKey(), entry.getValue(), Transformation.WRAP);
+//		}
+//	}
+//
+//	public static final void unwrapAll()
+//	{
+//		for (Entry<Class<? extends Listener>, Resource<?>> entry: Resources.registrations().entries())
+//		{
+//			cast(entry.getKey(), entry.getValue(), Transformation.UNWRAP);
+//		}
+//	}
+//
+//	// TODO get rid of this code
+//	private static <L extends Listener> void cast(final Class<L> type, final Resource<?> resource, final Transformation transformation)
+//	{
+//		@SuppressWarnings("serial")
+//		TypeToken<Resource<L>> token = new TypeToken<Resource<L>>(){}.where(new TypeParameter<L>(){}, TypeToken.of(type));
+//		
+//		Resource<L> casted = (Resource<L>) token.getRawType().cast(resource);
+//		
+//		Resources.unregister(type, casted);
+//		Resources.register(type, transformation.apply((casted)));
+//	}
+//	
+//	private enum Transformation
+//	{
+//		WRAP
+//		{
+//			@Override
+//			final <L extends Listener> Resource<L> apply(final Resource<L> resource)
+//			{
+//				return DebugResourceProxy.wrap(resource);
+//			}
+//		},
+//		
+//		UNWRAP
+//		{
+//			@Override
+//			final <L extends Listener> Resource<L> apply(final Resource<L> resource)
+//			{
+//				return DebugResourceProxy.unwrap(resource);
+//			}
+//		};
+//		
+//		abstract <L extends Listener> Resource<L> apply(Resource<L> resource);
+//	}
 
 	public static final String toString(final Class<? extends Resource<?>> type)
 	{

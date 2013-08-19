@@ -81,9 +81,9 @@ public final class PluginConsole
 		warning(String.format(format, args));
 	}
 
-	public final void error(final String message, final Exception e)
+	public final void error(final String message, final Throwable failure)
 	{
-		log(new Status(IStatus.ERROR, getPluginId(), message, e));
+		log(new Status(IStatus.ERROR, getPluginId(), message, failure));
 	}
 
 	private final String getPluginId()

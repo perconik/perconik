@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.runtime.IPath;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
-import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 

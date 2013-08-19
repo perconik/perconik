@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.debug;
 
 import com.google.common.base.Preconditions;
 
-public abstract class DebugObjectProxy<T> extends ForwardingDebugObject
+public abstract class DebugObjectProxy<T> extends AbstractDebugObject
 {
 	private final T object;
 	
@@ -18,7 +18,6 @@ public abstract class DebugObjectProxy<T> extends ForwardingDebugObject
 		this.object = Preconditions.checkNotNull(object);
 	}
 	
-	@Override
 	protected final T delegate()
 	{
 		return this.object;
@@ -34,5 +33,11 @@ public abstract class DebugObjectProxy<T> extends ForwardingDebugObject
 	public final int hashCode()
 	{
 		return this.object.hashCode();
+	}
+
+	@Override
+	public final String toString()
+	{
+		return this.object.toString();
 	}
 }

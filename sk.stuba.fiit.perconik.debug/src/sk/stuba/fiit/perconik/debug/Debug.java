@@ -103,6 +103,16 @@ public final class Debug
 		return getDefaultConsole();
 	}
 
+	public static final void tab()
+	{
+		console().tab();
+	}
+	
+	public static final void untab()
+	{
+		console().untab();
+	}
+	
 	public static final void put(final String message)
 	{
 		console().put(message);
@@ -143,9 +153,9 @@ public final class Debug
 		console().warning(format, args);
 	}
 
-	public static final void error(final String message, final Exception e)
+	public static final void error(final String message, final Throwable failure)
 	{
-		console().error(message, e);
+		console().error(message, failure);
 	}
 	
 	private static final SmartStringBuilder builder()

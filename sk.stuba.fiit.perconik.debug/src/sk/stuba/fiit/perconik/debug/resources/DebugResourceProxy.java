@@ -6,23 +6,23 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
+import sk.stuba.fiit.perconik.debug.DebugRegistrableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResource;
 import sk.stuba.fiit.perconik.debug.DebugResources;
 
-public final class DebugResourceProxy<L extends Listener> extends DebugObjectProxy<Resource<L>> implements DebugResource<L>
+public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy<Resource<L>> implements DebugResource<L>
 {
 	private DebugResourceProxy(final Resource<L> resource, final DebugConsole console)
 	{
 		super(resource, console);
 	}
 	
-	public static final <L extends Listener> DebugResourceProxy<L> of(final Resource<L> resource)
+	public static final <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource)
 	{
-		return of(resource, Debug.getDefaultConsole());
+		return wrap(resource, Debug.getDefaultConsole());
 	}
 
-	public static final <L extends Listener> DebugResourceProxy<L> of(final Resource<L> resource, final DebugConsole console)
+	public static final <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource, final DebugConsole console)
 	{
 		if (resource instanceof DebugResourceProxy)
 		{
@@ -30,6 +30,16 @@ public final class DebugResourceProxy<L extends Listener> extends DebugObjectPro
 		}
 		
 		return new DebugResourceProxy<>(resource, console);
+	}
+	
+	public static final <L extends Listener> Resource<L> unwrap(final Resource<L> resource)
+	{
+		if (resource instanceof DebugResourceProxy)
+		{
+			return ((DebugResourceProxy<L>) resource).delegate();
+		}
+		
+		return resource;
 	}
 	
 	public final void register(final L listener)

@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.ui.IWorkbench;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
-import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 

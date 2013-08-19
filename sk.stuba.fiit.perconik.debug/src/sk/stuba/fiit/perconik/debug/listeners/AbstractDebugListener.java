@@ -1,9 +1,13 @@
-package sk.stuba.fiit.perconik.debug;
+package sk.stuba.fiit.perconik.debug.listeners;
 
 import java.util.Date;
+import sk.stuba.fiit.perconik.debug.AbstractDebugObject;
+import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.DebugListener;
 import sk.stuba.fiit.perconik.utilities.Strings;
 
-public abstract class AbstractDebugListener extends DebugObject implements DebugListener
+public abstract class AbstractDebugListener extends AbstractDebugObject implements DebugListener
 {
 	protected AbstractDebugListener()
 	{
@@ -32,7 +36,7 @@ public abstract class AbstractDebugListener extends DebugObject implements Debug
 
 	private static enum InternalHook
 	{
-		PRE_REGISTER("Pre register hook")
+		PRE_REGISTER("Pre register")
 		{
 			@Override
 			final boolean execute(final AbstractDebugListener listener)
@@ -41,7 +45,7 @@ public abstract class AbstractDebugListener extends DebugObject implements Debug
 			}
 		},
 		
-		POST_REGISTER("Post register hook")
+		POST_REGISTER("Post register")
 		{
 			@Override
 			final boolean execute(final AbstractDebugListener listener)
@@ -50,7 +54,7 @@ public abstract class AbstractDebugListener extends DebugObject implements Debug
 			}
 		},
 		
-		PRE_UNREGISTER("Pre unregister hook")
+		PRE_UNREGISTER("Pre unregister")
 		{
 			@Override
 			final boolean execute(final AbstractDebugListener listener)
@@ -59,7 +63,7 @@ public abstract class AbstractDebugListener extends DebugObject implements Debug
 			}
 		},
 		
-		POST_UNREGISTER("Post unregister hook")
+		POST_UNREGISTER("Post unregister")
 		{
 			@Override
 			final boolean execute(final AbstractDebugListener listener)
@@ -145,7 +149,7 @@ public abstract class AbstractDebugListener extends DebugObject implements Debug
 	}
 	
 	@Override
-	public String toString()
+	public final String toString()
 	{
 		return Strings.toCanonicalString(this);
 	}
