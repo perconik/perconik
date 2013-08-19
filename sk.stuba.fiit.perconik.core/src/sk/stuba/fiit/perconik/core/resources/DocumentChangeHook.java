@@ -57,7 +57,7 @@ final class DocumentChangeHook extends InternalHook<IEditorPart, DocumentChangeL
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addEditorsAsynchronouslyTo(this);
+		Hooks.addEditorsSynchronouslyTo(this);
 	}
 
 	public final void partOpened(final IWorkbenchPartReference reference)

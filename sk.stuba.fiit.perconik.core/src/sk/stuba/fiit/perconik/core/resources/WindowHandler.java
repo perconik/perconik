@@ -19,7 +19,7 @@ enum WindowHandler implements Handler<WindowListener>
 			}
 		};
 	
-		Display.getDefault().asyncExec(addListener);
+		Display.getDefault().syncExec(addListener);
 	}
 
 	public final void unregister(final WindowListener listener)
@@ -33,6 +33,6 @@ enum WindowHandler implements Handler<WindowListener>
 			}
 		};
 	
-		Display.getDefault().asyncExec(removeListener);
+		Display.getDefault().syncExec(removeListener);
 	}
 }

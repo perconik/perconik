@@ -17,7 +17,7 @@ final class Hooks
 		throw new AssertionError();
 	}
 	
-	static final void addWindowsAsynchronouslyTo(final InternalHook<IWorkbenchWindow, ?> hook)
+	static final void addWindowsSynchronouslyTo(final InternalHook<IWorkbenchWindow, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -28,10 +28,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().asyncExec(initializer);
+		Display.getDefault().syncExec(initializer);
 	}
 	
-	static final void addPagesAsynchronouslyTo(final InternalHook<IWorkbenchPage, ?> hook)
+	static final void addPagesSynchronouslyTo(final InternalHook<IWorkbenchPage, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -42,10 +42,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().asyncExec(initializer);
+		Display.getDefault().syncExec(initializer);
 	}
 
-	static final void addPartsAsynchronouslyTo(final InternalHook<IWorkbenchPart, ?> hook)
+	static final void addPartsSynchronouslyTo(final InternalHook<IWorkbenchPart, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -64,10 +64,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().asyncExec(initializer);
+		Display.getDefault().syncExec(initializer);
 	}
 
-	static final void addEditorsAsynchronouslyTo(final InternalHook<IEditorPart, ?> hook)
+	static final void addEditorsSynchronouslyTo(final InternalHook<IEditorPart, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -86,6 +86,6 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().asyncExec(initializer);
+		Display.getDefault().syncExec(initializer);
 	}
 }

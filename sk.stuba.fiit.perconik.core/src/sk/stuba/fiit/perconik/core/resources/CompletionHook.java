@@ -78,7 +78,7 @@ final class CompletionHook extends InternalHook<IEditorPart, CompletionListener>
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addEditorsAsynchronouslyTo(this);
+		Hooks.addEditorsSynchronouslyTo(this);
 	}
 
 	public final void partOpened(final IWorkbenchPartReference reference)

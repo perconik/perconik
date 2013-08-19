@@ -40,7 +40,7 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addWindowsAsynchronouslyTo(this);
+		Hooks.addWindowsSynchronouslyTo(this);
 	}
 	
 	public final void windowOpened(final IWorkbenchWindow window)

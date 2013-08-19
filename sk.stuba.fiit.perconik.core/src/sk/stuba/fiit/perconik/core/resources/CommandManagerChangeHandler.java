@@ -18,7 +18,7 @@ enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener
 			}
 		};
 	
-		Display.getDefault().asyncExec(addListener);
+		Display.getDefault().syncExec(addListener);
 	}
 
 	public final void unregister(final CommandManagerChangeListener listener)
@@ -32,6 +32,6 @@ enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener
 			}
 		};
 	
-		Display.getDefault().asyncExec(removeListener);
+		Display.getDefault().syncExec(removeListener);
 	}
 }
