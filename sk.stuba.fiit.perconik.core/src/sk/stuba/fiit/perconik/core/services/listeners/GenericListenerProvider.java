@@ -96,7 +96,7 @@ final class GenericListenerProvider extends AbstractListenerProvider
 		}
 		catch (NoSuchMethodException | SecurityException e)
 		{
-			throw new IllegalStateException("Class " + type + " must have public constructor with no parameters");
+			throw new IllegalStateException("Class " + type + " must have public constructor with no parameters", e);
 		}
 	}
 	
