@@ -64,7 +64,7 @@ final class GenericResourceProvider extends AbstractResourceProvider
 		return this.map;
 	}
 	
-	public final <L extends Listener> Set<Resource<? super L>> forClass(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)
 	{
 		Set<Resource<? super L>> resources = Sets.newHashSet();
 		
@@ -81,7 +81,7 @@ final class GenericResourceProvider extends AbstractResourceProvider
 		return Sets.newHashSet(this.map.keySet());
 	}
 
-	public final Iterable<Class<? extends Listener>> classes()
+	public final Iterable<Class<? extends Listener>> types()
 	{
 		return Sets.newHashSet(this.multimap.keySet());
 	}

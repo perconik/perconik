@@ -13,7 +13,7 @@ final class GenericResourceService extends AbstractResourceService
 	@Override
 	protected final void doStart()
 	{
-		for (Class<? extends sk.stuba.fiit.perconik.core.Listener> type: this.provider.classes())
+		for (Class<? extends sk.stuba.fiit.perconik.core.Listener> type: this.provider.types())
 		{
 			this.registerResourcesForClass(type);
 		}
@@ -31,7 +31,7 @@ final class GenericResourceService extends AbstractResourceService
 	
 	private final <L extends sk.stuba.fiit.perconik.core.Listener> void registerResourcesForClass(final Class<L> type)
 	{
-		Set<Resource<? super L>> resources = this.provider.forClass(type);
+		Set<Resource<? super L>> resources = this.provider.forType(type);
 		
 		for (Resource<? super L> resource: resources)
 		{

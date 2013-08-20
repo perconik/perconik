@@ -89,11 +89,11 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		return DebugResourceProxy.wrap(resource);
 	}
 
-	public final <L extends Listener> Set<Resource<? super L>> forClass(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)
 	{
 		this.put("Requesting resources for type %s ... ", type.getName());
 		
-		Set<Resource<? super L>> resources = this.delegate().forClass(type);
+		Set<Resource<? super L>> resources = this.delegate().forType(type);
 		
 		this.print(!resources.isEmpty() ? "done" : "failed");
 		
@@ -105,9 +105,9 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		return this.delegate().names();
 	}
 
-	public final Iterable<Class<? extends Listener>> classes()
+	public final Iterable<Class<? extends Listener>> types()
 	{
-		return this.delegate().classes();
+		return this.delegate().types();
 	}
 
 	public final Iterable<Resource<?>> resources()

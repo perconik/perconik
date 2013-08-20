@@ -19,9 +19,9 @@ public abstract class ForwardingResourceProvider extends ForwardingProvider impl
 		return this.delegate().forName(name);
 	}
 
-	public <L extends Listener> Set<Resource<? super L>> forClass(Class<L> type)
+	public <L extends Listener> Set<Resource<? super L>> forType(Class<L> type)
 	{
-		return this.delegate().forClass(type);
+		return this.delegate().forType(type);
 	}
 
 	public Iterable<String> names()
@@ -29,9 +29,9 @@ public abstract class ForwardingResourceProvider extends ForwardingProvider impl
 		return this.delegate().names();
 	}
 
-	public Iterable<Class<? extends Listener>> classes()
+	public Iterable<Class<? extends Listener>> types()
 	{
-		return this.delegate().classes();
+		return this.delegate().types();
 	}
 
 	public Iterable<Resource<?>> resources()
