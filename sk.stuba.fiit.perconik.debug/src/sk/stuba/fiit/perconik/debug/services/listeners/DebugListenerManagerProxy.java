@@ -7,14 +7,19 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
+import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Multimap;
 
-public class DebugListenerManagerProxy extends DebugNameableProxy<ListenerManager> implements DebugListenerManager
+public final class DebugListenerManagerProxy extends DebugNameableProxy implements DebugListenerManager
 {
+	private final ListenerManager manager;
+	
 	private DebugListenerManagerProxy(final ListenerManager manager, final DebugConsole console)
 	{
-		super(manager, console);
+		super(console);
+		
+		this.manager = Preconditions.checkNotNull(manager);
 	}
 	
 	public static final DebugListenerManagerProxy wrap(final ListenerManager manager)
@@ -42,6 +47,12 @@ public class DebugListenerManagerProxy extends DebugNameableProxy<ListenerManage
 		return manager;
 	}
 	
+	@Override
+	protected final ListenerManager delegate()
+	{
+		return this.manager;
+	}
+
 	public final <L extends Listener> void register(final L listener)
 	{
 		this.print("Registering listener %s", DebugListeners.toString(listener));
@@ -64,7 +75,7 @@ public class DebugListenerManagerProxy extends DebugNameableProxy<ListenerManage
 
 	public final void unregisterAll(final Class<? extends Listener> type)
 	{
-		this.print("Unregistering all listeners assignable to %s", DebugListeners.toString(type));
+		this.print("Unregistering all listeners assignable to listener type %s", DebugListeners.toString(type));
 		this.tab();
 		
 		this.delegate().unregisterAll(type);

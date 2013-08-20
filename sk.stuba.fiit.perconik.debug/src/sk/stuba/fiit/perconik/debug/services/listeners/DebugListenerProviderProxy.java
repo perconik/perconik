@@ -5,13 +5,18 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
+import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
+import com.google.common.base.Preconditions;
 
-public class DebugListenerProviderProxy extends DebugNameableProxy<ListenerProvider> implements DebugListenerProvider
+public final class DebugListenerProviderProxy extends DebugNameableProxy implements DebugListenerProvider
 {
+	private final ListenerProvider provider;
+	
 	private DebugListenerProviderProxy(final ListenerProvider provider, final DebugConsole console)
 	{
-		super(provider, console);
+		super(console);
+		
+		this.provider = Preconditions.checkNotNull(provider);
 	}
 
 	public static final DebugListenerProviderProxy wrap(final ListenerProvider provider)
@@ -39,13 +44,19 @@ public class DebugListenerProviderProxy extends DebugNameableProxy<ListenerProvi
 		return provider;
 	}
 	
+	@Override
+	protected final ListenerProvider delegate()
+	{
+		return this.provider;
+	}
+
 	public final <L extends Listener> L forClass(final Class<L> type)
 	{
-		this.put("Requesting listener for %s ... ", DebugListeners.toString(type));
+		this.put("Requesting listener for type %s ... ", DebugListeners.toString(type));
 		
 		L listener = this.delegate().forClass(type);
 		
-		this.print(listener != null ? "done (" + DebugListeners.toString(listener) + ")" : "failed");
+		this.print(listener != null ? "done" : "failed");
 		
 		return listener;
 	}

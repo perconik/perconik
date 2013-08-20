@@ -19,58 +19,6 @@ public final class DebugResources
 		throw new AssertionError();
 	}
 	
-	// TODO rm
-//	public static final void wrapAll()
-//	{
-//		for (Entry<Class<? extends Listener>, Resource<?>> entry: Resources.registrations().entries())
-//		{
-//			cast(entry.getKey(), entry.getValue(), Transformation.WRAP);
-//		}
-//	}
-//
-//	public static final void unwrapAll()
-//	{
-//		for (Entry<Class<? extends Listener>, Resource<?>> entry: Resources.registrations().entries())
-//		{
-//			cast(entry.getKey(), entry.getValue(), Transformation.UNWRAP);
-//		}
-//	}
-//
-//	// TODO get rid of this code
-//	private static <L extends Listener> void cast(final Class<L> type, final Resource<?> resource, final Transformation transformation)
-//	{
-//		@SuppressWarnings("serial")
-//		TypeToken<Resource<L>> token = new TypeToken<Resource<L>>(){}.where(new TypeParameter<L>(){}, TypeToken.of(type));
-//		
-//		Resource<L> casted = (Resource<L>) token.getRawType().cast(resource);
-//		
-//		Resources.unregister(type, casted);
-//		Resources.register(type, transformation.apply((casted)));
-//	}
-//	
-//	private enum Transformation
-//	{
-//		WRAP
-//		{
-//			@Override
-//			final <L extends Listener> Resource<L> apply(final Resource<L> resource)
-//			{
-//				return DebugResourceProxy.wrap(resource);
-//			}
-//		},
-//		
-//		UNWRAP
-//		{
-//			@Override
-//			final <L extends Listener> Resource<L> apply(final Resource<L> resource)
-//			{
-//				return DebugResourceProxy.unwrap(resource);
-//			}
-//		};
-//		
-//		abstract <L extends Listener> Resource<L> apply(Resource<L> resource);
-//	}
-
 	public static final String toString(final Class<? extends Resource<?>> type)
 	{
 		return type.getName();

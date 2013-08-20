@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunch;
 import sk.stuba.fiit.perconik.core.listeners.LaunchesListener;
+import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 

@@ -2,17 +2,20 @@ package sk.stuba.fiit.perconik.debug.plugin;
 
 import java.util.Set;
 import org.eclipse.swt.widgets.Display;
-import sk.stuba.fiit.perconik.core.Service;
-import sk.stuba.fiit.perconik.core.Services;
+import sk.stuba.fiit.perconik.core.services.Service;
+import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagers;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerManagerProxy;
 import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerProviderProxy;
 import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceManagerProxy;
@@ -73,7 +76,7 @@ class DebugLoader
 			ResourceService resourceService = prepareDebugResourceServiceFrom(this.snapshot.resourceService);
 			ListenerService listenerService = prepareDebugListenerServiceFrom(this.snapshot.listenerService);
 			
-			ServiceGroup<Service> services = ServiceGroup.of(resourceService, listenerService);
+//			ServiceGroup<Service> services = ServiceGroup.of(resourceService, listenerService);
 			
 			// TODO(note) do not stop default services so they can be restored later
 			
@@ -92,15 +95,22 @@ class DebugLoader
 					
 			Debug.print("done");
 			
-			Debug.print("Starting debug services:");
+			Debug.print("Starting debug resource service:");
 			Debug.tab();
 			
-			Services.start();
-			
-			services.waitForState(State.RUNNING);
+			resourceService.startAndWait();
 			
 			Debug.untab();
-			Debug.print("Debug services running");
+			Debug.print("Debug resource service running");
+			Debug.print("Starting debug listener service:");
+			Debug.tab();
+			
+			listenerService.startAndWait();
+			
+			Debug.untab();
+			Debug.print("Debug listener service running");
+			
+//			services.waitForState(State.RUNNING);
 		}
 	}
 	
@@ -118,17 +128,27 @@ class DebugLoader
 			ResourceService resourceService = Services.getResourceService();
 			ListenerService listenerService = Services.getListenerService();
 			
-			ServiceGroup<Service> services = ServiceGroup.of(resourceService, listenerService);
+//			ServiceGroup<Service> services = ServiceGroup.of(resourceService, listenerService);
 			
-			Debug.print("Stopping debug services:");
+			Debug.print("Stopping debug listener service:");
 			Debug.tab();
-			
-			Services.stop();
-			
-			services.waitForState(State.TERMINATED);
-			
+
+			listenerService.stopAndWait();
+
 			Debug.untab();
-			Debug.print("Debug services terminated");
+			Debug.print("Debug listener service terminated");
+			Debug.print("Stopping debug resource service:");
+			Debug.tab();
+	
+			resourceService.stopAndWait();
+
+			Debug.untab();
+			Debug.print("Debug resource service terminated");
+			
+//			services.waitForState(State.TERMINATED);
+			
+//			Debug.untab();
+//			Debug.print("Debug services terminated");
 			
 			Debug.put("Switching debug services back to default services ... ");
 			
@@ -157,9 +177,9 @@ class DebugLoader
 		ResourceProvider provider = DebugResourceProviderProxy.wrap(service.getResourceProvider());
 		
 		Debug.print("done");
-		Debug.put("Wrapping resource manager ... ");
+		Debug.put("Creating resource manager ... ");
 		
-		ResourceManager manager = DebugResourceManagerProxy.wrap(service.getResourceManager());
+		ResourceManager manager = DebugResourceManagerProxy.wrap(ResourceManagers.create());
 
 		Debug.print("done");
 		Debug.put("Creating debug resource service ... ");
@@ -180,12 +200,12 @@ class DebugLoader
 
 		Debug.put("Wrapping listener provider ... ");
 		
-		ListenerProvider provider = DebugListenerProviderProxy.wrap(service.getListenerProvider());
+		ListenerProvider provider = DebugListenerProviderProxy.wrap(DebugListeners.getListenerProvider());// TODO fix
 		
 		Debug.print("done");
-		Debug.put("Wrapping listener manager ... ");
+		Debug.put("Creating listener manager ... ");
 		
-		ListenerManager manager = DebugListenerManagerProxy.wrap(service.getListenerManager());
+		ListenerManager manager = DebugListenerManagerProxy.wrap(ListenerManagers.create());
 
 		Debug.print("done");
 		Debug.put("Creating debug listener service ... ");

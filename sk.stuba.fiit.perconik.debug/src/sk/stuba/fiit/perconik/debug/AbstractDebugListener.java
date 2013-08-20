@@ -1,10 +1,6 @@
-package sk.stuba.fiit.perconik.debug.listeners;
+package sk.stuba.fiit.perconik.debug;
 
 import java.util.Date;
-import sk.stuba.fiit.perconik.debug.AbstractDebugObject;
-import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
-import sk.stuba.fiit.perconik.debug.DebugListener;
 import sk.stuba.fiit.perconik.utilities.Strings;
 
 public abstract class AbstractDebugListener extends AbstractDebugObject implements DebugListener

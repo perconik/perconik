@@ -2,17 +2,15 @@ package sk.stuba.fiit.perconik.debug;
 
 import sk.stuba.fiit.perconik.core.Registrable;
 
-public abstract class DebugRegistrableProxy<R extends Registrable> extends DebugObjectProxy<R> implements DebugRegistrable
+public abstract class DebugRegistrableProxy extends DebugObjectProxy implements DebugRegistrable
 {
-	protected DebugRegistrableProxy(final R registrable)
+	protected DebugRegistrableProxy(final DebugConsole console)
 	{
-		super(registrable);
+		super(console);
 	}
-
-	protected DebugRegistrableProxy(final R registrable, final DebugConsole console)
-	{
-		super(registrable, console);
-	}
+	
+	@Override
+	protected abstract Registrable delegate();
 	
 	public final void preRegister()
 	{

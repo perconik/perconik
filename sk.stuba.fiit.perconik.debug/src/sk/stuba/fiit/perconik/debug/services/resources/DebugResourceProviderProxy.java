@@ -6,16 +6,21 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
-import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.debug.resources.DebugResourceProxy;
+import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-public class DebugResourceProviderProxy extends DebugNameableProxy<ResourceProvider> implements DebugResourceProvider
+public final class DebugResourceProviderProxy extends DebugNameableProxy implements DebugResourceProvider
 {
+	private final ResourceProvider provider;
+	
 	private DebugResourceProviderProxy(final ResourceProvider provider, final DebugConsole console)
 	{
-		super(provider, console);
+		super(console);
+		
+		this.provider = Preconditions.checkNotNull(provider);
 	}
 
 	public static final DebugResourceProviderProxy wrap(final ResourceProvider provider)
@@ -66,6 +71,12 @@ public class DebugResourceProviderProxy extends DebugNameableProxy<ResourceProvi
 		
 		return proxies;
 	}
+	
+	@Override
+	protected final ResourceProvider delegate()
+	{
+		return this.provider;
+	}
 
 	public final Resource<?> forName(final String name)
 	{
@@ -80,7 +91,7 @@ public class DebugResourceProviderProxy extends DebugNameableProxy<ResourceProvi
 
 	public final <L extends Listener> Set<Resource<? super L>> forClass(final Class<L> type)
 	{
-		this.put("Requesting resources for %s ... ", type.getName());
+		this.put("Requesting resources for type %s ... ", type.getName());
 		
 		Set<Resource<? super L>> resources = this.delegate().forClass(type);
 		

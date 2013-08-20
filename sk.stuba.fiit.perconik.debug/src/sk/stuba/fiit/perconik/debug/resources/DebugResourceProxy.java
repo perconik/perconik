@@ -9,12 +9,17 @@ import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugRegistrableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResource;
 import sk.stuba.fiit.perconik.debug.DebugResources;
+import com.google.common.base.Preconditions;
 
-public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy<Resource<L>> implements DebugResource<L>
+public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy implements DebugResource<L>
 {
+	private final Resource<L> resource;
+	
 	private DebugResourceProxy(final Resource<L> resource, final DebugConsole console)
 	{
-		super(resource, console);
+		super(console);
+		
+		this.resource = Preconditions.checkNotNull(resource);
 	}
 	
 	public static final <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource)
@@ -42,6 +47,12 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
 		return resource;
 	}
 	
+	@Override
+	protected final Resource<L> delegate()
+	{
+		return this.resource;
+	}
+
 	public final void register(final L listener)
 	{
 		this.print("Registering listener %s to resource %s", DebugListeners.toString(listener), DebugResources.toString(this.delegate()));

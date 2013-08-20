@@ -7,15 +7,20 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResources;
+import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
-public class DebugResourceManagerProxy extends DebugNameableProxy<ResourceManager> implements DebugResourceManager
+public final class DebugResourceManagerProxy extends DebugNameableProxy implements DebugResourceManager
 {
+	private final ResourceManager manager;
+	
 	private DebugResourceManagerProxy(final ResourceManager manager, final DebugConsole console)
 	{
-		super(manager, console);
+		super(console);
+		
+		this.manager = Preconditions.checkNotNull(manager);
 	}
 
 	public static final DebugResourceManagerProxy wrap(final ResourceManager manager)
@@ -43,6 +48,12 @@ public class DebugResourceManagerProxy extends DebugNameableProxy<ResourceManage
 		return manager;
 	}
 	
+	@Override
+	protected final ResourceManager delegate()
+	{
+		return this.manager;
+	}
+
 	public final <L extends Listener> void register(final Class<L> type, final Resource<? super L> resource)
 	{
 		this.print("Registering resource %s to listener type %s", DebugResources.toString(resource), DebugListeners.toString(type));
@@ -65,7 +76,7 @@ public class DebugResourceManagerProxy extends DebugNameableProxy<ResourceManage
 
 	public final <L extends Listener> void unregisterAll(final Class<L> type)
 	{
-		this.print("Unregistering all resources from listener type %s", DebugListeners.toString(type));
+		this.print("Unregistering all resources assignable to listener type %s", DebugListeners.toString(type));
 		this.tab();
 		
 		this.delegate().unregisterAll(type);

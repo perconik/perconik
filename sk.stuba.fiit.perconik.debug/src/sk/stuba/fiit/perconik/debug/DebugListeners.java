@@ -2,14 +2,17 @@ package sk.stuba.fiit.perconik.debug;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.Resources;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchesDebugListener;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
+import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -21,45 +24,6 @@ public final class DebugListeners
 		throw new AssertionError();
 	}
 	
-	public static final void registerAll()
-	{
-		DebugConsole console = Debug.getDefaultConsole();
-		
-		// TODO load from configuration
-
-//		Listeners.register(new CommandChangeDebugListener(console));
-//		Listeners.register(new CommandExecutionDebugListener(console));
-//		Listeners.register(new CommandManagerChangeDebugListener(console));
-//		Listeners.register(new CompletionDebugListener(console));
-//		Listeners.register(new DebugEventsDebugListener(console));
-//		Listeners.register(new DocumentChangeDebugListener(console));
-//		Listeners.register(new FileBufferDebugListener(console));
-//		Listeners.register(new JavaElementChangeDebugListener(console));
-//		//Listeners.register(new LaunchDebugListener(console));
-		Listeners.register(new LaunchesDebugListener(console));
-//		//Listeners.register(new LaunchConfigurationDebugListener(console));
-//		Listeners.register(new OperationHistoryDebugListener(console));
-//		Listeners.register(new PageDebugListener(console));
-//		Listeners.register(new PartDebugListener(console));
-//		Listeners.register(new PerspectiveDebugListener(console));
-//		Listeners.register(new RefactoringExecutionDebugListener(console));
-//		Listeners.register(new RefactoringHistoryDebugListener(console));
-//		Listeners.register(new ResourceChangeDebugListener(console));
-//		Listeners.register(new SelectionDebugListener(console));
-//		Listeners.register(new TestRunDebugListener(console));
-//		Listeners.register(new WindowDebugListener(console));
-//		Listeners.register(new WorkbenchDebugListener(console));
-	}
-	
-	public static final void unregisterAll()
-	{
-		// TODO rm? refactor? or wat?
-		for (Resource<?> resource: Resources.assignable(Listener.class))
-		{
-			resource.unregisterAll(DebugListener.class);
-		}
-	}
-
 	public static final String toString(final Class<? extends Listener> type)
 	{
 		return type.getName();
@@ -72,10 +36,10 @@ public final class DebugListeners
 
 	// TODO make debug listener provider with these classes
 	
-//	public static final Set<Class<? extends DebugListener>> getListenerClasses()
-//	{
-//		@SuppressWarnings("unchecked")
-//		Class<? extends DebugListener>[] classes = new Class[] {
+	static final Set<Class<? extends Listener>> getListenerClasses()
+	{
+		@SuppressWarnings("unchecked")
+		Class<? extends Listener>[] classes = new Class[] {
 //			CommandChangeDebugListener.class,
 //			CommandExecutionDebugListener.class,
 //			CommandManagerChangeDebugListener.class,
@@ -89,7 +53,7 @@ public final class DebugListeners
 //			LaunchConfigurationDebugListener.class,
 //			OperationHistoryDebugListener.class,
 //			PageDebugListener.class,
-//			PartDebugListener.class,
+			PartDebugListener.class,
 //			PerspectiveDebugListener.class,
 //			RefactoringExecutionDebugListener.class,
 //			RefactoringHistoryDebugListener.class,
@@ -98,8 +62,20 @@ public final class DebugListeners
 //			TestRunDebugListener.class,
 //			WindowDebugListener.class,
 //			WorkbenchDebugListener.class
-//		};
-//	}
+		};
+		
+		return ImmutableSet.copyOf(classes);
+	}
+	
+	// TODO mv
+	public static final ListenerProvider getListenerProvider()
+	{
+		ListenerProvider.Builder builder = ListenerProviders.builder();
+		
+		builder.addAll(getListenerClasses());
+		
+		return builder.build();
+	}
 
 	public static final void printRegistered()
 	{

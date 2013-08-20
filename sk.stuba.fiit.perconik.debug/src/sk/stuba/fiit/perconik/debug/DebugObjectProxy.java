@@ -1,43 +1,29 @@
 package sk.stuba.fiit.perconik.debug;
 
-import com.google.common.base.Preconditions;
-
-public abstract class DebugObjectProxy<T> extends AbstractDebugObject
+public abstract class DebugObjectProxy extends AbstractDebugObject
 {
-	private final T object;
-	
-	protected DebugObjectProxy(final T object)
-	{
-		this(object, Debug.getDefaultConsole());
-	}
-
-	protected DebugObjectProxy(final T object, final DebugConsole console)
+	protected DebugObjectProxy(final DebugConsole console)
 	{
 		super(console);
-		
-		this.object = Preconditions.checkNotNull(object);
 	}
 	
-	protected final T delegate()
-	{
-		return this.object;
-	}
+	protected abstract Object delegate();
 
 	@Override
 	public final boolean equals(final Object o)
 	{
-		return this.object.equals(o);
+		return this.delegate().equals(o);
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return this.object.hashCode();
+		return this.delegate().hashCode();
 	}
 
 	@Override
 	public final String toString()
 	{
-		return this.object.toString();
+		return this.delegate().toString();
 	}
 }

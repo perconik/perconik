@@ -3,6 +3,8 @@ package sk.stuba.fiit.perconik.debug.plugin;
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.DebugListeners;
+import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
@@ -31,7 +33,7 @@ public class Activator extends AbstractPlugin
 	 */
 	public Activator()
 	{
-		this.console.put("Constructing %s ... ", this.getClass());
+		this.console.put("Constructing %s ... ", this.getClass().getName());
 		
 		this.loader = DebugLoader.create();
 		
@@ -52,7 +54,7 @@ public class Activator extends AbstractPlugin
 	{
 		Hook()
 		{
-			Debug.print("Constructing %s ... done", this.getClass());
+			Debug.print("Constructing %s ... done", this.getClass().getName());
 		}
 	}
 
@@ -60,13 +62,16 @@ public class Activator extends AbstractPlugin
 	{
 		public final void earlyStartup()
 		{
-			Debug.print("Executing early startup %s:", this.getClass());
+			Debug.print("Executing early startup %s:", this.getClass().getName());
 			Debug.tab();
 			
 			getDefault().loader.load();
 
 			Debug.untab();
-			Debug.print("Early startup %s finished", this.getClass());
+			Debug.print("Early startup %s finished", this.getClass().getName());
+			
+			DebugResources.printRegistrations();
+			DebugListeners.printRegistrations();
 		}
 	}
 
@@ -74,13 +79,13 @@ public class Activator extends AbstractPlugin
 	{
 		public final void earlyShutdown()
 		{
-			Debug.print("Executing early shutdown %s:", this.getClass());
+			Debug.print("Executing early shutdown %s:", this.getClass().getName());
 			Debug.tab();
 
 			getDefault().loader.unload();
 			
 			Debug.untab();
-			Debug.print("Early shutdown %s finished", this.getClass());
+			Debug.print("Early shutdown %s finished", this.getClass().getName());
 		}
 	}
 
