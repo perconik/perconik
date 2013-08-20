@@ -5,6 +5,7 @@ Bundle-SymbolicName: sk.stuba.fiit.perconik.preferences;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;bundle-version="3.105.0",
+ sk.stuba.fiit.perconik.core,
  sk.stuba.fiit.perconik.debug;bundle-version="1.0.0",
  sk.stuba.fiit.perconik.eclipse,
  sk.stuba.fiit.perconik.environment;bundle-version="1.0.0",
