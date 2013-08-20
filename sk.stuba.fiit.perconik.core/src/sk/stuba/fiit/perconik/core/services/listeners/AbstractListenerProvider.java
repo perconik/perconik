@@ -9,14 +9,14 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 	protected AbstractListenerProvider()
 	{
 	}
-	
+
 	protected abstract BiMap<String, Class<? extends Listener>> map();
 
 	protected abstract Class<? extends Listener> load(String name) throws ClassNotFoundException;
 	
 	protected abstract void validate(Class<? extends Listener> type);
 	
-	public final <L extends Listener> L forClass(Class<L> type)
+	public final <L extends Listener> L forClass(final Class<L> type)
 	{
 		try
 		{

@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
+import sk.stuba.fiit.perconik.core.services.Services;
 import com.google.common.collect.SetMultimap;
 
 public final class Resources
@@ -23,7 +24,7 @@ public final class Resources
 	
 	public static final <L extends Listener> void unregisterAll()
 	{
-		Services.getResourceService().getResourceManager().unregisterAll(Listener.class);
+		unregisterAll(Listener.class);
 	}
 	
 	public static final <L extends Listener> void unregisterAll(final Class<L> type)

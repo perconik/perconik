@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.core.Services;
+import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 

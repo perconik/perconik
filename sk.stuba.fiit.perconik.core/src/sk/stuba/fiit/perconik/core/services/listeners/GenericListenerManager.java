@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.Services;
+import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;

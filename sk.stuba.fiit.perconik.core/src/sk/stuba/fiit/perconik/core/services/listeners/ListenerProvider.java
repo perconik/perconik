@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.Provider;
+import sk.stuba.fiit.perconik.core.services.Provider;
 
 public interface ListenerProvider extends Provider
 {
@@ -14,9 +14,9 @@ public interface ListenerProvider extends Provider
 	
 	public interface Builder
 	{
-		public Builder add(final Class<? extends Listener> type);
+		public Builder add(Class<? extends Listener> type);
 		
-		public Builder addAll(final Collection<Class<? extends Listener>> types);
+		public Builder addAll(Collection<Class<? extends Listener>> types);
 		
 		public ListenerProvider build(); 
 	}

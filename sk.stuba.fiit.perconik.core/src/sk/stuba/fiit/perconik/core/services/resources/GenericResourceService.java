@@ -24,7 +24,7 @@ final class GenericResourceService extends AbstractResourceService
 	@Override
 	protected final void doStop()
 	{
-		//this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class); // TODO check
+		this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class);
 	
 		this.notifyStopped();
 	}

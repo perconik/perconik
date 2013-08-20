@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core;
+package sk.stuba.fiit.perconik.core.services;
 
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;

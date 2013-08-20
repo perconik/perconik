@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core;
+package sk.stuba.fiit.perconik.core.services;
 
 import java.util.Map;
 import sk.stuba.fiit.perconik.core.listeners.DefaultListeners;

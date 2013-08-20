@@ -25,27 +25,32 @@ final class GenericResourceManager extends AbstractResourceManager
 	
 	public final <L extends Listener> void unregisterAll(final Class<L> type)
 	{
-		for (Resource<?> resource: this.multimap().get(type))
+		for (Entry<Class<? extends L>, Resource<? extends L>> entry: this.assignableInternal(type).entries())
 		{
-			this.unregister(type, Unsafe.cast(type, resource));
+			this.unregister(entry.getKey(), Unsafe.cast(type, entry.getValue()));
 		}
 	}
 	
 	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
 	{
-		Set<Resource<? extends L>> result = Sets.newHashSet();
+		return Sets.newHashSet(this.assignableInternal(type).values());
+	}
+
+	private final <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignableInternal(final Class<L> type)
+	{
+		SetMultimap<Class<? extends L>, Resource<? extends L>> result = HashMultimap.create();
 		
 		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.map.entries())
 		{
 			if (type.isAssignableFrom(entry.getKey()))
 			{
-				result.add((Resource<? extends L>) entry.getValue());
+				result.put((Class<? extends L>) entry.getKey(), (Resource<? extends L>) entry.getValue());
 			}
 		}
 		
 		return result;
 	}
-
+	
 	public final <L extends Listener> Set<Resource<? super L>> registrable(final Class<L> type)
 	{
 		Set<Resource<? super L>> result = Sets.newHashSet();
