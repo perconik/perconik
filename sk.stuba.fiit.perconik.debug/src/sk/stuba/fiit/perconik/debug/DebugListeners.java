@@ -9,7 +9,6 @@ import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
-import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -53,7 +52,7 @@ public final class DebugListeners
 //			LaunchConfigurationDebugListener.class,
 //			OperationHistoryDebugListener.class,
 //			PageDebugListener.class,
-			PartDebugListener.class,
+//			PartDebugListener.class,
 //			PerspectiveDebugListener.class,
 //			RefactoringExecutionDebugListener.class,
 //			RefactoringHistoryDebugListener.class,

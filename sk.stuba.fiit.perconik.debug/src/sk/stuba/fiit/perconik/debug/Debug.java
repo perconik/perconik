@@ -163,6 +163,11 @@ public final class Debug
 		return new SmartStringBuilder().tab();
 	}
 	
+	private static final String missing()
+	{
+		return builder().appendln("missing").toString();
+	}
+	
 	public static final String dumpHeader(final String title)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
@@ -286,7 +291,7 @@ public final class Debug
 		builder.append("name: ").appendln(name);
 		builder.append("description: ").appendln(description);
 		
-		builder.appendln("category:").lines(category == null ? "null" : dumpCategory(category));
+		builder.appendln("category:").lines(category == null ? missing() : dumpCategory(category));
 
 		if (parameters == null)
 		{
@@ -629,8 +634,8 @@ public final class Debug
 		builder.append("kind: ").appendln(kind);
 		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
 	
-		builder.appendln("unit:").lines(dumpCompliationUnit(unit));
-		builder.appendln("element:").lines(dumpJavaElement(element));
+		builder.appendln("unit:").lines(unit == null ? missing() : dumpCompliationUnit(unit));
+		builder.appendln("element:").lines(element == null ? missing() : dumpJavaElement(element));
 		
 		return builder.toString();
 	}
@@ -980,16 +985,16 @@ public final class Debug
 	
 		ResourceChangeEventType type = ResourceChangeEventType.valueOf(event.getType());
 		
-		ProjectBuildKind buildKind = ProjectBuildKind.valueOf(event.getBuildKind());
+		int buildKind = event.getBuildKind();
 	
 		IResource      resource = event.getResource();
 		IResourceDelta delta    = event.getDelta();
 		
 		builder.format("type: %s (%d)", type, type.getValue()).appendln();
 		
-		builder.append("build kind: ").appendln(buildKind);
+		builder.append("build kind: ").appendln(buildKind == 0 ? "not applicable" : ProjectBuildKind.valueOf(buildKind));
 		
-		builder.appendln("resource:").lines(resource == null ? "none" : dumpResource(resource));		
+		builder.appendln("resource:").lines(resource == null ? missing() : dumpResource(resource));		
 		builder.appendln("delta:").lines(dumpResourceDelta(delta));
 		
 		return builder.toString();
