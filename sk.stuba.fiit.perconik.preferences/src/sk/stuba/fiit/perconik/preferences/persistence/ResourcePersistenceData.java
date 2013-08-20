@@ -91,6 +91,30 @@ public final class ResourcePersistenceData implements Serializable
 		return SerializationProxy.of(this);
 	}
 	
+	@Override
+	public final boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+
+		if (!(o instanceof ResourcePersistenceData))
+		{
+			return false;
+		}
+
+		ResourcePersistenceData other = (ResourcePersistenceData) o;
+
+		return this.type == other.type && this.name.equals(other.name);
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return 31 * (31 + this.type.hashCode()) + this.name.hashCode();
+	}
+
 	public final boolean hasResource()
 	{
 		return this.resource != null;

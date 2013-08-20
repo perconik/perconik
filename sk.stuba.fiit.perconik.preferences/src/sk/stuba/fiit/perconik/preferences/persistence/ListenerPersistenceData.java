@@ -92,6 +92,30 @@ public final class ListenerPersistenceData implements Serializable
 		return SerializationProxy.of(this);
 	}
 	
+	@Override
+	public final boolean equals(final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		
+		if (!(o instanceof ListenerPersistenceData))
+		{
+			return false;
+		}
+
+		ListenerPersistenceData other = (ListenerPersistenceData) o;
+
+		return this.type == other.type;
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.type.hashCode();
+	}
+
 	public final boolean hasListener()
 	{
 		return this.listener != null;
