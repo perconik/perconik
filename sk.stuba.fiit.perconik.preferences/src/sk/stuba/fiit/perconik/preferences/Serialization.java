@@ -5,12 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import com.google.common.base.Charsets;
 
 final class Serialization
 {
-	private static final String charset = Charsets.UTF_8.name();
-	
 	private Serialization()
 	{
 		throw new AssertionError();
@@ -18,7 +15,7 @@ final class Serialization
 	
 	static final Object readFromString(final String s) throws IOException, ClassNotFoundException
 	{
-		try (ByteArrayInputStream bytes = new ByteArrayInputStream(s.getBytes(charset)))
+		try (ByteArrayInputStream bytes = new ByteArrayInputStream(s.getBytes()))
 		{
 			try (ObjectInputStream objects = new ObjectInputStream(bytes))
 			{
@@ -34,9 +31,10 @@ final class Serialization
 			try (ObjectOutputStream objects = new ObjectOutputStream(bytes))
 			{
 				objects.writeObject(o);
+				objects.flush();
 			}
 			
-			return bytes.toString(charset);
+			return bytes.toString();
 		}
 	}
 }
