@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.debug.services;
 
-import sk.stuba.fiit.perconik.core.services.Nameable;
+import sk.stuba.fiit.perconik.core.Nameable;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
 

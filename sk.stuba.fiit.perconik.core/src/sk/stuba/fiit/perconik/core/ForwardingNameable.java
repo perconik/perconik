@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.services;
+package sk.stuba.fiit.perconik.core;
 
 import com.google.common.collect.ForwardingObject;
 
