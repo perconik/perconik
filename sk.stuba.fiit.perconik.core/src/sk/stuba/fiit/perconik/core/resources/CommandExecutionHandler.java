@@ -19,7 +19,7 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 			}
 		};
 	
-		Display.getDefault().syncExec(addListener);
+		Display.getDefault().asyncExec(addListener);
 	}
 
 	public final void unregister(final CommandExecutionListener listener)
@@ -33,6 +33,6 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener>
 			}
 		};
 	
-		Display.getDefault().syncExec(removeListener);
+		Display.getDefault().asyncExec(removeListener);
 	}
 }
