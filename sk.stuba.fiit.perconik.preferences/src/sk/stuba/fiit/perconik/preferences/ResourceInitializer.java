@@ -6,7 +6,7 @@ import sk.stuba.fiit.perconik.preferences.plugin.Activator;
 
 public final class ResourceInitializer extends AbstractPreferenceInitializer
 {
-	static final String key = Activator.PLUGIN_ID + ".resources";
+	static final String key = Activator.PLUGIN_ID + ".resources.names";
 	
 	static final ResourceStore store = new ResourceStore(Activator.getDefault().getPreferenceStore(), key);
 	

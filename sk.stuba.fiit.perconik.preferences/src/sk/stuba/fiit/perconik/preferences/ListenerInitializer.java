@@ -6,7 +6,7 @@ import sk.stuba.fiit.perconik.preferences.plugin.Activator;
 
 public final class ListenerInitializer extends AbstractPreferenceInitializer
 {
-	static final String key = Activator.PLUGIN_ID + ".listeners";
+	static final String key = Activator.PLUGIN_ID + ".listeners.classes";
 	
 	static final ListenerStore store = new ListenerStore(Activator.getDefault().getPreferenceStore(), key);
 	
