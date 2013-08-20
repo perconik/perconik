@@ -54,7 +54,7 @@ public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> i
 	{
 		E constant = this.map.get(type);
 
-		Preconditions.checkArgument(constant != null);
+		Preconditions.checkArgument(constant != null, "Constant for type %s not found", type.getName());
 		
 		return constant;
 	}

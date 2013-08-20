@@ -87,7 +87,7 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
 	{
 		E constant = this.map.get(value);
 
-		Preconditions.checkArgument(constant != null);
+		Preconditions.checkArgument(constant != null, "Constant for value %s not found", value);
 		
 		return constant;
 	}
