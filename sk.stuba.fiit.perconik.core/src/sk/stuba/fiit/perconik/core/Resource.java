@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Collection;
 
-public interface Resource<L extends Listener> extends Registrable
+public interface Resource<L extends Listener> extends Nameable, Registrable
 {
 	public void register(L listener);
 	

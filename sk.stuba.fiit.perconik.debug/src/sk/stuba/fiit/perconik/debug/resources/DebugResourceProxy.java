@@ -87,4 +87,9 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
 	{
 		return this.delegate().registered(type);
 	}
+
+	public final String getName()
+	{
+		return this.delegate().getName();
+	}
 }

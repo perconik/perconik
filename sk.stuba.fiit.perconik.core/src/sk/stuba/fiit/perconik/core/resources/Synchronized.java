@@ -153,6 +153,14 @@ class Synchronized
 				return this.delegate.registered(type);
 			}
 		}
+
+		public final String getName()
+		{
+			synchronized (this.mutex)
+			{
+				return this.delegate.getName();
+			}
+		}
 	}
 	
 	private static final class SynchronizedPool<T> extends SynchronizedObject<Pool<T>> implements Pool<T>
