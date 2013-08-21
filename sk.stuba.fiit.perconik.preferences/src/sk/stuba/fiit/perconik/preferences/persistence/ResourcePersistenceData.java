@@ -3,32 +3,54 @@ package sk.stuba.fiit.perconik.preferences.persistence;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.Resources;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
 
 public final class ResourcePersistenceData implements Serializable
 {
-	private static final long serialVersionUID = 1238234807869876219L;
+	private static final long serialVersionUID = 6677144113746518278L;
 
+	private final transient boolean registered;
+	
 	private final transient Class<? extends Listener> type;
 
 	private final transient String name;
 	
 	private final transient Resource<?> resource;
 	
-	ResourcePersistenceData(final Class<? extends Listener> type, final String name, final Resource<?> resource)
+	ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, final Resource<?> resource)
 	{
-		this.type     = checkType(type);
-		this.name     = checkName(name);
-		this.resource = resource instanceof Serializable ? resource : null;
+		this.registered = registered;
+		this.type       = checkType(type);
+		this.name       = checkName(name);
+		this.resource   = resource instanceof Serializable ? resource : null;
 		
 		Preconditions.checkArgument(resource == null || name.equals(resource.getName()));
 	}
 	
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource)
 	{
-		return new ResourcePersistenceData(type, resource.getName(), resource);
+		return new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource);
+	}
+	
+	public static final Set<ResourcePersistenceData> of(final ResourceProvider provider)
+	{
+		Set<ResourcePersistenceData> data = Sets.newHashSet();
+		
+		for (Class<? extends Listener> type: provider.types())
+		{
+			for (Resource<?> resource: provider.forType(type))
+			{
+				data.add(new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource));
+			}
+		}
+		
+		return data;
 	}
 	
 	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
@@ -47,8 +69,10 @@ public final class ResourcePersistenceData implements Serializable
 
 	private static final class SerializationProxy implements Serializable
 	{
-		private static final long serialVersionUID = 952540731365953815L;
+		private static final long serialVersionUID = -8026172903182777801L;
 
+		private final boolean registered;
+		
 		private final Class<? extends Listener> type;
 		
 		private final String name;
@@ -57,9 +81,10 @@ public final class ResourcePersistenceData implements Serializable
 
 		private SerializationProxy(final ResourcePersistenceData data)
 		{
-			this.type     = data.getListenerType();
-			this.name     = data.getResourceName();
-			this.resource = data.getResource();
+			this.registered = data.isRegistered();
+			this.type       = data.getListenerType();
+			this.name       = data.getResourceName();
+			this.resource   = data.getResource();
 		}
 		
 		static final SerializationProxy of(final ResourcePersistenceData data)
@@ -71,7 +96,7 @@ public final class ResourcePersistenceData implements Serializable
 		{
 			try
 			{
-				return new ResourcePersistenceData(this.type, this.name, this.resource);
+				return new ResourcePersistenceData(this.registered, this.type, this.name, this.resource);
 			}
 			catch (RuntimeException e)
 			{
@@ -115,6 +140,11 @@ public final class ResourcePersistenceData implements Serializable
 		return 31 * (31 + this.type.hashCode()) + this.name.hashCode();
 	}
 
+	public final boolean isRegistered()
+	{
+		return this.registered;
+	}
+	
 	public final boolean hasResource()
 	{
 		return this.resource != null;

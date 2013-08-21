@@ -4,32 +4,36 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Listeners;
 import com.google.common.base.Preconditions;
 
 public final class ListenerPersistenceData implements Serializable
 {
-	private static final long serialVersionUID = -481400648314855976L;
+	private static final long serialVersionUID = -1672202405264953995L;
 
+	private final transient boolean registered;
+	
 	private final transient Class<? extends Listener> type;
 	
 	private final transient Listener listener;
 
-	ListenerPersistenceData(final Class<? extends Listener> type, final Listener listener)
+	ListenerPersistenceData(final boolean registered, final Class<? extends Listener> type, final Listener listener)
 	{
-		this.type     = checkType(type);
-		this.listener = listener instanceof Serializable ? listener : null;
+		this.registered = registered;
+		this.type       = checkType(type);
+		this.listener   = listener instanceof Serializable ? listener : null;
 		
 		Preconditions.checkArgument(listener == null || type == this.listener.getClass());
 	}
 	
 	public static final ListenerPersistenceData of(final Class<? extends Listener> type)
 	{
-		return new ListenerPersistenceData(type, null);
+		return new ListenerPersistenceData(Listeners.isRegistred(type), type, null);
 	}
 	
 	public static final ListenerPersistenceData of(final Listener listener)
 	{
-		return new ListenerPersistenceData(listener.getClass(), listener);
+		return new ListenerPersistenceData(Listeners.isRegistred(listener), listener.getClass(), listener);
 	}
 	
 	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
@@ -51,16 +55,19 @@ public final class ListenerPersistenceData implements Serializable
 
 	private static final class SerializationProxy implements Serializable
 	{
-		private static final long serialVersionUID = 952540731365953815L;
+		private static final long serialVersionUID = -6638506142325802066L;
 
+		private final boolean registered;
+		
 		private final Class<? extends Listener> type;
 		
 		private final Listener listener;
 		
 		private SerializationProxy(final ListenerPersistenceData data)
 		{
-			this.type     = data.getListenerClass();
-			this.listener = data.getListener();
+			this.registered = data.isRegistered();
+			this.type       = data.getListenerClass();
+			this.listener   = data.getListener();
 		}
 		
 		static final SerializationProxy of(final ListenerPersistenceData data)
@@ -72,7 +79,7 @@ public final class ListenerPersistenceData implements Serializable
 		{
 			try
 			{
-				return new ListenerPersistenceData(this.type, this.listener);
+				return new ListenerPersistenceData(this.registered, this.type, this.listener);
 			}
 			catch (RuntimeException e)
 			{
@@ -114,6 +121,11 @@ public final class ListenerPersistenceData implements Serializable
 	public final int hashCode()
 	{
 		return this.type.hashCode();
+	}
+	
+	public final boolean isRegistered()
+	{
+		return this.registered;
 	}
 
 	public final boolean hasListener()
