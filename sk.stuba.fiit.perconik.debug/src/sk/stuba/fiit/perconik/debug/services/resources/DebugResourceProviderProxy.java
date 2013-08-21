@@ -6,7 +6,6 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
-import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.debug.resources.DebugResourceProxy;
 import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
 import com.google.common.base.Preconditions;
@@ -84,7 +83,7 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		
 		Resource<?> resource = this.delegate().forName(name);
 		
-		this.print(resource != null ? "done (" + DebugResources.toString(resource) + ")" : "failed");
+		this.print(resource != null ? "done" : "failed");
 		
 		return DebugResourceProxy.wrap(resource);
 	}
