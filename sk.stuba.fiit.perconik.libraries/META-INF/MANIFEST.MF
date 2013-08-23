@@ -7,7 +7,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  lib/diffutils-1.2.1.jar,
  lib/guava-14.0.jar,
- lib/intt.jar
+ lib/intt.jar,
+ lib/jsr305-2.0.1.jar
 Export-Package: com.google.common.annotations,
  com.google.common.base,
  com.google.common.base.internal,
@@ -23,5 +24,8 @@ Export-Package: com.google.common.annotations,
  com.google.common.util.concurrent,
  difflib,
  difflib.myers,
+ javax.annotation,
+ javax.annotation.concurrent,
+ javax.annotation.meta,
  uk.ac.open.crc.intt
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
