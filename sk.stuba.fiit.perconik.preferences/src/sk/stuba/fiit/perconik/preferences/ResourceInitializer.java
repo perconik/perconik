@@ -1,15 +1,9 @@
 package sk.stuba.fiit.perconik.preferences;
 
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import sk.stuba.fiit.perconik.core.services.Services;
-import sk.stuba.fiit.perconik.preferences.plugin.Activator;
+import sk.stuba.fiit.perconik.preferences.persistence.ResourcePersistenceData;
 
-public final class ResourceInitializer extends AbstractPreferenceInitializer
+public final class ResourceInitializer extends AbstractInitializer
 {
-	static final String key = Activator.PLUGIN_ID + ".resources.names";
-	
-	static final ResourceStore store = new ResourceStore(Activator.getDefault().getPreferenceStore(), key);
-	
 	public ResourceInitializer()
 	{
 	}
@@ -17,6 +11,6 @@ public final class ResourceInitializer extends AbstractPreferenceInitializer
 	@Override
 	public final void initializeDefaultPreferences()
 	{
-		store.setDefault(Services.getResourceService().getResourceProvider().names());
+		ResourcePreferences.getDefault().setResourcePersistenceData(ResourcePersistenceData.snapshot());
 	}
 }

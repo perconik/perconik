@@ -7,6 +7,7 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
+import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
@@ -25,6 +26,8 @@ public final class ResourcePersistenceData implements Serializable
 	
 	ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, final Resource<?> resource)
 	{
+		System.out.println("creating new RPD "+registered+ " "+type+" "+String.valueOf(resource));
+		
 		this.registered = registered;
 		this.type       = checkType(type);
 		this.name       = checkName(name);
@@ -35,11 +38,13 @@ public final class ResourcePersistenceData implements Serializable
 	
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource)
 	{
-		return new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource);
+		 return new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource);
 	}
 	
-	public static final Set<ResourcePersistenceData> of(final ResourceProvider provider)
+	public static final Set<ResourcePersistenceData> snapshot()
 	{
+		ResourceProvider provider = Services.getResourceService().getResourceProvider();
+		
 		Set<ResourcePersistenceData> data = Sets.newHashSet();
 		
 		for (Class<? extends Listener> type: provider.types())
@@ -52,7 +57,7 @@ public final class ResourcePersistenceData implements Serializable
 		
 		return data;
 	}
-	
+
 	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
 	{
 		Preconditions.checkArgument(Listener.class.isAssignableFrom(type));
@@ -69,7 +74,7 @@ public final class ResourcePersistenceData implements Serializable
 
 	private static final class SerializationProxy implements Serializable
 	{
-		private static final long serialVersionUID = -8026172903182777801L;
+		private static final long serialVersionUID = 4583906053454610999L;
 
 		private final boolean registered;
 		
@@ -81,10 +86,10 @@ public final class ResourcePersistenceData implements Serializable
 
 		private SerializationProxy(final ResourcePersistenceData data)
 		{
-			this.registered = data.isRegistered();
+			this.registered = data.isRegistred();
 			this.type       = data.getListenerType();
 			this.name       = data.getResourceName();
-			this.resource   = data.getResource();
+			this.resource   = data.getSerializedResource();
 		}
 		
 		static final SerializationProxy of(final ResourcePersistenceData data)
@@ -139,13 +144,87 @@ public final class ResourcePersistenceData implements Serializable
 	{
 		return 31 * (31 + this.type.hashCode()) + this.name.hashCode();
 	}
+	
+	public static final Set<ResourcePersistenceData> applyRegisteredMark(final Set<ResourcePersistenceData> data)
+	{
+		Set<ResourcePersistenceData> result = Sets.newHashSetWithExpectedSize(data.size());
+		
+		for (ResourcePersistenceData o: data)
+		{
+			result.add(o.applyRegisteredMark());
+		}
+		
+		return result;
+	}
 
-	public final boolean isRegistered()
+	public static final Set<ResourcePersistenceData> updateRegisteredMark(final Set<ResourcePersistenceData> data)
+	{
+		Set<ResourcePersistenceData> result = Sets.newHashSetWithExpectedSize(data.size());
+		
+		for (ResourcePersistenceData o: data)
+		{
+			result.add(o.updateRegisteredMark());
+		}
+		
+		return result;
+	}
+	
+	public final ResourcePersistenceData applyRegisteredMark()
+	{
+		Resource<?> resource = this.getResource();
+		
+		boolean status = Resources.isRegistred(this.type, resource);
+		
+		if (this.registered == status)
+		{
+			return this;
+		}
+
+		if (this.registered)
+		{
+			Unsafe.register(this.type, resource);
+		}
+		else
+		{
+			Unsafe.unregister(this.type, resource);
+		}
+		
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
+	}
+	
+	public final ResourcePersistenceData updateRegisteredMark()
+	{
+		boolean status = this.isRegistred();
+		
+		if (this.registered == status)
+		{
+			return this;
+		}
+		
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
+	}
+
+	public final ResourcePersistenceData markRegistered(final boolean status)
+	{
+		if (this.registered == status)
+		{
+			return this;
+		}
+		
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
+	}
+
+	public final boolean isRegistred()
+	{
+		return Resources.isRegistred(this.type, this.getResource());
+	}
+
+	public final boolean hasRegistredMark()
 	{
 		return this.registered;
 	}
 	
-	public final boolean hasResource()
+	public final boolean hasSerializedResource()
 	{
 		return this.resource != null;
 	}
@@ -155,12 +234,22 @@ public final class ResourcePersistenceData implements Serializable
 		return this.type;
 	}
 
+	public final Resource<?> getResource()
+	{
+		if (this.resource != null)
+		{
+			return this.resource;
+		}
+		
+		return Services.getResourceService().getResourceProvider().forName(this.name);
+	}
+	
 	public final String getResourceName()
 	{
 		return this.name;
 	}
 
-	public final Resource<?> getResource()
+	public final Resource<?> getSerializedResource()
 	{
 		return this.resource;
 	}

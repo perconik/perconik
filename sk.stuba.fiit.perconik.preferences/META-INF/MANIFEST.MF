@@ -16,4 +16,5 @@ Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak Unive
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: sk.stuba.fiit.perconik.preferences.plugin.Activator
 Export-Package: sk.stuba.fiit.perconik.preferences,
+ sk.stuba.fiit.perconik.preferences.persistence,
  sk.stuba.fiit.perconik.preferences.plugin

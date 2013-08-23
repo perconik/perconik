@@ -9,6 +9,8 @@ import com.google.common.base.Preconditions;
 
 public final class ListenerPersistenceData implements Serializable
 {
+	// TODO
+	
 	private static final long serialVersionUID = -1672202405264953995L;
 
 	private final transient boolean registered;
@@ -67,7 +69,7 @@ public final class ListenerPersistenceData implements Serializable
 		{
 			this.registered = data.isRegistered();
 			this.type       = data.getListenerClass();
-			this.listener   = data.getListener();
+			this.listener   = data.getSerializedListener();
 		}
 		
 		static final SerializationProxy of(final ListenerPersistenceData data)
@@ -128,7 +130,7 @@ public final class ListenerPersistenceData implements Serializable
 		return this.registered;
 	}
 
-	public final boolean hasListener()
+	public final boolean hasSerializedListener()
 	{
 		return this.listener != null;
 	}
@@ -138,7 +140,7 @@ public final class ListenerPersistenceData implements Serializable
 		return this.type;
 	}
 
-	public final Listener getListener()
+	public final Listener getSerializedListener()
 	{
 		return this.listener;
 	}
