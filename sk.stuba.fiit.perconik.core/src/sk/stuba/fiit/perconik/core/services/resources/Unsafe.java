@@ -12,7 +12,7 @@ final class Unsafe
 		throw new AssertionError();
 	}
 	
-	static <L extends Listener> Resource<L> cast(final Class<L> type, final Resource<?> resource)
+	static final <L extends Listener> Resource<L> cast(final Class<L> type, final Resource<?> resource)
 	{
 		@SuppressWarnings("serial")
 		TypeToken<Resource<L>> token = new TypeToken<Resource<L>>(){}.where(new TypeParameter<L>(){}, TypeToken.of(type));
