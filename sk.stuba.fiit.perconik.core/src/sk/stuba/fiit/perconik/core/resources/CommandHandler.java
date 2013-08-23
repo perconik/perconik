@@ -2,14 +2,14 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.swt.widgets.Display;
-import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.Commands;
 
-enum CommandChangeHandler implements Handler<CommandChangeListener>
+enum CommandHandler implements Handler<CommandListener>
 {
 	INSTANCE;
 	
-	public final void register(final CommandChangeListener listener)
+	public final void register(final CommandListener listener)
 	{
 		final Runnable addListener = new Runnable()
 		{
@@ -26,7 +26,7 @@ enum CommandChangeHandler implements Handler<CommandChangeListener>
 		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void unregister(final CommandChangeListener listener)
+	public final void unregister(final CommandListener listener)
 	{
 		final Runnable removeListener = new Runnable()
 		{

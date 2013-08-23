@@ -5,14 +5,14 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.AbstractFilteringListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceChangeEventType;
 
-public abstract class AbstractResourceChangeListener extends AbstractFilteringListener<ResourceChangeEventType> implements ResourceChangeListener
+public abstract class AbstractResourceListener extends AbstractFilteringListener<ResourceChangeEventType> implements ResourceListener
 {
-	protected AbstractResourceChangeListener()
+	protected AbstractResourceListener()
 	{
 		super(EnumSet.allOf(ResourceChangeEventType.class));
 	}
 
-	protected AbstractResourceChangeListener(final Set<ResourceChangeEventType> types)
+	protected AbstractResourceListener(final Set<ResourceChangeEventType> types)
 	{
 		super(types);
 	}

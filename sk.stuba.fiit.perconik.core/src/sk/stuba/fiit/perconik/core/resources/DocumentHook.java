@@ -4,28 +4,28 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
-import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-final class DocumentChangeHook extends InternalHook<IEditorPart, DocumentChangeListener> implements PartListener
+final class DocumentHook extends InternalHook<IEditorPart, DocumentListener> implements PartListener
 {
-	DocumentChangeHook(final DocumentChangeListener listener)
+	DocumentHook(final DocumentListener listener)
 	{
 		super(new InternalWindowHandler(listener));
 	}
 	
-	static final class Support extends AbstractHookSupport<DocumentChangeHook, IEditorPart, DocumentChangeListener>
+	static final class Support extends AbstractHookSupport<DocumentHook, IEditorPart, DocumentListener>
 	{
-		public final Hook<IEditorPart, DocumentChangeListener> create(final DocumentChangeListener listener)
+		public final Hook<IEditorPart, DocumentListener> create(final DocumentListener listener)
 		{
-			return new DocumentChangeHook(listener);
+			return new DocumentHook(listener);
 		}
 	}
 
-	private static final class InternalWindowHandler extends InternalHandler<IEditorPart, DocumentChangeListener>
+	private static final class InternalWindowHandler extends InternalHandler<IEditorPart, DocumentListener>
 	{
-		InternalWindowHandler(final DocumentChangeListener listener)
+		InternalWindowHandler(final DocumentListener listener)
 		{
 			super(listener);
 		}

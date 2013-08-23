@@ -3,19 +3,19 @@ package sk.stuba.fiit.perconik.debug.listeners;
 import java.util.EnumSet;
 import java.util.Set;
 import org.eclipse.core.resources.IResourceChangeEvent;
-import sk.stuba.fiit.perconik.core.listeners.ResourceChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceChangeEventType;
 
-public final class ResourceChangeDebugListener extends AbstractDebugListener implements ResourceChangeListener
+public final class ResourceDebugListener extends AbstractDebugListener implements ResourceListener
 {
-	public ResourceChangeDebugListener()
+	public ResourceDebugListener()
 	{
 	}
 	
-	public ResourceChangeDebugListener(final DebugConsole console)
+	public ResourceDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

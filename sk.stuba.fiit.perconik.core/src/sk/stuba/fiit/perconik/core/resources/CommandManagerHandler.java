@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 
-enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener>
+enum CommandManagerHandler implements Handler<CommandManagerListener>
 {
 	INSTANCE;
 	
-	public final void register(final CommandManagerChangeListener listener)
+	public final void register(final CommandManagerListener listener)
 	{
 		throw new UnsupportedOperationException("Not implemented yet");
 		
@@ -22,7 +22,7 @@ enum CommandManagerChangeHandler implements Handler<CommandManagerChangeListener
 //		Display.getDefault().asyncExec(addListener);
 	}
 
-	public final void unregister(final CommandManagerChangeListener listener)
+	public final void unregister(final CommandManagerListener listener)
 	{
 		throw new UnsupportedOperationException("Not implemented yet");
 	}

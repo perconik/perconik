@@ -1,18 +1,18 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.core.commands.CommandManagerEvent;
-import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 
-public final class CommandManagerChangeDebugListener extends AbstractDebugListener implements CommandManagerChangeListener
+public final class CommandManagerDebugListener extends AbstractDebugListener implements CommandManagerListener
 {
-	public CommandManagerChangeDebugListener()
+	public CommandManagerDebugListener()
 	{
 	}
 	
-	public CommandManagerChangeDebugListener(final DebugConsole console)
+	public CommandManagerDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

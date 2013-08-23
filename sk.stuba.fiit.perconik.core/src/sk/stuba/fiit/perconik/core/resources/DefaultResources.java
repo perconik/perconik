@@ -2,14 +2,14 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.listeners.CommandChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
-import sk.stuba.fiit.perconik.core.listeners.CommandManagerChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
-import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
-import sk.stuba.fiit.perconik.core.listeners.JavaElementChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchesListener;
@@ -19,7 +19,7 @@ import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener;
-import sk.stuba.fiit.perconik.core.listeners.ResourceChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
@@ -42,21 +42,21 @@ StyledTextListener extends org.eclipse.swt.widgets.Listener
 
 public class DefaultResources
 {
-	static final Resource<CommandChangeListener> commandChange;
+	static final Resource<CommandListener> commandChange;
 
 	static final Resource<CommandExecutionListener> commandExecution;
 
-	static final Resource<CommandManagerChangeListener> commandManagerChange;
+	static final Resource<CommandManagerListener> commandManagerChange;
 
 	static final Resource<CompletionListener> completion;
 
 	static final Resource<DebugEventsListener> debugEvents;
 
-	static final Resource<DocumentChangeListener> documentChange;
+	static final Resource<DocumentListener> documentChange;
 
 	static final Resource<FileBufferListener> fileBuffer;
 
-	static final Resource<JavaElementChangeListener> javaElementChange;
+	static final Resource<JavaElementListener> javaElementChange;
 
 	static final Resource<LaunchListener> launch;
 	
@@ -76,7 +76,7 @@ public class DefaultResources
 
 	static final Resource<RefactoringHistoryListener> refactoringHistory;
 
-	static final Resource<ResourceChangeListener> resourceChange;
+	static final Resource<ResourceListener> resourceChange;
 
 	static final Resource<SelectionListener> selection;
 	
@@ -92,14 +92,14 @@ public class DefaultResources
 	{
 		Builder builder = ResourceProviders.builder();
 		
-		commandChange        = forge(CommandChangeListener.class, CommandChangeHandler.INSTANCE, builder);
+		commandChange        = forge(CommandListener.class, CommandHandler.INSTANCE, builder);
 		commandExecution     = forge(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE, builder);
-		commandManagerChange = forge(CommandManagerChangeListener.class, CommandManagerChangeHandler.INSTANCE, builder);
+		commandManagerChange = forge(CommandManagerListener.class, CommandManagerHandler.INSTANCE, builder);
 		completion           = forge(CompletionListener.class, CompletionHandler.INSTANCE, builder);
 		debugEvents          = forge(DebugEventsListener.class, DebugEventsHandler.INSTANCE, builder);
-		documentChange       = forge(DocumentChangeListener.class, DocumentChangeHandler.INSTANCE, builder);
+		documentChange       = forge(DocumentListener.class, DocumentHandler.INSTANCE, builder);
 		fileBuffer           = forge(FileBufferListener.class, FileBufferHandler.INSTANCE, builder);
-		javaElementChange    = forge(JavaElementChangeListener.class, JavaElementChangeHandler.INSTANCE, builder);
+		javaElementChange    = forge(JavaElementListener.class, JavaElementHandler.INSTANCE, builder);
 		launch               = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
 		launchConfiguration  = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
 		launches             = forge(LaunchesListener.class, LaunchesHandler.INSTANCE, builder);
@@ -109,7 +109,7 @@ public class DefaultResources
 		perspective          = forge(PerspectiveListener.class, PerspectiveHandler.INSTANCE, builder);
 		refactoringExecution = forge(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE, builder);
 		refactoringHistory   = forge(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE, builder);
-		resourceChange       = forge(ResourceChangeListener.class, ResourceChangeHandler.INSTANCE, builder);
+		resourceChange       = forge(ResourceListener.class, ResourceHandler.INSTANCE, builder);
 		selection            = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
 		testRun              = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
 		window               = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
@@ -162,7 +162,7 @@ public class DefaultResources
 		return resource;
 	}
 
-	public static final Resource<CommandChangeListener> getCommandChangeResource()
+	public static final Resource<CommandListener> getCommandChangeResource()
 	{
 		return DefaultResources.commandChange;
 	}
@@ -172,7 +172,7 @@ public class DefaultResources
 		return DefaultResources.commandExecution;
 	}
 
-	public static final Resource<CommandManagerChangeListener> getCommandManagerChangeResource()
+	public static final Resource<CommandManagerListener> getCommandManagerChangeResource()
 	{
 		return DefaultResources.commandManagerChange;
 	}
@@ -187,7 +187,7 @@ public class DefaultResources
 		return DefaultResources.debugEvents;
 	}
 
-	public static final Resource<DocumentChangeListener> getDocumentChangeResource()
+	public static final Resource<DocumentListener> getDocumentChangeResource()
 	{
 		return DefaultResources.documentChange;
 	}
@@ -197,7 +197,7 @@ public class DefaultResources
 		return DefaultResources.fileBuffer;
 	}
 
-	public static final Resource<JavaElementChangeListener> getJavaElementChangeResource()
+	public static final Resource<JavaElementListener> getJavaElementChangeResource()
 	{
 		return DefaultResources.javaElementChange;
 	}
@@ -247,7 +247,7 @@ public class DefaultResources
 		return DefaultResources.refactoringHistory;
 	}
 
-	public static final Resource<ResourceChangeListener> getResourceChangeResource()
+	public static final Resource<ResourceListener> getResourceChangeResource()
 	{
 		return DefaultResources.resourceChange;
 	}

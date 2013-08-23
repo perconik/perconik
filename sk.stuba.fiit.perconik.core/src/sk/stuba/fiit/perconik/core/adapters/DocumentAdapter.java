@@ -2,9 +2,9 @@ package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.jface.text.DocumentEvent;
 import sk.stuba.fiit.perconik.core.Adapter;
-import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 
-public class DocumentChangeAdapter extends Adapter implements DocumentChangeListener
+public class DocumentAdapter extends Adapter implements DocumentListener
 {
 	public void documentAboutToBeChanged(DocumentEvent event)
 	{

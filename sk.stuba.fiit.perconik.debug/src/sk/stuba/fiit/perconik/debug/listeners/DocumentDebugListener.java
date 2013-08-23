@@ -1,18 +1,18 @@
 package sk.stuba.fiit.perconik.debug.listeners;
 
 import org.eclipse.jface.text.DocumentEvent;
-import sk.stuba.fiit.perconik.core.listeners.DocumentChangeListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 
-public final class DocumentChangeDebugListener extends AbstractDebugListener implements DocumentChangeListener
+public final class DocumentDebugListener extends AbstractDebugListener implements DocumentListener
 {
-	public DocumentChangeDebugListener()
+	public DocumentDebugListener()
 	{
 	}
 	
-	public DocumentChangeDebugListener(final DebugConsole console)
+	public DocumentDebugListener(final DebugConsole console)
 	{
 		super(console);
 	}

@@ -41,7 +41,7 @@ public final class DefaultListeners
 		return ServiceHolder.service;
 	}
 
-	public static final void register(final CommandChangeListener listener)
+	public static final void register(final CommandListener listener)
 	{
 		DefaultResources.getCommandChangeResource().register(listener);
 	}
@@ -51,7 +51,7 @@ public final class DefaultListeners
 		DefaultResources.getCommandExecutionResource().register(listener);
 	}
 	
-	public static final void register(final CommandManagerChangeListener listener)
+	public static final void register(final CommandManagerListener listener)
 	{
 		DefaultResources.getCommandManagerChangeResource().register(listener);
 	}
@@ -66,7 +66,7 @@ public final class DefaultListeners
 		DefaultResources.getDebugEventsResource().register(listener);
 	}
 	
-	public static final void register(final DocumentChangeListener listener)
+	public static final void register(final DocumentListener listener)
 	{
 		DefaultResources.getDocumentChangeResource().register(listener);
 	}
@@ -76,7 +76,7 @@ public final class DefaultListeners
 		DefaultResources.getFileBufferResource().register(listener);
 	}
 	
-	public static final void register(final JavaElementChangeListener listener)
+	public static final void register(final JavaElementListener listener)
 	{
 		DefaultResources.getJavaElementChangeResource().register(listener);
 	}
@@ -126,7 +126,7 @@ public final class DefaultListeners
 		DefaultResources.getRefactoringHistoryResource().register(listener);
 	}
 
-	public static final void register(final ResourceChangeListener listener)
+	public static final void register(final ResourceListener listener)
 	{
 		DefaultResources.getResourceChangeResource().register(listener);
 	}
@@ -151,7 +151,7 @@ public final class DefaultListeners
 		DefaultResources.getWorkbenchResource().register(listener);
 	}
 
-	public static final void unregister(final CommandChangeListener listener)
+	public static final void unregister(final CommandListener listener)
 	{
 		DefaultResources.getCommandChangeResource().unregister(listener);
 	}
@@ -161,7 +161,7 @@ public final class DefaultListeners
 		DefaultResources.getCommandExecutionResource().unregister(listener);
 	}
 
-	public static final void unregister(final CommandManagerChangeListener listener)
+	public static final void unregister(final CommandManagerListener listener)
 	{
 		DefaultResources.getCommandManagerChangeResource().unregister(listener);
 	}
@@ -176,7 +176,7 @@ public final class DefaultListeners
 		DefaultResources.getDebugEventsResource().unregister(listener);
 	}
 
-	public static final void unregister(final DocumentChangeListener listener)
+	public static final void unregister(final DocumentListener listener)
 	{
 		DefaultResources.getDocumentChangeResource().unregister(listener);
 	}
@@ -186,7 +186,7 @@ public final class DefaultListeners
 		DefaultResources.getFileBufferResource().unregister(listener);
 	}
 
-	public static final void unregister(final JavaElementChangeListener listener)
+	public static final void unregister(final JavaElementListener listener)
 	{
 		DefaultResources.getJavaElementChangeResource().unregister(listener);
 	}
@@ -236,7 +236,7 @@ public final class DefaultListeners
 		DefaultResources.getRefactoringHistoryResource().unregister(listener);
 	}
 
-	public static final void unregister(final ResourceChangeListener listener)
+	public static final void unregister(final ResourceListener listener)
 	{
 		DefaultResources.getResourceChangeResource().unregister(listener);
 	}

@@ -5,14 +5,14 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.AbstractFilteringListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementChangeEventType;
 
-public abstract class AbstractJavaElementChangeListener extends AbstractFilteringListener<JavaElementChangeEventType> implements JavaElementChangeListener
+public abstract class AbstractJavaElementListener extends AbstractFilteringListener<JavaElementChangeEventType> implements JavaElementListener
 {
-	protected AbstractJavaElementChangeListener()
+	protected AbstractJavaElementListener()
 	{
 		super(EnumSet.allOf(JavaElementChangeEventType.class));
 	}
 	
-	protected AbstractJavaElementChangeListener(final Set<JavaElementChangeEventType> types)
+	protected AbstractJavaElementListener(final Set<JavaElementChangeEventType> types)
 	{
 		super(types);
 	}
