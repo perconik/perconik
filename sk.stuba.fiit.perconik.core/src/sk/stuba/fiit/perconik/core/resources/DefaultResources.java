@@ -2,8 +2,12 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.listeners.CommandListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandCategoryListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandContextListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandContextManagerListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandHandlerListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
@@ -42,21 +46,29 @@ StyledTextListener extends org.eclipse.swt.widgets.Listener
 
 public class DefaultResources
 {
-	static final Resource<CommandListener> commandChange;
-
+	static final Resource<CommandListener> command;
+	
+	static final Resource<CommandCategoryListener> commandCategory;
+	
+	static final Resource<CommandContextListener> commandContext;
+	
+	static final Resource<CommandContextManagerListener> commandContextManager;
+	
 	static final Resource<CommandExecutionListener> commandExecution;
 
-	static final Resource<CommandManagerListener> commandManagerChange;
+	static final Resource<CommandHandlerListener> commandHandler;
+
+	static final Resource<CommandManagerListener> commandManager;
 
 	static final Resource<CompletionListener> completion;
 
 	static final Resource<DebugEventsListener> debugEvents;
 
-	static final Resource<DocumentListener> documentChange;
+	static final Resource<DocumentListener> document;
 
 	static final Resource<FileBufferListener> fileBuffer;
 
-	static final Resource<JavaElementListener> javaElementChange;
+	static final Resource<JavaElementListener> javaElement;
 
 	static final Resource<LaunchListener> launch;
 	
@@ -76,7 +88,7 @@ public class DefaultResources
 
 	static final Resource<RefactoringHistoryListener> refactoringHistory;
 
-	static final Resource<ResourceListener> resourceChange;
+	static final Resource<ResourceListener> resource;
 
 	static final Resource<SelectionListener> selection;
 	
@@ -92,28 +104,32 @@ public class DefaultResources
 	{
 		Builder builder = ResourceProviders.builder();
 		
-		commandChange        = forge(CommandListener.class, CommandHandler.INSTANCE, builder);
-		commandExecution     = forge(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE, builder);
-		commandManagerChange = forge(CommandManagerListener.class, CommandManagerHandler.INSTANCE, builder);
-		completion           = forge(CompletionListener.class, CompletionHandler.INSTANCE, builder);
-		debugEvents          = forge(DebugEventsListener.class, DebugEventsHandler.INSTANCE, builder);
-		documentChange       = forge(DocumentListener.class, DocumentHandler.INSTANCE, builder);
-		fileBuffer           = forge(FileBufferListener.class, FileBufferHandler.INSTANCE, builder);
-		javaElementChange    = forge(JavaElementListener.class, JavaElementHandler.INSTANCE, builder);
-		launch               = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
-		launchConfiguration  = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
-		launches             = forge(LaunchesListener.class, LaunchesHandler.INSTANCE, builder);
-		operationHistory     = forge(OperationHistoryListener.class, OperationHistoryHandler.INSTANCE, builder);
-		page                 = forge(PageListener.class, PageHandler.INSTANCE, builder);
-		part                 = forge(PartListener.class, PartHandler.INSTANCE, builder);
-		perspective          = forge(PerspectiveListener.class, PerspectiveHandler.INSTANCE, builder);
-		refactoringExecution = forge(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE, builder);
-		refactoringHistory   = forge(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE, builder);
-		resourceChange       = forge(ResourceListener.class, ResourceHandler.INSTANCE, builder);
-		selection            = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
-		testRun              = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
-		window               = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
-		workbench            = forge(WorkbenchListener.class, WorkbenchHandler.INSTANCE, builder);
+		command               = forge(CommandListener.class, CommandHandler.INSTANCE, builder);
+		commandCategory       = forge(CommandCategoryListener.class, CommandCategoryHandler.INSTANCE, builder);
+		commandContext        = forge(CommandContextListener.class, CommandContextHandler.INSTANCE, builder);
+		commandContextManager = forge(CommandContextManagerListener.class, CommandContextManagerHandler.INSTANCE, builder);
+		commandExecution      = forge(CommandExecutionListener.class, CommandExecutionHandler.INSTANCE, builder);
+		commandHandler        = forge(CommandHandlerListener.class, CommandHandlerHandler.INSTANCE, builder);
+		commandManager        = forge(CommandManagerListener.class, CommandManagerHandler.INSTANCE, builder);
+		completion            = forge(CompletionListener.class, CompletionHandler.INSTANCE, builder);
+		debugEvents           = forge(DebugEventsListener.class, DebugEventsHandler.INSTANCE, builder);
+		document              = forge(DocumentListener.class, DocumentHandler.INSTANCE, builder);
+		fileBuffer            = forge(FileBufferListener.class, FileBufferHandler.INSTANCE, builder);
+		javaElement           = forge(JavaElementListener.class, JavaElementHandler.INSTANCE, builder);
+		launch                = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
+		launchConfiguration   = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
+		launches              = forge(LaunchesListener.class, LaunchesHandler.INSTANCE, builder);
+		operationHistory      = forge(OperationHistoryListener.class, OperationHistoryHandler.INSTANCE, builder);
+		page                  = forge(PageListener.class, PageHandler.INSTANCE, builder);
+		part                  = forge(PartListener.class, PartHandler.INSTANCE, builder);
+		perspective           = forge(PerspectiveListener.class, PerspectiveHandler.INSTANCE, builder);
+		refactoringExecution  = forge(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE, builder);
+		refactoringHistory    = forge(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE, builder);
+		resource              = forge(ResourceListener.class, ResourceHandler.INSTANCE, builder);
+		selection             = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
+		testRun               = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
+		window                = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
+		workbench             = forge(WorkbenchListener.class, WorkbenchHandler.INSTANCE, builder);
 		
 		provider = builder.build();
 	}
@@ -162,9 +178,24 @@ public class DefaultResources
 		return resource;
 	}
 
-	public static final Resource<CommandListener> getCommandChangeResource()
+	public static final Resource<CommandListener> getCommandResource()
 	{
-		return DefaultResources.commandChange;
+		return DefaultResources.command;
+	}
+
+	public static final Resource<CommandCategoryListener> getCommandCategoryResource()
+	{
+		return commandCategory;
+	}
+
+	public static final Resource<CommandContextListener> getCommandContextResource()
+	{
+		return commandContext;
+	}
+
+	public static final Resource<CommandContextManagerListener> getCommandContextManagerResource()
+	{
+		return commandContextManager;
 	}
 
 	public static final Resource<CommandExecutionListener> getCommandExecutionResource()
@@ -172,9 +203,14 @@ public class DefaultResources
 		return DefaultResources.commandExecution;
 	}
 
-	public static final Resource<CommandManagerListener> getCommandManagerChangeResource()
+	public static final Resource<CommandHandlerListener> getCommandHandlerResource()
 	{
-		return DefaultResources.commandManagerChange;
+		return commandHandler;
+	}
+
+	public static final Resource<CommandManagerListener> getCommandManagerResource()
+	{
+		return DefaultResources.commandManager;
 	}
 
 	public static final Resource<CompletionListener> getCompletionResource()
@@ -187,9 +223,9 @@ public class DefaultResources
 		return DefaultResources.debugEvents;
 	}
 
-	public static final Resource<DocumentListener> getDocumentChangeResource()
+	public static final Resource<DocumentListener> getDocumentResource()
 	{
-		return DefaultResources.documentChange;
+		return DefaultResources.document;
 	}
 
 	public static final Resource<FileBufferListener> getFileBufferResource()
@@ -197,9 +233,9 @@ public class DefaultResources
 		return DefaultResources.fileBuffer;
 	}
 
-	public static final Resource<JavaElementListener> getJavaElementChangeResource()
+	public static final Resource<JavaElementListener> getJavaElementResource()
 	{
-		return DefaultResources.javaElementChange;
+		return DefaultResources.javaElement;
 	}
 
 	public static final Resource<LaunchListener> getLaunchResource()
@@ -247,9 +283,9 @@ public class DefaultResources
 		return DefaultResources.refactoringHistory;
 	}
 
-	public static final Resource<ResourceListener> getResourceChangeResource()
+	public static final Resource<ResourceListener> getResourceResource()
 	{
-		return DefaultResources.resourceChange;
+		return DefaultResources.resource;
 	}
 
 	public static final Resource<SelectionListener> getSelectionResource()
