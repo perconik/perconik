@@ -6,12 +6,25 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 
 public final class Buttons
 {
 	private Buttons()
 	{
 		throw new AssertionError();
+	}
+	
+	public static final Button create(final Composite parent, final String text, final WidgetListener listener)
+	{
+		Button button = new Button(parent, SWT.PUSH);
+		
+		button.setText(text);
+		button.setLayoutData(getGridData(button));
+		button.addListener(SWT.Selection, listener);
+		
+		return button;
 	}
 	
 	public static final void setDialogFont(final Button button)
