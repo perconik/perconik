@@ -34,25 +34,9 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 // TODO consider adding
 /*
 
-add
-
-ICategoryListener
-
 add experimental
 
 StyledTextListener extends org.eclipse.swt.widgets.Listener
-
-IHandlerListener
-IContextListener
-IContextManagerListener
-
-add custom
-
-EditorListener
-
-MarkSelectionListener
-StructuredSelectionListener
-TextSelectionListener
 
  */
 
