@@ -5,7 +5,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
-public enum ResourceChangeEventType implements IntegralConstant
+public enum ResourceEventType implements IntegralConstant
 {
 	/**
 	 * @see org.eclipse.core.resources.IResourceChangeEvent#POST_CHANGE
@@ -37,11 +37,11 @@ public enum ResourceChangeEventType implements IntegralConstant
 	 */
 	PRE_REFRESH(IResourceChangeEvent.PRE_REFRESH);
 
-	private static final IntegralConstantSupport<ResourceChangeEventType> integers = IntegralConstantSupport.of(ResourceChangeEventType.class);
+	private static final IntegralConstantSupport<ResourceEventType> integers = IntegralConstantSupport.of(ResourceEventType.class);
 
 	private final int value;
 	
-	private ResourceChangeEventType(final int value)
+	private ResourceEventType(final int value)
 	{
 		this.value = value;
 	}
@@ -51,7 +51,7 @@ public enum ResourceChangeEventType implements IntegralConstant
 		return integers.getIntegers();
 	}
 
-	public static final ResourceChangeEventType valueOf(final int value)
+	public static final ResourceEventType valueOf(final int value)
 	{
 		return integers.getConstant(value);
 	}
