@@ -11,4 +11,8 @@ public interface Resource<L extends Listener> extends Nameable, Registrable
 	public void unregisterAll(Class<? extends Listener> type);
 	
 	public <U extends Listener> Collection<U> registered(Class<U> type);
+	
+	// resources should be equal if their names are equal
+	@Override
+	public boolean equals(Object o);
 }

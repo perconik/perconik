@@ -4,4 +4,7 @@ import sk.stuba.fiit.perconik.core.Nameable;
 
 public interface Manager extends Nameable
 {
+	// equals by name
+	@Override
+	public boolean equals(Object o);
 }
