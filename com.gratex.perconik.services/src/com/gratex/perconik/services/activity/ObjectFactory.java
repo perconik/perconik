@@ -182,6 +182,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RcsServerDto }
+     * 
+     */
+    public RcsServerDto createRcsServerDto() {
+        return new RcsServerDto();
+    }
+
+    /**
      * Create an instance of {@link ArrayOfIdeFindResultRowDto }
      * 
      */

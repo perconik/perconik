@@ -17,6 +17,10 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="SwitchTo"/>
  *     &lt;enumeration value="Add"/>
  *     &lt;enumeration value="Remove"/>
+ *     &lt;enumeration value="Rename"/>
+ *     &lt;enumeration value="Open"/>
+ *     &lt;enumeration value="Close"/>
+ *     &lt;enumeration value="Refresh"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -31,7 +35,15 @@ public enum IdeProjectOperationTypeEnum {
     @XmlEnumValue("Add")
     ADD("Add"),
     @XmlEnumValue("Remove")
-    REMOVE("Remove");
+    REMOVE("Remove"),
+    @XmlEnumValue("Rename")
+    RENAME("Rename"),
+    @XmlEnumValue("Open")
+    OPEN("Open"),
+    @XmlEnumValue("Close")
+    CLOSE("Close"),
+    @XmlEnumValue("Refresh")
+    REFRESH("Refresh");
     private final String value;
 
     IdeProjectOperationTypeEnum(String v) {

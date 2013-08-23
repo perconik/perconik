@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="Close"/>
  *     &lt;enumeration value="Remove"/>
  *     &lt;enumeration value="Save"/>
+ *     &lt;enumeration value="Rename"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -40,7 +41,9 @@ public enum IdeDocumentOperationTypeEnum {
     @XmlEnumValue("Remove")
     REMOVE("Remove"),
     @XmlEnumValue("Save")
-    SAVE("Save");
+    SAVE("Save"),
+    @XmlEnumValue("Rename")
+    RENAME("Rename");
     private final String value;
 
     IdeDocumentOperationTypeEnum(String v) {

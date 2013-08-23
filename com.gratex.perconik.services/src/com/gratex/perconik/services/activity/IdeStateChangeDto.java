@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.gratex.com/PerConIk/IActivitySvc}IdeSlnPrjEventDto">
  *       &lt;sequence>
- *         &lt;element name="StateType" type="{http://www.gratex.com/PerConIk/IActivitySvc}IdeStateTypeEnum"/>
+ *         &lt;element name="StateType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -34,18 +34,18 @@ public class IdeStateChangeDto
     extends IdeSlnPrjEventDto
 {
 
-    @XmlElement(name = "StateType", required = true)
-    protected IdeStateTypeEnum stateType;
+    @XmlElement(name = "StateType")
+    protected String stateType;
 
     /**
      * Gets the value of the stateType property.
      * 
      * @return
      *     possible object is
-     *     {@link IdeStateTypeEnum }
+     *     {@link String }
      *     
      */
-    public IdeStateTypeEnum getStateType() {
+    public String getStateType() {
         return stateType;
     }
 
@@ -54,10 +54,10 @@ public class IdeStateChangeDto
      * 
      * @param value
      *     allowed object is
-     *     {@link IdeStateTypeEnum }
+     *     {@link String }
      *     
      */
-    public void setStateType(IdeStateTypeEnum value) {
+    public void setStateType(String value) {
         this.stateType = value;
     }
 

@@ -18,6 +18,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;extension base="{http://www.gratex.com/PerConIk/IActivitySvc}EventDto">
  *       &lt;attribute name="IdePid" use="required" type="{http://www.w3.org/2001/XMLSchema}int" />
+ *       &lt;attribute name="ApplicationName" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="ApplicationVersion" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -37,6 +39,10 @@ public abstract class IdeEventDto
 
     @XmlAttribute(name = "IdePid", required = true)
     protected int idePid;
+    @XmlAttribute(name = "ApplicationName")
+    protected String applicationName;
+    @XmlAttribute(name = "ApplicationVersion")
+    protected String applicationVersion;
 
     /**
      * Gets the value of the idePid property.
@@ -52,6 +58,54 @@ public abstract class IdeEventDto
      */
     public void setIdePid(int value) {
         this.idePid = value;
+    }
+
+    /**
+     * Gets the value of the applicationName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    /**
+     * Sets the value of the applicationName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setApplicationName(String value) {
+        this.applicationName = value;
+    }
+
+    /**
+     * Gets the value of the applicationVersion property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getApplicationVersion() {
+        return applicationVersion;
+    }
+
+    /**
+     * Sets the value of the applicationVersion property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setApplicationVersion(String value) {
+        this.applicationVersion = value;
     }
 
 }

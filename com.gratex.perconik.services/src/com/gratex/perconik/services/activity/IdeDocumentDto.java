@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ChangesetIdInRcs" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="RcsServerPath" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="RcsServer" type="{http://www.gratex.com/PerConIk/IActivitySvc}RcsServerDto" minOccurs="0"/>
  *         &lt;element name="Path" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="PathType" type="{http://www.gratex.com/PerConIk/IActivitySvc}IdePathTypeEnum"/>
  *       &lt;/sequence>
@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdeDocumentDto", propOrder = {
     "changesetIdInRcs",
-    "rcsServerPath",
+    "rcsServer",
     "path",
     "pathType"
 })
@@ -40,8 +40,8 @@ public class IdeDocumentDto {
 
     @XmlElement(name = "ChangesetIdInRcs")
     protected String changesetIdInRcs;
-    @XmlElement(name = "RcsServerPath")
-    protected String rcsServerPath;
+    @XmlElement(name = "RcsServer")
+    protected RcsServerDto rcsServer;
     @XmlElement(name = "Path")
     protected String path;
     @XmlElement(name = "PathType", required = true)
@@ -72,27 +72,27 @@ public class IdeDocumentDto {
     }
 
     /**
-     * Gets the value of the rcsServerPath property.
+     * Gets the value of the rcsServer property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link RcsServerDto }
      *     
      */
-    public String getRcsServerPath() {
-        return rcsServerPath;
+    public RcsServerDto getRcsServer() {
+        return rcsServer;
     }
 
     /**
-     * Sets the value of the rcsServerPath property.
+     * Sets the value of the rcsServer property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link RcsServerDto }
      *     
      */
-    public void setRcsServerPath(String value) {
-        this.rcsServerPath = value;
+    public void setRcsServer(RcsServerDto value) {
+        this.rcsServer = value;
     }
 
     /**
