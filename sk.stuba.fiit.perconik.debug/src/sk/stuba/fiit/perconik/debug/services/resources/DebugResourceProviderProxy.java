@@ -6,8 +6,8 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.debug.resources.DebugResourceProxy;
-import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 

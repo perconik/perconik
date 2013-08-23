@@ -7,8 +7,8 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
+import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResources;
-import sk.stuba.fiit.perconik.debug.services.DebugNameableProxy;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 

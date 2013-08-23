@@ -1,8 +1,6 @@
-package sk.stuba.fiit.perconik.debug.services;
+package sk.stuba.fiit.perconik.debug;
 
 import sk.stuba.fiit.perconik.core.Nameable;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
-import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
 
 public abstract class DebugNameableProxy extends DebugObjectProxy implements Nameable
 {
