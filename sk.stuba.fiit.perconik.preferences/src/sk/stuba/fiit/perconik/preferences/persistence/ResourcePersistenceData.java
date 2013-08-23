@@ -26,8 +26,6 @@ public final class ResourcePersistenceData implements Serializable
 	
 	ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, final Resource<?> resource)
 	{
-		System.out.println("creating new RPD "+registered+ " "+type+" "+String.valueOf(resource));
-		
 		this.registered = registered;
 		this.type       = checkType(type);
 		this.name       = checkName(name);
