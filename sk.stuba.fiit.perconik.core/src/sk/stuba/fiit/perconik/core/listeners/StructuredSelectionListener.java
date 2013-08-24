@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.Listener;
 
 public interface StructuredSelectionListener extends Listener
 {
