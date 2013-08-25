@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.utilities;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import javax.annotation.Nullable;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 public final class SmartStringBuilder implements Appendable, CharSequence
 {
@@ -27,17 +29,17 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		this.builder = this.initialize(new StringBuilder(capacity));
 	}
 	
-	public SmartStringBuilder(CharSequence sequence)
+	public SmartStringBuilder(@Nullable CharSequence sequence)
 	{
 		this.builder = this.initialize(new StringBuilder(String.valueOf(sequence)));
 	}
 	
-	public SmartStringBuilder(String string)
+	public SmartStringBuilder(@Nullable String string)
 	{
 		this.builder = this.initialize(new StringBuilder(String.valueOf(string)));
 	}
 	
-	private final StringBuilder initialize(final StringBuilder builder)
+	private final StringBuilder initialize(StringBuilder builder)
 	{
 		this.indent  = 0;
 		this.delta   = 2;
@@ -97,32 +99,21 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public final void setIndent(int indent)
 	{
-		if (indent < 0)
-		{
-			throw new IllegalArgumentException();
-		}
+		Preconditions.checkArgument(indent >= 0);
 		
 		this.indent = indent;
 	}
 	
 	public final void setDelta(int delta)
 	{
-		if (delta < 0)
-		{
-			throw new IllegalArgumentException();
-		}
+		Preconditions.checkArgument(delta >= 0);
 		
 		this.delta = delta;
 	}
 	
 	public final void setPad(CharSequence pad)
 	{
-		if (pad == null)
-		{
-			throw new NullPointerException();
-		}
-		
-		this.pad = pad;
+		this.pad = Preconditions.checkNotNull(pad);
 	}
 
 	public final char charAt(int i)
@@ -231,13 +222,13 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.builder.toString();
 	}
 
-	public final SmartStringBuilder append(Object o)
+	public final SmartStringBuilder append(@Nullable Object o)
 	{
 		this.ensureIndent();
 		return this.append(String.valueOf(o));
 	}
 
-	public final SmartStringBuilder append(String s)
+	public final SmartStringBuilder append(@Nullable String s)
 	{
 		this.ensureIndent();
 		this.builder.append(s);
@@ -245,7 +236,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder append(CharSequence s)
+	public final SmartStringBuilder append(@Nullable CharSequence s)
 	{
 		this.ensureIndent();
 		this.builder.append(s);
@@ -253,7 +244,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder append(CharSequence s, int start, int end)
+	public final SmartStringBuilder append(@Nullable CharSequence s, int start, int end)
 	{
 		this.ensureIndent();
 		this.builder.append(s, start, end);
@@ -319,7 +310,12 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder appendln(String s)
+	public final SmartStringBuilder appendln(@Nullable Object o)
+	{
+		return this.appendln(String.valueOf(o));
+	}
+
+	public final SmartStringBuilder appendln(@Nullable String s)
 	{
 		this.ensureIndent();
 		this.builder.append(s);
@@ -327,12 +323,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.appendln();
 	}
 
-	public final SmartStringBuilder appendln(Object o)
-	{
-		return this.appendln(String.valueOf(o));
-	}
-
-	public final SmartStringBuilder appendln(CharSequence s)
+	public final SmartStringBuilder appendln(@Nullable CharSequence s)
 	{
 		this.ensureIndent();
 		this.builder.append(s);
@@ -340,7 +331,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.appendln();
 	}
 	
-	public final SmartStringBuilder appendln(CharSequence s, int start, int end)
+	public final SmartStringBuilder appendln(@Nullable CharSequence s, int start, int end)
 	{
 		this.ensureIndent();
 		this.builder.append(s, start, end);
@@ -396,19 +387,26 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.appendln();
 	}
 	
-	public final SmartStringBuilder format(String format, Object ... args)
+	public final SmartStringBuilder format(String format, @Nullable Object ... args)
 	{
 		this.ensureIndent();		
 		this.builder.append(String.format(format, args));
 		
 		return this;
 	}
-	
-	public final SmartStringBuilder list(Object ... objects)
+
+	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object ... rest)
 	{
 		this.ensureIndent();
-		
-		return this.list(Arrays.asList(objects));
+
+		return this.list(Lists.asList(first, rest));
+	}
+
+	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, @Nullable Object ... rest)
+	{
+		this.ensureIndent();
+
+		return this.list(Lists.asList(first, second, rest));
 	}
 
 	public final SmartStringBuilder list(Iterable<?> iterable)
@@ -427,6 +425,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public final SmartStringBuilder list(Iterable<?> iterable, String delimeter)
 	{
+		if (delimeter == null)
+		{
+			throw new NullPointerException();
+		}
+		
 		Iterator<?> iterator = iterable.iterator();
 		
 		if (iterator.hasNext())
@@ -444,7 +447,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder repeat(int n, Object o)
+	public final SmartStringBuilder repeat(int n, @Nullable Object o)
 	{
 		if (n < 0) throw new IllegalArgumentException();
 		if (n > 0) this.ensureIndent();
@@ -454,7 +457,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder repeat(int n, String s)
+	public final SmartStringBuilder repeat(int n, @Nullable String s)
 	{
 		if (n < 0) throw new IllegalArgumentException();
 		if (n > 0) this.ensureIndent();
@@ -464,7 +467,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder repeat(int n, CharSequence s)
+	public final SmartStringBuilder repeat(int n, @Nullable CharSequence s)
 	{
 		if (n < 0) throw new IllegalArgumentException();
 		if (n > 0) this.ensureIndent();
@@ -474,7 +477,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder repeat(int n, CharSequence s, int start, int end)
+	public final SmartStringBuilder repeat(int n, @Nullable CharSequence s, int start, int end)
 	{
 		if (n < 0) throw new IllegalArgumentException();
 		if (n > 0) this.ensureIndent();
@@ -544,7 +547,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder repeat(int n, String format, Object ... args)
+	public final SmartStringBuilder repeat(int n, String format, @Nullable Object ... args)
 	{
 		this.repeat(n, String.format(format, args));
 		
@@ -606,12 +609,12 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder lines(Object o)
+	public final SmartStringBuilder lines(@Nullable Object o)
 	{
 		return this.lines(o);
 	}
 	
-	public final SmartStringBuilder lines(String s)
+	public final SmartStringBuilder lines(@Nullable String s)
 	{
 		String[] lines = String.valueOf(s).split("\r?\n|\r");
 
@@ -648,26 +651,26 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder replace(int start, int end, String s)
+	public final SmartStringBuilder replace(int start, int end, @Nullable String s)
 	{
-		this.builder.replace(start, end, s);
+		this.builder.replace(start, end, String.valueOf(s));
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder replaceFirst(String source, Object replacement)
+	public final SmartStringBuilder replaceFirst(String source, @Nullable Object replacement)
 	{
 		return this.replaceFirst(source, String.valueOf(replacement));
 	}	
 
-	public final SmartStringBuilder replaceFirst(String source, String replacement)
+	public final SmartStringBuilder replaceFirst(String source, @Nullable String replacement)
 	{
 		this.replaceAtIndex(this.builder.indexOf(source), source.length(), String.valueOf(replacement));
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder replaceFirst(String source, CharSequence replacement)
+	public final SmartStringBuilder replaceFirst(String source, @Nullable CharSequence replacement)
 	{
 		return this.replaceFirst(source, String.valueOf(replacement));
 	}
@@ -702,19 +705,19 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.replaceFirst(source, String.valueOf(replacement));
 	}
 	
-	public final SmartStringBuilder replaceLast(String source, Object replacement)
+	public final SmartStringBuilder replaceLast(String source, @Nullable Object replacement)
 	{
 		return this.replaceFirst(source, String.valueOf(replacement));
 	}
 
-	public final SmartStringBuilder replaceLast(String source, String replacement)
+	public final SmartStringBuilder replaceLast(String source, @Nullable String replacement)
 	{
 		this.replaceAtIndex(this.builder.lastIndexOf(source), source.length(), String.valueOf(replacement));
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder replaceLast(String source, CharSequence replacement)
+	public final SmartStringBuilder replaceLast(String source, @Nullable CharSequence replacement)
 	{
 		return this.replaceLast(source, String.valueOf(replacement));
 	}
@@ -749,20 +752,20 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.replaceLast(source, String.valueOf(replacement));
 	}
 	
-	private final void replaceAtIndex(int index, int length, String replacement)
+	private final void replaceAtIndex(int index, int length, @Nullable String replacement)
 	{
 		if (index != -1)
 		{
-			this.builder.replace(index, index + length, replacement);
+			this.builder.replace(index, index + length, String.valueOf(replacement));
 		}
 	}
 	
-	public final SmartStringBuilder replaceAll(String source, Object replacement)
+	public final SmartStringBuilder replaceAll(String source, @Nullable Object replacement)
 	{
 		return this.replaceAll(source, String.valueOf(replacement));
 	}
 	
-	public final SmartStringBuilder replaceAll(String source, String replacement)
+	public final SmartStringBuilder replaceAll(String source, @Nullable String replacement)
 	{
 		int index;
 		
@@ -776,7 +779,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder replaceAll(String source, CharSequence replacement)
+	public final SmartStringBuilder replaceAll(String source, @Nullable CharSequence replacement)
 	{
 		return this.replaceAll(source, String.valueOf(replacement));
 	}
@@ -811,27 +814,6 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.replaceAll(source, String.valueOf(replacement));
 	}
 
-	public final SmartStringBuilder insert(int index, char[] s, int offset, int length)
-	{
-		this.builder.insert(index, s, offset, length);
-		
-		return this;
-	}
-
-	public final SmartStringBuilder insert(int offset, Object o)
-	{
-		this.builder.insert(offset, o);
-		
-		return this;
-	}
-
-	public final SmartStringBuilder insert(int offset, String s)
-	{
-		this.builder.insert(offset, s);
-		
-		return this;
-	}
-
 	public final SmartStringBuilder insert(int offset, char[] s)
 	{
 		this.builder.insert(offset, s);
@@ -839,14 +821,35 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder insert(int offset, CharSequence s)
+	public final SmartStringBuilder insert(int index, char[] s, int offset, int length)
+	{
+		this.builder.insert(index, s, offset, length);
+		
+		return this;
+	}
+
+	public final SmartStringBuilder insert(int offset, @Nullable Object o)
+	{
+		this.builder.insert(offset, o);
+		
+		return this;
+	}
+
+	public final SmartStringBuilder insert(int offset, @Nullable String s)
+	{
+		this.builder.insert(offset, s);
+		
+		return this;
+	}
+
+	public final SmartStringBuilder insert(int offset, @Nullable CharSequence s)
 	{
 		this.builder.insert(offset, s, 0, s.length());
 		
 		return this;
 	}
 
-	public final SmartStringBuilder insert(int offset, CharSequence s, int start, int end)
+	public final SmartStringBuilder insert(int offset, @Nullable CharSequence s, int start, int end)
 	{
 		this.builder.insert(offset, s, start, end);
 		
