@@ -8,7 +8,7 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
 {
 	PartHook(final PartListener listener)
 	{
-		super(new InternalPageHandler(listener));
+		super(new PageHandler(listener));
 	}
 	
 	static final class Support extends AbstractHookSupport<PartHook, IWorkbenchWindow, PartListener>
@@ -19,9 +19,9 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
 		}
 	}
 
-	private static final class InternalPageHandler extends InternalHandler<IWorkbenchWindow, PartListener>
+	private static final class PageHandler extends InternalHandler<IWorkbenchWindow, PartListener>
 	{
-		InternalPageHandler(final PartListener listener)
+		PageHandler(final PartListener listener)
 		{
 			super(listener);
 		}

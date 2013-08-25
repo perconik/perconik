@@ -1,6 +1,9 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Arrays;
+import javax.annotation.Nullable;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -8,6 +11,7 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 final class Hooks
@@ -15,6 +19,22 @@ final class Hooks
 	private Hooks()
 	{
 		throw new AssertionError();
+	}
+	
+	static final <T> void addNonNull(final Hook<T, ?> hook, @Nullable final T object)
+	{
+		if (object != null)
+		{
+			hook.add(object);
+		}
+	}
+	
+	static final <T> void removeNonNull(final Hook<T, ?> hook, @Nullable final T object)
+	{
+		if (object != null)
+		{
+			hook.remove(object);
+		}
 	}
 	
 	static final void addWindowsSynchronouslyTo(final InternalHook<IWorkbenchWindow, ?> hook)
@@ -54,12 +74,7 @@ final class Hooks
 			{
 				for (IViewReference reference: Workbenches.waitForActivePage().getViewReferences())
 				{
-					IWorkbenchPart part = reference.getPart(false);
-					
-					if (part != null)
-					{
-						hook.add(part);
-					}
+					addNonNull(hook, reference.getPart(false));
 				}
 			}
 		};
@@ -76,12 +91,41 @@ final class Hooks
 			{
 				for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences())
 				{
-					IEditorPart editor = reference.getEditor(false);
-					
-					if (editor != null)
-					{
-						hook.add(editor);
-					}
+					addNonNull(hook, reference.getEditor(false));
+				}
+			}
+		};
+		
+		Display.getDefault().syncExec(initializer);
+	}
+	
+	static final void addSourceViewersSynchronouslyTo(final InternalHook<ISourceViewer, ?> hook)
+	{
+		final Runnable initializer = new Runnable()
+		{
+			@Override
+			public final void run()
+			{
+				for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences())
+				{
+					addNonNull(hook, Editors.getSourceViewer(reference.getEditor(false)));
+				}
+			}
+		};
+		
+		Display.getDefault().syncExec(initializer);
+	}
+	
+	static final void addDocumentsSynchronouslyTo(final InternalHook<IDocument, ?> hook)
+	{
+		final Runnable initializer = new Runnable()
+		{
+			@Override
+			public final void run()
+			{
+				for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences())
+				{
+					addNonNull(hook, Editors.getDocument(reference.getEditor(false)));
 				}
 			}
 		};

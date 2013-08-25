@@ -1,13 +1,13 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.Nameable;
 
-final class GenericResource<L extends Listener> extends AbstractResource<L>
+abstract class InternalFilter<L extends Listener> extends AbstractWrapper<L> implements Nameable
 {
-	GenericResource(final Pool<L> pool)
+	InternalFilter(final L listener)
 	{
-		super(pool);
+		super(listener);
 	}
 
 	@Override
@@ -18,14 +18,14 @@ final class GenericResource<L extends Listener> extends AbstractResource<L>
 			return true;
 		}
 		
-		if (!(o instanceof Resource))
+		if (this.getClass() != o.getClass())
 		{
 			return false;
 		}
 		
-		Resource<?> other = (Resource<?>) o;
+		InternalFilter<?> other = (InternalFilter<?>) o;
 		
-		return this.getName().equals(other.getName());
+		return this.listener.equals(other.listener);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ final class GenericResource<L extends Listener> extends AbstractResource<L>
 	{
 		return this.getName().hashCode();
 	}
-
+	
 	@Override
 	public final String toString()
 	{
@@ -42,6 +42,6 @@ final class GenericResource<L extends Listener> extends AbstractResource<L>
 
 	public final String getName()
 	{
-		return this.pool.toString().replace("Pool", "Resource");
+		return this.getClass().getName() + " for " + this.listener;
 	}
 }

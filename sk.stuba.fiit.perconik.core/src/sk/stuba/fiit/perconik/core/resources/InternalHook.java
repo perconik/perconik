@@ -1,14 +1,16 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Nameable;
 import com.google.common.base.Preconditions;
 
-abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
+abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> implements Nameable
 {
 	private final InternalHandler<T, L> handler;
 	
 	InternalHook(final InternalHandler<T, L> handler)
 	{
+		// TODO force safe pools
 		super(Pools.getObjectPoolFactory().create(handler));
 		
 		this.handler = Preconditions.checkNotNull(handler);
@@ -79,13 +81,8 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L>
 
 	public final String getName()
 	{
-		String name = this.handler.getClass().getCanonicalName();
-		
-		if (name.isEmpty())
-		{
-			name = this.handler.getClass().getName();
-		}
-		
+		String name = this.handler.getClass().getName();
+
 		return name.replace("Handler", "Hook") + " for " + this.handler.listener;
 	}
 }

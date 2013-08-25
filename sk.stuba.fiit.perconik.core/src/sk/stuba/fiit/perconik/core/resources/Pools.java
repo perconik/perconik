@@ -14,11 +14,11 @@ class Pools
 			return Synchronized.pool(GenericPool.builder(handler).identity().hashSet().build());
 		}
 	}
-	
+
 	private static PoolFactory objectPoolFactory = DefaultPoolFactory.INSTANCE;
-	
+
 	private static PoolFactory listenerPoolFactory = DefaultPoolFactory.INSTANCE;
-	
+
 	private Pools()
 	{
 		throw new AssertionError();
@@ -72,7 +72,7 @@ class Pools
 	{
 		return new SafePool<>(pool, type);
 	}
-	
+
 	static final void setObjectPoolFactory(final PoolFactory factory)
 	{
 		objectPoolFactory = Preconditions.checkNotNull(factory);

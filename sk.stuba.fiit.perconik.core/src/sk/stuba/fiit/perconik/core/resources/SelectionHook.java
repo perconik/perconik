@@ -8,7 +8,7 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
 {
 	SelectionHook(final SelectionListener listener)
 	{
-		super(new InternalWindowHandler(listener));
+		super(new WindowHandler(listener));
 	}
 	
 	static final class Support extends AbstractHookSupport<SelectionHook, IWorkbenchWindow, SelectionListener>
@@ -19,9 +19,9 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
 		}
 	}
 
-	private static final class InternalWindowHandler extends InternalHandler<IWorkbenchWindow, SelectionListener>
+	private static final class WindowHandler extends InternalHandler<IWorkbenchWindow, SelectionListener>
 	{
-		InternalWindowHandler(final SelectionListener listener)
+		WindowHandler(final SelectionListener listener)
 		{
 			super(listener);
 		}

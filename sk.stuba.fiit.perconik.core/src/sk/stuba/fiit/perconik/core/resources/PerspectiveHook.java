@@ -8,7 +8,7 @@ final class PerspectiveHook extends InternalHook<IWorkbenchWindow, PerspectiveLi
 {
 	PerspectiveHook(final PerspectiveListener listener)
 	{
-		super(new InternalWindowHandler(listener));
+		super(new WindowHandler(listener));
 	}
 	
 	static final class Support extends AbstractHookSupport<PerspectiveHook, IWorkbenchWindow, PerspectiveListener>
@@ -19,9 +19,9 @@ final class PerspectiveHook extends InternalHook<IWorkbenchWindow, PerspectiveLi
 		}
 	}
 
-	private static final class InternalWindowHandler extends InternalHandler<IWorkbenchWindow, PerspectiveListener>
+	private static final class WindowHandler extends InternalHandler<IWorkbenchWindow, PerspectiveListener>
 	{
-		InternalWindowHandler(final PerspectiveListener listener)
+		WindowHandler(final PerspectiveListener listener)
 		{
 			super(listener);
 		}

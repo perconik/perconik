@@ -11,11 +11,11 @@ enum CompletionHandler implements Handler<CompletionListener>
 	
 	public final void register(final CompletionListener listener)
 	{
-		this.support.hook(DefaultResources.getPartResource(), listener);
+		this.support.hook(DefaultResources.getEditorResource(), listener);
 	}
 
 	public final void unregister(final CompletionListener listener)
 	{
-		this.support.unhook(DefaultResources.getPartResource(), listener);
+		this.support.unhook(DefaultResources.getEditorResource(), listener);
 	}
 }

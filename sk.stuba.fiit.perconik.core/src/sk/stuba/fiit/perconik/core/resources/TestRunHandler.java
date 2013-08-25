@@ -72,7 +72,19 @@ enum TestRunHandler implements Handler<TestRunListener>
 		@Override
 		public final boolean equals(final Object o)
 		{
-			return this.listener.equals(o);
+			if (this == o)
+			{
+				return true;
+			}
+
+			if (!(o instanceof TestRunProxy))
+			{
+				return false;
+			}
+
+			TestRunProxy other = (TestRunProxy) o;
+
+			return this.listener.equals(other.listener);
 		}
 
 		@Override

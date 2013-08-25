@@ -11,11 +11,11 @@ enum DocumentHandler implements Handler<DocumentListener>
 	
 	public final void register(final DocumentListener listener)
 	{
-		this.support.hook(DefaultResources.getPartResource(), listener);
+		this.support.hook(DefaultResources.getEditorResource(), listener);
 	}
 
 	public final void unregister(final DocumentListener listener)
 	{
-		this.support.unhook(DefaultResources.getPartResource(), listener);
+		this.support.unhook(DefaultResources.getEditorResource(), listener);
 	}
 }

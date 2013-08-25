@@ -1,106 +1,81 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IEditorReference;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
-import sk.stuba.fiit.perconik.core.listeners.PartListener;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-final class DocumentHook extends InternalHook<IEditorPart, DocumentListener> implements PartListener
+final class DocumentHook extends InternalHook<IDocument, DocumentListener> implements EditorListener
 {
 	DocumentHook(final DocumentListener listener)
 	{
-		super(new InternalWindowHandler(listener));
+		super(new WindowHandler(listener));
 	}
 	
-	static final class Support extends AbstractHookSupport<DocumentHook, IEditorPart, DocumentListener>
+	static final class Support extends AbstractHookSupport<DocumentHook, IDocument, DocumentListener>
 	{
-		public final Hook<IEditorPart, DocumentListener> create(final DocumentListener listener)
+		public final Hook<IDocument, DocumentListener> create(final DocumentListener listener)
 		{
 			return new DocumentHook(listener);
 		}
 	}
 
-	private static final class InternalWindowHandler extends InternalHandler<IEditorPart, DocumentListener>
+	private static final class WindowHandler extends InternalHandler<IDocument, DocumentListener>
 	{
-		InternalWindowHandler(final DocumentListener listener)
+		WindowHandler(final DocumentListener listener)
 		{
 			super(listener);
 		}
 
-		public final void register(final IEditorPart editor)
+		public final void register(final IDocument document)
 		{
-			// TODO refactor, doc can be null, pool should be of docs not editors
-			
-			IDocument document = Editors.getDocument(editor);
-			
 			document.addDocumentListener(this.listener);
 		}
 
-		public final void unregister(final IEditorPart editor)
+		public final void unregister(final IDocument document)
 		{
-			IDocument document = Editors.getDocument(editor);
-			
 			document.removeDocumentListener(this.listener);
 		}
-	}
-	
-	private static final IEditorPart fetch(final IWorkbenchPartReference reference)
-	{
-		IWorkbenchPart part = reference.getPart(false);
-		
-		return part instanceof IEditorPart ? (IEditorPart) part : null; 
 	}
 
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addEditorsSynchronouslyTo(this);
+		Hooks.addDocumentsSynchronouslyTo(this);
 	}
 
-	public final void partOpened(final IWorkbenchPartReference reference)
+	public final void editorOpened(final IEditorReference reference)
 	{
-		IEditorPart editor = fetch(reference);
-		
-		if (editor != null)
-		{
-			this.add(editor);
-		}
+		Hooks.addNonNull(this, Editors.getDocument(reference.getEditor(false)));
 	}
 
-	public final void partClosed(final IWorkbenchPartReference reference)
+	public final void editorClosed(final IEditorReference reference)
 	{
-		IEditorPart editor = fetch(reference);
-		
-		if (editor != null)
-		{
-			this.remove(editor);
-		}
+		Hooks.removeNonNull(this, Editors.getDocument(reference.getEditor(false)));
 	}
 
-	public final void partActivated(final IWorkbenchPartReference reference)
+	public final void editorActivated(final IEditorReference reference)
 	{
 	}
 
-	public final void partDeactivated(final IWorkbenchPartReference reference)
+	public final void editorDeactivated(final IEditorReference reference)
 	{
 	}
 
-	public final void partVisible(final IWorkbenchPartReference reference)
+	public final void editorVisible(final IEditorReference reference)
 	{
 	}
 
-	public final void partHidden(final IWorkbenchPartReference reference)
+	public final void editorHidden(final IEditorReference reference)
 	{
 	}
 
-	public final void partBroughtToTop(final IWorkbenchPartReference reference)
+	public final void editorBroughtToTop(final IEditorReference reference)
 	{
 	}
 
-	public final void partInputChanged(final IWorkbenchPartReference reference)
+	public final void editorInputChanged(final IEditorReference reference)
 	{
 	}
 }

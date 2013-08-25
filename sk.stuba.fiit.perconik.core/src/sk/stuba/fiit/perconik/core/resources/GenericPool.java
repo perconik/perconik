@@ -15,7 +15,7 @@ final class GenericPool<T> extends AbstractPool<T>
 	GenericPool(final Builder<T> builder)
 	{
 		super(builder.implementation, builder.handler);
-		
+	
 		this.strategy = Preconditions.checkNotNull(builder.strategy);
 	}
 	

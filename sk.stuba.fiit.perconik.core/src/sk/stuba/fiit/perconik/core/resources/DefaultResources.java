@@ -12,11 +12,13 @@ import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchesListener;
+import sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
 import sk.stuba.fiit.perconik.core.listeners.PageListener;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
@@ -25,7 +27,9 @@ import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
+import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
+import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
@@ -66,6 +70,8 @@ public class DefaultResources
 
 	static final Resource<DocumentListener> document;
 
+	static final Resource<EditorListener> editor;
+
 	static final Resource<FileBufferListener> fileBuffer;
 
 	static final Resource<JavaElementListener> javaElement;
@@ -76,6 +82,8 @@ public class DefaultResources
 
 	static final Resource<LaunchConfigurationListener> launchConfiguration;
 	
+	static final Resource<MarkSelectionListener> markSelection;
+
 	static final Resource<OperationHistoryListener> operationHistory;
 	
 	static final Resource<PageListener> page;
@@ -92,7 +100,11 @@ public class DefaultResources
 
 	static final Resource<SelectionListener> selection;
 	
+	static final Resource<StructuredSelectionListener> structuredSelection;
+
 	static final Resource<TestRunListener> testRun;
+
+	static final Resource<TextSelectionListener> textSelection;
 
 	static final Resource<WindowListener> window;
 
@@ -114,11 +126,13 @@ public class DefaultResources
 		completion            = forge(CompletionListener.class, CompletionHandler.INSTANCE, builder);
 		debugEvents           = forge(DebugEventsListener.class, DebugEventsHandler.INSTANCE, builder);
 		document              = forge(DocumentListener.class, DocumentHandler.INSTANCE, builder);
+		editor                = forge(EditorListener.class, EditorHandler.INSTANCE, builder);
 		fileBuffer            = forge(FileBufferListener.class, FileBufferHandler.INSTANCE, builder);
 		javaElement           = forge(JavaElementListener.class, JavaElementHandler.INSTANCE, builder);
 		launch                = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
 		launchConfiguration   = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
 		launches              = forge(LaunchesListener.class, LaunchesHandler.INSTANCE, builder);
+		markSelection         = forge(MarkSelectionListener.class, MarkSelectionHandler.INSTANCE, builder);
 		operationHistory      = forge(OperationHistoryListener.class, OperationHistoryHandler.INSTANCE, builder);
 		page                  = forge(PageListener.class, PageHandler.INSTANCE, builder);
 		part                  = forge(PartListener.class, PartHandler.INSTANCE, builder);
@@ -127,7 +141,9 @@ public class DefaultResources
 		refactoringHistory    = forge(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE, builder);
 		resource              = forge(ResourceListener.class, ResourceHandler.INSTANCE, builder);
 		selection             = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
+		structuredSelection   = forge(StructuredSelectionListener.class, StructuredSelectionHandler.INSTANCE, builder);
 		testRun               = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
+		textSelection         = forge(TextSelectionListener.class, TextSelectionHandler.INSTANCE, builder);
 		window                = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
 		workbench             = forge(WorkbenchListener.class, WorkbenchHandler.INSTANCE, builder);
 		
@@ -185,17 +201,17 @@ public class DefaultResources
 
 	public static final Resource<CommandCategoryListener> getCommandCategoryResource()
 	{
-		return commandCategory;
+		return DefaultResources.commandCategory;
 	}
 
 	public static final Resource<CommandContextListener> getCommandContextResource()
 	{
-		return commandContext;
+		return DefaultResources.commandContext;
 	}
 
 	public static final Resource<CommandContextManagerListener> getCommandContextManagerResource()
 	{
-		return commandContextManager;
+		return DefaultResources.commandContextManager;
 	}
 
 	public static final Resource<CommandExecutionListener> getCommandExecutionResource()
@@ -205,7 +221,7 @@ public class DefaultResources
 
 	public static final Resource<CommandHandlerListener> getCommandHandlerResource()
 	{
-		return commandHandler;
+		return DefaultResources.commandHandler;
 	}
 
 	public static final Resource<CommandManagerListener> getCommandManagerResource()
@@ -226,6 +242,11 @@ public class DefaultResources
 	public static final Resource<DocumentListener> getDocumentResource()
 	{
 		return DefaultResources.document;
+	}
+
+	public static final Resource<EditorListener> getEditorResource()
+	{
+		return DefaultResources.editor;
 	}
 
 	public static final Resource<FileBufferListener> getFileBufferResource()
@@ -251,6 +272,11 @@ public class DefaultResources
 	public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource()
 	{
 		return DefaultResources.launchConfiguration;
+	}
+
+	public static final Resource<MarkSelectionListener> getMarkSelectionResource()
+	{
+		return DefaultResources.markSelection;
 	}
 
 	public static final Resource<OperationHistoryListener> getOperationHistoryResource()
@@ -293,9 +319,19 @@ public class DefaultResources
 		return DefaultResources.selection;
 	}
 
+	public static final Resource<StructuredSelectionListener> getStructuredSelectionResource()
+	{
+		return DefaultResources.structuredSelection;
+	}
+
 	public static final Resource<TestRunListener> getTestRunResource()
 	{
 		return DefaultResources.testRun;
+	}
+
+	public static final Resource<TextSelectionListener> getTextSelectionResource()
+	{
+		return DefaultResources.textSelection;
 	}
 
 	public static final Resource<WindowListener> getWindowResource()

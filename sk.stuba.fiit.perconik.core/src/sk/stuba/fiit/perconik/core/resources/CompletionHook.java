@@ -3,41 +3,35 @@ package sk.stuba.fiit.perconik.core.resources;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IEditorReference;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
-import sk.stuba.fiit.perconik.core.listeners.PartListener;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-final class CompletionHook extends InternalHook<IEditorPart, CompletionListener> implements PartListener
+final class CompletionHook extends InternalHook<ISourceViewer, CompletionListener> implements EditorListener
 {
 	CompletionHook(final CompletionListener listener)
 	{
-		super(new InternalWindowHandler(listener));
+		super(new WindowHandler(listener));
 	}
 	
-	static final class Support extends AbstractHookSupport<CompletionHook, IEditorPart, CompletionListener>
+	static final class Support extends AbstractHookSupport<CompletionHook, ISourceViewer, CompletionListener>
 	{
-		public final Hook<IEditorPart, CompletionListener> create(final CompletionListener listener)
+		public final Hook<ISourceViewer, CompletionListener> create(final CompletionListener listener)
 		{
 			return new CompletionHook(listener);
 		}
 	}
 
-	private static final class InternalWindowHandler extends InternalHandler<IEditorPart, CompletionListener>
+	private static final class WindowHandler extends InternalHandler<ISourceViewer, CompletionListener>
 	{
-		InternalWindowHandler(final CompletionListener listener)
+		WindowHandler(final CompletionListener listener)
 		{
 			super(listener);
 		}
 
-		public final void register(final IEditorPart editor)
+		public final void register(final ISourceViewer viewer)
 		{
-			// TODO refactor, viewer can be null, pool should be of viewers not editors
-			
-			ISourceViewer viewer = Editors.getSourceViewer(editor);
-			
 			if (viewer instanceof ISourceViewerExtension3)
 			{
 				((ISourceViewerExtension3) viewer).getQuickAssistAssistant().addCompletionListener(this.listener);
@@ -47,15 +41,10 @@ final class CompletionHook extends InternalHook<IEditorPart, CompletionListener>
 			{
 				((ISourceViewerExtension4) viewer).getContentAssistantFacade().addCompletionListener(this.listener);
 			}
-			
-			// TODO ?
-			//throw new UnsupportedOperationException();
 		}
 
-		public final void unregister(final IEditorPart editor)
+		public final void unregister(final ISourceViewer viewer)
 		{
-			ISourceViewer viewer = Editors.getSourceViewer(editor);
-			
 			if (viewer instanceof ISourceViewerExtension3)
 			{
 				((ISourceViewerExtension3) viewer).getQuickAssistAssistant().removeCompletionListener(this.listener);
@@ -67,61 +56,59 @@ final class CompletionHook extends InternalHook<IEditorPart, CompletionListener>
 			}
 		}
 	}
-	
-	private static final IEditorPart fetch(final IWorkbenchPartReference reference)
-	{
-		IWorkbenchPart part = reference.getPart(false);
-		
-		return part instanceof IEditorPart ? (IEditorPart) part : null; 
-	}
 
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addEditorsSynchronouslyTo(this);
+		Hooks.addSourceViewersSynchronouslyTo(this);
 	}
-
-	public final void partOpened(final IWorkbenchPartReference reference)
+	
+	private static final ISourceViewer filter(final ISourceViewer viewer)
 	{
-		IEditorPart editor = fetch(reference);
-		
-		if (editor != null)
+		if (viewer instanceof ISourceViewerExtension3)
 		{
-			this.add(editor);
+			return viewer;
 		}
-	}
-
-	public final void partClosed(final IWorkbenchPartReference reference)
-	{
-		IEditorPart editor = fetch(reference);
 		
-		if (editor != null)
+		if (viewer instanceof ISourceViewerExtension4)
 		{
-			this.remove(editor);
+			return viewer;
 		}
+		
+		return null;
 	}
 
-	public final void partActivated(final IWorkbenchPartReference reference)
+	public final void editorOpened(final IEditorReference reference)
+	{
+		Hooks.addNonNull(this, filter(Editors.getSourceViewer(reference.getEditor(false))));
+	}
+
+	public final void editorClosed(final IEditorReference reference)
+	{
+		Hooks.removeNonNull(this, filter(Editors.getSourceViewer(reference.getEditor(false))));
+	}
+
+	public final void editorActivated(final IEditorReference reference)
 	{
 	}
 
-	public final void partDeactivated(final IWorkbenchPartReference reference)
+	public final void editorDeactivated(final IEditorReference reference)
 	{
 	}
 
-	public final void partVisible(final IWorkbenchPartReference reference)
+	public final void editorVisible(final IEditorReference reference)
 	{
 	}
 
-	public final void partHidden(final IWorkbenchPartReference reference)
+	public final void editorHidden(final IEditorReference reference)
 	{
 	}
 
-	public final void partBroughtToTop(final IWorkbenchPartReference reference)
+	public final void editorBroughtToTop(final IEditorReference reference)
 	{
 	}
 
-	public final void partInputChanged(final IWorkbenchPartReference reference)
+	public final void editorInputChanged(final IEditorReference reference)
 	{
 	}
 }
