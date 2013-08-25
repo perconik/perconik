@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.eclipse.jface.preference;
 
+import javax.annotation.Nullable;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import com.google.common.collect.ForwardingObject;
@@ -33,7 +34,7 @@ public abstract class ForwardingPreferenceStore extends ForwardingObject impleme
 		return this.delegate().needsSaving();
 	}
 
-	public void putValue(String name, String value)
+	public void putValue(String name, @Nullable String value)
 	{
 		this.delegate().putValue(name, value);
 	}
@@ -78,9 +79,9 @@ public abstract class ForwardingPreferenceStore extends ForwardingObject impleme
 		this.delegate().setDefault(name, value);
 	}
 
-	public void setDefault(String name, String defaultObject)
+	public void setDefault(String name, @Nullable String value)
 	{
-		this.delegate().setDefault(name, defaultObject);
+		this.delegate().setDefault(name, value);
 	}
 
 	public boolean getDefaultBoolean(String name)
@@ -138,7 +139,7 @@ public abstract class ForwardingPreferenceStore extends ForwardingObject impleme
 		this.delegate().setValue(name, value);
 	}
 
-	public void setValue(String name, String value)
+	public void setValue(String name, @Nullable String value)
 	{
 		this.delegate().setValue(name, value);
 	}

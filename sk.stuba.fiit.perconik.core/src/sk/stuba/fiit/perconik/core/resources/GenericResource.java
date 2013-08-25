@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 
@@ -11,7 +12,7 @@ final class GenericResource<L extends Listener> extends AbstractResource<L>
 	}
 
 	@Override
-	public final boolean equals(final Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (this == o)
 		{

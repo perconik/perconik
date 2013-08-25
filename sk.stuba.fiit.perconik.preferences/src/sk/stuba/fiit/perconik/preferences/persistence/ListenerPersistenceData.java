@@ -124,7 +124,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 	}
 	
 	@Override
-	public final boolean equals(final Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (this == o)
 		{

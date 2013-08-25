@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.eclipse.ui;
 
+import javax.annotation.Nullable;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import com.google.common.base.Preconditions;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.environment.plugin.Activator;
@@ -38,7 +40,7 @@ public final class Workbenches
 		return getActiveWindow(getWorkbench());
 	}
 	
-	public static final IWorkbenchWindow getActiveWindow(final IWorkbench workbench)
+	public static final IWorkbenchWindow getActiveWindow(@Nullable final IWorkbench workbench)
 	{
 		if (workbench == null)
 		{
@@ -53,7 +55,7 @@ public final class Workbenches
 		return getActivePage(getActiveWindow());
 	}
 
-	public static final IWorkbenchPage getActivePage(final IWorkbenchWindow window)
+	public static final IWorkbenchPage getActivePage(@Nullable final IWorkbenchWindow window)
 	{
 		if (window == null)
 		{
@@ -68,7 +70,7 @@ public final class Workbenches
 		return getActivePart(getActivePage());
 	}
 
-	public static final IWorkbenchPart getActivePart(final IWorkbenchPage page)
+	public static final IWorkbenchPart getActivePart(@Nullable final IWorkbenchPage page)
 	{
 		if (page == null)
 		{
@@ -94,6 +96,8 @@ public final class Workbenches
 
 	public static final IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench)
 	{
+		Preconditions.checkNotNull(workbench);
+		
 		IWorkbenchWindow window;
 		
 		while ((window = getActiveWindow(workbench)) == null) {}
@@ -108,6 +112,8 @@ public final class Workbenches
 	
 	public static final IWorkbenchPage waitForActivePage(final IWorkbenchWindow window)
 	{
+		Preconditions.checkNotNull(window);
+		
 		IWorkbenchPage page;
 		
 		while ((page = getActivePage(window)) == null) {}
@@ -122,6 +128,8 @@ public final class Workbenches
 	
 	public static final IWorkbenchPart waitForActivePart(final IWorkbenchPage page)
 	{
+		Preconditions.checkNotNull(page);
+		
 		IWorkbenchPart part;
 		
 		while ((part = getActivePart(page)) == null) {}

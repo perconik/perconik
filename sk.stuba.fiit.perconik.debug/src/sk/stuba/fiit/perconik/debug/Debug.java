@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.eclipse.core.commands.Category;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.CommandEvent;
@@ -115,7 +116,7 @@ public final class Debug
 		console().untab();
 	}
 	
-	public static final void put(final String message)
+	public static final void put(@Nullable final String message)
 	{
 		console().put(message);
 	}
@@ -125,7 +126,7 @@ public final class Debug
 		console().put(format, args);
 	}
 	
-	public static final void print(final String message)
+	public static final void print(@Nullable final String message)
 	{
 		console().print(message);
 	}
@@ -192,14 +193,14 @@ public final class Debug
 		return type.getName();
 	}
 	
-	public static final String dumpBlock(final Object key, final Object value)
+	public static final String dumpBlock(final Object key, @Nullable final Object value)
 	{
 		SmartStringBuilder builder = builder();
 	
 		return builder.append(key).appendln(':').lines(value).toString();
 	}
 
-	public static final String dumpLine(final Object key, final Object value)
+	public static final String dumpLine(final Object key, @Nullable final Object value)
 	{
 		SmartStringBuilder builder = builder();
 	

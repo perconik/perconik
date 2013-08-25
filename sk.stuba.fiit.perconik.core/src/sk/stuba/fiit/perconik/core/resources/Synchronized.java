@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resource;
@@ -100,7 +101,7 @@ class Synchronized
 		}
 
 		@Override
-		public final boolean equals(final Object o)
+		public final boolean equals(@Nullable final Object o)
 		{
 			if (o == this)
 			{
@@ -146,11 +147,11 @@ class Synchronized
 			}
 		}
 
-		public final <U extends Listener> Collection<U> registered(final Class<U> type)
+		public final <U extends Listener> Collection<U> isRegistred(final Class<U> type)
 		{
 			synchronized (this.mutex)
 			{
-				return this.delegate.registered(type);
+				return this.delegate.isRegistred(type);
 			}
 		}
 
@@ -173,7 +174,7 @@ class Synchronized
 		}
 		
 		@Override
-		public final boolean equals(final Object o)
+		public final boolean equals(@Nullable final Object o)
 		{
 			if (o == this)
 			{
@@ -238,7 +239,7 @@ class Synchronized
 		}
 
 		@Override
-		public final boolean equals(final Object o)
+		public final boolean equals(@Nullable final Object o)
 		{
 			if (o == this)
 			{
@@ -287,7 +288,7 @@ class Synchronized
 		}
 
 		@Override
-		public final boolean equals(final Object o)
+		public final boolean equals(@Nullable final Object o)
 		{
 			if (o == this)
 			{

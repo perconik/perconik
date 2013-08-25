@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.junit.JUnitCore;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
@@ -70,7 +71,7 @@ enum TestRunHandler implements Handler<TestRunListener>
 		}
 
 		@Override
-		public final boolean equals(final Object o)
+		public final boolean equals(@Nullable final Object o)
 		{
 			if (this == o)
 			{

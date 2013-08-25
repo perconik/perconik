@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
 import java.io.PrintStream;
+import javax.annotation.Nullable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -29,7 +30,7 @@ public final class PluginConsole
 		this.plugin.getLog().log(status);
 	}
 	
-	public final void put(final String message)
+	public final void put(@Nullable final String message)
 	{
 		if (Environment.debug)
 		{
@@ -42,7 +43,7 @@ public final class PluginConsole
 		put(String.format(format, args));
 	}
 
-	public final void print(final String message)
+	public final void print(@Nullable final String message)
 	{
 		if (Environment.debug)
 		{

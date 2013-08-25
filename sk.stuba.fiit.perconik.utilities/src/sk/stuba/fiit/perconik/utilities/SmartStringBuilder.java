@@ -387,7 +387,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.appendln();
 	}
 	
-	public final SmartStringBuilder format(String format, @Nullable Object ... args)
+	public final SmartStringBuilder format(String format, Object ... args)
 	{
 		this.ensureIndent();		
 		this.builder.append(String.format(format, args));
@@ -395,14 +395,14 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object ... rest)
+	public final SmartStringBuilder list(@Nullable Object first, Object ... rest)
 	{
 		this.ensureIndent();
 
 		return this.list(Lists.asList(first, rest));
 	}
 
-	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, @Nullable Object ... rest)
+	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest)
 	{
 		this.ensureIndent();
 
@@ -547,7 +547,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder repeat(int n, String format, @Nullable Object ... args)
+	public final SmartStringBuilder repeat(int n, String format, Object ... args)
 	{
 		this.repeat(n, String.format(format, args));
 		

@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.eclipse.jface.preference;
 
+import javax.annotation.Nullable;
 import org.eclipse.jface.preference.IPreferenceStore;
 import com.google.common.base.Preconditions;
 
@@ -54,7 +55,7 @@ public final class DefaultPreferenceStore extends ForwardingPreferenceStore
 	}
 
 	@Override
-	public void setValue(String name, String value)
+	public void setValue(String name, @Nullable String value)
 	{
 		this.delegate().setDefault(name, value);
 	}

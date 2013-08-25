@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
+import javax.annotation.Nullable;
 import com.google.common.collect.ForwardingObject;
 
 public abstract class ForwardingPluginConsole extends ForwardingObject
@@ -11,47 +12,47 @@ public abstract class ForwardingPluginConsole extends ForwardingObject
 	@Override
 	protected abstract PluginConsole delegate();
 	
-	public void put(final String message)
+	public void put(@Nullable String message)
 	{
 		this.delegate().put(message);
 	}
 
-	public void put(final String format, final Object ... args)
+	public void put(String format, Object ... args)
 	{
 		this.delegate().put(format, args);
 	}
 
-	public void print(final String message)
+	public void print(@Nullable String message)
 	{
 		this.delegate().print(message);
 	}
 
-	public void print(final String format, final Object ... args)
+	public void print(String format, Object ... args)
 	{
 		this.delegate().print(format, args);
 	}
 	
-	public void notice(final String message)
+	public void notice(String message)
 	{
 		this.delegate().notice(message);
 	}
 
-	public void notice(final String format, Object ... args)
+	public void notice(String format, Object ... args)
 	{
 		this.delegate().notice(format, args);
 	}
 
-	public void warning(final String message)
+	public void warning(String message)
 	{
 		this.delegate().warning(message);
 	}
 
-	public void warning(final String format, Object ... args)
+	public void warning(String format, Object ... args)
 	{
 		this.delegate().warning(format, args);
 	}
 
-	public void error(final String message, final Throwable failure)
+	public void error(String message, Throwable failure)
 	{
 		this.delegate().error(message, failure);
 	}

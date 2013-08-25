@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.eclipse.ui;
 
+import javax.annotation.Nullable;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
+import com.google.common.base.Preconditions;
 
 public final class Editors
 {
@@ -19,7 +21,7 @@ public final class Editors
 		return getActiveEditor(Workbenches.getActivePage());
 	}
 	
-	public static final IEditorPart getActiveEditor(final IWorkbenchPage page)
+	public static final IEditorPart getActiveEditor(@Nullable final IWorkbenchPage page)
 	{
 		if (page == null)
 		{
@@ -29,7 +31,7 @@ public final class Editors
 		return page.getActiveEditor();
 	}
 	
-	public static final ISourceViewer getSourceViewer(final IEditorPart editor)
+	public static final ISourceViewer getSourceViewer(@Nullable final IEditorPart editor)
 	{
 		if (editor == null)
 		{
@@ -39,7 +41,7 @@ public final class Editors
 		return (ISourceViewer) editor.getAdapter(ITextOperationTarget.class);
 	}
 	
-	public static final StyledText getStyledText(final IEditorPart editor)
+	public static final StyledText getStyledText(@Nullable final IEditorPart editor)
 	{
 		ISourceViewer viewer = getSourceViewer(editor);
 		
@@ -51,7 +53,7 @@ public final class Editors
 		return viewer.getTextWidget();
 	}
 
-	public static final IDocument getDocument(final IEditorPart editor)
+	public static final IDocument getDocument(@Nullable final IEditorPart editor)
 	{
 		ISourceViewer viewer = getSourceViewer(editor);
 		
@@ -70,6 +72,8 @@ public final class Editors
 
 	public static final IEditorPart waitForActiveEditor(final IWorkbenchPage page)
 	{
+		Preconditions.checkNotNull(page);
+		
 		IEditorPart editor;
 		
 		while ((editor = getActiveEditor(page)) == null) {}

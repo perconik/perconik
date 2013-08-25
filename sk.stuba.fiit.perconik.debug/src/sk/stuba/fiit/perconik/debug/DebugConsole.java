@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.debug;
 
+import javax.annotation.Nullable;
 import org.eclipse.core.runtime.Plugin;
 import com.google.common.base.Preconditions;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
@@ -46,7 +47,7 @@ public final class DebugConsole extends ForwardingPluginConsole
 		this.builder.untab();
 	}
 
-	private final String indent(final String message)
+	private final String indent(@Nullable final String message)
 	{
 		return this.builder.lines(message).toString();
 	}
@@ -57,7 +58,7 @@ public final class DebugConsole extends ForwardingPluginConsole
 	}
 	
 	@Override
-	public final void put(final String message)
+	public final void put(@Nullable final String message)
 	{
 		this.console.put(indent(message));
 		this.putHook();
@@ -85,7 +86,7 @@ public final class DebugConsole extends ForwardingPluginConsole
 	}
 
 	@Override
-	public final void print(final String message)
+	public final void print(@Nullable final String message)
 	{
 		this.console.print(indent(message));
 		this.printHook();

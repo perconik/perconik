@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.debug;
 
 import java.util.Date;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.utilities.Strings;
 
 public abstract class AbstractDebugListener extends AbstractDebugObject implements DebugListener
@@ -155,12 +156,12 @@ public abstract class AbstractDebugListener extends AbstractDebugObject implemen
 		this.put(Debug.dumpHeader(title));
 	}
 
-	protected final void printBlock(final Object key, final Object value)
+	protected final void printBlock(final Object key, @Nullable final Object value)
 	{
 		this.put(Debug.dumpBlock(key, value));
 	}
 
-	protected final void printLine(final Object key, final Object value)
+	protected final void printLine(final Object key, @Nullable final Object value)
 	{
 		this.put(Debug.dumpLine(key, value));
 	}

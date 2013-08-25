@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.debug;
 
+import javax.annotation.Nullable;
+
 public abstract class DebugObjectProxy extends AbstractDebugObject
 {
 	protected DebugObjectProxy(final DebugConsole console)
@@ -10,7 +12,7 @@ public abstract class DebugObjectProxy extends AbstractDebugObject
 	protected abstract Object delegate();
 
 	@Override
-	public final boolean equals(final Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		return this.delegate().equals(o);
 	}

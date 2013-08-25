@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.debug.plugin;
 
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.services.Service;
 import sk.stuba.fiit.perconik.core.services.Services;
@@ -271,7 +272,7 @@ class DebugLoader
 		}
 
 		@Override
-		public final boolean equals(final Object o)
+		public final boolean equals(@Nullable final Object o)
 		{
 			if (this == o)
 			{

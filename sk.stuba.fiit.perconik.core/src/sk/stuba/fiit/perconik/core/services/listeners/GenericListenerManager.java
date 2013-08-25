@@ -36,7 +36,7 @@ final class GenericListenerManager extends AbstractListenerManager
 		
 		for (Resource<? extends L> resource: this.manager().assignable(type))
 		{
-			listeners.addAll(resource.registered(type));
+			listeners.addAll(resource.isRegistred(type));
 		}
 		
 		return listeners;
@@ -48,7 +48,7 @@ final class GenericListenerManager extends AbstractListenerManager
 		
 		for (Resource<?> resource: this.manager().assignable(Listener.class))
 		{
-			registrations.putAll(resource, resource.registered(Listener.class));
+			registrations.putAll(resource, resource.isRegistred(Listener.class));
 		}
 		
 		return registrations;

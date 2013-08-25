@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import javax.annotation.Nullable;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -112,7 +113,7 @@ final class GenericPool<T> extends AbstractPool<T>
 		DEFAULL
 		{
 			@Override
-			final boolean contains(final Collection<?> collection, final Object object)
+			final boolean contains(final Collection<?> collection, @Nullable final Object object)
 			{
 				return collection.contains(object);
 			}
@@ -121,7 +122,7 @@ final class GenericPool<T> extends AbstractPool<T>
 		IDENLILY
 		{
 			@Override
-			final boolean contains(final Collection<?> collection, final Object object)
+			final boolean contains(final Collection<?> collection, @Nullable final Object object)
 			{
 				for (Object other: collection)
 				{
@@ -138,7 +139,7 @@ final class GenericPool<T> extends AbstractPool<T>
 		EQUALS
 		{
 			@Override
-			final boolean contains(final Collection<?> collection, final Object object)
+			final boolean contains(final Collection<?> collection, @Nullable final Object object)
 			{
 				for (Object other: collection)
 				{
@@ -152,7 +153,7 @@ final class GenericPool<T> extends AbstractPool<T>
 			}
 		};
 		
-		abstract boolean contains(Collection<?> collection, Object object);
+		abstract boolean contains(Collection<?> collection, @Nullable Object object);
 	}
 	
 	public final boolean contains(final T object)
