@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.services.Services;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 
 public final class Listeners
 {
@@ -41,7 +41,7 @@ public final class Listeners
 		return Services.getListenerService().getListenerManager().registered(type);
 	}
 
-	public static final Multimap<Resource<?>, Listener> registrations()
+	public static final SetMultimap<Resource<?>, Listener> registrations()
 	{
 		return Services.getListenerService().getListenerManager().registrations();
 	}

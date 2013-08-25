@@ -4,7 +4,7 @@ import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.ForwardingManager;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 
 public abstract class ForwardingListenerManager extends ForwardingManager implements ListenerManager
 {
@@ -35,7 +35,7 @@ public abstract class ForwardingListenerManager extends ForwardingManager implem
 		return this.delegate().registered(type);
 	}
 
-	public Multimap<Resource<?>, Listener> registrations()
+	public SetMultimap<Resource<?>, Listener> registrations()
 	{
 		return this.delegate().registrations();
 	}

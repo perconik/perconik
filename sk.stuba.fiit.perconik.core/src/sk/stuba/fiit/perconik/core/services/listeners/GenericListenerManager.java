@@ -6,9 +6,9 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 
 final class GenericListenerManager extends AbstractListenerManager
 {
@@ -42,9 +42,9 @@ final class GenericListenerManager extends AbstractListenerManager
 		return listeners;
 	}
 
-	public final Multimap<Resource<?>, Listener> registrations()
+	public final SetMultimap<Resource<?>, Listener> registrations()
 	{
-		Multimap<Resource<?>, Listener> registrations = ArrayListMultimap.create();
+		SetMultimap<Resource<?>, Listener> registrations = HashMultimap.create();
 		
 		for (Resource<?> resource: this.manager().assignable(Listener.class))
 		{
