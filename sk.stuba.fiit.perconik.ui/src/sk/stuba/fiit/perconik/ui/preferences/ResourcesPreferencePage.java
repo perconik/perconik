@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.preferences.ResourcePreferences;
+import sk.stuba.fiit.perconik.preferences.persistence.Registrations;
 import sk.stuba.fiit.perconik.preferences.persistence.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
@@ -452,7 +453,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 
 	private final void apply()
 	{
-		Set<ResourcePersistenceData> data = ResourcePersistenceData.applyRegisteredMark(this.data);
+		Set<ResourcePersistenceData> data = Registrations.applyRegisteredMark(this.data);
 		
 		this.preferences.setResourcePersistenceData(data);
 		
