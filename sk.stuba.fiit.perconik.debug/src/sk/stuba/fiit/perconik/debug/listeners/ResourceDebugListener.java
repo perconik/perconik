@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceChangeEventType;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 
 public final class ResourceDebugListener extends AbstractDebugListener implements ResourceListener
 {
@@ -26,9 +26,9 @@ public final class ResourceDebugListener extends AbstractDebugListener implement
 		this.printResourceChangeEvent(event);
 	}
 
-	public final Set<ResourceChangeEventType> getEventTypes()
+	public final Set<ResourceEventType> getEventTypes()
 	{
-		return EnumSet.allOf(ResourceChangeEventType.class);
+		return EnumSet.allOf(ResourceEventType.class);
 	}
 	
 	private final void printResourceChangeEvent(final IResourceChangeEvent event)

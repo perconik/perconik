@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 
 public final class DebugListenerManagerProxy extends DebugNameableProxy implements DebugListenerManager
 {
@@ -88,7 +88,7 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
 		return this.delegate().registered(type);
 	}
 
-	public final Multimap<Resource<?>, Listener> registrations()
+	public final SetMultimap<Resource<?>, Listener> registrations()
 	{
 		return this.delegate().registrations();
 	}

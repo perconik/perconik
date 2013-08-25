@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugConsole;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementChangeEventType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
 
 public final class JavaElementDebugListener extends AbstractDebugListener implements JavaElementListener
 {
@@ -26,9 +26,9 @@ public final class JavaElementDebugListener extends AbstractDebugListener implem
 		this.printJavaElementChangeEvent(event);
 	}
 
-	public final Set<JavaElementChangeEventType> getEventTypes()
+	public final Set<JavaElementEventType> getEventTypes()
 	{
-		return EnumSet.allOf(JavaElementChangeEventType.class);
+		return EnumSet.allOf(JavaElementEventType.class);
 	}
 	
 	private final void printJavaElementChangeEvent(final ElementChangedEvent event)

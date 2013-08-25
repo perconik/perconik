@@ -50,6 +50,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -59,16 +61,16 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ProjectBuildKind;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceChangeEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementChangeEventType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeFlag;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
@@ -526,6 +528,16 @@ public final class Debug
 		return builder.toString();
 	}
 	
+	public static final String dumpEditor(final IEditorPart part)
+	{
+		return dumpPart(part);
+	}
+	
+	public static final String dumpEditorReference(final IEditorReference reference)
+	{
+		return dumpPartReference(reference);
+	}
+	
 	public static final String dumpExecutionEvent(final ExecutionEvent event) throws NotDefinedException, ParameterValuesException
 	{
 		SmartStringBuilder builder = builder();
@@ -610,7 +622,7 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 	
-		JavaElementChangeEventType type = JavaElementChangeEventType.valueOf(event.getType());
+		JavaElementEventType type = JavaElementEventType.valueOf(event.getType());
 	
 		IJavaElementDelta delta = event.getDelta();
 		
@@ -983,7 +995,7 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 	
-		ResourceChangeEventType type = ResourceChangeEventType.valueOf(event.getType());
+		ResourceEventType type = ResourceEventType.valueOf(event.getType());
 		
 		int buildKind = event.getBuildKind();
 	
