@@ -2,14 +2,17 @@ package sk.stuba.fiit.perconik.debug;
 
 import javax.annotation.Nullable;
 import org.eclipse.core.runtime.Plugin;
-import com.google.common.base.Preconditions;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
+import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import com.google.common.base.Preconditions;
 
-public final class DebugConsole extends ForwardingPluginConsole
+public final class DebugConsole implements PluginConsole
 {
 	private static final int MAX_BUFFER_SIZE = 8192;
+	
+	private final boolean enabled;
 	
 	private final PluginConsole console;
 	
@@ -17,13 +20,14 @@ public final class DebugConsole extends ForwardingPluginConsole
 	
 	private DebugConsole(final PluginConsole console)
 	{
+		this.enabled = Environment.debug;
 		this.console = Preconditions.checkNotNull(console);
 		this.builder = new SmartStringBuilder();
 	}
 
 	public static final DebugConsole of(final Plugin plugin)
 	{
-		return of(PluginConsole.of(plugin));
+		return of(PluginConsoles.create(plugin));
 	}
 
 	public static final DebugConsole of(final PluginConsole console)
@@ -31,10 +35,9 @@ public final class DebugConsole extends ForwardingPluginConsole
 		return new DebugConsole(console);
 	}
 	
-	@Override
-	protected final PluginConsole delegate()
+	private final boolean isEnabled()
 	{
-		return this.console;
+		return this.enabled;
 	}
 	
 	public final void tab()
@@ -45,6 +48,14 @@ public final class DebugConsole extends ForwardingPluginConsole
 	public final void untab()
 	{
 		this.builder.untab();
+	}
+
+	private final void trim()
+	{
+		if (this.builder.capacity() >= MAX_BUFFER_SIZE)
+		{
+			this.builder.trimToSize();
+		}
 	}
 
 	private final String indent(@Nullable final String message)
@@ -60,23 +71,21 @@ public final class DebugConsole extends ForwardingPluginConsole
 	@Override
 	public final void put(@Nullable final String message)
 	{
-		this.console.put(indent(message));
-		this.putHook();
-	}
-	
-	private final void trim()
-	{
-		if (this.builder.capacity() >= MAX_BUFFER_SIZE)
+		if (this.isEnabled())
 		{
-			this.builder.trimToSize();
+			this.console.put(indent(message));
+			this.putHook();
 		}
 	}
-
+	
 	@Override
 	public final void put(final String format, final Object ... args)
 	{
-		this.console.put(indent(format, args));
-		this.putHook();
+		if (this.isEnabled())
+		{
+			this.console.put(indent(format, args));
+			this.putHook();
+		}
 	}
 	
 	private final void putHook()
@@ -88,20 +97,71 @@ public final class DebugConsole extends ForwardingPluginConsole
 	@Override
 	public final void print(@Nullable final String message)
 	{
-		this.console.print(indent(message));
-		this.printHook();
+		if (this.isEnabled())
+		{
+			this.console.print(indent(message));
+			this.printHook();
+		}
 	}
 
 	@Override
 	public final void print(final String format, final Object ... args)
 	{
-		this.console.print(indent(format, args));
-		this.printHook();
+		if (this.isEnabled())
+		{
+			this.console.print(indent(format, args));
+			this.printHook();
+		}
 	}
 	
 	private final void printHook()
 	{
 		this.builder.truncate();
 		this.trim();
+	}
+
+	@Override
+	public final void notice(final String message)
+	{
+		if (this.isEnabled())
+		{
+			this.console.notice(message);
+		}
+	}
+
+	@Override
+	public final void notice(final String format, final Object ... args)
+	{
+		if (this.isEnabled())
+		{
+			this.console.notice(format, args);
+		}
+	}
+
+	@Override
+	public final void warning(final String message)
+	{
+		if (this.isEnabled())
+		{
+			this.console.warning(message);
+		}
+	}
+
+	@Override
+	public final void warning(final String format, final Object ... args)
+	{
+		if (this.isEnabled())
+		{
+			this.console.warning(format, args);
+		}
+	}
+
+	@Override
+	public final void error(final String message, final Throwable failure)
+	{
+		if (this.isEnabled())
+		{
+			this.console.error(message, failure);
+		}
 	}
 }

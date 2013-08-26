@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.eclipse.ui.plugin;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 
 public class AbstractPlugin extends AbstractUIPlugin
 {
@@ -15,7 +16,7 @@ public class AbstractPlugin extends AbstractUIPlugin
 	 */
 	public AbstractPlugin()
 	{
-		this.console = PluginConsole.of(this);
+		this.console = PluginConsoles.create(this);
 	}
 	
 	public final PluginConsole getConsole()
