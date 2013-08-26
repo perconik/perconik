@@ -5,7 +5,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public final class CompletionDebugListener extends AbstractDebugListener implements CompletionListener
 {

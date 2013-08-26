@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.debug;
+package sk.stuba.fiit.perconik.debug.runtime;
 
 import javax.annotation.Nullable;
 import org.eclipse.core.runtime.Plugin;
@@ -25,6 +25,21 @@ public final class DebugConsole implements PluginConsole
 		this.builder = new SmartStringBuilder();
 	}
 
+	private static enum Factory implements DebugConsoleFactory
+	{
+		INSTANCE;
+
+		public final DebugConsole create(final Plugin plugin)
+		{
+			return of(plugin);
+		}
+	}
+	
+	public static final DebugConsoleFactory factory()
+	{
+		return Factory.INSTANCE;
+	}
+	
 	public static final DebugConsole of(final Plugin plugin)
 	{
 		return of(PluginConsoles.create(plugin));
@@ -32,6 +47,11 @@ public final class DebugConsole implements PluginConsole
 
 	public static final DebugConsole of(final PluginConsole console)
 	{
+		if (console instanceof DebugConsole)
+		{
+			return (DebugConsole) console;
+		}
+		
 		return new DebugConsole(console);
 	}
 	

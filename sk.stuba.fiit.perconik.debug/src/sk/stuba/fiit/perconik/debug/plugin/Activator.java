@@ -5,6 +5,7 @@ import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugResources;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
@@ -33,6 +34,8 @@ public class Activator extends AbstractPlugin
 	 */
 	public Activator()
 	{
+		super(DebugConsole.factory());
+		
 		this.console.put("Constructing %s ... ", this.getClass().getName());
 		
 		this.loader = DebugLoader.create();

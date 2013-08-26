@@ -5,7 +5,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public final class LaunchConfigurationDebugListener extends AbstractDebugListener implements LaunchConfigurationListener
 {

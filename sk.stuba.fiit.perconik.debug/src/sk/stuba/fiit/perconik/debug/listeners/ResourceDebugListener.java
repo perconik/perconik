@@ -6,7 +6,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 
 public final class ResourceDebugListener extends AbstractDebugListener implements ResourceListener

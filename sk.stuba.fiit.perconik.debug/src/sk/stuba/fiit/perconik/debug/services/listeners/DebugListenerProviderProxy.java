@@ -3,9 +3,9 @@ package sk.stuba.fiit.perconik.debug.services.listeners;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugNameableProxy;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
 
 public final class DebugListenerProviderProxy extends DebugNameableProxy implements DebugListenerProvider

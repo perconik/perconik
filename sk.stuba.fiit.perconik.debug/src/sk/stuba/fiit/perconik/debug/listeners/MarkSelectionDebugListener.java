@@ -5,7 +5,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public final class MarkSelectionDebugListener extends AbstractDebugListener implements MarkSelectionListener
 {

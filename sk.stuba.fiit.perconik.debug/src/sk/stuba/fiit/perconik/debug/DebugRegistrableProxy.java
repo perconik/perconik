@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.debug;
 
 import sk.stuba.fiit.perconik.core.Registrable;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public abstract class DebugRegistrableProxy extends DebugObjectProxy implements DebugRegistrable
 {

@@ -4,11 +4,11 @@ import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugRegistrableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResource;
 import sk.stuba.fiit.perconik.debug.DebugResources;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
 
 public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy implements DebugResource<L>

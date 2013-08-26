@@ -35,6 +35,7 @@ import sk.stuba.fiit.perconik.debug.listeners.TestRunDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.TextSelectionDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.WindowDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.WorkbenchDebugListener;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.collect.ImmutableSet;

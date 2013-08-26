@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.debug;
 
 import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public abstract class DebugObjectProxy extends AbstractDebugObject
 {

@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.IPath;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public final class FileBufferDebugListener extends AbstractDebugListener implements FileBufferListener
 {

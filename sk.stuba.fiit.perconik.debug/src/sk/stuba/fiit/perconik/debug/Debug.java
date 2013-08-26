@@ -60,6 +60,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.debug.plugin.Activator;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ProjectBuildKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
@@ -88,7 +89,7 @@ public final class Debug
 	
 	private static final class ConsoleHolder
 	{
-		static final DebugConsole console = DebugConsole.of(Activator.getDefault());
+		static final DebugConsole console = DebugConsole.of(Activator.getDefault().getConsole());
 		
 		private ConsoleHolder()
 		{

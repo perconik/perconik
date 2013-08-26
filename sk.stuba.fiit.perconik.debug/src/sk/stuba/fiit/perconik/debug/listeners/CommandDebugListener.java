@@ -5,7 +5,7 @@ import org.eclipse.core.commands.common.CommandException;
 import sk.stuba.fiit.perconik.core.listeners.CommandListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public final class CommandDebugListener extends AbstractDebugListener implements CommandListener
 {

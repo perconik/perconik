@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.debug;
 
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
 
 public abstract class AbstractDebugObject implements DebugObject

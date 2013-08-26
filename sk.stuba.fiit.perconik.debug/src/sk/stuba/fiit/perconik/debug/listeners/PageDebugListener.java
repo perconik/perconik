@@ -4,7 +4,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import sk.stuba.fiit.perconik.core.listeners.PageListener;
 import sk.stuba.fiit.perconik.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugConsole;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 
 public final class PageDebugListener extends AbstractDebugListener implements PageListener
 {

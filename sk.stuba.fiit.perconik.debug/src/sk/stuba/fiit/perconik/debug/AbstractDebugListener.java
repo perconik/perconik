@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.debug;
 
 import java.util.Date;
 import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.Strings;
 
 public abstract class AbstractDebugListener extends AbstractDebugObject implements DebugListener
