@@ -23,7 +23,7 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
 	{
 		WindowHandler(final SelectionListener listener)
 		{
-			super(listener);
+			super(IWorkbenchWindow.class, listener);
 		}
 
 		public final void register(final IWorkbenchWindow window)

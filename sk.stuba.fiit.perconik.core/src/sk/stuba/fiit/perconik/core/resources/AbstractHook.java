@@ -19,25 +19,9 @@ abstract class AbstractHook<T, L extends Listener> extends Adapter implements Ho
 		this.pool.add(object);
 	}
 
-	final void addAll(final Collection<T> objects)
-	{
-		for (T object: objects)
-		{
-			this.add(object);
-		}
-	}
-
 	public final void remove(final T object)
 	{
 		this.pool.remove(object);
-	}
-	
-	final void removeAll(final Collection<T> objects)
-	{
-		for (T object: objects)
-		{
-			this.remove(object);
-		}
 	}
 	
 	public final Collection<T> toCollection()

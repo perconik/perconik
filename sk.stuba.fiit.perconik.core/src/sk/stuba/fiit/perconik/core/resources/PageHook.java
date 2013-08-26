@@ -23,7 +23,7 @@ final class PageHook extends InternalHook<IWorkbenchWindow, PageListener> implem
 	{
 		WindowHandler(final PageListener listener)
 		{
-			super(listener);
+			super(IWorkbenchWindow.class, listener);
 		}
 
 		public final void register(final IWorkbenchWindow window)

@@ -23,7 +23,7 @@ final class PerspectiveHook extends InternalHook<IWorkbenchWindow, PerspectiveLi
 	{
 		WindowHandler(final PerspectiveListener listener)
 		{
-			super(listener);
+			super(IWorkbenchWindow.class, listener);
 		}
 
 		public final void register(final IWorkbenchWindow window)

@@ -21,6 +21,14 @@ final class Hooks
 		throw new AssertionError();
 	}
 	
+	static final <T> void addAll(final Hook<T, ?> hook, final Iterable<T> objects)
+	{
+		for (T object: objects)
+		{
+			hook.add(object);
+		}
+	}
+	
 	static final <T> void addNonNull(final Hook<T, ?> hook, @Nullable final T object)
 	{
 		if (object != null)
@@ -29,6 +37,14 @@ final class Hooks
 		}
 	}
 	
+	static final <T> void removeAll(final Hook<T, ?> hook, final Iterable<T> objects)
+	{
+		for (T object: objects)
+		{
+			hook.remove(object);
+		}
+	}
+
 	static final <T> void removeNonNull(final Hook<T, ?> hook, @Nullable final T object)
 	{
 		if (object != null)
@@ -37,35 +53,35 @@ final class Hooks
 		}
 	}
 	
-	static final void addWindowsSynchronouslyTo(final InternalHook<IWorkbenchWindow, ?> hook)
+	static final void addWindowsSynchronouslyTo(final Hook<IWorkbenchWindow, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
 			@Override
 			public final void run()
 			{
-				hook.addAll(Arrays.asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
+				addAll(hook, Arrays.asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
 			}
 		};
 		
 		Display.getDefault().syncExec(initializer);
 	}
 	
-	static final void addPagesSynchronouslyTo(final InternalHook<IWorkbenchPage, ?> hook)
+	static final void addPagesSynchronouslyTo(final Hook<IWorkbenchPage, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
 			@Override
 			public final void run()
 			{
-				hook.addAll(Arrays.asList(Workbenches.waitForActiveWindow().getPages()));
+				addAll(hook, Arrays.asList(Workbenches.waitForActiveWindow().getPages()));
 			}
 		};
 		
 		Display.getDefault().syncExec(initializer);
 	}
 
-	static final void addPartsSynchronouslyTo(final InternalHook<IWorkbenchPart, ?> hook)
+	static final void addPartsSynchronouslyTo(final Hook<IWorkbenchPart, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -82,7 +98,7 @@ final class Hooks
 		Display.getDefault().syncExec(initializer);
 	}
 
-	static final void addEditorsSynchronouslyTo(final InternalHook<IEditorPart, ?> hook)
+	static final void addEditorsSynchronouslyTo(final Hook<IEditorPart, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -99,7 +115,7 @@ final class Hooks
 		Display.getDefault().syncExec(initializer);
 	}
 	
-	static final void addSourceViewersSynchronouslyTo(final InternalHook<ISourceViewer, ?> hook)
+	static final void addSourceViewersSynchronouslyTo(final Hook<ISourceViewer, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -116,7 +132,7 @@ final class Hooks
 		Display.getDefault().syncExec(initializer);
 	}
 	
-	static final void addDocumentsSynchronouslyTo(final InternalHook<IDocument, ?> hook)
+	static final void addDocumentsSynchronouslyTo(final Hook<IDocument, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{

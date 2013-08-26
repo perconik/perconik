@@ -25,7 +25,7 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
 	{
 		WindowHandler(final DocumentListener listener)
 		{
-			super(listener);
+			super(IDocument.class, listener);
 		}
 
 		public final void register(final IDocument document)

@@ -10,18 +10,20 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> im
 	
 	InternalHook(final InternalHandler<T, L> handler)
 	{
-		// TODO force safe pools
-		super(Pools.getObjectPoolFactory().create(handler));
+		super(Pools.safe(Pools.getObjectPoolFactory().create(handler), handler.type));
 		
 		this.handler = Preconditions.checkNotNull(handler);
 	}
 
 	static abstract class InternalHandler<T, L extends Listener> implements Handler<T>
 	{
+		final Class<T> type;
+		
 		final L listener;
 		
-		InternalHandler(final L listener)
+		InternalHandler(final Class<T> type, final L listener)
 		{
+			this.type     = Preconditions.checkNotNull(type);
 			this.listener = Preconditions.checkNotNull(listener);
 		}
 	}
@@ -30,7 +32,8 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> im
 	public final void preRegister()
 	{
 		this.preRegisterInternal();
-		this.addAll(this.toCollection());
+		
+		Hooks.addAll(this, this.toCollection());
 	}
 
 	@Override
@@ -48,7 +51,8 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> im
 	@Override
 	public final void postUnregister()
 	{
-		this.removeAll(this.toCollection());
+		Hooks.removeAll(this, this.toCollection());
+		
 		this.postUnregisterInternal();
 	}
 	

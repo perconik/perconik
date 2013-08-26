@@ -27,7 +27,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
 	{
 		WindowHandler(final CompletionListener listener)
 		{
-			super(listener);
+			super(ISourceViewer.class, listener);
 		}
 
 		public final void register(final ISourceViewer viewer)
