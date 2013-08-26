@@ -7,16 +7,16 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import com.google.common.collect.Maps;
+import com.google.common.collect.MapMaker;
 
 final class Internals
 {
-	private static final Object lock = new Object();
-	
-	private static final Map<Class<?>, Supplier<?>> suppliers = Maps.newHashMap();
+	private static final Map<Class<?>, Supplier<?>> suppliers;
 	
 	static
 	{
+		suppliers = new MapMaker().concurrencyLevel(1).makeMap();
+		
 		setApi(ResourceService.class, new Supplier<ResourceService>() {
 			public final ResourceService get() {
 				return DefaultResources.getDefaultResourceService();
@@ -54,32 +54,25 @@ final class Internals
 	{
 		Preconditions.checkNotNull(implementation);
 		
-		synchronized (lock)
-		{
-			suppliers.put(api, new ImmutableReference<>(implementation));
-		}
+		suppliers.put(api, new ImmutableReference<>(implementation));
 	}
 	
 	static final <T> void setApi(final Class<T> api, final Supplier<T> supplier)
 	{
-		synchronized (lock)
-		{
-			suppliers.put(api, supplier);
-		}
+		Preconditions.checkNotNull(supplier);
+		
+		suppliers.put(api, supplier);
 	}
 	
 	static final <T> T getApi(final Class<T> api)
 	{
-		synchronized (lock)
+		T implementation = api.cast(suppliers.get(api).get());
+			
+		if (implementation != null)
 		{
-			T implementation = api.cast(suppliers.get(api).get());
-			
-			if (implementation != null)
-			{
-				return implementation;
-			}
-			
-			throw new UnsupportedOperationException("Unable to get implementation for " + api);
+			return implementation;
 		}
+		
+		throw new UnsupportedOperationException("Unable to get implementation for " + api);
 	}
 }
