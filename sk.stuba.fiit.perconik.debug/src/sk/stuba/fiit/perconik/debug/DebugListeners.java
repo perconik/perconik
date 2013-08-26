@@ -2,43 +2,13 @@ package sk.stuba.fiit.perconik.debug;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
-import sk.stuba.fiit.perconik.debug.listeners.CommandDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CommandExecutionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CommandManagerDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.CompletionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.DebugEventsDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.DocumentDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.EditorDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.FileBufferDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.JavaElementDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchConfigurationDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.LaunchesDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.MarkSelectionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.OperationHistoryDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PageDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PartDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.PerspectiveDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.RefactoringExecutionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.RefactoringHistoryDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.ResourceDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.SelectionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.StructuredSelectionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.TestRunDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.TextSelectionDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.WindowDebugListener;
-import sk.stuba.fiit.perconik.debug.listeners.WorkbenchDebugListener;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
-import com.google.common.collect.ImmutableSet;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -49,7 +19,7 @@ public final class DebugListeners
 	{
 		throw new AssertionError();
 	}
-	
+
 	public static final String toString(final Class<? extends Listener> type)
 	{
 		return type.getName();
@@ -59,54 +29,7 @@ public final class DebugListeners
 	{
 		return MoreStrings.toStringFallback(listener);
 	}
-
-	// TODO make debug listener provider with these classes
 	
-	static final Set<Class<? extends Listener>> getListenerClasses()
-	{
-		@SuppressWarnings("unchecked")
-		Class<? extends Listener>[] classes = new Class[] {
-//			CommandDebugListener.class,
-//			CommandExecutionDebugListener.class,
-//			CommandManagerDebugListener.class,
-//			CompletionDebugListener.class,
-//			DebugEventsDebugListener.class,
-//			DocumentDebugListener.class,
-//			EditorDebugListener.class,
-//			FileBufferDebugListener.class,
-//			JavaElementDebugListener.class,
-//			LaunchDebugListener.class,
-//			LaunchesDebugListener.class,
-//			LaunchConfigurationDebugListener.class,
-//			MarkSelectionDebugListener.class,
-//			OperationHistoryDebugListener.class,
-//			PageDebugListener.class,
-//			PartDebugListener.class,
-//			PerspectiveDebugListener.class,
-//			RefactoringExecutionDebugListener.class,
-//			RefactoringHistoryDebugListener.class,
-//			ResourceDebugListener.class,
-//			SelectionDebugListener.class,
-//			StructuredSelectionDebugListener.class,
-//			TestRunDebugListener.class,
-//			TextSelectionDebugListener.class,
-//			WindowDebugListener.class,
-//			WorkbenchDebugListener.class
-		};
-		
-		return ImmutableSet.copyOf(classes);
-	}
-	
-	// TODO mv
-	public static final ListenerProvider getListenerProvider()
-	{
-		ListenerProvider.Builder builder = ListenerProviders.builder();
-		
-		builder.addAll(getListenerClasses());
-		
-		return builder.build();
-	}
-
 	public static final void printRegistered()
 	{
 		printRegistered(Listener.class);
