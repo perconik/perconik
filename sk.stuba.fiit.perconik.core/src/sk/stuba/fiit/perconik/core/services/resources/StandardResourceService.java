@@ -3,9 +3,9 @@ package sk.stuba.fiit.perconik.core.services.resources;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Resource;
 
-final class GenericResourceService extends AbstractResourceService
+final class StandardResourceService extends AbstractResourceService
 {
-	GenericResourceService(final ResourceProvider provider, final ResourceManager manager)
+	StandardResourceService(final ResourceProvider provider, final ResourceManager manager)
 	{
 		super(provider, manager);
 	}

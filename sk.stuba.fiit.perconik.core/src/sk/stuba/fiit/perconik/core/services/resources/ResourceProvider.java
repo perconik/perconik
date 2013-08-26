@@ -11,15 +11,20 @@ public interface ResourceProvider extends Provider
 	
 	public <L extends Listener> Set<Resource<? super L>> forType(Class<L> type);
 	
-	public Iterable<String> names();
+	public Set<String> names();
 	
-	public Iterable<Class<? extends Listener>> types();
+	public Set<Class<? extends Listener>> types();
 	
-	public Iterable<Resource<?>> resources();
+	public Set<Resource<?>> resources();
 
+	@Override
+	public ResourceProvider parent();
+	
 	public interface Builder
 	{
 		public <L extends Listener> Builder add(Class<L> type, Resource<L> resource);
+		
+		public Builder parent(ResourceProvider provider);
 		
 		public ResourceProvider build(); 
 	}

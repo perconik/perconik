@@ -37,7 +37,7 @@ import sk.stuba.fiit.perconik.debug.listeners.WindowDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.WorkbenchDebugListener;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-import sk.stuba.fiit.perconik.utilities.Strings;
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -57,7 +57,7 @@ public final class DebugListeners
 	
 	public static final String toString(final Listener listener)
 	{
-		return Strings.toStringFallback(listener);
+		return MoreStrings.toStringFallback(listener);
 	}
 
 	// TODO make debug listener provider with these classes
@@ -142,7 +142,7 @@ public final class DebugListeners
 
 		if (!listeners.isEmpty())
 		{
-			Collections.sort(listeners, Strings.toStringComparator());
+			Collections.sort(listeners, MoreStrings.toStringComparator());
 			
 			for (Listener listener: listeners)
 			{
@@ -165,7 +165,7 @@ public final class DebugListeners
 		
 		Multimap<Resource<?>, Listener> map = Listeners.registrations();
 
-		SortedSet<Resource<?>> resources = Sets.newTreeSet(Strings.toStringComparator());
+		SortedSet<Resource<?>> resources = Sets.newTreeSet(MoreStrings.toStringComparator());
 		
 		resources.addAll(map.keySet());
 		
@@ -179,7 +179,7 @@ public final class DebugListeners
 				
 				if (!listeners.isEmpty())
 				{
-					Collections.sort(listeners, Strings.toStringComparator());
+					Collections.sort(listeners, MoreStrings.toStringComparator());
 					
 					for (Listener listener: listeners)
 					{

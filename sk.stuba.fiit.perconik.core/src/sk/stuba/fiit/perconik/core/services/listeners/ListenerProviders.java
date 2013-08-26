@@ -9,8 +9,13 @@ public class ListenerProviders
 		throw new AssertionError();
 	}
 	
+	public static final ListenerProvider getSystemProvider()
+	{
+		return SystemListenerProvider.getInstance();
+	}
+
 	public static final Builder builder()
 	{
-		return GenericListenerProvider.builder();
+		return StandardListenerProvider.builder();
 	}
 }

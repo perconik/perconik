@@ -10,4 +10,9 @@ public abstract class ForwardingProvider extends ForwardingNameable implements P
 
 	@Override
 	protected abstract Provider delegate();
+	
+	public Provider parent()
+	{
+		return this.delegate().parent();
+	}
 }

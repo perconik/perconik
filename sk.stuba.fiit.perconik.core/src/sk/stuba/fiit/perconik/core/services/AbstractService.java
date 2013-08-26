@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-import sk.stuba.fiit.perconik.utilities.Strings;
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -36,7 +36,7 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 			
 			List<State> list = Lists.newArrayList(states);
 			
-			Collections.sort(list, Strings.toStringComparator());
+			Collections.sort(list, MoreStrings.toStringComparator());
 
 			builder.list(Lists.transform(list, toLowerCase));
 			

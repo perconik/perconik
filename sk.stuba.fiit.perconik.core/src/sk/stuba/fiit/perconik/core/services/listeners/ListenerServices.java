@@ -9,6 +9,6 @@ public class ListenerServices
 	
 	public static final ListenerService create(final ListenerProvider provider, final ListenerManager manager)
 	{
-		return new GenericListenerService(provider, manager);
+		return new StandardListenerService(provider, manager);
 	}
 }

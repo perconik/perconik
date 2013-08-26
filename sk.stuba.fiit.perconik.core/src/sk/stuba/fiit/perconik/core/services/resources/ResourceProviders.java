@@ -8,9 +8,14 @@ public class ResourceProviders
 	{
 		throw new AssertionError();
 	}
-		
+	
+	public static final ResourceProvider getSystemProvider()
+	{
+		return SystemResourceProvider.getInstance();
+	}
+	
 	public static final Builder builder()
 	{
-		return GenericResourceProvider.builder();
+		return StandardResourceProvider.builder();
 	}
 }

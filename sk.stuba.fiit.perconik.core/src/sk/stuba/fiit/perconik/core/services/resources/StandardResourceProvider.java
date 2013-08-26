@@ -4,6 +4,8 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
+import sk.stuba.fiit.perconik.utilities.MoreSets;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -13,16 +15,19 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
-final class GenericResourceProvider extends AbstractResourceProvider
+final class StandardResourceProvider extends AbstractResourceProvider
 {
 	private final BiMap<String, Resource<?>> map;
 
 	private final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
 	
-	GenericResourceProvider(final Builder builder)
+	private final ResourceProvider parent;
+	
+	StandardResourceProvider(final Builder builder)
 	{
 		this.map      = ImmutableBiMap.copyOf(builder.map);
-		this.multimap = ImmutableSetMultimap.copyOf(builder.multimap); 
+		this.multimap = ImmutableSetMultimap.copyOf(builder.multimap);
+		this.parent   = builder.parent.or(ResourceProviders.getSystemProvider());
 	}
 	
 	public static final class Builder implements ResourceProvider.Builder
@@ -30,11 +35,14 @@ final class GenericResourceProvider extends AbstractResourceProvider
 		BiMap<String, Resource<?>> map;
 		
 		SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
+		
+		Optional<ResourceProvider> parent;
 
 		public Builder()
 		{
 			this.map      = HashBiMap.create();
 			this.multimap = HashMultimap.create();
+			this.parent   = Optional.absent();
 		}
 		
 		public final <L extends Listener> Builder add(final Class<L> type, final Resource<L> resource)
@@ -47,9 +55,18 @@ final class GenericResourceProvider extends AbstractResourceProvider
 			return this;
 		}
 		
-		public final GenericResourceProvider build()
+		public final Builder parent(final ResourceProvider parent)
 		{
-			return new GenericResourceProvider(this);
+			Preconditions.checkState(!this.parent.isPresent());
+
+			this.parent = Optional.of(Preconditions.checkNotNull(parent));
+			
+			return this;
+		}
+		
+		public final StandardResourceProvider build()
+		{
+			return new StandardResourceProvider(this);
 		}
 	}
 	
@@ -57,11 +74,17 @@ final class GenericResourceProvider extends AbstractResourceProvider
 	{
 		return new Builder();
 	}
-
-	@Override
-	protected final BiMap<String, Resource<?>> map()
+	
+	public final Resource<?> forName(final String name)
 	{
-		return this.map;
+		Resource<?> resource = this.map.get(name);
+		
+		if (resource != null)
+		{
+			return resource;
+		}
+		
+		return this.parentForName(name, null);
 	}
 	
 	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)
@@ -73,21 +96,26 @@ final class GenericResourceProvider extends AbstractResourceProvider
 			resources.add(Unsafe.cast(type, resource));
 		}
 		
-		return resources;
+		return MoreSets.newHashSet(resources, this.parentForType(type, null));
 	}
 	
-	public final Iterable<String> names()
+	public final Set<String> names()
 	{
-		return Sets.newHashSet(this.map.keySet());
+		return MoreSets.newHashSet(this.map.keySet(), this.parent.names());
 	}
 
-	public final Iterable<Class<? extends Listener>> types()
+	public final Set<Class<? extends Listener>> types()
 	{
-		return Sets.newHashSet(this.multimap.keySet());
+		return MoreSets.newHashSet(this.multimap.keySet(), this.parent.types());
 	}
 
 	public final Set<Resource<?>> resources()
 	{
-		return Sets.newHashSet(this.map.values());
+		return MoreSets.newHashSet(this.map.values(), this.parent.resources());
+	}
+
+	public final ResourceProvider parent()
+	{
+		return this.parent;
 	}
 }

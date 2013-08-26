@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.debug;
 import java.util.Date;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
-import sk.stuba.fiit.perconik.utilities.Strings;
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
 
 public abstract class AbstractDebugListener extends AbstractDebugObject implements DebugListener
 {
@@ -149,7 +149,7 @@ public abstract class AbstractDebugListener extends AbstractDebugObject implemen
 	@Override
 	public final String toString()
 	{
-		return Strings.toCanonicalString(this);
+		return MoreStrings.toCanonicalString(this);
 	}
 
 	protected final void printHeader(final String title)

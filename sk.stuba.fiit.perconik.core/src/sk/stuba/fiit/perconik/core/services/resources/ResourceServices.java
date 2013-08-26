@@ -9,6 +9,6 @@ public class ResourceServices
 	
 	public static final ResourceService create(final ResourceProvider provider, final ResourceManager manager)
 	{
-		return new GenericResourceService(provider, manager);
+		return new StandardResourceService(provider, manager);
 	}
 }

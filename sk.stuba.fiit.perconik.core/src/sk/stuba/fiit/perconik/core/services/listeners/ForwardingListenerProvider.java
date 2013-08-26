@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
+import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.ForwardingProvider;
 
@@ -22,8 +23,14 @@ public abstract class ForwardingListenerProvider extends ForwardingProvider impl
 		return this.delegate().loadClass(name);
 	}
 
-	public Iterable<Class<? extends Listener>> classes()
+	public Set<Class<? extends Listener>> classes()
 	{
 		return this.delegate().classes();
+	}
+	
+	@Override
+	public ListenerProvider parent()
+	{
+		return this.delegate().parent();
 	}
 }

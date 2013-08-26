@@ -1,9 +1,8 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
-
-final class GenericListenerService extends AbstractListenerService
+final class StandardListenerService extends AbstractListenerService
 {
-	GenericListenerService(final ListenerProvider provider, final ListenerManager manager)
+	StandardListenerService(final ListenerProvider provider, final ListenerManager manager)
 	{
 		super(provider, manager);
 	}

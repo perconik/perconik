@@ -24,18 +24,24 @@ public abstract class ForwardingResourceProvider extends ForwardingProvider impl
 		return this.delegate().forType(type);
 	}
 
-	public Iterable<String> names()
+	public Set<String> names()
 	{
 		return this.delegate().names();
 	}
 
-	public Iterable<Class<? extends Listener>> types()
+	public Set<Class<? extends Listener>> types()
 	{
 		return this.delegate().types();
 	}
 
-	public Iterable<Resource<?>> resources()
+	public Set<Resource<?>> resources()
 	{
 		return this.delegate().resources();
+	}
+
+	@Override
+	public ResourceProvider parent()
+	{
+		return this.delegate().parent();
 	}
 }

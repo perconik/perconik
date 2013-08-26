@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.debug.services.listeners;
 
+import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.debug.Debug;
@@ -66,8 +67,13 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
 		return this.delegate().loadClass(name);
 	}
 
-	public final Iterable<Class<? extends Listener>> classes()
+	public final Set<Class<? extends Listener>> classes()
 	{
 		return this.delegate().classes();
+	}
+
+	public final ListenerProvider parent()
+	{
+		return this.delegate().parent();
 	}
 }

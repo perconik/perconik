@@ -8,11 +8,11 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
-final class GenericResourceManager extends AbstractResourceManager
+final class StandardResourceManager extends AbstractResourceManager
 {
 	private final SetMultimap<Class<? extends Listener>, Resource<?>> map;
 	
-	GenericResourceManager()
+	StandardResourceManager()
 	{
 		this.map = HashMultimap.create();
 	}

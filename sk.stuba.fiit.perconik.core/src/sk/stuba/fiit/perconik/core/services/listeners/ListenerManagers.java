@@ -9,6 +9,6 @@ public class ListenerManagers
 	
 	public static final ListenerManager create()
 	{
-		return new GenericListenerManager();
+		return new StandardListenerManager();
 	}
 }

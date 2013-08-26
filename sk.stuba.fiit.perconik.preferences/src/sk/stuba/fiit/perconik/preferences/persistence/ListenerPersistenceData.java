@@ -61,19 +61,14 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 	
 	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
 	{
-		Preconditions.checkArgument(Listener.class.isAssignableFrom(type));
-		Preconditions.checkArgument(!type.isInterface() && !type.isAnnotation() && !type.isEnum());
-		
 		try
 		{
-			type.getConstructor();
+			return Services.getListenerService().getListenerProvider().loadClass(type.getName());
 		}
-		catch (NoSuchMethodException | SecurityException e)
+		catch (ClassNotFoundException e)
 		{
 			throw new IllegalArgumentException(e);
 		}
-		
-		return type;
 	}
 
 	private static final class SerializationProxy implements Serializable

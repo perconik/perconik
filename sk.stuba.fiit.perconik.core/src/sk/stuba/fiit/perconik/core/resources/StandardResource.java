@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 
-final class GenericResource<L extends Listener> extends AbstractResource<L>
+final class StandardResource<L extends Listener> extends AbstractResource<L>
 {
-	GenericResource(final Pool<L> pool)
+	StandardResource(final Pool<L> pool)
 	{
 		super(pool);
 	}

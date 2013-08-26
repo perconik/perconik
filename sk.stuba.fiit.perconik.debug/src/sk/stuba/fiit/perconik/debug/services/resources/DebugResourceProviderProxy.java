@@ -106,18 +106,23 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		return wrap(resources);
 	}
 
-	public final Iterable<String> names()
+	public final Set<String> names()
 	{
 		return this.delegate().names();
 	}
 
-	public final Iterable<Class<? extends Listener>> types()
+	public final Set<Class<? extends Listener>> types()
 	{
 		return this.delegate().types();
 	}
 
-	public final Iterable<Resource<?>> resources()
+	public final Set<Resource<?>> resources()
 	{
 		return wrap(this.delegate().resources());
+	}
+
+	public final ResourceProvider parent()
+	{
+		return this.delegate().parent();
 	}
 }

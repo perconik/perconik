@@ -10,9 +10,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
-final class GenericListenerManager extends AbstractListenerManager
+final class StandardListenerManager extends AbstractListenerManager
 {
-	GenericListenerManager()
+	StandardListenerManager()
 	{
 	}
 

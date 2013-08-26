@@ -9,6 +9,6 @@ public class ResourceManagers
 	
 	public static final ResourceManager create()
 	{
-		return new GenericResourceManager();
+		return new StandardResourceManager();
 	}
 }

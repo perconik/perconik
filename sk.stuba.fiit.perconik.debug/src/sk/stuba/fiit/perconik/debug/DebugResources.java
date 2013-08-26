@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-import sk.stuba.fiit.perconik.utilities.Strings;
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -27,7 +27,7 @@ public final class DebugResources
 	
 	public static final String toString(final Resource<?> resource)
 	{
-		return Strings.toStringFallback(resource);
+		return MoreStrings.toStringFallback(resource);
 	}
 	
 	public static final void printRegistered()
@@ -60,7 +60,7 @@ public final class DebugResources
 
 		if (!resources.isEmpty())
 		{
-			Collections.sort(resources, Strings.toStringComparator());
+			Collections.sort(resources, MoreStrings.toStringComparator());
 			
 			for (Resource<?> resource: resources)
 			{
@@ -83,7 +83,7 @@ public final class DebugResources
 		
 		SetMultimap<Class<? extends Listener>, Resource<?>> map = Resources.registrations();
 		
-		SortedSet<Class<? extends Listener>> types = Sets.newTreeSet(Strings.toStringComparator());
+		SortedSet<Class<? extends Listener>> types = Sets.newTreeSet(MoreStrings.toStringComparator());
 		
 		types.addAll(map.keySet());
 		
@@ -97,7 +97,7 @@ public final class DebugResources
 				
 				if (!resources.isEmpty())
 				{
-					Collections.sort(resources, Strings.toStringComparator());
+					Collections.sort(resources, MoreStrings.toStringComparator());
 					
 					for (Resource<?> resource: resources)
 					{

@@ -177,9 +177,9 @@ public class DefaultResources
 	
 	public static final String getName(final Resource<?> resource)
 	{
-		if (resource instanceof GenericResource)
+		if (resource instanceof StandardResource)
 		{
-			return ((GenericResource<?>) resource).getName();
+			return ((StandardResource<?>) resource).getName();
 		}
 		
 		return null;
@@ -187,7 +187,7 @@ public class DefaultResources
 
 	private static final <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder)
 	{
-		Resource<L> resource = new GenericResource<>(Pools.getListenerPoolFactory().create(handler));
+		Resource<L> resource = new StandardResource<>(Pools.getListenerPoolFactory().create(handler));
 
 		builder.add(type, resource);
 		
