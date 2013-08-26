@@ -280,8 +280,8 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 				
 				boolean registred = data.hasRegistredMark();
 				
-				registrable   = registrable || !registred;
-				unregistrable = unregistrable || registred;
+				registrable   |= !registred;
+				unregistrable |= registred;
 			}
 		}
 
