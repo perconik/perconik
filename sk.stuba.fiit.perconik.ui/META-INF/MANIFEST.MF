@@ -23,3 +23,4 @@ Bundle-ActivationPoBundle-Vendor: Faculty of Informatics and Information Technol
 Export-Package: sk.stuba.fiit.perconik.ui.plugin,
  sk.stuba.fiit.perconik.ui.preferences,
  sk.stuba.fiit.perconik.ui.utilities
+Bundle-ActivationPolicy: lazy

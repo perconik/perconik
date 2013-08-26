@@ -7,3 +7,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.utilities
 Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="1.0.0"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
+Bundle-ActivationPolicy: lazy

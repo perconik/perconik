@@ -29,3 +29,4 @@ Export-Package: com.google.common.annotations,
  javax.annotation.meta,
  uk.ac.open.crc.intt
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
+Bundle-ActivationPolicy: lazy

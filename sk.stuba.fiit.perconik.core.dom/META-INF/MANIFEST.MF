@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PerConIK Core AST Model
+Bundle-SymbolicName: sk.stuba.fiit.perconik.core.dom;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
+Require-Bundle: sk.stuba.fiit.perconik.eclipse;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.libraries;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.utilities;bundle-version="1.0.0"
