@@ -2,9 +2,9 @@ package sk.stuba.fiit.perconik.utilities;
 
 import java.util.Comparator;
 
-public final class Strings
+public final class MoreStrings
 {
-	private Strings()
+	private MoreStrings()
 	{
 		throw new AssertionError();
 	}
@@ -13,18 +13,18 @@ public final class Strings
 	{
 		INSTANCE;
 		
-		public final int compare(final Object a, final Object b)
+		public final int compare(Object a, Object b)
 		{
 			return a.toString().compareTo(b.toString());
 		}
 	}
 	
-	public static final String toDefaultString(final Object o)
+	public static final String toDefaultString(Object o)
 	{
 		return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
 	}
 
-	public static final String toCanonicalString(final Object o)
+	public static final String toCanonicalString(Object o)
 	{
 		String name = o.getClass().getCanonicalName();
 		
@@ -36,7 +36,7 @@ public final class Strings
 		return name + "@" + Integer.toHexString(o.hashCode());
 	}
 	
-	public static final String toImplementedString(final Object o)
+	public static final String toImplementedString(Object o)
 	{
 		String result = o.toString();
 		
@@ -56,7 +56,7 @@ public final class Strings
 		return comparator;
 	}
 
-	public static final String toStringFallback(final Object o)
+	public static final String toStringFallback(Object o)
 	{
 		String result = toImplementedString(o);
 		
