@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PerConIK Core Initialization
+Bundle-SymbolicName: sk.stuba.fiit.perconik.core.initialization;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: sk.stuba.fiit.perconik.core.initialization.plugin.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui;bundle-version="3.105.0",
+ sk.stuba.fiit.perconik.core;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.debug;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.libraries;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.preferences;bundle-version="1.0.0",
+ sk.stuba.fiit.perconik.utilities;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Export-Package: sk.stuba.fiit.perconik.core.initialization.plugin
+Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava

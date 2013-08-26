@@ -6,17 +6,16 @@ import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
-import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 import sk.stuba.fiit.perconik.environment.Environment;
 
 /**
- * The activator class controls the plug-in life cycle.
+ * The <code>Activator</code> class controls the plug-in life cycle.
  * 
  * @author Pavol Zbell
- * @version 0.0.1
  */
-public class Activator extends AbstractPlugin
+public final class Activator extends ExtendedPlugin
 {
 	/**
 	 * The plug-in identifier.

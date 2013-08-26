@@ -3,16 +3,15 @@ package sk.stuba.fiit.perconik.core.plugin;
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
-import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
 
 /**
- * The activator class controls the plug-in life cycle.
+ * The <code>Activator</code> class controls the plug-in life cycle.
  * 
  * @author Pavol Zbell
- * @version 0.0.1
  */
-public class Activator extends AbstractPlugin
+public final class Activator extends ExtendedPlugin
 {
 	/**
 	 * The plug-in identifier.
@@ -45,7 +44,6 @@ public class Activator extends AbstractPlugin
 	{
 		public final void earlyStartup()
 		{
-			// TODO set services before start using custom extension point
 			Services.start();
 		}
 	}
