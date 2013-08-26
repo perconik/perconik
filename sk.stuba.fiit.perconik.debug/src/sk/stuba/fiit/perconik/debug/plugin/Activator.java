@@ -8,6 +8,7 @@ import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.AbstractPlugin;
+import sk.stuba.fiit.perconik.environment.Environment;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -68,7 +69,10 @@ public class Activator extends AbstractPlugin
 			Debug.print("Executing early startup %s:", this.getClass().getName());
 			Debug.tab();
 			
-			getDefault().loader.load();
+			if (Environment.debug)
+			{
+				getDefault().loader.load();
+			}
 
 			Debug.untab();
 			Debug.print("Early startup %s finished", this.getClass().getName());
@@ -85,7 +89,10 @@ public class Activator extends AbstractPlugin
 			Debug.print("Executing early shutdown %s:", this.getClass().getName());
 			Debug.tab();
 
-			getDefault().loader.unload();
+			if (Environment.debug)
+			{
+				getDefault().loader.unload();
+			}
 			
 			Debug.untab();
 			Debug.print("Early shutdown %s finished", this.getClass().getName());
