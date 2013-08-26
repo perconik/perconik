@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.services;
 
 import com.google.common.base.Preconditions;
 
-public abstract class AbstractServiceAdapter<S extends Service> extends ServiceAdapter implements ServiceListener 
+public abstract class AbstractServiceAdapter<S extends Service> extends ServiceAdapter 
 {
 	private final S service;
 	

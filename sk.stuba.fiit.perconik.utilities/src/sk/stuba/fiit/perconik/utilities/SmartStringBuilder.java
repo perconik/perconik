@@ -611,7 +611,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final SmartStringBuilder lines(@Nullable Object o)
 	{
-		return this.lines(o);
+		return this.lines(String.valueOf(o));
 	}
 	
 	public final SmartStringBuilder lines(@Nullable String s)
@@ -844,6 +844,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final SmartStringBuilder insert(int offset, @Nullable CharSequence s)
 	{
+		s = String.valueOf(s);
+		
 		this.builder.insert(offset, s, 0, s.length());
 		
 		return this;

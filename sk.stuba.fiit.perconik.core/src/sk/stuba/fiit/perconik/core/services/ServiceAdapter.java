@@ -7,8 +7,6 @@ public abstract class ServiceAdapter implements ServiceListener
 	protected ServiceAdapter()
 	{
 	}
-	
-	public abstract Service service();
 
 	public void starting()
 	{

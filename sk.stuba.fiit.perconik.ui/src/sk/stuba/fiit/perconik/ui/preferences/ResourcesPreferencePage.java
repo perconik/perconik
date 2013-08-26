@@ -2,7 +2,9 @@ package sk.stuba.fiit.perconik.ui.preferences;
 
 import java.io.IOException;
 import java.text.Collator;
+import java.util.Collections;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
@@ -222,7 +224,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 	{
 		return Sets.filter(this.data, new Predicate<ResourcePersistenceData>()
 		{
-			public final boolean apply(final ResourcePersistenceData data)
+			public final boolean apply(@Nonnull final ResourcePersistenceData data)
 			{
 				return data.hasRegistredMark();
 			}
@@ -366,6 +368,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 
 		ResourceContentProvider()
 		{
+			this.data = Collections.emptySet();
 		}
 		
 		public final Object[] getElements(final Object input)

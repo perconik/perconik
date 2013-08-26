@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.Strings;
 import com.google.common.base.Function;
@@ -25,14 +26,15 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 			
 			builder.append(this.toString()).append(" must be in state ");
 
-			Function<State, String> toLowerCase = new Function<State, String>() {
-				public final String apply(final State state)
+			Function<State, String> toLowerCase = new Function<State, String>()
+			{
+				public final String apply(@Nonnull final State state)
 				{
 					return state.toString().toLowerCase();
 				}
 			};
 			
-			List<State >list = Lists.newArrayList(states);
+			List<State> list = Lists.newArrayList(states);
 			
 			Collections.sort(list, Strings.toStringComparator());
 

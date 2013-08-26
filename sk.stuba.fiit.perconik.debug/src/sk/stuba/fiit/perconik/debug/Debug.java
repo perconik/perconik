@@ -222,7 +222,7 @@ public final class Debug
 	{
 		private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		
-		static final String format(final Date date)
+		static synchronized final String format(final Date date)
 		{
 			return formatter.format(date);
 		}

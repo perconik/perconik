@@ -83,9 +83,16 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		
 		Resource<?> resource = this.delegate().forName(name);
 		
-		this.print(resource != null ? "done" : "failed");
+		if (resource != null)
+		{
+			this.print("done");
+			
+			return DebugResourceProxy.wrap(resource);
+		}
+
+		this.print("failed");
 		
-		return DebugResourceProxy.wrap(resource);
+		return null;
 	}
 
 	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)

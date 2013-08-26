@@ -40,7 +40,7 @@ public final class Strings
 	{
 		String result = o.toString();
 		
-		if (result == toDefaultString(o))
+		if (toDefaultString(o).equals(result))
 		{
 			return null;
 		}
