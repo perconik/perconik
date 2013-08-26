@@ -9,6 +9,7 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
@@ -20,14 +21,13 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 	
 	private final transient Class<? extends Listener> type;
 	
-	@Nullable
-	private final transient Listener listener;
+	private final transient Optional<Listener> listener;
 
 	ListenerPersistenceData(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
 	{
 		this.registered = registered;
 		this.type       = checkType(type);
-		this.listener   = listener instanceof Serializable ? listener : null;
+		this.listener   = Optional.fromNullable(listener instanceof Serializable ? listener : null);
 		
 		Preconditions.checkArgument(listener == null || type == this.listener.getClass());
 	}
@@ -79,8 +79,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 		
 		private final Class<? extends Listener> type;
 		
-		@Nullable
-		private final Listener listener;
+		private final Optional<Listener> listener;
 		
 		private SerializationProxy(final ListenerPersistenceData data)
 		{
@@ -98,7 +97,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 		{
 			try
 			{
-				return new ListenerPersistenceData(this.registered, this.type, this.listener);
+				return new ListenerPersistenceData(this.registered, this.type, this.listener.orNull());
 			}
 			catch (RuntimeException e)
 			{
@@ -162,7 +161,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 			Listeners.unregister(listener);
 		}
 		
-		return new ListenerPersistenceData(status, this.type, this.listener);
+		return new ListenerPersistenceData(status, this.type, this.listener.orNull());
 	}
 	
 	public final ListenerPersistenceData updateRegisteredMark()
@@ -177,7 +176,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 			return this;
 		}
 		
-		return new ListenerPersistenceData(status, this.type, this.listener);
+		return new ListenerPersistenceData(status, this.type, this.listener.orNull());
 	}
 
 	public final boolean isRegistred()
@@ -192,14 +191,14 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 	
 	public final boolean hasSerializedListener()
 	{
-		return this.listener != null;
+		return this.listener.isPresent();
 	}
 	
 	public final Listener getListener()
 	{
-		if (this.listener != null)
+		if (this.hasSerializedListener())
 		{
-			return this.listener;
+			return this.listener.get();
 		}
 		
 		return Services.getListenerService().getListenerProvider().forClass(this.type);
@@ -210,7 +209,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 		return this.type;
 	}
 
-	public final Listener getSerializedListener()
+	public final Optional<Listener> getSerializedListener()
 	{
 		return this.listener;
 	}

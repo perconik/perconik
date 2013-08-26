@@ -10,6 +10,7 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
@@ -23,15 +24,14 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 
 	private final transient String name;
 	
-	@Nullable
-	private final transient Resource<?> resource;
+	private final transient Optional<Resource<?>> resource;
 	
 	ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource)
 	{
 		this.registered = registered;
 		this.type       = checkType(type);
 		this.name       = checkName(name);
-		this.resource   = resource instanceof Serializable ? resource : null;
+		this.resource   = Optional.<Resource<?>>fromNullable(resource instanceof Serializable ? resource : null);
 		
 		Preconditions.checkArgument(resource == null || name.equals(resource.getName()));
 	}
@@ -88,7 +88,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 		private final String name;
 
 		@Nullable
-		private final Resource<?> resource;
+		private final Optional<Resource<?>> resource;
 
 		private SerializationProxy(final ResourcePersistenceData data)
 		{
@@ -107,7 +107,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 		{
 			try
 			{
-				return new ResourcePersistenceData(this.registered, this.type, this.name, this.resource);
+				return new ResourcePersistenceData(this.registered, this.type, this.name, this.resource.orNull());
 			}
 			catch (RuntimeException e)
 			{
@@ -171,7 +171,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 			Unsafe.unregister(this.type, resource);
 		}
 		
-		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource.orNull());
 	}
 	
 	public final ResourcePersistenceData updateRegisteredMark()
@@ -186,7 +186,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 			return this;
 		}
 		
-		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource.orNull());
 	}
 
 	public final boolean isRegistred()
@@ -201,7 +201,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 	
 	public final boolean hasSerializedResource()
 	{
-		return this.resource != null;
+		return this.resource.isPresent();
 	}
 	
 	public final Class<? extends Listener> getListenerType()
@@ -211,9 +211,9 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 
 	public final Resource<?> getResource()
 	{
-		if (this.resource != null)
+		if (this.hasSerializedResource())
 		{
-			return this.resource;
+			return this.resource.get();
 		}
 		
 		return Services.getResourceService().getResourceProvider().forName(this.name);
@@ -224,7 +224,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 		return this.name;
 	}
 
-	public final Resource<?> getSerializedResource()
+	public final Optional<Resource<?>> getSerializedResource()
 	{
 		return this.resource;
 	}
