@@ -32,10 +32,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 			throw new IllegalStateException("Class " + type + " must have public constructor with no parameters", e);
 		}
 		
-		@SuppressWarnings("unchecked")
-		Class<? extends Listener> casted = (Class<? extends Listener>) type;
-		
-		return casted;
+		return type.asSubclass(Listener.class);
 	}
 
 	protected final Class<? extends Listener> load(String name) throws ClassNotFoundException
