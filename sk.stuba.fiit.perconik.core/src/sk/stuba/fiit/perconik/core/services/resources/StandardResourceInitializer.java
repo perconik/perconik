@@ -6,13 +6,13 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.Services;
 
-final class StandardResourceInitializer implements ResourceInitializer
+final class StandardResourceInitializer extends AbstractResourceInitializer
 {
 	StandardResourceInitializer()
 	{
 	}
 	
-	public final void run()
+	public final void initialize()
 	{
 		ResourceProvider provider = Services.getResourceService().getResourceProvider();
 		

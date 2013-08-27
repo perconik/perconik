@@ -1,5 +1,12 @@
 package sk.stuba.fiit.perconik.core.services;
 
-public interface Initializer extends Runnable
+import sk.stuba.fiit.perconik.core.Nameable;
+
+public interface Initializer extends Nameable
 {
+	public void preInitialize();
+	
+	public void initialize();
+	
+	public void postInitialize();
 }
