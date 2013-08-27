@@ -1,9 +1,10 @@
 package sk.stuba.fiit.perconik.core.initialization.plugin;
 
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
+import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
-import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -43,15 +44,8 @@ public final class Activator extends ExtendedPlugin
 	{
 		public final void earlyStartup()
 		{
-			// TODO
-		}
-	}
-	
-	public static final class Shutdown implements IShutdown
-	{
-		public final void earlyShutdown()
-		{
-			// TODO
+			Display.getDefault().syncExec(Services.getResourceService().getResourceInitializer());
+			Display.getDefault().syncExec(Services.getListenerService().getListenerInitializer());
 		}
 	}
 
@@ -66,8 +60,6 @@ public final class Activator extends ExtendedPlugin
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		new Shutdown().earlyShutdown();
-		
 		plugin = null;
 
 		super.stop(context);
