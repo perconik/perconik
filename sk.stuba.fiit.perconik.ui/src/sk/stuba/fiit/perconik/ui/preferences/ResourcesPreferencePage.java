@@ -110,7 +110,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 		GC gc = new GC(this.getShell());
 		gc.setFont(JFaceResources.getDialogFont());
 
-		Tables.createColumn(table, tableLayout, "Name",          gc, 4);
+		Tables.createColumn(table, tableLayout, "Resource name", gc, 4);
 		Tables.createColumn(table, tableLayout, "Listener type", gc, 4);
 		Tables.createColumn(table, tableLayout, "Serializable",  gc, 1);
 
