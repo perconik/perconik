@@ -2,9 +2,9 @@ package sk.stuba.fiit.perconik.preferences;
 
 import sk.stuba.fiit.perconik.preferences.persistence.ResourcePersistenceData;
 
-public final class ResourceInitializer extends AbstractInitializer
+public final class ResourcePreferencesInitializer extends AbstractPreferencesInitializer
 {
-	public ResourceInitializer()
+	public ResourcePreferencesInitializer()
 	{
 	}
 

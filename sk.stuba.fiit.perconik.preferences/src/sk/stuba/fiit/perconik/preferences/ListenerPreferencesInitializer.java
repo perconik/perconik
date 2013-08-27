@@ -2,9 +2,9 @@ package sk.stuba.fiit.perconik.preferences;
 
 import sk.stuba.fiit.perconik.preferences.persistence.ListenerPersistenceData;
 
-public final class ListenerInitializer extends AbstractInitializer
+public final class ListenerPreferencesInitializer extends AbstractPreferencesInitializer
 {
-	public ListenerInitializer()
+	public ListenerPreferencesInitializer()
 	{
 	}
 
