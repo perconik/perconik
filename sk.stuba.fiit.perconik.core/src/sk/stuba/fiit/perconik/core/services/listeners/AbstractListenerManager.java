@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.NoRegistredResourceException;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
@@ -20,7 +21,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 
 		if (resources.isEmpty())
 		{
-			throw new UnsupportedOperationException("No registred resources for listener type " + listener.getClass().getName());
+			throw new NoRegistredResourceException("No registred resources for listener type " + listener.getClass().getName());
 		}
 
 		return resources;
