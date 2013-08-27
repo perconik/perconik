@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.debug.services.resources;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceInitializer;
 import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
+import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
 
@@ -56,5 +57,8 @@ public final class DebugResourceInitializerProxy extends DebugObjectProxy implem
 		this.delegate().run();
 
 		this.untab();
+		this.print("Resources registered");
+		
+		DebugResources.printRegistrations(this.getDebugConsole());
 	}
 }

@@ -1,10 +1,8 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
-import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
-import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -40,34 +38,20 @@ public final class Activator extends ExtendedPlugin
 		return plugin;
 	}
 
-	public static final class Startup implements IStartup
-	{
-		public final void earlyStartup()
-		{
-			ServiceSnapshot.take().servicesInStartOrder().startAndWait();
-		}
-	}
-	
-	public static final class Shutdown implements IShutdown
-	{
-		public final void earlyShutdown()
-		{
-			ServiceSnapshot.take().servicesInStopOrder().stopAndWait();
-		}
-	}
-
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
 		super.start(context);
 
 		plugin = this;
+		
+		ServiceSnapshot.take().servicesInStartOrder().startAndWait();
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		new Shutdown().earlyShutdown();
+		ServiceSnapshot.take().servicesInStopOrder().stopAndWait();
 		
 		plugin = null;
 

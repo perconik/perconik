@@ -12,12 +12,5 @@
             class="sk.stuba.fiit.perconik.preferences.ListenerPreferencesInitializer">
       </initializer>
    </extension>
-   <extension
-         id="sk.stuba.fiit.perconik.preferences.startup"
-         name="PerConIK Preferences Startup"
-         point="org.eclipse.ui.startup">
-      <startup
-            class="sk.stuba.fiit.perconik.preferences.plugin.Activator$Startup"></startup>
-   </extension>
 
 </plugin>

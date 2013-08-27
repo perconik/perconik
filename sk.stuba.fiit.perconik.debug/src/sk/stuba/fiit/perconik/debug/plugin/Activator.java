@@ -1,11 +1,9 @@
 package sk.stuba.fiit.perconik.debug.plugin;
 
-import org.eclipse.ui.IStartup;
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.debug.Debug;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
-import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.environment.Environment;
 
 /**
@@ -25,7 +23,7 @@ public final class Activator extends ExtendedPlugin
 	 */
 	private static Activator plugin;
 
-	final DebugLoader loader;
+	private DebugLoader loader;
 	
 	/**
 	 * The constructor.
@@ -51,51 +49,17 @@ public final class Activator extends ExtendedPlugin
 		return plugin;
 	}
 	
-	private static abstract class Hook
+	private static final void ensure() throws Exception
 	{
-		Hook()
-		{
-			Debug.print("Constructing %s ... done", this.getClass().getName());
-		}
+		Platform.getBundle(sk.stuba.fiit.perconik.core.plugin.Activator.PLUGIN_ID).start();
+		Platform.getBundle(sk.stuba.fiit.perconik.preferences.plugin.Activator.PLUGIN_ID).start();
 	}
-
-	public static final class Startup extends Hook implements IStartup
-	{
-		public final void earlyStartup()
-		{
-			Debug.print("Executing early startup %s:", this.getClass().getName());
-			Debug.tab();
-			
-			if (Environment.debug)
-			{
-				getDefault().loader.load();
-			}
-
-			Debug.untab();
-			Debug.print("Early startup %s finished", this.getClass().getName());
-		}
-	}
-
-	public static final class Shutdown extends Hook implements IShutdown
-	{
-		public final void earlyShutdown()
-		{
-			Debug.print("Executing early shutdown %s:", this.getClass().getName());
-			Debug.tab();
-
-			if (Environment.debug)
-			{
-				getDefault().loader.unload();
-			}
-			
-			Debug.untab();
-			Debug.print("Early shutdown %s finished", this.getClass().getName());
-		}
-	}
-
+	
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
+		ensure();
+		
 		this.console.put("Starting %s ... ", PLUGIN_ID);
 		
 		super.start(context);
@@ -103,12 +67,22 @@ public final class Activator extends ExtendedPlugin
 		plugin = this;
 		
 		this.console.print("done");
+		
+		if (Environment.debug)
+		{
+			this.loader = DebugLoader.create();
+			
+			this.loader.load();
+		}
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		new Shutdown().earlyShutdown();
+		if (Environment.debug)
+		{
+			this.loader.unload();
+		}
 		
 		this.console.put("Stopping %s ... ", PLUGIN_ID);
 		

@@ -1,8 +1,5 @@
 package sk.stuba.fiit.perconik.preferences.plugin;
 
-import org.eclipse.swt.widgets.Display;
-import sk.stuba.fiit.perconik.core.services.Service;
-import sk.stuba.fiit.perconik.core.services.ServiceGroup;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerInitializer;
@@ -37,12 +34,12 @@ final class PreferencesLoader
 	
 	final void load()
 	{
-		Display.getDefault().syncExec(this.loader);
+		this.loader.run();
 	}
 	
 	final void unload()
 	{
-		Display.getDefault().syncExec(this.unloader);
+		this.unloader.run();
 	}
 
 	private static abstract class Hook implements Runnable
@@ -69,13 +66,16 @@ final class PreferencesLoader
 		@Override
 		public final void run()
 		{
+			this.snapshot.servicesInStartOrder().startAndWait();
+			
+			ResourceService resources = createResourceService(this.snapshot.services().fetch(ResourceService.class));
+			ListenerService listeners = createListenerService(this.snapshot.services().fetch(ListenerService.class));
+			
 			this.snapshot.servicesInStopOrder().stopAndWait();
-			
-			ServiceGroup<Service> services = this.snapshot.services();
-			
-			Services.setResourceService(createResourceService(services.fetch(ResourceService.class)));
-			Services.setListenerService(createListenerService(services.fetch(ListenerService.class)));
-			
+
+			Services.setResourceService(resources);
+			Services.setListenerService(listeners);
+
 			ServiceSnapshot.take().servicesInStartOrder().startAndWait();
 		}
 	}

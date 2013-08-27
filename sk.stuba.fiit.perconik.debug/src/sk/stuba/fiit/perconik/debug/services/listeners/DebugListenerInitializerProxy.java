@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.debug.services.listeners;
 
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerInitializer;
 import sk.stuba.fiit.perconik.debug.Debug;
+import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugObjectProxy;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
@@ -56,5 +57,8 @@ public final class DebugListenerInitializerProxy extends DebugObjectProxy implem
 		this.delegate().run();
 
 		this.untab();
+		this.print("Listeners registered");
+		
+		DebugListeners.printRegisterations(this.getDebugConsole());
 	}
 }

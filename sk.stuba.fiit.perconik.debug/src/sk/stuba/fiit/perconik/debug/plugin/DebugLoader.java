@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.debug.plugin;
 
-import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerInitializer;
@@ -43,12 +42,12 @@ class DebugLoader
 	
 	final void load()
 	{
-		Display.getDefault().syncExec(this.loader);
+		this.loader.run();
 	}
 	
 	final void unload()
 	{
-		Display.getDefault().syncExec(this.unloader);
+		this.unloader.run();
 	}
 	
 	private static abstract class Hook implements Runnable
@@ -92,20 +91,26 @@ class DebugLoader
 					
 			Debug.print("done");
 			
-			Debug.print("Starting debug resource service:");
-			Debug.tab();
+//			Debug.print("Starting debug resource service:");
+//			Debug.tab();
+//			
+//			resources.startAndWait();
+//			
+//			Debug.untab();
+//			Debug.print("Debug resource service running");
+//			Debug.print("Starting debug listener service:");
+//			Debug.tab();
+//			
+//			listeners.startAndWait();
+//			
+//			Debug.untab();
+//			Debug.print("Debug listener service running");
 			
-			resources.startAndWait();
+			Debug.put("Waiting for debug services to start ... ");
+
+			ServiceSnapshot.take().servicesInStartOrder().startAndWait();
 			
-			Debug.untab();
-			Debug.print("Debug resource service running");
-			Debug.print("Starting debug listener service:");
-			Debug.tab();
-			
-			listeners.startAndWait();
-			
-			Debug.untab();
-			Debug.print("Debug listener service running");
+			Debug.print("done");
 		}
 	}
 	

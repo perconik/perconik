@@ -1,8 +1,7 @@
 package sk.stuba.fiit.perconik.preferences.plugin;
 
-import org.eclipse.ui.IStartup;
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 
 /**
@@ -22,14 +21,13 @@ public final class Activator extends UserInterfacePlugin
 	 */
 	private static Activator plugin;
 
-	final PreferencesLoader loader;
+	private PreferencesLoader loader;
 	
 	/**
 	 * The constructor
 	 */
 	public Activator()
 	{
-		this.loader = PreferencesLoader.create();
 	}
 
 	/**
@@ -41,35 +39,30 @@ public final class Activator extends UserInterfacePlugin
 	{
 		return plugin;
 	}
-
-	public static final class Startup implements IStartup
+	
+	private static final void ensure() throws Exception
 	{
-		public final void earlyStartup()
-		{
-			getDefault().loader.load();
-		}
-	}
-
-	public static final class Shutdown implements IShutdown
-	{
-		public final void earlyShutdown()
-		{
-			getDefault().loader.unload();
-		}
+		Platform.getBundle(sk.stuba.fiit.perconik.core.plugin.Activator.PLUGIN_ID).start();
 	}
 	
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
+		ensure();
+		
 		super.start(context);
 
 		plugin = this;
+		
+		this.loader = PreferencesLoader.create();
+		
+		this.loader.load();
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		new Shutdown().earlyShutdown();
+		this.loader.unload();
 		
 		plugin = null;
 
