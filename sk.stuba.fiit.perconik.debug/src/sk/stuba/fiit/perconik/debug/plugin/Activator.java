@@ -3,8 +3,6 @@ package sk.stuba.fiit.perconik.debug.plugin;
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
@@ -75,9 +73,6 @@ public final class Activator extends ExtendedPlugin
 
 			Debug.untab();
 			Debug.print("Early startup %s finished", this.getClass().getName());
-			
-			DebugResources.printRegistrations();
-			DebugListeners.printRegistrations();
 		}
 	}
 

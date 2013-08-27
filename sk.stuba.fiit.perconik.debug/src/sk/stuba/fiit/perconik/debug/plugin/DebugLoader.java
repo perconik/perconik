@@ -1,45 +1,39 @@
 package sk.stuba.fiit.perconik.debug.plugin;
 
-import java.util.Set;
-import javax.annotation.Nullable;
 import org.eclipse.swt.widgets.Display;
-import sk.stuba.fiit.perconik.core.services.Service;
+import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerInitializer;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagers;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceInitializer;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
-import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.DebugListeners;
-import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerManagerProxy;
-import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerProviderProxy;
-import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceManagerProxy;
-import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceProviderProxy;
+import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerInitializerProxy;
+import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerManagers;
+import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerProviders;
+import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceInitializerProxy;
+import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceManagers;
+import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceProviders;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.Service.State;
 
 class DebugLoader
 {
-	private final ServiceSnapshot snapshot;
-	
 	private final Loader loader;
 	
 	private final Unloader unloader;
 	
 	private DebugLoader()
 	{
-		this.snapshot = new ServiceSnapshot();
+		ServiceSnapshot snapshot = ServiceSnapshot.take();
 		
-		this.loader   = new Loader(this.snapshot);
-		this.unloader = new Unloader(this.snapshot);
+		this.loader   = new Loader(snapshot);
+		this.unloader = new Unloader(snapshot);
 	}
 	
 	static final DebugLoader create()
@@ -56,136 +50,131 @@ class DebugLoader
 	{
 		Display.getDefault().syncExec(this.unloader);
 	}
-
-	private static final class Loader implements Runnable
+	
+	private static abstract class Hook implements Runnable
 	{
 		final ServiceSnapshot snapshot;
 
-		Loader(final ServiceSnapshot snapshot)
+		Hook(final ServiceSnapshot snapshot)
 		{
 			this.snapshot = Preconditions.checkNotNull(snapshot);
 		}
+		
+		@Override
+		public void run()
+		{
+		}
+	}
 
+	private static final class Loader extends Hook
+	{
+		Loader(final ServiceSnapshot snapshot)
+		{
+			super(snapshot);
+		}
+
+		@Override
 		public final void run()
 		{
 			Debug.put("Waiting for default services to start ... ");
 
-			this.snapshot.services.waitForState(State.RUNNING);
+			this.snapshot.servicesInStartOrder().startAndWait();
 			
 			Debug.print("done");
 			
-			ResourceService resourceService = prepareDebugResourceServiceFrom(this.snapshot.resourceService);
-			ListenerService listenerService = prepareDebugListenerServiceFrom(this.snapshot.listenerService);
-			
-//			ServiceGroup<Service> services = ServiceGroup.of(resourceService, listenerService);
-			
-			// TODO(note) do not stop default services so they can be restored later
-			
-//			Services.stop();
-//			
-//			Debug.put("Waiting for default services to stop ... ");
-//
-//			this.snapshot.services.waitForState(State.TERMINATED);
-//			
-//			Debug.print("done");
+			ResourceService resources = createResourceService(this.snapshot.services().fetch(ResourceService.class));
+			ListenerService listeners = createListenerService(this.snapshot.services().fetch(ListenerService.class));
 			
 			Debug.put("Switching default services to debug services ... ");
 			
-			Services.setResourceService(resourceService);
-			Services.setListenerService(listenerService);
+			Services.setResourceService(resources);
+			Services.setListenerService(listeners);
 					
 			Debug.print("done");
 			
 			Debug.print("Starting debug resource service:");
 			Debug.tab();
 			
-			resourceService.startAndWait();
+			resources.startAndWait();
 			
 			Debug.untab();
 			Debug.print("Debug resource service running");
 			Debug.print("Starting debug listener service:");
 			Debug.tab();
 			
-			listenerService.startAndWait();
+			listeners.startAndWait();
 			
 			Debug.untab();
 			Debug.print("Debug listener service running");
-			
-//			services.waitForState(State.RUNNING);
 		}
 	}
 	
-	private static final class Unloader implements Runnable
+	private static final class Unloader extends Hook
 	{
-		final ServiceSnapshot snapshot;
-
 		Unloader(final ServiceSnapshot snapshot)
 		{
-			this.snapshot = Preconditions.checkNotNull(snapshot);
+			super(snapshot);
 		}
 		
+		@Override
 		public final void run()
 		{
-			ResourceService resourceService = Services.getResourceService();
-			ListenerService listenerService = Services.getListenerService();
-			
-//			ServiceGroup<Service> services = ServiceGroup.of(resourceService, listenerService);
+			ResourceService resources = Services.getResourceService();
+			ListenerService listeners = Services.getListenerService();
 			
 			Debug.print("Stopping debug listener service:");
 			Debug.tab();
 
-			listenerService.stopAndWait();
+			listeners.stopAndWait();
 
 			Debug.untab();
 			Debug.print("Debug listener service terminated");
 			Debug.print("Stopping debug resource service:");
 			Debug.tab();
 	
-			resourceService.stopAndWait();
+			resources.stopAndWait();
 
 			Debug.untab();
 			Debug.print("Debug resource service terminated");
-			
-//			services.waitForState(State.TERMINATED);
-			
-//			Debug.untab();
-//			Debug.print("Debug services terminated");
-			
+
 			Debug.put("Switching debug services back to default services ... ");
 			
-			Services.setResourceService(this.snapshot.resourceService);
-			Services.setListenerService(this.snapshot.listenerService);
+			Services.setResourceService(this.snapshot.services().fetch(ResourceService.class));
+			Services.setListenerService(this.snapshot.services().fetch(ListenerService.class));
 					
 			Debug.print("done");
-
-//			Services.start();
-//			
-//			Debug.put("Waiting for default services to start ... ");
-//
-//			this.snapshot.services.waitForState(State.RUNNING);
-//			
-//			Debug.print("done");
 		}
 	}
 	
-	static final ResourceService prepareDebugResourceServiceFrom(final ResourceService service)
+	static final ResourceService createResourceService(final ResourceService service)
 	{
 		Debug.print("Preparing debug resource service:");
 		Debug.tab();
 
-		Debug.put("Wrapping resource provider ... ");
+		Debug.put("Creating resource provider ... ");
 		
-		ResourceProvider provider = DebugResourceProviderProxy.wrap(service.getResourceProvider());
+		ResourceProvider provider = DebugResourceProviders.create(service.getResourceProvider());
 		
 		Debug.print("done");
 		Debug.put("Creating resource manager ... ");
 		
-		ResourceManager manager = DebugResourceManagerProxy.wrap(ResourceManagers.create());
+		ResourceManager manager = DebugResourceManagers.create();
+
+		Debug.print("done");
+		Debug.put("Creating resource initializer ... ");
+		
+		ResourceInitializer initializer = DebugResourceInitializerProxy.wrap(service.getResourceInitializer());
 
 		Debug.print("done");
 		Debug.put("Creating debug resource service ... ");
 		
-		ResourceService result = ResourceServices.create(provider, manager);
+		ResourceService.Builder builder = ResourceServices.builder();
+		
+		builder.provider(provider);
+		builder.manager(manager);
+		builder.initializer(initializer);
+		
+		ResourceService result = builder.build();
 		
 		Debug.print("done");
 
@@ -194,114 +183,40 @@ class DebugLoader
 		return result;
 	}
 	
-	static final ListenerService prepareDebugListenerServiceFrom(final ListenerService service)
+	static final ListenerService createListenerService(final ListenerService service)
 	{
 		Debug.print("Preparing debug listener service:");
 		Debug.tab();
 
-		Debug.put("Wrapping listener provider ... ");
+		Debug.put("Creating listener provider ... ");
 		
-		ListenerProvider provider = DebugListenerProviderProxy.wrap(DebugListeners.getListenerProvider());// TODO fix
+		ListenerProvider provider = DebugListenerProviders.create(service.getListenerProvider());
 		
 		Debug.print("done");
 		Debug.put("Creating listener manager ... ");
 		
-		ListenerManager manager = DebugListenerManagerProxy.wrap(ListenerManagers.create());
+		ListenerManager manager = DebugListenerManagers.create();
+
+		Debug.print("done");
+		Debug.put("Creating listener initializer ... ");
+		
+		ListenerInitializer initializer = DebugListenerInitializerProxy.wrap(service.getListenerInitializer());
 
 		Debug.print("done");
 		Debug.put("Creating debug listener service ... ");
 		
-		ListenerService result = ListenerServices.create(provider, manager);
+		ListenerService.Builder builder = ListenerServices.builder();
+		
+		builder.provider(provider);
+		builder.manager(manager);
+		builder.initializer(initializer);
+		
+		ListenerService result = builder.build();
 		
 		Debug.print("done");
 		
 		Debug.untab();
 		
 		return result;
-	}
-	
-	static final class ServiceSnapshot
-	{
-		final ResourceService resourceService;
-		
-		final ListenerService listenerService;
-		
-		final ServiceGroup<Service> services;
-	
-		ServiceSnapshot()
-		{
-			this.resourceService = Services.getResourceService();
-			this.listenerService = Services.getListenerService();
-			
-			this.services = ServiceGroup.of(this.resourceService, this.listenerService);
-		}
-	}
-
-	static final class ServiceGroup<S extends Service>
-	{
-		private final Set<S> services;
-		
-		private ServiceGroup(final Set<S> services)
-		{
-			Preconditions.checkArgument(!services.isEmpty());
-			
-			this.services = ImmutableSet.copyOf(services);
-		}
-		
-		@SafeVarargs
-		static final <S extends Service> ServiceGroup<S> of(final S ... services)
-		{
-			return new ServiceGroup<>(Sets.newHashSet(services));
-		}
-		
-		final boolean inState(final State state)
-		{
-			boolean result = true;
-
-			for (Service service: this.services)
-			{
-				result = result && (state.equals(service.state()));
-			}
-			
-			return result;
-		}
-		
-		final void waitForState(final State state)
-		{
-			while (!this.inState(state)) {}
-		}
-
-		@Override
-		public final boolean equals(@Nullable final Object o)
-		{
-			if (this == o)
-			{
-				return true;
-			}
-			
-			if (!(o instanceof ServiceGroup))
-			{
-				return false;
-			}
-			
-			return this.services.equals(((ServiceGroup<?>) o).services);
-		}
-
-		@Override
-		public final int hashCode()
-		{
-			return this.services.hashCode();
-		}
-
-		@Override
-		public final String toString()
-		{
-			return this.services.toString();
-		}
-
-		final Set<S> getServices()
-		{
-			return this.services;
-		}
 	}
 }
