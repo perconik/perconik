@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerService.Builder;
+
 public class ListenerServices
 {
 	private ListenerServices()
@@ -7,8 +9,8 @@ public class ListenerServices
 		throw new AssertionError();
 	}
 	
-	public static final ListenerService create(final ListenerProvider provider, final ListenerManager manager)
+	public static final Builder builder()
 	{
-		return new StandardListenerService(provider, manager);
+		return StandardListenerService.builder();
 	}
 }

@@ -32,6 +32,7 @@ import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceInitializers;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
@@ -114,7 +115,7 @@ public class DefaultResources
 
 	static
 	{
-		Builder builder = ResourceProviders.builder();
+		ResourceProvider.Builder builder = ResourceProviders.builder();
 		
 		command               = forge(CommandListener.class, CommandHandler.INSTANCE, builder);
 		commandCategory       = forge(CommandCategoryListener.class, CommandCategoryHandler.INSTANCE, builder);
@@ -161,7 +162,13 @@ public class DefaultResources
 		
 		static
 		{
-			service = ResourceServices.create(provider, ResourceManagers.create());
+			ResourceService.Builder builder = ResourceServices.builder();
+			
+			builder.provider(provider);
+			builder.manager(ResourceManagers.create());
+			builder.initializer(ResourceInitializers.create());
+			
+			service = builder.build();
 		}
 		
 		private ServiceHolder()

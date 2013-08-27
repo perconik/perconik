@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
+import sk.stuba.fiit.perconik.core.services.resources.ResourceService.Builder;
+
 public class ResourceServices
 {
 	private ResourceServices()
@@ -7,8 +9,8 @@ public class ResourceServices
 		throw new AssertionError();
 	}
 	
-	public static final ResourceService create(final ResourceProvider provider, final ResourceManager manager)
+	public static final Builder builder()
 	{
-		return new StandardResourceService(provider, manager);
+		return StandardResourceService.builder();
 	}
 }

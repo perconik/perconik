@@ -1,18 +1,18 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
-import sk.stuba.fiit.perconik.core.services.AbstractService;
-import com.google.common.base.Preconditions;
+import sk.stuba.fiit.perconik.core.services.AbstractGenericService;
 
-public abstract class AbstractListenerService extends AbstractService implements ListenerService
+public abstract class AbstractListenerService extends AbstractGenericService<ListenerProvider, ListenerManager, ListenerInitializer> implements ListenerService
 {
-	final ListenerProvider provider;
-	
-	final ListenerManager manager;
-	
-	protected AbstractListenerService(final ListenerProvider provider, final ListenerManager manager)
+	protected AbstractListenerService(final AbstractBuilder<?> builder)
 	{
-		this.provider = Preconditions.checkNotNull(provider);
-		this.manager  = Preconditions.checkNotNull(manager);
+		super(builder);
+	}
+	
+	protected static abstract class AbstractBuilder<B extends AbstractBuilder<B>> extends AbstractGenericBuilder<B, ListenerProvider, ListenerManager, ListenerInitializer> implements Builder
+	{
+		@Override
+		public abstract ListenerService build();
 	}
 	
 	public final ListenerProvider getListenerProvider()
@@ -27,5 +27,12 @@ public abstract class AbstractListenerService extends AbstractService implements
 		this.checkRunning();
 		
 		return this.manager;
+	}
+
+	public final ListenerInitializer getListenerInitializer()
+	{
+		this.checkRunning();
+		
+		return this.initializer;
 	}
 }

@@ -1,18 +1,18 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import sk.stuba.fiit.perconik.core.services.AbstractService;
-import com.google.common.base.Preconditions;
+import sk.stuba.fiit.perconik.core.services.AbstractGenericService;
 
-public abstract class AbstractResourceService extends AbstractService implements ResourceService
+public abstract class AbstractResourceService extends AbstractGenericService<ResourceProvider, ResourceManager, ResourceInitializer> implements ResourceService
 {
-	final ResourceProvider provider;
-	
-	final ResourceManager manager;
-	
-	protected AbstractResourceService(final ResourceProvider provider, final ResourceManager manager)
+	protected AbstractResourceService(final AbstractBuilder<?> builder)
 	{
-		this.provider = Preconditions.checkNotNull(provider);
-		this.manager  = Preconditions.checkNotNull(manager);
+		super(builder);
+	}
+	
+	protected static abstract class AbstractBuilder<B extends AbstractBuilder<B>> extends AbstractGenericBuilder<B, ResourceProvider, ResourceManager, ResourceInitializer> implements Builder
+	{
+		@Override
+		public abstract ResourceService build();
 	}
 	
 	public final ResourceProvider getResourceProvider()
@@ -27,5 +27,12 @@ public abstract class AbstractResourceService extends AbstractService implements
 		this.checkRunning();
 		
 		return this.manager;
+	}
+
+	public final ResourceInitializer getResourceInitializer()
+	{
+		this.checkRunning();
+		
+		return this.initializer;
 	}
 }

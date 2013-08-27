@@ -1,23 +1,40 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import java.util.Set;
-import sk.stuba.fiit.perconik.core.Resource;
-
 final class StandardResourceService extends AbstractResourceService
 {
-	StandardResourceService(final ResourceProvider provider, final ResourceManager manager)
+	StandardResourceService(final Builder builder)
 	{
-		super(provider, manager);
+		super(builder);
 	}
+	
+	public static final class Builder extends AbstractBuilder<Builder>
+	{
+		public Builder()
+		{
+		}
+
+		@Override
+		protected final Builder implementation()
+		{
+			return this;
+		}
+
+		@Override
+		public final ResourceService build()
+		{
+			return new StandardResourceService(this);
+		}
+	}
+	
+	public static final Builder builder()
+	{
+		return new Builder();
+	}
+	
 	
 	@Override
 	protected final void doStart()
 	{
-		for (Class<? extends sk.stuba.fiit.perconik.core.Listener> type: this.provider.types())
-		{
-			this.registerResourcesForClass(type);
-		}
-		
 		this.notifyStarted();
 	}
 
@@ -27,15 +44,5 @@ final class StandardResourceService extends AbstractResourceService
 		this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class);
 	
 		this.notifyStopped();
-	}
-	
-	private final <L extends sk.stuba.fiit.perconik.core.Listener> void registerResourcesForClass(final Class<L> type)
-	{
-		Set<Resource<? super L>> resources = this.provider.forType(type);
-		
-		for (Resource<? super L> resource: resources)
-		{
-			this.manager.register(type, resource);
-		}
 	}
 }
