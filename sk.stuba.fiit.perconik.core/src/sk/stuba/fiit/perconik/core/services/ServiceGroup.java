@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.core.services;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -128,6 +130,32 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S>
 	public final void waitForState(final State state)
 	{
 		while (!this.inState(state)) {}
+	}
+	
+	public final <U extends S> ServiceGroup<U> narrow(final Class<U> type)
+	{
+		ImmutableSet.Builder<U> builder = ImmutableSet.builder();
+		
+		for (S service: this.services)
+		{
+			if (type.isInstance(service))
+			{
+				builder.add(type.cast(service));
+			}
+		}
+		
+		return new ServiceGroup<>(builder.build());
+	}
+	
+	public final <U extends S> U fetch(final Class<U> type)
+	{
+		Iterator<U> iterator = this.narrow(type).iterator();
+		
+		U service = iterator.next();
+
+		Preconditions.checkArgument(!iterator.hasNext());
+		
+		return service;
 	}
 	
 	public final ServiceGroup<S> reverse()
