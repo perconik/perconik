@@ -1,6 +1,9 @@
 package sk.stuba.fiit.perconik.core.services;
 
+import java.util.Set;
 import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import sk.stuba.fiit.perconik.core.listeners.DefaultListeners;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
@@ -31,17 +34,20 @@ public final class Services
 	{
 		throw new AssertionError();
 	}
-	
-	public static final void start()
+
+	static final Set<Service> inStartOrder()
 	{
-		getResourceService().start();
-		getListenerService().start();
+		ImmutableSet.Builder<Service> builder = ImmutableSet.builder();
+		
+		builder.add(Services.getResourceService());
+		builder.add(Services.getListenerService());
+	
+		return builder.build();
 	}
 	
-	public static final void stop()
+	static final Set<Service> inStopOrder()
 	{
-		getListenerService().stop();
-		getResourceService().stop();
+		return ImmutableSet.copyOf(Lists.reverse(Lists.newArrayList(inStartOrder())));
 	}
 	
 	public static final void setResourceService(final ResourceService service)

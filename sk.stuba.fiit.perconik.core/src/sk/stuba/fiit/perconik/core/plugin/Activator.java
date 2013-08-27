@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.ui.IShutdown;
 
@@ -44,7 +44,7 @@ public final class Activator extends ExtendedPlugin
 	{
 		public final void earlyStartup()
 		{
-			Services.start();
+			ServiceSnapshot.take().servicesInStartOrder().startAndWait();
 		}
 	}
 	
@@ -52,7 +52,7 @@ public final class Activator extends ExtendedPlugin
 	{
 		public final void earlyShutdown()
 		{
-			Services.stop();
+			ServiceSnapshot.take().servicesInStopOrder().stopAndWait();
 		}
 	}
 

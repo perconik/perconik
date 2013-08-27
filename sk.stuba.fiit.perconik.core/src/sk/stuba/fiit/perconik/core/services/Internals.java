@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.services;
 
 import java.util.Map;
+import java.util.Set;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.MapMaker;
+import com.google.common.collect.Sets;
 
 final class Internals
 {
@@ -53,5 +55,22 @@ final class Internals
 		}
 		
 		throw new UnsupportedOperationException("Unable to get implementation for " + api);
+	}
+	
+	static final <T> Set<T> getApis(final Class<T> superclass)
+	{
+		Set<T> implementations = Sets.newIdentityHashSet();
+		
+		for (Supplier<?> supplier: suppliers.values())
+		{
+			Object implementation = supplier.get();
+			
+			if (superclass.isInstance(implementation))
+			{
+				implementations.add(superclass.cast(implementation));
+			}
+		}
+		
+		return implementations;
 	}
 }
