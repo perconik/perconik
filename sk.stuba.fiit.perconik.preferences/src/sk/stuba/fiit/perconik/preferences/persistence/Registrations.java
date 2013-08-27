@@ -33,4 +33,16 @@ public final class Registrations
 		
 		return result;
 	}
+
+	public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Set<R> data, final boolean status)
+	{
+		Set<R> result = Sets.newHashSetWithExpectedSize(data.size());
+		
+		for (R registration: data)
+		{
+			result.add(registration.markRegistered(status));
+		}
+		
+		return result;
+	}
 }

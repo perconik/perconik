@@ -46,6 +46,11 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 		 return new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource);
 	}
 	
+	public static final Set<ResourcePersistenceData> defaults()
+	{
+		return Registrations.markRegistered(snapshot(), true);
+	}
+
 	public static final Set<ResourcePersistenceData> snapshot()
 	{
 		ResourceProvider provider = Services.getResourceService().getResourceProvider();
@@ -62,7 +67,7 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 		
 		return data;
 	}
-
+	
 	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
 	{
 		Preconditions.checkArgument(Listener.class.isAssignableFrom(type));

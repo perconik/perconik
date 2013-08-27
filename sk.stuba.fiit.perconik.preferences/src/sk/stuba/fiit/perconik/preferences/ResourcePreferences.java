@@ -22,6 +22,25 @@ public final class ResourcePreferences extends AbstractPreferences
 		return new ResourcePreferences(Scope.INSTANCE);
 	}
 	
+	// TODO beta
+//	@Override
+//	final Object restore(final String key, final Exception cause)
+//	{
+//		switch (key)
+//		{
+//			case persistence:
+//				Set<ResourcePersistenceData> data = ResourcePersistenceData.defaults();
+//				
+//				this.setValue(key, data);
+//				
+//				return data;
+//				
+//			default:
+//				throw new UnsupportedOperationException(cause);
+//		}
+//		
+//	}
+
 	public final void setResourcePersistenceData(final Set<ResourcePersistenceData> data)
 	{
 		this.setValue(this.key(persistence), data);

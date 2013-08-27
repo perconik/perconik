@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import java.util.Set;
 import sk.stuba.fiit.perconik.preferences.persistence.ResourcePersistenceData;
 
 public final class ResourcePreferencesInitializer extends AbstractPreferencesInitializer
@@ -11,6 +12,8 @@ public final class ResourcePreferencesInitializer extends AbstractPreferencesIni
 	@Override
 	public final void initializeDefaultPreferences()
 	{
-		ResourcePreferences.getDefault().setResourcePersistenceData(ResourcePersistenceData.snapshot());
+		Set<ResourcePersistenceData> data = ResourcePersistenceData.defaults();
+		
+		ResourcePreferences.getDefault().setResourcePersistenceData(data);
 	}
 }

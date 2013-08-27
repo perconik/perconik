@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import java.util.Set;
 import sk.stuba.fiit.perconik.preferences.persistence.ListenerPersistenceData;
 
 public final class ListenerPreferencesInitializer extends AbstractPreferencesInitializer
@@ -11,6 +12,8 @@ public final class ListenerPreferencesInitializer extends AbstractPreferencesIni
 	@Override
 	public final void initializeDefaultPreferences()
 	{
-		ListenerPreferences.getDefault().setListenerPersistenceData(ListenerPersistenceData.snapshot());
+		Set<ListenerPersistenceData> data = ListenerPersistenceData.defaults();
+		
+		ListenerPreferences.getDefault().setListenerPersistenceData(data);
 	}
 }

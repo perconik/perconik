@@ -45,29 +45,53 @@ abstract class AbstractPreferences
 		abstract IPreferenceStore store();
 	}
 	
-	static final String toString(final Object o)
+	final String toStringOrFailure(final String key, final Object value)
 	{
 		try
 		{
-			return Serialization.writeToString(o);
+			return Serialization.writeToString(value);
 		}
 		catch (Exception e)
 		{
-			throw new IllegalArgumentException("Unable to write object to string", e);
+			throw new IllegalArgumentException("Unable to write object under key " + key + " to string", e);
 		}
 	}
 
-	static final Object fromString(final String s)
+	final Object fromStringOrFailure(final String key, final String value)
 	{
 		try
 		{
-			return Serialization.readFromString(s);
+			return Serialization.readFromString(value);
 		}
 		catch (Exception e)
 		{
-			throw new IllegalArgumentException("Unable to read object from string", e);
+			throw new IllegalArgumentException("Unable to read object under key " + key + " from string", e);
 		}
 	}
+	
+	// TODO beta
+//	final Object fromStringOrRestore(final String key, final String value)
+//	{
+//		try
+//		{
+//			return Serialization.readFromString(value);
+//		}
+//		catch (Exception e)
+//		{
+//			Object result = this.restore(key, e);
+//			
+//			try
+//			{
+//				this.save();
+//			}
+//			catch (IOException x)
+//			{
+//				// ignore
+//			}
+//			
+//			return result;
+//		}
+//	}
 
 	final String key(final String name)
 	{
@@ -76,23 +100,26 @@ abstract class AbstractPreferences
 
 	protected final void setDefault(final String key, final Object value)
 	{
-		this.store.setDefault(key, toString(value));
+		this.store.setDefault(key, toStringOrFailure(key, value));
 	}
 
 	protected final Object getDefaultObject(final String key)
 	{
-		return fromString(this.store.getDefaultString(key));
+		return fromStringOrFailure(key, this.store.getDefaultString(key));
 	}
 
 	protected final void setValue(final String key, final Object value)
 	{
-		this.store.setValue(key, toString(value));
+		this.store.setValue(key, toStringOrFailure(key, value));
 	}
 
 	protected final Object getObject(final String key)
 	{
-		return fromString(this.store.getString(key));
+		return fromStringOrFailure(key, this.store.getString(key));
 	}
+	
+	// TODO beta
+//	abstract Object restore(final String key, final Exception cause);
 	
 	public final void save() throws IOException
 	{

@@ -42,6 +42,11 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 		return new ListenerPersistenceData(Listeners.isRegistred(listener), listener.getClass(), listener);
 	}
 	
+	public static final Set<ListenerPersistenceData> defaults()
+	{
+		return Registrations.markRegistered(snapshot(), true);
+	}
+
 	public static final Set<ListenerPersistenceData> snapshot()
 	{
 		ListenerProvider provider = Services.getListenerService().getListenerProvider();
