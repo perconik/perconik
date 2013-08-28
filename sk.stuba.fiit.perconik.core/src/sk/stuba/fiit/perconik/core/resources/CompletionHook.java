@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
+import org.eclipse.jface.text.source.ContentAssistantFacade;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
@@ -29,30 +31,56 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
 		{
 			super(ISourceViewer.class, listener);
 		}
-
-		public final void register(final ISourceViewer viewer)
+		
+		private final static IQuickAssistAssistant assistant(final ISourceViewer viewer)
 		{
 			if (viewer instanceof ISourceViewerExtension3)
 			{
-				((ISourceViewerExtension3) viewer).getQuickAssistAssistant().addCompletionListener(this.listener);
+				return ((ISourceViewerExtension3) viewer).getQuickAssistAssistant();
 			}
 			
+			return null;
+		}
+		
+		private final static ContentAssistantFacade facade(final ISourceViewer viewer)
+		{
 			if (viewer instanceof ISourceViewerExtension4)
 			{
-				((ISourceViewerExtension4) viewer).getContentAssistantFacade().addCompletionListener(this.listener);
+				return ((ISourceViewerExtension4) viewer).getContentAssistantFacade();
+			}
+			
+			return null;
+		}
+
+		public final void register(final ISourceViewer viewer)
+		{
+			IQuickAssistAssistant  assistant = assistant(viewer);
+			ContentAssistantFacade facade    = facade(viewer);
+			
+			if (assistant != null)
+			{
+				assistant.addCompletionListener(this.listener);
+			}
+			
+			if (facade != null)
+			{
+				facade.addCompletionListener(this.listener);
 			}
 		}
 
 		public final void unregister(final ISourceViewer viewer)
 		{
-			if (viewer instanceof ISourceViewerExtension3)
+			IQuickAssistAssistant  assistant = assistant(viewer);
+			ContentAssistantFacade facade    = facade(viewer);
+			
+			if (assistant != null)
 			{
-				((ISourceViewerExtension3) viewer).getQuickAssistAssistant().removeCompletionListener(this.listener);
+				assistant.removeCompletionListener(this.listener);
 			}
 			
-			if (viewer instanceof ISourceViewerExtension4)
+			if (facade != null)
 			{
-				((ISourceViewerExtension4) viewer).getContentAssistantFacade().removeCompletionListener(this.listener);
+				facade.removeCompletionListener(this.listener);
 			}
 		}
 	}
