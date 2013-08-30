@@ -43,26 +43,30 @@ public final class Activator extends UserInterfacePlugin
 	private static final void ensure() throws Exception
 	{
 		Platform.getBundle(sk.stuba.fiit.perconik.core.plugin.Activator.PLUGIN_ID).start();
+		Platform.getBundle(sk.stuba.fiit.perconik.debug.plugin.Activator.PLUGIN_ID).start();
 	}
 	
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
-		ensure();
+		// TODO
+		//ensure();
 		
 		super.start(context);
 
 		plugin = this;
-		
-		this.loader = PreferencesLoader.create();
-		
-		this.loader.load();
+
+		// TODO
+//		this.loader = PreferencesLoader.create();
+//		
+//		this.loader.load();
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		this.loader.unload();
+		// TODO
+		//this.loader.unload();
 		
 		plugin = null;
 

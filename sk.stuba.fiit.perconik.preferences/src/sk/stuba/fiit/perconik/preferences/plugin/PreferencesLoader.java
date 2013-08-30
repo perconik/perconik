@@ -2,9 +2,11 @@ package sk.stuba.fiit.perconik.preferences.plugin;
 
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.core.services.listeners.ForwardingListenerInitializer;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerInitializer;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
+import sk.stuba.fiit.perconik.core.services.resources.ForwardingResourceInitializer;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceInitializer;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
@@ -12,6 +14,8 @@ import sk.stuba.fiit.perconik.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.preferences.persistence.Registrations;
 import com.google.common.base.Preconditions;
+
+// TODO mv inits, rm class
 
 final class PreferencesLoader
 {
@@ -95,9 +99,18 @@ final class PreferencesLoader
 		builder.provider(service.getResourceProvider());
 		builder.manager(service.getResourceManager());
 		
-		builder.initializer(new ResourceInitializer()
-		{	
-			public final void run()
+		builder.initializer(new ForwardingResourceInitializer()
+		{
+			private final ResourceInitializer initializer = service.getResourceInitializer();
+			
+			@Override
+			protected final ResourceInitializer delegate()
+			{
+				return this.initializer;
+			}
+
+			@Override
+			public final void initialize()
 			{
 				Registrations.applyRegisteredMark(ResourcePreferences.getInstance().getResourcePersistenceData());
 			}
@@ -113,9 +126,18 @@ final class PreferencesLoader
 		builder.provider(service.getListenerProvider());
 		builder.manager(service.getListenerManager());
 		
-		builder.initializer(new ListenerInitializer()
+		builder.initializer(new ForwardingListenerInitializer()
 		{
-			public final void run()
+			private final ListenerInitializer initializer = service.getListenerInitializer();
+			
+			@Override
+			protected final ListenerInitializer delegate()
+			{
+				return this.initializer;
+			}
+			
+			@Override
+			public final void initialize()
 			{
 				Registrations.applyRegisteredMark(ListenerPreferences.getInstance().getListenerPersistenceData());	
 			}
