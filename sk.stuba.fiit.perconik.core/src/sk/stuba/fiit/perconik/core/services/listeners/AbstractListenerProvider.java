@@ -16,12 +16,12 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 	{
 		if (!Listener.class.isAssignableFrom(type))
 		{
-			throw new IllegalListenerClassException("Class " + type + " is not assignable to " + Listener.class);
+			throw new IllegalListenerClassException("Class " + type.getName() + " is not assignable to " + Listener.class.getName());
 		}
 		
 		if (type.isInterface() || type.isAnnotation() || type.isEnum())
 		{
-			throw new IllegalListenerClassException("Type " + type + " can not be an interface or an enum");
+			throw new IllegalListenerClassException("Type " + type.getName() + " can not be an interface or an enum");
 		}
 	
 		try
@@ -30,7 +30,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		}
 		catch (NoSuchMethodException | SecurityException e)
 		{
-			throw new IllegalListenerClassException("Class " + type + " must have public constructor with no parameters", e);
+			throw new IllegalListenerClassException("Class " + type.getName() + " must have public constructor with no parameters", e);
 		}
 		
 		return type.asSubclass(Listener.class);
