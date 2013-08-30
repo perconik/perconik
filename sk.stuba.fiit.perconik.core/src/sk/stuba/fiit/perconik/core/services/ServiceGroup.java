@@ -31,9 +31,9 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S>
 		return new ServiceGroup<>(ImmutableSet.of(service));
 	}
 
-	public static final <S extends Service> ServiceGroup<S> of(final S a, final S b)
+	public static final <S extends Service> ServiceGroup<S> of(final S first, final S second)
 	{
-		return new ServiceGroup<>(ImmutableSet.of(a, b));
+		return new ServiceGroup<>(ImmutableSet.of(first, second));
 	}
 	
 	@SafeVarargs

@@ -16,10 +16,28 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 	{
 	}
 	
+	protected final void checkState(final State state)
+	{
+		this.checkState(EnumSet.of(state));
+	}
+	
+	protected final void checkState(final State first, final State second)
+	{
+		this.checkState(EnumSet.of(first, second));
+	}
+	
+	protected final void checkState(final State first, final State second, final State third)
+	{
+		this.checkState(EnumSet.of(first, second, third));
+	}
+	
 	protected final void checkState(final State first, final State ... rest)
 	{
-		Set<State> states = EnumSet.of(first, rest);
-		
+		this.checkState(EnumSet.of(first, rest));
+	}
+	
+	protected final void checkState(final Set<State> states)
+	{
 		if (!states.contains(this.state()))
 		{
 			SmartStringBuilder builder = new SmartStringBuilder();

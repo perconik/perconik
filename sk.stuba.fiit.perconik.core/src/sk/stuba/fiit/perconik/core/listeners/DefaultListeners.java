@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerInitializers;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagers;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
@@ -31,7 +30,6 @@ public final class DefaultListeners
 			
 			builder.provider(provider);
 			builder.manager(ListenerManagers.create());
-			builder.initializer(ListenerInitializers.create());
 			
 			service = builder.build();
 		}

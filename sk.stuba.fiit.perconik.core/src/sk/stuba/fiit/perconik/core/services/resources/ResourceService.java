@@ -8,15 +8,11 @@ public interface ResourceService extends Service
 	
 	public ResourceManager getResourceManager();
 	
-	public ResourceInitializer getResourceInitializer();
-	
 	public static interface Builder
 	{
 		public Builder provider(ResourceProvider provider);
 		
 		public Builder manager(ResourceManager manager);
-		
-		public Builder initializer(ResourceInitializer initializer);
 		
 		public ResourceService build(); 
 	}

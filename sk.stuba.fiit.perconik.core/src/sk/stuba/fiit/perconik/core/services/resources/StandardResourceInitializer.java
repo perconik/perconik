@@ -6,6 +6,7 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.Services;
 
+// TODO mv
 final class StandardResourceInitializer extends AbstractResourceInitializer
 {
 	StandardResourceInitializer()

@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
@@ -46,6 +47,9 @@ public final class Activator extends ExtendedPlugin
 		plugin = this;
 		
 		ServiceSnapshot.take().servicesInStartOrder().startAndWait();
+		
+		// TODO
+		//new Test().execute(Platform.getExtensionRegistry());
 	}
 
 	@Override

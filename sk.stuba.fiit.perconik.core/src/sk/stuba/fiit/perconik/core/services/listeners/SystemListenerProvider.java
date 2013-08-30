@@ -13,7 +13,7 @@ final class SystemListenerProvider extends AbstractListenerProvider
 	
 	private SystemListenerProvider()
 	{
-		this.map  = HashBiMap.create();
+		this.map = HashBiMap.create();
 	}
 	
 	static final ListenerProvider getInstance()
