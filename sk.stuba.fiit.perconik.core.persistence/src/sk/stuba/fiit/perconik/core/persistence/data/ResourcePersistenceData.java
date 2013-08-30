@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.persistence;
+package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -8,6 +8,9 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
+import sk.stuba.fiit.perconik.core.persistence.InvalidResourceException;
+import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
+import sk.stuba.fiit.perconik.core.persistence.SerializedResourceRegistration;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.base.Optional;

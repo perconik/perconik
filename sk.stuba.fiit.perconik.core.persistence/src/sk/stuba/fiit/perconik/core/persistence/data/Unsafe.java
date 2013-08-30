@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.persistence;
+package sk.stuba.fiit.perconik.core.persistence.data;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
