@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
-import sk.stuba.fiit.perconik.core.persistence.ResourcePersistenceData;
+import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;

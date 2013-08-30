@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.preferences;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.persistence.ResourcePersistenceData;
+import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 
 public final class ResourcePreferencesInitializer extends AbstractPreferencesInitializer
 {
