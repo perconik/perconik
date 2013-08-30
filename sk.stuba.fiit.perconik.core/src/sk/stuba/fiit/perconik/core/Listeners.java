@@ -46,7 +46,7 @@ public final class Listeners
 		return Services.getListenerService().getListenerManager().registrations();
 	}
 
-	public static final boolean isRegistred(final Class<? extends Listener> type)
+	public static final boolean isRegistered(final Class<? extends Listener> type)
 	{
 		for (Listener listener: registrations().values())
 		{
@@ -59,7 +59,7 @@ public final class Listeners
 		return false;
 	}
 	
-	public static final boolean isRegistred(final Listener listener)
+	public static final boolean isRegistered(final Listener listener)
 	{
 		return registrations().containsValue(listener);
 	}

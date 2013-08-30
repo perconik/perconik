@@ -328,7 +328,7 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 	{
 		for (ListenerPersistenceData data: Sets.newHashSet(this.data))
 		{
-			this.updateData(data, data.isRegistred());
+			this.updateData(data, data.isRegistered());
 		}
 	}
 	

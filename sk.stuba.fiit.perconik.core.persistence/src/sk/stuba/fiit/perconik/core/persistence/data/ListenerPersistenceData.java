@@ -52,12 +52,12 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 	
 	public static final ListenerPersistenceData of(final Class<? extends Listener> type)
 	{
-		return construct(Listeners.isRegistred(type), type, null);
+		return construct(Listeners.isRegistered(type), type, null);
 	}
 	
 	public static final ListenerPersistenceData of(final Listener listener)
 	{
-		return construct(Listeners.isRegistred(listener), listener.getClass(), listener);
+		return construct(Listeners.isRegistered(listener), listener.getClass(), listener);
 	}
 	
 	public static final Set<ListenerPersistenceData> defaults()
@@ -173,7 +173,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 	{
 		Listener listener = this.getListener();
 		
-		boolean status = Listeners.isRegistred(listener);
+		boolean status = Listeners.isRegistered(listener);
 		
 		if (this.registered == status)
 		{
@@ -203,7 +203,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 	
 	public final ListenerPersistenceData updateRegisteredMark()
 	{
-		return this.markRegistered(this.isRegistred());
+		return this.markRegistered(this.isRegistered());
 	}
 
 	public final ListenerPersistenceData markRegistered(final boolean status)
@@ -216,9 +216,9 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 		return new ListenerPersistenceData(status, this.type, this.listener);
 	}
 
-	public final boolean isRegistred()
+	public final boolean isRegistered()
 	{
-		return Listeners.isRegistred(this.type);
+		return Listeners.isRegistered(this.type);
 	}
 
 	public final boolean hasRegistredMark()

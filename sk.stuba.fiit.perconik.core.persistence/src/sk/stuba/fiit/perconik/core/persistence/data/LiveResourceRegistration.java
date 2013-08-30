@@ -92,7 +92,7 @@ public class LiveResourceRegistration implements ResourceRegistration
 	
 	public final ResourcePersistenceData toPersistenceData()
 	{
-		return ResourcePersistenceData.copy(this.isRegistred(), this.type, this.name, Utilities.serializableOrNull(this.resource));
+		return ResourcePersistenceData.copy(this.isRegistered(), this.type, this.name, Utilities.serializableOrNull(this.resource));
 	}
 
 	@Override
@@ -101,9 +101,9 @@ public class LiveResourceRegistration implements ResourceRegistration
 		return Utilities.toString(this);
 	}
 	
-	public final boolean isRegistred()
+	public final boolean isRegistered()
 	{
-		return Resources.isRegistred(this.type, this.getResource());
+		return Resources.isRegistered(this.type, this.getResource());
 	}
 
 	public final Class<? extends Listener> getListenerType()

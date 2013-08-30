@@ -75,7 +75,7 @@ public class LiveListenerRegistration implements ListenerRegistration
 	
 	public final ListenerPersistenceData toPersistenceData()
 	{
-		return ListenerPersistenceData.copy(this.isRegistred(), this.type, Utilities.serializableOrNull(this.listener));
+		return ListenerPersistenceData.copy(this.isRegistered(), this.type, Utilities.serializableOrNull(this.listener));
 	}
 	
 	@Override
@@ -84,9 +84,9 @@ public class LiveListenerRegistration implements ListenerRegistration
 		return Utilities.toString(this);
 	}
 	
-	public final boolean isRegistred()
+	public final boolean isRegistered()
 	{
-		return Listeners.isRegistred(this.listener);
+		return Listeners.isRegistered(this.listener);
 	}
 
 	public final Listener getListener()

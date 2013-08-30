@@ -59,7 +59,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource)
 	{
-		 return construct(Resources.isRegistred(type, resource), type, resource.getName(), resource);
+		 return construct(Resources.isRegistered(type, resource), type, resource.getName(), resource);
 	}
 	
 	public static final Set<ResourcePersistenceData> defaults()
@@ -89,7 +89,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		{
 			for (Resource<?> resource: provider.forType(type))
 			{
-				data.add(construct(Resources.isRegistred(type, resource), type, resource.getName(), resource));
+				data.add(construct(Resources.isRegistered(type, resource), type, resource.getName(), resource));
 			}
 		}
 		
@@ -180,7 +180,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 	{
 		Resource<?> resource = this.getResource();
 		
-		boolean status = Resources.isRegistred(this.type, resource);
+		boolean status = Resources.isRegistered(this.type, resource);
 		
 		if (this.registered == status)
 		{
@@ -201,7 +201,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 	
 	public final ResourcePersistenceData updateRegisteredMark()
 	{
-		return this.markRegistered(this.isRegistred());
+		return this.markRegistered(this.isRegistered());
 	}
 
 	public final ResourcePersistenceData markRegistered(final boolean status)
@@ -214,9 +214,9 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
 	}
 
-	public final boolean isRegistred()
+	public final boolean isRegistered()
 	{
-		return Resources.isRegistred(this.type, this.getResource());
+		return Resources.isRegistered(this.type, this.getResource());
 	}
 
 	public final boolean hasRegistredMark()

@@ -47,7 +47,7 @@ public final class Resources
 		return Services.getResourceService().getResourceManager().registrations();
 	}
 
-	public static final boolean isRegistred(final Class<? extends Listener> type, final Resource<?> resource)
+	public static final boolean isRegistered(final Class<? extends Listener> type, final Resource<?> resource)
 	{
 		return registrations().containsEntry(type, resource);
 	}

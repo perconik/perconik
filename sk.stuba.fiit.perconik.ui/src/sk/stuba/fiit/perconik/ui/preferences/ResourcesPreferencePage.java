@@ -329,7 +329,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 	{
 		for (ResourcePersistenceData data: Sets.newHashSet(this.data))
 		{
-			this.updateData(data, data.isRegistred());
+			this.updateData(data, data.isRegistered());
 		}
 	}
 	

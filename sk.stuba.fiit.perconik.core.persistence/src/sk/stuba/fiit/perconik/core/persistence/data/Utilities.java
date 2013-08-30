@@ -83,7 +83,7 @@ final class Utilities
 	{
 		ToStringHelper helper = Objects.toStringHelper(registration);
 		
-		helper.add("registred", registration.isRegistred());
+		helper.add("registred", registration.isRegistered());
 		
 		if (registration instanceof MarkableRegistration)
 		{
