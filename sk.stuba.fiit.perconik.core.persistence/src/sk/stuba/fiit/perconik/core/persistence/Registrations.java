@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.preferences.persistence;
+package sk.stuba.fiit.perconik.core.persistence;
 
 import java.util.Set;
 import com.google.common.collect.Sets;

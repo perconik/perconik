@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.preferences;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.preferences.persistence.ListenerPersistenceData;
+import sk.stuba.fiit.perconik.core.persistence.ListenerPersistenceData;
 
 public final class ListenerPreferencesInitializer extends AbstractPreferencesInitializer
 {

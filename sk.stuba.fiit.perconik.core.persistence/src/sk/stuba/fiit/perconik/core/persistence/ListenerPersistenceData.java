@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.preferences.persistence;
+package sk.stuba.fiit.perconik.core.persistence;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -8,9 +8,9 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.ResourceNotFoundException;
+import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
-import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;

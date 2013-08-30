@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.preferences.plugin;
 
+import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ForwardingListenerInitializer;
@@ -12,7 +13,6 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.preferences.ResourcePreferences;
-import sk.stuba.fiit.perconik.preferences.persistence.Registrations;
 import com.google.common.base.Preconditions;
 
 // TODO mv inits, rm class
