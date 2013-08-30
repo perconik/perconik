@@ -3,22 +3,24 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.ResourceNotFoundException;
 import sk.stuba.fiit.perconik.core.persistence.InvalidListenerException;
+import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
+import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
-import sk.stuba.fiit.perconik.core.persistence.SerializedListenerRegistration;
+import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedListenerData;
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-public final class ListenerPersistenceData implements RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerRegistration
+public final class ListenerPersistenceData implements ListenerRegistration, MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData
 {
 	private static final long serialVersionUID = -1672202405264953995L;
 
@@ -31,10 +33,10 @@ public final class ListenerPersistenceData implements RegistrationMarker<Listene
 	ListenerPersistenceData(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
 	{
 		this.registered = registered;
-		this.type       = checkType(type);
-		this.listener   = Optional.fromNullable(listener instanceof Serializable ? listener : null);
+		this.type       = Utilities.checkListenerClass(type);
+		this.listener   = Utilities.serializableOrNull(listener);
 		
-		Preconditions.checkArgument(listener == null || type == this.listener.getClass());
+		Utilities.checkListenerImplementation(type, listener);
 	}
 	
 	public static final ListenerPersistenceData of(final Class<? extends Listener> type)
@@ -67,27 +69,17 @@ public final class ListenerPersistenceData implements RegistrationMarker<Listene
 
 		Set<ListenerPersistenceData> data = Sets.newHashSet();
 		
+		Collection<Listener> listeners = Listeners.registrations().values();
+		
 		for (Class<? extends Listener> type: provider.classes())
 		{
-			for (Listener listener: Listeners.registrations().values())
+			for (Listener listener: listeners)
 			{
-				data.add(new ListenerPersistenceData(type.isInstance(listener), type, listener));
+				data.add(new ListenerPersistenceData(type == listener.getClass(), type, listener));
 			}
 		}
 		
 		return data;
-	}
-	
-	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
-	{
-		try
-		{
-			return Services.getListenerService().getListenerProvider().loadClass(type.getName());
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new IllegalArgumentException(e);
-		}
 	}
 
 	private static final class SerializationProxy implements Serializable
@@ -144,20 +136,26 @@ public final class ListenerPersistenceData implements RegistrationMarker<Listene
 			return true;
 		}
 		
-		if (!(o instanceof ListenerPersistenceData))
+		if (!(o instanceof ListenerRegistration))
 		{
 			return false;
 		}
 
-		ListenerPersistenceData other = (ListenerPersistenceData) o;
+		ListenerRegistration other = (ListenerRegistration) o;
 
-		return this.type == other.type;
+		return this.type == other.getListenerClass();
 	}
 
 	@Override
 	public final int hashCode()
 	{
 		return this.type.hashCode();
+	}
+	
+	@Override
+	public final String toString()
+	{
+		return Utilities.toString(this);
 	}
 	
 	public final ListenerPersistenceData applyRegisteredMark()

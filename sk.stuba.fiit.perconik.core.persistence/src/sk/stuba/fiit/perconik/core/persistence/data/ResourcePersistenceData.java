@@ -9,15 +9,16 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.persistence.InvalidResourceException;
+import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
-import sk.stuba.fiit.perconik.core.persistence.SerializedResourceRegistration;
+import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
+import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedResourceData;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-public final class ResourcePersistenceData implements RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceRegistration
+public final class ResourcePersistenceData implements ResourceRegistration, MarkableRegistration, RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceData
 {
 	private static final long serialVersionUID = 6677144113746518278L;
 
@@ -32,11 +33,11 @@ public final class ResourcePersistenceData implements RegistrationMarker<Resourc
 	ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource)
 	{
 		this.registered = registered;
-		this.type       = checkType(type);
-		this.name       = checkName(name);
-		this.resource   = Optional.<Resource<?>>fromNullable(resource instanceof Serializable ? resource : null);
+		this.type       = Utilities.checkListenerType(type);
+		this.name       = Utilities.checkResourceName(name);
+		this.resource   = Utilities.<Resource<?>>serializableOrNull(resource);
 		
-		Preconditions.checkArgument(resource == null || name.equals(resource.getName()));
+		Utilities.checkResourceImplementation(name, resource);
 	}
 
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final String name)
@@ -81,20 +82,6 @@ public final class ResourcePersistenceData implements RegistrationMarker<Resourc
 		}
 		
 		return data;
-	}
-	
-	static final Class<? extends Listener> checkType(final Class<? extends Listener> type)
-	{
-		Preconditions.checkArgument(Listener.class.isAssignableFrom(type));
-		
-		return type;
-	}
-
-	static final String checkName(final String name)
-	{
-		Preconditions.checkArgument(!name.isEmpty());
-		
-		return name;
 	}
 
 	private static final class SerializationProxy implements Serializable
@@ -155,20 +142,26 @@ public final class ResourcePersistenceData implements RegistrationMarker<Resourc
 			return true;
 		}
 
-		if (!(o instanceof ResourcePersistenceData))
+		if (!(o instanceof ResourceRegistration))
 		{
 			return false;
 		}
 
-		ResourcePersistenceData other = (ResourcePersistenceData) o;
+		ResourceRegistration other = (ResourceRegistration) o;
 
-		return this.type == other.type && this.name.equals(other.name);
+		return this.type == other.getListenerType() && this.name.equals(other.getResourceName());
 	}
 
 	@Override
 	public final int hashCode()
 	{
 		return 31 * (31 + this.type.hashCode()) + this.name.hashCode();
+	}
+	
+	@Override
+	public final String toString()
+	{
+		return Utilities.toString(this);
 	}
 	
 	public final ResourcePersistenceData applyRegisteredMark()
