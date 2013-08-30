@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="sk.stuba.fiit.perconik.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="sk.stuba.fiit.perconik.core" id="sk.stuba.fiit.perconik.core.services.listeners" name="PerConIK Listeners"/>
+      </appinfo>
+      <documentation>
+         The listeners extension point allows plug-ins to add custom implementations of listener providers, listener manager and listener service to the PerConIK core as well as specify the listeners to be registered by default at listener service startup.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="registered" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="provider" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="manager" minOccurs="0" maxOccurs="1"/>
+            <element ref="service" minOccurs="0" maxOccurs="1"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="registered">
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="provider">
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="manager">
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="service">
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         Supplied resource providers must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory&lt;/code&gt;.
+
+Supplied resource manager must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory&lt;/code&gt;.
+
+Supplied resource service must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory&lt;/code&gt;.
+
+Resources registered at resource service startup are obtained via na implementation of &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ListenerTypesSupplier&lt;/code&gt;.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         The sk.stuba.fiit.perconik.core plug-in provides implementations for the standard listener provider, manager and service.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2013 Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava.
+      </documentation>
+   </annotation>
+
+</schema>
