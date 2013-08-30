@@ -7,8 +7,10 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
+import sk.stuba.fiit.perconik.core.ResourceNotFoundException;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
+import sk.stuba.fiit.perconik.debug.plugin.Activator;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
@@ -44,13 +46,22 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 	
 	public static final Set<ListenerPersistenceData> defaults()
 	{
-		return Registrations.markRegistered(snapshot(), true);
+		ListenerProvider provider = Services.getListenerService().getListenerProvider();
+		
+		Set<ListenerPersistenceData> data = Sets.newHashSet();
+		
+		for (Class<? extends Listener> type: provider.classes())
+		{
+			data.add(new ListenerPersistenceData(true, type, null));
+		}
+		
+		return data;
 	}
 
 	public static final Set<ListenerPersistenceData> snapshot()
 	{
 		ListenerProvider provider = Services.getListenerService().getListenerProvider();
-		
+
 		Set<ListenerPersistenceData> data = Sets.newHashSet();
 		
 		for (Class<? extends Listener> type: provider.classes())
@@ -157,13 +168,22 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 			return this;
 		}
 
-		if (this.registered)
+		try
 		{
-			Listeners.register(listener);
+			if (this.registered)
+			{
+				Listeners.register(listener);
+			}
+			else
+			{
+				Listeners.unregister(listener);
+			}
 		}
-		else
+		catch (ResourceNotFoundException e)
 		{
-			Listeners.unregister(listener);
+			Activator.getDefault().getConsole().notice("Trying to register or unregister listener of type " + this.type.getName() + " but no resources found");
+			
+			return this;
 		}
 		
 		return new ListenerPersistenceData(status, this.type, this.listener.orNull());

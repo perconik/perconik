@@ -48,7 +48,19 @@ public final class ResourcePersistenceData implements MarkableRegistration, Regi
 	
 	public static final Set<ResourcePersistenceData> defaults()
 	{
-		return Registrations.markRegistered(snapshot(), true);
+		ResourceProvider provider = Services.getResourceService().getResourceProvider();
+		
+		Set<ResourcePersistenceData> data = Sets.newHashSet();
+		
+		for (Class<? extends Listener> type: provider.types())
+		{
+			for (Resource<?> resource: provider.forType(type))
+			{
+				data.add(new ResourcePersistenceData(true, type, resource.getName(), resource));
+			}
+		}
+		
+		return data;
 	}
 
 	public static final Set<ResourcePersistenceData> snapshot()
