@@ -30,23 +30,34 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 	
 	private final transient Optional<Listener> listener;
 
-	ListenerPersistenceData(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
+	private ListenerPersistenceData(final boolean registered, final Class<? extends Listener> type, final Optional<Listener> listener)
 	{
 		this.registered = registered;
-		this.type       = Utilities.checkListenerClass(type);
-		this.listener   = Utilities.serializableOrNull(listener);
-		
+		this.type       = type;
+		this.listener   = listener;
+	}
+	
+	static final ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
+	{
+		Utilities.checkListenerClass(type);
 		Utilities.checkListenerImplementation(type, listener);
+		
+		return copy(registered, type, listener);
+	}
+	
+	static final ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
+	{
+		return new ListenerPersistenceData(registered, type, Utilities.serializableOrNullAsOptional(listener));
 	}
 	
 	public static final ListenerPersistenceData of(final Class<? extends Listener> type)
 	{
-		return new ListenerPersistenceData(Listeners.isRegistred(type), type, null);
+		return construct(Listeners.isRegistred(type), type, null);
 	}
 	
 	public static final ListenerPersistenceData of(final Listener listener)
 	{
-		return new ListenerPersistenceData(Listeners.isRegistred(listener), listener.getClass(), listener);
+		return construct(Listeners.isRegistred(listener), listener.getClass(), listener);
 	}
 	
 	public static final Set<ListenerPersistenceData> defaults()
@@ -57,7 +68,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 		
 		for (Class<? extends Listener> type: provider.classes())
 		{
-			data.add(new ListenerPersistenceData(true, type, null));
+			data.add(construct(true, type, null));
 		}
 		
 		return data;
@@ -75,7 +86,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 		{
 			for (Listener listener: listeners)
 			{
-				data.add(new ListenerPersistenceData(type == listener.getClass(), type, listener));
+				data.add(construct(type == listener.getClass(), type, listener));
 			}
 		}
 		
@@ -108,7 +119,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 		{
 			try
 			{
-				return new ListenerPersistenceData(this.registered, this.type, this.listener.orNull());
+				return construct(this.registered, this.type, this.listener.orNull());
 			}
 			catch (RuntimeException e)
 			{
@@ -187,7 +198,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 			return this;
 		}
 		
-		return new ListenerPersistenceData(status, this.type, this.listener.orNull());
+		return new ListenerPersistenceData(status, this.type, this.listener);
 	}
 	
 	public final ListenerPersistenceData updateRegisteredMark()
@@ -202,7 +213,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 			return this;
 		}
 		
-		return new ListenerPersistenceData(status, this.type, this.listener.orNull());
+		return new ListenerPersistenceData(status, this.type, this.listener);
 	}
 
 	public final boolean isRegistred()

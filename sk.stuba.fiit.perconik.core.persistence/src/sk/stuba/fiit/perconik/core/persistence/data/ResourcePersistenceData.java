@@ -30,14 +30,26 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 	
 	private final transient Optional<Resource<?>> resource;
 	
-	ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource)
+	private ResourcePersistenceData(final boolean registered, final Class<? extends Listener> type, final String name, final Optional<Resource<?>> resource)
 	{
 		this.registered = registered;
-		this.type       = Utilities.checkListenerType(type);
-		this.name       = Utilities.checkResourceName(name);
-		this.resource   = Utilities.<Resource<?>>serializableOrNull(resource);
-		
+		this.type       = type;
+		this.name       = name;
+		this.resource   = resource;
+	}
+	
+	static final ResourcePersistenceData construct(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource)
+	{
+		Utilities.checkListenerType(type);
+		Utilities.checkResourceName(name);
 		Utilities.checkResourceImplementation(name, resource);
+		
+		return copy(registered, type, name, resource);
+	}
+	
+	static final ResourcePersistenceData copy(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource)
+	{
+		return new ResourcePersistenceData(registered, type, name, Utilities.<Resource<?>>serializableOrNullAsOptional(resource));
 	}
 
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final String name)
@@ -47,7 +59,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource)
 	{
-		 return new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource);
+		 return construct(Resources.isRegistred(type, resource), type, resource.getName(), resource);
 	}
 	
 	public static final Set<ResourcePersistenceData> defaults()
@@ -60,7 +72,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		{
 			for (Resource<?> resource: provider.forType(type))
 			{
-				data.add(new ResourcePersistenceData(true, type, resource.getName(), resource));
+				data.add(construct(true, type, resource.getName(), resource));
 			}
 		}
 		
@@ -77,7 +89,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		{
 			for (Resource<?> resource: provider.forType(type))
 			{
-				data.add(new ResourcePersistenceData(Resources.isRegistred(type, resource), type, resource.getName(), resource));
+				data.add(construct(Resources.isRegistred(type, resource), type, resource.getName(), resource));
 			}
 		}
 		
@@ -114,7 +126,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		{
 			try
 			{
-				return new ResourcePersistenceData(this.registered, this.type, this.name, this.resource.orNull());
+				return construct(this.registered, this.type, this.name, this.resource.orNull());
 			}
 			catch (RuntimeException e)
 			{
@@ -184,7 +196,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 			Unsafe.unregister(this.type, resource);
 		}
 		
-		return new ResourcePersistenceData(status, this.type, this.name, this.resource.orNull());
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
 	}
 	
 	public final ResourcePersistenceData updateRegisteredMark()
@@ -199,7 +211,7 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 			return this;
 		}
 		
-		return new ResourcePersistenceData(status, this.type, this.name, this.resource.orNull());
+		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
 	}
 
 	public final boolean isRegistred()

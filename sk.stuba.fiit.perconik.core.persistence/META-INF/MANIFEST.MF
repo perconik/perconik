@@ -12,4 +12,5 @@ Require-Bundle: sk.stuba.fiit.perconik.core;bundle-version="0.0.1",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.1",
  sk.stuba.fiit.perconik.utilities;bundle-version="0.0.1"
 Export-Package: sk.stuba.fiit.perconik.core.persistence,
- sk.stuba.fiit.perconik.core.persistence.data
+ sk.stuba.fiit.perconik.core.persistence.data,
+ sk.stuba.fiit.perconik.core.persistence.serialization
