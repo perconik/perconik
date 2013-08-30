@@ -83,8 +83,7 @@ public final class DebugListenerProviders
 
 	public static final DebugListenerProvider create(final ListenerProvider parent)
 	{
-		// TODO enable
-		ListenerProvider provider = ListenerProviders.builder()/*.addAll(classes)*/.parent(parent).build();
+		ListenerProvider provider = ListenerProviders.builder().addAll(classes).parent(parent).build();
 		
 		return DebugListenerProviderProxy.wrap(provider);
 	}

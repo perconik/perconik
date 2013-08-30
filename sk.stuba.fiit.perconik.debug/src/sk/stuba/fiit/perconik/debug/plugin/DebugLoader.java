@@ -13,13 +13,15 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.debug.Debug;
-import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerInitializerProxy;
+import sk.stuba.fiit.perconik.debug.services.DebugListenerInitializerProxy;
+import sk.stuba.fiit.perconik.debug.services.DebugResourceInitializerProxy;
 import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerManagers;
 import sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerProviders;
-import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceInitializerProxy;
 import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceManagers;
 import sk.stuba.fiit.perconik.debug.services.resources.DebugResourceProviders;
 import com.google.common.base.Preconditions;
+
+// TODO fix
 
 class DebugLoader
 {

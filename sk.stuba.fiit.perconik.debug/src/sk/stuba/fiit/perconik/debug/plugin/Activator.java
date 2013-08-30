@@ -52,13 +52,13 @@ public final class Activator extends ExtendedPlugin
 	private static final void ensure() throws Exception
 	{
 		Platform.getBundle(sk.stuba.fiit.perconik.core.plugin.Activator.PLUGIN_ID).start();
-		Platform.getBundle(sk.stuba.fiit.perconik.preferences.plugin.Activator.PLUGIN_ID).start();
 	}
 	
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
-		ensure();
+		// TODO
+		//ensure();
 		
 		this.console.put("Starting %s ... ", PLUGIN_ID);
 		
@@ -68,21 +68,23 @@ public final class Activator extends ExtendedPlugin
 		
 		this.console.print("done");
 		
-		if (Environment.debug)
-		{
-			this.loader = DebugLoader.create();
-			
-			this.loader.load();
-		}
+		// TODO
+//		if (Environment.debug)
+//		{
+//			this.loader = DebugLoader.create();
+//			
+//			this.loader.load();
+//		}
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		if (Environment.debug)
-		{
-			this.loader.unload();
-		}
+		// TODO
+//		if (Environment.debug)
+//		{
+//			this.loader.unload();
+//		}
 		
 		this.console.put("Stopping %s ... ", PLUGIN_ID);
 		
