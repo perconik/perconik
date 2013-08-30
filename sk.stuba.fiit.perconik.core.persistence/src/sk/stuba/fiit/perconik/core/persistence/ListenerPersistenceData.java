@@ -117,7 +117,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 			}
 			catch (RuntimeException e)
 			{
-				throw new InvalidObjectException("Unknown deserialization error");
+				throw new InvalidListenerException("Unknown deserialization error", e);
 			}
 		}
 	}
@@ -125,7 +125,7 @@ public final class ListenerPersistenceData implements MarkableRegistration, Regi
 	@SuppressWarnings({"static-method", "unused"})
 	private final void readObject(final ObjectInputStream in) throws InvalidObjectException
 	{
-		throw new InvalidObjectException("Serialization proxy required");
+		throw new InvalidListenerException("Serialization proxy required");
 	}
 
 	private final Object writeReplace()
