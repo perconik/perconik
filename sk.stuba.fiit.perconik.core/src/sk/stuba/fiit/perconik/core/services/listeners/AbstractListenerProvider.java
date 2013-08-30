@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
+import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 
@@ -15,12 +16,12 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 	{
 		if (!Listener.class.isAssignableFrom(type))
 		{
-			throw new ClassCastException("Class " + type + " is not assignable to " + Listener.class);
+			throw new IllegalListenerClassException("Class " + type + " is not assignable to " + Listener.class);
 		}
 		
 		if (type.isInterface() || type.isAnnotation() || type.isEnum())
 		{
-			throw new IllegalStateException("Type " + type + " can not be an interface or an enum");
+			throw new IllegalListenerClassException("Type " + type + " can not be an interface or an enum");
 		}
 	
 		try
@@ -29,7 +30,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		}
 		catch (NoSuchMethodException | SecurityException e)
 		{
-			throw new IllegalStateException("Class " + type + " must have public constructor with no parameters", e);
+			throw new IllegalListenerClassException("Class " + type + " must have public constructor with no parameters", e);
 		}
 		
 		return type.asSubclass(Listener.class);

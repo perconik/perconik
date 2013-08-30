@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
 import sk.stuba.fiit.perconik.core.listeners.CommandContextListener;
 
 enum CommandContextHandler implements Handler<CommandContextListener>
@@ -8,11 +9,11 @@ enum CommandContextHandler implements Handler<CommandContextListener>
 	
 	public final void register(final CommandContextListener listener)
 	{
-		throw new UnsupportedOperationException("Not implemented yet");
+		throw new UnsupportedResourceException("Not implemented yet");
 	}
 
 	public final void unregister(final CommandContextListener listener)
 	{
-		throw new UnsupportedOperationException("Not implemented yet");
+		throw new UnsupportedResourceException("Not implemented yet");
 	}
 }

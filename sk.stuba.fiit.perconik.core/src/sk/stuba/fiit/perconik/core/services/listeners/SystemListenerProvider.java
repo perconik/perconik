@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -38,9 +39,9 @@ final class SystemListenerProvider extends AbstractListenerProvider
 		{
 			return type.newInstance();
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (Exception e)
 		{
-			throw new UnsupportedOperationException(e);
+			throw new ListenerInstantiationException(e);
 		}
 	}
 

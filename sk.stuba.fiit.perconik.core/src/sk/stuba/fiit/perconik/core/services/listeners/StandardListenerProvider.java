@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 import java.util.Collection;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
 import sk.stuba.fiit.perconik.utilities.MoreSets;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -96,7 +97,7 @@ final class StandardListenerProvider extends AbstractListenerProvider
 		}
 		catch (Exception cause)
 		{
-			return this.parentForClass(type, cause);
+			return this.parentForClass(type, new ListenerInstantiationException(cause));
 		}
 	}
 

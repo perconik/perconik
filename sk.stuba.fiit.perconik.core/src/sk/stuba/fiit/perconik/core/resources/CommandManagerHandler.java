@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
 import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 
 enum CommandManagerHandler implements Handler<CommandManagerListener>
@@ -8,7 +9,7 @@ enum CommandManagerHandler implements Handler<CommandManagerListener>
 	
 	public final void register(final CommandManagerListener listener)
 	{
-		throw new UnsupportedOperationException("Not implemented yet");
+		throw new UnsupportedResourceException("Not implemented yet");
 		
 //		final Runnable addListener = new Runnable()
 //		{
@@ -24,6 +25,6 @@ enum CommandManagerHandler implements Handler<CommandManagerListener>
 
 	public final void unregister(final CommandManagerListener listener)
 	{
-		throw new UnsupportedOperationException("Not implemented yet");
+		throw new UnsupportedResourceException("Not implemented yet");
 	}
 }
