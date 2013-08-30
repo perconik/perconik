@@ -14,7 +14,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-public final class ResourcePersistenceData implements MarkableRegistration, RegistrationMarker<ResourcePersistenceData>, Serializable
+public final class ResourcePersistenceData implements RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceRegistration
 {
 	private static final long serialVersionUID = 6677144113746518278L;
 

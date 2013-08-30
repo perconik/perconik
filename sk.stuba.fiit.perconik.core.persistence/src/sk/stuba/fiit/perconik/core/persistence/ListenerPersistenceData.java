@@ -15,7 +15,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-public final class ListenerPersistenceData implements MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable
+public final class ListenerPersistenceData implements RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerRegistration
 {
 	private static final long serialVersionUID = -1672202405264953995L;
 
