@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IWorkbench;
-import sk.stuba.fiit.perconik.debug.DebugListener;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.preferences.persistence.ListenerPersistenceData;
@@ -113,7 +112,6 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 
 		Tables.createColumn(table, tableLayout, "Listener implementation", gc, 4);
 		Tables.createColumn(table, tableLayout, "Serializable",            gc, 1);
-		Tables.createColumn(table, tableLayout, "Debug",                   gc, 1);
 
 		gc.dispose();
 
@@ -355,8 +353,6 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 					return data.getListenerClass().getName();
 				case 1:
 					return data.hasSerializedListener() ? "yes" : "no";
-				case 2:
-					return data.getListenerClass().isAssignableFrom(DebugListener.class) ? "yes" : "no";
 				default:
 					throw new IllegalStateException();
 			}
