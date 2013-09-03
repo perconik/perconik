@@ -1,5 +1,10 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
+import java.util.Set;
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagers;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
@@ -8,18 +13,41 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
 
 public final class DefaultListeners
 {
-	static final ListenerProvider provider;
-	
-	static
-	{
-		provider = ListenerProviders.builder().build();
-	}
-	
 	private DefaultListeners()
 	{
 		throw new AssertionError();
 	}
 	
+	private static final class ProviderHolder
+	{
+		static final ListenerProvider provider;
+		
+		static
+		{
+			provider = ListenerProviders.builder().build();
+		}
+		
+		private ProviderHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+
+	private static final class ManagerHolder
+	{
+		static final ListenerManager manager;
+		
+		static
+		{
+			manager = ListenerManagers.create();
+		}
+		
+		private ManagerHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+
 	private static final class ServiceHolder
 	{
 		static final ListenerService service;
@@ -28,8 +56,8 @@ public final class DefaultListeners
 		{
 			ListenerService.Builder builder = ListenerServices.builder();
 			
-			builder.provider(provider);
-			builder.manager(ListenerManagers.create());
+			builder.provider(ProviderHolder.provider);
+			builder.manager(ManagerHolder.manager);
 			
 			service = builder.build();
 		}
@@ -40,9 +68,30 @@ public final class DefaultListeners
 		}
 	}
 
+	public static final ListenerProvider getDefaultListenerProvider()
+	{
+		return ProviderHolder.provider;
+	}
+
+	public static final ListenerManager getDefaultListenerManager()
+	{
+		return ManagerHolder.manager;
+	}
+	
 	public static final ListenerService getDefaultListenerService()
 	{
 		return ServiceHolder.service;
+	}
+	
+	public static final ListenerClassesSupplier getDefaultListenerClassesSupplier()
+	{
+		return new ListenerClassesSupplier()
+		{
+			public final Set<Class<? extends Listener>> get()
+			{
+				return Services.getListenerService().getListenerProvider().classes();
+			}
+		};
 	}
 
 // TODO rm or update

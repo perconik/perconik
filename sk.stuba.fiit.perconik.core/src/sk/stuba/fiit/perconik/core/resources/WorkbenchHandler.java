@@ -19,7 +19,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener>
 			}
 		};
 	
-		Display.getDefault().syncExec(addListener);
+		Display.getDefault().asyncExec(addListener);
 	}
 
 	public final void unregister(final WorkbenchListener listener)
@@ -33,6 +33,6 @@ enum WorkbenchHandler implements Handler<WorkbenchListener>
 			}
 		};
 	
-		Display.getDefault().syncExec(removeListener);
+		Display.getDefault().asyncExec(removeListener);
 	}
 }

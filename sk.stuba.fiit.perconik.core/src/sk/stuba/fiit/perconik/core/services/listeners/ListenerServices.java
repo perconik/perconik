@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService.Builder;
 
-public class ListenerServices
+public final class ListenerServices
 {
 	private ListenerServices()
 	{

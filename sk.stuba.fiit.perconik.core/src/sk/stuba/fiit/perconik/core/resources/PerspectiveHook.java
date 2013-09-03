@@ -40,7 +40,7 @@ final class PerspectiveHook extends InternalHook<IWorkbenchWindow, PerspectiveLi
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addWindowsSynchronouslyTo(this);
+		Hooks.addWindowsAsynchronouslyTo(this);
 	}
 	
 	public final void windowOpened(final IWorkbenchWindow window)

@@ -32,23 +32,18 @@ import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProviders;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
+import com.google.common.collect.SetMultimap;
 
-// TODO consider adding
-/*
-
-add experimental
-
-StyledTextListener extends org.eclipse.swt.widgets.Listener
-
- */
-
-public class DefaultResources
+public final class DefaultResources
 {
 	static final Resource<CommandListener> command;
 	
@@ -155,6 +150,21 @@ public class DefaultResources
 		throw new AssertionError();
 	}
 	
+	private static final class ManagerHolder
+	{
+		static final ResourceManager manager;
+		
+		static
+		{
+			manager = ResourceManagers.create();
+		}
+		
+		private ManagerHolder()
+		{
+			throw new AssertionError();
+		}
+	}
+
 	private static final class ServiceHolder
 	{
 		static final ResourceService service;
@@ -164,7 +174,7 @@ public class DefaultResources
 			ResourceService.Builder builder = ResourceServices.builder();
 			
 			builder.provider(provider);
-			builder.manager(ResourceManagers.create());
+			builder.manager(ManagerHolder.manager);
 			
 			service = builder.build();
 		}
@@ -175,24 +185,35 @@ public class DefaultResources
 		}
 	}
 
+	public static final ResourceProvider getDefaultResourceProvider()
+	{
+		return provider;
+	}
+
+	public static final ResourceManager getDefaultResourceManager()
+	{
+		return ManagerHolder.manager;
+	}
+	
 	public static final ResourceService getDefaultResourceService()
 	{
 		return ServiceHolder.service;
 	}
 	
-	public static final String getName(final Resource<?> resource)
+	public static final ResourceNamesSupplier getDefaultResourceNamesSupplier()
 	{
-		if (resource instanceof StandardResource)
+		return new ResourceNamesSupplier()
 		{
-			return ((StandardResource<?>) resource).getName();
-		}
-		
-		return null;
+			public final SetMultimap<Class<? extends Listener>, String> get()
+			{
+				return ResourceProviders.toResourceNamesMultimap(Services.getResourceService().getResourceProvider());
+			}
+		};
 	}
-
+	
 	private static final <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder)
 	{
-		Resource<L> resource = new StandardResource<>(Pools.getListenerPoolFactory().create(handler));
+		Resource<L> resource = new StandardResource<>(Pools.safe(Pools.getListenerPoolFactory().create(handler), type));
 
 		builder.add(type, resource);
 		

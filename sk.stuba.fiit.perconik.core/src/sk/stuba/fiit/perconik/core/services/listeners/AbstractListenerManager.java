@@ -4,6 +4,7 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
+import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 
@@ -12,7 +13,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	protected AbstractListenerManager()
 	{
 	}
-	
+
 	protected abstract ResourceManager manager();
 
 	private final <L extends Listener> Set<Resource<? super L>> registrables(final L listener)
@@ -31,7 +32,15 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	{
 		for (Resource<? super L> resource: this.registrables(listener))
 		{
-			resource.register(listener);
+			// TODO consider
+			try
+			{
+				resource.register(listener);
+			}
+			catch (UnsupportedResourceException e)
+			{
+				failure(e, "Unsupported resource %s failed registering listener %s", resource, listener);
+			}
 		}
 	}
 
@@ -39,7 +48,14 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	{
 		for (Resource<? super L> resource: this.registrables(listener))
 		{
-			resource.unregister(listener);
+			try
+			{
+				resource.unregister(listener);
+			}
+			catch (UnsupportedResourceException e)
+			{
+				failure(e, "Unsupported resource %s failed unregistering listener %s", resource, listener);
+			}
 		}
 	}
 }

@@ -3,5 +3,11 @@
 <plugin>
    <extension-point id="sk.stuba.fiit.perconik.core.services.listeners" name="PerConIK Listeners" schema="schema/sk.stuba.fiit.perconik.core.services.listeners.exsd"/>
    <extension-point id="sk.stuba.fiit.perconik.core.services.resources" name="PerConIK Resources" schema="schema/sk.stuba.fiit.perconik.core.services.resources.exsd"/>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="sk.stuba.fiit.perconik.core.plugin.Activator$Startup">
+      </startup>
+   </extension>
 
 </plugin>

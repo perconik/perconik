@@ -1,11 +1,23 @@
 package sk.stuba.fiit.perconik.core.services;
 
+import sk.stuba.fiit.perconik.core.plugin.Activator;
+
 public abstract class AbstractManager implements Manager
 {
 	protected AbstractManager()
 	{
 	}
 
+	protected final static void failure(final Throwable cause, final String format, final Object ... args)
+	{
+		failure(cause, String.format(format, args));
+	}
+
+	protected final static void failure(final Throwable cause, final String message)
+	{
+		Activator.getDefault().getConsole().error(message, cause);
+	}
+	
 	@Override
 	public final String toString()
 	{

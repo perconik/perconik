@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-public class ResourceManagers
+public final class ResourceManagers
 {
 	private ResourceManagers()
 	{

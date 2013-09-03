@@ -3,10 +3,10 @@
 <schema targetNamespace="sk.stuba.fiit.perconik.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="sk.stuba.fiit.perconik.core" id="sk.stuba.fiit.perconik.core.services.listeners" name="PerConIK Listeners"/>
+         <meta.schema plugin="sk.stuba.fiit.perconik.core" id="services.listeners" name="PerConIK Listeners"/>
       </appinfo>
       <documentation>
-         The listeners extension point allows plug-ins to add custom implementations of listener providers, listener manager and listener service to the PerConIK core as well as specify the listeners to be registered by default at listener service startup.
+         The listeners extension point allows plug-ins to add custom implementations of listener service, listener providers and listener manager to the PerConIK core as well as specify the listeners to be registered by default at listener service startup.
       </documentation>
    </annotation>
 
@@ -18,10 +18,10 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="registered" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="service" minOccurs="0" maxOccurs="1"/>
             <element ref="provider" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="manager" minOccurs="0" maxOccurs="1"/>
-            <element ref="service" minOccurs="0" maxOccurs="1"/>
+            <element ref="registered" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -50,15 +50,15 @@
       </complexType>
    </element>
 
-   <element name="registered">
+   <element name="service">
       <complexType>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the listener service factory implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory&lt;/code&gt; interface.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier"/>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -70,7 +70,7 @@
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the listener provider factory implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory&lt;/code&gt; interface.
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory"/>
@@ -85,7 +85,7 @@
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the listener manager factory implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory&lt;/code&gt; interface.
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory"/>
@@ -95,15 +95,15 @@
       </complexType>
    </element>
 
-   <element name="service">
+   <element name="registered">
       <complexType>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the registered listeners supplier implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier&lt;/code&gt; interface.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory"/>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -125,13 +125,13 @@
          <meta.section type="apiinfo"/>
       </appinfo>
       <documentation>
-         Supplied resource providers must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory&lt;/code&gt;.
+         Supplied listener service must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory&lt;/code&gt;.
 
-Supplied resource manager must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory&lt;/code&gt;.
+Supplied listener providers must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory&lt;/code&gt;.
 
-Supplied resource service must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory&lt;/code&gt;.
+Supplied listener manager must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory&lt;/code&gt;.
 
-Resources registered at resource service startup are obtained via na implementation of &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ListenerTypesSupplier&lt;/code&gt;.
+Listeners registered at listener service startup are obtained via na implementation of &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier&lt;/code&gt;.
       </documentation>
    </annotation>
 

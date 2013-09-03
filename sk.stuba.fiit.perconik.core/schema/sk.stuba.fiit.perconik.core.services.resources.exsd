@@ -3,10 +3,10 @@
 <schema targetNamespace="sk.stuba.fiit.perconik.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="sk.stuba.fiit.perconik.core" id="sk.stuba.fiit.perconik.core.services.resources" name="PerConIK Resources"/>
+         <meta.schema plugin="sk.stuba.fiit.perconik.core" id="services.resources" name="PerConIK Resources"/>
       </appinfo>
       <documentation>
-         The resources extension point allows plug-ins to add custom implementations of resource providers, resource manager and resource service to the PerConIK core as well as specify the resources to be registered by default at resource service startup.
+         The resources extension point allows plug-ins to add custom implementations of resource service, resource providers and resource manager to the PerConIK core as well as specify the resources to be registered by default at resource service startup.
       </documentation>
    </annotation>
 
@@ -18,10 +18,10 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="registered" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="service" minOccurs="0" maxOccurs="1"/>
             <element ref="provider" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="manager" minOccurs="0" maxOccurs="1"/>
-            <element ref="service" minOccurs="0" maxOccurs="1"/>
+            <element ref="registered" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -50,15 +50,15 @@
       </complexType>
    </element>
 
-   <element name="registered">
+   <element name="service">
       <complexType>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the resource service factory implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ListenerServiceFactory&lt;/code&gt; interface.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.resources.ListenerTypesSupplier"/>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -70,7 +70,7 @@
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the resource provider factory implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory&lt;/code&gt; interface.
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory"/>
@@ -85,7 +85,7 @@
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the resource manager factory implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory&lt;/code&gt; interface.
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory"/>
@@ -95,15 +95,15 @@
       </complexType>
    </element>
 
-   <element name="service">
+   <element name="registered">
       <complexType>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  a fully qualified name of the registered resources supplier implementation class. This class must implement the &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier&lt;/code&gt; interface.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory"/>
+                  <meta.attribute kind="java" basedOn=":sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -125,13 +125,13 @@
          <meta.section type="apiinfo"/>
       </appinfo>
       <documentation>
-         Supplied listener providers must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory&lt;/code&gt;.
+         Supplied resource service must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory&lt;/code&gt;.
 
-Supplied listener manager must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory&lt;/code&gt;.
+Supplied resource providers must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory&lt;/code&gt;.
 
-Supplied listener service must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory&lt;/code&gt;.
+Supplied resource manager must implement &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory&lt;/code&gt;.
 
-Listeners registered at listener service startup are obtained via na implementation of &lt;code&gt;sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier&lt;/code&gt;.
+Resources registered at resource service startup are obtained via na implementation of &lt;code&gt;sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier&lt;/code&gt;.
       </documentation>
    </annotation>
 

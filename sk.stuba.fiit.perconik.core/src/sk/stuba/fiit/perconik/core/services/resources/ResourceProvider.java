@@ -9,7 +9,7 @@ public interface ResourceProvider extends Provider
 {
 	public Resource<?> forName(String name);
 	
-	public <L extends Listener> Set<Resource<? super L>> forType(Class<L> type);
+	public <L extends Listener> Set<Resource<L>> forType(Class<L> type);
 	
 	public Set<String> names();
 	

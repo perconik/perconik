@@ -42,7 +42,7 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addDocumentsSynchronouslyTo(this);
+		Hooks.addDocumentsAsynchronouslyTo(this);
 	}
 
 	public final void editorOpened(final IEditorReference reference)

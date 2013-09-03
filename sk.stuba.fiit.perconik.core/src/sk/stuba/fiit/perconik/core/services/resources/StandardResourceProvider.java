@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.core.services.resources;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.utilities.MoreSets;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -49,7 +48,7 @@ final class StandardResourceProvider extends AbstractResourceProvider
 		{
 			Preconditions.checkNotNull(type);
 			
-			this.map.put(Resources.getName(resource), resource);
+			this.map.put(resource.getName(), resource);
 			this.multimap.put(type, resource);
 			
 			return this;
@@ -87,9 +86,9 @@ final class StandardResourceProvider extends AbstractResourceProvider
 		return this.parentForName(name, null);
 	}
 	
-	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)
+	public final <L extends Listener> Set<Resource<L>> forType(final Class<L> type)
 	{
-		Set<Resource<? super L>> resources = Sets.newHashSet();
+		Set<Resource<L>> resources = Sets.newHashSet();
 		
 		for (Resource<?> resource: this.multimap.get(type))
 		{

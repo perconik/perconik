@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.services.resources;
 
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService.Builder;
 
-public class ResourceServices
+public final class ResourceServices
 {
 	private ResourceServices()
 	{

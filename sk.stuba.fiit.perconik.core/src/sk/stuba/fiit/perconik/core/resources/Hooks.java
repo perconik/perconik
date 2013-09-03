@@ -53,7 +53,7 @@ final class Hooks
 		}
 	}
 	
-	static final void addWindowsSynchronouslyTo(final Hook<IWorkbenchWindow, ?> hook)
+	static final void addWindowsAsynchronouslyTo(final Hook<IWorkbenchWindow, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -64,10 +64,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().syncExec(initializer);
+		Display.getDefault().asyncExec(initializer);
 	}
 	
-	static final void addPagesSynchronouslyTo(final Hook<IWorkbenchPage, ?> hook)
+	static final void addPagesAsynchronouslyTo(final Hook<IWorkbenchPage, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -78,10 +78,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().syncExec(initializer);
+		Display.getDefault().asyncExec(initializer);
 	}
 
-	static final void addPartsSynchronouslyTo(final Hook<IWorkbenchPart, ?> hook)
+	static final void addPartsAsynchronouslyTo(final Hook<IWorkbenchPart, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -95,10 +95,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().syncExec(initializer);
+		Display.getDefault().asyncExec(initializer);
 	}
 
-	static final void addEditorsSynchronouslyTo(final Hook<IEditorPart, ?> hook)
+	static final void addEditorsAsynchronouslyTo(final Hook<IEditorPart, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -112,10 +112,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().syncExec(initializer);
+		Display.getDefault().asyncExec(initializer);
 	}
 	
-	static final void addSourceViewersSynchronouslyTo(final Hook<ISourceViewer, ?> hook)
+	static final void addSourceViewersAsynchronouslyTo(final Hook<ISourceViewer, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -129,10 +129,10 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().syncExec(initializer);
+		Display.getDefault().asyncExec(initializer);
 	}
 	
-	static final void addDocumentsSynchronouslyTo(final Hook<IDocument, ?> hook)
+	static final void addDocumentsAsynchronouslyTo(final Hook<IDocument, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
 		{
@@ -146,6 +146,6 @@ final class Hooks
 			}
 		};
 		
-		Display.getDefault().syncExec(initializer);
+		Display.getDefault().asyncExec(initializer);
 	}
 }

@@ -19,7 +19,7 @@ public abstract class ForwardingResourceProvider extends ForwardingProvider impl
 		return this.delegate().forName(name);
 	}
 
-	public <L extends Listener> Set<Resource<? super L>> forType(Class<L> type)
+	public <L extends Listener> Set<Resource<L>> forType(Class<L> type)
 	{
 		return this.delegate().forType(type);
 	}

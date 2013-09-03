@@ -37,7 +37,7 @@ public abstract class AbstractResourceProvider extends AbstractProvider implemen
 		}
 	}
 	
-	protected final <L extends Listener> Set<Resource<? super L>> parentForType(final Class<L> type, final Exception cause)
+	protected final <L extends Listener> Set<Resource<L>> parentForType(final Class<L> type, final Exception cause)
 	{
 		try
 		{

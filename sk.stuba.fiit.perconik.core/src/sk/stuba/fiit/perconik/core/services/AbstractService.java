@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import com.google.common.base.Function;
@@ -15,20 +16,15 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 	protected AbstractService()
 	{
 	}
-	
-	protected final void checkState(final State state)
+
+	protected final static void failure(final Throwable cause, final String format, final Object ... args)
 	{
-		this.checkState(EnumSet.of(state));
+		failure(cause, String.format(format, args));
 	}
-	
-	protected final void checkState(final State first, final State second)
+
+	protected final static void failure(final Throwable cause, final String message)
 	{
-		this.checkState(EnumSet.of(first, second));
-	}
-	
-	protected final void checkState(final State first, final State second, final State third)
-	{
-		this.checkState(EnumSet.of(first, second, third));
+		Activator.getDefault().getConsole().error(message, cause);
 	}
 	
 	protected final void checkState(final State first, final State ... rest)

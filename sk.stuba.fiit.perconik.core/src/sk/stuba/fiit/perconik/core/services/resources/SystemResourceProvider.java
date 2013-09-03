@@ -23,7 +23,7 @@ final class SystemResourceProvider extends AbstractResourceProvider
 		return null;
 	}
 
-	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)
+	public final <L extends Listener> Set<Resource<L>> forType(final Class<L> type)
 	{
 		return Collections.emptySet();
 	}

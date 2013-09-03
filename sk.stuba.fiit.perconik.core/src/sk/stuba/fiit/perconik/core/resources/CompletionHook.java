@@ -88,7 +88,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addSourceViewersSynchronouslyTo(this);
+		Hooks.addSourceViewersAsynchronouslyTo(this);
 	}
 	
 	private static final ISourceViewer filter(final ISourceViewer viewer)

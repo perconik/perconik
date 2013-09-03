@@ -40,7 +40,7 @@ final class PageHook extends InternalHook<IWorkbenchWindow, PageListener> implem
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addWindowsSynchronouslyTo(this);
+		Hooks.addWindowsAsynchronouslyTo(this);
 	}
 	
 	public final void windowOpened(final IWorkbenchWindow window)

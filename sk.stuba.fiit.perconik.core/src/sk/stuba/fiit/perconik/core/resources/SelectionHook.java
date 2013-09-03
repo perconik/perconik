@@ -40,7 +40,7 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
 	@Override
 	final void preRegisterInternal()
 	{
-		Hooks.addWindowsSynchronouslyTo(this);
+		Hooks.addWindowsAsynchronouslyTo(this);
 	}
 	
 	public final void windowOpened(final IWorkbenchWindow window)
