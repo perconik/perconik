@@ -59,11 +59,11 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		return proxies;
 	}
 
-	private static final <L extends Listener> Set<Resource<? super L>> wrap(final Set<Resource<? super L>> resources)
+	private static final <L extends Listener> Set<Resource<L>> wrap(final Set<Resource<L>> resources)
 	{
-		Set<Resource<? super L>> proxies = Sets.newHashSetWithExpectedSize(resources.size());
+		Set<Resource<L>> proxies = Sets.newHashSetWithExpectedSize(resources.size());
 		
-		for (Resource<? super L> resource: resources)
+		for (Resource<L> resource: resources)
 		{
 			proxies.add(DebugResourceProxy.wrap(resource));
 		}
@@ -95,11 +95,11 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		return null;
 	}
 
-	public final <L extends Listener> Set<Resource<? super L>> forType(final Class<L> type)
+	public final <L extends Listener> Set<Resource<L>> forType(final Class<L> type)
 	{
-		this.put("Requesting resources for type %s ... ", type.getName());
+		this.put("Requesting resources for listener type %s ... ", type.getName());
 		
-		Set<Resource<? super L>> resources = this.delegate().forType(type);
+		Set<Resource<L>> resources = this.delegate().forType(type);
 		
 		this.print(!resources.isEmpty() ? "done" : "failed");
 		

@@ -1,0 +1,16 @@
+package sk.stuba.fiit.perconik.debug.services.resources;
+
+import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory;
+
+public final class DebugResourceProviderFactory implements ResourceProviderFactory
+{
+	public DebugResourceProviderFactory()
+	{
+	}
+
+	public final ResourceProvider create(final ResourceProvider parent)
+	{
+		return DebugResourceProviders.create(parent);
+	}
+}

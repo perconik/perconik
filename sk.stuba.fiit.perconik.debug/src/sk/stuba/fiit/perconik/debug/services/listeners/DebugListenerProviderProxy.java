@@ -53,7 +53,7 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
 
 	public final <L extends Listener> L forClass(final Class<L> type)
 	{
-		this.put("Requesting listener for type %s ... ", DebugListeners.toString(type));
+		this.put("Requesting listener for class %s ... ", DebugListeners.toString(type));
 		
 		L listener = this.delegate().forClass(type);
 		
