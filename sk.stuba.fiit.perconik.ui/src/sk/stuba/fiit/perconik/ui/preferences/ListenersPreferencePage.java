@@ -42,7 +42,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
-public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePage
+public final class ListenersPreferencePage extends AbstractRegistrationPreferencePage
 {
 	private ListenerPreferences preferences;
 	
@@ -133,8 +133,17 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 		{
 			public final void checkStateChanged(final CheckStateChangedEvent e)
 			{
-				updateData((ListenerPersistenceData) e.getElement(), e.getChecked());
-				updateButtons();
+				ListenerPersistenceData data = (ListenerPersistenceData) e.getElement();
+				
+				if (data.isProvided())
+				{
+					updateData(data, e.getChecked());
+					updateButtons();
+				}
+				else
+				{
+					e.getCheckable().setChecked(data, data.hasRegistredMark());
+				}
 			}
 		});
 		
@@ -211,7 +220,7 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 		});
 		
 		this.load(ListenerPreferences.getInstance());
-		
+
 		Dialog.applyDialogFont(parent);
 		
 		innerParent.layout();
@@ -230,6 +239,17 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 		});
 	}
 	
+	final Set<ListenerPersistenceData> unknownData()
+	{
+		return Sets.filter(this.data, new Predicate<ListenerPersistenceData>()
+		{
+			public final boolean apply(@Nonnull final ListenerPersistenceData data)
+			{
+				return !data.isProvided();
+			}
+		});
+	}
+
 	final void updateData(final ListenerPersistenceData data, final boolean status)
 	{
 		this.data.remove(data);
@@ -247,7 +267,10 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 		{
 			ListenerPersistenceData data = (ListenerPersistenceData) item;
 			
-			this.updateData(data, status);
+			if (data.isProvided())
+			{
+				this.updateData(data, status);
+			}
 		}
 
 		this.tableViewer.refresh();
@@ -259,6 +282,7 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 		this.tableViewer.refresh();
 		this.tableViewer.setAllChecked(false);
 		this.tableViewer.setCheckedElements(this.checkedData().toArray());
+		this.tableViewer.setGrayedElements(this.unknownData().toArray());
 	}
 	
 	final void updateButtons()
@@ -277,10 +301,13 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 			{
 				ListenerPersistenceData data = (ListenerPersistenceData) item;
 				
-				boolean registred = data.hasRegistredMark();
-				
-				registrable   |= !registred;
-				unregistrable |= registred;
+				if (data.isProvided())
+				{
+					boolean registred = data.hasRegistredMark();
+					
+					registrable   |= !registred;
+					unregistrable |= registred;
+				}
 			}
 		}
 
@@ -350,7 +377,7 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 			switch (column)
 			{
 				case 0:
-					return data.getListenerClass().getName();
+					return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
 				case 1:
 					return data.hasSerializedListener() ? "yes" : "no";
 				default:
@@ -431,9 +458,10 @@ public final class ListenersPreferencePage extends AbstractWorkbenchPreferencePa
 	@Override
 	protected final void performDefaults()
 	{
-		this.load(ListenerPreferences.getDefault());
+		this.data = ListenerPersistenceData.defaults();
 		
-		this.preferences = ListenerPreferences.getInstance();
+		this.updateTable();
+		this.updateButtons();
 		
 		super.performDefaults();
 	}

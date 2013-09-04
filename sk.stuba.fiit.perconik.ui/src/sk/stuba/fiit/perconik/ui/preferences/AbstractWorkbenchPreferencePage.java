@@ -6,6 +6,10 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 abstract class AbstractWorkbenchPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
 {
+	AbstractWorkbenchPreferencePage()
+	{
+	}
+	
 	final void displayInformation(final String title, final String message)
 	{
 		MessageDialog.openInformation(this.getShell(), title, message);

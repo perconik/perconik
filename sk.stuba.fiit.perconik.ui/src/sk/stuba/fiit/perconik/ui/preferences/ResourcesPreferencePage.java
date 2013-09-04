@@ -42,7 +42,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
-public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePage
+public final class ResourcesPreferencePage extends AbstractRegistrationPreferencePage
 {
 	private ResourcePreferences preferences;
 	
@@ -134,8 +134,17 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 		{
 			public final void checkStateChanged(final CheckStateChangedEvent e)
 			{
-				updateData((ResourcePersistenceData) e.getElement(), e.getChecked());
-				updateButtons();
+				ResourcePersistenceData data = (ResourcePersistenceData) e.getElement();
+				
+				if (data.isProvided())
+				{
+					updateData(data, e.getChecked());
+					updateButtons();
+				}
+				else
+				{
+					e.getCheckable().setChecked(data, data.hasRegistredMark());
+				}
 			}
 		});
 		
@@ -212,7 +221,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 		});
 		
 		this.load(ResourcePreferences.getInstance());
-		
+
 		Dialog.applyDialogFont(parent);
 		
 		innerParent.layout();
@@ -231,6 +240,17 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 		});
 	}
 	
+	final Set<ResourcePersistenceData> unknownData()
+	{
+		return Sets.filter(this.data, new Predicate<ResourcePersistenceData>()
+		{
+			public final boolean apply(@Nonnull final ResourcePersistenceData data)
+			{
+				return !data.isProvided();
+			}
+		});
+	}
+
 	final void updateData(final ResourcePersistenceData data, final boolean status)
 	{
 		this.data.remove(data);
@@ -248,7 +268,10 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 		{
 			ResourcePersistenceData data = (ResourcePersistenceData) item;
 			
-			this.updateData(data, status);
+			if (data.isProvided())
+			{
+				this.updateData(data, status);
+			}
 		}
 
 		this.tableViewer.refresh();
@@ -260,6 +283,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 		this.tableViewer.refresh();
 		this.tableViewer.setAllChecked(false);
 		this.tableViewer.setCheckedElements(this.checkedData().toArray());
+		this.tableViewer.setGrayedElements(this.unknownData().toArray());
 	}
 	
 	final void updateButtons()
@@ -278,10 +302,13 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 			{
 				ResourcePersistenceData data = (ResourcePersistenceData) item;
 				
-				boolean registred = data.hasRegistredMark();
-				
-				registrable   |= !registred;
-				unregistrable |= registred;
+				if (data.isProvided())
+				{
+					boolean registred = data.hasRegistredMark();
+					
+					registrable   |= !registred;
+					unregistrable |= registred;
+				}
 			}
 		}
 
@@ -351,7 +378,7 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 			switch (column)
 			{
 				case 0:
-					return data.getResourceName();
+					return data.getResourceName() + (data.isProvided() ? "" : " (unknown)");
 				case 1:
 					return data.getListenerType().getName();
 				case 2:
@@ -441,11 +468,10 @@ public final class ResourcesPreferencePage extends AbstractWorkbenchPreferencePa
 	@Override
 	protected final void performDefaults()
 	{
-		this.load(ResourcePreferences.getDefault());
+		this.data = ResourcePersistenceData.defaults();
 		
-		this.preferences = ResourcePreferences.getInstance();
-		
-		super.performDefaults();
+		this.updateTable();
+		this.updateButtons();
 	}
 
 	@Override
