@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.preferences.plugin;
 
-import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 
@@ -20,8 +19,6 @@ public final class Activator extends UserInterfacePlugin
 	 * The shared instance.
 	 */
 	private static Activator plugin;
-
-	private PreferencesLoader loader;
 	
 	/**
 	 * The constructor
@@ -40,34 +37,17 @@ public final class Activator extends UserInterfacePlugin
 		return plugin;
 	}
 	
-	private static final void ensure() throws Exception
-	{
-		Platform.getBundle(sk.stuba.fiit.perconik.core.plugin.Activator.PLUGIN_ID).start();
-		Platform.getBundle(sk.stuba.fiit.perconik.debug.plugin.Activator.PLUGIN_ID).start();
-	}
-	
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
-		// TODO
-		//ensure();
-		
 		super.start(context);
 
 		plugin = this;
-
-		// TODO
-//		this.loader = PreferencesLoader.create();
-//		
-//		this.loader.load();
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		// TODO
-		//this.loader.unload();
-		
 		plugin = null;
 
 		super.stop(context);

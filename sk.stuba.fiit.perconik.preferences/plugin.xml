@@ -12,5 +12,16 @@
             class="sk.stuba.fiit.perconik.preferences.ListenerPreferencesInitializer">
       </initializer>
    </extension>
+   <extension
+         point="sk.stuba.fiit.perconik.core.services.listeners">
+      <registered
+            class="sk.stuba.fiit.perconik.preferences.RegisteredListenersSupplier"></registered>
+   </extension>
+   <extension
+         point="sk.stuba.fiit.perconik.core.services.resources">
+      <registered
+            class="sk.stuba.fiit.perconik.preferences.RegisteredResourcesSupplier">
+      </registered>
+   </extension>
 
 </plugin>
