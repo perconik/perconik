@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.core.persistence;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -89,11 +91,77 @@ public final class Registrations
 
 	public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Set<R> registrations, final boolean status)
 	{
+		return markRegistered(registrations, Functions.constant(status));
+	}
+	
+	public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Set<R> registrations, final Function<? super R, Boolean> function)
+	{
 		Set<R> result = Sets.newHashSetWithExpectedSize(registrations.size());
 		
 		for (R registration: registrations)
 		{
-			result.add(registration.markRegistered(status));
+			result.add(registration.markRegistered(function.apply(registration)));
+		}
+		
+		return result;
+	}
+	
+	public static final <R extends Registration> Set<R> supplement(final Set<? extends R> original, final Set<? extends R> supplements)
+	{
+		Set<R> result = Sets.newHashSet(original);
+		
+		for (R registration: supplements)
+		{
+			if (!result.contains(registration))
+			{
+				result.add(registration);
+			}
+		}
+		
+		return result;
+	}
+	
+	// TODO beta
+//	public static final <R extends ResourceRegistration> Map<Class<? extends Listener>, Map<String, R>> toResourceMap(final Set<R> registrations)
+//	{
+//		Map<Class<? extends Listener>, Map<String, R>> map = Maps.newHashMapWithExpectedSize(registrations.size());
+//
+//		for (R registration: registrations)
+//		{
+//			Class<? extends Listener> type = registration.getListenerType();
+//			
+//			Map<String, R> submap = map.get(type);
+//			
+//			if (submap == null)
+//			{
+//				map.put(type, submap = Maps.newHashMapWithExpectedSize(4));
+//			}
+//			
+//			submap.put(registration.getResourceName(), registration);
+//		}
+//		
+//		return map;
+//	}
+//	
+//	public static final <R extends ListenerRegistration> Map<Class<? extends Listener>, R> toListenerMap(final Set<R> registrations)
+//	{
+//		Map<Class<? extends Listener>, R> map = Maps.newHashMapWithExpectedSize(registrations.size());
+//		
+//		for (R registration: registrations)
+//		{
+//			map.put(registration.getListenerClass(), registration);
+//		}
+//		
+//		return map;
+//	}
+
+	public static final <R extends ResourceRegistration & MarkableRegistration> SetMultimap<Class<? extends Listener>, String> toResourceNames(final Set<R> registrations)
+	{
+		SetMultimap<Class<? extends Listener>, String> result = HashMultimap.create(registrations.size(), 4);
+		
+		for (R registration: registrations)
+		{
+			result.put(registration.getListenerType(), registration.getResourceName());
 		}
 		
 		return result;
@@ -106,18 +174,6 @@ public final class Registrations
 		for (R registration: registrations)
 		{
 			result.add(registration.getListenerClass());
-		}
-		
-		return result;
-	}
-	
-	public static final <R extends ResourceRegistration & MarkableRegistration> SetMultimap<Class<? extends Listener>, String> toResourceNames(final Set<R> registrations)
-	{
-		SetMultimap<Class<? extends Listener>, String> result = HashMultimap.create(registrations.size(), 4);
-		
-		for (R registration: registrations)
-		{
-			result.put(registration.getListenerType(), registration.getResourceName());
 		}
 		
 		return result;

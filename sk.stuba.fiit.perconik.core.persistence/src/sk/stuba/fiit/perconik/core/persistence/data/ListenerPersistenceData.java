@@ -20,7 +20,7 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
-public final class ListenerPersistenceData implements ListenerRegistration, MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData
+public final class ListenerPersistenceData extends AbstractListenerRegistration implements ListenerRegistration, MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData
 {
 	private static final long serialVersionUID = -1672202405264953995L;
 
@@ -92,7 +92,7 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 		
 		return data;
 	}
-
+	
 	private static final class SerializationProxy implements Serializable
 	{
 		private static final long serialVersionUID = -6638506142325802066L;
@@ -137,36 +137,6 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 	private final Object writeReplace()
 	{
 		return SerializationProxy.of(this);
-	}
-	
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		
-		if (!(o instanceof ListenerRegistration))
-		{
-			return false;
-		}
-
-		ListenerRegistration other = (ListenerRegistration) o;
-
-		return this.type == other.getListenerClass();
-	}
-
-	@Override
-	public final int hashCode()
-	{
-		return this.type.hashCode();
-	}
-	
-	@Override
-	public final String toString()
-	{
-		return Utilities.toString(this);
 	}
 	
 	public final ListenerPersistenceData applyRegisteredMark()
@@ -214,11 +184,6 @@ public final class ListenerPersistenceData implements ListenerRegistration, Mark
 		}
 		
 		return new ListenerPersistenceData(status, this.type, this.listener);
-	}
-
-	public final boolean isRegistered()
-	{
-		return Listeners.isRegistered(this.type);
 	}
 
 	public final boolean hasRegistredMark()

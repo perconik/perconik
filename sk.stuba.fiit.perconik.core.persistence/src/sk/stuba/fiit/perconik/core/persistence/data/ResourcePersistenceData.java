@@ -18,7 +18,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
-public final class ResourcePersistenceData implements ResourceRegistration, MarkableRegistration, RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceData
+public final class ResourcePersistenceData extends AbstractResourceRegistration implements ResourceRegistration, MarkableRegistration, RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceData
 {
 	private static final long serialVersionUID = 6677144113746518278L;
 
@@ -146,36 +146,6 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		return SerializationProxy.of(this);
 	}
 	
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-
-		if (!(o instanceof ResourceRegistration))
-		{
-			return false;
-		}
-
-		ResourceRegistration other = (ResourceRegistration) o;
-
-		return this.type == other.getListenerType() && this.name.equals(other.getResourceName());
-	}
-
-	@Override
-	public final int hashCode()
-	{
-		return 31 * (31 + this.type.hashCode()) + this.name.hashCode();
-	}
-	
-	@Override
-	public final String toString()
-	{
-		return Utilities.toString(this);
-	}
-	
 	public final ResourcePersistenceData applyRegisteredMark()
 	{
 		Resource<?> resource = this.getResource();
@@ -212,11 +182,6 @@ public final class ResourcePersistenceData implements ResourceRegistration, Mark
 		}
 		
 		return new ResourcePersistenceData(status, this.type, this.name, this.resource);
-	}
-
-	public final boolean isRegistered()
-	{
-		return Resources.isRegistered(this.type, this.getResource());
 	}
 
 	public final boolean hasRegistredMark()

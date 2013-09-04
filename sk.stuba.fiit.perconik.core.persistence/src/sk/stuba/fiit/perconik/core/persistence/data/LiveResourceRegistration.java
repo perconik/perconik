@@ -1,16 +1,14 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.util.Set;
-import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.collect.Sets;
 
-public class LiveResourceRegistration implements ResourceRegistration
+public class LiveResourceRegistration extends AbstractResourceRegistration implements ResourceRegistration
 {
 	private final Class<? extends Listener> type;
 
@@ -65,45 +63,10 @@ public class LiveResourceRegistration implements ResourceRegistration
 		
 		return data;
 	}
-
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-
-		if (!(o instanceof ResourceRegistration))
-		{
-			return false;
-		}
-
-		ResourceRegistration other = (ResourceRegistration) o;
-
-		return this.type == other.getListenerType() && this.name.equals(other.getResourceName());
-	}
-
-	@Override
-	public final int hashCode()
-	{
-		return 31 * (31 + this.type.hashCode()) + this.name.hashCode();
-	}
 	
 	public final ResourcePersistenceData toPersistenceData()
 	{
 		return ResourcePersistenceData.copy(this.isRegistered(), this.type, this.name, Utilities.serializableOrNull(this.resource));
-	}
-
-	@Override
-	public final String toString()
-	{
-		return Utilities.toString(this);
-	}
-	
-	public final boolean isRegistered()
-	{
-		return Resources.isRegistered(this.type, this.getResource());
 	}
 
 	public final Class<? extends Listener> getListenerType()

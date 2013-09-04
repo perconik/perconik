@@ -1,13 +1,12 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.util.Set;
-import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import com.google.common.collect.Sets;
 
-public class LiveListenerRegistration implements ListenerRegistration
+public class LiveListenerRegistration extends AbstractListenerRegistration implements ListenerRegistration
 {
 	private final Class<? extends Listener> type;
 	
@@ -49,46 +48,11 @@ public class LiveListenerRegistration implements ListenerRegistration
 		return data;
 	}
 	
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		
-		if (!(o instanceof ListenerRegistration))
-		{
-			return false;
-		}
-
-		ListenerRegistration other = (ListenerRegistration) o;
-
-		return this.type == other.getListenerClass();
-	}
-
-	@Override
-	public final int hashCode()
-	{
-		return this.type.hashCode();
-	}
-	
 	public final ListenerPersistenceData toPersistenceData()
 	{
 		return ListenerPersistenceData.copy(this.isRegistered(), this.type, Utilities.serializableOrNull(this.listener));
 	}
 	
-	@Override
-	public final String toString()
-	{
-		return Utilities.toString(this);
-	}
-	
-	public final boolean isRegistered()
-	{
-		return Listeners.isRegistered(this.listener);
-	}
-
 	public final Listener getListener()
 	{
 		return this.listener;
