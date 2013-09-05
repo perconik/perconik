@@ -83,11 +83,11 @@ final class Utilities
 	{
 		ToStringHelper helper = Objects.toStringHelper(registration);
 		
-		helper.add("registred", registration.isRegistered());
+		helper.add("registered", registration.isRegistered());
 		
 		if (registration instanceof MarkableRegistration)
 		{
-			helper.add("registred mark", ((MarkableRegistration) registration).hasRegistredMark());
+			helper.add("registered-mark", ((MarkableRegistration) registration).hasRegistredMark());
 		}
 		
 		helper.add("serializable", registration instanceof Serializable);
@@ -99,12 +99,12 @@ final class Utilities
 	{
 		ToStringHelper helper = toStringHelperFor(registration);
 		
-		helper.add("listener class", registration.getListenerClass().getName());
+		helper.add("listener-class", registration.getListenerClass().getName());
 		helper.add("listener", registration.getListener());
 		
 		if (registration instanceof SerializedListenerData)
 		{
-			helper.add("serialized listener", ((SerializedListenerData) registration).hasSerializedListener());	
+			helper.add("serialized-listener", ((SerializedListenerData) registration).hasSerializedListener());	
 		}
 		
 		return helper.toString();
@@ -114,13 +114,13 @@ final class Utilities
 	{
 		ToStringHelper helper = toStringHelperFor(registration);
 		
-		helper.add("listener type", registration.getListenerType().getName());
-		helper.add("resource name", registration.getResourceName());
+		helper.add("listener-type", registration.getListenerType().getName());
+		helper.add("resource-name", registration.getResourceName());
 		helper.add("resource", registration.getResource());
 		
 		if (registration instanceof SerializedResourceData)
 		{
-			helper.add("serialized resource", ((SerializedResourceData) registration).hasSerializedResource());	
+			helper.add("serialized-resource", ((SerializedResourceData) registration).hasSerializedResource());	
 		}
 		
 		return helper.toString();
