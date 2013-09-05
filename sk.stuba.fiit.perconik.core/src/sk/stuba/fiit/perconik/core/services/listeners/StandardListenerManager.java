@@ -36,7 +36,7 @@ final class StandardListenerManager extends AbstractListenerManager
 		
 		for (Resource<? extends L> resource: this.manager().assignable(type))
 		{
-			listeners.addAll(resource.isRegistred(type));
+			listeners.addAll(resource.isRegistered(type));
 		}
 		
 		return listeners;
@@ -48,7 +48,7 @@ final class StandardListenerManager extends AbstractListenerManager
 		
 		for (Resource<?> resource: this.manager().assignable(Listener.class))
 		{
-			registrations.putAll(resource, resource.isRegistred(Listener.class));
+			registrations.putAll(resource, resource.isRegistered(Listener.class));
 		}
 		
 		return registrations;

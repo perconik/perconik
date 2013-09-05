@@ -147,11 +147,11 @@ class Synchronized
 			}
 		}
 
-		public final <U extends Listener> Collection<U> isRegistred(final Class<U> type)
+		public final <U extends Listener> Collection<U> isRegistered(final Class<U> type)
 		{
 			synchronized (this.mutex)
 			{
-				return this.delegate.isRegistred(type);
+				return this.delegate.isRegistered(type);
 			}
 		}
 

@@ -45,7 +45,7 @@ abstract class AbstractResource<L extends Listener> extends AbstractRegistrable 
 		}
 	}
 	
-	public final <U extends Listener> Collection<U> isRegistred(final Class<U> type)
+	public final <U extends Listener> Collection<U> isRegistered(final Class<U> type)
 	{
 		Collection<L> listeners = this.pool.toCollection();
 		Collection<U> filtered  = Lists.newArrayListWithCapacity(listeners.size());
