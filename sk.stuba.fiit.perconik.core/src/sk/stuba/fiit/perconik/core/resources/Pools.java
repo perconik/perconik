@@ -11,7 +11,7 @@ class Pools
 		
 		public final <T> Pool<T> create(final Handler<T> handler)
 		{
-			return Synchronized.pool(GenericPool.builder(handler).hashSet().build());
+			return Synchronized.pool(GenericPool.builder(handler).identity().hashSet().build());
 		}
 	}
 
