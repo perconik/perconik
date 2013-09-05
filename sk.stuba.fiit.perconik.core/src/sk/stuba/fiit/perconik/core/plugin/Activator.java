@@ -2,10 +2,7 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.core.Listeners;
-import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
-import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 
 /**
@@ -60,19 +57,9 @@ public final class Activator extends ExtendedPlugin
 		
 		public final void earlyStartup()
 		{
-			ResourceExtentionProcessor processor0 = new ResourceExtentionProcessor();
-			ListenerExtentionProcessor processor = new ListenerExtentionProcessor();
+			ServicesLoader loader = new ServicesLoader();
 			
-			ResolvedResources data0 = processor0.process();
-			ResolvedListeners data = processor.process();
-			
-			Services.setResourceService(data0.service);
-			Services.setListenerService(data.service);
-			
-			ServiceSnapshot.take().servicesInStartOrder().startAndWait();
-			
-			Resources.registerAll(data0.supplier);
-			Listeners.registerAll(data.supplier);
+			loader.load();
 			
 			getDefault().processed = true;
 		}

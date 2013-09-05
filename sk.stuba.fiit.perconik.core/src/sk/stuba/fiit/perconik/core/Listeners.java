@@ -95,7 +95,7 @@ public final class Listeners
 	public static final boolean isRegistered(final Class<? extends Listener> type)
 	{
 		// TODO extend manager interface
-		
+
 		for (Listener listener: registrations().values())
 		{
 			if (type.isInstance(listener))
@@ -103,7 +103,7 @@ public final class Listeners
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 	
