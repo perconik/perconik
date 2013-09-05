@@ -147,6 +147,18 @@ public abstract class AbstractDebugListener extends AbstractDebugObject implemen
 	}
 	
 	@Override
+	public final boolean equals(final Object o)
+	{
+		return this == o || this.getClass() == o.getClass();
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.getClass().hashCode();
+	}
+
+	@Override
 	public final String toString()
 	{
 		return MoreStrings.toCanonicalString(this);
