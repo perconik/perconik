@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.ui.preferences;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 abstract class AbstractWorkbenchPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
@@ -10,14 +11,19 @@ abstract class AbstractWorkbenchPreferencePage extends PreferencePage implements
 	{
 	}
 	
-	final void displayInformation(final String title, final String message)
+	@Override
+	public void init(final IWorkbench workbench)
 	{
-		MessageDialog.openInformation(this.getShell(), title, message);
 	}
-
+	
 	final void displayQuestion(final String title, final String message)
 	{
 		MessageDialog.openQuestion(this.getShell(), title, message);
+	}
+
+	final void displayNotice(final String title, final String message)
+	{
+		MessageDialog.openInformation(this.getShell(), title, message);
 	}
 
 	final void displayWarning(final String title, final String message)
