@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
+import sk.stuba.fiit.perconik.core.services.ProviderFallbackException;
 
 public abstract class AbstractListenerProvider extends AbstractProvider implements ListenerProvider
 {
@@ -61,13 +62,11 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		}
 		catch (Exception e)
 		{
-			e.initCause(cause);
-			
-			throw e;
+			throw new ProviderFallbackException(cause, e);
 		}
 	}
 	
-	protected final Class<? extends Listener> parentLoadClass(final String name, final Exception cause) throws ClassNotFoundException
+	protected final Class<? extends Listener> parentLoadClass(final String name, final Exception cause)
 	{
 		try
 		{
@@ -75,9 +74,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		}
 		catch (Exception e)
 		{
-			e.initCause(cause);
-			
-			throw e;
+			throw new ProviderFallbackException(cause, e);
 		}
 	}
 }
