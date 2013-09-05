@@ -20,11 +20,11 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 			throw new IllegalListenerClassException("Class " + type.getName() + " is not assignable to " + Listener.class.getName());
 		}
 		
-		if (type.isInterface() || type.isAnnotation() || type.isEnum())
+		if (type.isInterface() || type.isAnnotation())
 		{
-			throw new IllegalListenerClassException("Type " + type.getName() + " can not be an interface or an enum");
+			throw new IllegalListenerClassException("Type " + type.getName() + " can not be an interface or an annotation");
 		}
-	
+		
 		try
 		{
 			type.getConstructor();

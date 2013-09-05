@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
@@ -9,16 +10,20 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Maps;
 
 final class StandardListenerProvider extends AbstractListenerProvider
 {
 	private final BiMap<String, Class<? extends Listener>> map;
+	
+	private final Map<Class<? extends Listener>, Listener> cache;
 	
 	private final ListenerProvider parent;
 	
 	StandardListenerProvider(final Builder builder)
 	{
 		this.map    = HashBiMap.create(builder.map);
+		this.cache  = Maps.newConcurrentMap();
 		this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
 
 		for (Class<? extends Listener> type: this.map.values())
@@ -86,6 +91,13 @@ final class StandardListenerProvider extends AbstractListenerProvider
 	
 	public final <L extends Listener> L forClass(final Class<L> type)
 	{
+		Listener listener = this.cache.get(type);
+		
+		if (listener != null)
+		{
+			return type.cast(listener);
+		}
+		
 		try
 		{
 			if (!this.map.containsValue(type))
@@ -93,7 +105,11 @@ final class StandardListenerProvider extends AbstractListenerProvider
 				this.map.put(type.getName(), cast(type));
 			}
 			
-			return type.newInstance();
+			L instance = type.newInstance();
+			
+			this.cache.put(type, instance);
+			
+			return instance;
 		}
 		catch (Exception cause)
 		{
