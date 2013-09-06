@@ -57,7 +57,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 			switch (column)
 			{
 				case 0:
-					return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)") /*TODO rm*/+" marked "+(data.hasRegistredMark() ? "yes":"no");
+					return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
 				case 1:
 					return data.hasSerializedListener() ? "yes" : "no";
 				default:

@@ -68,30 +68,6 @@ abstract class AbstractPreferences
 			throw new IllegalArgumentException("Unable to read object under key " + key + " from string", e);
 		}
 	}
-	
-	// TODO beta
-//	final Object fromStringOrRestore(final String key, final String value)
-//	{
-//		try
-//		{
-//			return Serialization.readFromString(value);
-//		}
-//		catch (Exception e)
-//		{
-//			Object result = this.restore(key, e);
-//			
-//			try
-//			{
-//				this.save();
-//			}
-//			catch (IOException x)
-//			{
-//				// ignore
-//			}
-//			
-//			return result;
-//		}
-//	}
 
 	final String key(final String name)
 	{
@@ -117,9 +93,6 @@ abstract class AbstractPreferences
 	{
 		return fromStringOrFailure(key, this.store.getString(key));
 	}
-	
-	// TODO beta
-//	abstract Object restore(final String key, final Exception cause);
 	
 	public final void save() throws IOException
 	{

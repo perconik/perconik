@@ -16,7 +16,6 @@ enum CommandManagerHandler implements Handler<CommandManagerListener>
 //			@Override
 //			public final void run()
 //			{
-//				// TODO
 //			}
 //		};
 //	

@@ -121,40 +121,6 @@ public final class Registrations
 		return result;
 	}
 	
-	// TODO beta
-//	public static final <R extends ResourceRegistration> Map<Class<? extends Listener>, Map<String, R>> toResourceMap(final Set<R> registrations)
-//	{
-//		Map<Class<? extends Listener>, Map<String, R>> map = Maps.newHashMapWithExpectedSize(registrations.size());
-//
-//		for (R registration: registrations)
-//		{
-//			Class<? extends Listener> type = registration.getListenerType();
-//			
-//			Map<String, R> submap = map.get(type);
-//			
-//			if (submap == null)
-//			{
-//				map.put(type, submap = Maps.newHashMapWithExpectedSize(4));
-//			}
-//			
-//			submap.put(registration.getResourceName(), registration);
-//		}
-//		
-//		return map;
-//	}
-//	
-//	public static final <R extends ListenerRegistration> Map<Class<? extends Listener>, R> toListenerMap(final Set<R> registrations)
-//	{
-//		Map<Class<? extends Listener>, R> map = Maps.newHashMapWithExpectedSize(registrations.size());
-//		
-//		for (R registration: registrations)
-//		{
-//			map.put(registration.getListenerClass(), registration);
-//		}
-//		
-//		return map;
-//	}
-
 	public static final <R extends ResourceRegistration & MarkableRegistration> SetMultimap<Class<? extends Listener>, String> toResourceNames(final Set<R> registrations)
 	{
 		SetMultimap<Class<? extends Listener>, String> result = HashMultimap.create(registrations.size(), 4);
