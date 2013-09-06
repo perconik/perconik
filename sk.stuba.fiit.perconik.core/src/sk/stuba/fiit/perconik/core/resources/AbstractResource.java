@@ -45,7 +45,7 @@ abstract class AbstractResource<L extends Listener> extends AbstractRegistrable 
 		}
 	}
 	
-	public final <U extends Listener> Collection<U> isRegistered(final Class<U> type)
+	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{
 		Collection<L> listeners = this.pool.toCollection();
 		Collection<U> filtered  = Lists.newArrayListWithCapacity(listeners.size());
@@ -54,13 +54,15 @@ abstract class AbstractResource<L extends Listener> extends AbstractRegistrable 
 		{
 			if (type.isInstance(listener))
 			{
-				@SuppressWarnings("unchecked")
-				U casted = (U) listener;
-				
-				filtered.add(casted);
+				filtered.add(type.cast(listener));
 			}
 		}
 		
 		return filtered;
+	}
+	
+	public final boolean registered(final L listener)
+	{
+		return this.pool.contains(listener);
 	}
 }

@@ -18,7 +18,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 
 	private final <L extends Listener> Set<Resource<? super L>> registrables(final L listener)
 	{
-		Set<Resource<? super L>> resources = this.manager().registrable((Class<L>) listener.getClass());
+		Set<Resource<? super L>> resources = this.manager().registrables((Class<L>) listener.getClass());
 
 		if (resources.isEmpty())
 		{

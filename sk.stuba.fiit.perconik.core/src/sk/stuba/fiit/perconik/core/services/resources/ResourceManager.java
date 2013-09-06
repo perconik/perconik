@@ -14,9 +14,11 @@ public interface ResourceManager extends Manager
 	
 	public <L extends Listener> void unregisterAll(Class<L> type);
 
-	public <L extends Listener> Set<Resource<? extends L>> assignable(Class<L> type);
+	public <L extends Listener> Set<Resource<? extends L>> assignables(Class<L> type);
 
-	public <L extends Listener> Set<Resource<? super L>> registrable(Class<L> type);
+	public <L extends Listener> Set<Resource<? super L>> registrables(Class<L> type);
 
 	public SetMultimap<Class<? extends Listener>, Resource<?>> registrations();
+
+	public boolean registered(Class<? extends Listener> type, Resource<?> resource);
 }

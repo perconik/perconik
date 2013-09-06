@@ -34,6 +34,16 @@ public final class Resources
 		return service().getResourceManager();
 	}
 	
+	public static final Resource<?> forName(final String name)
+	{
+		return provider().forName(name);
+	}
+	
+	public static final <L extends Listener> Set<Resource<L>> forType(final Class<L> type)
+	{
+		return provider().forType(type);
+	}
+	
 	public static final <L extends Listener> void register(final Class<L> type, final Resource<? super L> resource)
 	{
 		manager().register(type, resource);
@@ -94,12 +104,12 @@ public final class Resources
 
 	public static final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
 	{
-		return manager().assignable(type);
+		return manager().assignables(type);
 	}
 
 	public static final <L extends Listener> Set<Resource<? super L>> registrable(final Class<L> type)
 	{
-		return manager().registrable(type);
+		return manager().registrables(type);
 	}
 
 	public static final SetMultimap<Class<? extends Listener>, Resource<?>> registrations()
@@ -109,9 +119,7 @@ public final class Resources
 
 	public static final boolean isRegistered(final Class<? extends Listener> type, final Resource<?> resource)
 	{
-		// TODO extend manager interface
-		
-		return registrations().containsEntry(type, resource);
+		return manager().registered(type, resource);
 	}
 	
 	public static final <L extends Listener> BiMap<String, Resource<L>> toResourceNameMap(final Set<Resource<L>> resources)

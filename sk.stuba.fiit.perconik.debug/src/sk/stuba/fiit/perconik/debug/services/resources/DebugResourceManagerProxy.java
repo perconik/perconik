@@ -84,18 +84,23 @@ public final class DebugResourceManagerProxy extends DebugNameableProxy implemen
 		this.untab();
 	}
 
-	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? extends L>> assignables(final Class<L> type)
 	{
-		return this.delegate().assignable(type);
+		return this.delegate().assignables(type);
 	}
 
-	public final <L extends Listener> Set<Resource<? super L>> registrable(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type)
 	{
-		return this.delegate().registrable(type);
+		return this.delegate().registrables(type);
 	}
 
 	public final SetMultimap<Class<? extends Listener>, Resource<?>> registrations()
 	{
 		return this.delegate().registrations();
+	}
+
+	public final boolean registered(final Class<? extends Listener> type, final Resource<?> resource)
+	{
+		return this.delegate().registered(type, resource);
 	}
 }

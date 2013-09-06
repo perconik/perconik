@@ -10,17 +10,17 @@ import com.google.common.collect.Sets;
 
 final class StandardResourceManager extends AbstractResourceManager
 {
-	private final SetMultimap<Class<? extends Listener>, Resource<?>> map;
+	private final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
 	
 	StandardResourceManager()
 	{
-		this.map = HashMultimap.create();
+		this.multimap = HashMultimap.create();
 	}
 	
 	@Override
 	protected final SetMultimap<Class<? extends Listener>, Resource<?>> multimap()
 	{
-		return this.map;
+		return this.multimap;
 	}
 	
 	public final <L extends Listener> void unregisterAll(final Class<L> type)
@@ -31,7 +31,7 @@ final class StandardResourceManager extends AbstractResourceManager
 		}
 	}
 	
-	public final <L extends Listener> Set<Resource<? extends L>> assignable(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? extends L>> assignables(final Class<L> type)
 	{
 		return Sets.newHashSet(this.assignableInternal(type).values());
 	}
@@ -40,7 +40,7 @@ final class StandardResourceManager extends AbstractResourceManager
 	{
 		SetMultimap<Class<? extends L>, Resource<? extends L>> result = HashMultimap.create();
 		
-		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.map.entries())
+		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries())
 		{
 			if (type.isAssignableFrom(entry.getKey()))
 			{
@@ -51,11 +51,11 @@ final class StandardResourceManager extends AbstractResourceManager
 		return result;
 	}
 	
-	public final <L extends Listener> Set<Resource<? super L>> registrable(final Class<L> type)
+	public final <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type)
 	{
 		Set<Resource<? super L>> result = Sets.newHashSet();
 		
-		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.map.entries())
+		for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries())
 		{
 			boolean matched = type == entry.getKey();
 			
@@ -83,6 +83,11 @@ final class StandardResourceManager extends AbstractResourceManager
 
 	public final SetMultimap<Class<? extends Listener>, Resource<?>> registrations()
 	{
-		return HashMultimap.create(this.map);
+		return HashMultimap.create(this.multimap);
+	}
+
+	public final boolean registered(final Class<? extends Listener> type, final Resource<?> resource)
+	{
+		return this.multimap.containsEntry(type, resource);
 	}
 }

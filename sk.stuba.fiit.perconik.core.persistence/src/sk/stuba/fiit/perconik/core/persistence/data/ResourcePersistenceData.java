@@ -54,7 +54,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final String name)
 	{
-		 return of(type, Unsafe.cast(type, Services.getResourceService().getResourceProvider().forName(name)));
+		 return of(type, Unsafe.cast(type, Resources.forName(name)));
 	}
 
 	public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource)
@@ -206,7 +206,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 			return this.resource.get();
 		}
 		
-		return Services.getResourceService().getResourceProvider().forName(this.name);
+		return Resources.forName(this.name);
 	}
 	
 	public final String getResourceName()

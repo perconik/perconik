@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
@@ -39,7 +40,7 @@ public class LiveResourceRegistration extends AbstractResourceRegistration imple
 	
 	public static final <L extends Listener> LiveResourceRegistration of(final Class<L> type, final String name)
 	{
-		 return of(type, Unsafe.cast(type, Services.getResourceService().getResourceProvider().forName(name)));
+		 return of(type, Unsafe.cast(type, Resources.forName(name)));
 	}
 
 	public static final <L extends Listener> LiveResourceRegistration of(final Class<L> type, final Resource<? super L> resource)

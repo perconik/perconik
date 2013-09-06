@@ -203,7 +203,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 			return this.listener.get();
 		}
 		
-		return Services.getListenerService().getListenerProvider().forClass(this.type);
+		return Listeners.forClass(this.type);
 	}
 
 	public final Class<? extends Listener> getListenerClass()

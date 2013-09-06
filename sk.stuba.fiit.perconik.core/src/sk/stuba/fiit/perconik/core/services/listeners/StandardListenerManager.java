@@ -24,33 +24,38 @@ final class StandardListenerManager extends AbstractListenerManager
 	
 	public final void unregisterAll(final Class<? extends Listener> type)
 	{
-		for (Resource<?> resource: this.manager().assignable(type))
+		for (Resource<?> resource: this.manager().assignables(type))
 		{
 			resource.unregisterAll(type);
 		}
 	}
 	
+	public final SetMultimap<Resource<?>, Listener> registrations()
+	{
+		SetMultimap<Resource<?>, Listener> registrations = HashMultimap.create();
+		
+		for (Resource<?> resource: this.manager().assignables(Listener.class))
+		{
+			registrations.putAll(resource, resource.registered(Listener.class));
+		}
+		
+		return registrations;
+	}
+
 	public final <L extends Listener> Collection<L> registered(final Class<L> type)
 	{
 		List<L> listeners = Lists.newArrayList();
 		
-		for (Resource<? extends L> resource: this.manager().assignable(type))
+		for (Resource<? extends L> resource: this.manager().assignables(type))
 		{
-			listeners.addAll(resource.isRegistered(type));
+			listeners.addAll(resource.registered(type));
 		}
 		
 		return listeners;
 	}
 
-	public final SetMultimap<Resource<?>, Listener> registrations()
+	public boolean registered(Listener listener)
 	{
-		SetMultimap<Resource<?>, Listener> registrations = HashMultimap.create();
-		
-		for (Resource<?> resource: this.manager().assignable(Listener.class))
-		{
-			registrations.putAll(resource, resource.isRegistered(Listener.class));
-		}
-		
-		return registrations;
+		return this.manager().assignables(listener.getClass()).contains(listener);
 	}
 }

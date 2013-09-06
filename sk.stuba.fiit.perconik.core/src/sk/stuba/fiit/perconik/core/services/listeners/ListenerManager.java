@@ -14,7 +14,9 @@ public interface ListenerManager extends Manager
 	
 	public void unregisterAll(final Class<? extends Listener> type);
 
-	public <L extends Listener> Collection<L> registered(final Class<L> type);
-
 	public SetMultimap<Resource<?>, Listener> registrations();
+	
+	public <U extends Listener> Collection<U> registered(final Class<U> type);
+	
+	public boolean registered(Listener listener);
 }

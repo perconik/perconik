@@ -83,13 +83,18 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
 		this.untab();
 	}
 
+	public final SetMultimap<Resource<?>, Listener> registrations()
+	{
+		return this.delegate().registrations();
+	}
+
 	public final <L extends Listener> Collection<L> registered(final Class<L> type)
 	{
 		return this.delegate().registered(type);
 	}
 
-	public final SetMultimap<Resource<?>, Listener> registrations()
+	public final boolean registered(final Listener listener)
 	{
-		return this.delegate().registrations();
+		return this.delegate().registered(listener);
 	}
 }

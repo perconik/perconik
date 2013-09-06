@@ -31,6 +31,11 @@ public final class Listeners
 		return service().getListenerManager();
 	}
 	
+	public static final Listener forClass(final Class<? extends Listener> type)
+	{
+		return provider().forClass(type);
+	}
+	
 	public static final void register(final Listener listener)
 	{
 		manager().register(listener);
@@ -94,21 +99,11 @@ public final class Listeners
 
 	public static final boolean isRegistered(final Class<? extends Listener> type)
 	{
-		// TODO extend manager interface
-
-		for (Listener listener: registrations().values())
-		{
-			if (type.isInstance(listener))
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return !manager().registered(type).isEmpty();
 	}
 	
 	public static final boolean isRegistered(final Listener listener)
 	{
-		return registrations().containsValue(listener);
+		return manager().registered(listener);
 	}
 }

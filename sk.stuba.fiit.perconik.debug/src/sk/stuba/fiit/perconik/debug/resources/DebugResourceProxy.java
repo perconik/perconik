@@ -83,9 +83,14 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
 		this.untab();
 	}
 
-	public final <U extends Listener> Collection<U> isRegistered(Class<U> type)
+	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{
-		return this.delegate().isRegistered(type);
+		return this.delegate().registered(type);
+	}
+
+	public final boolean registered(L listener)
+	{
+		return this.delegate().registered(listener);
 	}
 
 	public final String getName()
