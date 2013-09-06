@@ -7,7 +7,6 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
  * The activator class controls the plug-in life cycle.
  * 
  * @author Pavol Zbell
- * @version 0.0.1
  */
 public class Activator extends ExtendedPlugin
 {
