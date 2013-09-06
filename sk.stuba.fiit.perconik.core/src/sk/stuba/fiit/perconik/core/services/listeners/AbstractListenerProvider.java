@@ -3,7 +3,8 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
-import sk.stuba.fiit.perconik.core.services.ProviderFallbackException;
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+import com.google.common.base.Throwables;
 
 public abstract class AbstractListenerProvider extends AbstractProvider implements ListenerProvider
 {
@@ -13,6 +14,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 
 	protected abstract ClassLoader loader();
 	
+	// TODO refactor
 	protected static final Class<? extends Listener> cast(final Class<?> type)
 	{
 		if (!Listener.class.isAssignableFrom(type))
@@ -62,7 +64,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		}
 		catch (Exception e)
 		{
-			throw new ProviderFallbackException(cause, e);
+			throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
 		}
 	}
 	
@@ -74,7 +76,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		}
 		catch (Exception e)
 		{
-			throw new ProviderFallbackException(cause, e);
+			throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
 		}
 	}
 }

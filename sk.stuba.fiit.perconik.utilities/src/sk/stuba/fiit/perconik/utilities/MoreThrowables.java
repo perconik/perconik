@@ -21,6 +21,13 @@ public final class MoreThrowables
 		return initializeCause(throwable, cause.orNull());
 	}
 	
+	public static final <T extends Throwable> T initializeSuppressor(T suppressor, Throwable suppressed)
+	{
+		suppressor.addSuppressed(suppressed);
+		
+		return suppressor;
+	}
+	
 	public static final <T extends Throwable> T initializeSuppressor(T suppressor, Iterable<? extends Throwable> suppressions)
 	{
 		addSuppressed(suppressor, suppressions);

@@ -1,10 +1,11 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
+import com.google.common.base.Throwables;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
-import sk.stuba.fiit.perconik.core.services.ProviderFallbackException;
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
 public abstract class AbstractResourceProvider extends AbstractProvider implements ResourceProvider
 {
@@ -32,7 +33,7 @@ public abstract class AbstractResourceProvider extends AbstractProvider implemen
 		}
 		catch (Exception e)
 		{
-			throw new ProviderFallbackException(cause, e);
+			throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
 		}
 	}
 	
@@ -44,7 +45,7 @@ public abstract class AbstractResourceProvider extends AbstractProvider implemen
 		}
 		catch (Exception e)
 		{
-			throw new ProviderFallbackException(cause, e);
+			throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
 		}
 	}
 }
