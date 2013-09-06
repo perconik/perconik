@@ -1,7 +1,7 @@
 package com.gratex.perconik.services.plugin;
 
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
  * @author Pavol Zbell
  * @version 0.0.1
  */
-public class Activator extends AbstractUIPlugin
+public class Activator extends ExtendedPlugin
 {
 	/**
 	 * The plug-in identifier.
