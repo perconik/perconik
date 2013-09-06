@@ -25,7 +25,7 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		
 		checkArgument(Modifier.isStatic(modifiers), "Field %s of %s is not static", name, implementation);
 		checkArgument(Modifier.isFinal(modifiers), "Field %s of %s is not final", name, implementation);
-		checkArgument(type.equals(TypeToken.of(field.getGenericType())), "Field %s of %s is not static", name, implementation);
+		checkArgument(type.equals(TypeToken.of(field.getGenericType())), "Field %s of %s has incorrect type", name, implementation);
 		
 		return new ClassConstant<>(type, (T) type.getRawType().cast(field.get(null)));
 	}
@@ -36,41 +36,51 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		
 		int modifiers = field.getModifiers();
 		
-		checkArgument(field.isAccessible(), "Field %s of %s is not accessible", name, implementation);
 		checkArgument(Modifier.isStatic(modifiers), "Field %s of %s is not static", name, implementation);
-		checkArgument(type.equals(TypeToken.of(field.getGenericType())), "Field %s of %s is not static", name, implementation);
+		checkArgument(type.equals(TypeToken.of(field.getGenericType())), "Field %s of %s has incorrect type", name, implementation);
 		
 		return new ClassField<>(type, field);
 	}
 
 	public static final <T> Accessor<T> ofClassConstructor(Class<T> type) throws NoSuchMethodException
 	{
-		Constructor<T> constructor = type.getConstructor();
+		return ofClassConstructor(TypeToken.of(type));
+	}
+	
+	public static final <T> Accessor<T> ofClassConstructor(TypeToken<T> type) throws NoSuchMethodException
+	{
+		Constructor<T> constructor = (Constructor<T>) type.getRawType().getConstructor();
 		
-		return new ClassConstructor<>(TypeToken.of(type), Invokable.from(constructor));
+		return new ClassConstructor<>(type, Invokable.from(constructor));
 	}
 
 	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, TypeToken<T> type, String name) throws NoSuchMethodException
 	{
 		Invokable<?, Object> method = Invokable.from(implementation.getMethod(name));
 		
-		checkArgument(method.isAccessible(), "Method %s of %s is not accessible", name, implementation);
 		checkArgument(method.isStatic(), "Method %s of %s is not static", name, implementation);
 		
 		return new ClassMethod<>(type, method.returning(type));
 	}
-
+	
 	public static final <T> Accessor<T> ofEnumConstant(Class<T> type, String name)
 	{
-		checkArgument(Enum.class.isAssignableFrom(type), "Class %s is not an enum", type);
+		return ofEnumConstant(TypeToken.of(type), name);
+	}
+
+	public static final <T> Accessor<T> ofEnumConstant(TypeToken<T> type, String name)
+	{
+		Class<T> raw = (Class<T>) type.getRawType();
 		
-		T[] constants = type.getEnumConstants();
+		checkArgument(Enum.class.isAssignableFrom(raw), "Class %s is not an enum", type);
+		
+		T[] constants = raw.getEnumConstants();
 		
 		for (T constant: constants)
 		{
 			if (name.equals(Enum.class.cast(constant).name()))
 			{
-				return new EnumConstant<>(TypeToken.of(type), constant);
+				return new EnumConstant<>(type, constant);
 			}
 		}
 		
