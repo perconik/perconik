@@ -5,6 +5,7 @@ import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Optional;
 import com.google.common.base.Supplier;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.reflect.TypeToken;
@@ -44,15 +45,22 @@ public final class StaticLookup<T> implements Supplier<T>
 			this.suppressions = Lists.newArrayListWithExpectedSize(8);
 		}
 		
+		private final void handle(Throwable e)
+		{
+			Throwables.propagateIfInstanceOf(e, NullPointerException.class);
+			
+			this.suppressions.add(e);
+		}
+		
 		public final Builder<T> classConstant(Class<?> implementation, TypeToken<? extends T> type, String name)
 		{
 			try
 			{
 				this.accessors.add(StaticAccessor.ofClassConstant(implementation, type, name));
 			}
-			catch (Exception cause)
+			catch (Exception e)
 			{
-				this.suppressions.add(cause);
+				this.handle(e);
 			}
 			
 			return this;
@@ -64,9 +72,9 @@ public final class StaticLookup<T> implements Supplier<T>
 			{
 				this.accessors.add(StaticAccessor.ofClassField(implementation, type, name));
 			}
-			catch (Exception cause)
+			catch (Exception e)
 			{
-				this.suppressions.add(cause);
+				this.handle(e);
 			}
 			
 			return this;
@@ -83,9 +91,9 @@ public final class StaticLookup<T> implements Supplier<T>
 			{
 				this.accessors.add(StaticAccessor.ofClassConstructor(type));
 			}
-			catch (Exception cause)
+			catch (Exception e)
 			{
-				this.suppressions.add(cause);
+				this.handle(e);
 			}
 			
 			return this;
@@ -97,9 +105,9 @@ public final class StaticLookup<T> implements Supplier<T>
 			{
 				this.accessors.add(StaticAccessor.ofClassMethod(implementation, type, name));
 			}
-			catch (Exception cause)
+			catch (Exception e)
 			{
-				this.suppressions.add(cause);
+				this.handle(e);
 			}
 			
 			return this;
@@ -116,9 +124,9 @@ public final class StaticLookup<T> implements Supplier<T>
 			{
 				this.accessors.add(StaticAccessor.ofEnumConstant(type, name));
 			}
-			catch (Exception cause)
+			catch (Exception e)
 			{
-				this.suppressions.add(cause);
+				this.handle(e);
 			}
 			
 			return this;
@@ -145,14 +153,14 @@ public final class StaticLookup<T> implements Supplier<T>
 			{
 				return accessor.get();
 			}
-			catch (Throwable cause)
+			catch (Throwable e)
 			{
-				if (cause.getClass() == ReflectionException.class)
+				if (e.getClass() == ReflectionException.class)
 				{
-					cause = cause.getCause();
+					e = e.getCause();
 				}
 				
-				suppressions.add(cause);
+				suppressions.add(e);
 			}
 		}
 
