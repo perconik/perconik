@@ -5,14 +5,25 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
+/**
+ * An abstract implementation of {@link Service}
+ * interface covering service name and equivalence.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public abstract class AbstractService extends com.google.common.util.concurrent.AbstractService implements Service
 {
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	protected AbstractService()
 	{
 	}
@@ -63,12 +74,51 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 		this.checkState(State.RUNNING);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final boolean equals(@Nullable final Object o)
+	{
+		if (this == o)
+		{
+			return true;
+		}
+		
+		if (!(o instanceof Service))
+		{
+			return false;
+		}
+
+		Service other = (Service) o;
+
+		return this.getName().equals(other.getName());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final int hashCode()
+	{
+		return this.getName().hashCode();
+	}
+	
+	/**
+	 * Converts service to string consisting of its name and operational
+	 * status. More formally, the returned string is a concatenation of
+	 * service name, space and service operational status in lowercase
+	 * enclosed in square brackets.
+	 */
 	@Override
 	public final String toString()
 	{
 		return this.getName() + " [" + this.state().toString().toLowerCase() + "]";
 	}
 
+	/**
+	 * Returns service name.
+	 */
 	public final String getName()
 	{
 		return this.getClass().getName();

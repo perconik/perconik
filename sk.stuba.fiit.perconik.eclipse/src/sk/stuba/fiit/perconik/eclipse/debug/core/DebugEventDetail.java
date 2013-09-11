@@ -6,55 +6,63 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Debug event details.
+ * 
+ * @see DebugEvent
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum DebugEventDetail implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#STEP_INTO
+	 * @see DebugEvent#STEP_INTO
 	 */
 	STEP_INTO(DebugEvent.STEP_INTO),
 
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#STEP_OVER
+	 * @see DebugEvent#STEP_OVER
 	 */
 	STEP_OVER(DebugEvent.STEP_OVER),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#STEP_RETURN
+	 * @see DebugEvent#STEP_RETURN
 	 */
 	STEP_RETURN(DebugEvent.STEP_RETURN),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#STEP_END
+	 * @see DebugEvent#STEP_END
 	 */
 	STEP_END(DebugEvent.STEP_END),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#BREAKPOINT
+	 * @see DebugEvent#BREAKPOINT
 	 */
 	BREAKPOINT(DebugEvent.BREAKPOINT),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#CLIENT_REQUEST
+	 * @see DebugEvent#CLIENT_REQUEST
 	 */
 	CLIENT_REQUEST(DebugEvent.CLIENT_REQUEST),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#EVALUATION
+	 * @see DebugEvent#EVALUATION
 	 */
 	EVALUATION(DebugEvent.EVALUATION),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#EVALUATION_IMPLICIT
+	 * @see DebugEvent#EVALUATION_IMPLICIT
 	 */
 	EVALUATION_IMPLICIT(DebugEvent.EVALUATION_IMPLICIT),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#STATE
+	 * @see DebugEvent#STATE
 	 */
 	STATE(DebugEvent.STATE),
 	
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#CONTENT
+	 * @see DebugEvent#CONTENT
 	 */
 	CONTENT(DebugEvent.CONTENT);
 	
@@ -77,7 +85,7 @@ public enum DebugEventDetail implements IntegralConstant
 		return integers.getConstantsAsInteger();
 	}
 
-	public static final int valuesAsInteger(Set<JavaElementDeltaFlag> values)
+	public static final int valuesAsInteger(final Set<JavaElementDeltaFlag> values)
 	{
 		return IntegralConstantSupport.constantsAsInteger(values);
 	}

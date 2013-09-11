@@ -6,7 +6,10 @@ import org.osgi.framework.BundleContext;
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
  * 
+ * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+ * 
  * @author Pavol Zbell
+ * @since 1.0
  */
 public final class Activator extends Plugin
 {
@@ -21,7 +24,7 @@ public final class Activator extends Plugin
 	private static Activator plugin;
 
 	/**
-	 * The constructor
+	 * The constructor.
 	 */
 	public Activator()
 	{
@@ -29,8 +32,7 @@ public final class Activator extends Plugin
 
 	/**
 	 * Gets the shared instance.
-	 * 
-	 * @return Returns the shared instance.
+	 * @return the shared instance
 	 */
 	public static final Activator getDefault()
 	{

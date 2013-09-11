@@ -25,7 +25,7 @@ final class StandardResourceManager extends AbstractResourceManager
 	
 	public final <L extends Listener> void unregisterAll(final Class<L> type)
 	{
-		for (Entry<Class<? extends L>, Resource<? extends L>> entry: this.assignableInternal(type).entries())
+		for (Entry<Class<? extends L>, Resource<? extends L>> entry: this.assignablesAsSetMultimap(type).entries())
 		{
 			this.unregister(entry.getKey(), Unsafe.cast(type, entry.getValue()));
 		}
@@ -33,10 +33,10 @@ final class StandardResourceManager extends AbstractResourceManager
 	
 	public final <L extends Listener> Set<Resource<? extends L>> assignables(final Class<L> type)
 	{
-		return Sets.newHashSet(this.assignableInternal(type).values());
+		return Sets.newHashSet(this.assignablesAsSetMultimap(type).values());
 	}
 
-	private final <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignableInternal(final Class<L> type)
+	private final <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignablesAsSetMultimap(final Class<L> type)
 	{
 		SetMultimap<Class<? extends L>, Resource<? extends L>> result = HashMultimap.create();
 		

@@ -12,25 +12,33 @@ import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.TypeConstant;
 import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
 
+/**
+ * AST parser construct kinds.
+ * 
+ * @see ASTParser
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum AstParserConstructKind implements IntegralConstant, TypeConstant<ASTNode>
 {
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTParser#K_COMPILATION_UNIT
+	 * @see ASTParser#K_COMPILATION_UNIT
 	 */
 	COMPILATION_UNIT(ASTParser.K_COMPILATION_UNIT, CompilationUnit.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTParser#K_CLASS_BODY_DECLARATIONS
+	 * @see ASTParser#K_CLASS_BODY_DECLARATIONS
 	 */
 	CLASS_BODY_DECLARATIONS(ASTParser.K_CLASS_BODY_DECLARATIONS, BodyDeclaration.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTParser#K_EXPRESSION
+	 * @see ASTParser#K_EXPRESSION
 	 */
 	EXPRESSION(ASTParser.K_EXPRESSION, Expression.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTParser#K_STATEMENTS
+	 * @see ASTParser#K_STATEMENTS
 	 */
 	STATEMENTS(ASTParser.K_STATEMENTS, Statement.class);
 

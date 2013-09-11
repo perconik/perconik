@@ -22,9 +22,9 @@ final class StandardListenerManager extends AbstractListenerManager
 		return Services.getResourceService().getResourceManager();
 	}
 	
-	public final void unregisterAll(final Class<? extends Listener> type)
+	public final <L extends Listener> void unregisterAll(final Class<L> type)
 	{
-		for (Resource<?> resource: this.manager().assignables(type))
+		for (Resource<? extends L> resource: this.manager().assignables(type))
 		{
 			resource.unregisterAll(type);
 		}
@@ -41,7 +41,7 @@ final class StandardListenerManager extends AbstractListenerManager
 		
 		return registrations;
 	}
-
+	
 	public final <L extends Listener> Collection<L> registered(final Class<L> type)
 	{
 		List<L> listeners = Lists.newArrayList();
@@ -53,9 +53,9 @@ final class StandardListenerManager extends AbstractListenerManager
 		
 		return listeners;
 	}
-
-	public boolean registered(Listener listener)
+	
+	public final boolean registered(final Listener listener)
 	{
-		return this.manager().assignables(listener.getClass()).contains(listener);
+		return this.registrations().containsValue(listener);
 	}
 }

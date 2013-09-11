@@ -7,13 +7,13 @@ import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import com.google.common.base.Preconditions;
 
-final class DefaultPluginConsole implements PluginConsole
+final class StandardPluginConsole implements PluginConsole
 {
 	private final Plugin plugin;
 	
 	private final PrintStream out;
 	
-	DefaultPluginConsole(final Plugin plugin, final PrintStream out)
+	StandardPluginConsole(final Plugin plugin, final PrintStream out)
 	{
 		this.plugin = Preconditions.checkNotNull(plugin);
 		this.out    = Preconditions.checkNotNull(out);

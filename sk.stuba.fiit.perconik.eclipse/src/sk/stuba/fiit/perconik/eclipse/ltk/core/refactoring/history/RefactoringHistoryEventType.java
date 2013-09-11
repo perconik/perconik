@@ -5,25 +5,33 @@ import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Refactoring history event types.
+ * 
+ * @see RefactoringHistoryEvent 
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum RefactoringHistoryEventType implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent#ADDED
+	 * @see RefactoringHistoryEvent#ADDED
 	 */
 	ADDED(RefactoringHistoryEvent.ADDED),
 	
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent#DELETED
+	 * @see RefactoringHistoryEvent#DELETED
 	 */
 	DELETED(RefactoringHistoryEvent.DELETED),
 	
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent#POPPED
+	 * @see RefactoringHistoryEvent#POPPED
 	 */
 	POPPED(RefactoringHistoryEvent.POPPED),
 	
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent#PUSHED
+	 * @see RefactoringHistoryEvent#PUSHED
 	 */
 	PUSHED(RefactoringHistoryEvent.PUSHED);
 	

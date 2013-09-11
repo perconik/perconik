@@ -416,16 +416,16 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.list(iterable, ", ");
 	}
 	
-	public final SmartStringBuilder list(Iterable<?> iterable, char delimeter)
+	public final SmartStringBuilder list(Iterable<?> iterable, char separator)
 	{
 		this.ensureIndent();
 		
-		return this.list(iterable, String.valueOf(delimeter));
+		return this.list(iterable, String.valueOf(separator));
 	}
 	
-	public final SmartStringBuilder list(Iterable<?> iterable, String delimeter)
+	public final SmartStringBuilder list(Iterable<?> iterable, String separator)
 	{
-		if (delimeter == null)
+		if (separator == null)
 		{
 			throw new NullPointerException();
 		}
@@ -439,7 +439,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			
 			while (iterator.hasNext())
 			{
-				this.builder.append(delimeter);
+				this.builder.append(separator);
 				this.builder.append(iterator.next());
 			}
 		}
@@ -707,7 +707,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public final SmartStringBuilder replaceLast(String source, @Nullable Object replacement)
 	{
-		return this.replaceFirst(source, String.valueOf(replacement));
+		return this.replaceLast(source, String.valueOf(replacement));
 	}
 
 	public final SmartStringBuilder replaceLast(String source, @Nullable String replacement)
@@ -910,6 +910,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final SmartStringBuilder hex(byte[] bytes)
 	{
+		return this.hex(bytes, " ");
+	}
+	
+	public final SmartStringBuilder hex(byte[] bytes, String separator)
+	{
 		final int length = bytes.length;
 
 		if (length == 0)
@@ -925,7 +930,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		
 		for (int i = 1; i < length; i ++)
 		{
-			this.builder.append(' ');
+			this.builder.append(separator);
 			
 			this.builder.append(digits[(bytes[i] >>> 4) & mask]);
 			this.builder.append(digits[ bytes[i]        & mask]);

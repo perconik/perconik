@@ -5,8 +5,23 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import com.google.common.collect.ForwardingObject;
 
+/**
+ * A preference store which forwards all its method calls to another preference
+ * store. Subclasses should override one or more methods to modify the behavior
+ * of the backing preference store as desired per the decorator pattern.
+ * 
+ * <p>Note that this class does <i>not</i> forward the {@code equals}
+ * and {@code hashCode} methods through to the backing object.
+ * See {@link ForwardingObject} for more details.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public abstract class ForwardingPreferenceStore extends ForwardingObject implements IPreferenceStore
 {
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	protected ForwardingPreferenceStore()
 	{
 	}

@@ -6,7 +6,10 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 /**
  * The activator class controls the plug-in life cycle.
  * 
+ * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+ * 
  * @author Pavol Zbell
+ * @since 1.0
  */
 public class Activator extends ExtendedPlugin
 {
@@ -21,7 +24,7 @@ public class Activator extends ExtendedPlugin
 	private static Activator plugin;
 
 	/**
-	 * The constructor
+	 * The constructor.
 	 */
 	public Activator()
 	{
@@ -29,8 +32,7 @@ public class Activator extends ExtendedPlugin
 
 	/**
 	 * Gets the shared instance.
-	 * 
-	 * @return Returns the shared instance.
+	 * @return the shared instance
 	 */
 	public static final Activator getDefault()
 	{

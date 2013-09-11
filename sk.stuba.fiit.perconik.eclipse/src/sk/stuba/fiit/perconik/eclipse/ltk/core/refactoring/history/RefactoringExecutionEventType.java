@@ -5,35 +5,43 @@ import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Refactoring execution event types.
+ * 
+ * @see RefactoringExecutionEvent
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum RefactoringExecutionEventType implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent#ABOUT_TO_PERFORM
+	 * @see RefactoringExecutionEvent#ABOUT_TO_PERFORM
 	 */
 	ABOUT_TO_PERFORM(RefactoringExecutionEvent.ABOUT_TO_PERFORM),
 
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent#ABOUT_TO_REDO
+	 * @see RefactoringExecutionEvent#ABOUT_TO_REDO
 	 */
 	ABOUT_TO_REDO(RefactoringExecutionEvent.ABOUT_TO_REDO),
 
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent#ABOUT_TO_UNDO
+	 * @see RefactoringExecutionEvent#ABOUT_TO_UNDO
 	 */
 	ABOUT_TO_UNDO(RefactoringExecutionEvent.ABOUT_TO_UNDO),
 
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent#PERFORMED
+	 * @see RefactoringExecutionEvent#PERFORMED
 	 */
 	PERFORMED(RefactoringExecutionEvent.PERFORMED),
 
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent#REDONE
+	 * @see RefactoringExecutionEvent#REDONE
 	 */
 	REDONE(RefactoringExecutionEvent.REDONE),
 
 	/**
-	 * @see org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent#UNDONE
+	 * @see RefactoringExecutionEvent#UNDONE
 	 */
 	UNDONE(RefactoringExecutionEvent.UNDONE);
 

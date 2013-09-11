@@ -12,8 +12,22 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.SetMultimap;
 
+/**
+ * Static accessor methods pertaining to the resource core. 
+ * 
+ * <p>This class provides access to the underlying functionality
+ * of the currently active {@code ResourceService}.
+ * 
+ * @see Resource
+ * @see Listeners
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class Resources
 {
+	// TODO add javadocs
+	
 	private Resources()
 	{
 		throw new AssertionError();

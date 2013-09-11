@@ -41,7 +41,7 @@ class Pools
 			return this.type.cast(Preconditions.checkNotNull(object));
 		}
 		
-		public final boolean contains(final T object)
+		public final boolean contains(final Object object)
 		{
 			return this.pool.contains(object);
 		}

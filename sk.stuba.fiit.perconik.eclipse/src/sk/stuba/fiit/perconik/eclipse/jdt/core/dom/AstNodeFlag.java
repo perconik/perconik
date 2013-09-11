@@ -5,25 +5,33 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * AST node flags.
+ * 
+ * @see ASTNode
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum AstNodeFlag implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTNode#MALFORMED
+	 * @see ASTNode#MALFORMED
 	 */
 	MALFORMED(ASTNode.MALFORMED),
 	
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTNode#ORIGINAL
+	 * @see ASTNode#ORIGINAL
 	 */
 	ORIGINAL(ASTNode.ORIGINAL),
 	
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTNode#PROTECT
+	 * @see ASTNode#PROTECT
 	 */
 	PROTECT(ASTNode.PROTECT),
 	
 	/**
-	 * @see org.eclipse.jdt.core.dom.ASTNode#RECOVERED
+	 * @see ASTNode#RECOVERED
 	 */
 	RECOVERED(ASTNode.RECOVERED);
 	
@@ -46,7 +54,7 @@ public enum AstNodeFlag implements IntegralConstant
 		return integers.getConstantsAsInteger();
 	}
 
-	public static final int valuesAsInteger(Set<AstNodeFlag> values)
+	public static final int valuesAsInteger(final Set<AstNodeFlag> values)
 	{
 		return IntegralConstantSupport.constantsAsInteger(values);
 	}

@@ -1,7 +1,14 @@
 package sk.stuba.fiit.perconik.utilities;
 
+import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 
+/**
+ * Static utility methods pertaining to {@code Throwable} instances.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class MoreThrowables
 {
 	private MoreThrowables()
@@ -9,7 +16,7 @@ public final class MoreThrowables
 		throw new AssertionError();
 	}
 
-	public static final <T extends Throwable> T initializeCause(T throwable, Throwable cause)
+	public static final <T extends Throwable> T initializeCause(T throwable, @Nullable Throwable cause)
 	{
 		throwable.initCause(cause);
 		

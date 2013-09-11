@@ -43,6 +43,22 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import com.google.common.collect.SetMultimap;
 
+/**
+ * Static accessor methods pertaining to default resource core implementation.
+ * 
+ * <p>The core implementation includes default {@code Resource}
+ * instances along with respective {@code ResourceNamesSupplier}
+ * as well as default {@code ResourceService}, {@code ResourceProvider}
+ * and {@code ResourceManager}.
+ * 
+ * <p>The default implementations of resources as well as resource provider,
+ * manager and service are still available by this class even if the respective
+ * resources are unregistered from the core or the services are switched or
+ * stopped.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class DefaultResources
 {
 	static final Resource<CommandListener> command;
@@ -152,11 +168,11 @@ public final class DefaultResources
 	
 	private static final class ManagerHolder
 	{
-		static final ResourceManager manager;
+		static final ResourceManager instance;
 		
 		static
 		{
-			manager = ResourceManagers.create();
+			instance = ResourceManagers.create();
 		}
 		
 		private ManagerHolder()
@@ -167,16 +183,16 @@ public final class DefaultResources
 
 	private static final class ServiceHolder
 	{
-		static final ResourceService service;
+		static final ResourceService instance;
 		
 		static
 		{
 			ResourceService.Builder builder = ResourceServices.builder();
 			
 			builder.provider(provider);
-			builder.manager(ManagerHolder.manager);
+			builder.manager(ManagerHolder.instance);
 			
-			service = builder.build();
+			instance = builder.build();
 		}
 		
 		private ServiceHolder()
@@ -185,21 +201,82 @@ public final class DefaultResources
 		}
 	}
 
+	/**
+	 * Returns the default resource provider. The returned provider is a
+	 * standard resource provider constructed using the standard provider
+	 * builder from {@link ResourceProviders#builder()} factory method.
+	 * Its direct parent and the only predecessor in the resource provider
+	 * hierarchy is the system resource provider.
+	 * 
+	 * <p>The default resource provider is lazily
+	 * initialized at the first call of this method.
+	 * 
+	 * @return the default resource provider
+	 * 
+	 * @see ResourceProvider
+	 * @see ResourceProviders#builder()
+	 * @see ResourceProviders#getSystemProvider()
+	 */
 	public static final ResourceProvider getDefaultResourceProvider()
 	{
 		return provider;
 	}
 
+	/**
+	 * Returns the default resource manager. The returned
+	 * manager is a standard resource manager constructed by
+	 * the {@link ResourceManagers#create()} factory method.
+	 * 
+	 * <p>The default resource provider is lazily
+	 * initialized at the first call of this method.
+	 * 
+	 * @return the default resource manager
+	 * 
+	 * @see ResourceManager
+	 * @see ResourceManagers#create()
+	 */
 	public static final ResourceManager getDefaultResourceManager()
 	{
-		return ManagerHolder.manager;
+		return ManagerHolder.instance;
 	}
 	
+	/**
+	 * Returns the default resource service. The returned service is a
+	 * standard resource service constructed using the standard service
+	 * builder from {@link ResourceServices#builder()} factory method.
+	 * It contains the default resource provider and manager.
+	 * 
+	 * <p>The default resource provider is lazily
+	 * initialized at the first call of this method.
+	 * 
+	 * <p><b>Note:</b> The returned service may be unusable if it
+	 * has been retrieved by this method earlier and then stopped.
+	 * 
+	 * @return the default resource service
+	 * 
+	 * @see ResourceService
+	 * @see ResourceServices#builder()
+	 * @see #getDefaultResourceProvider()
+	 * @see #getDefaultResourceManager()
+	 */
 	public static final ResourceService getDefaultResourceService()
 	{
-		return ServiceHolder.service;
+		return ServiceHolder.instance;
 	}
 	
+	/**
+	 * Returns the default resource names supplier.
+	 * The built supplier dynamically supplies resource
+	 * names associated with listener types based on the
+	 * currently used {@code ResourceProvider} obtained by this
+	 * {@code Services.getResourceService().getResourceProvider()}
+	 * method call at supplying.
+	 * 
+	 * @return the default resource names supplier
+	 * 
+	 * @see ResourceNamesSupplier
+	 * @see #getDefaultResourceProvider()
+	 */
 	public static final ResourceNamesSupplier getDefaultResourceNamesSupplier()
 	{
 		return new ResourceNamesSupplier()

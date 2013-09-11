@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
@@ -44,18 +43,18 @@ final class StandardListenerProvider extends AbstractListenerProvider
 			this.parent = Optional.absent();
 		}
 		
-		public final Builder add(final Class<? extends Listener> type)
+		public final Builder add(final Class<? extends Listener> implementation)
 		{
-			Preconditions.checkNotNull(type);
+			Preconditions.checkNotNull(implementation);
 			
-			this.map.put(type.getName(), type);
+			this.map.put(implementation.getName(), implementation);
 			
 			return this;
 		}
 
-		public final Builder addAll(final Collection<Class<? extends Listener>> types)
+		public final Builder addAll(final Iterable<Class<? extends Listener>> implementations)
 		{
-			for (Class<? extends Listener> type: types)
+			for (Class<? extends Listener> type: implementations)
 			{
 				this.add(type);
 			}
@@ -113,6 +112,9 @@ final class StandardListenerProvider extends AbstractListenerProvider
 		}
 		catch (Exception cause)
 		{
+			// TODO also throw ListenerNotFoundException on ClassNotFoundException
+			// TODO also throw IllegalListenerClassException on malformed class
+			// TODO do so with resources too + support instantaible resources
 			return this.parentForClass(type, new ListenerInstantiationException(cause));
 		}
 	}

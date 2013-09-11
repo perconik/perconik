@@ -59,7 +59,7 @@ final class Internals
 	
 	static final <T> Set<T> getApis(final Class<T> superclass)
 	{
-		Set<T> implementations = Sets.newIdentityHashSet();
+		Set<T> implementations = Sets.newHashSet();
 		
 		for (Supplier<?> supplier: suppliers.values())
 		{

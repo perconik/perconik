@@ -6,22 +6,30 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * AST API levels.
+ * 
+ * @see AST
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum AstApiLevel implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.jdt.core.dom.AST#JLS2
+	 * @see AST#JLS2
 	 */
 	@SuppressWarnings("deprecation")
 	JLS2(AST.JLS2),
 
 	/**
-	 * @see org.eclipse.jdt.core.dom.AST#JLS3
+	 * @see AST#JLS3
 	 */
 	@SuppressWarnings("deprecation")
 	JLS3(AST.JLS3),
 
 	/**
-	 * @see org.eclipse.jdt.core.dom.AST#JLS4
+	 * @see AST#JLS4
 	 */
 	JLS4(AST.JLS4);
 

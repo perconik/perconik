@@ -12,6 +12,12 @@ import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
+/**
+ * Resources preference page.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class ResourcesPreferencePage extends AbstractRegistrationPreferencePage<ResourcePreferences, ResourcePersistenceData>
 {
 	public ResourcesPreferencePage()

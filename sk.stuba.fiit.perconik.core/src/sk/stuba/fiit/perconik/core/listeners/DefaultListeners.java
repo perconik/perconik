@@ -11,6 +11,26 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
 
+/**
+ * Static accessor methods pertaining to default listener core implementation.
+ * 
+ * <p>The core implementation includes default {@code Listener}
+ * implementation classes along with respective {@code ListenerClassesSupplier}
+ * as well as default {@code ListenerService}, {@code ListenerProvider}
+ * and {@code ListenerManager}.
+ * 
+ * <p>The default implementations of listeners as well as listener provider,
+ * manager and service are still available by this class even if the respective
+ * listeners are unregistered from the core or the services are switched or
+ * stopped.
+ * 
+ * <p><b>Note:</b> The core listener implementation currently does not include
+ * any default listener implementations, but this is subject to change in the
+ * future releases. 
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class DefaultListeners
 {
 	private DefaultListeners()
@@ -20,11 +40,11 @@ public final class DefaultListeners
 	
 	private static final class ProviderHolder
 	{
-		static final ListenerProvider provider;
+		static final ListenerProvider instance;
 		
 		static
 		{
-			provider = ListenerProviders.builder().build();
+			instance = ListenerProviders.builder().build();
 		}
 		
 		private ProviderHolder()
@@ -35,11 +55,11 @@ public final class DefaultListeners
 
 	private static final class ManagerHolder
 	{
-		static final ListenerManager manager;
+		static final ListenerManager instance;
 		
 		static
 		{
-			manager = ListenerManagers.create();
+			instance = ListenerManagers.create();
 		}
 		
 		private ManagerHolder()
@@ -50,16 +70,16 @@ public final class DefaultListeners
 
 	private static final class ServiceHolder
 	{
-		static final ListenerService service;
+		static final ListenerService instance;
 		
 		static
 		{
 			ListenerService.Builder builder = ListenerServices.builder();
 			
-			builder.provider(ProviderHolder.provider);
-			builder.manager(ManagerHolder.manager);
+			builder.provider(ProviderHolder.instance);
+			builder.manager(ManagerHolder.instance);
 			
-			service = builder.build();
+			instance = builder.build();
 		}
 		
 		private ServiceHolder()
@@ -68,21 +88,86 @@ public final class DefaultListeners
 		}
 	}
 
+	/**
+	 * Returns the default listener provider. The returned provider is a
+	 * standard listener provider constructed using the standard provider
+	 * builder from {@link ListenerProviders#builder()} factory method.
+	 * Its direct parent and the only predecessor in the listener provider
+	 * hierarchy is the system listener provider.
+	 * 
+	 * <p>The default listener provider is lazily
+	 * initialized at the first call of this method.
+	 * 
+	 * @return the default listener provider
+	 * 
+	 * @see ListenerProvider
+	 * @see ListenerProviders#builder()
+	 * @see ListenerProviders#getSystemProvider()
+	 */
 	public static final ListenerProvider getDefaultListenerProvider()
 	{
-		return ProviderHolder.provider;
+		return ProviderHolder.instance;
 	}
 
+	/**
+	 * Returns the default listener manager. The returned
+	 * manager is a standard listener manager constructed by
+	 * the {@link ListenerManagers#create()} factory method.
+	 * 
+	 * <p>The default listener manager is lazily
+	 * initialized at the first call of this method.
+	 * 
+	 * @return the default listener manager
+	 * 
+	 * @see ListenerManager
+	 * @see ListenerManagers#create()
+	 */
 	public static final ListenerManager getDefaultListenerManager()
 	{
-		return ManagerHolder.manager;
+		return ManagerHolder.instance;
 	}
 	
+	/**
+	 * Returns the default listener service. The returned service is a
+	 * standard listener service constructed using the standard service
+	 * builder from {@link ListenerServices#builder()} factory method.
+	 * It contains the default listener provider and manager.
+	 * 
+	 * <p>The default listener service is lazily
+	 * initialized at the first call of this method.
+	 * 
+	 * <p><b>Note:</b> The returned service may be unusable if it
+	 * has been retrieved by this method earlier and then stopped.
+	 * 
+	 * @return the default listener service
+	 * 
+	 * @see ListenerService
+	 * @see ListenerServices#builder()
+	 * @see #getDefaultListenerProvider()
+	 * @see #getDefaultListenerManager()
+	 */
 	public static final ListenerService getDefaultListenerService()
 	{
-		return ServiceHolder.service;
+		return ServiceHolder.instance;
 	}
 	
+	/**
+	 * Returns the default listener implementation classes supplier.
+	 * The built supplier dynamically supplies listener implementation
+	 * classes based on the currently used {@code ListenerProvider} obtained
+	 * by this {@code Services.getListenerService().getListenerProvider()}
+	 * method call at supplying. 
+	 * 
+	 * <p><b>Note:</b> The returned supplier always supplies an empty set
+	 * because the core listener implementation currently does not include
+	 * any default listener implementations, but this is subject to change
+	 * in the future releases.
+	 * 
+	 * @return the default listener classes supplier
+	 * 
+	 * @see ListenerClassesSupplier
+	 * @see #getDefaultListenerProvider()
+	 */
 	public static final ListenerClassesSupplier getDefaultListenerClassesSupplier()
 	{
 		return new ListenerClassesSupplier()

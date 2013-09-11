@@ -5,6 +5,12 @@ import java.util.Iterator;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 
+/**
+ * Static utility methods pertaining to {@code Set} instances.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class MoreSets
 {
 	private MoreSets()

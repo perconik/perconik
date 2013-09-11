@@ -8,8 +8,21 @@ import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 
+/**
+ * An abstract implementation of {@link ListenerManager}. This class
+ * implements the listener registration mechanism based on the underlying
+ * {@link ResourceManager}.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public abstract class AbstractListenerManager extends AbstractManager implements ListenerManager
 {
+	// TODO add javadocs
+	
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	protected AbstractListenerManager()
 	{
 	}

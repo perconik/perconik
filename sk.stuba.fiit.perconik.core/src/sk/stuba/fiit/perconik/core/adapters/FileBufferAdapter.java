@@ -5,8 +5,29 @@ import org.eclipse.core.runtime.IPath;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 
+/**
+ * An abstract adapter class for a {@code FileBufferListener}.
+ * The methods in this class are empty. This class exists
+ * as convenience for creating listener objects.
+ * 
+ * <p>Extend this class to create a {@code FileBufferListener}
+ * and override the methods for the events of interest.
+ * 
+ * @see Adapter
+ * @see FileBufferListener
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public class FileBufferAdapter extends Adapter implements FileBufferListener
 {
+	/**
+	 * Constructor for use by subclasses.
+	 */
+	protected FileBufferAdapter()
+	{
+	}
+
 	public void bufferCreated(IFileBuffer buffer)
 	{
 	}

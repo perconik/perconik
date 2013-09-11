@@ -6,35 +6,43 @@ import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 import com.google.common.collect.ImmutableSet;
 
+/**
+ * Resource delta kinds.
+ * 
+ * @see IResourceDelta
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum ResourceDeltaKind implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#NO_CHANGE
+	 * @see IResourceDelta#NO_CHANGE
 	 */
 	NO_CHANGE(IResourceDelta.NO_CHANGE),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#ADDED
+	 * @see IResourceDelta#ADDED
 	 */
 	ADDED(IResourceDelta.ADDED),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#REMOVED
+	 * @see IResourceDelta#REMOVED
 	 */
 	REMOVED(IResourceDelta.REMOVED),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#CHANGED
+	 * @see IResourceDelta#CHANGED
 	 */
 	CHANGED(IResourceDelta.CHANGED),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#ADDED_PHANTOM
+	 * @see IResourceDelta#ADDED_PHANTOM
 	 */
 	ADDED_PHANTOM(IResourceDelta.ADDED_PHANTOM),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#REMOVED_PHANTOM
+	 * @see IResourceDelta#REMOVED_PHANTOM
 	 */
 	REMOVED_PHANTOM(IResourceDelta.REMOVED_PHANTOM);
 	

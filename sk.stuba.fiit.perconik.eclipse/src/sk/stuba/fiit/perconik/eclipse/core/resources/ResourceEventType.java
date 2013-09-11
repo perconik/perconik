@@ -5,35 +5,43 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Resource event types.
+ * 
+ * @see IResourceChangeEvent
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum ResourceEventType implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#POST_CHANGE
+	 * @see IResourceChangeEvent#POST_CHANGE
 	 */
 	POST_CHANGE(IResourceChangeEvent.POST_CHANGE),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_CLOSE
+	 * @see IResourceChangeEvent#PRE_CLOSE
 	 */
 	PRE_CLOSE(IResourceChangeEvent.PRE_CLOSE),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_DELETE
+	 * @see IResourceChangeEvent#PRE_DELETE
 	 */
 	PRE_DELETE(IResourceChangeEvent.PRE_DELETE),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_BUILD
+	 * @see IResourceChangeEvent#PRE_BUILD
 	 */
 	PRE_BUILD(IResourceChangeEvent.PRE_BUILD),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#POST_BUILD
+	 * @see IResourceChangeEvent#POST_BUILD
 	 */
 	POST_BUILD(IResourceChangeEvent.POST_BUILD),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResourceChangeEvent#PRE_REFRESH
+	 * @see IResourceChangeEvent#PRE_REFRESH
 	 */
 	PRE_REFRESH(IResourceChangeEvent.PRE_REFRESH);
 

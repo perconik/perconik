@@ -9,6 +9,12 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import com.google.common.base.Preconditions;
 
+/**
+ * Static utility methods pertaining to Eclipse editors.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class Editors
 {
 	private Editors()
@@ -16,11 +22,21 @@ public final class Editors
 		throw new AssertionError();
 	}
 	
+	/**
+	 * Gets the active editor.
+	 * @return the active editor or {@code null} if there is no active editor
+	 */
 	public static final IEditorPart getActiveEditor()
 	{
 		return getActiveEditor(Workbenches.getActivePage());
 	}
 	
+	/**
+	 * Gets the currently active editor.
+	 * @param page the page, may be {@code null}
+	 * @return the active editor or {@code null} if the page
+	 *         is {@code null} or there is no active editor
+	 */
 	public static final IEditorPart getActiveEditor(@Nullable final IWorkbenchPage page)
 	{
 		if (page == null)
@@ -31,6 +47,12 @@ public final class Editors
 		return page.getActiveEditor();
 	}
 	
+	/**
+	 * Gets the source viewer from given editor.
+	 * @param editor the editor, may be {@code null}
+	 * @return the source viewer or {@code null} if the editor
+	 *         is {@code null} or there is no source viewer
+	 */
 	public static final ISourceViewer getSourceViewer(@Nullable final IEditorPart editor)
 	{
 		if (editor == null)
@@ -38,9 +60,17 @@ public final class Editors
 			return null;
 		}
 
-		return (ISourceViewer) editor.getAdapter(ITextOperationTarget.class);
+		Object viewer = editor.getAdapter(ITextOperationTarget.class);
+		
+		return viewer instanceof ISourceViewer ? (ISourceViewer) viewer : null;
 	}
 	
+	/**
+	 * Gets the text widget from given editor.
+	 * @param editor the editor, may be {@code null}
+	 * @return the text widget or {@code null} if the editor
+	 *         is {@code null} or there is no text widget
+	 */
 	public static final StyledText getStyledText(@Nullable final IEditorPart editor)
 	{
 		ISourceViewer viewer = getSourceViewer(editor);
@@ -53,6 +83,12 @@ public final class Editors
 		return viewer.getTextWidget();
 	}
 
+	/**
+	 * Gets the input document from given editor.
+	 * @param editor the editor, may be {@code null}
+	 * @return the document or {@code null} if the editor
+	 *         is {@code null} or there is no document 
+	 */
 	public static final IDocument getDocument(@Nullable final IEditorPart editor)
 	{
 		ISourceViewer viewer = getSourceViewer(editor);
@@ -65,11 +101,22 @@ public final class Editors
 		return viewer.getDocument();
 	}
 	
+	/**
+	 * Waits for the currently active editor.
+	 * This method blocks until there is an active editor.
+	 * @see #getActiveEditor()
+	 */
 	public static final IEditorPart waitForActiveEditor()
 	{
 		return waitForActiveEditor(Workbenches.waitForActivePage());
 	}
 
+	/**
+	 * Waits for the currently active editor.
+	 * This method blocks until there is an active editor.
+	 * @param page the page, can not be {@code null}
+	 * @see #getActiveEditor(IWorkbenchPage)
+	 */
 	public static final IEditorPart waitForActiveEditor(final IWorkbenchPage page)
 	{
 		Preconditions.checkNotNull(page);

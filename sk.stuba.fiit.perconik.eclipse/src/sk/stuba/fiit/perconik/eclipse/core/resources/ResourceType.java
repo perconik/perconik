@@ -11,25 +11,33 @@ import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.TypeConstant;
 import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
 
+/**
+ * Resource types.
+ * 
+ * @see IResource
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum ResourceType implements IntegralConstant, TypeConstant<IResource>
 {
 	/**
-	 * @see org.eclipse.core.resources.IResource#FILE
+	 * @see IResource#FILE
 	 */
 	FILE(IResource.FILE, IFile.class),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResource#FOLDER
+	 * @see IResource#FOLDER
 	 */
 	FOLDER(IResource.FOLDER, IFolder.class),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResource#PROJECT
+	 * @see IResource#PROJECT
 	 */
 	PROJECT(IResource.PROJECT, IProject.class),
 	
 	/**
-	 * @see org.eclipse.core.resources.IResource#ROOT
+	 * @see IResource#ROOT
 	 */
 	ROOT(IResource.ROOT, IWorkspaceRoot.class);
 	

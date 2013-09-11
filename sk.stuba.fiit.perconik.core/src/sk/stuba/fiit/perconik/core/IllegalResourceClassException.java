@@ -5,20 +5,20 @@ import javax.annotation.Nullable;
 /**
  * Thrown by an implementation of core services when input parameters
  * are invalid. This may occur either because the class is not an instance
- * of {@link sk.stuba.fiit.perconik.core.Listener Listener} or it does not
+ * of {@link sk.stuba.fiit.perconik.core.Resource Resource} or it does not
  * meet any other service implementation specific requirements.
  * 
  * @author Pavol Zbell
  * @since 1.0
  */
-public class IllegalListenerClassException extends IllegalArgumentException
+public class IllegalResourceClassException extends IllegalArgumentException
 {
 	private static final long serialVersionUID = 0;
 
 	/**
 	 * Creates a new instance with no detail message.
 	 */
-	public IllegalListenerClassException()
+	public IllegalResourceClassException()
 	{
 		super();
 	}
@@ -26,7 +26,7 @@ public class IllegalListenerClassException extends IllegalArgumentException
 	/**
 	 * Creates a new instance with the given detail message.
 	 */
-	public IllegalListenerClassException(@Nullable String message)
+	public IllegalResourceClassException(@Nullable String message)
 	{
 		super(message);
 	}
@@ -34,7 +34,7 @@ public class IllegalListenerClassException extends IllegalArgumentException
 	/**
 	 * Creates a new instance with the given detail message and cause.
 	 */
-	public IllegalListenerClassException(@Nullable String message, @Nullable Throwable cause)
+	public IllegalResourceClassException(@Nullable String message, @Nullable Throwable cause)
 	{
 		super(message, cause);
 	}
@@ -42,7 +42,7 @@ public class IllegalListenerClassException extends IllegalArgumentException
 	/**
 	 * Creates a new instance with the given cause.
 	 */
-	public IllegalListenerClassException(@Nullable Throwable cause)
+	public IllegalResourceClassException(@Nullable Throwable cause)
 	{
 		super(cause);
 	}

@@ -7,8 +7,21 @@ import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
+/**
+ * An abstract implementation of {@link ResourceManager}. This class
+ * implements the resource registration mechanism based on an underlying
+ * {@code SetMultimap} of listener types to registered resources.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public abstract class AbstractResourceManager extends AbstractManager implements ResourceManager
 {
+	// TODO add javadocs
+	
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	protected AbstractResourceManager()
 	{
 	}
@@ -19,6 +32,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
 	{
 		if (!Listener.class.isAssignableFrom(type))
 		{
+			// TODO consider IAE instead
 			throw new IllegalListenerClassException(type.getName() + " is not assignable to " + Listener.class.getName());
 		}
 		

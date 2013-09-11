@@ -155,7 +155,7 @@ class Synchronized
 			}
 		}
 
-		public final boolean registered(final L listener)
+		public final boolean registered(final Listener listener)
 		{
 			synchronized (this.mutex)
 			{
@@ -204,27 +204,27 @@ class Synchronized
 			}
 		}
 
-		public final boolean contains(final T listener)
+		public final boolean contains(final Object object)
 		{
 			synchronized (this.mutex)
 			{
-				return this.delegate.contains(listener);
+				return this.delegate.contains(object);
 			}
 		}
 		
-		public final void add(final T listener)
+		public final void add(final T object)
 		{
 			synchronized (this.mutex)
 			{
-				this.delegate.add(listener);
+				this.delegate.add(object);
 			}
 		}
 		
-		public final void remove(final T listener)
+		public final void remove(final T object)
 		{
 			synchronized (this.mutex)
 			{
-				this.delegate.remove(listener);
+				this.delegate.remove(object);
 			}
 		}
 		
@@ -269,19 +269,19 @@ class Synchronized
 			}
 		}
 
-		public final void register(final T listener)
+		public final void register(final T object)
 		{
 			synchronized (this.mutex)
 			{
-				this.delegate.register(listener);
+				this.delegate.register(object);
 			}
 		}
 
-		public final void unregister(final T listener)
+		public final void unregister(final T object)
 		{
 			synchronized (this.mutex)
 			{
-				this.delegate.unregister(listener);
+				this.delegate.unregister(object);
 			}
 		}
 	}

@@ -20,7 +20,18 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
-public final class ListenerPersistenceData extends AbstractListenerRegistration implements ListenerRegistration, MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData
+/**
+ * Markable listener registration with lively updated registration status.
+ * 
+ * <p><b>Note:</b> This implementation is truly serializable if and only
+ * if the underlying listener is serializable. Otherwise this implementation
+ * serializes listener's data necessary to obtain the listener from the core
+ * listener provider after deserialization at runtime.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public final class ListenerPersistenceData extends AbstractListenerRegistration implements MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData
 {
 	private static final long serialVersionUID = -1672202405264953995L;
 

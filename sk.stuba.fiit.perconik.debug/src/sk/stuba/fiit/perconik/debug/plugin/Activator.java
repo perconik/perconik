@@ -5,13 +5,15 @@ import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugResources;
-import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
  * 
+ * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+ * 
  * @author Pavol Zbell
+ * @since 1.0
  */
 public final class Activator extends ExtendedPlugin
 {
@@ -30,25 +32,38 @@ public final class Activator extends ExtendedPlugin
 	 */
 	public Activator()
 	{
-		super(DebugConsole.factory());
 	}
 
 	/**
 	 * Gets the shared instance.
-	 * 
-	 * @return Returns the shared instance.
+	 * @return the shared instance
 	 */
 	public static final Activator getDefault()
 	{
 		return plugin;
 	}
 	
+	/**
+	 * Plug-in early startup.
+	 * 
+	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+	 * 
+	 * @author Pavol Zbell
+	 * @since 1.0
+	 */
 	public static final class Startup implements IStartup
 	{
+		/**
+		 * The constructor.
+		 */
 		public Startup()
 		{
 		}
 
+		/**
+		 * Waits until core processes all extensions and
+		 * then prints registration maps on the debug console.
+		 */
 		public final void earlyStartup()
 		{
 			final Runnable wait = new Runnable()

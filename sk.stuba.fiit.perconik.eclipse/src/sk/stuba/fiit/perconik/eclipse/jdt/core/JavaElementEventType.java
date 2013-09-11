@@ -5,20 +5,28 @@ import org.eclipse.jdt.core.ElementChangedEvent;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Java element event types.
+ * 
+ * @see ElementChangedEvent
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum JavaElementEventType implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.jdt.core.ElementChangedEvent#POST_CHANGE
+	 * @see ElementChangedEvent#POST_CHANGE
 	 */
 	POST_CHANGE(ElementChangedEvent.POST_CHANGE),
 	
 	/**
-	 * @see org.eclipse.jdt.core.ElementChangedEvent#POST_RECONCILE
+	 * @see ElementChangedEvent#POST_RECONCILE
 	 */
 	POST_RECONCILE(ElementChangedEvent.POST_RECONCILE),
 	
 	/**
-	 * @see org.eclipse.jdt.core.ElementChangedEvent#PRE_AUTO_BUILD
+	 * @see ElementChangedEvent#PRE_AUTO_BUILD
 	 */
 	@Deprecated
 	@SuppressWarnings("deprecation")
@@ -43,7 +51,7 @@ public enum JavaElementEventType implements IntegralConstant
 		return integers.getConstantsAsInteger();
 	}
 
-	public static final int valuesAsInteger(Set<JavaElementEventType> values)
+	public static final int valuesAsInteger(final Set<JavaElementEventType> values)
 	{
 		return IntegralConstantSupport.constantsAsInteger(values);
 	}

@@ -9,6 +9,12 @@ import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 
+/**
+ * Static accessor methods to core services.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class Services
 {
 	static
@@ -37,12 +43,15 @@ public final class Services
 
 	static final Set<Service> inStartOrder()
 	{
-		ImmutableSet.Builder<Service> builder = ImmutableSet.builder();
+		synchronized (Internals.class)
+		{
+			ImmutableSet.Builder<Service> builder = ImmutableSet.builder();
+			
+			builder.add(Services.getResourceService());
+			builder.add(Services.getListenerService());
 		
-		builder.add(Services.getResourceService());
-		builder.add(Services.getListenerService());
-	
-		return builder.build();
+			return builder.build();
+		}
 	}
 	
 	static final Set<Service> inStopOrder()
@@ -50,21 +59,35 @@ public final class Services
 		return ImmutableSet.copyOf(Lists.reverse(Lists.newArrayList(inStartOrder())));
 	}
 	
+	/**
+	 * Sets the resource service.
+	 * @param service the service, not {@code null}
+	 */
 	public static final void setResourceService(final ResourceService service)
 	{
 		Internals.setApi(ResourceService.class, service);
 	}
 
+	/**
+	 * Sets the listener service.
+	 * @param service the service, not {@code null}
+	 */
 	public static final void setListenerService(final ListenerService service)
 	{
 		Internals.setApi(ListenerService.class, service);
 	}
 
+	/**
+	 * Returns the currently active resource service.
+	 */
 	public static final ResourceService getResourceService()
 	{
 		return Internals.getApi(ResourceService.class);
 	}
 
+	/**
+	 * Returns the currently active listener service.
+	 */
 	public static final ListenerService getListenerService()
 	{
 		return Internals.getApi(ListenerService.class);

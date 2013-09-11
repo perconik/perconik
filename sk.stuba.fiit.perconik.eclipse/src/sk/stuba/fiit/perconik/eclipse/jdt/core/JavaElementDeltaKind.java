@@ -5,20 +5,28 @@ import org.eclipse.jdt.core.IJavaElementDelta;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Java element delta kinds.
+ * 
+ * @see IJavaElementDelta
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum JavaElementDeltaKind implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElementDelta#ADDED
+	 * @see IJavaElementDelta#ADDED
 	 */
 	ADDED(IJavaElementDelta.ADDED),
 
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElementDelta#REMOVED
+	 * @see IJavaElementDelta#REMOVED
 	 */
 	REMOVED(IJavaElementDelta.REMOVED),
 
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElementDelta#CHANGED
+	 * @see IJavaElementDelta#CHANGED
 	 */
 	CHANGED(IJavaElementDelta.CHANGED);
 

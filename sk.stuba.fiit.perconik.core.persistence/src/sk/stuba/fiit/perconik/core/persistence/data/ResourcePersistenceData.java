@@ -18,7 +18,18 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.base.Optional;
 import com.google.common.collect.Sets;
 
-public final class ResourcePersistenceData extends AbstractResourceRegistration implements ResourceRegistration, MarkableRegistration, RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceData
+/**
+ * Markable resource registration with lively updated registration status.
+ * 
+ * <p><b>Note:</b> This implementation is truly serializable if and only
+ * if the underlying resource is serializable. Otherwise this implementation
+ * serializes resource's data necessary to obtain the resource from the core
+ * resource provider after deserialization at runtime.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public final class ResourcePersistenceData extends AbstractResourceRegistration implements MarkableRegistration, RegistrationMarker<ResourcePersistenceData>, Serializable, SerializedResourceData
 {
 	private static final long serialVersionUID = 6677144113746518278L;
 

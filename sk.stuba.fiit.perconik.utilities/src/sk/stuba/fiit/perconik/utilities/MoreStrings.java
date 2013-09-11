@@ -2,6 +2,13 @@ package sk.stuba.fiit.perconik.utilities;
 
 import java.util.Comparator;
 
+/**
+ * Static utility methods pertaining to {@code String} or {@code CharSequence}
+ * instances.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class MoreStrings
 {
 	private MoreStrings()

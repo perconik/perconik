@@ -6,30 +6,38 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Status severities.
+ * 
+ * @see IStatus
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum StatusSeverity implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.core.runtime.IStatus#OK
+	 * @see IStatus#OK
 	 */
 	OK(IStatus.OK),
 
 	/**
-	 * @see org.eclipse.core.runtime.IStatus#INFO
+	 * @see IStatus#INFO
 	 */
 	INFO(IStatus.INFO),
 
 	/**
-	 * @see org.eclipse.core.runtime.IStatus#WARNING
+	 * @see IStatus#WARNING
 	 */
 	WARNING(IStatus.WARNING),
 
 	/**
-	 * @see org.eclipse.core.runtime.IStatus#ERROR
+	 * @see IStatus#ERROR
 	 */
 	ERROR(IStatus.ERROR),
 
 	/**
-	 * @see org.eclipse.core.runtime.IStatus#CANCEL
+	 * @see IStatus#CANCEL
 	 */
 	CANCEL(IStatus.CANCEL);
 	

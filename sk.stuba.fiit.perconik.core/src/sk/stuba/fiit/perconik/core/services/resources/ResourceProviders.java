@@ -7,8 +7,18 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
+/**
+ * Static utility methods pertaining to {@link ResourceProvider} instances.
+ * Also see this class's counterparts {@link ResourceServices}
+ * and {@link ResourceManagers}.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class ResourceProviders
 {
+	// TODO add javadocs
+	
 	private ResourceProviders()
 	{
 		throw new AssertionError();

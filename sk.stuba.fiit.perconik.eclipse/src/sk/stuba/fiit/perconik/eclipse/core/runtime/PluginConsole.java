@@ -2,6 +2,12 @@ package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
 import javax.annotation.Nullable;
 
+/**
+ * Plug-in console capable of printing various kinds of messages.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public interface PluginConsole
 {
 	public void put(@Nullable String message);

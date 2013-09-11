@@ -6,7 +6,13 @@ import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import com.google.common.collect.Sets;
 
-public class LiveListenerRegistration extends AbstractListenerRegistration implements ListenerRegistration
+/**
+ * Standard listener registration with lively updated registration status.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public class LiveListenerRegistration extends AbstractListenerRegistration
 {
 	private final Class<? extends Listener> type;
 	

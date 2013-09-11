@@ -44,7 +44,7 @@ final class StandardResourceProvider extends AbstractResourceProvider
 			this.parent   = Optional.absent();
 		}
 		
-		public final <L extends Listener> Builder add(final Class<L> type, final Resource<L> resource)
+		public final <L extends Listener> Builder add(final Class<L> type, final Resource<? super L> resource)
 		{
 			Preconditions.checkNotNull(type);
 			

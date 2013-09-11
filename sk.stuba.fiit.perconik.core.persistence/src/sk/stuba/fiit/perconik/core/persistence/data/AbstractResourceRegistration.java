@@ -5,12 +5,26 @@ import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
 import sk.stuba.fiit.perconik.core.services.Services;
 
+/**
+ * An abstract implementation of the {@link ResourceRegistration} interface.
+ * Implemented predicates like the current registration status are obtained
+ * directly from the core using the underlying resource or resource's data.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public abstract class AbstractResourceRegistration implements ResourceRegistration
 {
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	protected AbstractResourceRegistration()
 	{
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final boolean equals(@Nullable final Object o)
 	{
@@ -29,6 +43,9 @@ public abstract class AbstractResourceRegistration implements ResourceRegistrati
 		return this.getListenerType() == other.getListenerType() && this.getResourceName().equals(other.getResourceName());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public final int hashCode()
 	{
@@ -41,11 +58,17 @@ public abstract class AbstractResourceRegistration implements ResourceRegistrati
 		return Utilities.toString(this);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final boolean isRegistered()
 	{
 		return Resources.isRegistered(this.getListenerType(), this.getResource());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public final boolean isProvided()
 	{
 		return Services.getResourceService().getResourceProvider().names().contains(this.getResourceName());

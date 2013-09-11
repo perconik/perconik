@@ -1,68 +1,55 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Collection;
+import javax.annotation.Nullable;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import sk.stuba.fiit.perconik.core.AbstractRegistrable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 abstract class AbstractResource<L extends Listener> extends AbstractRegistrable implements Resource<L>
 {
-	final Pool<L> pool;
+	final String name;
 	
-	AbstractResource(final Pool<L> pool)
+	AbstractResource(final String name)
 	{
-		this.pool = Preconditions.checkNotNull(pool);
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+		
+		this.name = name;
 	}
 	
-	public final void register(final L listener)
+	@Override
+	public final boolean equals(@Nullable final Object o)
 	{
-		listener.preRegister();
-		
-		this.pool.add(listener);
-		
-		listener.postRegister();
-	}
-	
-	public final void unregister(final L listener)
-	{
-		listener.preUnregister();
-		
-		this.pool.remove(listener);
-		
-		listener.postUnregister();
-	}
-	
-	public final void unregisterAll(final Class<? extends Listener> type)
-	{
-		for (L listener: this.pool.toCollection())
+		if (this == o)
 		{
-			if (type.isInstance(listener))
-			{
-				this.unregister(listener);
-			}
-		}
-	}
-	
-	public final <U extends Listener> Collection<U> registered(final Class<U> type)
-	{
-		Collection<L> listeners = this.pool.toCollection();
-		Collection<U> filtered  = Lists.newArrayListWithCapacity(listeners.size());
-		
-		for (L listener: listeners)
-		{
-			if (type.isInstance(listener))
-			{
-				filtered.add(type.cast(listener));
-			}
+			return true;
 		}
 		
-		return filtered;
+		if (!(o instanceof Resource))
+		{
+			return false;
+		}
+		
+		Resource<?> other = (Resource<?>) o;
+		
+		return this.getName().equals(other.getName());
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.getName().hashCode();
+	}
+
+	@Override
+	public final String toString()
+	{
+		return this.getName();
 	}
 	
-	public final boolean registered(final L listener)
+	public final String getName()
 	{
-		return this.pool.contains(listener);
+		return this.name;
 	}
 }

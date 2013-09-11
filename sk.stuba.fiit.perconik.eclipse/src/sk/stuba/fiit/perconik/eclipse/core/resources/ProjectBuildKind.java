@@ -5,25 +5,33 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Project build kinds.
+ * 
+ * @see IncrementalProjectBuilder
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum ProjectBuildKind implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#FULL_BUILD
+	 * @see IncrementalProjectBuilder#FULL_BUILD
 	 */
 	FULL(IncrementalProjectBuilder.FULL_BUILD),
 	
 	/**
-	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#AUTO_BUILD
+	 * @see IncrementalProjectBuilder#AUTO_BUILD
 	 */
 	AUTO(IncrementalProjectBuilder.AUTO_BUILD),
 	
 	/**
-	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#INCREMENTAL_BUILD
+	 * @see IncrementalProjectBuilder#INCREMENTAL_BUILD
 	 */
 	INCREMENTAL(IncrementalProjectBuilder.INCREMENTAL_BUILD),
 	
 	/**
-	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#CLEAN_BUILD
+	 * @see IncrementalProjectBuilder#CLEAN_BUILD
 	 */
 	CLEAN(IncrementalProjectBuilder.CLEAN_BUILD);
 	

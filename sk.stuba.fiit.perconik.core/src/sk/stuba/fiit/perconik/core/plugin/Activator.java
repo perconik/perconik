@@ -8,6 +8,8 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
  * 
+ * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+ * 
  * @author Pavol Zbell
  */
 public final class Activator extends ExtendedPlugin
@@ -20,12 +22,12 @@ public final class Activator extends ExtendedPlugin
 	/**
 	 * The shared instance.
 	 */
-	private static Activator plugin;
+	private static volatile Activator plugin;
 
 	volatile boolean processed;
 	
 	/**
-	 * The constructor
+	 * The constructor.
 	 */
 	public Activator()
 	{
@@ -33,28 +35,51 @@ public final class Activator extends ExtendedPlugin
 
 	/**
 	 * Gets the shared instance.
-	 * 
-	 * @return Returns the shared instance.
+	 * @return the shared instance
 	 */
 	public static final Activator getDefault()
 	{
-		return plugin;
-	}
-	
-	public static final void waitForExtensions()
-	{
-		synchronized (plugin)
+		synchronized (Activator.class)
 		{
-			while (plugin == null || !plugin.processed) {}
+			return plugin;
 		}
 	}
+
+	/**
+	 * Waits blocking until all supplied extensions are processed.
+	 * @throws NullPointerException if the shared instance is not constructed
+	 */
+	public static final void waitForExtensions()
+	{
+		Activator plugin;
+		
+		do
+		{
+			plugin = getDefault();
+		}
+		while (plugin == null || !plugin.processed);
+	}
 	
+	/**
+	 * Plug-in early startup. 
+	 * 
+	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+	 * 
+	 * @author Pavol Zbell
+	 * @since 1.0
+	 */
 	public static final class Startup implements IStartup
 	{
+		/**
+		 * The constructor.
+		 */
 		public Startup()
 		{
 		}
-		
+
+		/**
+		 * Processes supplied extensions and starts core services.
+		 */
 		public final void earlyStartup()
 		{
 			ServicesLoader loader = new ServicesLoader();
@@ -72,7 +97,10 @@ public final class Activator extends ExtendedPlugin
 		
 		super.start(context);
 
-		plugin = this;
+		synchronized (Activator.class)
+		{
+			plugin = this;
+		}
 	}
 
 	@Override
@@ -80,7 +108,10 @@ public final class Activator extends ExtendedPlugin
 	{
 		ServiceSnapshot.take().servicesInStopOrder().stopAndWait();
 		
-		plugin = null;
+		synchronized (Activator.class)
+		{
+			plugin = null;
+		}
 
 		super.stop(context);
 		

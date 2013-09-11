@@ -4,7 +4,7 @@ import java.util.Collection;
 
 interface Pool<T>
 {
-	public boolean contains(T object);
+	public boolean contains(Object object);
 	
 	public void add(T object);
 	

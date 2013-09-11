@@ -35,7 +35,7 @@ abstract class AbstractExtensionProcessor<T>
 		this.plugin = Activator.getDefault();
 		this.point  = point;
 		
-		this.types      = types instanceof ImmutableSet ? types : ImmutableSet.copyOf(types);
+		this.types      = ImmutableSet.copyOf(types);
 		this.extensions = LinkedListMultimap.create(this.types.size());
 	}
 	

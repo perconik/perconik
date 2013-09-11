@@ -3,20 +3,20 @@ package sk.stuba.fiit.perconik.core;
 import javax.annotation.Nullable;
 
 /**
- * Thrown when an attempt is made to register a resource that is already
- * registered and the core resource service decided to inform about that.
+ * Thrown when one of the core service classes tries to instantiate
+ * a resource through its class but the instantiation process fails.
  * 
  * @author Pavol Zbell
  * @since 1.0
  */
-public class ResourceAlreadyRegistredException extends IllegalStateException
+public class ResourceInstantiationException extends RuntimeException
 {
 	private static final long serialVersionUID = 0;
 
 	/**
 	 * Creates a new instance with no detail message.
 	 */
-	public ResourceAlreadyRegistredException()
+	public ResourceInstantiationException()
 	{
 		super();
 	}
@@ -24,7 +24,7 @@ public class ResourceAlreadyRegistredException extends IllegalStateException
 	/**
 	 * Creates a new instance with the given detail message.
 	 */
-	public ResourceAlreadyRegistredException(@Nullable String message)
+	public ResourceInstantiationException(@Nullable String message)
 	{
 		super(message);
 	}
@@ -32,7 +32,7 @@ public class ResourceAlreadyRegistredException extends IllegalStateException
 	/**
 	 * Creates a new instance with the given detail message and cause.
 	 */
-	public ResourceAlreadyRegistredException(@Nullable String message, @Nullable Throwable cause)
+	public ResourceInstantiationException(@Nullable String message, @Nullable Throwable cause)
 	{
 		super(message, cause);
 	}
@@ -40,7 +40,7 @@ public class ResourceAlreadyRegistredException extends IllegalStateException
 	/**
 	 * Creates a new instance with the given cause.
 	 */
-	public ResourceAlreadyRegistredException(@Nullable Throwable cause)
+	public ResourceInstantiationException(@Nullable Throwable cause)
 	{
 		super(cause);
 	}

@@ -88,7 +88,7 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
 		return this.delegate().registered(type);
 	}
 
-	public final boolean registered(L listener)
+	public final boolean registered(Listener listener)
 	{
 		return this.delegate().registered(listener);
 	}

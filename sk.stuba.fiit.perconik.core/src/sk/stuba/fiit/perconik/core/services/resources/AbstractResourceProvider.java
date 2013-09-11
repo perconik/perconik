@@ -1,14 +1,28 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
-import com.google.common.base.Throwables;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+import com.google.common.base.Throwables;
 
+/**
+ * An abstract implementation of {@link ResourceProvider}.
+ * 
+ * TODO doc providing process, class loading / instantiation
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public abstract class AbstractResourceProvider extends AbstractProvider implements ResourceProvider
 {
+	// TODO add javadocs
+	
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	protected AbstractResourceProvider()
 	{
 	}
@@ -25,7 +39,7 @@ public abstract class AbstractResourceProvider extends AbstractProvider implemen
 		return parent;
 	}
 	
-	protected final Resource<?> parentForName(final String name, final Exception cause)
+	protected final Resource<?> parentForName(final String name, @Nullable final Exception cause)
 	{
 		try
 		{
@@ -37,7 +51,7 @@ public abstract class AbstractResourceProvider extends AbstractProvider implemen
 		}
 	}
 	
-	protected final <L extends Listener> Set<Resource<L>> parentForType(final Class<L> type, final Exception cause)
+	protected final <L extends Listener> Set<Resource<L>> parentForType(final Class<L> type, @Nullable final Exception cause)
 	{
 		try
 		{

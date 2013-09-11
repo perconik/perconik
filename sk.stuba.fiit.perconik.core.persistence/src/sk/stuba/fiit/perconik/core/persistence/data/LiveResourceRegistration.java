@@ -9,7 +9,13 @@ import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import com.google.common.collect.Sets;
 
-public class LiveResourceRegistration extends AbstractResourceRegistration implements ResourceRegistration
+/**
+ * Standard resource registration with lively updated registration status.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public class LiveResourceRegistration extends AbstractResourceRegistration
 {
 	private final Class<? extends Listener> type;
 

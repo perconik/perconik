@@ -13,6 +13,12 @@ import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
+/**
+ * Listeners preference page.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class ListenersPreferencePage extends AbstractRegistrationPreferencePage<ListenerPreferences, ListenerPersistenceData>
 {
 	public ListenersPreferencePage()

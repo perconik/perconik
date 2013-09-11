@@ -6,35 +6,43 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Debug event kinds.
+ * 
+ * @see DebugEvent
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum DebugEventKind implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#RESUME
+	 * @see DebugEvent#RESUME
 	 */
 	RESUME(DebugEvent.RESUME),
 
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#SUSPEND
+	 * @see DebugEvent#SUSPEND
 	 */
 	SUSPEND(DebugEvent.SUSPEND),
 
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#CREATE
+	 * @see DebugEvent#CREATE
 	 */
 	CREATE(DebugEvent.CREATE),
 
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#TERMINATE
+	 * @see DebugEvent#TERMINATE
 	 */
 	TERMINATE(DebugEvent.TERMINATE),
 
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#CHANGE
+	 * @see DebugEvent#CHANGE
 	 */
 	CHANGE(DebugEvent.CHANGE),
 
 	/**
-	 * @see org.eclipse.debug.core.DebugEvent#MODEL_SPECIFIC
+	 * @see DebugEvent#MODEL_SPECIFIC
 	 */
 	MODEL_SPECIFIC(DebugEvent.MODEL_SPECIFIC);
 
@@ -57,7 +65,7 @@ public enum DebugEventKind implements IntegralConstant
 		return integers.getConstantsAsInteger();
 	}
 
-	public static final int valuesAsInteger(Set<JavaElementDeltaFlag> values)
+	public static final int valuesAsInteger(final Set<JavaElementDeltaFlag> values)
 	{
 		return IntegralConstantSupport.constantsAsInteger(values);
 	}

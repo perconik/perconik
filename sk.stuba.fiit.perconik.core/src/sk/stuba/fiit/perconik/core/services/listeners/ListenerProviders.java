@@ -6,8 +6,18 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider.Builder;
 import com.google.common.collect.Sets;
 
+/**
+ * Static utility methods pertaining to {@link ListenerProvider} instances.
+ * Also see this class's counterparts {@link ListenerServices}
+ * and {@link ListenerManagers}.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class ListenerProviders
 {
+	// TODO add javadocs
+	
 	private ListenerProviders()
 	{
 		throw new AssertionError();

@@ -23,84 +23,92 @@ import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.TypeConstant;
 import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
 
+/**
+ * Java element types.
+ * 
+ * @see IJavaElement
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum JavaElementType implements IntegralConstant, TypeConstant<IJavaElement>
 {
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#JAVA_MODEL
+	 * @see IJavaElement#JAVA_MODEL
 	 */
 	JAVA_MODEL(IJavaElement.JAVA_MODEL, IJavaModel.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#JAVA_PROJECT
+	 * @see IJavaElement#JAVA_PROJECT
 	 */
 	JAVA_PROJECT(IJavaElement.JAVA_PROJECT, IJavaProject.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#PACKAGE_FRAGMENT_ROOT
+	 * @see IJavaElement#PACKAGE_FRAGMENT_ROOT
 	 */
 	PACKAGE_FRAGMENT_ROOT(IJavaElement.PACKAGE_FRAGMENT_ROOT, IPackageFragmentRoot.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#PACKAGE_FRAGMENT
+	 * @see IJavaElement#PACKAGE_FRAGMENT
 	 */
 	PACKAGE_FRAGMENT(IJavaElement.PACKAGE_FRAGMENT, IPackageFragment.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#COMPILATION_UNIT
+	 * @see IJavaElement#COMPILATION_UNIT
 	 */
 	COMPILATION_UNIT(IJavaElement.COMPILATION_UNIT, ICompilationUnit.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#CLASS_FILE
+	 * @see IJavaElement#CLASS_FILE
 	 */
 	CLASS_FILE(IJavaElement.CLASS_FILE, IClassFile.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#TYPE
+	 * @see IJavaElement#TYPE
 	 */
 	TYPE(IJavaElement.TYPE, IType.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#FIELD
+	 * @see IJavaElement#FIELD
 	 */
 	FIELD(IJavaElement.FIELD, IField.class),
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#METHOD
+	 * @see IJavaElement#METHOD
 	 */
 	METHOD(IJavaElement.METHOD, IMethod.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#INITIALIZER
+	 * @see IJavaElement#INITIALIZER
 	 */
 	INITIALIZER(IJavaElement.INITIALIZER, IInitializer.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#PACKAGE_DECLARATION
+	 * @see IJavaElement#PACKAGE_DECLARATION
 	 */
 	PACKAGE_DECLARATION(IJavaElement.PACKAGE_DECLARATION, IPackageDeclaration.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#IMPORT_CONTAINER
+	 * @see IJavaElement#IMPORT_CONTAINER
 	 */
 	IMPORT_CONTAINER(IJavaElement.IMPORT_CONTAINER, IImportContainer.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#IMPORT_DECLARATION
+	 * @see IJavaElement#IMPORT_DECLARATION
 	 */
 	IMPORT_DECLARATION(IJavaElement.IMPORT_DECLARATION, IImportDeclaration.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#LOCAL_VARIABLE
+	 * @see IJavaElement#LOCAL_VARIABLE
 	 */
 	LOCAL_VARIABLE(IJavaElement.LOCAL_VARIABLE, ILocalVariable.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#TYPE_PARAMETER
+	 * @see IJavaElement#TYPE_PARAMETER
 	 */
 	TYPE_PARAMETER(IJavaElement.TYPE_PARAMETER, ITypeParameter.class),
 	
 	/**
-	 * @see org.eclipse.jdt.core.IJavaElement#ANNOTATION
+	 * @see IJavaElement#ANNOTATION
 	 */
 	ANNOTATION(IJavaElement.ANNOTATION, IAnnotation.class);
 

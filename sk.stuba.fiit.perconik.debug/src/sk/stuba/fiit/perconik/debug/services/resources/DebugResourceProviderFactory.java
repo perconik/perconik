@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.debug.services.resources;
 
+import javax.annotation.Nonnull;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory;
 
@@ -9,7 +10,7 @@ public final class DebugResourceProviderFactory implements ResourceProviderFacto
 	{
 	}
 
-	public final ResourceProvider create(final ResourceProvider parent)
+	public final ResourceProvider create(@Nonnull final ResourceProvider parent)
 	{
 		return DebugResourceProviders.create(parent);
 	}

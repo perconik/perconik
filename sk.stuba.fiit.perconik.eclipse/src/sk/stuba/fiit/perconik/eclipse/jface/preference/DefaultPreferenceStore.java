@@ -3,11 +3,28 @@ package sk.stuba.fiit.perconik.eclipse.jface.preference;
 import javax.annotation.Nullable;
 import org.eclipse.jface.preference.IPreferenceStore;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ForwardingObject;
 
+/**
+ * A forwarding preference store which forwards all its value accessor method
+ * calls to default value accessor methods of another preference store.
+ * Subclasses should override one or more methods to modify the behavior
+ * of the backing preference store as desired per the decorator pattern.
+ * 
+ * <p>Note that this class does <i>not</i> forward the {@code equals}
+ * and {@code hashCode} methods through to the backing object.
+ * See {@link ForwardingObject} for more details.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class DefaultPreferenceStore extends ForwardingPreferenceStore
 {
 	private final IPreferenceStore store;
 	
+	/**
+	 * Constructor for use by subclasses.
+	 */
 	private DefaultPreferenceStore(final IPreferenceStore store)
 	{
 		this.store = Preconditions.checkNotNull(store);

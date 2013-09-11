@@ -5,70 +5,78 @@ import org.eclipse.core.resources.IResourceDelta;
 import sk.stuba.fiit.perconik.utilities.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
 
+/**
+ * Resource delta flags.
+ * 
+ * @see IResourceDelta
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public enum ResourceDeltaFlag implements IntegralConstant
 {
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#CONTENT
+	 * @see IResourceDelta#CONTENT
 	 */
 	CONTENT(IResourceDelta.CONTENT),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#MOVED_FROM
+	 * @see IResourceDelta#MOVED_FROM
 	 */
 	MOVED_FROM(IResourceDelta.MOVED_FROM),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#MOVED_TO
+	 * @see IResourceDelta#MOVED_TO
 	 */
 	MOVED_TO(IResourceDelta.MOVED_TO),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#COPIED_FROM
+	 * @see IResourceDelta#COPIED_FROM
 	 */
 	COPIED_FROM(IResourceDelta.COPIED_FROM),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#OPEN
+	 * @see IResourceDelta#OPEN
 	 */
 	OPEN(IResourceDelta.OPEN),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#TYPE
+	 * @see IResourceDelta#TYPE
 	 */
 	TYPE(IResourceDelta.TYPE),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#SYNC
+	 * @see IResourceDelta#SYNC
 	 */
 	SYNC(IResourceDelta.SYNC),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#MARKERS
+	 * @see IResourceDelta#MARKERS
 	 */
 	MARKERS(IResourceDelta.MARKERS),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#REPLACED
+	 * @see IResourceDelta#REPLACED
 	 */
 	REPLACED(IResourceDelta.REPLACED),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#DESCRIPTION
+	 * @see IResourceDelta#DESCRIPTION
 	 */
 	DESCRIPTION(IResourceDelta.DESCRIPTION),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#ENCODING
+	 * @see IResourceDelta#ENCODING
 	 */
 	ENCODING(IResourceDelta.ENCODING),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#LOCAL_CHANGED
+	 * @see IResourceDelta#LOCAL_CHANGED
 	 */
 	LOCAL_CHANGED(IResourceDelta.LOCAL_CHANGED),
 
 	/**
-	 * @see org.eclipse.core.resources.IResourceDelta#DERIVED_CHANGED
+	 * @see IResourceDelta#DERIVED_CHANGED
 	 */
 	DERIVED_CHANGED(IResourceDelta.DERIVED_CHANGED);
 	
@@ -91,7 +99,7 @@ public enum ResourceDeltaFlag implements IntegralConstant
 		return integers.getConstantsAsInteger();
 	}
 
-	public static final int valuesAsInteger(Set<ResourceDeltaFlag> values)
+	public static final int valuesAsInteger(final Set<ResourceDeltaFlag> values)
 	{
 		return IntegralConstantSupport.constantsAsInteger(values);
 	}

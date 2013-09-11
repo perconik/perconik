@@ -73,7 +73,7 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
 		this.untab();
 	}
 
-	public final void unregisterAll(final Class<? extends Listener> type)
+	public final <L extends Listener> void unregisterAll(final Class<L> type)
 	{
 		this.print("Unregistering all listeners assignable to listener type %s", DebugListeners.toString(type));
 		this.tab();
