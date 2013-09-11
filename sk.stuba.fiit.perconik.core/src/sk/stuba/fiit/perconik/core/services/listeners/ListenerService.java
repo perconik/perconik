@@ -53,7 +53,7 @@ public interface ListenerService extends Service
 	    /**
 	     * Sets the listener provider of the built listener service.
 	     * @param provider the provider, not {@code null}
- 		 * @return this {@code Builder} object
+		 * @return this {@code Builder} object
 	     * @throws NullPointerException if the provider is {@code null}
 	     * @throws IllegalStateException if the provider is already set
 	     */

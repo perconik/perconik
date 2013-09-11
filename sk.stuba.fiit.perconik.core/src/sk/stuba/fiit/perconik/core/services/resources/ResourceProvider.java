@@ -70,7 +70,7 @@ public interface ResourceProvider extends Provider
 	 * Returns a set of all provided resources.
 	 */
 	public Set<Resource<?>> resources(); // TODO rm ASAP
-
+	
 	/**
 	 * Returns the resource provider's parent or {@code null} if there is no
 	 * parent. Standard implementations should return system resource provider
@@ -92,7 +92,7 @@ public interface ResourceProvider extends Provider
 	 */
 	@Override
 	public int hashCode();
-
+	
 	/**
 	 * A builder for creating resource provider instances.
 	 * 

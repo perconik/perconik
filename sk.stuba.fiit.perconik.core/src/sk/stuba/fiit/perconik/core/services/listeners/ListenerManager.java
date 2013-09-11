@@ -28,7 +28,7 @@ public interface ListenerManager extends Manager
 	 * @throws NullPointerException if the specified listener is {@code null}
 	 */
 	public <L extends Listener> void register(final L listener);
-
+	
 	/**
 	 * Unregisters a listener from all compatible resources.
 	 * 
@@ -52,7 +52,7 @@ public interface ListenerManager extends Manager
 	 *         type is {@code null}
 	 */
 	public <L extends Listener> void unregisterAll(final Class<L> type);
-
+	
 	/**
 	 * Returns a set multimap of resources to all registered listeners.
 	 */

@@ -10,7 +10,6 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.ResourceNotFoundException;
 import sk.stuba.fiit.perconik.core.persistence.InvalidListenerException;
-import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedListenerData;

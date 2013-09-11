@@ -21,36 +21,36 @@ public interface ResourceManager extends Manager
 	/**
 	 * Registers a resource with the given listener type.
 	 * 
-     * @param type the listener type with which the specified
-     *             resource is to be registered, not {@code null}
-     * @param resource the resource to be registered with the specified
-     *                 listener type, not {@code null}
-     * 
-     * @throws IllegalArgumentException if the specified resource
-     *         implementation does not support the specified listener type
+	 * @param type the listener type with which the specified
+	 *             resource is to be registered, not {@code null}
+	 * @param resource the resource to be registered with the specified
+	 *                 listener type, not {@code null}
+	 * 
+	 * @throws IllegalArgumentException if the specified resource
+	 *         implementation does not support the specified listener type
 	 * @throws ResourceAlreadyRegistredException if the specified listener
 	 *         type and resource pair is already registered and this resource
 	 *         manager panics
-     * @throws NullPointerException if either of listener type or resource
-     *         is {@code null}
+	 * @throws NullPointerException if either of listener type or resource
+	 *         is {@code null}
 	 */
 	public <L extends Listener> void register(Class<L> type, Resource<? super L> resource);
-
+	
 	/**
 	 * Unregisters a resource with the given listener type.
 	 * 
-     * @param type the listener type with which the specified
-     *             resource is to be unregistered, not {@code null}
-     * @param resource the resource to be unregistered from the specified
-     *                 listener type, not {@code null}
-     * 
-     * @throws IllegalArgumentException if the specified resource
-     *         implementation does not support the specified listener type
+	 * @param type the listener type with which the specified
+	 *             resource is to be unregistered, not {@code null}
+	 * @param resource the resource to be unregistered from the specified
+	 *                 listener type, not {@code null}
+	 * 
+	 * @throws IllegalArgumentException if the specified resource
+	 *         implementation does not support the specified listener type
 	 * @throws ResourceNotRegistredException if the specified listener
 	 *         type and resource pair is not registered and this resource
 	 *         manager panics
-     * @throws NullPointerException if either of listener type or resource
-     *         is {@code null}
+	 * @throws NullPointerException if either of listener type or resource
+	 *         is {@code null}
 	 */
 	public <L extends Listener> void unregister(Class<L> type, Resource<? super L> resource);
 	
@@ -67,7 +67,7 @@ public interface ResourceManager extends Manager
 	 *         type is {@code null}
 	 */
 	public <L extends Listener> void unregisterAll(Class<L> type);
-
+	
 	/**
 	 * Returns a set of resources assignable to the specified listener type.
 	 * 
@@ -75,7 +75,7 @@ public interface ResourceManager extends Manager
 	 * type supported by the resource is assignable to the given listener type.
 	 */
 	public <L extends Listener> Set<Resource<? extends L>> assignables(Class<L> type);
-
+	
 	/**
 	 * Returns a set of resources registrable with the specified listener type.
 	 * 
@@ -84,24 +84,24 @@ public interface ResourceManager extends Manager
 	 * one of its superinterfaces.
 	 */
 	public <L extends Listener> Set<Resource<? super L>> registrables(Class<L> type);
-
+	
 	/**
 	 * Returns a set multimap of listener types to all registered resources.
 	 */
 	public SetMultimap<Class<? extends Listener>, Resource<?>> registrations();
-
+	
 	/**
 	 * Determines whether the specified resource is registered
 	 * with the specified listener type by this resource manager.
 	 * 
-     * @param type the listener type to be checked, not {@code null}
-     * @param resource the resource to be checked, not {@code null}
+	 * @param type the listener type to be checked, not {@code null}
+	 * @param resource the resource to be checked, not {@code null}
 	 * @return {@code true} if the specified resource is registered
 	 *         with the specified listener type by this resource manager,
 	 *         {@code false} otherwise
 	 * 
-     * @throws NullPointerException if either of listener type or resource
-     *         is {@code null}
+	 * @throws NullPointerException if either of listener type or resource
+	 *         is {@code null}
 	 */
 	public boolean registered(Class<? extends Listener> type, Resource<?> resource);
 	
