@@ -51,11 +51,6 @@ public abstract class ForwardingResourceProvider extends ForwardingProvider impl
 		return this.delegate().types();
 	}
 
-	public Set<Resource<?>> resources()
-	{
-		return this.delegate().resources();
-	}
-
 	@Override
 	public ResourceProvider parent()
 	{

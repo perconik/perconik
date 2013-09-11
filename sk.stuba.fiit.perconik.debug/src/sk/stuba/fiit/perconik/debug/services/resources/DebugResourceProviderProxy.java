@@ -46,18 +46,6 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 		
 		return provider;
 	}
-	
-	private static final Set<Resource<?>> wrap(final Iterable<Resource<?>> resources)
-	{
-		Set<Resource<?>> proxies = Sets.newHashSet();
-		
-		for (Resource<?> resource: resources)
-		{
-			proxies.add(DebugResourceProxy.wrap(resource));
-		}
-		
-		return proxies;
-	}
 
 	private static final <L extends Listener> Set<Resource<L>> wrap(final Set<Resource<L>> resources)
 	{
@@ -114,11 +102,6 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 	public final Set<Class<? extends Listener>> types()
 	{
 		return this.delegate().types();
-	}
-
-	public final Set<Resource<?>> resources()
-	{
-		return wrap(this.delegate().resources());
 	}
 
 	public final ResourceProvider parent()

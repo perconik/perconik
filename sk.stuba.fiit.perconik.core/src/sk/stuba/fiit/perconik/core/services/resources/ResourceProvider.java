@@ -67,11 +67,6 @@ public interface ResourceProvider extends Provider
 	public Set<Class<? extends Listener>> types();
 	
 	/**
-	 * Returns a set of all provided resources.
-	 */
-	public Set<Resource<?>> resources(); // TODO rm ASAP
-	
-	/**
 	 * Returns the resource provider's parent or {@code null} if there is no
 	 * parent. Standard implementations should return system resource provider
 	 * if there is no direct parent (only the system resource provider returns

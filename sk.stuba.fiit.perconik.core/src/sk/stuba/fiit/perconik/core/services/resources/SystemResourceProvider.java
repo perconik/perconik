@@ -38,11 +38,6 @@ final class SystemResourceProvider extends AbstractResourceProvider
 		return Collections.emptySet();
 	}
 
-	public final Set<Resource<?>> resources()
-	{
-		return Collections.emptySet();
-	}
-
 	public final ResourceProvider parent()
 	{
 		return null;

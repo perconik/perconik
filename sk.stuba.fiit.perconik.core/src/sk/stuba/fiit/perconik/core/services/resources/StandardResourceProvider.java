@@ -108,11 +108,6 @@ final class StandardResourceProvider extends AbstractResourceProvider
 		return MoreSets.newHashSet(this.multimap.keySet(), this.parent.types());
 	}
 
-	public final Set<Resource<?>> resources()
-	{
-		return MoreSets.newHashSet(this.map.values(), this.parent.resources());
-	}
-
 	public final ResourceProvider parent()
 	{
 		return this.parent;
