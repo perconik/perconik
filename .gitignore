@@ -1,9 +1,7 @@
 bin
-doc
-target
 tmp
 
+.classpath
 .metadata
 .project
-.classpath
 .settings
