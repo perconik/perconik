@@ -50,6 +50,18 @@ public final class ResourcePreferences extends AbstractPreferences
 	 */
 	public final Set<ResourcePersistenceData> getResourcePersistenceData()
 	{
-		return (Set<ResourcePersistenceData>) this.getObject(this.key(persistence));
+		try
+		{
+			return (Set<ResourcePersistenceData>) this.getObject(this.key(persistence));
+		}
+		catch (RuntimeException e)
+		{
+			if (this.scope != Scope.DEFAULT)
+			{
+				return getDefault().getResourcePersistenceData();
+			}
+			
+			throw e;
+		}
 	}
 }

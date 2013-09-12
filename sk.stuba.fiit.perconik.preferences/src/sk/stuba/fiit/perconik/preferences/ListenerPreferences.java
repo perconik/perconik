@@ -50,6 +50,18 @@ public final class ListenerPreferences extends AbstractPreferences
 	 */
 	public final Set<ListenerPersistenceData> getListenerPersistenceData()
 	{
-		return (Set<ListenerPersistenceData>) this.getObject(this.key(persistence));
+		try
+		{
+			return (Set<ListenerPersistenceData>) this.getObject(this.key(persistence));
+		}
+		catch (RuntimeException e)
+		{
+			if (this.scope != Scope.DEFAULT)
+			{
+				return getDefault().getListenerPersistenceData();
+			}
+			
+			throw e;
+		}
 	}
 }

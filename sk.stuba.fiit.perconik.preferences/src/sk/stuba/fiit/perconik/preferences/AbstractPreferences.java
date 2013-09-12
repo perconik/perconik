@@ -12,13 +12,16 @@ abstract class AbstractPreferences
 {
 	final IPreferenceStore store;
 	
+	final Scope scope;
+
 	final String key;
-	
+
 	AbstractPreferences(final Scope scope, final String key)
 	{
 		Preconditions.checkArgument(!Strings.isNullOrEmpty(key));
 		
 		this.store = scope.store();
+		this.scope = scope;
 		this.key   = Activator.PLUGIN_ID + "." + key;
 	}
 	
@@ -53,7 +56,7 @@ abstract class AbstractPreferences
 		}
 		catch (Exception e)
 		{
-			throw new IllegalArgumentException("Unable to write object under key " + key + " to string", e);
+			throw new RuntimeException("Unable to write object under key " + key + " to string", e);
 		}
 	}
 
@@ -65,7 +68,7 @@ abstract class AbstractPreferences
 		}
 		catch (Exception e)
 		{
-			throw new IllegalArgumentException("Unable to read object under key " + key + " from string", e);
+			throw new RuntimeException("Unable to read object under key " + key + " from string", e);
 		}
 	}
 
