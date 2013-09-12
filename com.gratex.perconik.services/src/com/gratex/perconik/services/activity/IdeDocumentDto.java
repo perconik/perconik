@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="RcsServer" type="{http://www.gratex.com/PerConIk/IActivitySvc}RcsServerDto" minOccurs="0"/>
  *         &lt;element name="Path" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="PathType" type="{http://www.gratex.com/PerConIk/IActivitySvc}IdePathTypeEnum"/>
+ *         &lt;element name="BranchName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,7 +35,8 @@ import javax.xml.bind.annotation.XmlType;
     "changesetIdInRcs",
     "rcsServer",
     "path",
-    "pathType"
+    "pathType",
+    "branchName"
 })
 public class IdeDocumentDto {
 
@@ -46,6 +48,8 @@ public class IdeDocumentDto {
     protected String path;
     @XmlElement(name = "PathType", required = true)
     protected IdePathTypeEnum pathType;
+    @XmlElement(name = "BranchName")
+    protected String branchName;
 
     /**
      * Gets the value of the changesetIdInRcs property.
@@ -141,6 +145,30 @@ public class IdeDocumentDto {
      */
     public void setPathType(IdePathTypeEnum value) {
         this.pathType = value;
+    }
+
+    /**
+     * Gets the value of the branchName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBranchName() {
+        return branchName;
+    }
+
+    /**
+     * Sets the value of the branchName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBranchName(String value) {
+        this.branchName = value;
     }
 
 }
