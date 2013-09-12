@@ -111,11 +111,6 @@ public final class Listeners
 		return manager().registrations();
 	}
 
-	public static final boolean isRegistered(final Class<? extends Listener> type)
-	{
-		return !manager().registered(type).isEmpty();
-	}
-	
 	public static final boolean isRegistered(final Listener listener)
 	{
 		return manager().registered(listener);

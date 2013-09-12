@@ -36,33 +36,28 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 
 	private final transient boolean registered;
 	
-	private final transient Class<? extends Listener> type;
+	private final transient Class<? extends Listener> implementation;
 	
 	private final transient Optional<Listener> listener;
 
-	private ListenerPersistenceData(final boolean registered, final Class<? extends Listener> type, final Optional<Listener> listener)
+	private ListenerPersistenceData(final boolean registered, final Class<? extends Listener> implementation, final Optional<Listener> listener)
 	{
-		this.registered = registered;
-		this.type       = type;
-		this.listener   = listener;
+		this.registered     = registered;
+		this.implementation = implementation;
+		this.listener       = listener;
 	}
 	
-	static final ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
+	static final ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener)
 	{
-		Utilities.checkListenerClass(type);
-		Utilities.checkListenerImplementation(type, listener);
+		Utilities.checkListenerClass(implementation);
+		Utilities.checkListenerImplementation(implementation, listener);
 		
-		return copy(registered, type, listener);
+		return copy(registered, implementation, listener);
 	}
 	
-	static final ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> type, @Nullable final Listener listener)
+	static final ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener)
 	{
-		return new ListenerPersistenceData(registered, type, Utilities.serializableOrNullAsOptional(listener));
-	}
-	
-	public static final ListenerPersistenceData of(final Class<? extends Listener> type)
-	{
-		return construct(Listeners.isRegistered(type), type, null);
+		return new ListenerPersistenceData(registered, implementation, Utilities.serializableOrNullAsOptional(listener));
 	}
 	
 	public static final ListenerPersistenceData of(final Listener listener)
@@ -76,9 +71,9 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		
 		Set<ListenerPersistenceData> data = Sets.newHashSet();
 		
-		for (Class<? extends Listener> type: provider.classes())
+		for (Class<? extends Listener> implementation: provider.classes())
 		{
-			data.add(construct(true, type, null));
+			data.add(construct(true, implementation, null));
 		}
 		
 		return data;
@@ -92,11 +87,11 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		
 		Collection<Listener> listeners = Listeners.registrations().values();
 		
-		for (Class<? extends Listener> type: provider.classes())
+		for (Class<? extends Listener> implementation: provider.classes())
 		{
 			for (Listener listener: listeners)
 			{
-				data.add(construct(type == listener.getClass(), type, listener));
+				data.add(construct(implementation == listener.getClass(), implementation, listener));
 			}
 		}
 		
@@ -109,15 +104,15 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 
 		private final boolean registered;
 		
-		private final Class<? extends Listener> type;
+		private final Class<? extends Listener> implementation;
 		
 		private final Optional<Listener> listener;
 		
 		private SerializationProxy(final ListenerPersistenceData data)
 		{
-			this.registered = data.hasRegistredMark();
-			this.type       = data.getListenerClass();
-			this.listener   = data.getSerializedListener();
+			this.registered     = data.hasRegistredMark();
+			this.implementation = data.getListenerClass();
+			this.listener       = data.getSerializedListener();
 		}
 		
 		static final SerializationProxy of(final ListenerPersistenceData data)
@@ -129,7 +124,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		{
 			try
 			{
-				return construct(this.registered, this.type, this.listener.orNull());
+				return construct(this.registered, this.implementation, this.listener.orNull());
 			}
 			catch (RuntimeException e)
 			{
@@ -173,12 +168,12 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		}
 		catch (ResourceNotFoundException e)
 		{
-			Activator.getDefault().getConsole().notice("Trying to register or unregister listener of type " + this.type.getName() + " but no resources found");
+			Activator.getDefault().getConsole().notice("Trying to register or unregister listener implemented by " + this.implementation.getName() + " but no resources found");
 			
 			return this;
 		}
 		
-		return new ListenerPersistenceData(status, this.type, this.listener);
+		return new ListenerPersistenceData(status, this.implementation, this.listener);
 	}
 	
 	public final ListenerPersistenceData updateRegisteredMark()
@@ -193,7 +188,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 			return this;
 		}
 		
-		return new ListenerPersistenceData(status, this.type, this.listener);
+		return new ListenerPersistenceData(status, this.implementation, this.listener);
 	}
 
 	public final boolean hasRegistredMark()
@@ -213,12 +208,12 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 			return this.listener.get();
 		}
 		
-		return Listeners.forClass(this.type);
+		return Listeners.forClass(this.implementation);
 	}
 
 	public final Class<? extends Listener> getListenerClass()
 	{
-		return this.type;
+		return this.implementation;
 	}
 
 	public final Optional<Listener> getSerializedListener()

@@ -63,7 +63,7 @@ public abstract class AbstractListenerRegistration implements ListenerRegistrati
 	 */
 	public final boolean isRegistered()
 	{
-		return Listeners.isRegistered(this.getListenerClass());
+		return Listeners.isRegistered(this.getListener());
 	}
 	
 	/**
