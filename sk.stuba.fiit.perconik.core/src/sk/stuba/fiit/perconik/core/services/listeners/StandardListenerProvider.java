@@ -2,9 +2,11 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Map;
 import java.util.Set;
+import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
 import sk.stuba.fiit.perconik.utilities.MoreSets;
+import sk.stuba.fiit.perconik.utilities.reflection.ReflectionException;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -24,11 +26,6 @@ final class StandardListenerProvider extends AbstractListenerProvider
 		this.map    = HashBiMap.create(builder.map);
 		this.cache  = Maps.newConcurrentMap();
 		this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
-
-		for (Class<? extends Listener> type: this.map.values())
-		{
-			cast(type);
-		}
 	}
 	
 	public static final class Builder implements ListenerProvider.Builder
@@ -47,7 +44,7 @@ final class StandardListenerProvider extends AbstractListenerProvider
 		{
 			Preconditions.checkNotNull(implementation);
 			
-			this.map.put(implementation.getName(), implementation);
+			this.map.put(implementation.getName(), implementation.asSubclass(Listener.class));
 			
 			return this;
 		}
@@ -90,33 +87,49 @@ final class StandardListenerProvider extends AbstractListenerProvider
 	
 	public final <L extends Listener> L forClass(final Class<L> type)
 	{
-		Listener listener = this.cache.get(type);
+		Listener listener = this.cache.get(cast(type));
 		
 		if (listener != null)
 		{
 			return type.cast(listener);
 		}
 		
+		L instance;
+		
 		try
 		{
-			if (!this.map.containsValue(type))
+			instance = StaticListenerLookup.forClass(type).get();
+		}
+		catch (ReflectionException e)
+		{
+			Throwable[] suppressions = e.getSuppressed();
+			
+			Exception cause; 
+			
+			if (suppressions.length == 0)
 			{
-				this.map.put(type.getName(), cast(type));
+				throw new AssertionError();
+			}
+			else if (suppressions.length == 1 && suppressions[0] instanceof ReflectionException)
+			{
+				cause = new IllegalListenerClassException(suppressions[0]);
+			}
+			else
+			{
+				cause = new ListenerInstantiationException(e);
 			}
 			
-			L instance = type.newInstance();
-			
-			this.cache.put(type, instance);
-			
-			return instance;
+			return this.parentForClass(type, cause);
 		}
-		catch (Exception cause)
+
+		if (!this.map.containsValue(type))
 		{
-			// TODO also throw ListenerNotFoundException on ClassNotFoundException
-			// TODO also throw IllegalListenerClassException on malformed class
-			// TODO do so with resources too + support instantaible resources
-			return this.parentForClass(type, new ListenerInstantiationException(cause));
+			this.map.put(type.getName(), type);
 		}
+
+		this.cache.put(type, instance);
+		
+		return instance;
 	}
 
 	public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException
@@ -130,11 +143,7 @@ final class StandardListenerProvider extends AbstractListenerProvider
 
 		try
 		{
-			type = this.load(name);
-			
-			this.map.put(name, type);
-			
-			return type;
+			return cast(this.load(name));
 		}
 		catch (Exception cause)
 		{

@@ -17,6 +17,11 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		super(token);
 	}
 	
+	public static final <T> Accessor<T> ofClassConstant(Class<?> implementation, Class<T> type, String name) throws IllegalAccessException, NoSuchFieldException
+	{
+		return ofClassConstant(implementation, TypeToken.of(type), name);
+	}
+	
 	public static final <T> Accessor<T> ofClassConstant(Class<?> implementation, TypeToken<T> type, String name) throws IllegalAccessException, NoSuchFieldException
 	{
 		Field field = implementation.getField(name);
@@ -28,6 +33,11 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		checkArgument(type.equals(TypeToken.of(field.getGenericType())), "Field %s of %s has incorrect type", name, implementation);
 		
 		return new ClassConstant<>(type, (T) type.getRawType().cast(field.get(null)));
+	}
+	
+	public static final <T> Accessor<T> ofClassField(Class<?> implementation, Class<T> type, String name) throws NoSuchFieldException
+	{
+		return ofClassField(implementation, TypeToken.of(type), name);
 	}
 
 	public static final <T> Accessor<T> ofClassField(Class<?> implementation, TypeToken<T> type, String name) throws NoSuchFieldException
@@ -54,6 +64,11 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		return new ClassConstructor<>(type, Invokable.from(constructor));
 	}
 
+	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, Class<T> type, String name) throws NoSuchMethodException
+	{
+		return ofClassMethod(implementation, TypeToken.of(type), name);
+	}
+	
 	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, TypeToken<T> type, String name) throws NoSuchMethodException
 	{
 		Invokable<?, Object> method = Invokable.from(implementation.getMethod(name));

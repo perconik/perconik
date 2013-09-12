@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
@@ -32,8 +31,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
 	{
 		if (!Listener.class.isAssignableFrom(type))
 		{
-			// TODO consider IAE instead
-			throw new IllegalListenerClassException(type.getName() + " is not assignable to " + Listener.class.getName());
+			throw new IllegalArgumentException(type.getName() + " is not assignable to " + Listener.class.getName());
 		}
 		
 		Preconditions.checkNotNull(resource);

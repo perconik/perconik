@@ -5,6 +5,7 @@ import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
 /**
@@ -30,34 +31,26 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 
 	protected abstract ClassLoader loader();
 	
-	// TODO refactor
-	protected static final Class<? extends Listener> cast(final Class<?> type)
+	protected final Class<?> load(final String name) throws ClassNotFoundException
 	{
-		if (!Listener.class.isAssignableFrom(type))
-		{
-			throw new IllegalListenerClassException("Class " + type.getName() + " is not assignable to " + Listener.class.getName());
-		}
+		Preconditions.checkArgument(!name.isEmpty());
 		
-		if (type.isInterface() || type.isAnnotation())
-		{
-			throw new IllegalListenerClassException("Type " + type.getName() + " can not be an interface or an annotation");
-		}
-		
-		try
-		{
-			type.getConstructor();
-		}
-		catch (NoSuchMethodException | SecurityException e)
-		{
-			throw new IllegalListenerClassException("Class " + type.getName() + " must have public constructor with no parameters", e);
-		}
-		
-		return type.asSubclass(Listener.class);
+		return this.loader().loadClass(name);
 	}
-
-	protected final Class<? extends Listener> load(String name) throws ClassNotFoundException
+	
+	protected final static Class<? extends Listener> cast(final Class<?> implementation)
 	{
-		return cast(this.loader().loadClass(name));
+		if (!Listener.class.isAssignableFrom(implementation))
+		{
+			throw new IllegalListenerClassException("Class " + implementation.getName() + " is not assignable to " + Listener.class.getName());
+		}
+		
+		if (implementation.isInterface() || implementation.isAnnotation())
+		{
+			throw new IllegalListenerClassException("Type " + implementation.getName() + " can not be an interface or an annotation");
+		}
+		
+		return implementation.asSubclass(Listener.class);
 	}
 	
 	protected final ListenerProvider parentOrFailure()
@@ -72,11 +65,11 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
 		return parent;
 	}
 
-	protected final <L extends Listener> L parentForClass(final Class<L> type, @Nullable final Exception cause)
+	protected final <L extends Listener> L parentForClass(final Class<L> implementation, @Nullable final Exception cause)
 	{
 		try
 		{
-			return this.parentOrFailure().forClass(type);
+			return this.parentOrFailure().forClass(implementation);
 		}
 		catch (Exception e)
 		{

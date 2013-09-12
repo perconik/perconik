@@ -23,7 +23,7 @@ public final class StaticLookup<T> implements Supplier<T>
 		
 		if (!builder.suppressions.isEmpty())
 		{
-			RuntimeException suppressor = new ReflectionException("Static accessor construction");
+			RuntimeException suppressor = new ReflectionException("Static accessor construction failed");
 			
 			this.suppressed = Optional.of(MoreThrowables.initializeSuppressor(suppressor, Lists.reverse(builder.suppressions)));
 		}
@@ -52,6 +52,11 @@ public final class StaticLookup<T> implements Supplier<T>
 			this.suppressions.add(e);
 		}
 		
+		public final Builder<T> classConstant(Class<?> implementation, Class<? extends T> type, String name)
+		{
+			return classConstant(implementation, TypeToken.of(type), name);
+		}
+		
 		public final Builder<T> classConstant(Class<?> implementation, TypeToken<? extends T> type, String name)
 		{
 			try
@@ -64,6 +69,11 @@ public final class StaticLookup<T> implements Supplier<T>
 			}
 			
 			return this;
+		}
+		
+		public final Builder<T> classField(Class<?> implementation, Class<? extends T> type, String name)
+		{
+			return classField(implementation, TypeToken.of(type), name);
 		}
 
 		public final Builder<T> classField(Class<?> implementation, TypeToken<? extends T> type, String name)
@@ -97,6 +107,11 @@ public final class StaticLookup<T> implements Supplier<T>
 			}
 			
 			return this;
+		}
+		
+		public final Builder<T> classMethod(Class<?> implementation, Class<? extends T> type, String name)
+		{
+			return classMethod(implementation, TypeToken.of(type), name);
 		}
 
 		public final Builder<T> classMethod(Class<?> implementation, TypeToken<? extends T> type, String name)

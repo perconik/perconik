@@ -22,7 +22,7 @@ public interface ListenerProvider extends Provider
 	 * <p>This method is guaranteed to return the same listener instance
 	 * for the specified implementation class every time it is invoked.
 	 * 
-	 * @param type the listener implementation class
+	 * @param implementation the listener implementation class
 	 * @return the listener
 	 * 
 	 * @throws NullPointerException if the specified listener implementation
@@ -32,7 +32,7 @@ public interface ListenerProvider extends Provider
 	 * @throws ListenerInstantiationException if the listener instantiation
 	 *         failed
 	 */
-	public <L extends Listener> L forClass(Class<L> type);
+	public <L extends Listener> L forClass(Class<L> implementation);
 	
 	/**
 	 * Loads a listener implementation class with the specified binary name.

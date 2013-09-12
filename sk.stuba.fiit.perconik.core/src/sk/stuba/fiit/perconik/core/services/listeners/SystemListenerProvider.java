@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Set;
+import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
+import sk.stuba.fiit.perconik.utilities.reflection.StaticAccessor;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
@@ -28,20 +29,20 @@ final class SystemListenerProvider extends AbstractListenerProvider
 		return ClassLoader.getSystemClassLoader();
 	}
 
-	public final <L extends Listener> L forClass(final Class<L> type)
+	public final <L extends Listener> L forClass(final Class<L> implementation)
 	{
-		if (!this.map.containsValue(type))
+		if (!this.map.containsValue(implementation))
 		{
-			this.map.put(type.getName(), cast(type));
+			cast(implementation);
 		}
 		
 		try
 		{
-			return type.newInstance();
+			return StaticAccessor.ofEnumConstant(implementation, "INSTANCE").get();
 		}
 		catch (Exception e)
 		{
-			throw new ListenerInstantiationException(e);
+			throw new IllegalListenerClassException(e);
 		}
 	}
 
@@ -54,7 +55,7 @@ final class SystemListenerProvider extends AbstractListenerProvider
 			return type;
 		}
 
-		type = this.load(name);
+		type = cast(this.load(name));
 		
 		this.map.put(name, type);
 		
