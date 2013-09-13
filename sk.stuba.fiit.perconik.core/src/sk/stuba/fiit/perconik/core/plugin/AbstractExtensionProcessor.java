@@ -14,9 +14,11 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.SetMultimap;
 
 abstract class AbstractExtensionProcessor<T>
 {
@@ -25,6 +27,8 @@ abstract class AbstractExtensionProcessor<T>
 	private final String point;
 	
 	private final Set<Class<?>> types;
+	
+	private final SetMultimap<Class<?>, String> contributors;
 	
 	private final ListMultimap<Class<?>, Object> extensions;
 	
@@ -35,8 +39,9 @@ abstract class AbstractExtensionProcessor<T>
 		this.plugin = Activator.getDefault();
 		this.point  = point;
 		
-		this.types      = ImmutableSet.copyOf(types);
-		this.extensions = LinkedListMultimap.create(this.types.size());
+		this.types        = ImmutableSet.copyOf(types);
+		this.contributors = LinkedHashMultimap.create(this.types.size(), 4);
+		this.extensions   = LinkedListMultimap.create(this.types.size());
 	}
 	
 	final PluginConsole console()
@@ -59,7 +64,9 @@ abstract class AbstractExtensionProcessor<T>
 			{
 				Object object = element.createExecutableExtension("class");
 				
-				this.collectExecutableExtensions(object);
+				this.collectExecutableExtensions(element.getContributor().getName(), object);
+				
+				element.getContributor();
 			}
 			catch (CoreException failure)
 			{
@@ -72,7 +79,7 @@ abstract class AbstractExtensionProcessor<T>
 	
 	abstract T processExtensions();
 	
-	private final void collectExecutableExtensions(final Object object)
+	private final void collectExecutableExtensions(final String contributor, final Object object)
 	{
 		int matches = 0;
 		
@@ -80,6 +87,7 @@ abstract class AbstractExtensionProcessor<T>
 		{
 			if (type.isInstance(object))
 			{
+				this.contributors.put(type, contributor);
 				this.extensions.put(type, type.cast(object));
 				
 				matches ++;
@@ -165,7 +173,7 @@ abstract class AbstractExtensionProcessor<T>
 	{
 		for (Class<?> type: types)
 		{
-			if (this.hasExecutableExtensions(type))
+			if (this.hasExtensions(type))
 			{
 				return true;
 			}
@@ -209,13 +217,23 @@ abstract class AbstractExtensionProcessor<T>
 		
 		return type;
 	}
+
+	final boolean hasContributors(final Class<?> type)
+	{
+		return this.contributors.containsKey(type);
+	}
 	
-	final boolean hasExecutableExtensions(final Class<?> type)
+	final boolean hasExtensions(final Class<?> type)
 	{
 		return this.extensions.containsKey(type);
 	}
 
-	final <E> List<E> getExecutableExtensions(final Class<E> type)
+	final Set<String> getContributors(final Class<?> type)
+	{
+		return this.contributors.get(type);
+	}
+	
+	final <E> List<E> getExtensions(final Class<E> type)
 	{
 		List<?> extensions = this.extensions.get(this.checkType(type));
 		

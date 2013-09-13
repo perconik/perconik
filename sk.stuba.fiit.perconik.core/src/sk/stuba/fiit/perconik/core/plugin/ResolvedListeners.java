@@ -4,7 +4,7 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import com.google.common.base.Preconditions;
 
-class ResolvedListeners extends ResolvedService<ListenerService>
+final class ResolvedListeners extends ResolvedService<ListenerService>
 {
 	final ListenerClassesSupplier supplier;
 

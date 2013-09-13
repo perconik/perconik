@@ -112,7 +112,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 
 		private final boolean registered;
 		
-		private final Class<? extends Listener> type;
+		private final String type;
 		
 		private final String name;
 
@@ -122,7 +122,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 		private SerializationProxy(final ResourcePersistenceData data)
 		{
 			this.registered = data.hasRegistredMark();
-			this.type       = data.getListenerType();
+			this.type       = data.getListenerType().getName();
 			this.name       = data.getResourceName();
 			this.resource   = data.getSerializedResource();
 		}
@@ -136,9 +136,11 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 		{
 			try
 			{
-				return construct(this.registered, this.type, this.name, this.resource.orNull());
+				Class<?> type = ClassResolver.forName(this.type);
+				
+				return construct(this.registered, type.asSubclass(Listener.class), this.name, this.resource.orNull());
 			}
-			catch (RuntimeException e)
+			catch (Exception e)
 			{
 				throw new InvalidResourceException("Unknown deserialization error", e);
 			}

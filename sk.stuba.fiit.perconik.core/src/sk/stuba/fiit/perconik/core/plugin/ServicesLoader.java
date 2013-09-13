@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
+import java.util.List;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
+import com.google.common.collect.ImmutableList;
 
 final class ServicesLoader
 {
@@ -17,10 +19,12 @@ final class ServicesLoader
 		this.listeners = new ListenerExtentionProcessor();
 	}
 	
-	final void load()
+	final List<ResolvedService<?>> load()
 	{
 		ResolvedResources resource = this.resources.process();
 		ResolvedListeners listener = this.listeners.process();
+		
+		List<ResolvedService<?>> data = ImmutableList.of(resource, listener);
 		
 		Services.setResourceService(resource.service);
 		Services.setListenerService(listener.service);
@@ -29,5 +33,7 @@ final class ServicesLoader
 		
 		Resources.registerAll(resource.supplier);
 		Listeners.registerAll(listener.supplier);
+		
+		return data;
 	}
 }

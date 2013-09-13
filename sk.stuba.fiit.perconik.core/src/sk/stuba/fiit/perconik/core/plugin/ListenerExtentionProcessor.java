@@ -34,14 +34,14 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
 				this.console().warning("Custom %s supplied, custom supplied %s components ignored", "listener service");
 			}
 			
-			service = this.processListenerServiceFactories(this.getExecutableExtensions(ListenerServiceFactory.class));
+			service = this.processListenerServiceFactories(this.getExtensions(ListenerServiceFactory.class));
 		}
 		else if (serviceComponentsSupplied)
 		{
 			ListenerService.Builder builder = ListenerServices.builder();
 			
-			builder.provider(this.processListenerProviderFactories(this.getExecutableExtensions(ListenerProviderFactory.class)));
-			builder.manager(this.processListenerManagerFactories(this.getExecutableExtensions(ListenerManagerFactory.class)));
+			builder.provider(this.processListenerProviderFactories(this.getExtensions(ListenerProviderFactory.class)));
+			builder.manager(this.processListenerManagerFactories(this.getExtensions(ListenerManagerFactory.class)));
 			
 			service = builder.build();
 		}
@@ -50,7 +50,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
 			service = DefaultListeners.getDefaultListenerService();
 		}
 		
-		ListenerClassesSupplier supplier = this.processListenerClassesSuppliers(this.getExecutableExtensions(ListenerClassesSupplier.class));
+		ListenerClassesSupplier supplier = this.processListenerClassesSuppliers(this.getExtensions(ListenerClassesSupplier.class));
 		
 		return new ResolvedListeners(service, supplier);
 	}

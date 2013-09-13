@@ -34,14 +34,14 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
 				this.console().warning("Custom %s supplied, custom supplied %s components ignored", "resource service");
 			}
 			
-			service = this.processResourceServiceFactories(this.getExecutableExtensions(ResourceServiceFactory.class));
+			service = this.processResourceServiceFactories(this.getExtensions(ResourceServiceFactory.class));
 		}
 		else if (serviceComponentsSupplied)
 		{
 			ResourceService.Builder builder = ResourceServices.builder();
 			
-			builder.provider(this.processResourceProviderFactories(this.getExecutableExtensions(ResourceProviderFactory.class)));
-			builder.manager(this.processResourceManagerFactories(this.getExecutableExtensions(ResourceManagerFactory.class)));
+			builder.provider(this.processResourceProviderFactories(this.getExtensions(ResourceProviderFactory.class)));
+			builder.manager(this.processResourceManagerFactories(this.getExtensions(ResourceManagerFactory.class)));
 			
 			service = builder.build();
 		}
@@ -50,7 +50,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
 			service = DefaultResources.getDefaultResourceService();
 		}
 		
-		ResourceNamesSupplier supplier = this.processResourceNamesSuppliers(this.getExecutableExtensions(ResourceNamesSupplier.class));
+		ResourceNamesSupplier supplier = this.processResourceNamesSuppliers(this.getExtensions(ResourceNamesSupplier.class));
 		
 		return new ResolvedResources(service, supplier);
 	}

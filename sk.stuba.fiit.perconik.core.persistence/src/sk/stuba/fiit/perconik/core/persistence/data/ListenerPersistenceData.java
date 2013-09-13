@@ -104,14 +104,14 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 
 		private final boolean registered;
 		
-		private final Class<? extends Listener> implementation;
+		private final String implementation;
 		
 		private final Optional<Listener> listener;
 		
 		private SerializationProxy(final ListenerPersistenceData data)
 		{
 			this.registered     = data.hasRegistredMark();
-			this.implementation = data.getListenerClass();
+			this.implementation = data.getListenerClass().getName();
 			this.listener       = data.getSerializedListener();
 		}
 		
@@ -124,9 +124,11 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		{
 			try
 			{
-				return construct(this.registered, this.implementation, this.listener.orNull());
+				Class<?> implementation = ClassResolver.forName(this.implementation);
+				
+				return construct(this.registered, implementation.asSubclass(Listener.class), this.listener.orNull());
 			}
-			catch (RuntimeException e)
+			catch (Exception e)
 			{
 				throw new InvalidListenerException("Unknown deserialization error", e);
 			}

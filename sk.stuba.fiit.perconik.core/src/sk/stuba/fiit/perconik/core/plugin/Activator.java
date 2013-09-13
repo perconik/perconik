@@ -1,9 +1,13 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
+import java.util.Set;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IStartup;
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
+import com.google.common.collect.Sets;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -43,6 +47,21 @@ public final class Activator extends ExtendedPlugin
 		{
 			return plugin;
 		}
+	}
+
+	public static final Set<String> extensionContributors()
+	{
+		Set<String> contributors = Sets.newHashSet();
+		
+		for (String point: ExtensionPoints.all)
+		{
+			for (IConfigurationElement element: Platform.getExtensionRegistry().getConfigurationElementsFor(point))
+			{
+				contributors.add(element.getContributor().getName());
+			}
+		}
+		
+		return contributors;
 	}
 
 	/**

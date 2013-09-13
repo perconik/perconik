@@ -13,6 +13,8 @@ import com.google.common.collect.ImmutableSet;
 
 final class ExtensionPoints
 {
+	static final Set<String> all;
+	
 	static final String resourcesPoint = Activator.PLUGIN_ID + ".services.resources";
 
 	static final Set<Class<?>> resourcesTypes;
@@ -23,6 +25,8 @@ final class ExtensionPoints
 	
 	static
 	{
+		all = ImmutableSet.of(resourcesPoint, listenersPoint);
+		
 		resourcesTypes = ImmutableSet.of
 		(
 			ResourceProviderFactory.class,
