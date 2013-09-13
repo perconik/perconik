@@ -10,7 +10,9 @@ import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedListenerData;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedResourceData;
+import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.utilities.reflection.ClassResolver;
 import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Optional;
@@ -18,6 +20,8 @@ import com.google.common.base.Preconditions;
 
 final class Utilities
 {
+	private static final ClassResolver resolver = Activator.classResolver();
+	
 	private Utilities()
 	{
 		throw new AssertionError();
@@ -67,6 +71,16 @@ final class Utilities
 		}
 		
 		return resource;
+	}
+	
+	static final Class<?> resolve(String name) throws ClassNotFoundException
+	{
+		return resolver.forName(name);
+	}
+	
+	static final <T> Class<? extends T> resolveAsSubclass(String name, Class<T> subclass) throws ClassNotFoundException
+	{
+		return resolve(name).asSubclass(subclass);
 	}
 	
 	static final <T> T serializableOrNull(@Nullable final T object)

@@ -124,9 +124,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		{
 			try
 			{
-				Class<?> implementation = ClassResolver.forName(this.implementation);
-				
-				return construct(this.registered, implementation.asSubclass(Listener.class), this.listener.orNull());
+				return construct(this.registered, Utilities.resolveAsSubclass(this.implementation, Listener.class), this.listener.orNull());
 			}
 			catch (Exception e)
 			{
