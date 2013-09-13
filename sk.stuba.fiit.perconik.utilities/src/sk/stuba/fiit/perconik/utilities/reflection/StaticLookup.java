@@ -23,7 +23,7 @@ public final class StaticLookup<T> implements Supplier<T>
 		
 		if (!builder.suppressions.isEmpty())
 		{
-			RuntimeException suppressor = new ReflectionException("Static accessor construction failed");
+			RuntimeException suppressor = new AccessorConstructionException("Static accessor construction failed");
 			
 			this.suppressed = Optional.of(MoreThrowables.initializeSuppressor(suppressor, Lists.reverse(builder.suppressions)));
 		}
@@ -170,7 +170,7 @@ public final class StaticLookup<T> implements Supplier<T>
 			}
 			catch (Throwable e)
 			{
-				if (e.getClass() == ReflectionException.class)
+				if (e.getClass() == AccessorInvocationException.class)
 				{
 					e = e.getCause();
 				}
@@ -179,7 +179,7 @@ public final class StaticLookup<T> implements Supplier<T>
 			}
 		}
 
-		RuntimeException failure = new ReflectionException("Static access failed");
+		RuntimeException failure = new AccessorInvocationException("Static accessor invocation failed");
 		
 		suppressions = Lists.reverse(suppressions);
 		

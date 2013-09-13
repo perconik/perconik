@@ -6,6 +6,7 @@ import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
 import sk.stuba.fiit.perconik.utilities.MoreSets;
+import sk.stuba.fiit.perconik.utilities.reflection.AccessorConstructionException;
 import sk.stuba.fiit.perconik.utilities.reflection.ReflectionException;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -106,11 +107,7 @@ final class StandardListenerProvider extends AbstractListenerProvider
 			
 			Exception cause; 
 			
-			if (suppressions.length == 0)
-			{
-				throw new AssertionError();
-			}
-			else if (suppressions.length == 1 && suppressions[0] instanceof ReflectionException)
+			if (suppressions.length == 1 && suppressions[0] instanceof AccessorConstructionException)
 			{
 				cause = new IllegalListenerClassException(suppressions[0]);
 			}

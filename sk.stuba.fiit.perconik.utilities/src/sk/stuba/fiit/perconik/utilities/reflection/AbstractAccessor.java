@@ -80,7 +80,7 @@ abstract class AbstractAccessor<T> implements Accessor<T>
 		}
 		catch (ReflectiveOperationException e)
 		{
-			throw new ReflectionException(e);
+			throw new AccessorInvocationException(e);
 		}
 	}
 	
