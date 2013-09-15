@@ -16,6 +16,17 @@ import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeStateChangeDto;
 
+/**
+ * A listener of {@code IdeStateChange} events. This listener creates
+ * {@link IdeStateChangeDto} data transfer objects and passes them to
+ * the <i>Activity Watcher Service</i> to be transferred into the
+ * <i>User Activity Client Application</i> for further processing.
+ * 
+ * <p> TODO document how DTOs are build and what data they contain
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 public final class IdeStateListener extends Adapter implements LaunchListener, PerspectiveListener
 {
 	public IdeStateListener()
