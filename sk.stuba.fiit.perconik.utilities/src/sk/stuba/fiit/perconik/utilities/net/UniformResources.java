@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.utilities;
+package sk.stuba.fiit.perconik.utilities.net;
 
 import java.net.MalformedURLException;
 import java.net.URI;
