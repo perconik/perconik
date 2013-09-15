@@ -14,14 +14,15 @@
    </extension>
    <extension
          point="sk.stuba.fiit.perconik.core.services.listeners">
-      <registered
-            class="sk.stuba.fiit.perconik.preferences.RegisteredListenersSupplier"></registered>
+      <registrations
+            class="sk.stuba.fiit.perconik.preferences.RegisteredListenersSupplier">
+      </registrations>
    </extension>
    <extension
          point="sk.stuba.fiit.perconik.core.services.resources">
-      <registered
+      <registrations
             class="sk.stuba.fiit.perconik.preferences.RegisteredResourcesSupplier">
-      </registered>
+      </registrations>
    </extension>
 
 </plugin>
