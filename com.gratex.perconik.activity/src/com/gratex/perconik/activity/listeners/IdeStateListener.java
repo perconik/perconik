@@ -75,19 +75,6 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 		final IdeStateChangeDto data = new IdeStateChangeDto();
 
-		// TODO rm
-//		ActivityApplication application = ActivityApplication.getInstance();
-//
-//		data.setIsMilestone(true);
-//		data.setTime(TimeSupplier.getInstance().get());
-//
-//		data.setIdePid(application.getPid());
-//		data.setApplicationName(application.getName());
-//		data.setApplicationVersion(application.getVersion());
-//
-//		data.setProjectName(Projects.getProject(page).getName());
-//		data.setSolutionName(Workspaces.getName(Projects.getProject(page).getWorkspace()));
-
 		data.setStateType(descriptor.getLabel().toLowerCase() + " (perspective)");
 
 		setProjectData(data, Projects.getProject(page));
