@@ -2,8 +2,10 @@ package sk.stuba.fiit.perconik.osgi.framework;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
+import sk.stuba.fiit.perconik.utilities.MoreMaps;
 import sk.stuba.fiit.perconik.utilities.reflection.ClassResolver;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
@@ -73,5 +75,15 @@ public final class Bundles
 		}
 		
 		return resolvers;
+	}
+
+	public static final Map<String, String> getHeaders(Bundle bundle)
+	{
+		return MoreMaps.fromDictionary(bundle.getHeaders());
+	}
+	
+	public static final String getName(Bundle bundle)
+	{
+		return bundle.getHeaders().get("Bundle-Name");
 	}
 }
