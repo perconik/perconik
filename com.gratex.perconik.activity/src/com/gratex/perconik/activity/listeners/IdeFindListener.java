@@ -13,7 +13,7 @@ import com.gratex.perconik.services.activity.IdeFindOperationDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeFindListener
+public final class IdeFindListener extends IdeListener
 {
 	public IdeFindListener()
 	{

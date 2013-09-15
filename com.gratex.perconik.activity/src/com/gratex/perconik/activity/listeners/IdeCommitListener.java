@@ -13,7 +13,7 @@ import com.gratex.perconik.services.activity.IdeCheckinDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCommitListener
+public final class IdeCommitListener extends IdeListener
 {
 	public IdeCommitListener()
 	{

@@ -3,11 +3,12 @@ package com.gratex.perconik.activity.listeners;
 import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
+import java.util.Collection;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
-import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
@@ -27,19 +28,21 @@ import com.gratex.perconik.services.activity.IdeStateChangeDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeStateListener extends Adapter implements LaunchListener, PerspectiveListener
+public final class IdeStateListener extends IdeListener implements LaunchListener, PerspectiveListener
 {
 	public IdeStateListener()
 	{
 	}
 	
-	public final void launchAdded(ILaunch launch)
+	public final void launchAdded(final ILaunch launch)
 	{
 		final IdeStateChangeDto data = new IdeStateChangeDto();
 
 		data.setStateType(launch.getLaunchMode() + " (launch)");
+
+		Collection<IProject> projects = Projects.getProjects(launch);
 		
-		//setProjectData(data, Projects.getProject(page)); // TODO fix
+		setProjectData(data, projects.iterator().next());
 		setApplicationData(data);
 		setEventData(data);
 		
@@ -52,23 +55,23 @@ public final class IdeStateListener extends Adapter implements LaunchListener, P
 		});
 	}
 
-	public final void launchRemoved(ILaunch launch)
+	public final void launchRemoved(final ILaunch launch)
 	{
 	}
 
-	public final void launchChanged(ILaunch launch)
+	public final void launchChanged(final ILaunch launch)
 	{
 	}
 
-	public final void perspectiveOpened(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
+	public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public final void perspectiveClosed(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
+	public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public final void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
+	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 		final IdeStateChangeDto data = new IdeStateChangeDto();
 
@@ -100,23 +103,23 @@ public final class IdeStateListener extends Adapter implements LaunchListener, P
 		});
 	}
 
-	public final void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
+	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public final void perspectivePreDeactivate(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
+	public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 	}
 
-	public final void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, String change)
+	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change)
 	{
 	}
 
-	public final void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, IWorkbenchPartReference reference, String change)
+	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change)
 	{
 	}
 
-	public final void perspectiveSavedAs(IWorkbenchPage page, IPerspectiveDescriptor before, IPerspectiveDescriptor after)
+	public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after)
 	{
 	}
 }

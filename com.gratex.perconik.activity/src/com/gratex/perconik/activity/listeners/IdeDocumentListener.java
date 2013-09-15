@@ -13,7 +13,7 @@ import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeDocumentListener
+public final class IdeDocumentListener extends IdeListener
 {
 	public IdeDocumentListener()
 	{
