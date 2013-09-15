@@ -1,9 +1,14 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
+import java.util.Collection;
+import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.ui.IPackagesViewPart;
@@ -17,6 +22,7 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.navigator.CommonNavigator;
+import com.google.common.collect.Maps;
 
 /**
  * Static utility methods pertaining to Eclipse projects.
@@ -118,5 +124,35 @@ public final class Projects
 		IResource resource = (IResource) input.getAdapter(IResource.class);
 		
 		return resource != null ? resource.getProject() : null;
+	}
+
+	public static final Collection<IProject> getProjects(final ILaunch launch)
+	{
+		return getProjects(launch.getLaunchConfiguration());
+	}
+
+	public static final Collection<IProject> getProjects(final ILaunchConfiguration configuration)
+	{
+		IResource[] resources;
+		
+		try
+		{
+			resources = configuration.getMappedResources();
+		}
+		catch (CoreException e)
+		{
+			throw new IllegalStateException(e);
+		}
+		
+		Map<String, IProject> projects = Maps.newHashMapWithExpectedSize(resources.length);
+		
+		for (IResource resource: resources)
+		{
+			IProject project = resource.getProject();
+			
+			projects.put(project.getFullPath().toString(), project);
+		}
+		
+		return projects.values();
 	}
 }
