@@ -32,7 +32,7 @@ final class GitHandlerSupport<L extends Listener & RepositoryListener>
 
 	public final void unregister(final L listener)
 	{
-		ListenerHandle handle = this.map.get(listener);
+		ListenerHandle handle = this.map.remove(listener);
 		
 		if (handle != null)
 		{
