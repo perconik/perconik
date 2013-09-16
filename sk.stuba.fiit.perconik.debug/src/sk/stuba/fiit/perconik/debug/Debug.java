@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.debug;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -48,6 +50,13 @@ import org.eclipse.jface.text.contentassist.ContentAssistEvent;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jgit.events.ConfigChangedEvent;
+import org.eclipse.jgit.events.IndexChangedEvent;
+import org.eclipse.jgit.events.RefsChangedEvent;
+import org.eclipse.jgit.events.RepositoryEvent;
+import org.eclipse.jgit.events.RepositoryListener;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
@@ -599,6 +608,108 @@ public final class Debug
 		
 		builder.append("synchronization context requested: ").appendln(synchronizationContextRequested);
 		builder.append("synchronized with file system: ").appendln(synchronizedWithFileSystem);
+		
+		return builder.toString();
+	}
+
+	public static final String dumpGitConfigurationEvent(final ConfigChangedEvent event)
+	{
+		return dumpGitRepositoryEvent(event);
+	}
+
+	public static final String dumpGitIndexEvent(final IndexChangedEvent event)
+	{
+		return dumpGitRepositoryEvent(event);
+	}
+
+	public static final String dumpGitReferenceEvent(final RefsChangedEvent event)
+	{
+		return dumpGitRepositoryEvent(event);
+	}
+
+	public static final String dumpGitRepository(final Repository repository)
+	{
+		SmartStringBuilder builder = builder();
+
+		File directory = repository.getDirectory();
+		File indexFile = repository.getIndexFile();
+		File workTree  = repository.getWorkTree();
+		
+		String branch     = null;
+		String fullBranch = null;
+		
+		RepositoryState state = repository.getRepositoryState();
+		
+		boolean bare = repository.isBare();
+		
+		try
+		{
+			branch = repository.getBranch();
+		}
+		catch (IOException e)
+		{
+			branch = "?";
+		}
+		
+		try
+		{
+			fullBranch = repository.getFullBranch();
+		}
+		catch (IOException e)
+		{
+			fullBranch = "?";
+		}
+		
+		builder.append("directory: ").appendln(directory);
+		builder.append("index file: ").appendln(indexFile);
+		builder.append("work tree: ").appendln(workTree);
+		
+		builder.append("branch: ").append(branch).append(" (full ").append(fullBranch).appendln(")");
+		
+		builder.appendln("state:").lines(dumpGitRepositoryState(state));
+		
+		builder.append("bare: ").appendln(bare);
+		
+		return builder.toString();
+	}
+
+	public static final String dumpGitRepositoryEvent(final RepositoryEvent<?> event)
+	{
+		SmartStringBuilder builder = builder();
+
+		Class<? extends RepositoryListener> type = event.getListenerType();
+		
+		Repository repository = event.getRepository();
+		
+		builder.append("listener type: ").appendln(dumpClass(type));
+		builder.appendln("repository:").lines(dumpGitRepository(repository));
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpGitRepositoryState(final RepositoryState state)
+	{
+		SmartStringBuilder builder = builder();
+
+		String value       = state.toString();
+		String description = state.getDescription();
+
+		boolean amend     = state.canAmend();
+		boolean checkout  = state.canCheckout();
+		boolean commit    = state.canCommit();
+		boolean resetHead = state.canResetHead();
+		
+		boolean rebasing  = state.isRebasing();
+		
+		builder.append("value: ").appendln(value);
+		builder.append("description: ").appendln(description);
+		
+		builder.append("can amend: ").appendln(amend);
+		builder.append("can checkout: ").appendln(checkout);
+		builder.append("can commit: ").appendln(commit);
+		builder.append("can reset head: ").appendln(resetHead);
+		
+		builder.append("rebasing: ").appendln(rebasing);
 		
 		return builder.toString();
 	}
@@ -1228,9 +1339,9 @@ public final class Debug
 		
 		builder.append("label: ").appendln(label);
 		
-		builder.append("execute: ").appendln(execute);
-		builder.append("redo: ").appendln(redo);
-		builder.append("undo: ").appendln(undo);
+		builder.append("can execute: ").appendln(execute);
+		builder.append("can redo: ").appendln(redo);
+		builder.append("can undo: ").appendln(undo);
 		
 		return builder.toString();		
 	}
