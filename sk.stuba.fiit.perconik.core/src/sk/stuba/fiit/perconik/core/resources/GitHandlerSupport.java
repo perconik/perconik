@@ -4,11 +4,10 @@ import java.util.Map;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RepositoryListener;
 import org.eclipse.jgit.lib.Repository;
-import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
-final class GitHandlerSupport<L extends Listener & RepositoryListener>
+final class GitHandlerSupport<L extends RepositoryListener>
 {
 	private final Class<L> type;
 	

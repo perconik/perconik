@@ -1,12 +1,13 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import org.eclipse.jgit.events.RefsChangedListener;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 
 enum GitReferenceHandler implements Handler<GitReferenceListener>
 {
 	INSTANCE;
 	
-	private final GitHandlerSupport<GitReferenceListener> support = new GitHandlerSupport<>(GitReferenceListener.class);
+	private final GitHandlerSupport<RefsChangedListener> support = new GitHandlerSupport<>(RefsChangedListener.class);
 	
 	public final void register(final GitReferenceListener listener)
 	{
