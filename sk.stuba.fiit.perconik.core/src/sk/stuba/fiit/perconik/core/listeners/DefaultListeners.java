@@ -240,6 +240,21 @@ public final class DefaultListeners
 		DefaultResources.getFileBufferResource().register(listener);
 	}
 	
+	public static final void register(final GitConfigurationListener listener)
+	{
+		DefaultResources.getGitConfigurationResource().register(listener);
+	}
+
+	public static final void register(final GitIndexListener listener)
+	{
+		DefaultResources.getGitIndexResource().register(listener);
+	}
+
+	public static final void register(final GitReferenceListener listener)
+	{
+		DefaultResources.getGitReferenceResource().register(listener);
+	}
+
 	public static final void register(final JavaElementListener listener)
 	{
 		DefaultResources.getJavaElementResource().register(listener);
@@ -388,6 +403,21 @@ public final class DefaultListeners
 	public static final void unregister(final FileBufferListener listener)
 	{
 		DefaultResources.getFileBufferResource().unregister(listener);
+	}
+	
+	public static final void unregister(final GitConfigurationListener listener)
+	{
+		DefaultResources.getGitConfigurationResource().unregister(listener);
+	}
+
+	public static final void unregister(final GitIndexListener listener)
+	{
+		DefaultResources.getGitIndexResource().unregister(listener);
+	}
+
+	public static final void unregister(final GitReferenceListener listener)
+	{
+		DefaultResources.getGitReferenceResource().unregister(listener);
 	}
 	
 	public static final void unregister(final JavaElementListener listener)

@@ -14,6 +14,9 @@ import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
+import sk.stuba.fiit.perconik.core.listeners.GitConfigurationListener;
+import sk.stuba.fiit.perconik.core.listeners.GitIndexListener;
+import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
@@ -84,6 +87,12 @@ public final class DefaultResources
 	static final Resource<EditorListener> editor;
 
 	static final Resource<FileBufferListener> fileBuffer;
+	
+	static final Resource<GitConfigurationListener> gitConfiguration;
+	
+	static final Resource<GitIndexListener> gitIndex;
+	
+	static final Resource<GitReferenceListener> gitReference;
 
 	static final Resource<JavaElementListener> javaElement;
 
@@ -139,6 +148,9 @@ public final class DefaultResources
 		document              = forge(DocumentListener.class, DocumentHandler.INSTANCE, builder);
 		editor                = forge(EditorListener.class, EditorHandler.INSTANCE, builder);
 		fileBuffer            = forge(FileBufferListener.class, FileBufferHandler.INSTANCE, builder);
+		gitConfiguration      = forge(GitConfigurationListener.class, GitConfigurationHandler.INSTANCE, builder);
+		gitIndex              = forge(GitIndexListener.class, GitIndexHandler.INSTANCE, builder);
+		gitReference          = forge(GitReferenceListener.class, GitReferenceHandler.INSTANCE, builder);
 		javaElement           = forge(JavaElementListener.class, JavaElementHandler.INSTANCE, builder);
 		launch                = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
 		launchConfiguration   = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
@@ -355,6 +367,21 @@ public final class DefaultResources
 	public static final Resource<FileBufferListener> getFileBufferResource()
 	{
 		return DefaultResources.fileBuffer;
+	}
+	
+	public static final Resource<GitConfigurationListener> getGitConfigurationResource()
+	{
+		return DefaultResources.gitConfiguration;
+	}
+
+	public static final Resource<GitIndexListener> getGitIndexResource()
+	{
+		return DefaultResources.gitIndex;
+	}
+
+	public static final Resource<GitReferenceListener> getGitReferenceResource()
+	{
+		return DefaultResources.gitReference;
 	}
 
 	public static final Resource<JavaElementListener> getJavaElementResource()
