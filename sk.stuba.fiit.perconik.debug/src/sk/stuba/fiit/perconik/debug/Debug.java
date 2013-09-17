@@ -741,7 +741,7 @@ public final class Debug
 		
 		builder.format("type: %s (%d)", type, type.getValue()).appendln();
 		
-		builder.appendln("delta:").lines(dumpJavaElementDelta(delta));
+		builder.appendln("delta:").lines(delta == null ? missing() : dumpJavaElementDelta(delta));
 		
 		return builder.toString();
 	}
@@ -1120,7 +1120,7 @@ public final class Debug
 		builder.append("build kind: ").appendln(buildKind == 0 ? "not applicable" : ProjectBuildKind.valueOf(buildKind));
 		
 		builder.appendln("resource:").lines(resource == null ? missing() : dumpResource(resource));		
-		builder.appendln("delta:").lines(dumpResourceDelta(delta));
+		builder.appendln("delta:").lines(delta == null ? missing() : dumpResourceDelta(delta));
 		
 		return builder.toString();
 	}
