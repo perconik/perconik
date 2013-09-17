@@ -30,6 +30,62 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link NotifyIdeProjectOperation }
+     * 
+     */
+    public NotifyIdeProjectOperation createNotifyIdeProjectOperation() {
+        return new NotifyIdeProjectOperation();
+    }
+
+    /**
+     * Create an instance of {@link IdeProjectOperationDto }
+     * 
+     */
+    public IdeProjectOperationDto createIdeProjectOperationDto() {
+        return new IdeProjectOperationDto();
+    }
+
+    /**
+     * Create an instance of {@link NotifyIdeCodeOperationResponse }
+     * 
+     */
+    public NotifyIdeCodeOperationResponse createNotifyIdeCodeOperationResponse() {
+        return new NotifyIdeCodeOperationResponse();
+    }
+
+    /**
+     * Create an instance of {@link NotifyIdeCheckin }
+     * 
+     */
+    public NotifyIdeCheckin createNotifyIdeCheckin() {
+        return new NotifyIdeCheckin();
+    }
+
+    /**
+     * Create an instance of {@link IdeCheckinDto }
+     * 
+     */
+    public IdeCheckinDto createIdeCheckinDto() {
+        return new IdeCheckinDto();
+    }
+
+    /**
+     * Create an instance of {@link NotifyIdeCodeOperation }
+     * 
+     */
+    public NotifyIdeCodeOperation createNotifyIdeCodeOperation() {
+        return new NotifyIdeCodeOperation();
+    }
+
+    /**
+     * Create an instance of {@link IdeCodeOperationDto }
+     * 
+     */
+    public IdeCodeOperationDto createIdeCodeOperationDto() {
+        return new IdeCodeOperationDto();
+    }
+
+    /**
      * Create an instance of {@link NotifyIdeDocumentOperationResponse }
      * 
      */
@@ -62,27 +118,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link NotifyIdeCodeElementEvent }
+     * 
+     */
+    public NotifyIdeCodeElementEvent createNotifyIdeCodeElementEvent() {
+        return new NotifyIdeCodeElementEvent();
+    }
+
+    /**
+     * Create an instance of {@link IdeCodeElementEventDto }
+     * 
+     */
+    public IdeCodeElementEventDto createIdeCodeElementEventDto() {
+        return new IdeCodeElementEventDto();
+    }
+
+    /**
      * Create an instance of {@link NotifyIdeProjectOperationResponse }
      * 
      */
     public NotifyIdeProjectOperationResponse createNotifyIdeProjectOperationResponse() {
         return new NotifyIdeProjectOperationResponse();
-    }
-
-    /**
-     * Create an instance of {@link NotifyIdeProjectOperation }
-     * 
-     */
-    public NotifyIdeProjectOperation createNotifyIdeProjectOperation() {
-        return new NotifyIdeProjectOperation();
-    }
-
-    /**
-     * Create an instance of {@link IdeProjectOperationDto }
-     * 
-     */
-    public IdeProjectOperationDto createIdeProjectOperationDto() {
-        return new IdeProjectOperationDto();
     }
 
     /**
@@ -102,30 +158,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NotifyIdeCodeOperationResponse }
-     * 
-     */
-    public NotifyIdeCodeOperationResponse createNotifyIdeCodeOperationResponse() {
-        return new NotifyIdeCodeOperationResponse();
-    }
-
-    /**
-     * Create an instance of {@link NotifyIdeCheckin }
-     * 
-     */
-    public NotifyIdeCheckin createNotifyIdeCheckin() {
-        return new NotifyIdeCheckin();
-    }
-
-    /**
-     * Create an instance of {@link IdeCheckinDto }
-     * 
-     */
-    public IdeCheckinDto createIdeCheckinDto() {
-        return new IdeCheckinDto();
-    }
-
-    /**
      * Create an instance of {@link NotifyIdeFindOperationResponse }
      * 
      */
@@ -134,19 +166,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NotifyIdeCodeOperation }
+     * Create an instance of {@link NotifyIdeCodeElementEventResponse }
      * 
      */
-    public NotifyIdeCodeOperation createNotifyIdeCodeOperation() {
-        return new NotifyIdeCodeOperation();
-    }
-
-    /**
-     * Create an instance of {@link IdeCodeOperationDto }
-     * 
-     */
-    public IdeCodeOperationDto createIdeCodeOperationDto() {
-        return new IdeCodeOperationDto();
+    public NotifyIdeCodeElementEventResponse createNotifyIdeCodeElementEventResponse() {
+        return new NotifyIdeCodeElementEventResponse();
     }
 
     /**

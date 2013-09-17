@@ -29,10 +29,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdeSlnPrjEventDto")
 @XmlSeeAlso({
-    IdeStateChangeDto.class,
     IdeProjectOperationDto.class,
-    IdeDocumentOperationDto.class,
     IdeCodeOperationDto.class,
+    IdeStateChangeDto.class,
+    IdeCodeElementEventDto.class,
+    IdeDocumentOperationDto.class,
     IdeFindOperationDto.class
 })
 public abstract class IdeSlnPrjEventDto

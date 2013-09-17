@@ -265,4 +265,44 @@ public interface IVsActivityWatcherService {
         @WebParam(name = "eventDto", targetNamespace = "http://tempuri.org/")
         IdeFindOperationDto eventDto);
 
+    /**
+     * 
+     * @param eventDto
+     * @return
+     *     returns javax.xml.ws.Response<com.gratex.perconik.services.activity.NotifyIdeCodeElementEventResponse>
+     */
+    @WebMethod(operationName = "NotifyIdeCodeElementEvent", action = "http://tempuri.org/IVsActivityWatcherService/NotifyIdeCodeElementEvent")
+    @RequestWrapper(localName = "NotifyIdeCodeElementEvent", targetNamespace = "http://tempuri.org/", className = "com.gratex.perconik.services.activity.NotifyIdeCodeElementEvent")
+    @ResponseWrapper(localName = "NotifyIdeCodeElementEventResponse", targetNamespace = "http://tempuri.org/", className = "com.gratex.perconik.services.activity.NotifyIdeCodeElementEventResponse")
+    public Response<NotifyIdeCodeElementEventResponse> notifyIdeCodeElementEventAsync(
+        @WebParam(name = "eventDto", targetNamespace = "http://tempuri.org/")
+        IdeCodeElementEventDto eventDto);
+
+    /**
+     * 
+     * @param asyncHandler
+     * @param eventDto
+     * @return
+     *     returns java.util.concurrent.Future<? extends java.lang.Object>
+     */
+    @WebMethod(operationName = "NotifyIdeCodeElementEvent", action = "http://tempuri.org/IVsActivityWatcherService/NotifyIdeCodeElementEvent")
+    @RequestWrapper(localName = "NotifyIdeCodeElementEvent", targetNamespace = "http://tempuri.org/", className = "com.gratex.perconik.services.activity.NotifyIdeCodeElementEvent")
+    @ResponseWrapper(localName = "NotifyIdeCodeElementEventResponse", targetNamespace = "http://tempuri.org/", className = "com.gratex.perconik.services.activity.NotifyIdeCodeElementEventResponse")
+    public Future<?> notifyIdeCodeElementEventAsync(
+        @WebParam(name = "eventDto", targetNamespace = "http://tempuri.org/")
+        IdeCodeElementEventDto eventDto,
+        @WebParam(name = "asyncHandler", targetNamespace = "")
+        AsyncHandler<NotifyIdeCodeElementEventResponse> asyncHandler);
+
+    /**
+     * 
+     * @param eventDto
+     */
+    @WebMethod(operationName = "NotifyIdeCodeElementEvent", action = "http://tempuri.org/IVsActivityWatcherService/NotifyIdeCodeElementEvent")
+    @RequestWrapper(localName = "NotifyIdeCodeElementEvent", targetNamespace = "http://tempuri.org/", className = "com.gratex.perconik.services.activity.NotifyIdeCodeElementEvent")
+    @ResponseWrapper(localName = "NotifyIdeCodeElementEventResponse", targetNamespace = "http://tempuri.org/", className = "com.gratex.perconik.services.activity.NotifyIdeCodeElementEventResponse")
+    public void notifyIdeCodeElementEvent(
+        @WebParam(name = "eventDto", targetNamespace = "http://tempuri.org/")
+        IdeCodeElementEventDto eventDto);
+
 }
