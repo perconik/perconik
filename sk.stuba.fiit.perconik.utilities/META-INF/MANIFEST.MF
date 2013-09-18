@@ -5,6 +5,7 @@ Bundle-SymbolicName: sk.stuba.fiit.perconik.utilities;singleton:=true
 Bundle-Version: 0.0.1.v20130826-1700
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.utilities,
+ sk.stuba.fiit.perconik.utilities.constant,
  sk.stuba.fiit.perconik.utilities.net,
  sk.stuba.fiit.perconik.utilities.reflection
 Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.0.1"

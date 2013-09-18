@@ -1,41 +1,37 @@
-package sk.stuba.fiit.perconik.utilities;
+package sk.stuba.fiit.perconik.utilities.constant;
 
 import java.io.Serializable;
 import java.util.EnumSet;
-import java.util.Map;
 import java.util.Set;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Maps;
 
-public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> implements Serializable
+public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> extends AbstractConstantSupport<Integer, E> implements Serializable
 {
 	private static final long serialVersionUID = 6686975853072661262L;
-
-	private final Class<E> type;
-
-	private final BiMap<Integer, E> map;
 	
 	private IntegralConstantSupport(final Class<E> type)
 	{
-		this.type = type;
-		
-		E[] constants = this.type.getEnumConstants();
-		
-		Map<Integer, E> map = Maps.newHashMapWithExpectedSize(constants.length);
-		
-		for (E constant: constants)
-		{
-			if (map.put(constant.getValue(), constant) != null)
-			{
-				throw new AssertionError("Value " + constant.getValue() + " already set for constant " + constant.name() + ".");
-			}
-		}
-
-		this.map = ImmutableBiMap.copyOf(map);
+		super(type);
 	}
 	
+	private static enum Transformation implements Function<IntegralConstant, Integer>
+	{
+		INSTANCE;
+
+		public final Integer apply(final IntegralConstant constant)
+		{
+			return constant.getValue();
+		}	
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	final Function<E, Integer> transformation()
+	{
+		return (Function<E, Integer>) Transformation.INSTANCE;
+	}
+
 	public static final <E extends Enum<E> & IntegralConstant> IntegralConstantSupport<E> of(final Class<E> type)
 	{
 		return new IntegralConstantSupport<>(type);
@@ -56,11 +52,6 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
 	public final Set<Integer> getIntegers()
 	{
 		return this.map.keySet();
-	}
-	
-	public final Set<E> getConstants()
-	{
-		return this.map.values();
 	}
 	
 	public final int getConstantsAsInteger()
