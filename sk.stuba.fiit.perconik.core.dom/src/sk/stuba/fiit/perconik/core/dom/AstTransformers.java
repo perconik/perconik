@@ -47,7 +47,7 @@ public final class AstTransformers
 			{
 				if (node == null)
 				{
-					return AstPathExtractor.unknownPathName;
+					return AstPathExtractor.unknownPathName();
 				}
 				
 				for (StructuralPropertyDescriptor descriptor: AstNodes.structuralProperties(node))
@@ -58,7 +58,7 @@ public final class AstTransformers
 					}
 				}
 				
-				return AstPathExtractor.unknownPathName;
+				return AstPathExtractor.unknownPathName();
 			}
 		},
 		
@@ -66,7 +66,7 @@ public final class AstTransformers
 		{
 			public final String transform(final ASTNode node)
 			{
-				return node != null ? node.getClass().getSimpleName() : AstPathExtractor.unknownPathName;
+				return node != null ? node.getClass().getSimpleName() : AstPathExtractor.unknownPathName();
 			}
 		};
 	}
