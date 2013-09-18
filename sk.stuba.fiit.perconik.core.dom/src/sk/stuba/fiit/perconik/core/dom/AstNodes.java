@@ -45,7 +45,7 @@ public final class AstNodes
 	
 	public static final ASTNode create(final ASTParser parser, final char[] source)
 	{
-		parser.setSource(source.toString().toCharArray());
+		parser.setSource(source);
 		
 		return parser.createAST(null);
 	}

@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.dom;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import com.google.common.base.Function;
@@ -14,7 +15,7 @@ public final class AstFunctions
 	{
 		INSTANCE;
 		
-		public final String apply(final StringLiteral literal)
+		public final String apply(@Nonnull final StringLiteral literal)
 		{
 			return literal.getEscapedValue();
 		}
@@ -24,7 +25,7 @@ public final class AstFunctions
 	{
 		INSTANCE;
 		
-		public final String apply(final StringLiteral literal)
+		public final String apply(@Nonnull final StringLiteral literal)
 		{
 			return literal.getLiteralValue();
 		}

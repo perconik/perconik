@@ -12,23 +12,24 @@ public abstract class AstNodeDelta
 	{
 	}
 	
-	static AstNodeDelta of(final ASTNode original, final ASTNode revised)
-	{
-		if (original != null && revised != null)
-		{
-			return AstNodeModification.of(original, revised);
-		}
-		else if (original != null)
-		{
-			return AstNodeDeletion.of(original);
-		}
-		else if (revised != null)
-		{
-			return AstNodeAddition.of(revised);
-		}
-		
-		throw new NullPointerException();
-	}
+	// TODO move due to circular dependencies
+//	static AstNodeDelta of(final ASTNode original, final ASTNode revised)
+//	{
+//		if (original != null && revised != null)
+//		{
+//			return AstNodeModification.of(original, revised);
+//		}
+//		else if (original != null)
+//		{
+//			return AstNodeDeletion.of(original);
+//		}
+//		else if (revised != null)
+//		{
+//			return AstNodeAddition.of(revised);
+//		}
+//		
+//		throw new NullPointerException();
+//	}
 	
 	@Override
 	public final boolean equals(@Nullable Object o)
