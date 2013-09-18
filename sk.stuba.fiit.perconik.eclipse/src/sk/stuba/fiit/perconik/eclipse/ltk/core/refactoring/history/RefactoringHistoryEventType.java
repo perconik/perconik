@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history;
 
 import java.util.Set;
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Refactoring history event types.

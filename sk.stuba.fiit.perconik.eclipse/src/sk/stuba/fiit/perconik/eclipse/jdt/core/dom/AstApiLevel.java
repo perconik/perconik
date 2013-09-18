@@ -3,8 +3,8 @@ package sk.stuba.fiit.perconik.eclipse.jdt.core.dom;
 import java.util.Set;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * AST API levels.
@@ -33,8 +33,6 @@ public enum AstApiLevel implements IntegralConstant
 	 */
 	JLS4(AST.JLS4);
 
-	private static final IntegralConstantSupport<AstApiLevel> integers = IntegralConstantSupport.of(AstApiLevel.class);
-
 	static final AstApiLevel latest;
 	
 	static
@@ -44,6 +42,8 @@ public enum AstApiLevel implements IntegralConstant
 		latest = constants[constants.length - 1];
 	}
 
+	private static final IntegralConstantSupport<AstApiLevel> integers = IntegralConstantSupport.of(AstApiLevel.class);
+
 	private final int value;
 	
 	private AstApiLevel(final int value)
@@ -51,6 +51,11 @@ public enum AstApiLevel implements IntegralConstant
 		this.value = value;
 	}
 	
+	public static final AstApiLevel latest()
+	{
+		return latest;
+	}
+
 	public static final Set<Integer> valuesAsIntegers()
 	{
 		return integers.getIntegers();
@@ -71,11 +76,6 @@ public enum AstApiLevel implements IntegralConstant
 		return valueOf(node.getAST());
 	}
 	
-	public static final AstApiLevel latest()
-	{
-		return latest;
-	}
-
 	public final int getValue()
 	{
 		return this.value;

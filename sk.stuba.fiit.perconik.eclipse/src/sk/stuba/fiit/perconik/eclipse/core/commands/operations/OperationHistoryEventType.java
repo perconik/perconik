@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.eclipse.core.commands.operations;
 
 import java.util.Set;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Operation history event types.

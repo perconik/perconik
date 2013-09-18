@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
 import java.util.Set;
 import org.eclipse.jgit.lib.Constants;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Git object types.

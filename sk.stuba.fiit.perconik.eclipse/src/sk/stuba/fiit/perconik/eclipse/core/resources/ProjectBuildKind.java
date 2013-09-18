@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.util.Set;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Project build kinds.

@@ -86,10 +86,10 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
-import sk.stuba.fiit.perconik.utilities.TypeConstant;
-import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * AST node types.

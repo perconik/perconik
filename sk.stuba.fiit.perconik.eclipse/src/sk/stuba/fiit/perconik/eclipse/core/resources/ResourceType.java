@@ -6,10 +6,10 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
-import sk.stuba.fiit.perconik.utilities.TypeConstant;
-import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * Resource types.

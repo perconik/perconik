@@ -7,10 +7,10 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
-import sk.stuba.fiit.perconik.utilities.TypeConstant;
-import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * AST parser construct kinds.

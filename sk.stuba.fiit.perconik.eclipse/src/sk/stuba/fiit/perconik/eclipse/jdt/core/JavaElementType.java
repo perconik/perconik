@@ -18,10 +18,10 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
-import sk.stuba.fiit.perconik.utilities.TypeConstant;
-import sk.stuba.fiit.perconik.utilities.TypeConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
+import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * Java element types.

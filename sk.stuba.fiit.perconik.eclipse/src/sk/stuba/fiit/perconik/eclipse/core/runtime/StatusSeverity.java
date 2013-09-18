@@ -3,8 +3,8 @@ package sk.stuba.fiit.perconik.eclipse.core.runtime;
 import java.util.Set;
 import org.eclipse.core.runtime.IStatus;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Status severities.

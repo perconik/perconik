@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import sk.stuba.fiit.perconik.core.FilteringListener;
-import sk.stuba.fiit.perconik.utilities.IntegralConstant;
-import sk.stuba.fiit.perconik.utilities.IntegralConstantSupport;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
+import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 import com.google.common.base.Preconditions;
 
 final class Handlers
