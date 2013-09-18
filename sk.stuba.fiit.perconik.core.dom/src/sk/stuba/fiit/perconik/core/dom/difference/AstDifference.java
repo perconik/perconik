@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-public final class AstDifference implements Iterable<AstNodeDelta>
+public final class AstDifference extends ForwardingSet<AstNodeDelta>
 {
 	private static final AstDifference none = new AstDifference(ImmutableSet.<AstNodeDelta>of());
 	
@@ -125,51 +125,8 @@ public final class AstDifference implements Iterable<AstNodeDelta>
 	}
 
 	@Override
-	public final boolean equals(@Nullable Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-
-		if (!(o instanceof AstDifference))
-		{
-			return false;
-		}
-		
-		return this.deltas.equals(((AstDifference) o).deltas);
-	}
-
-	@Override
-	public final int hashCode()
-	{
-		return this.deltas.hashCode();
-	}
-
-	@Override
-	public final String toString()
-	{
-		return this.deltas.toString();
-	}
-
-	@Override
-	public final Iterator<AstNodeDelta> iterator()
-	{
-		return this.deltas.iterator();
-	}
-
-	public final boolean hasNodeDeltas()
-	{
-		return this.deltas.size() != 0;
-	}
-
-	public final Set<AstNodeDelta> getNodeDeltas()
+	protected final Set<AstNodeDelta> delegate()
 	{
 		return this.deltas;
-	}
-	
-	public final int getNodeDeltasSize()
-	{
-		return this.deltas.size();
 	}
 }
