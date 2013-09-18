@@ -7,6 +7,13 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
+import com.gratex.perconik.activity.listeners.IdeCodeListener;
+import com.gratex.perconik.activity.listeners.IdeCommitListener;
+import com.gratex.perconik.activity.listeners.IdeDocumentListener;
+import com.gratex.perconik.activity.listeners.IdeDocumentListener2;
+import com.gratex.perconik.activity.listeners.IdeElementListener;
+import com.gratex.perconik.activity.listeners.IdeFindListener;
+import com.gratex.perconik.activity.listeners.IdeProjectListener;
 import com.gratex.perconik.activity.listeners.IdeStateListener;
 
 public final class ActivityListenerProviderFactory implements ListenerProviderFactory
@@ -17,6 +24,13 @@ public final class ActivityListenerProviderFactory implements ListenerProviderFa
 	{
 		Builder<Class<? extends Listener>> builder = ImmutableSet.builder();
 		
+		builder.add(IdeCodeListener.class);
+		builder.add(IdeCommitListener.class);
+		builder.add(IdeDocumentListener.class);
+		builder.add(IdeDocumentListener2.class);
+		builder.add(IdeElementListener.class);
+		builder.add(IdeFindListener.class);
+		builder.add(IdeProjectListener.class);
 		builder.add(IdeStateListener.class);
 
 		classes = builder.build();

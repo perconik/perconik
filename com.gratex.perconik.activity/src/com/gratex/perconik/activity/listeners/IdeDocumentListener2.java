@@ -5,11 +5,16 @@ import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
 import java.util.EnumSet;
 import java.util.Set;
+import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import com.google.common.io.Resources;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
@@ -27,40 +32,17 @@ import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeDocumentListener extends IdeListener implements ResourceListener
+public final class IdeDocumentListener2 extends IdeListener implements FileBufferListener
 {
-	public IdeDocumentListener()
+	public IdeDocumentListener2()
 	{
 	}
 	
 	// TODO impl
 
-	public final void resourceChanged(final IResourceChangeEvent event)
+	private static final void process(final IdeDocumentOperationTypeEnum type)
 	{
-//		IResource resource = event.getResource();
-//		
-//		if (ResourceType.valueOf(resource.getType()) != ResourceType.FILE)
-//		{
-//			return;
-//		}
-//		
-//		IdeDocumentOperationTypeEnum type;
-//		
 //		final IdeDocumentOperationDto data = new IdeDocumentOperationDto();
-//		
-//		switch (ResourceEventType.valueOf(event.getType()))
-//		{
-//			case PRE_DELETE:
-//				type = IdeDocumentOperationTypeEnum.REMOVE;
-//				break;
-//			
-//			case PRE_CLOSE:
-//				type = IdeDocumentOperationTypeEnum.CLOSE;
-//				break;
-//				
-//			default:
-//				break;
-//		}
 //		
 //		data.setOperationType(type);
 //		
@@ -76,9 +58,45 @@ public final class IdeDocumentListener extends IdeListener implements ResourceLi
 //			}
 //		});
 	}
-
-	public final Set<ResourceEventType> getEventTypes()
+	
+	public final void bufferCreated(final IFileBuffer buffer)
 	{
-		return EnumSet.allOf(ResourceEventType.class);
+		process(IdeDocumentOperationTypeEnum.OPEN);
+	}
+
+	public final void bufferDisposed(final IFileBuffer buffer)
+	{
+	}
+
+	public final void bufferContentAboutToBeReplaced(final IFileBuffer buffer)
+	{
+	}
+
+	public final void bufferContentReplaced(final IFileBuffer buffer)
+	{
+	}
+
+	public final void stateChanging(final IFileBuffer buffer)
+	{
+	}
+
+	public final void stateChangeFailed(final IFileBuffer buffer)
+	{
+	}
+
+	public final void stateValidationChanged(final IFileBuffer buffer, final boolean stateValidated)
+	{
+	}
+
+	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty)
+	{
+	}
+
+	public final void underlyingFileMoved(final IFileBuffer buffer, final IPath path)
+	{
+	}
+
+	public final void underlyingFileDeleted(IFileBuffer buffer)
+	{
 	}
 }

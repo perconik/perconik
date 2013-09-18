@@ -1,5 +1,6 @@
 package com.gratex.perconik.activity.listeners;
 
+import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
 import com.gratex.perconik.services.activity.IdeProjectOperationDto;
 
 /**
@@ -17,5 +18,10 @@ public final class IdeProjectListener extends IdeListener
 {
 	public IdeProjectListener()
 	{
+	}
+	
+	void test()
+	{
+		Workspaces.getWorkspace().getRoot().getProjects();
 	}
 }

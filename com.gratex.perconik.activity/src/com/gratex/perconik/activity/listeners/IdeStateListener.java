@@ -3,7 +3,6 @@ package com.gratex.perconik.activity.listeners;
 import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
-import java.util.Collection;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -34,15 +33,13 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 	}
 	
-	public final void launchAdded(final ILaunch launch)
+	private static final void process(final IProject project, final String state)
 	{
 		final IdeStateChangeDto data = new IdeStateChangeDto();
 
-		data.setStateType(launch.getLaunchMode() + " (launch)");
+		data.setStateType(state);
 
-		Collection<IProject> projects = Projects.getProjects(launch);
-		
-		setProjectData(data, projects.iterator().next());
+		setProjectData(data, project);
 		setApplicationData(data);
 		setEventData(data);
 		
@@ -53,6 +50,15 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 				service.notifyIdeStateChangeAsync(data);
 			}
 		});
+	}
+	
+	public final void launchAdded(final ILaunch launch)
+	{
+		IProject project = Projects.getProjects(launch).iterator().next();
+		
+		String state = launch.getLaunchMode() + " (launch)";
+		
+		process(project, state);
 	}
 
 	public final void launchRemoved(final ILaunch launch)
@@ -73,21 +79,11 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		final IdeStateChangeDto data = new IdeStateChangeDto();
-
-		data.setStateType(descriptor.getLabel().toLowerCase() + " (perspective)");
-
-		setProjectData(data, Projects.getProject(page));
-		setApplicationData(data);
-		setEventData(data);
+		IProject project = Projects.getProject(page);
 		
-		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeStateChangeAsync(data);
-			}
-		});
+		String state = descriptor.getLabel().toLowerCase() + " (perspective)";
+
+		process(project, state);
 	}
 
 	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
