@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.core.dom;
 
 import java.nio.charset.Charset;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
@@ -75,20 +75,17 @@ public final class AstNodes
 		return (N) ASTNode.copySubtree(tree, node);
 	}
 	
-	// TODO check null handling in the whole package API
-	
-	// TODO public
-	static final ASTNode root(final ASTNode node)
+	public static final ASTNode root(@Nullable final ASTNode node)
 	{
 		return node != null ? node.getRoot() : null;
 	}
 
-	static final ASTNode parent(final ASTNode node)
+	public static final ASTNode parent(@Nullable final ASTNode node)
 	{
 		return node != null ? node.getParent() : null;
 	}
 
-	static final ASTNode parent(ASTNode node, final Collection<Class<? extends ASTNode>> types)
+	public static final ASTNode parent(@Nullable ASTNode node, final Set<Class<? extends ASTNode>> types)
 	{
 		while (node != null)
 		{
@@ -105,20 +102,23 @@ public final class AstNodes
 
 		return null;
 	}
+	
+	// TODO consider @Nullable on all methods below
+	
+	// TODO add
+	// public static final List<ASTNode> children(ASTNode node)
 
-	static final AstNodeType type(final ASTNode node)
+	public static final List<ASTNode> branch(ASTNode node)
 	{
-		return node != null ? AstNodeType.valueOf(node) : null;
-	}
-
-	static final Class<? extends ASTNode> typeAsClass(final ASTNode node)
-	{
-		return node != null ? node.getClass() : null;
-	}
-
-	static final String typeAsString(final ASTNode node)
-	{
-		return node != null ? node.getClass().getSimpleName() : null;
+		LinkedList<ASTNode> branch = Lists.newLinkedList();
+		
+		do
+		{
+			branch.addFirst(node);
+		}
+		while ((node = node.getParent()) != null);
+		
+		return branch;
 	}
 
 	public static final List<ASTNode> ancestors(ASTNode node)
@@ -133,59 +133,59 @@ public final class AstNodes
 		return ancestors;
 	}
 
-	public static final List<ASTNode> branch(ASTNode node)
+	public static final Set<ASTNode> descendants(ASTNode node)
 	{
-		LinkedList<ASTNode> branch = Lists.newLinkedList();
-		
-		do
+		final Set<ASTNode> descendants = new HashSet<>();
+
+		ASTVisitor visitor = new ASTVisitor()
 		{
-			branch.addFirst(node);
-		}
-		while ((node = node.getParent()) != null);
+			@Override
+			public final void preVisit(final ASTNode child)
+			{
+				descendants.add(child);
+			}
+		};
 		
-		return branch;
+		node.accept(visitor);
+		
+		return descendants;
 	}
-	
+
+	public static final Class<? extends ASTNode> typeAsClass(@Nullable final ASTNode node)
+	{
+		return node != null ? node.getClass() : null;
+	}
+
+	public static final AstNodeType typeAsConstant(@Nullable final ASTNode node)
+	{
+		return node != null ? AstNodeType.valueOf(node) : null;
+	}
+
+	public static final String typeAsString(@Nullable final ASTNode node)
+	{
+		return node != null ? node.getClass().getSimpleName() : null;
+	}
+
 	public static final Map<String, Object> genericProperties(final ASTNode node)
 	{
 		return node.properties();
 	}
-	
+
 	public static final List<StructuralPropertyDescriptor> structuralProperties(final ASTNode node)
 	{
 		return node.structuralPropertiesForType();
 	}
-	
-	// TODO public
-	static final boolean isProblematicTree(final ASTNode node)
-	{
-		if (isRecoveredOrMalformed(node))
-		{
-			return true;
-		}
-		
-		for (ASTNode child: children(node))
-		{
-			if (isRecoveredOrMalformed(child))
-			{
-				return true;
-			}
-		}
 
-		return false;
-	}
-
-	// TODO public
-	static final boolean isRecoveredOrMalformed(final ASTNode node)
-	{
-		return (node.getFlags() & ASTNode.RECOVERED) != 0 || (node.getFlags() & ASTNode.MALFORMED) != 0;
-	}
+	// TODO add predicates:
 	
-	// TODO consider
-//	public static final boolean isChild(ASTNode child, @Nullable ASTNode parent)
+	// public static final boolean isRoot
+	// public static final boolean isParent
+	// public static final boolean isChild
+	// public static final boolean isAncestor
+	// public static final boolean isDescendant
+	
+//	public static final boolean isChild(@Nullable ASTNode parent, ASTNode child)
 //	{
-//		Preconditions.checkNotNull(child);
-//		
 //		do
 //		{
 //			if (child == parent)
@@ -198,21 +198,27 @@ public final class AstNodes
 //		return false;
 //	}
 
-	public static final Set<ASTNode> children(final ASTNode node)
-	{
-		final Set<ASTNode> children = new HashSet<>();
-
-		ASTVisitor visitor = new ASTVisitor()
-		{
-			@Override
-			public final void preVisit(final ASTNode child)
-			{
-				children.add(child);
-			}
-		};
-		
-		node.accept(visitor);
-		
-		return children;
-	}
+	// TODO consider
+//	public static final boolean isProblematicTree(final ASTNode node)
+//	{
+//		if (isRecoveredOrMalformed(node))
+//		{
+//			return true;
+//		}
+//		
+//		for (ASTNode child: children(node)) // <-- descendants?
+//		{
+//			if (isRecoveredOrMalformed(child))
+//			{
+//				return true;
+//			}
+//		}
+//
+//		return false;
+//	}
+//
+//	public static final boolean isRecoveredOrMalformed(final ASTNode node)
+//	{
+//		return (node.getFlags() & ASTNode.RECOVERED) != 0 || (node.getFlags() & ASTNode.MALFORMED) != 0;
+//	}
 }
