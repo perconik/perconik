@@ -1,6 +1,7 @@
-package sk.stuba.fiit.perconik.core.dom;
+package sk.stuba.fiit.perconik.core.dom.difference;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.core.dom.AstNodes;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 public final class AstNodeDeletion extends AstNodeDelta

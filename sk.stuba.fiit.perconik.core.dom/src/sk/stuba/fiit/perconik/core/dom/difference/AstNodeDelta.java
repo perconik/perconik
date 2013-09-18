@@ -1,8 +1,9 @@
-package sk.stuba.fiit.perconik.core.dom;
+package sk.stuba.fiit.perconik.core.dom.difference;
 
 import java.util.Objects;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.core.dom.AstNodes;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
@@ -11,25 +12,6 @@ public abstract class AstNodeDelta
 	AstNodeDelta()
 	{
 	}
-	
-	// TODO move due to circular dependencies
-//	static AstNodeDelta of(final ASTNode original, final ASTNode revised)
-//	{
-//		if (original != null && revised != null)
-//		{
-//			return AstNodeModification.of(original, revised);
-//		}
-//		else if (original != null)
-//		{
-//			return AstNodeDeletion.of(original);
-//		}
-//		else if (revised != null)
-//		{
-//			return AstNodeAddition.of(revised);
-//		}
-//		
-//		throw new NullPointerException();
-//	}
 	
 	@Override
 	public final boolean equals(@Nullable Object o)
@@ -90,7 +72,7 @@ public abstract class AstNodeDelta
 
 	public AstNodeType getOriginalNodeType()
 	{
-		return AstNodes.type(this.getOriginalNode());
+		return AstNodes.typeAsConstant(this.getOriginalNode());
 	}
 
 	public boolean hasRevisedNode()
@@ -112,7 +94,7 @@ public abstract class AstNodeDelta
 
 	public AstNodeType getRevisedNodeType()
 	{
-		return AstNodes.type(this.getRevisedNode());
+		return AstNodes.typeAsConstant(this.getRevisedNode());
 	}
 	
 	public abstract AstNodeDeltaType getType();

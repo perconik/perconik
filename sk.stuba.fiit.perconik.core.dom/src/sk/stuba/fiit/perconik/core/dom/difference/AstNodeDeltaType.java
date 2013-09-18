@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.dom;
+package sk.stuba.fiit.perconik.core.dom.difference;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;

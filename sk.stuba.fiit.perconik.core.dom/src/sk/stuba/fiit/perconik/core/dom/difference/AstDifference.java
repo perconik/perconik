@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.dom;
+package sk.stuba.fiit.perconik.core.dom.difference;
 
 import java.util.Arrays;
 import java.util.Iterator;
