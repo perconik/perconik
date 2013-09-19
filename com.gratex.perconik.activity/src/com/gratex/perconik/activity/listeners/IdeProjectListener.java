@@ -5,13 +5,13 @@ import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.REMOVED;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_CLOSE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
 import java.util.Set;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -50,6 +50,9 @@ import com.gratex.perconik.services.activity.IdeProjectOperationTypeEnum;
  */
 public final class IdeProjectListener extends IdeListener implements ResourceListener, SelectionListener
 {
+	// TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
+	// TODO close --> explorer/a --> generates close(a),open(a)
+	
 	private final Object lock = new Object();
 	
 	@GuardedBy("lock")
@@ -87,6 +90,9 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		setApplicationData(data);
 		setEventData(data);
 		
+		// TODO rm
+		System.out.println("PROJECT: " + project.getFullPath() + " operation: " + type);
+		
 		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
 		{
 			public final void perform(final IVsActivityWatcherService service)
@@ -107,15 +113,18 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		
 		public final boolean visit(final IResourceDelta delta)
 		{
-			IResource resource = delta.getResource();
+			ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
+			Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 			
-			if (ResourceType.valueOf(resource) != PROJECT)
+			return this.resolve(delta.getResource(), kind, flags);
+		}
+		
+		final boolean resolve(final IResource resource, @Nullable final ResourceDeltaKind kind, final Set<ResourceDeltaFlag> flags)
+		{
+			if (resource == null || ResourceType.valueOf(resource.getType()) != PROJECT)
 			{
 				return true;
 			}
-			
-			ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
-			Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 			
 			switch (this.type)
 			{
@@ -124,7 +133,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 					break;
 
 				case PRE_DELETE:
-					if (kind == REMOVED) process((IProject) resource, IdeProjectOperationTypeEnum.REMOVE);
+					process((IProject) resource, IdeProjectOperationTypeEnum.REMOVE);
 					break;
 
 				case PRE_REFRESH:
@@ -147,22 +156,35 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	public final void resourceChanged(final IResourceChangeEvent event)
 	{
 		ResourceEventType type = ResourceEventType.valueOf(event.getType());
-		
-		ResourceDeltas.accept(event, new ResourceDeltaVisitor(type));
+
+		IResourceDelta delta = event.getDelta();
+
+		if (delta != null)
+		{
+			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(type));
+		}
+		else
+		{
+			new ResourceDeltaVisitor(type).resolve(event.getResource(), null, ImmutableSet.<ResourceDeltaFlag>of());
+		}
 	}
 
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
 		IProject project = part instanceof IEditorPart ? Projects.getProject((IEditorPart) part) : null;
 		
+		if (project != null) System.out.println("PROJECT -> editor"); // TODO rm
+		
 		if (project == null && selection instanceof IStructuredSelection)
 		{
 			project = Projects.getProject((IStructuredSelection) selection);
+			if (project != null) System.out.println("PROJECT -> structured selection"); // TODO rm
 		}
 		
 		if (project == null)
 		{
 			project = Projects.getProject(part.getSite().getPage());
+			if (project != null) System.out.println("PROJECT -> part -> page"); // TODO rm
 		}
 		
 		if (this.updateProject(project))
