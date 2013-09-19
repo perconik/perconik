@@ -1,16 +1,28 @@
 package com.gratex.perconik.activity.listeners;
 
-import java.util.EnumSet;
+import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_CLOSE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
 import java.util.Set;
-import org.eclipse.core.resources.IMarkerDelta;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.runtime.CoreException;
-import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
+import javax.annotation.concurrent.GuardedBy;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import com.google.common.collect.ImmutableSet;
+import com.gratex.perconik.activity.ActivityServices;
+import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
+import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
 
 /**
  * A listener of {@code IdeDocumentOperation} events. This listener creates
@@ -23,96 +35,90 @@ import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeDocumentListener extends IdeListener implements ResourceListener
+public final class IdeDocumentListener extends IdeListener implements SelectionListener
 {
+	private final Object lock = new Object();
+	
+	@GuardedBy("lock")
+	private IFile file;
+	
 	public IdeDocumentListener()
 	{
 	}
 	
-	// TODO impl
-
-	public final void resourceChanged(final IResourceChangeEvent event)
+	private final boolean updateFile(final IFile file)
 	{
-		IResource res = event.getResource();
-		
-		try
+		if (file != null)
 		{
-			switch (event.getType())
+			synchronized (this.lock)
 			{
-				case IResourceChangeEvent.PRE_CLOSE:
-					System.out.print("Project ");
-					System.out.print(res.getFullPath());
-					System.out.println(" is about to close.");
-					break;
-				case IResourceChangeEvent.PRE_DELETE:
-					System.out.print("Project ");
-					System.out.print(res.getFullPath());
-					System.out.println(" is about to be deleted.");
-					break;
-				case IResourceChangeEvent.POST_CHANGE:
-					System.out.println("Resources have changed.");
-					event.getDelta().accept(new DeltaPrinter());
-					break;
-				case IResourceChangeEvent.PRE_BUILD:
-					System.out.println("Build about to run.");
-					event.getDelta().accept(new DeltaPrinter());
-					break;
-				case IResourceChangeEvent.POST_BUILD:
-					System.out.println("Build complete.");
-					event.getDelta().accept(new DeltaPrinter());
-					break;
+				if (!file.equals(this.file))
+				{
+					this.file = file;
+					
+					return true;
+				}
 			}
 		}
-		catch (CoreException e)
+		
+		return false;
+	}
+	
+	// TODO impl
+
+	static final void process(final IFile file, final IdeDocumentOperationTypeEnum type)
+	{
+		final IdeDocumentOperationDto data = new IdeDocumentOperationDto();
+
+		data.setOperationType(type);
+		
+		setProjectData(data, file.getProject());
+		setApplicationData(data);
+		setEventData(data);
+		
+		// TODO rm
+		System.out.println("DOCUMENT: " + file.getFullPath() + " operation: " + type);
+		
+		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
 		{
-			e.printStackTrace();
-		}
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeDocumentOperation(data);
+			}
+		});
 	}
 
-	class DeltaPrinter implements IResourceDeltaVisitor
+	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
-		public boolean visit(IResourceDelta delta)
+		IFile file = null;
+		
+		if (selection instanceof StructuredSelection)
 		{
-			IResource res = delta.getResource();
-			switch (delta.getKind())
+			Object element = ((StructuredSelection) selection).getFirstElement();
+
+			if (element instanceof IFile)
 			{
-				case IResourceDelta.ADDED:
-					System.out.print("Resource ");
-					System.out.print(res.getFullPath());
-					System.out.println(" was added.");
-					break;
-				case IResourceDelta.REMOVED:
-					System.out.print("Resource ");
-					System.out.print(res.getFullPath());
-					System.out.println(" was removed.");
-					break;
-				case IResourceDelta.CHANGED:
-					System.out.print("Resource ");
-					System.out.print(delta.getFullPath());
-					System.out.println(" has changed.");
-					int flags = delta.getFlags();
-					if ((flags & IResourceDelta.CONTENT) != 0)
-					{
-						System.out.println("--> Content Change");
-					}
-					if ((flags & IResourceDelta.REPLACED) != 0)
-					{
-						System.out.println("--> Content Replaced");
-					}
-					if ((flags & IResourceDelta.MARKERS) != 0)
-					{
-						System.out.println("--> Marker Change");
-						IMarkerDelta[] markers = delta.getMarkerDeltas();
-						// if interested in markers, check these deltas
-					}
-					break;			}
-			return true; // visit the children
+				file = (IFile) element;
+			}
+		}
+		
+		if (file == null && part instanceof IEditorPart)
+		{
+			file = Editors.getFile((IEditorPart) part);
+		}
+		
+		if (this.updateFile(file))
+		{
+			process(file, IdeDocumentOperationTypeEnum.SWITCH_TO);
 		}
 	}
 
 	public final Set<ResourceEventType> getEventTypes()
 	{
+		// TODO rm
 		//return ImmutableSet.of(ResourceEventType.POST_CHANGE);
-		return EnumSet.allOf(ResourceEventType.class);
+		//return EnumSet.allOf(ResourceEventType.class);
+		
+		return ImmutableSet.of(PRE_CLOSE, PRE_DELETE, PRE_REFRESH, POST_CHANGE);
 	}
 }

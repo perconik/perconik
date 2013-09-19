@@ -1,5 +1,7 @@
 package com.gratex.perconik.activity.listeners;
 
+import org.eclipse.core.commands.CommandEvent;
+import sk.stuba.fiit.perconik.core.listeners.CommandListener;
 import com.gratex.perconik.services.activity.IdeFindOperationDto;
 
 /**
@@ -13,9 +15,15 @@ import com.gratex.perconik.services.activity.IdeFindOperationDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeFindListener extends IdeListener
+public final class IdeFindListener extends IdeListener implements CommandListener
 {
 	public IdeFindListener()
+	{
+	}
+	
+	// TODO impl
+
+	public void commandChanged(CommandEvent commandEvent)
 	{
 	}
 }

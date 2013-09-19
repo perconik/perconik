@@ -1,5 +1,7 @@
 package com.gratex.perconik.activity.listeners;
 
+import org.eclipse.jface.text.DocumentEvent;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import com.gratex.perconik.services.activity.IdeCodeOperationDto;
 
 /**
@@ -13,9 +15,19 @@ import com.gratex.perconik.services.activity.IdeCodeOperationDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCodeListener extends IdeListener
+public final class IdeCodeListener extends IdeListener implements DocumentListener
 {
 	public IdeCodeListener()
+	{
+	}
+
+	// TODO impl
+	
+	public void documentAboutToBeChanged(DocumentEvent event)
+	{
+	}
+
+	public void documentChanged(DocumentEvent event)
 	{
 	}
 }
