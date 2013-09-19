@@ -3,14 +3,13 @@ package com.gratex.perconik.activity.listeners;
 import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
 import java.io.File;
-import java.util.Iterator;
 import java.util.Map;
-import org.eclipse.jgit.api.Git;
+import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
-import com.google.common.base.Throwables;
+import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import com.google.common.collect.Maps;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
@@ -31,8 +30,9 @@ import com.gratex.perconik.services.activity.RcsServerDto;
  */
 public final class IdeCommitListener extends IdeListener implements GitReferenceListener
 {
-	// TODO make thread safe
+	private final Object lock = new Object();
 	
+	@GuardedBy("lock")
 	private final Map<File, Map<String, String>> cache;
 	
 	public IdeCommitListener()
@@ -40,11 +40,40 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		this.cache = Maps.newHashMap();
 	}
 	
-	static final void process(final String path, final String id)
+	private final boolean updateLastCommit(final File directory, final String branch, final String id)
+	{
+		Map<String, String> cache;
+		
+		synchronized (this.lock)
+		{
+			cache = this.cache.get(directory);
+			
+			if (cache == null)
+			{
+				this.cache.put(directory, cache = Maps.newHashMap());
+			}
+		}
+		
+		synchronized (cache)
+		{
+			String last = cache.get(branch);
+			
+			if (last != null && !last.equals(id))
+			{
+				cache.put(branch, id);
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	static final void process(final String url, final String id)
 	{
 		final RcsServerDto server = new RcsServerDto();
 		
-		server.setPath(path);
+		server.setPath(url);
 		server.setType("git");
 		
 		final IdeCheckinDto data = new IdeCheckinDto();
@@ -67,61 +96,22 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 	public final void onRefsChanged(final RefsChangedEvent event)
 	{
 		Repository repository = event.getRepository();
-
-		String branch;
+		File       directory  = repository.getDirectory();
+		String     url        = GitRepositories.getRemoteOriginUrl(repository);
 		
-		Iterator<RevCommit> commits;
-		
-		try
-		{
-			branch  = repository.getBranch();
-			commits = new Git(repository).log().setMaxCount(1).call().iterator();
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(e);
-		}
-
-		File directory = repository.getDirectory();
-		
-		Map<String, String> cache = this.cache.get(directory);
-		
-		if (cache == null)
-		{
-			this.cache.put(directory, cache = Maps.newHashMap());
-		}
-
-		// TODO rm
-//		for (String s:repository.getConfig().getSections())
-//		{
-//			System.out.println("SECTION : "+s+" -- "+repository.getConfig().getNames(s));
-//			
-//			for (String ss:	repository.getConfig().getSubsections(s))
-//			{
-//				System.out.println("SUB-SECTION : "+ss + " -- "+repository.getConfig().getNames(s, ss));
-//			}
-//		}
-		
-		String path = repository.getConfig().getString("remote", "origin", "url");
-		
-		if (path == null)
+		if (url == null)
 		{
 			throw new IllegalStateException("Unable to get remote origin url from " + directory);
 		}
 		
-		String id   = commits.next().getName();
-		String last = cache.get(branch);
+		String    branch = GitRepositories.getBranch(repository);
+		RevCommit commit = GitRepositories.getLastCommit(repository);
 		
-		System.out.println("PATH: "+path + " ID: "+id);//TODO
-		System.out.println("CMP: "+last + " cache <-> "+id+" id");//TODO
+		String id   = commit != null ? commit.getName() : null;
 		
-		if (last != null && !last.equals(id))
+		if (this.updateLastCommit(directory, branch, id))
 		{
-			cache.put(branch, id);
-			
-			System.out.println("PROCESSED");// TODO rm
-			
-			process(path, id);
+			process(url, id);
 		}
 	}
 }
