@@ -6,7 +6,7 @@ Bundle-Version: 0.0.1.v20130826-1700
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  lib/diffutils-1.2.1.jar,
- lib/guava-14.0.jar,
+ lib/guava-15.0.jar,
  lib/intt.jar,
  lib/jsr305-2.0.1.jar
 Export-Package: com.google.common.annotations,
