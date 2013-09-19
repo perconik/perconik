@@ -186,7 +186,7 @@ public final class AstFunctions
 		}
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> asCollector(Function<N, List<R>> function)
+	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> asCollector(final Function<N, List<R>> function)
 	{
 		if (function instanceof AstCollectorFunction)
 		{
@@ -196,7 +196,7 @@ public final class AstFunctions
 		return new FunctionAstCollector<>(function);
 	}
 
-	public static final <N extends ASTNode> AstFlattener<N> asFlattener(Function<N, CharSequence> function)
+	public static final <N extends ASTNode> AstFlattener<N> asFlattener(final Function<N, CharSequence> function)
 	{
 		if (function instanceof AstFlattenerFunction)
 		{
@@ -206,7 +206,7 @@ public final class AstFunctions
 		return new FunctionAstFlattener<>(function);
 	}
 
-	public static final <N extends ASTNode> AstFilter<N> asFilter(Function<N, Boolean> function)
+	public static final <N extends ASTNode> AstFilter<N> asFilter(final Function<N, Boolean> function)
 	{
 		if (function instanceof AstFilterFunction)
 		{
@@ -216,7 +216,7 @@ public final class AstFunctions
 		return new FunctionAstFilter<>(function);
 	}
 
-	public static final <N extends ASTNode> AstTokenizer<N> asTokenizer(Function<N, List<String>> function)
+	public static final <N extends ASTNode> AstTokenizer<N> asTokenizer(final Function<N, List<String>> function)
 	{
 		if (function instanceof AstTokenizerFunction)
 		{
@@ -226,7 +226,7 @@ public final class AstFunctions
 		return new FunctionAstTokenizer<>(function);
 	}
 
-	public static final <N extends ASTNode, R> AstTransformer<N, R> asTransformer(Function<N, R> function)
+	public static final <N extends ASTNode, R> AstTransformer<N, R> asTransformer(final Function<N, R> function)
 	{
 		if (function instanceof AstTransformerFunction)
 		{
@@ -356,7 +356,7 @@ public final class AstFunctions
 		}
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> Function<N, List<R>> asFunction(AstCollector<N, R> collector)
+	public static final <N extends ASTNode, R extends ASTNode> Function<N, List<R>> asFunction(final AstCollector<N, R> collector)
 	{
 		if (collector instanceof FunctionAstCollector)
 		{
@@ -366,7 +366,7 @@ public final class AstFunctions
 		return new AstCollectorFunction<>(collector);
 	}
 
-	public static final <N extends ASTNode> Function<N, CharSequence> asFunction(AstFlattener<N> flattener)
+	public static final <N extends ASTNode> Function<N, CharSequence> asFunction(final AstFlattener<N> flattener)
 	{
 		if (flattener instanceof FunctionAstFlattener)
 		{
@@ -376,7 +376,7 @@ public final class AstFunctions
 		return new AstFlattenerFunction<>(flattener);
 	}
 	
-	public static final <N extends ASTNode> Function<N, Boolean> asFunction(AstFilter<N> filter)
+	public static final <N extends ASTNode> Function<N, Boolean> asFunction(final AstFilter<N> filter)
 	{
 		if (filter instanceof FunctionAstFilter)
 		{
@@ -386,7 +386,7 @@ public final class AstFunctions
 		return new AstFilterFunction<>(filter);
 	}
 
-	public static final <N extends ASTNode> Function<N, List<String>> asFunction(AstTokenizer<N> tokenizer)
+	public static final <N extends ASTNode> Function<N, List<String>> asFunction(final AstTokenizer<N> tokenizer)
 	{
 		if (tokenizer instanceof FunctionAstTokenizer)
 		{
@@ -396,7 +396,7 @@ public final class AstFunctions
 		return new AstTokenizerFunction<>(tokenizer);
 	}
 	
-	public static final <N extends ASTNode, R> Function<N, R> asFunction(AstTransformer<N, R> transformer)
+	public static final <N extends ASTNode, R> Function<N, R> asFunction(final AstTransformer<N, R> transformer)
 	{
 		if (transformer instanceof FunctionAstTransformer)
 		{

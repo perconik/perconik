@@ -67,7 +67,20 @@ public final class AstCollectors
 	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> usingFilter(final AstTypeBasedFilter<N, R> filter)
 	{
 		return AstFilterBasedCollector.using(filter);
+
 	}
+	
+	// TODO consider
+//	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> fromTransformer(final AstTransformer<? super N, ? extends List<R>> transformer)
+//	{
+//		return new AstCollector<N, R>()
+//		{
+//			public final List<R> collect(final N node)
+//			{
+//				return transformer.transform(node);
+//			}
+//		};
+//	}
 	
 	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> ofType(final Class<? extends R> type)
 	{

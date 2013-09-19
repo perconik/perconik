@@ -80,4 +80,26 @@ public final class AstTransformers
 	{
 		return internalTypePathExtractor();
 	}
+	
+	// TODO add
+	
+//	public static final AstTransformer<N, R> from(final AstCollector<N, R> collector)
+//	{
+//		
+//	}
+//
+//	public static final AstTransformer<N, R> from(final AstFilter<N> filter)
+//	{
+//		
+//	}
+//
+//	public static final AstTransformer<N, R> from(final AstFlattener<N> flattener)
+//	{
+//		
+//	}
+//
+//	public static final AstTransformer<N, R> from(final AstTokenizer<N> tokenizer)
+//	{
+//		
+//	}
 }
