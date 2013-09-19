@@ -10,6 +10,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
@@ -58,11 +59,11 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		{
 			String last = cache.get(branch);
 			
-			if (last != null && !last.equals(id))
+			if (!id.equals(last))
 			{
 				cache.put(branch, id);
 				
-				return true;
+				return last != null;
 			}
 		}
 		
@@ -99,15 +100,12 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		File       directory  = repository.getDirectory();
 		String     url        = GitRepositories.getRemoteOriginUrl(repository);
 		
-		if (url == null)
-		{
-			throw new IllegalStateException("Unable to get remote origin url from " + directory);
-		}
+		Preconditions.checkArgument(url != null, "Unable to get remote origin url from %s", directory);
 		
 		String    branch = GitRepositories.getBranch(repository);
 		RevCommit commit = GitRepositories.getLastCommit(repository);
 		
-		String id   = commit != null ? commit.getName() : null;
+		String id = commit.getName();
 		
 		if (this.updateLastCommit(directory, branch, id))
 		{
