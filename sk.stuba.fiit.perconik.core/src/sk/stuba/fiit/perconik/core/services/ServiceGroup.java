@@ -8,7 +8,6 @@ import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.Service.State;
 
 /**
@@ -76,52 +75,58 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S>
 		return this.services;
 	}
 	
-	public final Map<S, ListenableFuture<State>> start()
+	public final void startSynchronously()
 	{
-		ImmutableMap.Builder<S, ListenableFuture<State>> builder = ImmutableMap.builder();
-		
 		for (S service: this.services)
 		{
-			builder.put(service, service.start());
+			service.startAsync();
+			service.awaitRunning();
+		}
+	}
+
+	public final void stopSynchronously()
+	{
+		for (S service: this.services)
+		{
+			service.stopAsync();
+			service.awaitTerminated();
+		}
+	}
+
+	public final ServiceGroup<S> startAsynchronously()
+	{
+		for (S service: this.services)
+		{
+			service.startAsync();
 		}
 		
-		return builder.build();
+		return this;
 	}
 	
-	public final Map<S, State> startAndWait()
+	public final ServiceGroup<S> stopAsynchronously()
 	{
-		ImmutableMap.Builder<S, State> builder = ImmutableMap.builder();
-		
 		for (S service: this.services)
 		{
-			builder.put(service, service.startAndWait());
+			service.stopAsync();
 		}
 		
-		return builder.build();
+		return this;
+	}
+
+	public final void awaitRunning()
+	{
+		for (S service: this.services)
+		{
+			service.awaitRunning();
+		}
 	}
 	
-	public final Map<S, ListenableFuture<State>> stop()
+	public final void awaitTerminated()
 	{
-		ImmutableMap.Builder<S, ListenableFuture<State>> builder = ImmutableMap.builder();
-		
 		for (S service: this.services)
 		{
-			builder.put(service, service.stop());
+			service.awaitTerminated();
 		}
-		
-		return builder.build();
-	}
-	
-	public final Map<S, State> stopAndWait()
-	{
-		ImmutableMap.Builder<S, State> builder = ImmutableMap.builder();
-		
-		for (S service: this.services)
-		{
-			builder.put(service, service.stopAndWait());
-		}
-		
-		return builder.build();
 	}
 	
 	public final Map<S, State> states()
@@ -136,40 +141,41 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S>
 		return builder.build();
 	}
 
-	/**
-	 * Returns {@code true} if all services are {@linkplain State#RUNNING running}.
-	 */
-	public final boolean isRunning()
-	{
-		return this.inState(State.RUNNING);
-	}
-
-	/**
-	 * Returns {@code true} if all services are in the given state.
-	 * @param state the state, not {@code null}
-	 */
-	public final boolean inState(final State state)
-	{
-		for (Service service: this.services)
-		{
-			if (!state.equals(service.state()))
-			{
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Waits for all services to be in the given state.
-	 * This method blocks until all services are in the desired state.
-	 * @param state the state, not {@code null}
-	 */
-	public final void waitForState(final State state)
-	{
-		while (!this.inState(state)) {}
-	}
+	// TODO rm, not thread-safe
+//	/**
+//	 * Returns {@code true} if all services are {@linkplain State#RUNNING running}.
+//	 */
+//	public final boolean isRunning()
+//	{
+//		return this.inState(State.RUNNING);
+//	}
+//
+//	/**
+//	 * Returns {@code true} if all services are in the given state.
+//	 * @param state the state, not {@code null}
+//	 */
+//	public final boolean inState(final State state)
+//	{
+//		for (Service service: this.services)
+//		{
+//			if (!state.equals(service.state()))
+//			{
+//				return false;
+//			}
+//		}
+//		
+//		return true;
+//	}
+//	
+//	/**
+//	 * Waits for all services to be in the given state.
+//	 * This method blocks until all services are in the desired state.
+//	 * @param state the state, not {@code null}
+//	 */
+//	public final void waitForState(final State state)
+//	{
+//		while (!this.inState(state)) {}
+//	}
 	
 	public final <U extends S> ServiceGroup<U> narrow(final Class<U> type)
 	{

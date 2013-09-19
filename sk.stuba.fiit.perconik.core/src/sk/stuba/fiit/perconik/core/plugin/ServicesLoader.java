@@ -29,7 +29,7 @@ final class ServicesLoader
 		Services.setResourceService(resource.service);
 		Services.setListenerService(listener.service);
 		
-		ServiceSnapshot.take().servicesInStartOrder().startAndWait();
+		ServiceSnapshot.take().servicesInStartOrder().startSynchronously();
 		
 		Resources.registerAll(resource.supplier);
 		Listeners.registerAll(listener.supplier);

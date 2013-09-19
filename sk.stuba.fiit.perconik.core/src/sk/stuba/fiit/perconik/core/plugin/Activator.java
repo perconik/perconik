@@ -155,7 +155,7 @@ public final class Activator extends ExtendedPlugin
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		ServiceSnapshot.take().servicesInStopOrder().stopAndWait();
+		ServiceSnapshot.take().servicesInStopOrder().stopSynchronously();
 		
 		synchronized (Activator.class)
 		{
