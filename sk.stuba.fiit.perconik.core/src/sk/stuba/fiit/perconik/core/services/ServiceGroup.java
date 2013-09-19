@@ -140,42 +140,6 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S>
 		
 		return builder.build();
 	}
-
-	// TODO rm, not thread-safe
-//	/**
-//	 * Returns {@code true} if all services are {@linkplain State#RUNNING running}.
-//	 */
-//	public final boolean isRunning()
-//	{
-//		return this.inState(State.RUNNING);
-//	}
-//
-//	/**
-//	 * Returns {@code true} if all services are in the given state.
-//	 * @param state the state, not {@code null}
-//	 */
-//	public final boolean inState(final State state)
-//	{
-//		for (Service service: this.services)
-//		{
-//			if (!state.equals(service.state()))
-//			{
-//				return false;
-//			}
-//		}
-//		
-//		return true;
-//	}
-//	
-//	/**
-//	 * Waits for all services to be in the given state.
-//	 * This method blocks until all services are in the desired state.
-//	 * @param state the state, not {@code null}
-//	 */
-//	public final void waitForState(final State state)
-//	{
-//		while (!this.inState(state)) {}
-//	}
 	
 	public final <U extends S> ServiceGroup<U> narrow(final Class<U> type)
 	{
