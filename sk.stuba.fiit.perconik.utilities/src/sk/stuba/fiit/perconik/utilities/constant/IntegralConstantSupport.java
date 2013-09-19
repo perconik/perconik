@@ -37,7 +37,7 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
 		return new IntegralConstantSupport<>(type);
 	}
 
-	public static final <E extends Enum<E> & IntegralConstant> int constantsAsInteger(Set<E> constants)
+	public static final <E extends Enum<E> & IntegralConstant> int constantsAsInteger(final Set<E> constants)
 	{
 		int values = 0;
 		

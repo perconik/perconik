@@ -102,7 +102,7 @@ public final class ActivityServices
 		});
 	}
 
-	static interface ServiceOperation<S extends Object>
+	public static interface ServiceOperation<S extends Object>
 	{
 		public void perform(S service);
 	}
