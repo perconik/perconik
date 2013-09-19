@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -1086,7 +1087,7 @@ public final class Debug
 		SmartStringBuilder builder = builder();
 	
 		ResourceType type = ResourceType.valueOf(resource.getType());
-		
+
 		String name     = resource.getName();
 		IPath  location = resource.getLocation();
 	
@@ -1106,7 +1107,7 @@ public final class Debug
 
 	public static final String dumpResourceChangeEvent(final IResourceChangeEvent event)
 	{
-		SmartStringBuilder builder = builder();
+		final SmartStringBuilder builder = builder();
 	
 		ResourceEventType type = ResourceEventType.valueOf(event.getType());
 		
@@ -1120,8 +1121,37 @@ public final class Debug
 		builder.append("build kind: ").appendln(buildKind == 0 ? "not applicable" : ProjectBuildKind.valueOf(buildKind));
 		
 		builder.appendln("resource:").lines(resource == null ? missing() : dumpResource(resource));		
-		builder.appendln("delta:").lines(delta == null ? missing() : dumpResourceDelta(delta));
-		
+
+		if (delta == null)
+		{
+			builder.appendln("delta: ").lines(missing());
+		}
+		else
+		{
+			IResourceDeltaVisitor visitor = new IResourceDeltaVisitor()
+			{
+				public final boolean visit(final IResourceDelta delta)
+				{
+					builder.appendln("delta:").lines(dumpResourceDelta(delta));
+					
+					return true;
+				}
+			};
+
+			builder.appendln("delta tree:").tab();
+			
+			try
+			{
+				delta.accept(visitor);
+			}
+			catch (CoreException e)
+			{
+				builder.appendln("failed");
+			}
+			
+			builder.untab();
+		}
+
 		return builder.toString();
 	}
 
@@ -1133,7 +1163,7 @@ public final class Debug
 		Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 	
 		IResource resource = delta.getResource();
-	
+
 		builder.append("kind: ").appendln(kind);
 		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
 	
@@ -1141,7 +1171,7 @@ public final class Debug
 		
 		return builder.toString();
 	}
-
+	
 	public static final String dumpSelection(final ISelection selection)
 	{
 		if (selection instanceof IMarkSelection)
