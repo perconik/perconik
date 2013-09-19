@@ -77,11 +77,6 @@ public enum ResourceType implements IntegralConstant, TypeConstant<IResource>
 		return types.getConstant(type);
 	}
 
-	public static final ResourceType valueOf(final IResource resource)
-	{
-		return valueOf(resource.getClass());
-	}
-
 	public final int getValue()
 	{
 		return this.value;
