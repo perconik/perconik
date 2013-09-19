@@ -10,7 +10,6 @@ import com.google.common.collect.ImmutableSet.Builder;
 import com.gratex.perconik.activity.listeners.IdeCodeListener;
 import com.gratex.perconik.activity.listeners.IdeCommitListener;
 import com.gratex.perconik.activity.listeners.IdeDocumentListener;
-import com.gratex.perconik.activity.listeners.IdeDocumentListener2;
 import com.gratex.perconik.activity.listeners.IdeElementListener;
 import com.gratex.perconik.activity.listeners.IdeFindListener;
 import com.gratex.perconik.activity.listeners.IdeProjectListener;
@@ -27,7 +26,6 @@ public final class ActivityListenerProviderFactory implements ListenerProviderFa
 		builder.add(IdeCodeListener.class);
 		builder.add(IdeCommitListener.class);
 		builder.add(IdeDocumentListener.class);
-		builder.add(IdeDocumentListener2.class);
 		builder.add(IdeElementListener.class);
 		builder.add(IdeFindListener.class);
 		builder.add(IdeProjectListener.class);
