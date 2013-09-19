@@ -46,7 +46,7 @@ public final class AstPathExtractor<N extends ASTNode> implements AstTransformer
 			return Paths.get(unknownPathName);
 		}
 		
-		List<ASTNode>     branch   = AstNodes.branch(node);
+		List<ASTNode>     branch   = AstNodes.upToRoot(node);
 		Iterator<ASTNode> iterator = branch.iterator();
 		
 		String   first = this.strategy.transform(iterator.next());
