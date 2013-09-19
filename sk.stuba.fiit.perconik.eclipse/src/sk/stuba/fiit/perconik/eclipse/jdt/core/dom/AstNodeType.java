@@ -559,7 +559,7 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 
 	public static final AstNodeType valueOf(final ASTNode node)
 	{
-		return valueOf(node.getClass());
+		return valueOf(node.getNodeType());
 	}
 	
 	public final boolean isInstance(ASTNode node)
