@@ -33,7 +33,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 	}
 	
-	private static final void process(final IProject project, final String state)
+	static final void process(final IProject project, final String state)
 	{
 		final IdeStateChangeDto data = new IdeStateChangeDto();
 

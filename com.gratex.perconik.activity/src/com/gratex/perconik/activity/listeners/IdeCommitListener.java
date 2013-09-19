@@ -31,6 +31,8 @@ import com.gratex.perconik.services.activity.RcsServerDto;
  */
 public final class IdeCommitListener extends IdeListener implements GitReferenceListener
 {
+	// TODO make thread safe
+	
 	private final Map<File, Map<String, String>> cache;
 	
 	public IdeCommitListener()
@@ -38,7 +40,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		this.cache = Maps.newHashMap();
 	}
 	
-	private static final void process(final String path, final String id)
+	static final void process(final String path, final String id)
 	{
 		final RcsServerDto server = new RcsServerDto();
 		

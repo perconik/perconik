@@ -1,7 +1,41 @@
 package com.gratex.perconik.activity.listeners;
 
-import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
+import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.REMOVED;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_CLOSE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+import java.util.Set;
+import javax.annotation.concurrent.GuardedBy;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
+import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
+import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import com.google.common.collect.ImmutableSet;
+import com.gratex.perconik.activity.ActivityServices;
+import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeProjectOperationDto;
+import com.gratex.perconik.services.activity.IdeProjectOperationTypeEnum;
 
 /**
  * A listener of {@code IdeProjectOperation} events. This listener creates
@@ -14,14 +48,131 @@ import com.gratex.perconik.services.activity.IdeProjectOperationDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeProjectListener extends IdeListener
+public final class IdeProjectListener extends IdeListener implements ResourceListener, SelectionListener
 {
+	private final Object lock = new Object();
+	
+	@GuardedBy("lock")
+	private IProject project;
+	
 	public IdeProjectListener()
 	{
 	}
-	
-	void test()
+
+	private final boolean updateProject(final IProject project)
 	{
-		Workspaces.getWorkspace().getRoot().getProjects();
+		if (project != null)
+		{
+			synchronized (this.lock)
+			{
+				if (!project.equals(this.project))
+				{
+					this.project = project;
+					
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	static final void process(final IProject project, final IdeProjectOperationTypeEnum type)
+	{
+		final IdeProjectOperationDto data = new IdeProjectOperationDto();
+
+		data.setOperationType(type);
+		
+		setProjectData(data, project);
+		setApplicationData(data);
+		setEventData(data);
+		
+		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
+		{
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeProjectOperationAsync(data);
+			}
+		});
+	}
+	
+	private static final class ResourceDeltaVisitor implements IResourceDeltaVisitor
+	{
+		private final ResourceEventType type;
+		
+		ResourceDeltaVisitor(final ResourceEventType type)
+		{
+			this.type = type;
+		}
+		
+		public final boolean visit(final IResourceDelta delta)
+		{
+			IResource resource = delta.getResource();
+			
+			if (ResourceType.valueOf(resource) != PROJECT)
+			{
+				return true;
+			}
+			
+			ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
+			Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
+			
+			switch (this.type)
+			{
+				case PRE_CLOSE:
+					process((IProject) resource, IdeProjectOperationTypeEnum.CLOSE);
+					break;
+
+				case PRE_DELETE:
+					if (kind == REMOVED) process((IProject) resource, IdeProjectOperationTypeEnum.REMOVE);
+					break;
+
+				case PRE_REFRESH:
+					process((IProject) resource, IdeProjectOperationTypeEnum.REFRESH);
+					break;
+
+				case POST_CHANGE:
+					if (kind == ADDED) process((IProject) resource, IdeProjectOperationTypeEnum.ADD);
+					if (flags.contains(OPEN)) process((IProject) resource, IdeProjectOperationTypeEnum.OPEN);
+					break;
+
+				default:
+					break;
+			}
+			
+			return false;
+		}
+	}
+	
+	public final void resourceChanged(final IResourceChangeEvent event)
+	{
+		ResourceEventType type = ResourceEventType.valueOf(event.getType());
+		
+		ResourceDeltas.accept(event, new ResourceDeltaVisitor(type));
+	}
+
+	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+	{
+		IProject project = part instanceof IEditorPart ? Projects.getProject((IEditorPart) part) : null;
+		
+		if (project == null && selection instanceof IStructuredSelection)
+		{
+			project = Projects.getProject((IStructuredSelection) selection);
+		}
+		
+		if (project == null)
+		{
+			project = Projects.getProject(part.getSite().getPage());
+		}
+		
+		if (this.updateProject(project))
+		{
+			process(project, IdeProjectOperationTypeEnum.SWITCH_TO);
+		}
+	}
+
+	public final Set<ResourceEventType> getEventTypes()
+	{
+		return ImmutableSet.of(PRE_CLOSE, PRE_DELETE, PRE_REFRESH, POST_CHANGE);
 	}
 }
