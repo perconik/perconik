@@ -1,11 +1,15 @@
 package sk.stuba.fiit.perconik.eclipse.ui;
 
 import javax.annotation.Nullable;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import com.google.common.base.Preconditions;
 
@@ -47,6 +51,25 @@ public final class Editors
 		return page.getActiveEditor();
 	}
 	
+	public static final IResource getResource(final IEditorPart editor)
+	{
+		return (IResource) editor.getEditorInput().getAdapter(IResource.class);
+	}
+
+	public static final IFile getFile(final IEditorPart editor)
+	{
+		IEditorInput input = editor.getEditorInput();
+		
+		if (input instanceof IFileEditorInput)
+		{
+			return ((IFileEditorInput) input).getFile();
+		}
+		
+		IResource resource = getResource(editor);
+		
+		return resource instanceof IFile ? (IFile) resource : null;
+	}
+
 	/**
 	 * Gets the source viewer from given editor.
 	 * @param editor the editor, may be {@code null}
