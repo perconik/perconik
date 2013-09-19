@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.eclipse.jdt.core.dom;
 
+import java.util.Arrays;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
 import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
@@ -86,6 +88,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+import com.google.common.collect.Sets;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
@@ -560,6 +563,61 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 	public static final AstNodeType valueOf(final ASTNode node)
 	{
 		return valueOf(node.getNodeType());
+	}
+	
+	public static final Set<AstNodeType> setOf(final Iterable<Class<? extends ASTNode>> types)
+	{
+		Set<AstNodeType> result = Sets.newHashSet();
+		
+		for (Class<? extends ASTNode> type: types)
+		{
+			result.add(valueOf(type));
+		}
+		
+		return result;
+	}
+	
+	public static final boolean isInstance(@Nullable final ASTNode node, final AstNodeType a)
+	{
+		return node != null && a.isInstance(node);
+	}
+	
+	public static final boolean isInstance(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b)
+	{
+		return node != null && (a.isInstance(node) || b.isInstance(node));
+	}
+
+	public static final boolean isInstance(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b, final AstNodeType c)
+	{
+		return node != null && (a.isInstance(node) || b.isInstance(node) || c.isInstance(node));
+	}
+
+	public static final boolean isInstance(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b, final AstNodeType c, final AstNodeType d)
+	{
+		return node != null && (a.isInstance(node) || b.isInstance(node) || c.isInstance(node) || d.isInstance(node));
+	}
+
+	public static final boolean isInstance(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b, final AstNodeType c, final AstNodeType d, final AstNodeType ... rest)
+	{
+		return isInstance(node, a, b, c, d) || isInstance(node, Arrays.asList(rest));
+	}
+
+	public static final boolean isInstance(@Nullable final ASTNode node, final Iterable<AstNodeType> types)
+	{
+		if (node == null)
+		{
+			return false;
+		}
+		
+		for (AstNodeType type: types)
+		{
+			if (type.isInstance(node))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public final boolean isInstance(ASTNode node)
