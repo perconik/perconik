@@ -54,7 +54,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	
 	public final void launchAdded(final ILaunch launch)
 	{
-		IProject project = Projects.getProjects(launch).iterator().next();
+		IProject project = Projects.fromLaunch(launch).iterator().next();
 		
 		String state = launch.getLaunchMode() + " (launch)";
 		
@@ -79,7 +79,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		IProject project = Projects.getProject(page);
+		IProject project = Projects.fromPage(page);
 		
 		String state = descriptor.getLabel().toLowerCase() + " (perspective)";
 

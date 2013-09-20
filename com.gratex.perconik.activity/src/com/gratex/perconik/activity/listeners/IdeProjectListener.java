@@ -171,19 +171,19 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
-		IProject project = part instanceof IEditorPart ? Projects.getProject((IEditorPart) part) : null;
+		IProject project = part instanceof IEditorPart ? Projects.fromEditor((IEditorPart) part) : null;
 		
 		if (project != null) System.out.println("PROJECT -> editor"); // TODO rm
 		
 		if (project == null && selection instanceof IStructuredSelection)
 		{
-			project = Projects.getProject((IStructuredSelection) selection);
+			project = Projects.fromSelection((IStructuredSelection) selection);
 			if (project != null) System.out.println("PROJECT -> structured selection"); // TODO rm
 		}
 		
 		if (project == null)
 		{
-			project = Projects.getProject(part.getSite().getPage());
+			project = Projects.fromPage(part.getSite().getPage());
 			if (project != null) System.out.println("PROJECT -> part -> page"); // TODO rm
 		}
 		

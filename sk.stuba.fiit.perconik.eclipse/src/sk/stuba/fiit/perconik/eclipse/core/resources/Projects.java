@@ -37,13 +37,13 @@ public final class Projects
 		throw new AssertionError();
 	}
 	
-	public static final IProject getProject(final IWorkbenchPage page)
+	public static final IProject fromPage(final IWorkbenchPage page)
 	{
 		IEditorPart editor = page.getActiveEditor();
 
 		if (editor != null)
 		{
-			return getProject(editor);
+			return fromEditor(editor);
 		}
 
 		for (IViewReference reference: page.getViewReferences())
@@ -63,7 +63,7 @@ public final class Projects
 
 			if (selection instanceof IStructuredSelection)
 			{
-				IProject project = getProject((IStructuredSelection) selection);
+				IProject project = fromSelection((IStructuredSelection) selection);
 
 				if (project != null)
 				{
@@ -75,7 +75,7 @@ public final class Projects
 		return null;
 	}
 	
-	public static final IProject getProject(final IStructuredSelection selection)
+	public static final IProject fromSelection(final IStructuredSelection selection)
 	{
 		Object element = selection.getFirstElement();
 	
@@ -107,7 +107,7 @@ public final class Projects
 		return null;
 	}
 
-	public static final IProject getProject(final IEditorPart editor)
+	public static final IProject fromEditor(final IEditorPart editor)
 	{
 		IEditorInput input = editor.getEditorInput();
 		
@@ -126,12 +126,12 @@ public final class Projects
 		return resource != null ? resource.getProject() : null;
 	}
 
-	public static final Collection<IProject> getProjects(final ILaunch launch)
+	public static final Collection<IProject> fromLaunch(final ILaunch launch)
 	{
-		return getProjects(launch.getLaunchConfiguration());
+		return fromLaunchConfiguration(launch.getLaunchConfiguration());
 	}
 
-	public static final Collection<IProject> getProjects(final ILaunchConfiguration configuration)
+	public static final Collection<IProject> fromLaunchConfiguration(final ILaunchConfiguration configuration)
 	{
 		IResource[] resources;
 		
