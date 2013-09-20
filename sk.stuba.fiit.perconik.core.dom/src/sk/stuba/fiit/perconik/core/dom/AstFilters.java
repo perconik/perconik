@@ -9,26 +9,6 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class AstFilters
 {
-	private static enum AcceptFilter implements AstFilter<ASTNode>
-	{
-		INSTANCE;
-
-		public final boolean accept(@Nullable final ASTNode node)
-		{
-			return true;
-		}
-	}
-
-	private static enum RejectFilter implements AstFilter<ASTNode>
-	{
-		INSTANCE;
-
-		public final boolean accept(@Nullable final ASTNode node)
-		{
-			return false;
-		}
-	}
-	
 	private static final AstTypeBasedFilter<?, Comment> commentFilter = ofType(Comment.class);
 	
 	private static final AstTypeBasedFilter<?, SimpleName> simpleNameFilter = ofType(SimpleName.class);
@@ -40,6 +20,26 @@ public final class AstFilters
 		throw new AssertionError();
 	}
 	
+	private static enum AcceptFilter implements AstFilter<ASTNode>
+	{
+		INSTANCE;
+	
+		public final boolean accept(@Nullable final ASTNode node)
+		{
+			return true;
+		}
+	}
+
+	private static enum RejectFilter implements AstFilter<ASTNode>
+	{
+		INSTANCE;
+	
+		public final boolean accept(@Nullable final ASTNode node)
+		{
+			return false;
+		}
+	}
+
 	public static final <N extends ASTNode> AstFilter<N> acceptFilter()
 	{
 		// internal singleton is stateless and safe to share across all types

@@ -12,6 +12,11 @@ import com.google.common.collect.Lists;
 
 public final class AstTokenizers
 {
+	private AstTokenizers()
+	{
+		throw new AssertionError();
+	}
+
 	private static enum IdentifierTokenizer implements AstTokenizer<ASTNode>
 	{
 		INSTANCE;
@@ -37,11 +42,6 @@ public final class AstTokenizers
 			
 			return tokens;
 		}
-	}
-	
-	private AstTokenizers()
-	{
-		throw new AssertionError();
 	}
 
 	public static final <N extends ASTNode> AstTokenizer<N> identifierTokenizer()

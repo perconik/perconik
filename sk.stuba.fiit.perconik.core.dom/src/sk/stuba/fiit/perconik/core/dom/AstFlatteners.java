@@ -5,6 +5,11 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 public final class AstFlatteners
 {
+	private AstFlatteners()
+	{
+		throw new AssertionError();
+	}
+	
 	private static enum DefaultFlattener implements AstFlattener<ASTNode>
 	{
 		INSTANCE;
@@ -14,12 +19,7 @@ public final class AstFlatteners
 			return node == null ? "" : node.toString();
 		}
 	}
-	
-	private AstFlatteners()
-	{
-		throw new AssertionError();
-	}
-	
+
 	public static final <N extends ASTNode> AstFlattener<N> defaultFlattener()
 	{
 		// internal singleton is stateless and safe to share across all types
