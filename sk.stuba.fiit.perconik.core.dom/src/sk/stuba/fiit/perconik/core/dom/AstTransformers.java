@@ -50,23 +50,24 @@ public final class AstTransformers
 			}
 		};
 	}
+	
+	private static final <N extends ASTNode> AstPathExtractor<N> cast(final AstPathExtractor<?> extractor)
+	{
+		// only for stateless internal singletons shared across all types
+		@SuppressWarnings("unchecked")
+		AstPathExtractor<N> result = (AstPathExtractor<N>) extractor;
+		
+		return result;
+	}
 
 	public static final <N extends ASTNode> AstPathExtractor<N> namePathExtractor()
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstPathExtractor<N> extractor = (AstPathExtractor<N>) namePathExtractor;
-		
-		return extractor;
+		return cast(namePathExtractor);
 	}
 
 	public static final <N extends ASTNode> AstPathExtractor<N> typePathExtractor()
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstPathExtractor<N> extractor = (AstPathExtractor<N>) typePathExtractor;
-		
-		return extractor;
+		return cast(typePathExtractor);
 	}
 	
 	// TODO add

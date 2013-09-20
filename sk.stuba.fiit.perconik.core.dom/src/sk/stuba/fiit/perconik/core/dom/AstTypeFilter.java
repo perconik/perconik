@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> implements AstFilter<N> 
+public abstract class AstTypeFilter<N extends ASTNode, F extends ASTNode> implements AstFilter<N> 
 {
 	static final Mode defaultMode = Mode.INCLUDE;
 	
@@ -20,56 +20,56 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 	
 	final Strategy strategy;
 	
-	AstTypeBasedFilter(final Mode mode, final Strategy strategy)
+	AstTypeFilter(final Mode mode, final Strategy strategy)
 	{
 		this.mode     = Preconditions.checkNotNull(mode);
 		this.strategy = Preconditions.checkNotNull(strategy);
 	}
 	
-	private static final <N extends ASTNode, F extends ASTNode> Single<N, F> newDefaultSingle(final Class<? extends F> type)
+	private static final <N extends ASTNode, F extends ASTNode> Single<N, F> newSingle(final Class<? extends F> type)
 	{
 		return new Single<>(defaultMode, defaultStrategy, type);
 	}
 	
-	private static final <N extends ASTNode, F extends ASTNode> Multi<N, F> newDefaultMulti(final Set<Class<? extends F>> types)
+	private static final <N extends ASTNode, F extends ASTNode> Multi<N, F> newMulti(final Set<Class<? extends F>> types)
 	{
 		return new Multi<>(defaultMode, defaultStrategy, types);
 	}
 	
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Class<? extends F> type)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Class<? extends F> type)
 	{
-		return newDefaultSingle(type);
+		return newSingle(type);
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b)
 	{
-		return newDefaultMulti(ImmutableSet.of(a, b));
+		return newMulti(ImmutableSet.of(a, b));
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c)
 	{
-		return newDefaultMulti(ImmutableSet.of(a, b, c));
+		return newMulti(ImmutableSet.of(a, b, c));
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d)
 	{
-		return newDefaultMulti(ImmutableSet.of(a, b, c, d));
+		return newMulti(ImmutableSet.of(a, b, c, d));
 	}
 
 	@SafeVarargs
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d, final Class<? extends F> ... rest)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d, final Class<? extends F> ... rest)
 	{
-		return newDefaultMulti(ImmutableSet.<Class<? extends F>>builder().add(a).add(b).add(c).add(d).addAll(Arrays.asList(rest)).build());
+		return newMulti(ImmutableSet.<Class<? extends F>>builder().add(a).add(b).add(c).add(d).addAll(Arrays.asList(rest)).build());
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Iterable<Class<? extends F>> types)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Iterable<Class<? extends F>> types)
 	{
-		return newDefaultMulti(ImmutableSet.copyOf(types));
+		return newMulti(ImmutableSet.copyOf(types));
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> of(final Iterator<Class<? extends F>> types)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> of(final Iterator<Class<? extends F>> types)
 	{
-		return newDefaultMulti(ImmutableSet.copyOf(types));
+		return newMulti(ImmutableSet.copyOf(types));
 	}
 	
 	public static final class Builder<N extends ASTNode, F extends ASTNode>
@@ -127,7 +127,7 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 			
 			return this;
 		}
-		
+
 		public final Builder<N, F> types(Collection<Class<? extends F>> types)
 		{
 			this.types.addAll(types);
@@ -135,7 +135,7 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 			return this;
 		}
 
-		public final AstTypeBasedFilter<N, F> build()
+		public final AstTypeFilter<N, F> build()
 		{
 			if (this.mode == null)
 			{
@@ -212,7 +212,7 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 		abstract boolean compute(Class<?> type, Object o);
 	}
 
-	private static final class Single<N extends ASTNode, F extends ASTNode> extends AstTypeBasedFilter<N, F>
+	private static final class Single<N extends ASTNode, F extends ASTNode> extends AstTypeFilter<N, F>
 	{
 		private final Class<? extends F> type;
 		
@@ -233,13 +233,13 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 		}
 
 		@Override
-		public final Set<Class<? extends F>> getFilteredTypes()
+		public final Set<Class<? extends F>> getAcceptedTypes()
 		{
 			return this.typeAsSet;
 		}
 	}
 
-	private static final class Multi<N extends ASTNode, F extends ASTNode>  extends AstTypeBasedFilter<N, F>
+	private static final class Multi<N extends ASTNode, F extends ASTNode>  extends AstTypeFilter<N, F>
 	{
 		private final Set<Class<? extends F>> types;
 		
@@ -270,7 +270,7 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 		}
 
 		@Override
-		public final Set<Class<? extends F>> getFilteredTypes()
+		public final Set<Class<? extends F>> getAcceptedTypes()
 		{
 			return this.types;
 		}
@@ -284,19 +284,19 @@ public abstract class AstTypeBasedFilter<N extends ASTNode, F extends ASTNode> i
 			return true;
 		}
 
-		if (!(o instanceof AstTypeBasedFilter))
+		if (!(o instanceof AstTypeFilter))
 		{
 			return false;
 		}
 		
-		return this.getFilteredTypes().equals(((AstTypeBasedFilter<?, ?>) o).getFilteredTypes());
+		return this.getAcceptedTypes().equals(((AstTypeFilter<?, ?>) o).getAcceptedTypes());
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return this.getFilteredTypes().hashCode();
+		return this.getAcceptedTypes().hashCode();
 	}
 	
-	public abstract Set<Class<? extends F>> getFilteredTypes();
+	public abstract Set<Class<? extends F>> getAcceptedTypes();
 }

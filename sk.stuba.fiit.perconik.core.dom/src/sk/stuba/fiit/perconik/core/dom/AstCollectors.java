@@ -8,48 +8,49 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class AstCollectors
 {
-	private static final AstCollector<?, Comment> commentCollector = usingFilter(AstFilters.commentFilter());
+	private static final AstCollector<?, Comment> comments = usingFilter(AstFilters.comments());
 	
-	private static final AstCollector<?, SimpleName> simpleNameCollector = usingFilter(AstFilters.simpleNameFilter());
+	private static final AstCollector<?, SimpleName> simpleNames = usingFilter(AstFilters.simpleNames());
 	
-	private static final AstCollector<?, StringLiteral> stringLiteralCollector = usingFilter(AstFilters.stringLiteralFilter());
+	private static final AstCollector<?, StringLiteral> stringLiterals = usingFilter(AstFilters.stringLiterals());
 	
 	private AstCollectors()
 	{
 		throw new AssertionError();
 	}
 	
-	public static final <N extends ASTNode> AstCollector<N, Comment> commentCollector()
+	private static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> cast(final AstCollector<?, ?> collector)
 	{
-		// internal singleton is stateless and safe to share across all types
+		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstCollector<N, Comment> collector = (AstCollector<N, Comment>) commentCollector;
+		AstCollector<N, R> result = (AstCollector<N, R>) collector;
 		
-		return collector;
+		return result;
 	}
 	
-	public static final <N extends ASTNode> AstCollector<N, SimpleName> simpleNameCollector()
+	public static final <N extends ASTNode> AstCollector<N, Comment> comments()
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstCollector<N, SimpleName> collector = (AstCollector<N, SimpleName>) simpleNameCollector;
-		
-		return collector;
+		return cast(comments);
+	}
+	
+	public static final <N extends ASTNode> AstCollector<N, SimpleName> simpleNames()
+	{
+		return cast(simpleNames);
 	}
 
-	public static final <N extends ASTNode> AstCollector<N, StringLiteral> stringLiteralCollector()
+	public static final <N extends ASTNode> AstCollector<N, StringLiteral> stringLiterals()
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstCollector<N, StringLiteral> collector = (AstCollector<N, StringLiteral>) stringLiteralCollector;
-		
-		return collector;
+		return cast(stringLiterals);
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> usingFilter(final AstTypeBasedFilter<N, R> filter)
+	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, N> usingFilter(final AstFilter<N> filter)
 	{
-		return AstFilterBasedCollector.using(filter);
+		return AstFilteringCollector.using(filter);
+	}
 
+	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> usingFilter(final AstTypeFilter<N, R> filter)
+	{
+		return AstFilteringCollector.using(filter);
 	}
 	
 	// TODO consider

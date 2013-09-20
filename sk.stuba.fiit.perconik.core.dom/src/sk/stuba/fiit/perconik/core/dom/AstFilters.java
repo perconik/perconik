@@ -9,18 +9,18 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class AstFilters
 {
-	private static final AstTypeBasedFilter<?, Comment> commentFilter = ofType(Comment.class);
+	private static final AstTypeFilter<?, Comment> comments = ofType(Comment.class);
 	
-	private static final AstTypeBasedFilter<?, SimpleName> simpleNameFilter = ofType(SimpleName.class);
+	private static final AstTypeFilter<?, SimpleName> simpleNames = ofType(SimpleName.class);
 	
-	private static final AstTypeBasedFilter<?, StringLiteral> stringLiteralFilter = ofType(StringLiteral.class);
+	private static final AstTypeFilter<?, StringLiteral> stringLiterals = ofType(StringLiteral.class);
 	
 	private AstFilters()
 	{
 		throw new AssertionError();
 	}
 	
-	private static enum AcceptFilter implements AstFilter<ASTNode>
+	private static enum AlwaysAccept implements AstFilter<ASTNode>
 	{
 		INSTANCE;
 	
@@ -30,7 +30,7 @@ public final class AstFilters
 		}
 	}
 
-	private static enum RejectFilter implements AstFilter<ASTNode>
+	private static enum AlwaysReject implements AstFilter<ASTNode>
 	{
 		INSTANCE;
 	
@@ -39,85 +39,115 @@ public final class AstFilters
 			return false;
 		}
 	}
-
-	public static final <N extends ASTNode> AstFilter<N> acceptFilter()
+	
+	private static enum IsNull implements AstFilter<ASTNode>
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstFilter<N> filter = (AstFilter<N>) AcceptFilter.INSTANCE;
-		
-		return filter;
+		INSTANCE;
+	
+		public final boolean accept(@Nullable final ASTNode node)
+		{
+			return node == null;
+		}
 	}
 	
-	public static final <N extends ASTNode> AstFilter<N> rejectFilter()
+	private static enum NotNull implements AstFilter<ASTNode>
 	{
-		// internal singleton is stateless and safe to share across all types
+		INSTANCE;
+	
+		public final boolean accept(@Nullable final ASTNode node)
+		{
+			return node != null;
+		}
+	}
+
+	private static final <N extends ASTNode> AstFilter<N> cast(final AstFilter<?> filter)
+	{
+		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstFilter<N> filter = (AstFilter<N>) RejectFilter.INSTANCE;
+		AstFilter<N> result = (AstFilter<N>) filter;
 		
-		return filter;
+		return result;
+	}
+
+	public static final <N extends ASTNode> AstFilter<N> alwaysAccept()
+	{
+		return cast(AlwaysAccept.INSTANCE);
 	}
 	
-	public static final <N extends ASTNode> AstTypeBasedFilter<N, Comment> commentFilter()
+	public static final <N extends ASTNode> AstFilter<N> alwaysReject()
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstTypeBasedFilter<N, Comment> filter = (AstTypeBasedFilter<N, Comment>) commentFilter;
-		
-		return filter;
+		return cast(AlwaysReject.INSTANCE);
 	}
 	
-	public static final <N extends ASTNode> AstTypeBasedFilter<N, SimpleName> simpleNameFilter()
+	public static final <N extends ASTNode> AstFilter<N> isNull()
 	{
-		// internal singleton is stateless and safe to share across all types
+		return cast(IsNull.INSTANCE);
+	}
+	
+	public static final <N extends ASTNode> AstFilter<N> notNull()
+	{
+		return cast(NotNull.INSTANCE);
+	}
+	
+	// TODO add: and, or, not, asPredicate, fromPredicate
+
+	private static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> cast(final AstTypeFilter<?, ?> filter)
+	{
+		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstTypeBasedFilter<N, SimpleName> filter = (AstTypeBasedFilter<N, SimpleName>) simpleNameFilter;
+		AstTypeFilter<N, F> result = (AstTypeFilter<N, F>) filter;
 		
-		return filter;
+		return result;
+	}
+	
+	public static final <N extends ASTNode> AstTypeFilter<N, Comment> comments()
+	{
+		return cast(comments);
+	}
+	
+	public static final <N extends ASTNode> AstTypeFilter<N, SimpleName> simpleNames()
+	{
+		return cast(simpleNames);
 	}
 
-	public static final <N extends ASTNode> AstTypeBasedFilter<N, StringLiteral> stringLiteralFilter()
+	public static final <N extends ASTNode> AstTypeFilter<N, StringLiteral> stringLiterals()
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstTypeBasedFilter<N, StringLiteral> filter = (AstTypeBasedFilter<N, StringLiteral>) stringLiteralFilter;
-		
-		return filter;
+		return cast(stringLiterals);
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Class<? extends F> type)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Class<? extends F> type)
 	{
-		return AstTypeBasedFilter.of(type);
+		return AstTypeFilter.of(type);
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b)
 	{
-		return AstTypeBasedFilter.of(a, b);
+		return AstTypeFilter.of(a, b);
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c)
 	{
-		return AstTypeBasedFilter.of(a, b, c);
+		return AstTypeFilter.of(a, b, c);
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d)
 	{
-		return AstTypeBasedFilter.of(a, b, c, d); 
+		return AstTypeFilter.of(a, b, c, d); 
 	}
 
 	@SafeVarargs
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d, final Class<? extends F> ... rest)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d, final Class<? extends F> ... rest)
 	{
-		return AstTypeBasedFilter.of(a, b, c, d, rest);
+		return AstTypeFilter.of(a, b, c, d, rest);
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Iterable<Class<? extends F>> types)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Iterable<Class<? extends F>> types)
 	{
-		return AstTypeBasedFilter.of(types); 
+		return AstTypeFilter.of(types); 
 	}
 
-	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Iterator<Class<? extends F>> types)
+	public static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> ofType(final Iterator<Class<? extends F>> types)
 	{
-		return AstTypeBasedFilter.of(types);
+		return AstTypeFilter.of(types);
 	}
 }

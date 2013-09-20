@@ -10,7 +10,7 @@ public final class AstFlatteners
 		throw new AssertionError();
 	}
 	
-	private static enum DefaultFlattener implements AstFlattener<ASTNode>
+	private static enum ToString implements AstFlattener<ASTNode>
 	{
 		INSTANCE;
 		
@@ -19,13 +19,18 @@ public final class AstFlatteners
 			return node == null ? "" : node.toString();
 		}
 	}
-
-	public static final <N extends ASTNode> AstFlattener<N> defaultFlattener()
+	
+	private static final <N extends ASTNode> AstFlattener<N> cast(final AstFlattener<?> flattener)
 	{
-		// internal singleton is stateless and safe to share across all types
+		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstFlattener<N> flattener = (AstFlattener<N>) DefaultFlattener.INSTANCE;
+		AstFlattener<N> result = (AstFlattener<N>) flattener;
 		
-		return flattener;
+		return result;
+	}
+
+	public static final <N extends ASTNode> AstFlattener<N> toStringBased()
+	{
+		return cast(ToString.INSTANCE);
 	}
 }

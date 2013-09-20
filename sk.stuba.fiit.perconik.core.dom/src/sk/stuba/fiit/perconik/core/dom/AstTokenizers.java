@@ -17,39 +17,50 @@ public final class AstTokenizers
 		throw new AssertionError();
 	}
 
-	private static enum IdentifierTokenizer implements AstTokenizer<ASTNode>
+	private static enum IdentifierNameTokenizer implements AstTokenizer<ASTNode>
 	{
 		INSTANCE;
 		
 		private static final IdentifierNameTokeniserFactory factory = new IdentifierNameTokeniserFactory();
 		
+		private static final IdentifierNameTokeniser tokenizer = factory.create();
+		
 		@Override
 		public final List<String> tokenize(@Nullable final ASTNode node)
 		{
-			if (node == null)
-			{
-				return ImmutableList.of();
-			}
-			
-			IdentifierNameTokeniser tokenizer = factory.create();
-			List<SimpleName>        names     = AstCollectors.simpleNameCollector().collect(node);
-			List<String>            tokens    = Lists.newArrayListWithCapacity(names.size());
-			
-			for (SimpleName name: names)
-			{
-				tokens.addAll(Arrays.asList(tokenizer.tokenise(name.toString())));
-			}
-			
-			return tokens;
+			return AstTokenizers.tokenize(tokenizer, node);
 		}
 	}
-
-	public static final <N extends ASTNode> AstTokenizer<N> identifierTokenizer()
+	
+	static final List<String> tokenize(final IdentifierNameTokeniser tokenizer, @Nullable final ASTNode node)
 	{
-		// internal singleton is stateless and safe to share across all types
-		@SuppressWarnings("unchecked")
-		AstTokenizer<N> tokenizer = (AstTokenizer<N>) IdentifierTokenizer.INSTANCE;
+		if (node == null)
+		{
+			return ImmutableList.of();
+		}
 		
-		return tokenizer;
+		List<SimpleName> names  = AstCollectors.simpleNames().collect(node);
+		List<String>     tokens = Lists.newArrayListWithCapacity(names.size());
+		
+		for (SimpleName name: names)
+		{
+			tokens.addAll(Arrays.asList(tokenizer.tokenise(name.toString())));
+		}
+		
+		return tokens;
+	}
+
+	private static final <N extends ASTNode> AstTokenizer<N> cast(final AstTokenizer<?> tokenizer)
+	{
+		// only for stateless internal singletons shared across all types
+		@SuppressWarnings("unchecked")
+		AstTokenizer<N> result = (AstTokenizer<N>) tokenizer;
+		
+		return result;
+	}
+	
+	public static final <N extends ASTNode> AstTokenizer<N> identifierNames()
+	{
+		return cast(IdentifierNameTokenizer.INSTANCE);
 	}
 }

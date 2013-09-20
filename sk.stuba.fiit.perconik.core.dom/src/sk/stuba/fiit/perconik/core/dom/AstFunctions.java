@@ -11,7 +11,12 @@ import com.google.common.collect.ForwardingObject;
 
 public final class AstFunctions
 {
-	private static enum StringLiteralToEscapedValueFunction implements Function<StringLiteral, String>
+	private AstFunctions()
+	{
+		throw new AssertionError();
+	}
+	
+	private static enum StringLiteralToEscapedValue implements Function<StringLiteral, String>
 	{
 		INSTANCE;
 		
@@ -21,7 +26,7 @@ public final class AstFunctions
 		}
 	}
 
-	private static enum StringLiteralToLiteralValueFunction implements Function<StringLiteral, String>
+	private static enum StringLiteralToLiteralValue implements Function<StringLiteral, String>
 	{
 		INSTANCE;
 		
@@ -30,40 +35,24 @@ public final class AstFunctions
 			return literal.getLiteralValue();
 		}
 	}
+	
+	private static final <N extends StringLiteral, T> Function<N, T> cast(final Function<?, ?> function)
+	{
+		// only for stateless internal singletons shared across all types
+		@SuppressWarnings("unchecked")
+		Function<N, T> result = (Function<N, T>) function;
+		
+		return result;
+	}
 
-	private AstFunctions()
-	{
-		throw new AssertionError();
-	}
-	
-	static final <N extends StringLiteral> Function<N, String> internalStringLiteralToEscapedValue()
-	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
-		@SuppressWarnings("unchecked")
-		Function<N, String> function = (Function<N, String>) StringLiteralToEscapedValueFunction.INSTANCE;
-		
-		return function;
-	}
-	
-	static final <N extends StringLiteral> Function<N, String> internalStringLiteralToLiteralValue()
-	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
-		@SuppressWarnings("unchecked")
-		Function<N, String> function = (Function<N, String>) StringLiteralToLiteralValueFunction.INSTANCE;
-		
-		return function;
-	}
-	
 	public static final <N extends StringLiteral> Function<N, String> stringLiteralToEscapedValue()
 	{
-		return internalStringLiteralToEscapedValue();
+		return cast(StringLiteralToEscapedValue.INSTANCE);
 	}
 	
 	public static final <N extends StringLiteral> Function<N, String> stringLiteralToLiteralValue()
 	{
-		return internalStringLiteralToLiteralValue();
+		return cast(StringLiteralToLiteralValue.INSTANCE);
 	}
 	
 	static final class AstCollectorFunction<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements Function<N, List<R>>, Serializable
@@ -356,7 +345,7 @@ public final class AstFunctions
 		}
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> Function<N, List<R>> asFunction(final AstCollector<N, R> collector)
+	public static final <N extends ASTNode, R extends ASTNode> Function<N, List<R>> from(final AstCollector<N, R> collector)
 	{
 		if (collector instanceof FunctionAstCollector)
 		{
@@ -366,7 +355,7 @@ public final class AstFunctions
 		return new AstCollectorFunction<>(collector);
 	}
 
-	public static final <N extends ASTNode> Function<N, CharSequence> asFunction(final AstFlattener<N> flattener)
+	public static final <N extends ASTNode> Function<N, CharSequence> from(final AstFlattener<N> flattener)
 	{
 		if (flattener instanceof FunctionAstFlattener)
 		{
@@ -376,7 +365,7 @@ public final class AstFunctions
 		return new AstFlattenerFunction<>(flattener);
 	}
 	
-	public static final <N extends ASTNode> Function<N, Boolean> asFunction(final AstFilter<N> filter)
+	public static final <N extends ASTNode> Function<N, Boolean> from(final AstFilter<N> filter)
 	{
 		if (filter instanceof FunctionAstFilter)
 		{
@@ -386,7 +375,7 @@ public final class AstFunctions
 		return new AstFilterFunction<>(filter);
 	}
 
-	public static final <N extends ASTNode> Function<N, List<String>> asFunction(final AstTokenizer<N> tokenizer)
+	public static final <N extends ASTNode> Function<N, List<String>> from(final AstTokenizer<N> tokenizer)
 	{
 		if (tokenizer instanceof FunctionAstTokenizer)
 		{
@@ -396,7 +385,7 @@ public final class AstFunctions
 		return new AstTokenizerFunction<>(tokenizer);
 	}
 	
-	public static final <N extends ASTNode, R> Function<N, R> asFunction(final AstTransformer<N, R> transformer)
+	public static final <N extends ASTNode, R> Function<N, R> from(final AstTransformer<N, R> transformer)
 	{
 		if (transformer instanceof FunctionAstTransformer)
 		{

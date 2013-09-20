@@ -15,6 +15,8 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstApiLevel;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
 import com.google.common.collect.Lists;
 
+// TODO add more helpers from org.eclipse.jdt.internal.corext.dom.ASTNodes
+
 public final class AstNodes
 {
 	private AstNodes()
