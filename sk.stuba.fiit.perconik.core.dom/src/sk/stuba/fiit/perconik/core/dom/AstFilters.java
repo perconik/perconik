@@ -40,79 +40,49 @@ public final class AstFilters
 		throw new AssertionError();
 	}
 	
-	static final <N extends ASTNode> AstFilter<N> internalAcceptFilter()
+	public static final <N extends ASTNode> AstFilter<N> acceptFilter()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstFilter<N> filter = (AstFilter<N>) AcceptFilter.INSTANCE;
 		
 		return filter;
 	}
-
-	static final <N extends ASTNode> AstFilter<N> internalRejectFilter()
+	
+	public static final <N extends ASTNode> AstFilter<N> rejectFilter()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstFilter<N> filter = (AstFilter<N>) RejectFilter.INSTANCE;
 		
 		return filter;
 	}
 	
-	public static final <N extends ASTNode> AstFilter<N> acceptFilter()
+	public static final <N extends ASTNode> AstTypeBasedFilter<N, Comment> commentFilter()
 	{
-		return internalAcceptFilter();
-	}
-	
-	public static final <N extends ASTNode> AstFilter<N> rejectFilter()
-	{
-		return internalRejectFilter();
-	}
-
-	static final <N extends ASTNode> AstTypeBasedFilter<N, Comment> internalCommentFilter()
-	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstTypeBasedFilter<N, Comment> filter = (AstTypeBasedFilter<N, Comment>) commentFilter;
 		
 		return filter;
 	}
-
-	static final <N extends ASTNode> AstTypeBasedFilter<N, SimpleName> internalSimpleNameFilter()
+	
+	public static final <N extends ASTNode> AstTypeBasedFilter<N, SimpleName> simpleNameFilter()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstTypeBasedFilter<N, SimpleName> filter = (AstTypeBasedFilter<N, SimpleName>) simpleNameFilter;
 		
 		return filter;
 	}
 
-	static final <N extends ASTNode> AstTypeBasedFilter<N, StringLiteral> internalStringLiteralFilter()
+	public static final <N extends ASTNode> AstTypeBasedFilter<N, StringLiteral> stringLiteralFilter()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstTypeBasedFilter<N, StringLiteral> filter = (AstTypeBasedFilter<N, StringLiteral>) stringLiteralFilter;
 		
 		return filter;
-	}
-	
-	public static final <N extends ASTNode> AstTypeBasedFilter<N, Comment> commentFilter()
-	{
-		return internalCommentFilter();
-	}
-	
-	public static final <N extends ASTNode> AstTypeBasedFilter<N, SimpleName> simpleNameFilter()
-	{
-		return internalSimpleNameFilter();
-	}
-
-	public static final <N extends ASTNode> AstTypeBasedFilter<N, StringLiteral> stringLiteralFilter()
-	{
-		return internalStringLiteralFilter();
 	}
 
 	public static final <N extends ASTNode, F extends ASTNode> AstTypeBasedFilter<N, F> ofType(final Class<? extends F> type)

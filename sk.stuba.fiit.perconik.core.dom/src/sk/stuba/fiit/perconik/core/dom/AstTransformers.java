@@ -14,26 +14,6 @@ public final class AstTransformers
 		throw new AssertionError();
 	}
 
-	static final <N extends ASTNode> AstPathExtractor<N> internalNamePathExtractor()
-	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
-		@SuppressWarnings("unchecked")
-		AstPathExtractor<N> extractor = (AstPathExtractor<N>) namePathExtractor;
-		
-		return extractor;
-	}
-
-	static final <N extends ASTNode> AstPathExtractor<N> internalTypePathExtractor()
-	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
-		@SuppressWarnings("unchecked")
-		AstPathExtractor<N> extractor = (AstPathExtractor<N>) typePathExtractor;
-		
-		return extractor;
-	}
-
 	public static final <N extends ASTNode> AstCutter<N> cutterUsingFilter(final AstFilter<ASTNode> filter)
 	{
 		return AstCutter.using(filter);
@@ -73,12 +53,20 @@ public final class AstTransformers
 
 	public static final <N extends ASTNode> AstPathExtractor<N> namePathExtractor()
 	{
-		return internalNamePathExtractor();
+		// internal singleton is stateless and safe to share across all types
+		@SuppressWarnings("unchecked")
+		AstPathExtractor<N> extractor = (AstPathExtractor<N>) namePathExtractor;
+		
+		return extractor;
 	}
 
 	public static final <N extends ASTNode> AstPathExtractor<N> typePathExtractor()
 	{
-		return internalTypePathExtractor();
+		// internal singleton is stateless and safe to share across all types
+		@SuppressWarnings("unchecked")
+		AstPathExtractor<N> extractor = (AstPathExtractor<N>) typePathExtractor;
+		
+		return extractor;
 	}
 	
 	// TODO add

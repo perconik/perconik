@@ -20,18 +20,12 @@ public final class AstFlatteners
 		throw new AssertionError();
 	}
 	
-	static final <N extends ASTNode> AstFlattener<N> internalDefaultFlattener()
+	public static final <N extends ASTNode> AstFlattener<N> defaultFlattener()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstFlattener<N> flattener = (AstFlattener<N>) DefaultFlattener.INSTANCE;
 		
 		return flattener;
-	}
-	
-	public static final <N extends ASTNode> AstFlattener<N> defaultFlattener()
-	{
-		return internalDefaultFlattener();
 	}
 }

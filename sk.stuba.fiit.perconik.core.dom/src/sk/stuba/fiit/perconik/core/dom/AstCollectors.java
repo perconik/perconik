@@ -8,60 +8,42 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class AstCollectors
 {
-	private static final AstCollector<?, Comment> commentCollector = usingFilter(AstFilters.internalCommentFilter());
+	private static final AstCollector<?, Comment> commentCollector = usingFilter(AstFilters.commentFilter());
 	
-	private static final AstCollector<?, SimpleName> simpleNameCollector = usingFilter(AstFilters.internalSimpleNameFilter());
+	private static final AstCollector<?, SimpleName> simpleNameCollector = usingFilter(AstFilters.simpleNameFilter());
 	
-	private static final AstCollector<?, StringLiteral> stringLiteralCollector = usingFilter(AstFilters.internalStringLiteralFilter());
+	private static final AstCollector<?, StringLiteral> stringLiteralCollector = usingFilter(AstFilters.stringLiteralFilter());
 	
 	private AstCollectors()
 	{
 		throw new AssertionError();
 	}
-
-	static final <N extends ASTNode> AstCollector<N, Comment> internalCommentCollector()
+	
+	public static final <N extends ASTNode> AstCollector<N, Comment> commentCollector()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstCollector<N, Comment> collector = (AstCollector<N, Comment>) commentCollector;
 		
 		return collector;
 	}
-
-	static final <N extends ASTNode> AstCollector<N, SimpleName> internalSimpleNameCollector()
+	
+	public static final <N extends ASTNode> AstCollector<N, SimpleName> simpleNameCollector()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstCollector<N, SimpleName> collector = (AstCollector<N, SimpleName>) simpleNameCollector;
 		
 		return collector;
 	}
 
-	static final <N extends ASTNode> AstCollector<N, StringLiteral> internalStringLiteralCollector()
+	public static final <N extends ASTNode> AstCollector<N, StringLiteral> stringLiteralCollector()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstCollector<N, StringLiteral> collector = (AstCollector<N, StringLiteral>) stringLiteralCollector;
 		
 		return collector;
-	}
-	
-	public static final <N extends ASTNode> AstCollector<N, Comment> commentCollector()
-	{
-		return internalCommentCollector();
-	}
-	
-	public static final <N extends ASTNode> AstCollector<N, SimpleName> simpleNameCollector()
-	{
-		return internalSimpleNameCollector();
-	}
-
-	public static final <N extends ASTNode> AstCollector<N, StringLiteral> stringLiteralCollector()
-	{
-		return internalStringLiteralCollector();
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> usingFilter(final AstTypeBasedFilter<N, R> filter)

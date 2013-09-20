@@ -27,7 +27,7 @@ public final class AstTokenizers
 			}
 			
 			IdentifierNameTokeniser tokenizer = factory.create();
-			List<SimpleName>        names     = AstCollectors.internalSimpleNameCollector().collect(node);
+			List<SimpleName>        names     = AstCollectors.simpleNameCollector().collect(node);
 			List<String>            tokens    = Lists.newArrayListWithCapacity(names.size());
 			
 			for (SimpleName name: names)
@@ -43,19 +43,13 @@ public final class AstTokenizers
 	{
 		throw new AssertionError();
 	}
-	
-	static final <N extends ASTNode> AstTokenizer<N> internalIdentifierTokenizer()
+
+	public static final <N extends ASTNode> AstTokenizer<N> identifierTokenizer()
 	{
-		// internal singleton has no state and only unbounded type parameters
-		// therefore it is safe to share the same instance across all types
+		// internal singleton is stateless and safe to share across all types
 		@SuppressWarnings("unchecked")
 		AstTokenizer<N> tokenizer = (AstTokenizer<N>) IdentifierTokenizer.INSTANCE;
 		
 		return tokenizer;
-	}
-
-	public static final <N extends ASTNode> AstTokenizer<N> identifierTokenizer()
-	{
-		return internalIdentifierTokenizer();
 	}
 }
