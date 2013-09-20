@@ -74,23 +74,46 @@ public final class AstNodes
 		return (N) ASTNode.copySubtree(tree, node);
 	}
 	
-	public static final ASTNode root(@Nullable ASTNode node)
+	public static final ASTNode root(@Nullable final ASTNode node)
 	{
 		return node != null ? node.getRoot() : null;
 	}
 
-	public static final ASTNode parent(@Nullable ASTNode node)
+	public static final ASTNode parent(@Nullable final ASTNode node)
 	{
 		return node != null ? node.getParent() : null;
+	}
+	
+	public static final LinkedList<ASTNode> children(@Nullable final ASTNode node)
+	{
+		final LinkedList<ASTNode> children = Lists.newLinkedList();
+
+		ASTVisitor visitor = new ASTVisitor()
+		{
+			@Override
+			public final boolean preVisit2(final ASTNode child)
+			{
+				if (isChild(node, child))
+				{
+					children.add(child);
+				}
+				
+				return false;
+			}
+		};
+		
+		node.accept(visitor);
+		
+		return children;
 	}
 	
 	public static final LinkedList<ASTNode> ancestors(@Nullable ASTNode node)
 	{
 		final LinkedList<ASTNode> ancestors = Lists.newLinkedList();
-	
-		while ((node = node.getParent()) != null)
+		
+		while (node != null)
 		{
-			ancestors.add(node);
+			ancestors.add(node = node.getParent());
 		}
 		
 		return ancestors;
@@ -100,6 +123,11 @@ public final class AstNodes
 	{
 		final LinkedList<ASTNode> descendants = Lists.newLinkedList();
 
+		if (node == null)
+		{
+			return descendants;
+		}
+		
 		ASTVisitor visitor = new ASTVisitor()
 		{
 			@Override
@@ -118,37 +146,37 @@ public final class AstNodes
 	{
 		while (node != null)
 		{
-			if (isInstance(node, types))
+			if (isInstance(node = node.getParent(), types))
 			{
 				return node;
 			}
-	
-			node = node.getParent();
 		}
 	
 		return null;
 	}
 
-	// TODO
-//	public static final ASTNode firstDescendant(@Nullable ASTNode node, final Set<Class<? extends ASTNode>> types)
-//	{
-//		
-//		
-//		ASTVisitor visitor = new ASTVisitor()
-//		{
-//			private ASTNode descendant;
-//			
-//			@Override
-//			public final boolean preVisit2(final ASTNode descendant)
-//			{
-//				descendants.add(descendant);
-//			}
-//		};
-//		
-//		node.accept(visitor);
-//		
-//		return visitor;
-//	}
+	public static final ASTNode firstDescendant(@Nullable ASTNode node, final Iterable<Class<? extends ASTNode>> types)
+	{
+		final MutableReference<ASTNode> descendant = new MutableReference<>();
+		
+		ASTVisitor visitor = new ASTVisitor()
+		{
+			@Override
+			public final boolean preVisit2(final ASTNode other)
+			{
+				if (isInstance(other, types))
+				{
+					descendant.value = other;
+				}
+				
+				return descendant.value == null;
+			}
+		};
+		
+		node.accept(visitor);
+		
+		return descendant.value;
+	}
 	
 	public static final LinkedList<ASTNode> upToRoot(ASTNode node)
 	{
@@ -182,26 +210,114 @@ public final class AstNodes
 		return node.structuralPropertiesForType();
 	}
 
-	public static final Class<? extends ASTNode> typeAsClass(@Nullable ASTNode node)
+	public static final boolean isRoot(@Nullable ASTNode node)
 	{
-		return node != null ? node.getClass() : null;
+		return node != null && node == node.getRoot();
+	}
+	
+	public static final boolean isParent(@Nullable ASTNode node, @Nullable final ASTNode parent)
+	{
+		return node != null && parent == node.getParent();
+	}
+	
+	public static final boolean isChild(@Nullable ASTNode node, @Nullable final ASTNode child)
+	{
+		return child != null && child.getParent() == node;
+	}
+	
+	public static final boolean isAncestor(@Nullable ASTNode node, @Nullable final ASTNode ancestor)
+	{
+		while (node != null)
+		{
+			if (ancestor == (node = node.getParent()))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static final boolean isDescendant(@Nullable ASTNode node, @Nullable final ASTNode descendant)
+	{
+		if (node == null)
+		{
+			return false;
+		}
+		
+		final MutableBoolean visit = new MutableBoolean(true);
+		
+		ASTVisitor visitor = new ASTVisitor()
+		{
+			@Override
+			public final boolean preVisit2(final ASTNode other)
+			{
+				if (other == descendant)
+				{
+					visit.value = false;
+				}
+				
+				return visit.value;
+			}
+		};
+		
+		node.accept(visitor);
+		
+		return !visit.value;
 	}
 
-	public static final AstNodeType typeAsConstant(@Nullable ASTNode node)
+	public static final boolean isRecoveredOrMalformed(final ASTNode node)
 	{
-		return node != null ? AstNodeType.valueOf(node) : null;
+		return (node.getFlags() & ASTNode.RECOVERED) != 0 || (node.getFlags() & ASTNode.MALFORMED) != 0;
+	}
+	
+	public static final boolean isProblematicTree(final ASTNode node)
+	{
+		if (isRecoveredOrMalformed(node))
+		{
+			return true;
+		}
+		
+		for (ASTNode descendant: descendants(node))
+		{
+			if (isRecoveredOrMalformed(descendant))
+			{
+				return true;
+			}
+		}
+	
+		return false;
 	}
 
-	public static final String typeAsString(@Nullable ASTNode node)
+	static class MutableReference<T>
 	{
-		return node != null ? node.getClass().getSimpleName() : null;
+		T value;
+		
+		MutableReference()
+		{
+		}
+		
+		MutableReference(T value)
+		{
+			this.value = value;
+		}
+	}
+	
+	static class MutableBoolean
+	{
+		boolean value;
+		
+		MutableBoolean(boolean value)
+		{
+			this.value = value;
+		}
 	}
 
 	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> type)
 	{
 		return node != null && type.isInstance(node);
 	}
-	
+
 	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> a, final Class<? extends ASTNode> b)
 	{
 		return node != null && (a.isInstance(node) || b.isInstance(node));
@@ -240,69 +356,19 @@ public final class AstNodes
 		
 		return false;
 	}
-	
-	public static final boolean isRoot(@Nullable ASTNode node)
-	{
-		return node != null && node == node.getRoot();
-	}
-	
-	public static final boolean isParent(@Nullable ASTNode node, @Nullable ASTNode parent)
-	{
-		return node != null && parent == node.getParent();
-	}
-	
-	// TODO add predicates:
-	
-//	public static final boolean isChild(@Nullable ASTNode node, @Nullable ASTNode child)
-//	{
-//		
-//	}
-//	
-//	public static final boolean isAncestor(@Nullable ASTNode node, @Nullable ASTNode ancestor)
-//	{
-//		
-//	}
-//	
-//	public static final boolean isDescendant(@Nullable ASTNode node, @Nullable ASTNode descendant)
-//	{
-//		
-//	}
-//
-//	public static final boolean isChild(@Nullable ASTNode parent, ASTNode child)
-//	{
-//		do
-//		{
-//			if (child == parent)
-//			{
-//				return true;
-//			}
-//		}
-//		while ((child = child.getParent()) != null); 
-//		
-//		return false;
-//	}
 
-	// TODO consider
-//	public static final boolean isProblematicTree(final ASTNode node)
-//	{
-//		if (isRecoveredOrMalformed(node))
-//		{
-//			return true;
-//		}
-//		
-//		for (ASTNode child: children(node)) // <-- descendants?
-//		{
-//			if (isRecoveredOrMalformed(child))
-//			{
-//				return true;
-//			}
-//		}
-//
-//		return false;
-//	}
-//
-//	public static final boolean isRecoveredOrMalformed(final ASTNode node)
-//	{
-//		return (node.getFlags() & ASTNode.RECOVERED) != 0 || (node.getFlags() & ASTNode.MALFORMED) != 0;
-//	}
+	public static final Class<? extends ASTNode> typeAsClass(@Nullable final ASTNode node)
+	{
+		return node != null ? node.getClass() : null;
+	}
+
+	public static final AstNodeType typeAsConstant(@Nullable final ASTNode node)
+	{
+		return node != null ? AstNodeType.valueOf(node) : null;
+	}
+
+	public static final String typeAsString(@Nullable final ASTNode node)
+	{
+		return node != null ? node.getClass().getSimpleName() : null;
+	}
 }
