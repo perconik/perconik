@@ -10,10 +10,13 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PR
 import java.util.Set;
 import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
@@ -91,7 +94,7 @@ public final class IdeDocumentListener extends IdeListener implements SelectionL
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
 		IFile file = null;
-		
+
 		if (selection instanceof StructuredSelection)
 		{
 			Object element = ((StructuredSelection) selection).getFirstElement();
@@ -99,6 +102,16 @@ public final class IdeDocumentListener extends IdeListener implements SelectionL
 			if (element instanceof IFile)
 			{
 				file = (IFile) element;
+			}
+			
+			if (element instanceof IJavaElement)
+			{
+				IResource resource = JavaElements.resource((IJavaElement) element);
+
+				if (resource instanceof IFile)
+				{
+					file = (IFile) resource;
+				}
 			}
 		}
 		
