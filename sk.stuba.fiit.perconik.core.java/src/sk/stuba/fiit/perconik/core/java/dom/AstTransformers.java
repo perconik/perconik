@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 
@@ -12,6 +13,54 @@ public final class AstTransformers
 	private AstTransformers()
 	{
 		throw new AssertionError();
+	}
+
+	// TODO add
+		
+	//	public static final AstTransformer<N, R> from(final AstCollector<N, R> collector)
+	//	{
+	//		
+	//	}
+	//
+	//	public static final AstTransformer<N, R> from(final AstFilter<N> filter)
+	//	{
+	//		
+	//	}
+	//
+	//	public static final AstTransformer<N, R> from(final AstFlattener<N> flattener)
+	//	{
+	//		
+	//	}
+	//
+	//	public static final AstTransformer<N, R> from(final AstTokenizer<N> tokenizer)
+	//	{
+	//		
+	//	}
+		
+	// TODO add toParent trnasformer, firstParentOfType, ...
+	
+	private static enum ToParent implements AstTransformer<ASTNode, ASTNode>
+	{
+		INSTANCE;
+
+		public final ASTNode transform(@Nullable final ASTNode node)
+		{
+			return AstNodes.parent(node);
+		}
+	}
+	
+	private static final <N extends ASTNode, R> AstTransformer<N, R> cast(final AstTransformer<?, R> transformer)
+	{
+		// only for stateless internal singletons shared across all types
+		@SuppressWarnings("unchecked")
+		AstTransformer<N, R> result = (AstTransformer<N, R>) transformer;
+		
+		return result;
+	}
+
+	public static final <N extends ASTNode> AstTransformer<N, ASTNode> toParent()
+	{
+		return cast(ToParent.INSTANCE);
 	}
 
 	public static final <N extends ASTNode> AstCutter<N> cutterUsingFilter(final AstFilter<ASTNode> filter)
@@ -69,28 +118,4 @@ public final class AstTransformers
 	{
 		return cast(typePathExtractor);
 	}
-	
-	// TODO add
-	
-//	public static final AstTransformer<N, R> from(final AstCollector<N, R> collector)
-//	{
-//		
-//	}
-//
-//	public static final AstTransformer<N, R> from(final AstFilter<N> filter)
-//	{
-//		
-//	}
-//
-//	public static final AstTransformer<N, R> from(final AstFlattener<N> flattener)
-//	{
-//		
-//	}
-//
-//	public static final AstTransformer<N, R> from(final AstTokenizer<N> tokenizer)
-//	{
-//		
-//	}
-	
-	// TODO add toParent trnasformer, firstParentOfType, ...
 }

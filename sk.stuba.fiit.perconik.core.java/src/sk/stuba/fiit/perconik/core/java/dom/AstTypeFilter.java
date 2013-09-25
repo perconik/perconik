@@ -216,14 +216,14 @@ public abstract class AstTypeFilter<N extends ASTNode, F extends ASTNode> implem
 	{
 		private final Class<? extends F> type;
 		
-		private final Set<Class<? extends F>> typeAsSet;
+		private final Set<Class<? extends F>> singleton;
 		
 		Single(final Mode mode, final Strategy strategy, final Class<? extends F> type)
 		{
 			super(mode, strategy);
 			
-			this.type      = Preconditions.checkNotNull(type);
-			this.typeAsSet = ImmutableSet.<Class<? extends F>>of(this.type);
+			this.type      = type;
+			this.singleton = ImmutableSet.<Class<? extends F>>of(this.type);
 		}
 
 		@Override
@@ -235,7 +235,7 @@ public abstract class AstTypeFilter<N extends ASTNode, F extends ASTNode> implem
 		@Override
 		public final Set<Class<? extends F>> getAcceptedTypes()
 		{
-			return this.typeAsSet;
+			return this.singleton;
 		}
 	}
 
@@ -246,11 +246,6 @@ public abstract class AstTypeFilter<N extends ASTNode, F extends ASTNode> implem
 		Multi(final Mode mode, final Strategy strategy, final Set<Class<? extends F>> types)
 		{
 			super(mode, strategy);
-			
-			for (Class<? extends F> type: types)
-			{
-				Preconditions.checkNotNull(type);
-			}
 			
 			this.types = types;
 		}

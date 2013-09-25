@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.SimpleName;
@@ -19,6 +21,36 @@ public final class AstCollectors
 		throw new AssertionError();
 	}
 	
+	private static enum Children implements AstCollector<ASTNode, ASTNode>
+	{
+		INSTANCE;
+
+		public final LinkedList<ASTNode> collect(@Nullable final ASTNode node)
+		{
+			return AstNodes.children(node);
+		}
+	}
+
+	private static enum Ancestors implements AstCollector<ASTNode, ASTNode>
+	{
+		INSTANCE;
+
+		public final LinkedList<ASTNode> collect(@Nullable final ASTNode node)
+		{
+			return AstNodes.ancestors(node);
+		}
+	}
+
+	private static enum Descendants implements AstCollector<ASTNode, ASTNode>
+	{
+		INSTANCE;
+
+		public final LinkedList<ASTNode> collect(@Nullable final ASTNode node)
+		{
+			return AstNodes.descendants(node);
+		}
+	}
+
 	private static final <N extends ASTNode, R extends ASTNode> AstCollector<N, R> cast(final AstCollector<?, ?> collector)
 	{
 		// only for stateless internal singletons shared across all types
@@ -26,6 +58,21 @@ public final class AstCollectors
 		AstCollector<N, R> result = (AstCollector<N, R>) collector;
 		
 		return result;
+	}
+	
+	public static final <N extends ASTNode> AstCollector<N, ASTNode> children()
+	{
+		return cast(Children.INSTANCE);
+	}
+	
+	public static final <N extends ASTNode> AstCollector<N, ASTNode> ancestors()
+	{
+		return cast(Ancestors.INSTANCE);
+	}
+	
+	public static final <N extends ASTNode> AstCollector<N, ASTNode> descendants()
+	{
+		return cast(Descendants.INSTANCE);
 	}
 	
 	public static final <N extends ASTNode> AstCollector<N, Comment> comments()
