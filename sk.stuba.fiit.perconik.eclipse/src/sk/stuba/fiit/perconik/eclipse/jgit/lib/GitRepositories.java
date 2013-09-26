@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
 import java.util.NoSuchElementException;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import com.google.common.base.Throwables;
@@ -18,6 +20,13 @@ public final class GitRepositories
 	{
 		throw new AssertionError();
 	}
+	
+	public static final Repository fromProject(final IProject project)
+	{
+		Git git = GitCommands.fromProject(project);
+		
+		return git != null ? git.getRepository() : null;
+	}
 
 	public static final String getBranch(final Repository repository)
 	{
@@ -31,11 +40,11 @@ public final class GitRepositories
 		}
 	}
 	
-	public static final RevCommit getLastCommit(final Repository repository)
+	private static final RevCommit handleMostRecentCommit(final LogCommand command)
 	{
 		try
 		{
-			return new Git(repository).log().setMaxCount(1).call().iterator().next();
+			return command.setMaxCount(1).call().iterator().next();
 		}
 		catch (NoSuchElementException e)
 		{
@@ -45,6 +54,16 @@ public final class GitRepositories
 		{
 			throw Throwables.propagate(e);
 		}
+	}
+	
+	public static final RevCommit getMostRecentCommit(final Repository repository)
+	{
+		return handleMostRecentCommit(new Git(repository).log());
+	}
+	
+	public static final RevCommit getMostRecentCommit(final Repository repository, final String path)
+	{
+		return handleMostRecentCommit(new Git(repository).log().addPath(path));
 	}
 	
 	public static final String getRemoteOriginUrl(final Repository repository)
