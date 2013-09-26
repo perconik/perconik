@@ -14,9 +14,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.DataTransferObjects;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeCheckinDto;
-import com.gratex.perconik.services.activity.RcsServerDto;
 
 /**
  * A listener of {@code IdeCommit} events. This listener creates
@@ -72,15 +72,10 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 	
 	static final void process(final String url, final String id)
 	{
-		final RcsServerDto server = new RcsServerDto();
-		
-		server.setPath(url);
-		server.setType("git");
-		
 		final IdeCheckinDto data = new IdeCheckinDto();
 
 		data.setIdInRcs(id);
-		data.setRcsServer(server);
+		data.setRcsServer(DataTransferObjects.newGitServerData(url));
 
 		setApplicationData(data);
 		setEventData(data);
@@ -103,7 +98,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		Preconditions.checkArgument(url != null, "Unable to get remote origin url from %s", directory);
 		
 		String    branch = GitRepositories.getBranch(repository);
-		RevCommit commit = GitRepositories.getLastCommit(repository);
+		RevCommit commit = GitRepositories.getMostRecentCommit(repository);
 		
 		String id = commit.getName();
 		

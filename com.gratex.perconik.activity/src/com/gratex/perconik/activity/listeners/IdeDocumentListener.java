@@ -6,7 +6,6 @@ import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_FROM;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.REPLACED;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.REMOVED;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
@@ -41,6 +40,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.DataTransferObjects;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
 import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
@@ -91,6 +91,7 @@ public final class IdeDocumentListener extends IdeListener implements ResourceLi
 	{
 		final IdeDocumentOperationDto data = new IdeDocumentOperationDto();
 
+		data.setDocument(DataTransferObjects.newDocumentData(file));
 		data.setOperationType(type);
 		
 		setProjectData(data, file.getProject());
@@ -148,11 +149,11 @@ public final class IdeDocumentListener extends IdeListener implements ResourceLi
 					ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
 					Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 
-					if (flags.contains(REPLACED))
-					{
-						process((IFile) resource, IdeDocumentOperationTypeEnum.REMOVE);
-						process((IFile) resource, IdeDocumentOperationTypeEnum.ADD);
-					}
+//					if (flags.contains(REPLACED))
+//					{
+//						process((IFile) resource, IdeDocumentOperationTypeEnum.REMOVE);
+//						process((IFile) resource, IdeDocumentOperationTypeEnum.ADD);
+//					}
 					
 					if (flags.contains(MOVED_TO) || flags.contains(MOVED_FROM))
 					{

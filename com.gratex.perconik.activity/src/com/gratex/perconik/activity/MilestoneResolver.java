@@ -21,23 +21,25 @@ public final class MilestoneResolver
 	@SuppressWarnings("static-method")
 	public final boolean isMilestone(final EventDto data)
 	{
-		for (Class<?> type: ActivityDefaults.milestoneDataTypes)
-		{
-			if (type.isInstance(data))
-			{
-				return true;
-			}
-		}
-		
-		if (data instanceof IdeDocumentOperationDto)
-		{
-			IdeDocumentOperationTypeEnum type = ((IdeDocumentOperationDto) data).getOperationType();
-			
-			Preconditions.checkState(type != null);
-			
-			return ActivityDefaults.milestoneDocumentOperationTypes.contains(type);
-		}
-		
-		return false;
+		return true; // TODO REMOVE AFTER TESTS
+//		
+//		for (Class<?> type: ActivityDefaults.milestoneDataTypes)
+//		{
+//			if (type.isInstance(data))
+//			{
+//				return true;
+//			}
+//		}
+//		
+//		if (data instanceof IdeDocumentOperationDto)
+//		{
+//			IdeDocumentOperationTypeEnum type = ((IdeDocumentOperationDto) data).getOperationType();
+//			
+//			Preconditions.checkState(type != null);
+//			
+//			return ActivityDefaults.milestoneDocumentOperationTypes.contains(type);
+//		}
+//		
+//		return false;
 	}
 }
