@@ -39,7 +39,7 @@ public final class ActivityServices
 		return service.getBasicHttpBindingIVsActivityWatcherService();
 	}
 	
-	static final IVsActivityWatcherService prepareWatcherService()
+	static final IVsActivityWatcherService resolveWatcherService(final URL url)
 	{
 		synchronized (lock)
 		{
@@ -49,7 +49,7 @@ public final class ActivityServices
 			{
 				try
 				{
-					service = newWatcherService(ActivityDefaults.watcherUrl);
+					service = newWatcherService(url);
 					
 					services.putInstance(IVsActivityWatcherService.class, service);
 				}
@@ -60,6 +60,14 @@ public final class ActivityServices
 			}
 			
 			return service;
+		}
+	}
+	
+	static final void releaseWatcherService()
+	{
+		synchronized (lock)
+		{
+			services.remove(IVsActivityWatcherService.class);
 		}
 	}
 	
@@ -83,7 +91,7 @@ public final class ActivityServices
 				
 				try
 				{
-					service = prepareWatcherService();
+					service = resolveWatcherService(ActivityPreferences.getWatcherServiceUrl());
 					
 					if (service != null)
 					{

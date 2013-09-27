@@ -73,17 +73,17 @@ abstract class AbstractRegistrationPreferencePage<P, R extends MarkableRegistrat
 	}
 	
 	@Override
-	protected final Control createContents(final Composite ancestor)
+	protected final Control createContents(final Composite parent)
 	{
-		Composite parent = new Composite(ancestor, SWT.NONE);
+		Composite composite = new Composite(parent, SWT.NONE);
 		
 		GridLayout parentLayout = new GridLayout();
 		parentLayout.numColumns   = 2;
 		parentLayout.marginHeight = 0;
 		parentLayout.marginWidth  = 0;
-		parent.setLayout(parentLayout);
+		composite.setLayout(parentLayout);
 
-        Composite innerParent = new Composite(parent, SWT.NONE);
+        Composite innerParent = new Composite(composite, SWT.NONE);
         
         GridLayout innerLayout = new GridLayout();
         innerLayout.numColumns   = 2;
@@ -219,11 +219,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends MarkableRegistrat
 		
 		this.loadInternal(this.source());
 
-		Dialog.applyDialogFont(parent);
+		Dialog.applyDialogFont(composite);
 		
 		innerParent.layout();
-
-		return parent;
+		
+		return composite;
 	}
 	
 	protected abstract AbstractLabelProvider createContentProvider();
