@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
 public final class JavaElements
@@ -13,21 +12,6 @@ public final class JavaElements
 	private JavaElements()
 	{
 		throw new AssertionError();
-	}
-	
-	private static final <T> T handle(final Exception e)
-	{
-		if (e instanceof JavaModelException)
-		{
-			throw new JavaException(e);
-		}
-		
-		if (e instanceof NullPointerException)
-		{
-			return null;
-		}
-
-		throw Throwables.propagate(e);
 	}
 	
 	public static final IJavaElement parent(@Nullable final IJavaElement element)
@@ -76,7 +60,7 @@ public final class JavaElements
 		}
 		catch (JavaModelException e)
 		{
-			return handle(e);
+			return JavaExceptions.handle(e);
 		}
 	}
 	
@@ -88,7 +72,7 @@ public final class JavaElements
 		}
 		catch (JavaModelException e)
 		{
-			return handle(e);
+			return JavaExceptions.handle(e);
 		}
 	}
 }
