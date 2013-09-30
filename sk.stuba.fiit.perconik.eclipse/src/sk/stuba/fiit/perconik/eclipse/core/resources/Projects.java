@@ -22,6 +22,7 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.navigator.CommonNavigator;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 import com.google.common.collect.Maps;
 
 /**
@@ -141,7 +142,7 @@ public final class Projects
 		}
 		catch (CoreException e)
 		{
-			throw new IllegalStateException(e);
+			throw CoreExceptions.propagate(e);
 		}
 		
 		Map<String, IProject> projects = Maps.newHashMapWithExpectedSize(resources.length);

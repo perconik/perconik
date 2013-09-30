@@ -5,7 +5,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
-import com.google.common.base.Throwables;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 /**
  * Static utility methods pertaining to Eclipse resources.
@@ -28,7 +28,7 @@ public final class Resources
 		}
 		catch (CoreException e)
 		{
-			Throwables.propagate(e);
+			CoreExceptions.propagate(e);
 		}
 	}
 
@@ -45,7 +45,7 @@ public final class Resources
 		}
 		catch (CoreException e)
 		{
-			Throwables.propagate(e);
+			CoreExceptions.propagate(e);
 		}
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
-import com.google.common.base.Throwables;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 /**
  * Static utility methods pertaining to Eclipse resource deltas.
@@ -27,7 +27,7 @@ public final class ResourceDeltas
 		}
 		catch (CoreException e)
 		{
-			Throwables.propagate(e);
+			CoreExceptions.propagate(e);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public final class ResourceDeltas
 		}
 		catch (CoreException e)
 		{
-			Throwables.propagate(e);
+			CoreExceptions.propagate(e);
 		}
 	}
 }
