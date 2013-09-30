@@ -27,19 +27,17 @@ public final class ActivityServices
 	
 	static final IVsActivityWatcherService newWatcherService()
 	{
-		return newWatcherService(ActivityDefaults.watcherUrl);
+		return newWatcherService(ActivityDefaults.watcherUrl, ActivityDefaults.watcherName);
 	}
 
-	static final IVsActivityWatcherService newWatcherService(final URL url)
+	static final IVsActivityWatcherService newWatcherService(final URL url, final QName name)
 	{
-		QName name = ActivityDefaults.watcherName;
-		
 		VsActivityWatcherService service = new VsActivityWatcherService(url, name);
 
 		return service.getBasicHttpBindingIVsActivityWatcherService();
 	}
 	
-	static final IVsActivityWatcherService resolveWatcherService(final URL url)
+	static final IVsActivityWatcherService resolveWatcherService(final URL url, final QName name)
 	{
 		synchronized (lock)
 		{
@@ -49,13 +47,13 @@ public final class ActivityServices
 			{
 				try
 				{
-					service = newWatcherService(url);
+					service = newWatcherService(url, name);
 					
 					services.putInstance(IVsActivityWatcherService.class, service);
 				}
 				catch (Exception failure)
 				{
-					console().error("Unable to construct activity watcher service", failure);
+					console().error("Unable to construct activity watcher service at " + url + " with name " + name, failure);
 				}
 			}
 			
@@ -91,7 +89,10 @@ public final class ActivityServices
 				
 				try
 				{
-					service = resolveWatcherService(ActivityPreferences.getWatcherServiceUrl());
+					URL   url  = ActivityPreferences.getWatcherServiceUrl();
+					QName name = ActivityPreferences.getWatcherServiceName();
+					
+					service = resolveWatcherService(url, name);
 					
 					if (service != null)
 					{
