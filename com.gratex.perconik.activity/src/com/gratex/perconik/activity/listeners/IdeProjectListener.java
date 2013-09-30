@@ -11,13 +11,11 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PR
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
 import java.util.Set;
-import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
@@ -50,6 +48,7 @@ import com.gratex.perconik.services.activity.IdeProjectOperationTypeEnum;
  */
 public final class IdeProjectListener extends IdeListener implements ResourceListener, SelectionListener
 {
+	// TODO rename not implemented
 	// TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
 	// TODO close --> explorer/a --> generates close(a),open(a)
 	
@@ -102,29 +101,41 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		});
 	}
 	
-	private static final class ResourceDeltaVisitor implements IResourceDeltaVisitor
+	private static final class ResourceDeltaVisitor extends AbstractResourceDeltaVisitor
 	{
-		private final ResourceEventType type;
-		
 		ResourceDeltaVisitor(final ResourceEventType type)
 		{
-			this.type = type;
+			super(type);
 		}
-		
-		public final boolean visit(final IResourceDelta delta)
+
+		@Override
+		final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
 		{
-			ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
-			Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
+			assert delta != null && resource != null;
 			
-			return this.resolve(delta.getResource(), kind, flags);
-		}
-		
-		final boolean resolve(final IResource resource, @Nullable final ResourceDeltaKind kind, final Set<ResourceDeltaFlag> flags)
-		{
-			if (resource == null || ResourceType.valueOf(resource.getType()) != PROJECT)
+			if (ResourceType.valueOf(resource.getType()) != PROJECT)
 			{
 				return true;
 			}
+			
+			if (this.type == POST_CHANGE)
+			{
+				ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
+				Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
+				
+				if (kind == ADDED) process((IProject) resource, IdeProjectOperationTypeEnum.ADD);
+				if (flags.contains(OPEN)) process((IProject) resource, IdeProjectOperationTypeEnum.OPEN);
+				
+				return false;
+			}
+			
+			return this.resolveResource(resource);
+		}
+
+		@Override
+		final boolean resolveResource(final IResource resource)
+		{
+			assert ResourceType.valueOf(resource.getType()) == PROJECT;
 			
 			switch (this.type)
 			{
@@ -138,11 +149,6 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
 				case PRE_REFRESH:
 					process((IProject) resource, IdeProjectOperationTypeEnum.REFRESH);
-					break;
-
-				case POST_CHANGE:
-					if (kind == ADDED) process((IProject) resource, IdeProjectOperationTypeEnum.ADD);
-					if (flags.contains(OPEN)) process((IProject) resource, IdeProjectOperationTypeEnum.OPEN);
 					break;
 
 				default:
@@ -165,7 +171,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		}
 		else
 		{
-			new ResourceDeltaVisitor(type).resolve(event.getResource(), null, ImmutableSet.<ResourceDeltaFlag>of());
+			new ResourceDeltaVisitor(type).handle(event.getResource());
 		}
 	}
 
