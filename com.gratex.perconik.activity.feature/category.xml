@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <feature url="features/com.gratex.perconik.activity.feature_0.0.1.20131001-1208.jar" id="com.gratex.perconik.activity.feature" version="0.0.1.20131001-1208">
+      <category name="PerConIK Eclipse Integration"/>
+   </feature>
    <category-def name="PerConIK Eclipse Integration" label="PerConIK Gratex Activity Watcher"/>
 </site>
