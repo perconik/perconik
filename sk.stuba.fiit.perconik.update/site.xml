@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <description name="PerConIK Eclipse Integration" url="http://pavolzbell.github.io/perconik/update">
-      PerConIK Eclipse Integration
+      TODO
    </description>
    <feature url="features/sk.stuba.fiit.perconik.feature_0.0.1.20130930-1507.jar" id="sk.stuba.fiit.perconik.feature" version="0.0.1.20130930-1507">
-      <category name="PerConIK Eclipse Integration"/>
+      <category name="sk.stuba.fiit.perconik"/>
    </feature>
-   <category-def name="PerConIK Eclipse Integration" label="PerConIK Eclipse Integration"/>
+   <feature url="features/com.gratex.perconik.activity.feature_0.0.1.20131001-1208.jar" id="com.gratex.perconik.activity.feature" version="0.0.1.20131001-1208" os="">
+      <category name="sk.stuba.fiit.perconik"/>
+   </feature>
+   <category-def name="sk.stuba.fiit.perconik" label="PerConIK Eclipse Integration"/>
 </site>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="sk.stuba.fiit.perconik.feature"
-      label="PerConIK Plugin Feature"
+      label="PerConIK Core for Eclipse Platform"
       version="0.0.1.20130930-1507"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>
-      PerConIK Eclipse Integration
+      TODO
    </description>
 
    <copyright>
@@ -21,20 +21,6 @@ Slovak University of Technology in Bratislava.
    <url>
       <update label="PerConIK Eclipse Integration" url="http://pavolzbell.github.io/perconik/update"/>
    </url>
-
-   <plugin
-         id="com.gratex.perconik.activity"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.gratex.perconik.services"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="sk.stuba.fiit.perconik.core"
