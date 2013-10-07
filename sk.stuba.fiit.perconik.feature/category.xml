@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/sk.stuba.fiit.perconik.feature_0.0.1.20131001-1319.jar" id="sk.stuba.fiit.perconik.feature" version="0.0.1.20131001-1319">
+   <feature url="features/sk.stuba.fiit.perconik.feature_0.0.2.v20131006-1038.jar" id="sk.stuba.fiit.perconik.feature" version="0.0.2.v20131006-1038">
       <category name="sk.stuba.fiit.perconik.core"/>
    </feature>
    <category-def name="sk.stuba.fiit.perconik.core" label="PerConIK Core for Eclipse Platform"/>
