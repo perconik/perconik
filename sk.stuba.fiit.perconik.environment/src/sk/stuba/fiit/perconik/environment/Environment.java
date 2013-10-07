@@ -14,7 +14,7 @@ public final class Environment
 	/**
 	 * Presence marker for the {@code DEBUG} environment variable.
 	 */
-	public static final boolean debug = System.getenv("DEBUG") != null;
+	public static final boolean debug = getVariable("DEBUG") != null;
 
 	private Environment()
 	{
@@ -25,7 +25,7 @@ public final class Environment
 	 * Returns the current JVM process identifier.
 	 * @throws RuntimeException if accessing the process identifier fails.
 	 */
-	public static int pid()
+	public static final int pid()
 	{
 		String name = ManagementFactory.getRuntimeMXBean().getName();
 
@@ -36,6 +36,26 @@ public final class Environment
 		catch (RuntimeException e)
 		{
 			throw new RuntimeException("Unable to get PID from " + name, e);
+		}
+	}
+
+	/**
+	 * Returns the value of the specified environment variable.
+	 * An environment variable is a system-dependent external named value. 
+	 * @param name the name of the environment variable, not {@code null}
+	 * @return the string value of the variable or {@code null}
+	 *         if the variables is not defined in the system environment
+	 *         or if {@code SecurityException} is thrown
+	 */
+	public static final String getVariable(final String name)
+	{
+		try
+		{
+			return System.getenv(name);
+		}
+		catch (SecurityException e)
+		{
+			return null;
 		}
 	}
 }

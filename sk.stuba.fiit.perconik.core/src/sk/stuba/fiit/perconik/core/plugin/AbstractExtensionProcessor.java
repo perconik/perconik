@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.environment.Environment;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -62,6 +63,10 @@ abstract class AbstractExtensionProcessor<T>
 		{
 			try
 			{
+				String contributor = element.getContributor().getName();
+				
+				if (!Environment.debug && contributor.endsWith("debug")) continue;
+				
 				Object object = element.createExecutableExtension("class");
 				
 				this.collectExecutableExtensions(element.getContributor().getName(), object);

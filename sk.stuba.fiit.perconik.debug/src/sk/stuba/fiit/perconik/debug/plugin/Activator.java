@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
+import sk.stuba.fiit.perconik.environment.Environment;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -84,24 +85,24 @@ public final class Activator extends ExtendedPlugin
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
-		this.console.put("Starting %s ... ", PLUGIN_ID);
+		if (Environment.debug) this.console.put("Starting %s ... ", PLUGIN_ID);
 		
 		super.start(context);
 
 		plugin = this;
 		
-		this.console.print("done");
+		if (Environment.debug) this.console.print("done");
 	}
 
 	@Override
 	public final void stop(final BundleContext context) throws Exception
 	{
-		this.console.put("Stopping %s ... ", PLUGIN_ID);
+		if (Environment.debug) this.console.put("Stopping %s ... ", PLUGIN_ID);
 		
 		plugin = null;
 
 		super.stop(context);
 		
-		this.console.print("done");
+		if (Environment.debug) this.console.print("done");
 	}
 }
