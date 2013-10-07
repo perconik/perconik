@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Environment
 Bundle-SymbolicName: sk.stuba.fiit.perconik.environment;singleton:=true
-Bundle-Version: 0.0.1.v20130826-1700
+Bundle-Version: 0.0.2.v20131006-1038
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.environment,
  sk.stuba.fiit.perconik.environment.plugin
