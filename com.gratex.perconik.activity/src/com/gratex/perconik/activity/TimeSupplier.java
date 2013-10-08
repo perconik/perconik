@@ -1,6 +1,5 @@
 package com.gratex.perconik.activity;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.xml.datatype.XMLGregorianCalendar;
 import com.google.common.base.Supplier;
@@ -22,8 +21,6 @@ public final class TimeSupplier implements Supplier<XMLGregorianCalendar>
 	{
 		GregorianCalendar calendar = new GregorianCalendar();
 		
-		calendar.set(Calendar.YEAR, 1991); // TODO REMOVE AFTER TESTS
-		
-		return Internals.factory.newXMLGregorianCalendar(calendar);
+		return Internals.datatypeFactory().newXMLGregorianCalendar(calendar);
 	}
 }

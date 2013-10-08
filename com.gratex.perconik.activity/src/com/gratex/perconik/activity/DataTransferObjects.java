@@ -59,8 +59,8 @@ public final class DataTransferObjects
 	
 	public static final void setEventData(final EventDto data)
 	{
-		data.setIsMilestone(MilestoneResolver.getInstance().isMilestone(data));
-		data.setTime(TimeSupplier.getInstance().get());
+		data.setIsMilestone(Internals.milestoneResolver().apply(data));
+		data.setTime(Internals.timeSupplier().get());
 	}
 
 	public static final void setApplicationData(final IdeEventDto data)

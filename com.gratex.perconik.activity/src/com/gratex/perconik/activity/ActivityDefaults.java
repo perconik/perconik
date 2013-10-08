@@ -6,7 +6,6 @@ import javax.xml.namespace.QName;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.activity.plugin.Activator;
 import com.gratex.perconik.services.activity.IdeCheckinDto;
 import com.gratex.perconik.services.activity.IdeCodeOperationDto;
 import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
@@ -55,6 +54,6 @@ public final class ActivityDefaults
 
 	static final PluginConsole console()
 	{
-		return Activator.getDefault().getConsole();
+		return Internals.console;
 	}
 }
