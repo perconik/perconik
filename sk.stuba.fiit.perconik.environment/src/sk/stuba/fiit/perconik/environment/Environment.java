@@ -14,7 +14,7 @@ public final class Environment
 	/**
 	 * Presence marker for the {@code DEBUG} environment variable.
 	 */
-	public static final boolean debug = getVariable("DEBUG") != null;
+	public static final boolean debug = getVariableAsBoolean("DEBUG");
 
 	private Environment()
 	{
@@ -57,5 +57,12 @@ public final class Environment
 		{
 			return null;
 		}
+	}
+
+	public static final boolean getVariableAsBoolean(final String name)
+	{
+		String value = getVariable(name);
+		
+		return value != null && Boolean.parseBoolean(value);
 	}
 }
