@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.utilities;
 
 import java.util.Comparator;
+import com.google.common.base.Function;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -26,6 +27,26 @@ public final class MoreStrings
 		}
 	}
 	
+	private enum ToLowerCaseFunction implements Function<String, String>
+	{
+		INSTANCE;
+
+		public final String apply(String s)
+		{
+			return s.toLowerCase();
+		}
+	}
+
+	private enum ToUpperCaseFunction implements Function<String, String>
+	{
+		INSTANCE;
+
+		public final String apply(String s)
+		{
+			return s.toUpperCase();
+		}
+	}
+
 	public static final String toDefaultString(Object o)
 	{
 		return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
@@ -62,11 +83,21 @@ public final class MoreStrings
 		
 		return comparator;
 	}
+	
+	public static final Function<String, String> toLowerCaseFunction()
+	{
+		return ToLowerCaseFunction.INSTANCE;
+	}
 
+	public static final Function<String, String> toUpperCaseFunction()
+	{
+		return ToUpperCaseFunction.INSTANCE;
+	}
+	
 	public static final String toStringFallback(Object o)
 	{
 		String result = toImplementedString(o);
-		
+
 		if (result != null)
 		{
 			return result;
