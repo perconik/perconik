@@ -23,6 +23,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Export-Package: sk.stuba.fiit.perconik.core,
  sk.stuba.fiit.perconik.core.adapters,
+ sk.stuba.fiit.perconik.core.annotations,
  sk.stuba.fiit.perconik.core.listeners,
  sk.stuba.fiit.perconik.core.plugin,
  sk.stuba.fiit.perconik.core.resources,
