@@ -13,7 +13,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.SetMultimap;
 
 /**
- * Static accessor methods pertaining to the resource core. 
+ * Static accessor methods pertaining to the resources core. 
  * 
  * <p>This class provides access to the underlying functionality
  * of the currently active {@code ResourceService}.

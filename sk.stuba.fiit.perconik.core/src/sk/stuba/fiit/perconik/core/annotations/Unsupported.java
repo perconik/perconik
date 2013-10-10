@@ -5,9 +5,10 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import sk.stuba.fiit.perconik.core.Registrable;
 
 /**
- * Indicates that a resource or listener functionality is not yet fully
+ * Indicates that a {@link Registrable} functionality is not yet fully
  * supported and such implementations should be treated accordingly by
  * the core services.
  * 

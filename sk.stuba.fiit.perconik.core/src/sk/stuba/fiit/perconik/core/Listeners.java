@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import com.google.common.collect.SetMultimap;
 
 /**
- * Static accessor methods pertaining to the listener core. 
+ * Static accessor methods pertaining to the listeners core. 
  * 
  * <p>This class provides access to the underlying functionality
  * of the currently active {@code ListenerService}.
