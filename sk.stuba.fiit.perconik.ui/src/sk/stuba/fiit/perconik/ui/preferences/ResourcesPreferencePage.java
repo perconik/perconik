@@ -47,11 +47,11 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 	{
 		Tables.createColumn(table, layout, "Resource name", gc, 4);
 		Tables.createColumn(table, layout, "Listener type", gc, 4);
-		Tables.createColumn(table, layout, "Serializable",  gc, 1);
+		Tables.createColumn(table, layout, "Notes",         gc, 1);
 	}
 
 	
-	private static final class ResourceLabelProvider extends AbstractLabelProvider
+	private static final class ResourceLabelProvider extends AbstractLabelProvider<ResourcePersistenceData>
 	{
 		ResourceLabelProvider()
 		{
@@ -68,7 +68,7 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 				case 1:
 					return data.getListenerType().getName();
 				case 2:
-					return data.hasSerializedResource() ? "yes" : "no";
+					return this.getAnnotations(data);
 				default:
 					throw new IllegalStateException();
 			}

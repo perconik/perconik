@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.ui.preferences;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -29,17 +30,20 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
+import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
-abstract class AbstractRegistrationPreferencePage<P, R extends MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage
+abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage
 {
 	private P preferences;
 	
@@ -226,7 +230,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends MarkableRegistrat
 		return composite;
 	}
 	
-	protected abstract AbstractLabelProvider createContentProvider();
+	protected abstract AbstractLabelProvider<R> createContentProvider();
 	
 	protected abstract AbstractViewerComparator createViewerComparator();
 	
@@ -348,12 +352,24 @@ abstract class AbstractRegistrationPreferencePage<P, R extends MarkableRegistrat
 		}
 	}
 
-	static abstract class AbstractLabelProvider extends LabelProvider implements ITableLabelProvider
+	static abstract class AbstractLabelProvider<R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends LabelProvider implements ITableLabelProvider
 	{
 		AbstractLabelProvider()
 		{
 		}
-	
+
+		public final String getAnnotations(final R registration)
+		{
+			Set<String> flags = Sets.newTreeSet();
+			
+			for (Annotation annotation: registration.getAnnotations())
+			{
+				flags.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, annotation.annotationType().getSimpleName()));
+			}
+			
+			return Joiner.on(", ").join(flags);
+		}
+
 		public Image getColumnImage(Object element, int column)
 		{
 			return null;
