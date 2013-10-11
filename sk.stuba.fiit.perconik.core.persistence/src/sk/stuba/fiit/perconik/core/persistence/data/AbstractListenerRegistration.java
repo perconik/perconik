@@ -2,10 +2,9 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listeners;
+import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import sk.stuba.fiit.perconik.core.services.Services;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotables;
 
 /**
  * An abstract implementation of the {@link ListenerRegistration} interface.
@@ -24,13 +23,10 @@ public abstract class AbstractListenerRegistration extends AbstractAnnotableRegi
 	{
 	}
 
-	/**
-	 * Returns the backing annotable delegate instance.
-	 */
 	@Override
-	protected final Annotable delegate()
+	final Registrable source()
 	{
-		return Annotables.fromAnnotations(Utilities.collect(this.getListener()));
+		return this.getListener();
 	}
 
 	/**

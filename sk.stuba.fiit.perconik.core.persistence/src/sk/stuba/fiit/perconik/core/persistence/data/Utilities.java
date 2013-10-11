@@ -1,13 +1,9 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.util.Collection;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.core.annotations.Persistent;
 import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
@@ -21,7 +17,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 final class Utilities
 {
@@ -86,37 +81,6 @@ final class Utilities
 	static final <T> Class<? extends T> resolveAsSubclass(final String name, final Class<T> subclass) throws ClassNotFoundException
 	{
 		return resolve(name).asSubclass(subclass);
-	}
-	
-	@Persistent
-	private static enum PersistentObject
-	{
-	}
-	
-	private static final Persistent persistent = PersistentObject.class.getAnnotation(Persistent.class);
-	
-	static final Collection<Annotation> collect(final Registrable registrable)
-	{
-		Collection<Annotation> annotations = Lists.newArrayList();
-		
-		boolean persistent = false;
-		
-		for (Annotation annotation: registrable.getClass().getAnnotations())
-		{
-			if (annotation.annotationType() == Persistent.class)
-			{
-				persistent = true;
-			}
-			
-			annotations.add(annotation);
-		}
-		
-		if (registrable instanceof Serializable && !persistent)
-		{
-			annotations.add(Utilities.persistent);
-		}
-		
-		return annotations;
 	}
 	
 	static final <T> T serializableOrNull(@Nullable final T object)

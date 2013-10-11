@@ -1,11 +1,10 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
 import sk.stuba.fiit.perconik.core.services.Services;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotables;
 
 /**
  * An abstract implementation of the {@link ResourceRegistration} interface.
@@ -24,13 +23,10 @@ public abstract class AbstractResourceRegistration extends AbstractAnnotableRegi
 	{
 	}
 
-	/**
-	 * Returns the backing annotable delegate instance.
-	 */
 	@Override
-	protected final Annotable delegate()
+	final Registrable source()
 	{
-		return Annotables.fromAnnotations(Utilities.collect(this.getResource()));
+		return this.getResource();
 	}
 
 	/**
