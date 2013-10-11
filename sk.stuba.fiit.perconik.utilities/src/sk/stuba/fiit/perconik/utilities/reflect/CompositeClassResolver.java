@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.utilities.reflection;
+package sk.stuba.fiit.perconik.utilities.reflect;
 
 import java.util.List;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;

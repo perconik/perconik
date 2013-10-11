@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.utilities.reflection;
+package sk.stuba.fiit.perconik.utilities.reflect;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;

@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.utilities.reflection;
+package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

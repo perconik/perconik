@@ -1,15 +1,21 @@
-package sk.stuba.fiit.perconik.utilities.reflection;
+package sk.stuba.fiit.perconik.utilities.reflect;
 
 import javax.annotation.Nullable;
 
-public class AccessorInvocationException extends ReflectionException
+/**
+ * Unchecked variant of {@link java.lang.ReflectiveOperationException}.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public class ReflectionException extends RuntimeException
 {
 	private static final long serialVersionUID = 0;
 
 	/**
 	 * Creates a new instance with no detail message.
 	 */
-	public AccessorInvocationException()
+	public ReflectionException()
 	{
 		super();
 	}
@@ -17,7 +23,7 @@ public class AccessorInvocationException extends ReflectionException
 	/**
 	 * Creates a new instance with the given detail message.
 	 */
-	public AccessorInvocationException(@Nullable String message)
+	public ReflectionException(@Nullable String message)
 	{
 		super(message);
 	}
@@ -25,7 +31,7 @@ public class AccessorInvocationException extends ReflectionException
 	/**
 	 * Creates a new instance with the given detail message and cause.
 	 */
-	public AccessorInvocationException(@Nullable String message, @Nullable Throwable cause)
+	public ReflectionException(@Nullable String message, @Nullable Throwable cause)
 	{
 		super(message, cause);
 	}
@@ -33,7 +39,7 @@ public class AccessorInvocationException extends ReflectionException
 	/**
 	 * Creates a new instance with the given cause.
 	 */
-	public AccessorInvocationException(@Nullable Throwable cause)
+	public ReflectionException(@Nullable Throwable cause)
 	{
 		super(cause);
 	}

@@ -1,7 +1,7 @@
-package sk.stuba.fiit.perconik.utilities.reflection;
+package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
-import static sk.stuba.fiit.perconik.utilities.reflection.Utilities.checkArgument;
-import static sk.stuba.fiit.perconik.utilities.reflection.Utilities.createArgument;
+import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.checkArgument;
+import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.createArgument;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
