@@ -2,9 +2,11 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import com.google.common.collect.Lists;
 
-final class StandardResource<L extends Listener> extends AbstractResource<L>
+class StandardResource<L extends Listener> extends AbstractResource<L>
 {
 	final Pool<L> pool;
 	
@@ -13,6 +15,11 @@ final class StandardResource<L extends Listener> extends AbstractResource<L>
 		super(pool.toString().replace("Pool", "Resource"));
 		
 		this.pool = pool;
+	}
+	
+	static final <L extends Listener> Resource<L> newInstance(final Pool<L> pool, final boolean unsupported)
+	{
+		return unsupported ? new UnsupportedStandardResource<>(pool) : new StandardResource<>(pool);
 	}
 	
 	public final void register(final L listener)
@@ -65,3 +72,13 @@ final class StandardResource<L extends Listener> extends AbstractResource<L>
 		return this.pool.contains(listener);
 	}
 }
+
+@Unsupported
+class UnsupportedStandardResource<L extends Listener> extends StandardResource<L>
+{
+	UnsupportedStandardResource(Pool<L> pool)
+	{
+		super(pool);
+	}
+}
+

@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.resources;
 import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
 import sk.stuba.fiit.perconik.core.listeners.CommandContextManagerListener;
 
+@Unimplemented
 enum CommandContextManagerHandler implements Handler<CommandContextManagerListener>
 {
 	INSTANCE;
