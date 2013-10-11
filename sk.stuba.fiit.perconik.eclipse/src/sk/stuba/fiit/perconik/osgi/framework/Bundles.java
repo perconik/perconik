@@ -6,7 +6,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
-import sk.stuba.fiit.perconik.utilities.reflection.ClassResolver;
+import sk.stuba.fiit.perconik.utilities.reflect.ClassResolver;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

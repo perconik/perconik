@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.utilities.reflection.StaticLookup;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.StaticLookup;
 import com.google.common.base.Supplier;
 
 final class StaticListenerLookup<L extends Listener> implements Supplier<L>

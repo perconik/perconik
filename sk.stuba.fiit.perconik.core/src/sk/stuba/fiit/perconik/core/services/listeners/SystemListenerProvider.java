@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.utilities.reflection.StaticAccessor;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.StaticAccessor;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 

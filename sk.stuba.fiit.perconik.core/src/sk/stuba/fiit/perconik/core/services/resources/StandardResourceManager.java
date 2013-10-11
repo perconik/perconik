@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.utilities.reflection.MoreReflection;
+import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -62,7 +62,7 @@ final class StandardResourceManager extends AbstractResourceManager
 			
 			if (!matched)
 			{
-				for (Class<?> supertype: MoreReflection.getInterfaces(type))
+				for (Class<?> supertype: Reflections.getInterfaces(type))
 				{
 					if (supertype == entry.getKey())
 					{
