@@ -73,7 +73,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		
 		for (Class<? extends Listener> implementation: provider.classes())
 		{
-			data.add(construct(true, implementation, null));
+			data.add(construct(Utilities.registeredByDefault(implementation), implementation, null));
 		}
 		
 		return data;
@@ -124,7 +124,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 		{
 			try
 			{
-				return construct(this.registered, Utilities.resolveAsSubclass(this.implementation, Listener.class), this.listener.orNull());
+				return construct(this.registered, Utilities.resolveClassAsSubclass(this.implementation, Listener.class), this.listener.orNull());
 			}
 			catch (Exception e)
 			{

@@ -82,7 +82,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 		{
 			for (Resource<?> resource: provider.forType(type))
 			{
-				data.add(construct(true, type, resource.getName(), resource));
+				data.add(construct(Utilities.registeredByDefault(resource.getClass()), type, resource.getName(), resource));
 			}
 		}
 		
@@ -136,7 +136,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 		{
 			try
 			{
-				return construct(this.registered, Utilities.resolveAsSubclass(this.type, Listener.class), this.name, this.resource.orNull());
+				return construct(this.registered, Utilities.resolveClassAsSubclass(this.type, Listener.class), this.name, this.resource.orNull());
 			}
 			catch (Exception e)
 			{

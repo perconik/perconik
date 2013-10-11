@@ -3,7 +3,11 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 import java.io.Serializable;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Registrable;
+import sk.stuba.fiit.perconik.core.Registrables;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.annotations.Experimental;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
@@ -13,6 +17,7 @@ import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedResourceD
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.utilities.reflect.ClassResolver;
+import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Optional;
@@ -73,14 +78,21 @@ final class Utilities
 		return resource;
 	}
 	
-	static final Class<?> resolve(final String name) throws ClassNotFoundException
+	static final boolean registeredByDefault(final Class<? extends Registrable> type)
+	{
+		Annotable annotable = Registrables.toAnnotable(type);
+		
+		return !annotable.hasAnnotation(Experimental.class) && !annotable.hasAnnotation(Unsupported.class);
+	}
+	
+	static final Class<?> resolveClass(final String name) throws ClassNotFoundException
 	{
 		return resolver.forName(name);
 	}
 	
-	static final <T> Class<? extends T> resolveAsSubclass(final String name, final Class<T> subclass) throws ClassNotFoundException
+	static final <T> Class<? extends T> resolveClassAsSubclass(final String name, final Class<T> subclass) throws ClassNotFoundException
 	{
-		return resolve(name).asSubclass(subclass);
+		return resolveClass(name).asSubclass(subclass);
 	}
 	
 	static final <T> T serializableOrNull(@Nullable final T object)
