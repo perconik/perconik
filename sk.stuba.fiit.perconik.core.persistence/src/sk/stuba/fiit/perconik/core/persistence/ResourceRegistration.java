@@ -11,7 +11,7 @@ import sk.stuba.fiit.perconik.core.Resource;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface ResourceRegistration extends Registration
+public interface ResourceRegistration extends AnnotableRegistration
 {
 	/**
 	 * Returns the listener type to which
