@@ -2,9 +2,8 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.util.Collection;
+import java.util.Set;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 
 final class DelegatedAnnotable implements Annotable
 {
@@ -25,8 +24,8 @@ final class DelegatedAnnotable implements Annotable
 		return this.getAnnotation(type);
 	}
 
-	public final Collection<Annotation> getAnnotations()
+	public final Set<Annotation> getAnnotations()
 	{
-		return ImmutableList.copyOf(this.element.getAnnotations());
+		return Annotations.ofElement(this.element);
 	}
 }

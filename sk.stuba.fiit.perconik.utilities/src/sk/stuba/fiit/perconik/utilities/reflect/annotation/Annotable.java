@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 
 import java.lang.annotation.Annotation;
-import java.util.Collection;
+import java.util.Set;
 
 public interface Annotable
 {
@@ -9,5 +9,5 @@ public interface Annotable
 	
 	public <A extends Annotation> A getAnnotation(Class<A> type);
 
-	public Collection<Annotation> getAnnotations();
+	public Set<Annotation> getAnnotations();
 }

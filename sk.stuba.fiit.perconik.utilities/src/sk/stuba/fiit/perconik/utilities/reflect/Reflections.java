@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.utilities.reflect;
 
 import java.lang.annotation.Annotation;
-import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -68,9 +70,9 @@ public final class Reflections
 		return cast(ToEnumTypeFunction.INSTANCE);
 	}
 	
-	public static final <T> List<Class<? super T>> getSuperclasses(Class<T> type)
+	public static final <T> LinkedList<Class<? super T>> getSuperclasses(Class<T> type)
 	{
-		List<Class<? super T>> superclasses = Lists.newLinkedList();
+		LinkedList<Class<? super T>> superclasses = Lists.newLinkedList();
 		
 		Class<? super T> supertype = type;
 		
@@ -82,10 +84,13 @@ public final class Reflections
 		return superclasses;
 	}
 	
-	public static final Set<Class<?>> getInterfaces(Class<?> type)
+	public static final LinkedHashSet<Class<?>> getInterfaces(Class<?> type)
 	{
-		Set<Class<?>> resolved   = Sets.newHashSet();
-		Set<Class<?>> interfaces = Sets.newHashSet(type.getInterfaces());
+		Set<Class<?>> resolved = Sets.newHashSet();
+		
+		LinkedHashSet<Class<?>> interfaces = Sets.newLinkedHashSet();
+		
+		interfaces.addAll(Arrays.asList(type.getInterfaces()));
 
 		resolved.add(type);
 		
