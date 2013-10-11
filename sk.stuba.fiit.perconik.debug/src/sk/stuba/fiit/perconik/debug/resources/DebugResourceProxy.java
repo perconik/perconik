@@ -8,9 +8,11 @@ import sk.stuba.fiit.perconik.debug.DebugListeners;
 import sk.stuba.fiit.perconik.debug.DebugRegistrableProxy;
 import sk.stuba.fiit.perconik.debug.DebugResource;
 import sk.stuba.fiit.perconik.debug.DebugResources;
+import sk.stuba.fiit.perconik.debug.annotations.DebugProxy;
 import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
 
+@DebugProxy
 public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy implements DebugResource<L>
 {
 	private final Resource<L> resource;
