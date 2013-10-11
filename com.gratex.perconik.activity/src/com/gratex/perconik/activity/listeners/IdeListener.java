@@ -1,10 +1,10 @@
 package com.gratex.perconik.activity.listeners;
 
-import com.gratex.perconik.activity.plugin.Activator;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import com.gratex.perconik.activity.plugin.Activator;
 
-abstract class IdeListener extends Adapter
+public abstract class IdeListener extends Adapter
 {
 	final PluginConsole console;
 	
