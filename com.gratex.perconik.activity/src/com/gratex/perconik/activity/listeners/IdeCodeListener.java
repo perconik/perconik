@@ -85,11 +85,19 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 
 	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
 	{
-		IEditorPart editor = (IEditorPart) part;
+		if (!(part instanceof IEditorPart))
+		{
+			return;
+		}
 		
-		IFile file = Editors.getFile(editor);
+		IEditorPart editor   = (IEditorPart) part;
+		IDocument   document = Editors.getDocument(editor);
+		IFile       file     = Editors.getFile(editor);
 		
-		IDocument document = Editors.getDocument(editor);
+		if (document == null || file == null)
+		{
+			return;
+		}
 		
 		Selection data = new Selection();
 		
