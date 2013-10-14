@@ -9,11 +9,14 @@ public final class Application
 	
 	private final int pid;
 	
+	private final boolean debug;
+	
 	private final IProduct product;
 	
 	private Application()
 	{
 		this.pid     = Internals.pid();
+		this.debug   = Internals.debug;
 		this.product = Products.getProduct();
 	}
 	
@@ -22,6 +25,11 @@ public final class Application
 		return instance;
 	}
 	
+	public final boolean isDebug()
+	{
+		return this.debug;
+	}
+
 	public final int getPid()
 	{
 		return this.pid;

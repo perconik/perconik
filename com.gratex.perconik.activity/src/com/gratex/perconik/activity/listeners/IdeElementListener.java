@@ -28,6 +28,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ActivityServices;
+import com.gratex.perconik.activity.Application;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeCodeElementEventDto;
@@ -71,10 +72,11 @@ public final class IdeElementListener extends IdeListener implements JavaElement
 		data.setElementFullName(AstTransformers.namePathExtractor().transform(node).toString());
 		
 		// TODO
-		
+		if (Application.getInstance().isDebug()){
 		System.out.println("-- ELEMENT --");
 		System.out.println(data.getElementType());
 		System.out.println(data.getElementFullName());
+		}
 		
 		setProjectData(data, element.getJavaProject().getProject());
 		setApplicationData(data);

@@ -2,19 +2,20 @@ package com.gratex.perconik.activity.listeners;
 
 import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
-import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.DataTransferObjects;
+import com.gratex.perconik.activity.Application;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeCodeOperationDto;
 import com.gratex.perconik.services.activity.IdeCodeOperationTypeEnum;
@@ -52,11 +53,10 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 		}
 	}
 	
-	static final void process(final IFile file, final Selection selection)
+	static final void process(final UnderlyingDocument<?> document, final Selection selection)
 	{
 		final IdeCodeOperationDto data = new IdeCodeOperationDto();
 
-		data.setDocument(DataTransferObjects.newDocumentData(file));
 		data.setCode(selection.text);
 		
 		data.setStartColumnIndex(selection.start.offset);
@@ -67,10 +67,17 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 		
 		data.setOperationType(IdeCodeOperationTypeEnum.SELECTION_CHANGED);
 		data.setWebUrl(null);
-		
+
+		// TODO rm
+		if (Application.getInstance().isDebug()){
+		Object x = document.resource;
+		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)));
 		System.out.println("TEXT: "+selection.text+" FROM "+selection.start.line+":"+selection.start.offset+" TO "+selection.end.line+":"+selection.end.offset);
+		}
 		
-		setProjectData(data, file.getProject());
+		document.setDocumentData(data);
+		document.setProjectData(data);
+		
 		setApplicationData(data);
 		setEventData(data);
 		
@@ -92,9 +99,10 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 		
 		IEditorPart editor   = (IEditorPart) part;
 		IDocument   document = Editors.getDocument(editor);
-		IFile       file     = Editors.getFile(editor);
 		
-		if (document == null || file == null)
+		UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
+		
+		if (document == null || resource == null)
 		{
 			return;
 		}
@@ -115,7 +123,7 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 			
 			String delimeter = document.getLineDelimiter(data.end.line);
 			
-			if (data.text.endsWith(delimeter))
+			if (delimeter != null && data.text.endsWith(delimeter))
 			{
 				data.end.line ++;
 				data.end.offset = 0;
@@ -126,6 +134,6 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 			throw Throwables.propagate(e);
 		}
 		
-		process(file, data);
+		process(resource, data);
 	}
 }

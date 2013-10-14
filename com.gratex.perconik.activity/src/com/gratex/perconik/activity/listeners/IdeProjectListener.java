@@ -30,6 +30,7 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ActivityServices;
+import com.gratex.perconik.activity.Application;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeProjectOperationDto;
@@ -90,7 +91,8 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		setEventData(data);
 		
 		// TODO rm
-		System.out.println("PROJECT: " + project.getFullPath() + " operation: " + type);
+		if (Application.getInstance().isDebug()){
+		System.out.println("PROJECT: " + project.getFullPath() + " operation: " + type);}
 		
 		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
 		{
@@ -179,18 +181,23 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	{
 		IProject project = part instanceof IEditorPart ? Projects.fromEditor((IEditorPart) part) : null;
 		
-		if (project != null) System.out.println("PROJECT -> editor"); // TODO rm
+		if (Application.getInstance().isDebug()){
+		if (project != null) System.out.println("PROJECT -> editor");} // TODO rm
 		
 		if (project == null && selection instanceof IStructuredSelection)
 		{
 			project = Projects.fromSelection((IStructuredSelection) selection);
-			if (project != null) System.out.println("PROJECT -> structured selection"); // TODO rm
+			
+			if (Application.getInstance().isDebug()){
+			if (project != null) System.out.println("PROJECT -> structured selection");} // TODO rm
 		}
 		
 		if (project == null)
 		{
 			project = Projects.fromPage(part.getSite().getPage());
-			if (project != null) System.out.println("PROJECT -> part -> page"); // TODO rm
+			
+			if (Application.getInstance().isDebug()){
+			if (project != null) System.out.println("PROJECT -> part -> page");} // TODO rm
 		}
 		
 		if (this.updateProject(project))

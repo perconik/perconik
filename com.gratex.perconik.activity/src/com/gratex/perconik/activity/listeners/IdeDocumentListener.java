@@ -2,7 +2,6 @@ package com.gratex.perconik.activity.listeners;
 
 import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
-import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -20,12 +19,14 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
@@ -37,11 +38,10 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ActivityServices;
+import com.gratex.perconik.activity.Application;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.DataTransferObjects;
 import com.gratex.perconik.services.activity.IVsActivityWatcherService;
 import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
 import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
@@ -66,7 +66,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	private final Object lock = new Object();
 	
 	@GuardedBy("lock")
-	private IFile file;
+	private UnderlyingDocument<?> document;
 	
 	public IdeDocumentListener()
 	{
@@ -77,15 +77,15 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		return reference.getEditor(false);
 	}
 
-	private final boolean updateFile(final IFile file)
+	private final boolean updateFile(final UnderlyingDocument<?> document)
 	{
-		if (file != null)
+		if (document != null)
 		{
 			synchronized (this.lock)
 			{
-				if (!file.equals(this.file))
+				if (!document.equals(this.document))
 				{
-					this.file = file;
+					this.document = document;
 					
 					return true;
 				}
@@ -97,17 +97,26 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	static final void process(final IFile file, final IdeDocumentOperationTypeEnum type)
 	{
+		process(UnderlyingDocument.valueOf(file), type);
+	}
+	
+	static final void process(final UnderlyingDocument<?> document, final IdeDocumentOperationTypeEnum type)
+	{
 		final IdeDocumentOperationDto data = new IdeDocumentOperationDto();
 
-		data.setDocument(DataTransferObjects.newDocumentData(file));
 		data.setOperationType(type);
 		
-		setProjectData(data, file.getProject());
+		document.setDocumentData(data);
+		document.setProjectData(data);
+
 		setApplicationData(data);
 		setEventData(data);
 		
 		// TODO rm
-		System.out.println("DOCUMENT: " + file.getFullPath() + " operation: " + type);
+		if (Application.getInstance().isDebug()){
+		Object x = document.resource;
+		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)) + " operation: " + type);
+		}
 		
 		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
 		{
@@ -200,7 +209,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
-		IFile file = null;
+		UnderlyingDocument<?> document = null;
 
 		if (selection instanceof StructuredSelection)
 		{
@@ -208,48 +217,51 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 			if (element instanceof IFile)
 			{
-				file = (IFile) element;
+				document = UnderlyingDocument.valueOf((IFile) element);
 			}
-			
-			if (element instanceof IJavaElement)
+			else if (element instanceof IClassFile)
+			{
+				document = UnderlyingDocument.valueOf((IClassFile) element);
+			}
+			else if (element instanceof IJavaElement)
 			{
 				IResource resource = JavaElements.resource((IJavaElement) element);
 
 				if (resource instanceof IFile)
 				{
-					file = (IFile) resource;
+					document = UnderlyingDocument.valueOf((IFile) resource);
 				}
 			}
 		}
 		
-		if (file == null && part instanceof IEditorPart)
+		if (document == null && part instanceof IEditorPart)
 		{
-			file = Editors.getFile((IEditorPart) part);
+			document = UnderlyingDocument.of((IEditorPart) part);
 		}
 		
-		if (this.updateFile(file))
+		if (this.updateFile(document))
 		{
-			process(file, IdeDocumentOperationTypeEnum.SWITCH_TO);
+			process(document, IdeDocumentOperationTypeEnum.SWITCH_TO);
 		}
 	}
 
 	public final void editorOpened(final IEditorReference reference)
 	{
-		IFile file = Editors.getFile(dereferenceEditor(reference));
+		UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
 		
-		if (file != null)
+		if (resource != null)
 		{
-			process(file, IdeDocumentOperationTypeEnum.OPEN);
+			process(resource, IdeDocumentOperationTypeEnum.OPEN);
 		}
 	}
 
 	public final void editorClosed(final IEditorReference reference)
 	{
-		IFile file = Editors.getFile(dereferenceEditor(reference));
+		UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
 		
-		if (file != null)
+		if (resource != null)
 		{
-			process(file, IdeDocumentOperationTypeEnum.CLOSE);
+			process(resource, IdeDocumentOperationTypeEnum.CLOSE);
 		}
 	}
 
@@ -313,9 +325,6 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty)
 	{
-		// TODO rm
-		//System.out.println("DIRTY "+buffer.isDirty() + " -- "+dirty);
-		
 		if (!dirty)
 		{
 			IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
