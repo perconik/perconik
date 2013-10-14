@@ -150,7 +150,7 @@ public enum JavaElementType implements IntegralConstant, TypeConstant<IJavaEleme
 
 	public static final JavaElementType valueOf(final IJavaElement element)
 	{
-		return valueOf(element.getClass());
+		return valueOf(element.getElementType());
 	}
 	
 	public final int getValue()
