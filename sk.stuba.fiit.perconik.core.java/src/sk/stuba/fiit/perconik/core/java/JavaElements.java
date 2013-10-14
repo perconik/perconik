@@ -39,7 +39,7 @@ public final class JavaElements
 		{
 			do
 			{
-				branch.addFirst(element);
+				branch.add(element);
 			}
 			while ((element = element.getParent()) != null);
 		}

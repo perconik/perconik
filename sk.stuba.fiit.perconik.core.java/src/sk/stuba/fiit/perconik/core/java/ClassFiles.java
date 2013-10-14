@@ -23,8 +23,11 @@ public final class ClassFiles
 			switch (JavaElementType.valueOf(element))
 			{
 				case CLASS_FILE:
+					segments.add(element.getElementName());
+					break;
+					
 				case PACKAGE_FRAGMENT:
-					segments.addFirst(element.getElementName());
+					segments.addFirst(element.getElementName().replace('.', '/'));
 					break;
 					
 				case PACKAGE_FRAGMENT_ROOT:

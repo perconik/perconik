@@ -155,7 +155,7 @@ public final class AstNodes
 		{
 			do
 			{
-				branch.addFirst(node);
+				branch.add(node);
 			}
 			while ((node = node.getParent()) != null);
 		}
