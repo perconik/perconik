@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/com.gratex.perconik.activity.feature_0.0.2.v20130911-1834.jar" id="com.gratex.perconik.activity.feature" version="0.0.2.v20130911-1834">
-      <category name="com.gratex.perconik.activity"/>
-   </feature>
-   <category-def name="com.gratex.perconik.activity" label="PerConIK Gratex Activity Watcher"/>
-</site>
