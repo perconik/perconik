@@ -9,11 +9,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.105.0",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Bundle-ClassPath: .,
- lib/webservices-api.jar,
- lib/webservices-extra-api.jar,
- lib/webservices-extra.jar,
- lib/webservices-rt.jar
+Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.gratex.perconik.services.plugin.Activator
 Export-Package: com.gratex.perconik.services.activity,
