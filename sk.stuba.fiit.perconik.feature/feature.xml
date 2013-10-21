@@ -2,7 +2,7 @@
 <feature
       id="sk.stuba.fiit.perconik.feature"
       label="PerConIK Core for Eclipse Platform"
-      version="0.0.5.v20131015-1754"
+      version="0.0.6.v20131021-1942"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>
