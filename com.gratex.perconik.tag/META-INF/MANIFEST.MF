@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ConMark
+Bundle-Name: PerConIK Gratex Tag
 Bundle-SymbolicName: com.gratex.perconik.tag;singleton:=true
 Bundle-Version: 0.0.1.v20131021-1206
-Bundle-Activator: conmark.Activator
+Bundle-Activator: com.gratex.perconik.tag.plugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -21,13 +21,14 @@ Import-Package: org.eclipse.jdt.core,
  org.eclipse.jface.text.source,
  org.eclipse.ui.texteditor
 Bundle-ClassPath: .
-Export-Package: conmark,
- conmark.antlr,
- conmark.assistant,
- conmark.builder,
- conmark.command,
- conmark.dialog,
- conmark.popup.actions,
- conmark.prefs,
- conmark.utils,
- conmark.ws
+Export-Package: com.gratex.perconik.tag.antlr,
+ com.gratex.perconik.tag.assistant,
+ com.gratex.perconik.tag.builder,
+ com.gratex.perconik.tag.command,
+ com.gratex.perconik.tag.dialog,
+ com.gratex.perconik.tag.plugin,
+ com.gratex.perconik.tag.popup.actions,
+ com.gratex.perconik.tag.prefs,
+ com.gratex.perconik.tag.utils,
+ com.gratex.perconik.tag.ws
+Bundle-Vendor: Gratex International

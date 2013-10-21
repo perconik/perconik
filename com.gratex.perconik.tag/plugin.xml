@@ -5,12 +5,12 @@
 <!-- prefs -->
 	<extension point="org.eclipse.ui.preferencePages">
 		<page  id="conmark.prefs.PrefPage"
-			class="conmark.prefs.PrefPage"
+			class="com.gratex.perconik.tag.prefs.PrefPage"
             name="Content Marking" />
 	</extension>
 	
 	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="conmark.prefs.PrefInit"/>
+		<initializer class="com.gratex.perconik.tag.prefs.PrefInit"/>
     </extension>
 
    <extension
@@ -18,7 +18,7 @@
          name="Contemt Mark Builder"
          point="org.eclipse.core.resources.builders">
       <builder hasNature="true">
-         <run class="conmark.builder.ConMkBuilder" />         
+         <run class="com.gratex.perconik.tag.builder.ConMkBuilder" />         
       </builder>
    </extension>
    
@@ -27,7 +27,7 @@
          name="Contemt Mark Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
-         <run class="conmark.builder.ConMkNature" />
+         <run class="com.gratex.perconik.tag.builder.ConMkNature" />
       </runtime>
       <builder id="ConMark.conMkBuilder" />      
    </extension>
@@ -35,7 +35,7 @@
    <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
          id="ConMarkCompletionProposalComputer" name="ConMark Completion Proposal Computer">
       <javaCompletionProposalComputer categoryId="org.eclipse.ui.texteditor.textual_proposals"
-      		activate="true" class="conmark.assistant.ConAssist" >
+      		activate="true" class="com.gratex.perconik.tag.assistant.ConAssist" >
          <partition type="__java_singleline_comment"/>
       </javaCompletionProposalComputer>
    </extension>
@@ -50,7 +50,7 @@
             id="ConMark.contribution">
          <action
                label="Add/Remove Content Marking"
-               class="conmark.builder.ToggleNatureAction"
+               class="com.gratex.perconik.tag.builder.ToggleNatureAction"
                menubarPath="additions"
                enablesFor="+"
                id="ConMark.addRemoveNatureAction">
@@ -62,7 +62,7 @@
       		targetID="#CompilationUnitEditorContext">
       		
 			<action
-				class="conmark.popup.actions.MarkAction"
+				class="com.gratex.perconik.tag.popup.actions.MarkAction"
                 id="conmark.popup.view.actions.MarkAction"
                 label="Content Marking Mark"          
                 menubarPath="contentmarking.popup.view.menu" />
