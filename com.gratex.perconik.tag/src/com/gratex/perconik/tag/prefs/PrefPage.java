@@ -1,9 +1,11 @@
 package com.gratex.perconik.tag.prefs;
 
 import java.net.URL;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -24,14 +26,29 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 	}
 
 	StringFieldEditor f;
+	StringFieldEditor u;
 	StringFieldEditor t;
+	
+	private static final <E extends StringFieldEditor> E prepare(final E editor)
+	{
+		editor.setEmptyStringAllowed(false);
+		editor.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
+		
+		return editor;
+	}
 	
 	@Override
 	protected void createFieldEditors() {
+		Composite parent = this.getFieldEditorParent();
 		
-		addField(f = new StringFieldEditor("conmark.prefs.profile", "Profile:", getFieldEditorParent()));
-		addField(new StringFieldEditor("conmark.prefs.user", "User:", getFieldEditorParent()));
-		addField(t = new StringFieldEditor("conmark.prefs.ws", "Url:", getFieldEditorParent()));
+		t = prepare(new StringFieldEditor("conmark.prefs.ws", "URL:", parent));
+		f = prepare(new StringFieldEditor("conmark.prefs.profile", "Profile:", parent));
+		u = prepare(new StringFieldEditor("conmark.prefs.user", "User:", parent));
+		
+		addField(t);
+		addField(f);
+		addField(u);
+		
 		
 //		t.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
 //		f.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
@@ -63,17 +80,11 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 			}
 			
 			if(id == null || id.isEmpty()){				
-				MessageBox dialog = new MessageBox(getShell(), SWT.ICON_ERROR | SWT.OK);
-				dialog.setText("Error");
-				dialog.setMessage("Unable find profile");
-				dialog.open(); 				
+				MessageDialog.openError(this.getShell(), "Service error", "Profile not found.");				
 				return false;
 			}
 		} catch (Exception e) {
-			MessageBox dialog = new MessageBox(getShell(), SWT.ICON_ERROR | SWT.OK);
-			dialog.setText("Error");
-			dialog.setMessage(e.getMessage());
-			dialog.open();
+			MessageDialog.openError(this.getShell(), "Service error", e.getMessage());
 			return false;
 		}
 		
