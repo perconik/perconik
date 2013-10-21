@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.gratex.perconik.tag.feature"
-      label="Gratex PerConIK Tag Feature"
-      version="0.0.1.v20131021-1942"
+      label="PerConIK Gratex Content Tags"
+      version="0.0.2.v20131021-1958"
       provider-name="Gratex International">
 
    <description>
-      PerConIK Gratex Code Tagging
+      PerConIK Gratex Content Tags
    </description>
 
    <copyright url="http://perconik.fiit.stuba.sk">
