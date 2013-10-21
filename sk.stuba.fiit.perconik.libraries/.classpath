@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/antlr4-runtime-4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/guava-15.0.jar" sourcepath="D:/workspace/java/guava-15.0-sources.jar">
 		<attributes>
 			<attribute name="source_encoding" value="UTF-8"/>

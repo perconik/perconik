@@ -5,6 +5,7 @@ Bundle-SymbolicName: sk.stuba.fiit.perconik.libraries;singleton:=true
 Bundle-Version: 0.0.1.v20130826-1700
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
+ lib/antlr4-runtime-4.1.jar,
  lib/diffutils-1.2.1.jar,
  lib/guava-15.0.jar,
  lib/intt.jar,
@@ -30,6 +31,12 @@ Export-Package: com.google.common.annotations,
  javax.annotation,
  javax.annotation.concurrent,
  javax.annotation.meta,
+ org.antlr.v4.runtime,
+ org.antlr.v4.runtime.atn,
+ org.antlr.v4.runtime.dfa,
+ org.antlr.v4.runtime.misc,
+ org.antlr.v4.runtime.tree,
+ org.antlr.v4.runtime.tree.gui,
  uk.ac.open.crc.intt
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
