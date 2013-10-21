@@ -113,7 +113,6 @@ abstract class UnderlyingDocument<T>
 			return this.resource.getFullPath().toString();
 		}
 	}
-
 	
 	@Override
 	public final boolean equals(final Object o)
