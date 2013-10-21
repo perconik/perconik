@@ -10,6 +10,6 @@ Export-Package: sk.stuba.fiit.perconik.utilities,
  sk.stuba.fiit.perconik.utilities.reflect,
  sk.stuba.fiit.perconik.utilities.reflect.accessor,
  sk.stuba.fiit.perconik.utilities.reflect.annotation
-Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.0.1"
+Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
