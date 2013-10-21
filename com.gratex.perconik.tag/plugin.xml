@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+<!-- prefs -->
+	<extension point="org.eclipse.ui.preferencePages">
+		<page  id="conmark.prefs.PrefPage"
+			class="conmark.prefs.PrefPage"
+            name="Content Marking" />
+	</extension>
+	
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer class="conmark.prefs.PrefInit"/>
+    </extension>
+
+   <extension
+         id="conMkBuilder"
+         name="Contemt Mark Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="conmark.builder.ConMkBuilder" />         
+      </builder>
+   </extension>
+   
+   <extension
+         id="conMkNature"
+         name="Contemt Mark Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="conmark.builder.ConMkNature" />
+      </runtime>
+      <builder id="ConMark.conMkBuilder" />      
+   </extension>
+   
+   <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+         id="ConMarkCompletionProposalComputer" name="ConMark Completion Proposal Computer">
+      <javaCompletionProposalComputer categoryId="org.eclipse.ui.texteditor.textual_proposals"
+      		activate="true" class="conmark.assistant.ConAssist" >
+         <partition type="__java_singleline_comment"/>
+      </javaCompletionProposalComputer>
+   </extension>
+	   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="ConMark.contribution">
+         <action
+               label="Add/Remove Content Marking"
+               class="conmark.builder.ToggleNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="ConMark.addRemoveNatureAction">
+         </action>
+      </objectContribution>
+      
+      <viewerContribution 
+      		id="ContentMarking.contribution" 
+      		targetID="#CompilationUnitEditorContext">
+      		
+			<action
+				class="conmark.popup.actions.MarkAction"
+                id="conmark.popup.view.actions.MarkAction"
+                label="Content Marking Mark"          
+                menubarPath="contentmarking.popup.view.menu" />
+                
+         <!--   <action
+				class="conmark.popup.actions.MarkEdit"
+                id="conmark.popup.view.actions.MarkEdit"
+                label="Content Marking Edit"          
+                menubarPath="contentmarking.popup.view.menu/editMark" />
+                
+                <menu id="contentmarking.popup.view.menu"
+                	label="Content Marking"
+                	path="group.additions" />  -->                 
+	</viewerContribution>      
+   
+   </extension>
+
+	<!-- <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="ContentMarking.contribution.commands"
+            name="Content Marking"/>
+      <command
+            categoryId="ContentMarking.contribution.commands"
+            defaultHandler="conmark.command.MarkHandler"
+            id="ContentMarking.contribution.commands.mark"
+            name="Mark"/>
+   </extension>
+
+	<extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="ContentMarking.contribution.commands.mark"
+            contextId="org.eclipse.jdt.ui.javaEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="" />      
+   </extension> -->
+   
+    <!-- markers -->
+    <extension id="contentmarking.conMark.Err"
+         name="Content Marking Err"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<!-- Eq -->
+	<extension id="contentmarking.conMark.EqBlue"
+         name="Content Marking"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<extension id="contentmarking.conMark.EqRed"
+         name="Content Marking"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<extension id="contentmarking.conMark.EqGreen"
+         name="Content Marking"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+    <!-- Lt -->
+    <extension id="contentmarking.conMark.LtBlue"
+         name="Content Marking"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<extension id="contentmarking.conMark.LtRed"
+         name="Content Marking"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<extension id="contentmarking.conMark.LtGreen"
+         name="Content Marking"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+    <!-- Gt -->
+    <extension id="contentmarking.conMark.GtBlue"
+         name="Content Marking Close"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<extension id="contentmarking.conMark.GtRed"
+         name="Content Marking Close"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	<extension id="contentmarking.conMark.GtGreen"
+         name="Content Marking Close"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.textmarker"/>
+	  <super type="org.eclipse.core.resources.marker"/>      
+      <persistent value="true" />      
+    </extension>
+	
+	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
+		id="ContentMarkingAnnotationSpecification" name="ContentMarkingAnnotation">
+		<specification annotationType="contentmarking.marker.annotation.Err" 			
+			icon="icons/Normal.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<!-- Eq -->
+		<specification annotationType="contentmarking.marker.annotation.EqBlue" 			
+			icon="icons/EqBlue.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<specification annotationType="contentmarking.marker.annotation.EqRed" 			
+			icon="icons/EqRed.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<specification annotationType="contentmarking.marker.annotation.EqGreen" 			
+			icon="icons/EqGreen.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<!-- Lt -->
+		<specification annotationType="contentmarking.marker.annotation.LtBlue" 			
+			icon="icons/LtBlue.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<specification annotationType="contentmarking.marker.annotation.LtRed" 			
+			icon="icons/LtRed.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<specification annotationType="contentmarking.marker.annotation.LtGreen" 			
+			icon="icons/LtGreen.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<!-- Gt -->
+		<specification annotationType="contentmarking.marker.annotation.GtBlue" 			
+			icon="icons/GtBlue.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<specification annotationType="contentmarking.marker.annotation.GtRed" 			
+			icon="icons/GtRed.gif"
+			label="Content Marking Annotation">
+		</specification>
+		<specification annotationType="contentmarking.marker.annotation.GtGreen" 			
+			icon="icons/GtGreen.gif"
+			label="Content Marking Annotation">
+		</specification> 
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.annotationTypes">
+    	<type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="2"        	            
+            name="contentmarking.marker.annotation.Err"
+            markerType="contentmarking.conMark.Err"/>
+        <!-- Eq -->
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.EqBlue"
+            markerType="contentmarking.conMark.EqBlue"/>
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.EqRed"
+            markerType="contentmarking.conMark.EqRed"/>
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.EqGreen"
+            markerType="contentmarking.conMark.EqGreen"/>  
+        <!-- Lt -->
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.LtBlue"
+            markerType="contentmarking.conMark.LtBlue"/>
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.LtRed"
+            markerType="contentmarking.conMark.LtRed"/>
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.LtGreen"
+            markerType="contentmarking.conMark.LtGreen"/> -->
+		<!-- Gt -->
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.GtBlue"
+            markerType="contentmarking.conMark.GtBlue"/>
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.GtRed"
+            markerType="contentmarking.conMark.GtRed"/>
+        <type super="org.eclipse.ui.workbench.texteditor.info" 
+    		markerSeverity="0"        	            
+            name="contentmarking.marker.annotation.GtGreen"
+            markerType="contentmarking.conMark.GtGreen"/>                       
+	</extension>
+	
+</plugin>
