@@ -16,7 +16,7 @@
 
    <extension
          id="com.gratex.perconik.tag.builder"
-         name="Contemt Mark Builder"
+         name="PerConIK Tag Builder"
          point="org.eclipse.core.resources.builders">
       <builder hasNature="true">
          <run class="com.gratex.perconik.tag.builder.ConMkBuilder" />         

@@ -3,16 +3,17 @@ package com.gratex.perconik.tag.plugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends UserInterfacePlugin {
 	
 	public static final String NATURE_ID = "com.gratex.perconik.tag.nature";
 	public static final String BUILDER_ID = "com.gratex.perconik.tag.builder";
-	public static final String MARKER_ID = "com.gratex.perconik.tag.marker";
 	public static final String MARKER_TYPE = "com.gratex.perconik.tag.marker";
+	public static final String MARKER_ID = "com.gratex.perconik.tag.marker.open.id";
 	
 	
 	// The plug-in ID

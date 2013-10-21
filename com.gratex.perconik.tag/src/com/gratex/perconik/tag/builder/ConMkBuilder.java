@@ -14,13 +14,18 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import sk.stuba.fiit.perconik.environment.Environment;
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.utils.FileParser;
 
 public class ConMkBuilder extends IncrementalProjectBuilder {
 	
 	void checkResource(IResource resource, int syncBuild) {
+		//if (Environment.debug) Activator.getDefault().getConsole().print("Checking " + resource.getFullPath());
+		
 		if (resource instanceof IFile && resource.getName().endsWith(".java")) {
+			//if (Environment.debug) Activator.getDefault().getConsole().print("JAVA FILE " + resource.getFullPath());
+			
 			IFile file = (IFile) resource;
 			deleteMarkers(file);
 			

@@ -1,5 +1,6 @@
 package com.gratex.perconik.tag.builder;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -9,10 +10,13 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
+import sk.stuba.fiit.perconik.environment.Environment;
 import com.gratex.perconik.tag.plugin.Activator;
 
 public class ToggleNatureAction implements IObjectActionDelegate {
@@ -64,6 +68,9 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 					System.arraycopy(natures, i + 1, newNatures, i, natures.length - i - 1);
 					description.setNatureIds(newNatures);
 					project.setDescription(description, null);
+					
+					MessageDialog.openInformation(Display.getDefault().getActiveShell(), "PerConIK Tags", "Tag nature disabled.");
+					
 					return;
 				}
 			}
@@ -74,6 +81,10 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 			newNatures[natures.length] = Activator.NATURE_ID;
 			description.setNatureIds(newNatures);
 			project.setDescription(description, null);
+			
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "PerConIK Tags", "Tag nature enabled.");
+			
+			//if (Environment.debug) Activator.getDefault().getConsole().print(Arrays.toString(newNatures));
 		} catch (CoreException e) {
 			Activator.getDefault().getLog().log( new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, "Exception", e) );
 		}

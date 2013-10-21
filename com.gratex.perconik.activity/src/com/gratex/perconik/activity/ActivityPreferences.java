@@ -5,7 +5,6 @@ import javax.xml.namespace.QName;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
-import com.google.common.base.Strings;
 import com.gratex.perconik.activity.plugin.Activator;
 
 public final class ActivityPreferences
@@ -49,11 +48,6 @@ public final class ActivityPreferences
 	static final URL getWatcherServiceUrl()
 	{
 		String content = store().getString(watcherUrl);
-		
-		if (Strings.isNullOrEmpty(content))
-		{
-			return ActivityDefaults.watcherUrl;
-		}
 		
 		return UniformResources.newUrl(content);
 	}
