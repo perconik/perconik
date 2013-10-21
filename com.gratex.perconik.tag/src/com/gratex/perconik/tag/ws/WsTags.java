@@ -22,6 +22,7 @@ import com.gratex.perconik.services.tag.TagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.TagType;
 import com.gratex.perconik.tag.plugin.Activator;
+import com.gratex.perconik.tag.prefs.PrefKeys;
 
 public class WsTags {
 	
@@ -118,7 +119,7 @@ public class WsTags {
 		
 		TagProfileWcfSvc s;
 		try {// http://perconikapp1:9903/Adm/Wcf/TagProfileWcfSvc.svc?singleWsdl
-			String tmp2 = ps.getString("conmark.prefs.ws");
+			String tmp2 = ps.getString(PrefKeys.url);
 			if(!tmp2.endsWith("/")) tmp2 = tmp2 + "/";
 			s = new TagProfileWcfSvc(new URL(tmp2+"TagProfileWcfSvc.svc?singleWsdl")); // Activator.class.getResource("/TagProfileWcfSvc.svc")
 		} catch (Exception e) {
@@ -128,7 +129,7 @@ public class WsTags {
 		String id = null;
 		{
 			SearchTagProfileRequest r = new SearchTagProfileRequest();
-			r.setNameStartPart(ps.getString("conmark.prefs.profile"));
+			r.setNameStartPart(ps.getString(PrefKeys.profile));
 			//r.setNameStartPart("Test1");
 			
 			SearchTagProfileResponse2 rs = s.getBasicHttpBindingITagProfileWcfSvc().searchTagProfile(r);

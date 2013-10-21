@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 import com.gratex.perconik.tag.plugin.Activator;
+import com.gratex.perconik.tag.prefs.PrefKeys;
 
 public class MarkTemplate {
 
@@ -13,7 +14,7 @@ public class MarkTemplate {
 		Date d = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'0000Z'");
 		sf.setTimeZone(TimeZone.getTimeZone("UTC"));
-		String unm = Activator.getDefault().getPreferenceStore().getString("conmark.prefs.user");
+		String unm = Activator.getDefault().getPreferenceStore().getString(PrefKeys.user);
 		if (unm == null || unm.isEmpty()) unm = new com.sun.security.auth.module.NTSystem().getDomain()+"/"+System.getProperty("user.name");		
 		mk = unm+" "+sf.format(d)+" ";
 	}

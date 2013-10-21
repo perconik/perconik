@@ -9,9 +9,9 @@ public class PrefInit extends AbstractPreferenceInitializer{
 	@Override
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		store.setDefault("conmark.prefs.profile", "Test");
-		store.setDefault("conmark.prefs.user", new com.sun.security.auth.module.NTSystem().getDomain()+"/"+System.getProperty("user.name"));
-		store.setDefault("conmark.prefs.ws", "http://perconik.fiit.stuba.sk/tagAdm/Wcf");
+		store.setDefault(PrefKeys.profile, "Test");
+		store.setDefault(PrefKeys.user, new com.sun.security.auth.module.NTSystem().getDomain()+"/"+System.getProperty("user.name"));
+		store.setDefault(PrefKeys.url, "http://perconik.fiit.stuba.sk/tagAdm/Wcf");
 	//	store.setDefault(RepositoryLocation.repProfile, "");
 	}
 

@@ -9,10 +9,10 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 	
-	public static final String NATURE_ID = "ConMark.conMkNature";
-	public static final String BUILDER_ID = "ConMark.conMkBuilder";	
-	public static final String MARKER_TYPE = "contentmarking.conMark";
-	public static final String MARKER_ID = "contentmarking.conMark.open.id";
+	public static final String NATURE_ID = "com.gratex.perconik.tag.nature";
+	public static final String BUILDER_ID = "com.gratex.perconik.tag.builder";
+	public static final String MARKER_ID = "com.gratex.perconik.tag.marker";
+	public static final String MARKER_TYPE = "com.gratex.perconik.tag.marker";
 	
 	
 	// The plug-in ID

@@ -41,9 +41,9 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 	protected void createFieldEditors() {
 		Composite parent = this.getFieldEditorParent();
 		
-		t = prepare(new StringFieldEditor("conmark.prefs.ws", "URL:", parent));
-		f = prepare(new StringFieldEditor("conmark.prefs.profile", "Profile:", parent));
-		u = prepare(new StringFieldEditor("conmark.prefs.user", "User:", parent));
+		t = prepare(new StringFieldEditor(PrefKeys.url, "URL:", parent));
+		f = prepare(new StringFieldEditor(PrefKeys.profile, "Profile:", parent));
+		u = prepare(new StringFieldEditor(PrefKeys.user, "User:", parent));
 		
 		addField(t);
 		addField(f);

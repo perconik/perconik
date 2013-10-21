@@ -2,12 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-<!-- prefs -->
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
         category="sk.stuba.fiit.perconik.ui.preferences.main"
         class="com.gratex.perconik.tag.prefs.PrefPage"
-        id="conmark.prefs.PrefPage"
+        id="com.gratex.perconik.tag.preferences"
         name="Tags"/>
 	</extension>
 	
@@ -16,7 +15,7 @@
     </extension>
 
    <extension
-         id="conMkBuilder"
+         id="com.gratex.perconik.tag.builder"
          name="Contemt Mark Builder"
          point="org.eclipse.core.resources.builders">
       <builder hasNature="true">
@@ -25,17 +24,17 @@
    </extension>
    
    <extension
-         id="ConMark.conMkNature"
-         name="Contemt Mark Nature"
+         id="com.gratex.perconik.tag.nature"
+         name="PerConIK Tag Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run class="com.gratex.perconik.tag.builder.ConMkNature" />
       </runtime>
-      <builder id="ConMark.conMkBuilder" />      
+      <builder id="com.gratex.perconik.tag.builder" />      
    </extension>
    
    <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
-         id="ConMarkCompletionProposalComputer" name="ConMark Completion Proposal Computer">
+         id="com.gratex.perconik.tag.computer" name="PerConIK Tag Completion Proposal Computer">
       <javaCompletionProposalComputer categoryId="org.eclipse.ui.texteditor.textual_proposals"
       		activate="true" class="com.gratex.perconik.tag.assistant.ConAssist" >
          <partition type="__java_singleline_comment"/>
@@ -49,62 +48,43 @@
             adaptable="true"
             objectClass="org.eclipse.core.resources.IProject"
             nameFilter="*"
-            id="ConMark.contribution">
+            id="com.gratex.perconik.tag.ui.object">
          <action
                class="com.gratex.perconik.tag.builder.ToggleNatureAction"
                enablesFor="+"
-               id="ConMark.addRemoveNatureAction"
+               id="com.gratex.perconik.tag.ui.object.nature"
                label="Toggle Tags"
-               menubarPath="additions">
+               menubarPath="com.gratex.perconik.tag.ui.object.menu/nature">
          </action>
+         <menu
+               id="com.gratex.perconik.tag.ui.object.menu"
+               label="PerConIK Tools">
+         </menu>
       </objectContribution>
       
       <viewerContribution 
-      		id="ContentMarking.contribution" 
+      		id="com.gratex.perconik.tag.ui.viewer" 
       		targetID="#CompilationUnitEditorContext">
       		
 			<action
-				class="com.gratex.perconik.tag.popup.actions.MarkAction"
-                id="conmark.popup.view.actions.MarkAction"
-                label="Insert Tag"          
-                menubarPath="contentmarking.popup.view.menu" />
+         class="com.gratex.perconik.tag.popup.actions.MarkAction"
+         id="com.gratex.perconik.tag.ui.viewer.menu.insert"
+         label="Insert Tag"
+         menubarPath="com.gratex.perconik.tag.ui.viewer.menu/insert">
+   </action>
+   <menu
+         id="com.gratex.perconik.tag.ui.viewer.menu"
+         label="PerConIK Tools"
+         path="additions">
+   </menu>
                 
-         <!--   <action
-				class="conmark.popup.actions.MarkEdit"
-                id="conmark.popup.view.actions.MarkEdit"
-                label="Content Marking Edit"          
-                menubarPath="contentmarking.popup.view.menu/editMark" />
                 
-                <menu id="contentmarking.popup.view.menu"
-                	label="Content Marking"
-                	path="group.additions" />  -->                 
 	</viewerContribution>      
    
    </extension>
 
-	<!-- <extension
-         point="org.eclipse.ui.commands">
-      <category
-            id="ContentMarking.contribution.commands"
-            name="Content Marking"/>
-      <command
-            categoryId="ContentMarking.contribution.commands"
-            defaultHandler="conmark.command.MarkHandler"
-            id="ContentMarking.contribution.commands.mark"
-            name="Mark"/>
-   </extension>
-
-	<extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="ContentMarking.contribution.commands.mark"
-            contextId="org.eclipse.jdt.ui.javaEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="" />      
-   </extension> -->
-   
     <!-- markers -->
-    <extension id="contentmarking.conMark.Err"
+    <extension id="com.gratex.perconik.tag.marker.Err"
          name="Content Marking Err"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
@@ -112,21 +92,21 @@
       <persistent value="true" />      
     </extension>
 	<!-- Eq -->
-	<extension id="contentmarking.conMark.EqBlue"
+	<extension id="com.gratex.perconik.tag.marker.EqBlue"
          name="Content Marking"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
 	  <super type="org.eclipse.core.resources.marker"/>      
       <persistent value="true" />      
     </extension>
-	<extension id="contentmarking.conMark.EqRed"
+	<extension id="com.gratex.perconik.tag.marker.EqRed"
          name="Content Marking"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
 	  <super type="org.eclipse.core.resources.marker"/>      
       <persistent value="true" />      
     </extension>
-	<extension id="contentmarking.conMark.EqGreen"
+	<extension id="com.gratex.perconik.tag.marker.EqGreen"
          name="Content Marking"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
@@ -134,21 +114,21 @@
       <persistent value="true" />      
     </extension>
     <!-- Lt -->
-    <extension id="contentmarking.conMark.LtBlue"
+    <extension id="com.gratex.perconik.tag.marker.LtBlue"
          name="Content Marking"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
 	  <super type="org.eclipse.core.resources.marker"/>      
       <persistent value="true" />      
     </extension>
-	<extension id="contentmarking.conMark.LtRed"
+	<extension id="com.gratex.perconik.tag.marker.LtRed"
          name="Content Marking"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
 	  <super type="org.eclipse.core.resources.marker"/>      
       <persistent value="true" />      
     </extension>
-	<extension id="contentmarking.conMark.LtGreen"
+	<extension id="com.gratex.perconik.tag.marker.LtGreen"
          name="Content Marking"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
@@ -156,21 +136,21 @@
       <persistent value="true" />      
     </extension>
     <!-- Gt -->
-    <extension id="contentmarking.conMark.GtBlue"
+    <extension id="com.gratex.perconik.tag.marker.GtBlue"
          name="Content Marking Close"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
 	  <super type="org.eclipse.core.resources.marker"/>      
       <persistent value="true" />      
     </extension>
-	<extension id="contentmarking.conMark.GtRed"
+	<extension id="com.gratex.perconik.tag.marker.GtRed"
          name="Content Marking Close"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
 	  <super type="org.eclipse.core.resources.marker"/>      
       <persistent value="true" />      
     </extension>
-	<extension id="contentmarking.conMark.GtGreen"
+	<extension id="com.gratex.perconik.tag.marker.GtGreen"
          name="Content Marking Close"
          point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.core.resources.textmarker"/>
@@ -180,46 +160,46 @@
 	
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification"
 		id="ContentMarkingAnnotationSpecification" name="ContentMarkingAnnotation">
-		<specification annotationType="contentmarking.marker.annotation.Err" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.Err" 			
 			icon="icons/Normal.gif"
 			label="Content Marking Annotation">
 		</specification>
 		<!-- Eq -->
-		<specification annotationType="contentmarking.marker.annotation.EqBlue" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.EqBlue" 			
 			icon="icons/EqBlue.gif"
 			label="Content Marking Annotation">
 		</specification>
-		<specification annotationType="contentmarking.marker.annotation.EqRed" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.EqRed" 			
 			icon="icons/EqRed.gif"
 			label="Content Marking Annotation">
 		</specification>
-		<specification annotationType="contentmarking.marker.annotation.EqGreen" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.EqGreen" 			
 			icon="icons/EqGreen.gif"
 			label="Content Marking Annotation">
 		</specification>
 		<!-- Lt -->
-		<specification annotationType="contentmarking.marker.annotation.LtBlue" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.LtBlue" 			
 			icon="icons/LtBlue.gif"
 			label="Content Marking Annotation">
 		</specification>
-		<specification annotationType="contentmarking.marker.annotation.LtRed" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.LtRed" 			
 			icon="icons/LtRed.gif"
 			label="Content Marking Annotation">
 		</specification>
-		<specification annotationType="contentmarking.marker.annotation.LtGreen" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.LtGreen" 			
 			icon="icons/LtGreen.gif"
 			label="Content Marking Annotation">
 		</specification>
 		<!-- Gt -->
-		<specification annotationType="contentmarking.marker.annotation.GtBlue" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.GtBlue" 			
 			icon="icons/GtBlue.gif"
 			label="Content Marking Annotation">
 		</specification>
-		<specification annotationType="contentmarking.marker.annotation.GtRed" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.GtRed" 			
 			icon="icons/GtRed.gif"
 			label="Content Marking Annotation">
 		</specification>
-		<specification annotationType="contentmarking.marker.annotation.GtGreen" 			
+		<specification annotationType="com.gratex.perconik.tag.annotation.GtGreen" 			
 			icon="icons/GtGreen.gif"
 			label="Content Marking Annotation">
 		</specification> 
@@ -228,47 +208,47 @@
 	<extension point="org.eclipse.ui.editors.annotationTypes">
     	<type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="2"        	            
-            name="contentmarking.marker.annotation.Err"
-            markerType="contentmarking.conMark.Err"/>
+            name="com.gratex.perconik.tag.annotation.Err"
+            markerType="com.gratex.perconik.tag.marker.Err"/>
         <!-- Eq -->
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.EqBlue"
-            markerType="contentmarking.conMark.EqBlue"/>
+            name="com.gratex.perconik.tag.annotation.EqBlue"
+            markerType="com.gratex.perconik.tag.marker.EqBlue"/>
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.EqRed"
-            markerType="contentmarking.conMark.EqRed"/>
+            name="com.gratex.perconik.tag.annotation.EqRed"
+            markerType="com.gratex.perconik.tag.marker.EqRed"/>
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.EqGreen"
-            markerType="contentmarking.conMark.EqGreen"/>  
+            name="com.gratex.perconik.tag.annotation.EqGreen"
+            markerType="com.gratex.perconik.tag.marker.EqGreen"/>  
         <!-- Lt -->
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.LtBlue"
-            markerType="contentmarking.conMark.LtBlue"/>
+            name="com.gratex.perconik.tag.annotation.LtBlue"
+            markerType="com.gratex.perconik.tag.marker.LtBlue"/>
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.LtRed"
-            markerType="contentmarking.conMark.LtRed"/>
+            name="com.gratex.perconik.tag.annotation.LtRed"
+            markerType="com.gratex.perconik.tag.marker.LtRed"/>
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.LtGreen"
-            markerType="contentmarking.conMark.LtGreen"/> -->
+            name="com.gratex.perconik.tag.annotation.LtGreen"
+            markerType="com.gratex.perconik.tag.marker.LtGreen"/> -->
 		<!-- Gt -->
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.GtBlue"
-            markerType="contentmarking.conMark.GtBlue"/>
+            name="com.gratex.perconik.tag.annotation.GtBlue"
+            markerType="com.gratex.perconik.tag.marker.GtBlue"/>
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.GtRed"
-            markerType="contentmarking.conMark.GtRed"/>
+            name="com.gratex.perconik.tag.annotation.GtRed"
+            markerType="com.gratex.perconik.tag.marker.GtRed"/>
         <type super="org.eclipse.ui.workbench.texteditor.info" 
     		markerSeverity="0"        	            
-            name="contentmarking.marker.annotation.GtGreen"
-            markerType="contentmarking.conMark.GtGreen"/>                       
+            name="com.gratex.perconik.tag.annotation.GtGreen"
+            markerType="com.gratex.perconik.tag.marker.GtGreen"/>                       
 	</extension>
 	
 </plugin>

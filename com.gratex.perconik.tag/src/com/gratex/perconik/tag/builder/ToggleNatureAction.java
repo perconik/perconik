@@ -50,7 +50,7 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 			for (int i = 0; i < natures.length; ++i) {
 				if (Activator.NATURE_ID.equals(natures[i])) {
 					// Remove markers
-					String MARKER_TYPE = "contentmarking.conMark";
+					String MARKER_TYPE = Activator.MARKER_TYPE;
 					project.deleteMarkers(MARKER_TYPE+".Err", false, IResource.DEPTH_INFINITE);
 					for(String t : new String[]{"Eq", "Lt", "Gt"}){
 						for(String c : new String[]{"Blue", "Red", "Green"}){
