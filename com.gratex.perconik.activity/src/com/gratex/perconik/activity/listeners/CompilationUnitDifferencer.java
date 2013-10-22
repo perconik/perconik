@@ -33,16 +33,16 @@ class CompilationUnitDifferencer
 	
 	private final RelevantAstCollector collector;
 	
-	private AstDifference.Builder builder;
+	private AstDifference.Builder<ASTNode> builder;
 	
 	public CompilationUnitDifferencer()
 	{
 		this.collector = new RelevantAstCollector();
 	}
 	
-	public final AstDifference difference(final CompilationUnit original, final CompilationUnit revised)
+	public final AstDifference<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised)
 	{
-		this.builder = new AstDifference.Builder();
+		this.builder = AstDifference.builder();
 		
 		if (original != null || revised != null)
 		{

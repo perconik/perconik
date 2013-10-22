@@ -125,9 +125,9 @@ public final class IdeElementListener extends IdeListener implements JavaElement
 				
 				if (revised != null && original != null)
 				{
-					AstDifference difference = IdeElementListener.this.differencer.difference(original, revised);
+					AstDifference<ASTNode> difference = IdeElementListener.this.differencer.difference(original, revised);
 
-					for (AstNodeDelta delta: difference)
+					for (AstNodeDelta<ASTNode> delta: difference)
 					{
 						process(element, delta.getOriginalNode(), null);
 					}
