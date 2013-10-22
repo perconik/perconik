@@ -2,7 +2,7 @@
 <feature
       id="com.gratex.perconik.tag.feature"
       label="PerConIK Gratex Content Tags"
-      version="0.0.3.v20131021-2005"
+      version="0.0.4.v20131022-1836"
       provider-name="Gratex International">
 
    <description>

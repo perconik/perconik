@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Gratex Activity
 Bundle-SymbolicName: com.gratex.perconik.activity;singleton:=true
-Bundle-Version: 0.0.4.v20131021-1918
+Bundle-Version: 0.0.5.v20131022-1831
 Bundle-Activator: com.gratex.perconik.activity.plugin.Activator
 Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.core.runtime;bundle-version="3.9.0",
@@ -16,9 +16,9 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.ui;bundle-version="3.105.0",
  org.eclipse.ui.forms;bundle-version="3.6.0",
  com.gratex.perconik.services;bundle-version="0.0.2",
- sk.stuba.fiit.perconik.core;bundle-version="0.0.4",
- sk.stuba.fiit.perconik.core.java;bundle-version="0.0.3",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.0.3",
+ sk.stuba.fiit.perconik.core;bundle-version="0.0.5",
+ sk.stuba.fiit.perconik.core.java;bundle-version="0.0.4",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.0.4",
  sk.stuba.fiit.perconik.environment;bundle-version="0.0.3",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2",
  sk.stuba.fiit.perconik.utilities;bundle-version="0.0.2"
