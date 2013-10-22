@@ -63,7 +63,15 @@ public class ConMkBuilder extends IncrementalProjectBuilder {
 					file.deleteMarkers(Activator.MARKER_TYPE+"."+t+c, false, IResource.DEPTH_ZERO);
 				}
 			}
-			
+			IMarker mm[] = file.findMarkers(IMarker.PROBLEM, false, IResource.DEPTH_ZERO);
+			if(mm != null){
+				for(IMarker m : mm){
+					Object o = m.getAttribute(Activator.MARKER_ID);
+					if(o instanceof String){
+						m.delete();
+					}
+				}
+			}
 		} catch (CoreException ce) {
 			Activator.getDefault().getLog().log( new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, "Exception", ce) );
 		}
