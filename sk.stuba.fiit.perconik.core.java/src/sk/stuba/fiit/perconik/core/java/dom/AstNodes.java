@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +13,10 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
+import sk.stuba.fiit.perconik.core.java.dom.compatibility.AstCompatibility;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstApiLevel;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 // TODO add more helpers from org.eclipse.jdt.internal.corext.dom.ASTNodes
@@ -34,12 +35,12 @@ public final class AstNodes
 
 	public static final AST newTree(final AstApiLevel level)
 	{
-		return AST.newAST(level.getValue());
+		return AstCompatibility.getFactory(level).newTree();
 	}
 	
 	public static final <N extends ASTNode> N newNode(final AST tree, final Class<N> type)
 	{
-		return type.cast(tree.createInstance(type));
+		return AstCompatibility.getNodeFactory().newNode(tree, type);
 	}
 
 	public static final ASTNode create(final ASTParser parser, final byte source[], final Charset charset)
@@ -175,15 +176,15 @@ public final class AstNodes
 		return branch;
 	}
 	
-	public static final <N extends ASTNode> N firstUpToRoot(@Nullable ASTNode node, Class<N> type)
+	public static final ASTNode firstUpToRoot(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
 	{
 		if (node != null)
 		{
 			do
 			{
-				if (isInstance(node, type))
+				if (predicate.apply(node))
 				{
-					return type.cast(node);
+					return node;
 				}
 			}
 			while ((node = node.getParent()) != null);
@@ -192,30 +193,24 @@ public final class AstNodes
 		return null;
 	}
 	
-	public static final <N extends ASTNode> N firstDownToLeaves(@Nullable ASTNode node, Class<N> type)
+	public static final ASTNode firstDownToLeaves(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
 	{
 		for (ASTNode other: downToLeaves(node))
 		{
-			if (isInstance(other, type))
+			if (predicate.apply(other))
 			{
-				return type.cast(other);
+				return node;
 			}
 		}
 		
 		return null;
 	}
 
-	@SafeVarargs
-	public static final ASTNode firstAncestor(@Nullable ASTNode node, final Class<? extends ASTNode> ... types)
-	{
-		return firstAncestor(node, Arrays.asList(types));
-	}
-
-	public static final ASTNode firstAncestor(@Nullable ASTNode node, final Iterable<Class<? extends ASTNode>> types)
+	public static final ASTNode firstAncestor(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
 	{
 		while (node != null)
 		{
-			if (isInstance(node = node.getParent(), types))
+			if (predicate.apply(node = node.getParent()))
 			{
 				return node;
 			}
@@ -224,13 +219,7 @@ public final class AstNodes
 		return null;
 	}
 
-	@SafeVarargs
-	public static final ASTNode firstDescendant(@Nullable ASTNode node, final Class<? extends ASTNode> ... types)
-	{
-		return firstDescendant(node, Arrays.asList(types));
-	}
-
-	public static final ASTNode firstDescendant(@Nullable ASTNode node, final Iterable<Class<? extends ASTNode>> types)
+	public static final ASTNode firstDescendant(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
 	{
 		final MutableReference<ASTNode> descendant = new MutableReference<>();
 		
@@ -239,7 +228,7 @@ public final class AstNodes
 			@Override
 			public final boolean preVisit2(final ASTNode other)
 			{
-				if (isInstance(other, types))
+				if (predicate.apply(other))
 				{
 					descendant.value = other;
 				}
@@ -284,6 +273,7 @@ public final class AstNodes
 			}
 			catch (JavaModelException e)
 			{
+				return null;
 			}
 		}
 	
@@ -351,21 +341,23 @@ public final class AstNodes
 		return !visit.value;
 	}
 
-	public static final boolean isRecoveredOrMalformed(final ASTNode node)
+	public static final boolean isProblematic(final ASTNode node)
 	{
-		return (node.getFlags() & ASTNode.RECOVERED) != 0 || (node.getFlags() & ASTNode.MALFORMED) != 0;
+		int flags = node.getFlags();
+		
+		return (flags & ASTNode.RECOVERED) != 0 || (flags & ASTNode.MALFORMED) != 0;
 	}
 	
 	public static final boolean isProblematicTree(final ASTNode node)
 	{
-		if (isRecoveredOrMalformed(node))
+		if (isProblematic(node))
 		{
 			return true;
 		}
 		
 		for (ASTNode descendant: descendants(node))
 		{
-			if (isRecoveredOrMalformed(descendant))
+			if (isProblematic(descendant))
 			{
 				return true;
 			}
@@ -398,50 +390,6 @@ public final class AstNodes
 		}
 	}
 
-	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> type)
-	{
-		return node != null && type.isInstance(node);
-	}
-
-	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> a, final Class<? extends ASTNode> b)
-	{
-		return node != null && (a.isInstance(node) || b.isInstance(node));
-	}
-
-	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> a, final Class<? extends ASTNode> b, final Class<? extends ASTNode> c)
-	{
-		return node != null && (a.isInstance(node) || b.isInstance(node) || c.isInstance(node));
-	}
-
-	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> a, final Class<? extends ASTNode> b, final Class<? extends ASTNode> c, final Class<? extends ASTNode> d)
-	{
-		return node != null && (a.isInstance(node) || b.isInstance(node) || c.isInstance(node) || d.isInstance(node));
-	}
-
-	@SafeVarargs
-	public static final boolean isInstance(@Nullable final ASTNode node, final Class<? extends ASTNode> a, final Class<? extends ASTNode> b, final Class<? extends ASTNode> c, final Class<? extends ASTNode> d, final Class<? extends ASTNode> ... rest)
-	{
-		return isInstance(node, a, b, c, d) || isInstance(node, Arrays.asList(rest));
-	}
-
-	public static final boolean isInstance(@Nullable final ASTNode node, final Iterable<Class<? extends ASTNode>> types)
-	{
-		if (node == null)
-		{
-			return false;
-		}
-		
-		for (Class<?> type: types)
-		{
-			if (type.isInstance(node))
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
 	public static final Class<? extends ASTNode> typeAsClass(@Nullable final ASTNode node)
 	{
 		return node != null ? node.getClass() : null;
@@ -454,6 +402,6 @@ public final class AstNodes
 
 	public static final String typeAsString(@Nullable final ASTNode node)
 	{
-		return node != null ? node.getClass().getSimpleName() : null;
+		return node != null ? AstNodeType.valueOf(node).getName() : null;
 	}
 }
