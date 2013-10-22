@@ -1,21 +1,22 @@
 package sk.stuba.fiit.perconik.core.java.dom.difference;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.core.java.dom.AstNodes;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
-public final class AstNodeAddition extends AstNodeDelta
+public final class AstNodeAddition<N extends ASTNode> extends AstNodeDelta<N>
 {
-	private final ASTNode node;
+	private final N node;
 
-	private AstNodeAddition(final ASTNode node)
+	private AstNodeAddition(@Nullable final N node)
 	{
 		this.node = node;
 	}
 
-	public static final AstNodeAddition of(final ASTNode node)
+	public static final <N extends ASTNode> AstNodeAddition<N> of(@Nullable final N node)
 	{
-		return new AstNodeAddition(node);
+		return new AstNodeAddition<>(node);
 	}
 	
 	@Override
@@ -29,19 +30,19 @@ public final class AstNodeAddition extends AstNodeDelta
 		return builder.toString();
 	}
 	
-	public final ASTNode getAddedNode()
+	public final N getAddedNode()
 	{
 		return this.node;
 	}
 
 	@Override
-	public final ASTNode getOriginalNode()
+	public final N getOriginalNode()
 	{
 		return null;
 	}
 
 	@Override
-	public final ASTNode getRevisedNode()
+	public final N getRevisedNode()
 	{
 		return this.getAddedNode();
 	}

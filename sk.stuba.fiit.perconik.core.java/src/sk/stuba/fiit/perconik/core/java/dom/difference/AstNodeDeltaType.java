@@ -4,7 +4,7 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
-public enum AstNodeDeltaType implements TypeConstant<AstNodeDelta>
+public enum AstNodeDeltaType implements TypeConstant<AstNodeDelta<?>>
 {
 	DELETION(AstNodeDeletion.class),
 	
@@ -12,28 +12,28 @@ public enum AstNodeDeltaType implements TypeConstant<AstNodeDelta>
 	
 	MODIFICATION(AstNodeModification.class);
 
-	private static final TypeConstantSupport<AstNodeDeltaType, AstNodeDelta> types = TypeConstantSupport.of(AstNodeDeltaType.class);
+	private static final TypeConstantSupport<AstNodeDeltaType, AstNodeDelta<?>> types = TypeConstantSupport.of(AstNodeDeltaType.class);
 
-	private final Class<? extends AstNodeDelta> type;
+	private final Class<? extends AstNodeDelta<?>> type;
 	
-	private AstNodeDeltaType(final Class<? extends AstNodeDelta> type)
+	private <T extends AstNodeDelta<?>> AstNodeDeltaType(final Class<? extends T> type)
 	{
 		assert type != null;
 		
 		this.type = type;
 	}
 	
-	public static final Set<Class<? extends AstNodeDelta>> valuesAsTypes()
+	public static final Set<Class<? extends AstNodeDelta<?>>> valuesAsTypes()
 	{
 		return types.getTypes();
 	}
 
-	public static final AstNodeDeltaType valueOf(final Class<? extends AstNodeDelta> type)
+	public static final AstNodeDeltaType valueOf(final Class<? extends AstNodeDelta<?>> type)
 	{
 		return types.getConstant(type);
 	}
 
-	public final Class<? extends AstNodeDelta> getType()
+	public final Class<? extends AstNodeDelta<?>> getType()
 	{
 		return this.type;
 	}

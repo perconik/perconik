@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.java.dom.AstNodes;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
-public abstract class AstNodeDelta
+public abstract class AstNodeDelta<N extends ASTNode>
 {
 	AstNodeDelta()
 	{
@@ -26,7 +26,7 @@ public abstract class AstNodeDelta
 			return false;
 		}
 		
-		AstNodeDelta other = (AstNodeDelta) o;
+		AstNodeDelta<?> other = (AstNodeDelta<?>) o;
 		
 		return Objects.equals(this.getOriginalNode(), other.getOriginalNode())
 		    && Objects.equals(this.getRevisedNode(),  other.getRevisedNode());
@@ -58,7 +58,7 @@ public abstract class AstNodeDelta
 		return this.getOriginalNode() != null;
 	}
 
-	public abstract ASTNode getOriginalNode();
+	public abstract N getOriginalNode();
 	
 	public ASTNode getOriginalNodeRoot()
 	{
@@ -80,7 +80,7 @@ public abstract class AstNodeDelta
 		return this.getRevisedNode() != null;
 	}
 
-	public abstract ASTNode getRevisedNode();
+	public abstract N getRevisedNode();
 	
 	public ASTNode getRevisedNodeRoot()
 	{

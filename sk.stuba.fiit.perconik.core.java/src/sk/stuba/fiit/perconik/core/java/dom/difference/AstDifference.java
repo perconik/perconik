@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.java.dom.difference;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,80 +9,69 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-public final class AstDifference extends ForwardingSet<AstNodeDelta>
+public final class AstDifference<N extends ASTNode> extends ForwardingSet<AstNodeDelta<N>>
 {
-	private static final AstDifference none = new AstDifference(ImmutableSet.<AstNodeDelta>of());
+	private static final AstDifference<?> none = new AstDifference<>(ImmutableSet.<AstNodeDelta<ASTNode>>of());
 	
-	private final Set<AstNodeDelta> deltas;
+	private final Set<AstNodeDelta<N>> deltas;
 	
-	private AstDifference(final Set<AstNodeDelta> deltas)
+	private AstDifference(final Set<AstNodeDelta<N>> deltas)
 	{
 		assert deltas != null;
 		
 		this.deltas = deltas;
 	}
 	
-	public static final AstDifference of()
+	public static final <N extends ASTNode> AstDifference<N> of()
 	{
-		return none;
+		@SuppressWarnings("unchecked")
+		AstDifference<N> casted = (AstDifference<N>) none;
+		
+		return casted;
 	}
 
-	public static final AstDifference of(final AstNodeDelta delta)
+	public static final <N extends ASTNode> AstDifference<N> of(final AstNodeDelta<N> delta)
 	{
-		return new AstDifference(ImmutableSet.of(delta));
+		return new AstDifference<>(ImmutableSet.of(delta));
 	}
 
-	public static final AstDifference of(final AstNodeDelta delta, final AstNodeDelta ... others)
-	{
-		if (others.length == 0)
-		{
-			return of(delta);
-		}
-		
-		ImmutableSet.Builder<AstNodeDelta> builder = ImmutableSet.builder();
-		
-		builder.add(delta).addAll(Arrays.asList(others));
-		
-		return new AstDifference(builder.build());
-	}
-
-	public static final AstDifference of(final Iterable<? extends AstNodeDelta> deltas)
+	public static final <N extends ASTNode> AstDifference<N> of(final Iterable<? extends AstNodeDelta<N>> deltas)
 	{
 		if (Iterables.isEmpty(deltas))
 		{
-			return none;
+			return of();
 		}
 		
-		return new AstDifference(ImmutableSet.copyOf(deltas));
+		return new AstDifference<>(ImmutableSet.copyOf(deltas));
 	}
 
-	public static final AstDifference of(final Iterator<? extends AstNodeDelta> deltas)
+	public static final <N extends ASTNode> AstDifference<N> of(final Iterator<? extends AstNodeDelta<N>> deltas)
 	{
 		if (!deltas.hasNext())
 		{
-			return none;
+			return of();
 		}
 		
-		return new AstDifference(ImmutableSet.copyOf(deltas));
+		return new AstDifference<>(ImmutableSet.copyOf(deltas));
 	}
 	
-	public static final class Builder
+	public static final class Builder<N extends ASTNode>
 	{
-		private final List<AstNodeDelta> deltas;
+		private final List<AstNodeDelta<N>> deltas;
 		
 		public Builder()
 		{
 			this.deltas = Lists.newArrayList();
 		}
 
-		public final Builder add(final ASTNode node)
+		public final Builder<N> add(final N node)
 		{
 			this.deltas.add(AstNodeAddition.of(node));
 			
 			return this;
 		}
 		
-		public final Builder addAndDelete(final ASTNode added, final ASTNode deleted)
+		public final Builder<N> addAndDelete(final N added, final N deleted)
 		{
 			this.add(added);
 			this.delete(deleted);
@@ -91,14 +79,14 @@ public final class AstDifference extends ForwardingSet<AstNodeDelta>
 			return this;
 		}
 
-		public final Builder delete(final ASTNode node)
+		public final Builder<N> delete(final N node)
 		{
 			this.deltas.add(AstNodeDeletion.of(node));
 			
 			return this;
 		}
 		
-		public final Builder deleteAndAdd(final ASTNode deleted, final ASTNode added)
+		public final Builder<N> deleteAndAdd(final N deleted, final N added)
 		{
 			this.delete(deleted);
 			this.add(added);
@@ -106,26 +94,26 @@ public final class AstDifference extends ForwardingSet<AstNodeDelta>
 			return this;
 		}
 
-		public final Builder modify(final ASTNode original, final ASTNode revised)
+		public final Builder<N> modify(final N original, final N revised)
 		{
 			this.deltas.add(AstNodeModification.of(original, revised));
 			
 			return this;
 		}
 		
-		public final AstDifference build()
+		public final AstDifference<N> build()
 		{
 			return AstDifference.of(this.deltas);
 		}
 	}
 	
-	public static final Builder builder()
+	public static final <N extends ASTNode> Builder<N> builder()
 	{
-		return new Builder();
+		return new Builder<>();
 	}
 
 	@Override
-	protected final Set<AstNodeDelta> delegate()
+	protected final Set<AstNodeDelta<N>> delegate()
 	{
 		return this.deltas;
 	}

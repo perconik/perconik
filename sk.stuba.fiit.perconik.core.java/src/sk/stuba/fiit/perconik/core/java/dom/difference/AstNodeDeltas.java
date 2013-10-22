@@ -10,7 +10,7 @@ public final class AstNodeDeltas
 		throw new AssertionError();
 	}
 	
-	public static AstNodeDelta create(@Nullable final ASTNode original, @Nullable final ASTNode revised)
+	public static <N extends ASTNode> AstNodeDelta<N> create(@Nullable final N original, @Nullable final N revised)
 	{
 		if (original != null && revised != null)
 		{

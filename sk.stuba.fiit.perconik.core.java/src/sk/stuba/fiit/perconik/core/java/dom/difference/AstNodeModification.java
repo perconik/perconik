@@ -1,24 +1,25 @@
 package sk.stuba.fiit.perconik.core.java.dom.difference;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.core.java.dom.AstNodes;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
-public final class AstNodeModification extends AstNodeDelta
+public final class AstNodeModification<N extends ASTNode> extends AstNodeDelta<N>
 {
-	private final ASTNode original;
+	private final N original;
 	
-	private final ASTNode revised;
+	private final N revised;
 
-	private AstNodeModification(final ASTNode original, final ASTNode revised)
+	private AstNodeModification(@Nullable final N original, @Nullable final N revised)
 	{
 		this.original = original;
 		this.revised  = revised;
 	}
 
-	public static final AstNodeModification of(final ASTNode original, final ASTNode revised)
+	public static final <N extends ASTNode> AstNodeModification<N> of(final N original, final N revised)
 	{
-		return new AstNodeModification(original, revised);
+		return new AstNodeModification<>(original, revised);
 	}
 	
 	@Override
@@ -35,13 +36,13 @@ public final class AstNodeModification extends AstNodeDelta
 	}
 
 	@Override
-	public final ASTNode getOriginalNode()
+	public final N getOriginalNode()
 	{
 		return this.original;
 	}
 
 	@Override
-	public final ASTNode getRevisedNode()
+	public final N getRevisedNode()
 	{
 		return this.revised;
 	}
