@@ -40,27 +40,61 @@
          <partition type="__java_singleline_comment"/>
       </javaCompletionProposalComputer>
    </extension>
+	
+	<extension point="org.eclipse.ui.handlers">
+    	<handler
+          commandId="com.gratex.perconik.tag.builder.togglenatureaction.enable"
+          class="com.gratex.perconik.tag.builder.ToggleNatureAction" />
+          
+       <handler
+          commandId="com.gratex.perconik.tag.builder.togglenatureaction.disable"
+          class="com.gratex.perconik.tag.builder.ToggleNatureAction" />   
+    </extension>	
+
+	<extension point="org.eclipse.ui.commands">	      
+		<command id="com.gratex.perconik.tag.builder.togglenatureaction.disable" name="Toggle Tags Disable" />	     
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">	      
+		<command id="com.gratex.perconik.tag.builder.togglenatureaction.enable" name="Toggle Tags Enable" />	     
+	</extension>
+
+	<extension
+       point="org.eclipse.ui.menus">
+		
+		<menuContribution
+        	locationURI="popup:org.eclipse.ui.popup.any">
+
+		<menu
+			id="com.gratex.perconik.tag.ui.object.menu"
+            label="PerConIK Tools">
+            
+        		<command commandId="com.gratex.perconik.tag.builder.togglenatureaction.disable">
+               		<visibleWhen checkEnabled="false">
+               			<iterate>
+              				<adapt type="org.eclipse.core.resources.IProject">
+                 				<test property="org.eclipse.core.resources.projectNature" value="com.gratex.perconik.tag.nature" />                 				
+              				</adapt>
+           				</iterate>
+               		</visibleWhen>               
+        		</command>
+        		
+        		<command commandId="com.gratex.perconik.tag.builder.togglenatureaction.enable">
+               		<visibleWhen checkEnabled="false">
+               			<not><iterate>
+              				<adapt type="org.eclipse.core.resources.IProject">
+                 				<test property="org.eclipse.core.resources.projectNature" value="com.gratex.perconik.tag.nature" />                 				
+              				</adapt>
+           				</iterate></not>
+               		</visibleWhen>               
+        		</command>
+			</menu>        	
+		</menuContribution>
+		      
+	</extension>   
 	   
    <extension
          point="org.eclipse.ui.popupMenus">
-      
-      <objectContribution
-            adaptable="true"
-            objectClass="org.eclipse.core.resources.IProject"
-            nameFilter="*"
-            id="com.gratex.perconik.tag.ui.object">
-         <action
-               class="com.gratex.perconik.tag.builder.ToggleNatureAction"
-               enablesFor="+"
-               id="com.gratex.perconik.tag.ui.object.nature"
-               label="Toggle Tags"
-               menubarPath="com.gratex.perconik.tag.ui.object.menu/nature">
-         </action>
-         <menu
-               id="com.gratex.perconik.tag.ui.object.menu"
-               label="PerConIK Tools">
-         </menu>
-      </objectContribution>
       
       <viewerContribution 
       		id="com.gratex.perconik.tag.ui.viewer" 
