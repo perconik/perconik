@@ -43,21 +43,22 @@
 	
 	<extension point="org.eclipse.ui.handlers">
     	<handler
-          commandId="com.gratex.perconik.tag.builder.togglenatureaction.enable"
+          commandId="com.gratex.perconik.tag.builder.nature.enable"
           class="com.gratex.perconik.tag.builder.ToggleNatureAction" />
           
        <handler
-          commandId="com.gratex.perconik.tag.builder.togglenatureaction.disable"
+          commandId="com.gratex.perconik.tag.builder.nature.disable"
           class="com.gratex.perconik.tag.builder.ToggleNatureAction" />   
     </extension>	
 
-	<extension point="org.eclipse.ui.commands">	      
-		<command id="com.gratex.perconik.tag.builder.togglenatureaction.disable" name="Toggle Tags Disable" />	     
+	<extension point="org.eclipse.ui.commands">
+    <command
+          id="com.gratex.perconik.tag.builder.nature.enable"
+          name="Enable Tag Nature">
+    </command>	      
+		<command id="com.gratex.perconik.tag.builder.nature.disable" name="Disable Tag Nature" />	     
 	</extension>
 
-	<extension point="org.eclipse.ui.commands">	      
-		<command id="com.gratex.perconik.tag.builder.togglenatureaction.enable" name="Toggle Tags Enable" />	     
-	</extension>
 
 	<extension
        point="org.eclipse.ui.menus">
@@ -69,7 +70,7 @@
 			id="com.gratex.perconik.tag.ui.object.menu"
             label="PerConIK Tools">
             
-        		<command commandId="com.gratex.perconik.tag.builder.togglenatureaction.disable">
+        		<command commandId="com.gratex.perconik.tag.builder.nature.disable">
                		<visibleWhen checkEnabled="false">
                			<iterate>
               				<adapt type="org.eclipse.core.resources.IProject">
@@ -79,7 +80,7 @@
                		</visibleWhen>               
         		</command>
         		
-        		<command commandId="com.gratex.perconik.tag.builder.togglenatureaction.enable">
+        		<command commandId="com.gratex.perconik.tag.builder.nature.enable">
                		<visibleWhen checkEnabled="false">
                			<not><iterate>
               				<adapt type="org.eclipse.core.resources.IProject">
