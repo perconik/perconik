@@ -5,11 +5,9 @@ import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.create
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import com.google.common.annotations.Beta;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 
-@Beta
 public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 {
 	StaticAccessor(final TypeToken<T> token)
@@ -52,30 +50,30 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		return new ClassField<>(type, field);
 	}
 
-	public static final <T> Accessor<T> ofClassConstructor(Class<T> type) throws NoSuchMethodException
+	public static final <T> Accessor<T> ofClassConstructor(Class<T> type, Object ... arguments) throws NoSuchMethodException
 	{
-		return ofClassConstructor(TypeToken.of(type));
+		return ofClassConstructor(TypeToken.of(type), arguments);
 	}
 	
-	public static final <T> Accessor<T> ofClassConstructor(TypeToken<T> type) throws NoSuchMethodException
+	public static final <T> Accessor<T> ofClassConstructor(TypeToken<T> type, Object ... arguments) throws NoSuchMethodException
 	{
 		Constructor<T> constructor = (Constructor<T>) type.getRawType().getConstructor();
 		
-		return new ClassConstructor<>(type, Invokable.from(constructor));
+		return new ClassConstructor<>(type, (Invokable<Object, T>) Invokable.from(constructor), arguments);
 	}
 
-	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, Class<T> type, String name) throws NoSuchMethodException
+	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, Class<T> type, String name, Object ... arguments) throws NoSuchMethodException
 	{
-		return ofClassMethod(implementation, TypeToken.of(type), name);
+		return ofClassMethod(implementation, TypeToken.of(type), name, arguments);
 	}
 	
-	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, TypeToken<T> type, String name) throws NoSuchMethodException
+	public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, TypeToken<T> type, String name, Object ... arguments) throws NoSuchMethodException
 	{
-		Invokable<?, Object> method = Invokable.from(implementation.getMethod(name));
+		Invokable<Object, Object> method = (Invokable<Object, Object>) Invokable.from(implementation.getMethod(name));
 		
 		checkArgument(method.isStatic(), "Method %s of %s is not static", name, implementation);
 		
-		return new ClassMethod<>(type, method.returning(type));
+		return new ClassMethod<>(type, method.returning(type), arguments);
 	}
 	
 	public static final <T> Accessor<T> ofEnumConstant(Class<T> type, String name)
@@ -114,23 +112,23 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 	{
 		ClassField(TypeToken<T> type, Field field)
 		{
-			super(type, field);
+			super(type, field, null);
 		}
 	}
 
 	private static final class ClassConstructor<T> extends InvokableAccessor<T>
 	{
-		ClassConstructor(TypeToken<T> type, Invokable<T, T> constructor)
+		ClassConstructor(TypeToken<T> type, Invokable<Object, T> constructor, Object ... arguments)
 		{
-			super(type, constructor);
+			super(type, constructor, null, arguments);
 		}
 	}
 	
 	private static final class ClassMethod<T> extends InvokableAccessor<T>
 	{
-		ClassMethod(TypeToken<T> type, Invokable<?, T> method)
+		ClassMethod(TypeToken<T> type, Invokable<Object, T> method, Object ... arguments)
 		{
-			super(type, method);
+			super(type, method, arguments);
 		}
 	}
 	

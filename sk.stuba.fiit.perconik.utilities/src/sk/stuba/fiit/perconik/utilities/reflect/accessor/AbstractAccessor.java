@@ -2,16 +2,16 @@ package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import com.google.common.annotations.Beta;
+import java.util.Arrays;
+import javax.annotation.Nullable;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 
-@Beta
 abstract class AbstractAccessor<T> implements Accessor<T>
 {
 	final TypeToken<T> token;
 	
-	AbstractAccessor(final TypeToken<T> token)
+	AbstractAccessor(TypeToken<T> token)
 	{
 		assert token != null;
 		
@@ -40,35 +40,46 @@ abstract class AbstractAccessor<T> implements Accessor<T>
 	{
 		final Field field;
 		
-		FieldAccessor(TypeToken<T> type, Field field)
+		@Nullable
+		final Object receiver;
+		
+		FieldAccessor(TypeToken<T> type, Field field, Object receiver)
 		{
 			super(type);
 			
-			this.field = field;
+			this.field    = field;
+			this.receiver = receiver;
 		}
 		
 		@Override
 		public final T getFailing() throws IllegalAccessException
 		{
-			return (T) this.token.getRawType().cast(this.field.get(null));
+			return (T) this.token.getRawType().cast(this.field.get(this.receiver));
 		}
 	}
 	
 	static class InvokableAccessor<T> extends AbstractAccessor<T>
 	{
-		final Invokable<?, T> invokable;
+		final Invokable<Object, T> invokable;
 		
-		InvokableAccessor(TypeToken<T> type, Invokable<?, T> invokable)
+		@Nullable
+		final Object receiver;
+		
+		final Object[] arguments;
+		
+		InvokableAccessor(TypeToken<T> type, Invokable<Object, T> invokable, Object receiver, Object ... arguments)
 		{
 			super(type);
 			
 			this.invokable = invokable;
+			this.receiver  = receiver;
+			this.arguments = Arrays.copyOf(arguments, arguments.length);
 		}
 
 		@Override
 		public final T getFailing() throws IllegalAccessException, InvocationTargetException
 		{
-			return this.invokable.invoke(null);
+			return this.invokable.invoke(this.receiver, this.arguments);
 		}
 	}
 	
