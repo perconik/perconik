@@ -1,7 +1,11 @@
 package com.gratex.perconik.tag.builder;
 
-import java.util.Arrays;
 import java.util.Iterator;
+
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -9,22 +13,29 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
-import sk.stuba.fiit.perconik.environment.Environment;
+import org.eclipse.ui.handlers.HandlerUtil;
+
 import com.gratex.perconik.tag.plugin.Activator;
 
-public class ToggleNatureAction implements IObjectActionDelegate {
-
-	private ISelection selection;
-
+public class ToggleNatureAction extends AbstractHandler{
+	
+	// ----------------------------------------
+	
 	@Override
-	public void run(IAction action) {
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+		IProject project = resolveProject(selection);
+		if(project != null){
+			toggleNature(project);
+		}
+		return null;		
+	}
+
+	private IProject resolveProject(ISelection selection){
 		if (selection instanceof IStructuredSelection) {
 			for (Iterator<?> it = ((IStructuredSelection) selection).iterator(); it.hasNext();) {
 				Object element = it.next();
@@ -34,18 +45,12 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 				} else if (element instanceof IAdaptable) {
 					project = (IProject) ((IAdaptable) element) .getAdapter(IProject.class);
 				}
-				if (project != null) {
-					toggleNature(project);
-				}
+				return project;				
 			}
 		}
+		return null;
 	}
-
-	@Override
-	public void selectionChanged(IAction action, ISelection selection) {
-		this.selection = selection;
-	}
-
+	
 	private void toggleNature(IProject project) {
 		try {
 			IProjectDescription description = project.getDescription();
@@ -59,6 +64,16 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 					for(String t : new String[]{"Eq", "Lt", "Gt"}){
 						for(String c : new String[]{"Blue", "Red", "Green"}){
 							project.deleteMarkers(MARKER_TYPE+"."+t+c, false, IResource.DEPTH_INFINITE);
+						}
+					}
+					
+					IMarker mm[] = project.findMarkers(IMarker.PROBLEM, false, IResource.DEPTH_INFINITE);
+					if(mm != null){
+						for(IMarker m : mm){
+							Object o = m.getAttribute(Activator.MARKER_ID);
+							if(o instanceof String){
+								m.delete();
+							}
 						}
 					}
 					
@@ -90,6 +105,4 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 		}
 	}
 
-	@Override
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {}
 }

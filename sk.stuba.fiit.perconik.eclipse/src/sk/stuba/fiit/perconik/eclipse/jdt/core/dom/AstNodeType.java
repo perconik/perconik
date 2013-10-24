@@ -88,6 +88,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
@@ -528,6 +529,8 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 
 	private static final TypeConstantSupport<AstNodeType, ASTNode> types = TypeConstantSupport.of(AstNodeType.class);
 
+	private final String name;
+	
 	private final int value;
 	
 	private final Class<? extends ASTNode> type;
@@ -536,6 +539,7 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 	{
 		assert type != null;
 		
+		this.name  = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, this.name());
 		this.value = value;
 		this.type  = type;
 	}
@@ -620,9 +624,62 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 		return false;
 	}
 	
-	public final boolean isInstance(ASTNode node)
+	public static final boolean isMatching(@Nullable final ASTNode node, final AstNodeType a)
+	{
+		return node != null && a.isMatching(node);
+	}
+	
+	public static final boolean isMatching(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b)
+	{
+		return node != null && (a.isMatching(node) || b.isMatching(node));
+	}
+
+	public static final boolean isMatching(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b, final AstNodeType c)
+	{
+		return node != null && (a.isMatching(node) || b.isMatching(node) || c.isMatching(node));
+	}
+
+	public static final boolean isMatching(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b, final AstNodeType c, final AstNodeType d)
+	{
+		return node != null && (a.isMatching(node) || b.isMatching(node) || c.isMatching(node) || d.isMatching(node));
+	}
+
+	public static final boolean isMatching(@Nullable final ASTNode node, final AstNodeType a, final AstNodeType b, final AstNodeType c, final AstNodeType d, final AstNodeType ... rest)
+	{
+		return isMatching(node, a, b, c, d) || isMatching(node, Arrays.asList(rest));
+	}
+
+	public static final boolean isMatching(@Nullable final ASTNode node, final Iterable<AstNodeType> types)
+	{
+		if (node == null)
+		{
+			return false;
+		}
+		
+		for (AstNodeType type: types)
+		{
+			if (type.isMatching(node))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public final boolean isInstance(final ASTNode node)
 	{
 		return this.type.isInstance(node);
+	}
+	
+	public final boolean isMatching(final ASTNode node)
+	{
+		return this.value == node.getNodeType();
+	}
+	
+	public final String getName()
+	{
+		return this.name;
 	}
 
 	public final int getValue()

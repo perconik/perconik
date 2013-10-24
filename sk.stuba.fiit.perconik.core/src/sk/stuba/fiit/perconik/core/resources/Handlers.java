@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import java.util.Set;
 import sk.stuba.fiit.perconik.core.FilteringListener;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
@@ -48,7 +49,11 @@ final class Handlers
 	
 	static final <E extends Enum<E> & IntegralConstant> int mask(final FilteringListener<E> listener)
 	{
-		return IntegralConstantSupport.constantsAsInteger(listener.getEventTypes());
+		Set<E> types = listener.getEventTypes();
+		
+		Preconditions.checkState(types != null && !types.isEmpty());
+		
+		return IntegralConstantSupport.constantsAsInteger(types);
 	}
 	
 	static final <T> Handler<T> safe(final Handler<T> handler, final Class<T> type)

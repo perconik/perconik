@@ -1,9 +1,7 @@
-package sk.stuba.fiit.perconik.core.java.dom;
+package sk.stuba.fiit.perconik.core.java.dom.compatibility;
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
-
-// TODO impls
 
 public interface AstNodeFactory
 {
