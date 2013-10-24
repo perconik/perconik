@@ -58,7 +58,7 @@ public final class ListenerPreferences extends AbstractPreferences
 		{
 			if (this.scope != Scope.DEFAULT)
 			{
-				return getDefault().getListenerPersistenceData();
+				return ListenerPersistenceData.defaults();
 			}
 			
 			throw e;

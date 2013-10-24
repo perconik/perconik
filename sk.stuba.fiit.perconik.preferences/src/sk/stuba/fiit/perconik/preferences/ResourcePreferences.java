@@ -58,7 +58,7 @@ public final class ResourcePreferences extends AbstractPreferences
 		{
 			if (this.scope != Scope.DEFAULT)
 			{
-				return getDefault().getResourcePersistenceData();
+				return ResourcePersistenceData.defaults();
 			}
 			
 			throw e;
