@@ -62,7 +62,7 @@ final class StandardResourceManager extends AbstractResourceManager
 			
 			if (!matched)
 			{
-				for (Class<?> supertype: Reflections.getInterfaces(type))
+				for (Class<?> supertype: Reflections.collectInterfaces(type))
 				{
 					if (supertype == entry.getKey())
 					{

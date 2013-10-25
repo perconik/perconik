@@ -15,11 +15,11 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.jgit;bundle-version="3.0.0",
  org.eclipse.ltk.core.refactoring;bundle-version="3.6.100",
  org.eclipse.ui;bundle-version="3.105.0",
- sk.stuba.fiit.perconik.core;bundle-version="0.0.5",
+ sk.stuba.fiit.perconik.core;bundle-version="0.0.6",
  sk.stuba.fiit.perconik.eclipse;bundle-version="0.0.4",
  sk.stuba.fiit.perconik.environment;bundle-version="0.0.3",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.0.2"
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.0.3"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava

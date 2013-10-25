@@ -34,7 +34,7 @@ public final class Registrables
 	
 	public static final <R extends Registrable> Annotable toAnnotable(final Class<R> type)
 	{
-		LinkedList<Class<? super R>> types = Reflections.getSuperclasses(type);
+		LinkedList<Class<? super R>> types = Reflections.collectSuperclasses(type);
 
 		types.addFirst(type);
 		

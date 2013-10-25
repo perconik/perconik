@@ -70,7 +70,7 @@ public final class Reflections
 		return cast(ToEnumTypeFunction.INSTANCE);
 	}
 	
-	public static final <T> LinkedList<Class<? super T>> getSuperclasses(Class<T> type)
+	public static final <T> LinkedList<Class<? super T>> collectSuperclasses(Class<T> type)
 	{
 		LinkedList<Class<? super T>> superclasses = Lists.newLinkedList();
 		
@@ -84,7 +84,7 @@ public final class Reflections
 		return superclasses;
 	}
 	
-	public static final LinkedHashSet<Class<?>> getInterfaces(Class<?> type)
+	public static final LinkedHashSet<Class<?>> collectInterfaces(Class<?> type)
 	{
 		Set<Class<?>> resolved = Sets.newHashSet();
 		
@@ -94,21 +94,21 @@ public final class Reflections
 
 		resolved.add(type);
 		
-		for (Class<?> supertype: getSuperclasses(type))
+		for (Class<?> supertype: collectSuperclasses(type))
 		{
-			collectInterfaces(supertype, resolved, interfaces);
+			groupInterfaces(supertype, resolved, interfaces);
 		}
 		
 		return interfaces;
 	}
 	
-	private static final void collectInterfaces(Class<?> type, Set<Class<?>> resolved, Set<Class<?>> result)
+	private static final void groupInterfaces(Class<?> type, Set<Class<?>> resolved, Set<Class<?>> result)
 	{
 		if (resolved.add(type))
 		{
 			for (Class<?> supertype: type.getInterfaces())
 			{
-				collectInterfaces(supertype, resolved, result);
+				groupInterfaces(supertype, resolved, result);
 			}
 		}
 		

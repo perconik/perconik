@@ -2,6 +2,8 @@ package com.gratex.perconik.activity.listeners;
 
 import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jface.text.BadLocationException;
@@ -34,6 +36,8 @@ import com.gratex.perconik.services.activity.IdeCodeOperationTypeEnum;
 public final class IdeCodeListener extends IdeListener implements TextSelectionListener
 {
 	// TODO code operation type PasteFromWeb is not supported
+	
+	private final Executor executor = Executors.newSingleThreadExecutor();
 	
 	public IdeCodeListener()
 	{
@@ -97,43 +101,51 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 			return;
 		}
 		
-		IEditorPart editor   = (IEditorPart) part;
-		IDocument   document = Editors.getDocument(editor);
-		
-		UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
-		
-		if (document == null || resource == null)
+		final Runnable command = new Runnable()
 		{
-			return;
-		}
-		
-		Selection data = new Selection();
-		
-		data.text = selection.getText();
-		
-		data.start.line = selection.getStartLine();
-		data.end.line   = selection.getEndLine();
-
-		try
-		{
-			int offset = selection.getOffset();
-			
-			data.start.offset = offset - document.getLineOffset(data.start.line);
-			data.end.offset   = offset + selection.getLength() - document.getLineOffset(data.end.line);
-			
-			String delimeter = document.getLineDelimiter(data.end.line);
-			
-			if (delimeter != null && data.text.endsWith(delimeter))
+			public final void run()
 			{
-				data.end.line ++;
-				data.end.offset = 0;
-			}
-		}
-		catch (BadLocationException e)
-		{
-			throw Throwables.propagate(e);
-		}
+				IEditorPart editor   = (IEditorPart) part;
+				IDocument   document = Editors.getDocument(editor);
+				
+				UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
+				
+				if (document == null || resource == null)
+				{
+					return;
+				}
+				
+				Selection data = new Selection();
+				
+				data.text = selection.getText();
+				
+				data.start.line = selection.getStartLine();
+				data.end.line   = selection.getEndLine();
 		
-		process(resource, data);
+				try
+				{
+					int offset = selection.getOffset();
+					
+					data.start.offset = offset - document.getLineOffset(data.start.line);
+					data.end.offset   = offset + selection.getLength() - document.getLineOffset(data.end.line);
+					
+					String delimeter = document.getLineDelimiter(data.end.line);
+					
+					if (delimeter != null && data.text.endsWith(delimeter))
+					{
+						data.end.line ++;
+						data.end.offset = 0;
+					}
+				}
+				catch (BadLocationException e)
+				{
+					throw Throwables.propagate(e);
+				}
+				
+				process(resource, data);
+			}
+		};
+		
+		this.executor.execute(command);
 	}
 }

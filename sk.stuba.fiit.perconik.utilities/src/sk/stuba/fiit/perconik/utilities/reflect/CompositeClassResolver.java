@@ -32,7 +32,7 @@ final class CompositeClassResolver implements ClassResolver
 				suppressions.add(e);
 			}
 		}
-		
+
 		ClassNotFoundException failure = new ClassNotFoundException(name + " not found");
 		
 		throw MoreThrowables.initializeSuppressor(failure, Lists.reverse(suppressions));
