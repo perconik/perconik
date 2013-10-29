@@ -81,4 +81,3 @@ class UnsupportedStandardResource<L extends Listener> extends StandardResource<L
 		super(pool);
 	}
 }
-
