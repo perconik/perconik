@@ -15,8 +15,8 @@ import com.google.common.collect.Maps;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.DataTransferObjects;
-import com.gratex.perconik.services.activity.IVsActivityWatcherService;
-import com.gratex.perconik.services.activity.IdeCheckinDto;
+import com.gratex.perconik.services.vs.IVsActivityWatcherService;
+import com.gratex.perconik.services.vs.IdeCheckinDto;
 
 /**
  * A listener of {@code IdeCommit} events. This listener creates

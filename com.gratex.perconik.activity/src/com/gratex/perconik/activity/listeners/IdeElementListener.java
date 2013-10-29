@@ -30,9 +30,9 @@ import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.Application;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.services.activity.IVsActivityWatcherService;
-import com.gratex.perconik.services.activity.IdeCodeElementEventDto;
-import com.gratex.perconik.services.activity.IdeCodeElementEventTypeEnum;
+import com.gratex.perconik.services.vs.IVsActivityWatcherService;
+import com.gratex.perconik.services.vs.IdeCodeElementEventDto;
+import com.gratex.perconik.services.vs.IdeCodeElementEventTypeEnum;
 
 /**
  * A listener of {@code IdeCodeElement} events. This listener creates

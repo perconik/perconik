@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *     &lt;enumeration value="PasteFromWeb"/>
  *     &lt;enumeration value="SelectionChanged"/>
+ *     &lt;enumeration value="Paste"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -28,7 +29,9 @@ public enum IdeCodeOperationTypeEnum {
     @XmlEnumValue("PasteFromWeb")
     PASTE_FROM_WEB("PasteFromWeb"),
     @XmlEnumValue("SelectionChanged")
-    SELECTION_CHANGED("SelectionChanged");
+    SELECTION_CHANGED("SelectionChanged"),
+    @XmlEnumValue("Paste")
+    PASTE("Paste");
     private final String value;
 
     IdeCodeOperationTypeEnum(String v) {

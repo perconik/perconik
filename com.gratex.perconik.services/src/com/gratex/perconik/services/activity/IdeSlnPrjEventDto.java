@@ -29,12 +29,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdeSlnPrjEventDto")
 @XmlSeeAlso({
+    IdeStateChangeDto.class,
     IdeProjectOperationDto.class,
     IdeCodeOperationDto.class,
-    IdeStateChangeDto.class,
     IdeCodeElementEventDto.class,
-    IdeDocumentOperationDto.class,
-    IdeFindOperationDto.class
+    IdeFindOperationDto.class,
+    IdeDocumentOperationDto.class
 })
 public abstract class IdeSlnPrjEventDto
     extends IdeEventDto

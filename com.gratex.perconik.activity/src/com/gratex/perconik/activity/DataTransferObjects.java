@@ -14,12 +14,12 @@ import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.gratex.perconik.services.activity.EventDto;
-import com.gratex.perconik.services.activity.IdeDocumentDto;
-import com.gratex.perconik.services.activity.IdeEventDto;
-import com.gratex.perconik.services.activity.IdePathTypeEnum;
-import com.gratex.perconik.services.activity.IdeSlnPrjEventDto;
-import com.gratex.perconik.services.activity.RcsServerDto;
+import com.gratex.perconik.services.vs.EventDto;
+import com.gratex.perconik.services.vs.IdeDocumentDto;
+import com.gratex.perconik.services.vs.IdeEventDto;
+import com.gratex.perconik.services.vs.IdePathTypeEnum;
+import com.gratex.perconik.services.vs.IdeSlnPrjEventDto;
+import com.gratex.perconik.services.vs.RcsServerDto;
 
 public final class DataTransferObjects
 {

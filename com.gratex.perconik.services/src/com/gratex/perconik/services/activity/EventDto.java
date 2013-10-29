@@ -31,7 +31,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EventDto")
 @XmlSeeAlso({
-    IdeEventDto.class
+    LyncStatusChangeDto.class,
+    ApplicationFocusLostDto.class,
+    IdeEventDto.class,
+    OneNoteEventDto.class,
+    WebEventDto.class
 })
 public abstract class EventDto {
 

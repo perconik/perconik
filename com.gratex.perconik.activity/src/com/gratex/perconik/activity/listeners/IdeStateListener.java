@@ -13,8 +13,8 @@ import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.services.activity.IVsActivityWatcherService;
-import com.gratex.perconik.services.activity.IdeStateChangeDto;
+import com.gratex.perconik.services.vs.IVsActivityWatcherService;
+import com.gratex.perconik.services.vs.IdeStateChangeDto;
 
 /**
  * A listener of {@code IdeStateChange} events. This listener creates

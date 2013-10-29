@@ -2,9 +2,9 @@ package com.gratex.perconik.activity;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.gratex.perconik.services.activity.EventDto;
-import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
-import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
+import com.gratex.perconik.services.vs.EventDto;
+import com.gratex.perconik.services.vs.IdeDocumentOperationDto;
+import com.gratex.perconik.services.vs.IdeDocumentOperationTypeEnum;
 
 public final class MilestoneResolver implements Predicate<EventDto>
 {

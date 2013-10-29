@@ -18,9 +18,9 @@ import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ActivityServices;
 import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.Application;
-import com.gratex.perconik.services.activity.IVsActivityWatcherService;
-import com.gratex.perconik.services.activity.IdeCodeOperationDto;
-import com.gratex.perconik.services.activity.IdeCodeOperationTypeEnum;
+import com.gratex.perconik.services.vs.IVsActivityWatcherService;
+import com.gratex.perconik.services.vs.IdeCodeOperationDto;
+import com.gratex.perconik.services.vs.IdeCodeOperationTypeEnum;
 
 /**
  * A listener of {@code IdeCodeOperation} events. This listener creates

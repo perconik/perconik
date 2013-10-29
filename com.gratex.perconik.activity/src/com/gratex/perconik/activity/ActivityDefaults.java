@@ -6,12 +6,12 @@ import javax.xml.namespace.QName;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.services.activity.IdeCheckinDto;
-import com.gratex.perconik.services.activity.IdeCodeOperationDto;
-import com.gratex.perconik.services.activity.IdeDocumentOperationTypeEnum;
-import com.gratex.perconik.services.activity.IdeEventDto;
-import com.gratex.perconik.services.activity.IdeProjectOperationDto;
-import com.gratex.perconik.services.activity.IdeStateChangeDto;
+import com.gratex.perconik.services.vs.IdeCheckinDto;
+import com.gratex.perconik.services.vs.IdeCodeOperationDto;
+import com.gratex.perconik.services.vs.IdeDocumentOperationTypeEnum;
+import com.gratex.perconik.services.vs.IdeEventDto;
+import com.gratex.perconik.services.vs.IdeProjectOperationDto;
+import com.gratex.perconik.services.vs.IdeStateChangeDto;
 
 public final class ActivityDefaults
 {

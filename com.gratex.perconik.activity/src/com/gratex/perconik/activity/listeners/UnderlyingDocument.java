@@ -6,9 +6,9 @@ import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.gratex.perconik.activity.DataTransferObjects;
-import com.gratex.perconik.services.activity.IdeCodeOperationDto;
-import com.gratex.perconik.services.activity.IdeDocumentOperationDto;
-import com.gratex.perconik.services.activity.IdeSlnPrjEventDto;
+import com.gratex.perconik.services.vs.IdeCodeOperationDto;
+import com.gratex.perconik.services.vs.IdeDocumentOperationDto;
+import com.gratex.perconik.services.vs.IdeSlnPrjEventDto;
 
 abstract class UnderlyingDocument<T>
 {

@@ -9,8 +9,8 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.gratex.perconik.activity.plugin.Activator;
-import com.gratex.perconik.services.activity.IVsActivityWatcherService;
-import com.gratex.perconik.services.activity.VsActivityWatcherService;
+import com.gratex.perconik.services.vs.IVsActivityWatcherService;
+import com.gratex.perconik.services.vs.VsActivityWatcherService;
 
 public final class ActivityServices
 {

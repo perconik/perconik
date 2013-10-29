@@ -3,7 +3,7 @@ package com.gratex.perconik.activity.listeners;
 import org.eclipse.core.commands.CommandEvent;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.listeners.CommandListener;
-import com.gratex.perconik.services.activity.IdeFindOperationDto;
+import com.gratex.perconik.services.vs.IdeFindOperationDto;
 
 /**
  * A listener of {@code IdeFindOperation} events. This listener creates

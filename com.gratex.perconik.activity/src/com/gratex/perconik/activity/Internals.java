@@ -18,7 +18,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.gratex.perconik.activity.plugin.Activator;
-import com.gratex.perconik.services.activity.EventDto;
+import com.gratex.perconik.services.vs.EventDto;
 
 class Internals
 {
