@@ -7,8 +7,10 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Table;
+import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
+import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
@@ -118,6 +120,27 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 	@Override
 	final void apply()
 	{
+		for (ResourcePersistenceData data: this.registrations)
+		{
+			if (data.isRegistered() && !data.hasRegistredMark() && !data.getResource().registered(Listener.class).isEmpty())
+			{
+				String message;
+				
+				message  = "Resource unregistration failed due to one or more listeners registered. ";
+				message += "Select only resources with currently no registered listeners or unregister all listeners from the resources to be unregistered first.";
+
+				if (Environment.debug)
+				{
+					message += "\n\n" + data.getResource() + ": " + data.getResource().registered(Listener.class);
+				}
+
+				this.displayError("Resource unregistration", message);
+				this.performRefresh();
+				
+				return;
+			}
+		}
+		
 		Set<ResourcePersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
 		
 		this.getPreferences().setResourcePersistenceData(data);
