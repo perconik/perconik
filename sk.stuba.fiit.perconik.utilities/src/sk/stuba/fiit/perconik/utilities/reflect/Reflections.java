@@ -112,6 +112,9 @@ public final class Reflections
 			}
 		}
 		
-		result.add(type);
+		if (type.isInterface())
+		{
+			result.add(type);
+		}
 	}
 }
