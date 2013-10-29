@@ -2,12 +2,16 @@ package sk.stuba.fiit.perconik.core;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
+import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
+import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 
 /**
  * Static accessor methods pertaining to the listeners core. 
@@ -114,5 +118,38 @@ public final class Listeners
 	public static final boolean isRegistered(final Listener listener)
 	{
 		return manager().registered(listener);
+	}
+	
+	public static final Set<Class<? extends Listener>> types(final Listener listener)
+	{
+		Set<Class<?>> raw = Reflections.collectInterfaces(listener.getClass());
+		
+		raw.remove(Registrable.class);
+		raw.remove(Listener.class);
+		
+		Set<Class<? extends Listener>> types = Sets.newHashSetWithExpectedSize(raw.size() - 2);
+		
+		for (Class<?> type: raw)
+		{
+			if (Listener.class.isAssignableFrom(type))
+			{
+				types.add(type.asSubclass(Listener.class));
+			}
+		}
+		
+		Iterable<Class<? extends Listener>> iterable = Lists.newArrayList(types);
+		
+		for (Class<?> a: iterable)
+		{
+			for (Class<?> b: iterable)
+			{
+				if (a != b && a.isAssignableFrom(b))
+				{
+					types.remove(a);
+				}
+			}
+		}
+		
+		return types;
 	}
 }
