@@ -31,7 +31,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
 		{
 			if (serviceComponentsSupplied)
 			{
-				this.console().warning("Custom %s supplied, custom supplied %s components ignored", "resource service");
+				this.console().warning("Custom %s supplied, custom supplied components ignored", "resource service");
 			}
 			
 			service = this.processResourceServiceFactories(this.getExtensions(ResourceServiceFactory.class));

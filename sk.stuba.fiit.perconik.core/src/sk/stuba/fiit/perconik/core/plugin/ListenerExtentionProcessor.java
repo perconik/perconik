@@ -31,7 +31,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
 		{
 			if (serviceComponentsSupplied)
 			{
-				this.console().warning("Custom %s supplied, custom supplied %s components ignored", "listener service");
+				this.console().warning("Custom %s supplied, custom supplied components ignored", "listener service");
 			}
 			
 			service = this.processListenerServiceFactories(this.getExtensions(ListenerServiceFactory.class));
