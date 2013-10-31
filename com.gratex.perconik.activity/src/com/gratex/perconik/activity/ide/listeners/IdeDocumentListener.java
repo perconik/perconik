@@ -1,7 +1,8 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -39,9 +40,8 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.activity.ActivityServices;
-import com.gratex.perconik.activity.Application;
-import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
 import com.gratex.perconik.services.vs.IdeDocumentOperationDto;
 import com.gratex.perconik.services.vs.IdeDocumentOperationTypeEnum;
@@ -72,7 +72,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 	}
 	
-	private static final IEditorPart dereferenceEditor(final IEditorReference reference)
+	static final IEditorPart dereferenceEditor(final IEditorReference reference)
 	{
 		return reference.getEditor(false);
 	}
@@ -94,13 +94,24 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		
 		return false;
 	}
-
-	static final void process(final IFile file, final IdeDocumentOperationTypeEnum type)
+	
+	static final void send(final IdeDocumentOperationDto data)
 	{
-		process(UnderlyingDocument.valueOf(file), type);
+		performWatcherServiceOperation(new WatcherServiceOperation()
+		{
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeDocumentOperation(data);
+			}
+		});
+	}
+
+	static final IdeDocumentOperationDto build(final long time, final IFile file, final IdeDocumentOperationTypeEnum type)
+	{
+		return build(time, UnderlyingDocument.valueOf(file), type);
 	}
 	
-	static final void process(final UnderlyingDocument<?> document, final IdeDocumentOperationTypeEnum type)
+	static final IdeDocumentOperationDto build(final long time, final UnderlyingDocument<?> document, final IdeDocumentOperationTypeEnum type)
 	{
 		final IdeDocumentOperationDto data = new IdeDocumentOperationDto();
 
@@ -110,28 +121,26 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		document.setProjectData(data);
 
 		setApplicationData(data);
-		setEventData(data);
+		setEventData(data, time);
 		
 		// TODO rm
-		if (Application.getInstance().isDebug()){
+		if (IdeApplication.getInstance().isDebug()){
 		Object x = document.resource;
 		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)) + " operation: " + type);
 		}
 		
-		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeDocumentOperation(data);
-			}
-		});
+		return data;
 	}
 	
 	private static final class ResourceDeltaVisitor extends AbstractResourceDeltaVisitor
 	{
-		ResourceDeltaVisitor(final ResourceEventType type)
+		private final long time;
+		
+		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
 			super(type);
+			
+			this.time = time;
 		}
 
 		@Override
@@ -171,7 +180,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				
 				if (!path.lastSegment().equals(resource.getFullPath().lastSegment()))
 				{
-					process((IFile) resource, IdeDocumentOperationTypeEnum.RENAME);
+					send(build(this.time, (IFile) resource, IdeDocumentOperationTypeEnum.RENAME));
 					
 					return false;
 				}
@@ -179,8 +188,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
 
-			if (kind == ADDED)   process((IFile) resource, IdeDocumentOperationTypeEnum.ADD);
-			if (kind == REMOVED) process((IFile) resource, IdeDocumentOperationTypeEnum.REMOVE);
+			if (kind == ADDED)   send(build(this.time, (IFile) resource, IdeDocumentOperationTypeEnum.ADD));
+			if (kind == REMOVED) send(build(this.time, (IFile) resource, IdeDocumentOperationTypeEnum.REMOVE));
 
 			return false;
 		}
@@ -192,22 +201,22 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		}
 	}
 
-	public final void resourceChanged(final IResourceChangeEvent event)
+	static final void process(final long time, final IResourceChangeEvent event)
 	{
 		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
 		IResourceDelta    delta = event.getDelta();
 
 		if (delta != null)
 		{
-			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(type));
+			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(time, type));
 		}
 		else
 		{
-			new ResourceDeltaVisitor(type).handle(event.getResource());
+			new ResourceDeltaVisitor(time, type).handle(event.getResource());
 		}
 	}
-
-	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+	
+	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
 		UnderlyingDocument<?> document = null;
 
@@ -241,28 +250,70 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		
 		if (this.updateFile(document))
 		{
-			process(document, IdeDocumentOperationTypeEnum.SWITCH_TO);
+			send(build(time, document, IdeDocumentOperationTypeEnum.SWITCH_TO));
 		}
+	}
+	
+	public final void resourceChanged(final IResourceChangeEvent event)
+	{
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, event);
+			}
+		});
+	}
+
+	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+	{
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, part, selection);
+			}
+		});
 	}
 
 	public final void editorOpened(final IEditorReference reference)
 	{
-		UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
+		final long time = currentTime();
 		
-		if (resource != null)
+		executor.execute(new Runnable()
 		{
-			process(resource, IdeDocumentOperationTypeEnum.OPEN);
-		}
+			public final void run()
+			{
+				UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
+				
+				if (resource != null)
+				{
+					send(build(time, resource, IdeDocumentOperationTypeEnum.OPEN));
+				}
+			}
+		});
 	}
 
 	public final void editorClosed(final IEditorReference reference)
 	{
-		UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
+		final long time = currentTime();
 		
-		if (resource != null)
+		executor.execute(new Runnable()
 		{
-			process(resource, IdeDocumentOperationTypeEnum.CLOSE);
-		}
+			public final void run()
+			{
+				UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
+				
+				if (resource != null)
+				{
+					send(build(time, resource, IdeDocumentOperationTypeEnum.CLOSE));
+				}
+			}
+		});
 	}
 
 	public final void editorActivated(final IEditorReference reference)
@@ -325,12 +376,20 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty)
 	{
-		if (!dirty)
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
 		{
-			IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
-			
-			process(file, IdeDocumentOperationTypeEnum.SAVE);
-		}
+			public final void run()
+			{
+				if (!dirty)
+				{
+					IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
+					
+					send(build(time, file, IdeDocumentOperationTypeEnum.SAVE));
+				}
+			}
+		});
 	}
 
 	public final void underlyingFileMoved(final IFileBuffer buffer, final IPath path)

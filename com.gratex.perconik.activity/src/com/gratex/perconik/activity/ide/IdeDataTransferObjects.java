@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity;
+package com.gratex.perconik.activity.ide;
 
 import java.util.LinkedList;
 import org.eclipse.core.resources.IFile;
@@ -14,16 +14,15 @@ import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.gratex.perconik.services.vs.EventDto;
 import com.gratex.perconik.services.vs.IdeDocumentDto;
 import com.gratex.perconik.services.vs.IdeEventDto;
 import com.gratex.perconik.services.vs.IdePathTypeEnum;
 import com.gratex.perconik.services.vs.IdeSlnPrjEventDto;
 import com.gratex.perconik.services.vs.RcsServerDto;
 
-public final class DataTransferObjects
+public final class IdeDataTransferObjects
 {
-	private DataTransferObjects()
+	private IdeDataTransferObjects()
 	{
 		throw new AssertionError();
 	}
@@ -106,15 +105,15 @@ public final class DataTransferObjects
 		return data;
 	}
 	
-	public static final void setEventData(final EventDto data)
+	public static final void setEventData(final IdeEventDto data, final long time)
 	{
-		data.setIsMilestone(Internals.milestoneResolver().apply(data));
-		data.setTime(Internals.timeSupplier().get());
+		data.setIsMilestone(IdeActivityDefaults.getMilestoneResolver().isMilestone(data));
+		data.setTime(IdeActivityDefaults.getTimeSupplier().from(time));
 	}
 
 	public static final void setApplicationData(final IdeEventDto data)
 	{
-		Application application = Application.getInstance();
+		IdeApplication application = IdeApplication.getInstance();
 		
 		data.setIdePid(application.getPid());
 		data.setApplicationName(application.getName());

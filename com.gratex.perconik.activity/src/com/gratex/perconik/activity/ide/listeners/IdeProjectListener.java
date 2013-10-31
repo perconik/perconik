@@ -1,8 +1,9 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
-import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
+import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
@@ -29,9 +30,8 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.activity.ActivityServices;
-import com.gratex.perconik.activity.Application;
-import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
 import com.gratex.perconik.services.vs.IdeProjectOperationDto;
 import com.gratex.perconik.services.vs.IdeProjectOperationTypeEnum;
@@ -80,7 +80,18 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		return false;
 	}
 	
-	static final void process(final IProject project, final IdeProjectOperationTypeEnum type)
+	static final void send(final IdeProjectOperationDto data)
+	{
+		performWatcherServiceOperation(new WatcherServiceOperation()
+		{
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeProjectOperation(data);
+			}
+		});
+	}
+	
+	static final IdeProjectOperationDto build(final long time, final IProject project, final IdeProjectOperationTypeEnum type)
 	{
 		final IdeProjectOperationDto data = new IdeProjectOperationDto();
 
@@ -88,26 +99,24 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		
 		setProjectData(data, project);
 		setApplicationData(data);
-		setEventData(data);
+		setEventData(data, time);
 		
 		// TODO rm
-		if (Application.getInstance().isDebug()){
+		if (IdeApplication.getInstance().isDebug()){
 		System.out.println("PROJECT: " + project.getFullPath() + " operation: " + type);}
 		
-		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeProjectOperationAsync(data);
-			}
-		});
+		return data;
 	}
 	
 	private static final class ResourceDeltaVisitor extends AbstractResourceDeltaVisitor
 	{
-		ResourceDeltaVisitor(final ResourceEventType type)
+		private final long time;
+		
+		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
 			super(type);
+			
+			this.time = time;
 		}
 
 		@Override
@@ -125,8 +134,8 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 				ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
 				Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 				
-				if (kind == ADDED) process((IProject) resource, IdeProjectOperationTypeEnum.ADD);
-				if (flags.contains(OPEN)) process((IProject) resource, IdeProjectOperationTypeEnum.OPEN);
+				if (kind == ADDED) send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.ADD));
+				if (flags.contains(OPEN)) send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.OPEN));
 				
 				return false;
 			}
@@ -142,15 +151,15 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 			switch (this.type)
 			{
 				case PRE_CLOSE:
-					process((IProject) resource, IdeProjectOperationTypeEnum.CLOSE);
+					send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.CLOSE));
 					break;
 
 				case PRE_DELETE:
-					process((IProject) resource, IdeProjectOperationTypeEnum.REMOVE);
+					send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.REMOVE));
 					break;
 
 				case PRE_REFRESH:
-					process((IProject) resource, IdeProjectOperationTypeEnum.REFRESH);
+					send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.REFRESH));
 					break;
 
 				default:
@@ -161,49 +170,66 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		}
 	}
 	
-	public final void resourceChanged(final IResourceChangeEvent event)
+	static final void process(final long time, final IResourceChangeEvent event)
 	{
 		ResourceEventType type = ResourceEventType.valueOf(event.getType());
-
+	
 		IResourceDelta delta = event.getDelta();
-
+	
 		if (delta != null)
 		{
-			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(type));
+			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(time, type));
 		}
 		else
 		{
-			new ResourceDeltaVisitor(type).handle(event.getResource());
+			new ResourceDeltaVisitor(time, type).handle(event.getResource());
 		}
 	}
 
-	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
 		IProject project = part instanceof IEditorPart ? Projects.fromEditor((IEditorPart) part) : null;
-		
-		if (Application.getInstance().isDebug()){
-		if (project != null) System.out.println("PROJECT -> editor");} // TODO rm
 		
 		if (project == null && selection instanceof IStructuredSelection)
 		{
 			project = Projects.fromSelection((IStructuredSelection) selection);
-			
-			if (Application.getInstance().isDebug()){
-			if (project != null) System.out.println("PROJECT -> structured selection");} // TODO rm
 		}
 		
 		if (project == null)
 		{
 			project = Projects.fromPage(part.getSite().getPage());
-			
-			if (Application.getInstance().isDebug()){
-			if (project != null) System.out.println("PROJECT -> part -> page");} // TODO rm
 		}
 		
 		if (this.updateProject(project))
 		{
-			process(project, IdeProjectOperationTypeEnum.SWITCH_TO);
+			send(build(time, project, IdeProjectOperationTypeEnum.SWITCH_TO));
 		}
+	}
+
+	public final void resourceChanged(final IResourceChangeEvent event)
+	{
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, event);
+			}
+		});
+	}
+
+	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+	{
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, part, selection);
+			}
+		});
 	}
 
 	public final Set<ResourceEventType> getEventTypes()

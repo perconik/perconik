@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity;
+package com.gratex.perconik.activity.ide;
 
 import javax.xml.namespace.QName;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -9,9 +9,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UriFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
-import com.gratex.perconik.activity.plugin.Activator;
+import com.gratex.perconik.activity.ide.plugin.Activator;
 
-public final class ActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
+public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
 {
 	private UrlFieldEditor watcherUrl;
 	
@@ -19,7 +19,7 @@ public final class ActivityPreferencePage extends FieldEditorPreferencePage impl
 	
 	private StringFieldEditor watcherLocalPart;
 	
-	public ActivityPreferencePage()
+	public IdeActivityPreferencePage()
 	{
 	}
 
@@ -41,9 +41,9 @@ public final class ActivityPreferencePage extends FieldEditorPreferencePage impl
 	{
 		Composite parent = this.getFieldEditorParent();
 		
-		this.watcherUrl       = new UrlFieldEditor(ActivityPreferences.watcherUrl, "URL:", parent);
-		this.watcherNamespace = new UriFieldEditor(ActivityPreferences.watcherNamespace , "Namespace:", parent);
-		this.watcherLocalPart = new StringFieldEditor(ActivityPreferences.watcherLocalPart , "Local part:", parent);
+		this.watcherUrl       = new UrlFieldEditor(IdeActivityPreferences.watcherUrl, "URL:", parent);
+		this.watcherNamespace = new UriFieldEditor(IdeActivityPreferences.watcherNamespace , "Namespace:", parent);
+		this.watcherLocalPart = new StringFieldEditor(IdeActivityPreferences.watcherLocalPart , "Local part:", parent);
 		
 		this.addField(prepare(this.watcherUrl));
 		this.addField(prepare(this.watcherNamespace));
@@ -57,8 +57,8 @@ public final class ActivityPreferencePage extends FieldEditorPreferencePage impl
 		{
 			QName name = new QName(this.watcherNamespace.getStringValue(), this.watcherLocalPart.getStringValue());
 			
-			ActivityServices.newWatcherService(this.watcherUrl.getUrlValue(), name);
-			ActivityServices.releaseWatcherService();
+			IdeActivityServices.newWatcherService(this.watcherUrl.getUrlValue(), name);
+			IdeActivityServices.releaseWatcherService();
 		}
 		catch (Exception failure)
 		{

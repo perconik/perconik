@@ -1,9 +1,8 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jface.text.BadLocationException;
@@ -15,9 +14,8 @@ import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.base.Throwables;
-import com.gratex.perconik.activity.ActivityServices;
-import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.Application;
+import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
 import com.gratex.perconik.services.vs.IdeCodeOperationDto;
 import com.gratex.perconik.services.vs.IdeCodeOperationTypeEnum;
@@ -36,9 +34,7 @@ import com.gratex.perconik.services.vs.IdeCodeOperationTypeEnum;
 public final class IdeCodeListener extends IdeListener implements TextSelectionListener
 {
 	// TODO code operation type PasteFromWeb is not supported
-	
-	private final Executor executor = Executors.newSingleThreadExecutor();
-	
+
 	public IdeCodeListener()
 	{
 	}
@@ -56,8 +52,19 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 			int line, offset;
 		}
 	}
+
+	static final void send(final IdeCodeOperationDto data)
+	{
+		performWatcherServiceOperation(new WatcherServiceOperation()
+		{
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeCodeOperation(data);
+			}
+		});
+	}
 	
-	static final void process(final UnderlyingDocument<?> document, final Selection selection)
+	static final IdeCodeOperationDto build(final long time, final UnderlyingDocument<?> document, final Selection selection)
 	{
 		final IdeCodeOperationDto data = new IdeCodeOperationDto();
 
@@ -73,7 +80,7 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 		data.setWebUrl(null);
 
 		// TODO rm
-		if (Application.getInstance().isDebug()){
+		if (IdeApplication.getInstance().isDebug()){
 		Object x = document.resource;
 		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)));
 		System.out.println("TEXT: "+selection.text+" FROM "+selection.start.line+":"+selection.start.offset+" TO "+selection.end.line+":"+selection.end.offset);
@@ -83,69 +90,68 @@ public final class IdeCodeListener extends IdeListener implements TextSelectionL
 		document.setProjectData(data);
 		
 		setApplicationData(data);
-		setEventData(data);
-		
-		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeCodeOperationAsync(data);
-			}
-		});
+		setEventData(data, time);
+
+		return data;
 	}
 
-	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
+	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
 	{
 		if (!(part instanceof IEditorPart))
 		{
 			return;
 		}
 		
-		final Runnable command = new Runnable()
+		IEditorPart editor   = (IEditorPart) part;
+		IDocument   document = Editors.getDocument(editor);
+		
+		UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
+		
+		if (document == null || resource == null)
+		{
+			return;
+		}
+		
+		Selection data = new Selection();
+		
+		data.text = selection.getText();
+		
+		data.start.line = selection.getStartLine();
+		data.end.line   = selection.getEndLine();
+
+		try
+		{
+			int offset = selection.getOffset();
+			
+			data.start.offset = offset - document.getLineOffset(data.start.line);
+			data.end.offset   = offset + selection.getLength() - document.getLineOffset(data.end.line);
+			
+			String delimeter = document.getLineDelimiter(data.end.line);
+			
+			if (delimeter != null && data.text.endsWith(delimeter))
+			{
+				data.end.line ++;
+				data.end.offset = 0;
+			}
+		}
+		catch (BadLocationException e)
+		{
+			throw Throwables.propagate(e);
+		}
+		
+		send(build(time, resource, data));
+	}
+	
+	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
+	{
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
 		{
 			public final void run()
 			{
-				IEditorPart editor   = (IEditorPart) part;
-				IDocument   document = Editors.getDocument(editor);
-				
-				UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
-				
-				if (document == null || resource == null)
-				{
-					return;
-				}
-				
-				Selection data = new Selection();
-				
-				data.text = selection.getText();
-				
-				data.start.line = selection.getStartLine();
-				data.end.line   = selection.getEndLine();
-		
-				try
-				{
-					int offset = selection.getOffset();
-					
-					data.start.offset = offset - document.getLineOffset(data.start.line);
-					data.end.offset   = offset + selection.getLength() - document.getLineOffset(data.end.line);
-					
-					String delimeter = document.getLineDelimiter(data.end.line);
-					
-					if (delimeter != null && data.text.endsWith(delimeter))
-					{
-						data.end.line ++;
-						data.end.offset = 0;
-					}
-				}
-				catch (BadLocationException e)
-				{
-					throw Throwables.propagate(e);
-				}
-				
-				process(resource, data);
+				process(time, part, selection);
 			}
-		};
-		
-		this.executor.execute(command);
+		});
 	}
 }

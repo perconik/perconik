@@ -1,6 +1,6 @@
-package com.gratex.perconik.activity;
+package com.gratex.perconik.activity.ide;
 
-import static com.gratex.perconik.activity.ActivityDefaults.console;
+import static com.gratex.perconik.activity.ide.Internals.console;
 import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -8,11 +8,11 @@ import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
-import com.gratex.perconik.activity.plugin.Activator;
+import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
 import com.gratex.perconik.services.vs.VsActivityWatcherService;
 
-public final class ActivityServices
+public final class IdeActivityServices
 {
 	private static final Object lock = new Object();
 
@@ -20,14 +20,14 @@ public final class ActivityServices
 	
 	private static final Executor executor = Executors.newCachedThreadPool();
 
-	private ActivityServices()
+	private IdeActivityServices()
 	{
 		throw new AssertionError();
 	}
 	
 	static final IVsActivityWatcherService newWatcherService()
 	{
-		return newWatcherService(ActivityDefaults.watcherUrl, ActivityDefaults.watcherName);
+		return newWatcherService(IdeActivityDefaults.watcherUrl, IdeActivityDefaults.watcherName);
 	}
 
 	static final IVsActivityWatcherService newWatcherService(final URL url, final QName name)
@@ -53,7 +53,7 @@ public final class ActivityServices
 				}
 				catch (Exception failure)
 				{
-					console().error("Unable to construct activity watcher service at " + url + " with name " + name, failure);
+					console.error("Unable to construct activity watcher service at " + url + " with name " + name, failure);
 				}
 			}
 			
@@ -81,7 +81,7 @@ public final class ActivityServices
 
 	public static final void performWatcherServiceOperation(final WatcherServiceOperation operation)
 	{
-		executor.execute(new Runnable()
+		final Runnable command = new Runnable()
 		{
 			public final void run()
 			{
@@ -89,8 +89,8 @@ public final class ActivityServices
 				
 				try
 				{
-					URL   url  = ActivityPreferences.getWatcherServiceUrl();
-					QName name = ActivityPreferences.getWatcherServiceName();
+					URL   url  = IdeActivityPreferences.getWatcherServiceUrl();
+					QName name = IdeActivityPreferences.getWatcherServiceName();
 					
 					service = resolveWatcherService(url, name);
 					
@@ -100,7 +100,7 @@ public final class ActivityServices
 					}
 					else
 					{
-						console().notice("Unable to perform activity watcher service operation, service not available");
+						console.notice("Unable to perform activity watcher service operation, service not available");
 					}
 				}
 				catch (Exception e)
@@ -108,7 +108,9 @@ public final class ActivityServices
 					reportWatcherServiceFailure(e);
 				}
 			}
-		});
+		};
+		
+		executor.execute(command);
 	}
 
 	public static interface ServiceOperation<S extends Object>

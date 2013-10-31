@@ -1,11 +1,11 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import com.gratex.perconik.activity.DataTransferObjects;
+import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.services.vs.IdeCodeOperationDto;
 import com.gratex.perconik.services.vs.IdeDocumentOperationDto;
 import com.gratex.perconik.services.vs.IdeSlnPrjEventDto;
@@ -60,19 +60,19 @@ abstract class UnderlyingDocument<T>
 		@Override
 		final void setDocumentData(final IdeCodeOperationDto data)
 		{
-			data.setDocument(DataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentOperationDto data)
 		{
-			data.setDocument(DataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setProjectData(final IdeSlnPrjEventDto data)
 		{
-			DataTransferObjects.setProjectData(data, this.resource);
+			IdeDataTransferObjects.setProjectData(data, this.resource);
 		}
 
 		@Override
@@ -92,19 +92,19 @@ abstract class UnderlyingDocument<T>
 		@Override
 		final void setDocumentData(final IdeCodeOperationDto data)
 		{
-			data.setDocument(DataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentOperationDto data)
 		{
-			data.setDocument(DataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setProjectData(final IdeSlnPrjEventDto data)
 		{
-			DataTransferObjects.setProjectData(data, this.resource);
+			IdeDataTransferObjects.setProjectData(data, this.resource);
 		}
 
 		@Override

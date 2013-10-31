@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
 import org.eclipse.core.commands.CommandEvent;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;

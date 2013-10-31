@@ -1,7 +1,8 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import java.io.File;
 import java.util.Map;
 import javax.annotation.concurrent.GuardedBy;
@@ -12,9 +13,8 @@ import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.gratex.perconik.activity.ActivityServices;
-import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.DataTransferObjects;
+import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
 import com.gratex.perconik.services.vs.IdeCheckinDto;
 
@@ -69,27 +69,32 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		
 		return false;
 	}
+
+	static final void send(final IdeCheckinDto data)
+	{
+		performWatcherServiceOperation(new WatcherServiceOperation()
+		{
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeCheckin(data);
+			}
+		});
+	}
 	
-	static final void process(final String url, final String id)
+	static final IdeCheckinDto build(final long time, final String url, final String id)
 	{
 		final IdeCheckinDto data = new IdeCheckinDto();
 
 		data.setIdInRcs(id);
-		data.setRcsServer(DataTransferObjects.newGitServerData(url));
+		data.setRcsServer(IdeDataTransferObjects.newGitServerData(url));
 
 		setApplicationData(data);
-		setEventData(data);
+		setEventData(data, time);
 		
-		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeCheckinAsync(data);
-			}
-		});
+		return data;
 	}
-
-	public final void onRefsChanged(final RefsChangedEvent event)
+	
+	final void process(final long time, final RefsChangedEvent event)
 	{
 		Repository repository = event.getRepository();
 		File       directory  = repository.getDirectory();
@@ -104,7 +109,20 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		
 		if (this.updateLastCommit(directory, branch, id))
 		{
-			process(url, id);
+			send(build(time, url, id));
 		}
+	}
+
+	public final void onRefsChanged(final RefsChangedEvent event)
+	{
+		final long time = currentTime();
+		
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, event);
+			}
+		});
 	}
 }

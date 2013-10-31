@@ -1,13 +1,13 @@
-package com.gratex.perconik.activity;
+package com.gratex.perconik.activity.ide;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
-import com.gratex.perconik.activity.plugin.Activator;
+import com.gratex.perconik.activity.ide.plugin.Activator;
 
-public final class ActivityPreferences
+public final class IdeActivityPreferences
 {
 	static final String key = Activator.PLUGIN_ID + ".preferences";
 	
@@ -17,7 +17,7 @@ public final class ActivityPreferences
 	
 	static final String watcherLocalPart = key + ".watcher.local";
 	
-	private ActivityPreferences()
+	private IdeActivityPreferences()
 	{
 		throw new AssertionError();
 	}
@@ -33,10 +33,10 @@ public final class ActivityPreferences
 		{
 			IPreferenceStore store = store();
 			
-			store.setDefault(watcherUrl, ActivityDefaults.watcherUrl.toString());
+			store.setDefault(watcherUrl, IdeActivityDefaults.watcherUrl.toString());
 			
-			store.setDefault(watcherNamespace, ActivityDefaults.watcherName.getNamespaceURI());
-			store.setDefault(watcherLocalPart, ActivityDefaults.watcherName.getLocalPart());
+			store.setDefault(watcherNamespace, IdeActivityDefaults.watcherName.getNamespaceURI());
+			store.setDefault(watcherLocalPart, IdeActivityDefaults.watcherName.getLocalPart());
 		}
 	}
 	

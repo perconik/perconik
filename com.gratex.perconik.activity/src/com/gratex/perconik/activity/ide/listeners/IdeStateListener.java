@@ -1,8 +1,9 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.DataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.DataTransferObjects.setEventData;
-import static com.gratex.perconik.activity.DataTransferObjects.setProjectData;
+import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -11,8 +12,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
-import com.gratex.perconik.activity.ActivityServices;
-import com.gratex.perconik.activity.ActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
 import com.gratex.perconik.services.vs.IdeStateChangeDto;
 
@@ -33,7 +33,18 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 	}
 	
-	static final void process(final IProject project, final String state)
+	static final void send(final IdeStateChangeDto data)
+	{
+		performWatcherServiceOperation(new WatcherServiceOperation()
+		{
+			public final void perform(final IVsActivityWatcherService service)
+			{
+				service.notifyIdeStateChange(data);
+			}
+		});
+	}
+	
+	static final IdeStateChangeDto build(final long time, final IProject project, final String state)
 	{
 		final IdeStateChangeDto data = new IdeStateChangeDto();
 
@@ -41,24 +52,26 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 		setProjectData(data, project);
 		setApplicationData(data);
-		setEventData(data);
+		setEventData(data, time);
 		
-		ActivityServices.performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeStateChangeAsync(data);
-			}
-		});
+		return data;
 	}
 	
 	public final void launchAdded(final ILaunch launch)
 	{
-		IProject project = Projects.fromLaunch(launch).iterator().next();
+		final long time = currentTime();
 		
-		String state = launch.getLaunchMode() + " (launch)";
-		
-		process(project, state);
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				IProject project = Projects.fromLaunch(launch).iterator().next();
+				
+				String state = launch.getLaunchMode() + " (launch)";
+				
+				send(build(time, project, state));
+			}
+		});
 	}
 
 	public final void launchRemoved(final ILaunch launch)
@@ -79,11 +92,19 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
-		IProject project = Projects.fromPage(page);
+		final long time = currentTime();
 		
-		String state = descriptor.getLabel().toLowerCase() + " (perspective)";
+		executor.execute(new Runnable()
+		{
+			public final void run()
+			{
+				IProject project = Projects.fromPage(page);
 
-		process(project, state);
+				String state = descriptor.getLabel().toLowerCase() + " (perspective)";
+
+				send(build(time, project, state));
+			}
+		});
 	}
 
 	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)

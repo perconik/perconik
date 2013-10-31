@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.Collection;
 import java.util.List;

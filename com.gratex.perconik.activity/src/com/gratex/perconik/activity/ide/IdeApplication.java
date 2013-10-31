@@ -1,11 +1,11 @@
-package com.gratex.perconik.activity;
+package com.gratex.perconik.activity.ide;
 
 import org.eclipse.core.runtime.IProduct;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.Products;
 
-public final class Application
+public final class IdeApplication
 {
-	private static final Application instance = new Application();
+	private static final IdeApplication instance = new IdeApplication();
 	
 	private final int pid;
 	
@@ -13,14 +13,14 @@ public final class Application
 	
 	private final IProduct product;
 	
-	private Application()
+	private IdeApplication()
 	{
 		this.pid     = Internals.pid();
 		this.debug   = Internals.debug;
 		this.product = Products.getProduct();
 	}
 	
-	public static final Application getInstance()
+	public static final IdeApplication getInstance()
 	{
 		return instance;
 	}

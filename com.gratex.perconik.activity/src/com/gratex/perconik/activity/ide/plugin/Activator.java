@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.plugin;
+package com.gratex.perconik.activity.ide.plugin;
 
 import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;

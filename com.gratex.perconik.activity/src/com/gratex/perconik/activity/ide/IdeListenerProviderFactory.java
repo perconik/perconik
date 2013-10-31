@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity;
+package com.gratex.perconik.activity.ide;
 
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
@@ -7,15 +7,15 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
-import com.gratex.perconik.activity.listeners.IdeCodeListener;
-import com.gratex.perconik.activity.listeners.IdeCommitListener;
-import com.gratex.perconik.activity.listeners.IdeDocumentListener;
-import com.gratex.perconik.activity.listeners.IdeElementListener;
-import com.gratex.perconik.activity.listeners.IdeFindListener;
-import com.gratex.perconik.activity.listeners.IdeProjectListener;
-import com.gratex.perconik.activity.listeners.IdeStateListener;
+import com.gratex.perconik.activity.ide.listeners.IdeCodeListener;
+import com.gratex.perconik.activity.ide.listeners.IdeCommitListener;
+import com.gratex.perconik.activity.ide.listeners.IdeDocumentListener;
+import com.gratex.perconik.activity.ide.listeners.IdeElementListener;
+import com.gratex.perconik.activity.ide.listeners.IdeFindListener;
+import com.gratex.perconik.activity.ide.listeners.IdeProjectListener;
+import com.gratex.perconik.activity.ide.listeners.IdeStateListener;
 
-public final class ActivityListenerProviderFactory implements ListenerProviderFactory
+public final class IdeListenerProviderFactory implements ListenerProviderFactory
 {
 	private static final Set<Class<? extends Listener>> classes;
 	
@@ -34,7 +34,7 @@ public final class ActivityListenerProviderFactory implements ListenerProviderFa
 		classes = builder.build();
 	}
 	
-	public ActivityListenerProviderFactory()
+	public IdeListenerProviderFactory()
 	{
 	}
 

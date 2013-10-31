@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.listeners;
+package com.gratex.perconik.activity.ide.listeners;
 
 import javax.annotation.Nullable;
 import org.eclipse.core.resources.IResource;
