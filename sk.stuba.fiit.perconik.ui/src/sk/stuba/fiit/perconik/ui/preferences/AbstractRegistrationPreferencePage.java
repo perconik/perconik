@@ -360,6 +360,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
 		public final String getAnnotations(final R registration)
 		{
+			if (!registration.isProvided())
+			{
+				return "?";
+			}
+			
 			Set<String> flags = Sets.newTreeSet();
 			
 			for (Annotation annotation: registration.getAnnotations())
