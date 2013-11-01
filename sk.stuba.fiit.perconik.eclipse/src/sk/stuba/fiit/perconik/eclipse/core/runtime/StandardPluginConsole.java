@@ -64,9 +64,24 @@ final class StandardPluginConsole implements PluginConsole
 		warning(String.format(format, args));
 	}
 
-	public final void error(final String message, final Throwable failure)
+	public final void error(final String message)
+	{
+		log(new Status(IStatus.ERROR, this.getPluginId(), message));
+	}
+
+	public final void error(final String format, Object ... args)
+	{
+		error(String.format(format, args));
+	}
+
+	public final void error(final Throwable failure, final String message)
 	{
 		log(new Status(IStatus.ERROR, this.getPluginId(), message, failure));
+	}
+
+	public final void error(final Throwable failure, final String format, Object ... args)
+	{
+		error(failure, String.format(format, args));
 	}
 
 	private final String getPluginId()

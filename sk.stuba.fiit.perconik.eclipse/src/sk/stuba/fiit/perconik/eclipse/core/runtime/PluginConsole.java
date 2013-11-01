@@ -26,5 +26,11 @@ public interface PluginConsole
 
 	public void warning(String format, Object ... args);
 
-	public void error(String message, Throwable failure);
+	public void error(String message);
+
+	public void error(String format, Object ... args);
+	
+	public void error(Throwable failure, String message);
+	
+	public void error(Throwable failure, String format, Object ... args);
 }

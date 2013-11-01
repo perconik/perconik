@@ -17,7 +17,7 @@ public final class PluginConsoles
 	
 	/**
 	 * Creates new standard plug-in console.
-	 * @param plugin the plugin
+	 * @param plugin the plug-in
 	 * @return new plug-in console
 	 */
 	public static final PluginConsole create(final Plugin plugin)

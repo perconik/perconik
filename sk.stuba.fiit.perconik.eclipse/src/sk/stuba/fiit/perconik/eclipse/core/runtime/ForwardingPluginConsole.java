@@ -68,8 +68,23 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
 		this.delegate().warning(format, args);
 	}
 
-	public void error(String message, Throwable failure)
+	public void error(String message)
 	{
-		this.delegate().error(message, failure);
+		this.delegate().error(message);
+	}
+
+	public void error(String format, Object ... args)
+	{
+		this.delegate().error(format, args);
+	}
+
+	public void error(Throwable failure, String message)
+	{
+		this.delegate().error(failure, message);
+	}
+
+	public void error(Throwable failure, String format, Object ... args)
+	{
+		this.delegate().error(failure, format, args);
 	}
 }
