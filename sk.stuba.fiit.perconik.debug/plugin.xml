@@ -24,6 +24,9 @@
       <manager
             class="sk.stuba.fiit.perconik.debug.services.resources.DebugResourceManagerFactory">
       </manager>
+      <registrations
+            class="sk.stuba.fiit.perconik.debug.resources.DebugListenerPoolNameSupplier">
+      </registrations>
    </extension>
 
 </plugin>
