@@ -54,13 +54,6 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
          unpack="false"/>
 
    <plugin
-         id="sk.stuba.fiit.perconik.debug"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="sk.stuba.fiit.perconik.eclipse"
          download-size="0"
          install-size="0"
