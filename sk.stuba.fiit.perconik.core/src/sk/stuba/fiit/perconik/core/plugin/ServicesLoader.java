@@ -47,6 +47,10 @@ final class ServicesLoader
 		{
 			log.error(failure, "Unexpected error during initial registration of listeners");
 		}
+		catch (Exception failure)
+		{
+			log.error(failure, "Unexpected error during initial registration of resources and listeners");
+		}
 		
 		return data;
 	}

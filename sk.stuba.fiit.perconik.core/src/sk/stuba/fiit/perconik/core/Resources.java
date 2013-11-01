@@ -118,7 +118,7 @@ public final class Resources
 			
 			if (resource == null)
 			{
-				throw new IllegalStateException("Resource provider does not know resource named " + name + " for type " + type.getName());
+				throw new ResourceNotFoundException("Resource provider does not know resource by name " + name + " for type " + type.getName());
 			}
 			
 			try
