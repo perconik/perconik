@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="com.gratex.perconik.activity.ActivityPreferences$Initializer">
+            class="com.gratex.perconik.activity.ide.IdeActivityPreferences$Initializer">
       </initializer>
    </extension>
    <extension
@@ -13,7 +13,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="sk.stuba.fiit.perconik.ui.preferences.main"
-            class="com.gratex.perconik.activity.ActivityPreferencePage"
+            class="com.gratex.perconik.activity.ide.IdeActivityPreferencePage"
             id="com.gratex.perconik.activity.ui.preferences.client"
             name="UACA">
       </page>
@@ -21,7 +21,7 @@
    <extension
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
-            class="com.gratex.perconik.activity.ActivityListenerProviderFactory"></provider>
+            class="com.gratex.perconik.activity.ide.IdeListenerProviderFactory"></provider>
    </extension>
 
 </plugin>
