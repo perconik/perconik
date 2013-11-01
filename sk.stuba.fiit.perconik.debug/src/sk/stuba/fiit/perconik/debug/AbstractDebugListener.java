@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 
 @DebugImplementation
-public abstract class AbstractDebugListener extends AbstractDebugObject implements DebugListener
+public abstract class AbstractDebugListener extends AbstractDebugRegistrable implements DebugListener
 {
 	protected AbstractDebugListener()
 	{
@@ -104,21 +104,25 @@ public abstract class AbstractDebugListener extends AbstractDebugObject implemen
 		}
 	}
 
+	@Override
 	public final void preRegister()
 	{
 		InternalHook.PRE_REGISTER.on(this);
 	}
 
+	@Override
 	public final void postRegister()
 	{
 		InternalHook.POST_REGISTER.on(this);
 	}
 
+	@Override
 	public final void preUnregister()
 	{
 		InternalHook.PRE_UNREGISTER.on(this);
 	}
 
+	@Override
 	public final void postUnregister()
 	{
 		InternalHook.POST_UNREGISTER.on(this);

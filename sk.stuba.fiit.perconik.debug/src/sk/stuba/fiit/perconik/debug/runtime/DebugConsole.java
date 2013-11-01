@@ -176,12 +176,35 @@ public final class DebugConsole implements PluginConsole
 		}
 	}
 
-	@Override
-	public final void error(final String message, final Throwable failure)
+	public final void error(String message)
 	{
 		if (this.isEnabled())
 		{
-			this.console.error(message, failure);
+			this.console.error(message);
+		}
+	}
+
+	public final void error(String format, Object ... args)
+	{
+		if (this.isEnabled())
+		{
+			this.console.error(format, args);
+		}
+	}
+
+	public final void error(Throwable failure, String message)
+	{
+		if (this.isEnabled())
+		{
+			this.console.error(failure, message);
+		}
+	}
+
+	public final void error(Throwable failure, String format, Object ... args)
+	{
+		if (this.isEnabled())
+		{
+			this.console.error(failure, format, args);
 		}
 	}
 }
