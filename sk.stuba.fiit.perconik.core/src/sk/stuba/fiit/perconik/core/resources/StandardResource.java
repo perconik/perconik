@@ -24,32 +24,25 @@ class StandardResource<L extends Listener> extends AbstractResource<L>
 	
 	public final void register(final L listener)
 	{
-		listener.preRegister();
-		
 		this.pool.add(listener);
-		
-		listener.postRegister();
 	}
 	
 	public final void unregister(final L listener)
 	{
-		listener.preUnregister();
-		
 		this.pool.remove(listener);
-		
-		listener.postUnregister();
 	}
 	
-	public final void unregisterAll(final Class<? extends Listener> type)
-	{
-		for (L listener: this.pool.toCollection())
-		{
-			if (type.isInstance(listener))
-			{
-				this.unregister(listener);
-			}
-		}
-	}
+	// TODO rm
+//	public final void unregisterAll(final Class<? extends Listener> type)
+//	{
+//		for (L listener: this.pool.toCollection())
+//		{
+//			if (type.isInstance(listener))
+//			{
+//				this.unregister(listener);
+//			}
+//		}
+//	}
 	
 	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{

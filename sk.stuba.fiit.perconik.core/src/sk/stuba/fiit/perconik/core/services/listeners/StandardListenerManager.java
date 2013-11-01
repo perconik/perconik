@@ -3,9 +3,11 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 import java.util.Collection;
 import java.util.List;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
@@ -24,9 +26,29 @@ final class StandardListenerManager extends AbstractListenerManager
 	
 	public final <L extends Listener> void unregisterAll(final Class<L> type)
 	{
+		List<Exception> failures = Lists.newLinkedList();
+		
 		for (Resource<? extends L> resource: this.manager().assignables(type))
 		{
-			resource.unregisterAll(type);
+			// TODO rm
+			//resource.unregisterAll(type);
+			
+			for (L listener: resource.registered(type))
+			{
+				try
+				{
+					this.unregister(listener);
+				}
+				catch (Exception failure)
+				{
+					failures.add(failure);
+				}
+			}
+		}
+		
+		if (!failures.isEmpty())
+		{
+			throw MoreThrowables.initializeSuppressor(new ListenerUnregistrationException(), failures);
 		}
 	}
 	

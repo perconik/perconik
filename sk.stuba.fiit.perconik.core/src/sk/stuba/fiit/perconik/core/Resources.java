@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.services.Services;
@@ -8,8 +9,10 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
 /**
@@ -65,23 +68,44 @@ public final class Resources
 
 	public static final <L extends Listener> void registerAll(final Class<L> type, Iterable<Resource<? super L>> resources)
 	{
+		List<Exception> failures = Lists.newLinkedList();
+		
 		ResourceManager manager = manager();
 		
 		for (Resource<? super L> resource: resources)
 		{
-			manager.register(type, resource);
+			try
+			{
+				manager.register(type, resource);
+			}
+			catch (Exception failure)
+			{
+				failures.add(failure);
+			}
+		}
+		
+		if (!failures.isEmpty())
+		{
+			throw MoreThrowables.initializeSuppressor(new ResourceRegistrationException(), failures);
 		}
 	}
 
 	public static final void registerAll(final ResourceNamesSupplier supplier)
 	{
+		List<Exception> failures = Lists.newLinkedList();
+		
 		for (Entry<Class<? extends Listener>, Collection<String>> entry: supplier.get().asMap().entrySet())
 		{
-			registerByNames(entry.getKey(), entry.getValue());
+			registerAllByNames(entry.getKey(), entry.getValue(), failures);
+		}
+		
+		if (!failures.isEmpty())
+		{
+			throw MoreThrowables.initializeSuppressor(new ResourceRegistrationException(), failures);
 		}
 	}
 	
-	private static final <L extends Listener> void registerByNames(final Class<L> type, final Iterable<String> names)
+	private static final <L extends Listener> void registerAllByNames(final Class<L> type, final Iterable<String> names, final List<Exception> failures)
 	{
 		ResourceProvider provider = provider();
 		ResourceManager  manager  = manager();
@@ -97,7 +121,14 @@ public final class Resources
 				throw new IllegalStateException("Resource provider does not know resource named " + name + " for type " + type.getName());
 			}
 			
-			manager.register(type, resource);
+			try
+			{
+				manager.register(type, resource);
+			}
+			catch (Exception failure)
+			{
+				failures.add(failure);
+			}
 		}
 	}
 	

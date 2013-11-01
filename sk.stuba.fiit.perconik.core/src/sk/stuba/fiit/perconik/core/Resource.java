@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core;
 import java.util.Collection;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 
 /**
  * A resource for managing registrable {@link Listener} instances. In general
@@ -36,6 +37,10 @@ public interface Resource<L extends Listener> extends Nameable, Registrable
 	/**
 	 * Registers a listener to this resource.
 	 * 
+	 * <p><b>Warning:</b> Does not invoke listener registration hooks.
+	 * Only {@link ListenerManager#register(Listener)} is responsible
+	 * for proper hook method invocation during the registration process.
+	 * 
 	 * @param listener the listener to be registered, not {@code null}
 	 * 
      * @throws ClassCastException if the type of the specified listener
@@ -51,6 +56,10 @@ public interface Resource<L extends Listener> extends Nameable, Registrable
 	/**
 	 * Unregisters a listener from this resource.
 	 * 
+	 * <p><b>Warning:</b> Does not invoke listener unregistration hooks.
+	 * Only {@link ListenerManager#unregister(Listener)} is responsible
+	 * for proper hook method invocation during the unregistration process.
+	 * 
 	 * @param listener the listener to be unregistered, not {@code null}
 	 * 
      * @throws ClassCastException if the type of the specified listener
@@ -62,21 +71,26 @@ public interface Resource<L extends Listener> extends Nameable, Registrable
 	 *         this operation (it could mean that it is not implemented yet)
 	 */
 	public void unregister(L listener);
-	
-	/**
-	 * Unregisters all listeners assignable to the specified listener type.
-	 * A listener is assignable to a listener type if it is an instance of
-	 * that type.
-	 * 
-	 * @param type the listener type to which the assignable listeners
-	 *             are going be unregistered, not {@code null}
-	 * 
-	 * @throws NullPointerException if the specified listener
-	 *         type is {@code null}
-	 * @throws UnsupportedResourceException if the resource does not support
-	 *         this operation (it could mean that it is not implemented yet)
-	 */
-	public void unregisterAll(Class<? extends Listener> type);
+
+	// TODO rm
+//	/**
+//	 * Unregisters all listeners assignable to the specified listener type.
+//	 * A listener is assignable to a listener type if it is an instance of
+//	 * that type.
+//	 * 
+//	 * <p><b>Warning:</b> Does not invoke unregistration hooks of assignable
+//	 * listener. Only {@link ListenerManager#register(Listener)} is responsible
+//	 * for proper hook method invocation during the unregistration process.
+//	 * 
+//	 * @param type the listener type to which the assignable listeners
+//	 *             are going be unregistered, not {@code null}
+//	 * 
+//	 * @throws NullPointerException if the specified listener
+//	 *         type is {@code null}
+//	 * @throws UnsupportedResourceException if the resource does not support
+//	 *         this operation (it could mean that it is not implemented yet)
+//	 */
+//	public void unregisterAll(Class<? extends Listener> type);
 	
 	/**
 	 * Returns all registered listeners assignable to the specified

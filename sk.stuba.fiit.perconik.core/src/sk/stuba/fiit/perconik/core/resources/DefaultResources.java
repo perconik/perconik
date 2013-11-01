@@ -1,7 +1,12 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+import java.util.Collections;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
+import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
 import sk.stuba.fiit.perconik.core.listeners.CommandCategoryListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandContextListener;
 import sk.stuba.fiit.perconik.core.listeners.CommandContextManagerListener;
@@ -44,6 +49,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProviders;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import com.google.common.collect.SetMultimap;
 
 /**
@@ -309,6 +315,88 @@ public final class DefaultResources
 		builder.add(type, resource);
 		
 		return resource;
+	}
+	
+	public static final <L extends Listener> void registerAndHookListener(final Resource<L> resource, final L listener)
+	{
+		@SuppressWarnings({"unchecked", "rawtypes"})
+		Iterable<Resource<? super L>> resources = (Iterable) Collections.singleton(resource); 
+		
+		registerAndHookListener(resources, listener);
+	}
+	
+	public static final <L extends Listener> void registerAndHookListener(final Iterable<Resource<? super L>> resources, final L listener)
+	{
+		try
+		{
+			listener.preRegister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerRegistrationException(), failure);
+		}
+		
+		for (Resource<? super L> resource: resources)
+		{
+			try
+			{
+				resource.register(listener);
+			}
+			catch (UnsupportedResourceException failure)
+			{
+				log.error(failure, "Unsupported resource %s failed registering listener %s", resource, listener);
+			}
+		}
+		
+		try
+		{
+			listener.postRegister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerRegistrationException(), failure);
+		}
+	}
+
+	public static final <L extends Listener> void unregisterAndHookListener(final Resource<L> resource, final L listener)
+	{
+		@SuppressWarnings({"unchecked", "rawtypes"})
+		Iterable<Resource<? super L>> resources = (Iterable) Collections.singleton(resource); 
+		
+		unregisterAndHookListener(resources, listener);
+	}
+	
+	public static final <L extends Listener> void unregisterAndHookListener(final Iterable<Resource<? super L>> resources, final L listener)
+	{
+		try
+		{
+			listener.preUnregister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerUnregistrationException(), failure);
+		}
+		
+		for (Resource<? super L> resource: resources)
+		{
+			try
+			{
+				resource.unregister(listener);
+			}
+			catch (UnsupportedResourceException failure)
+			{
+				log.error(failure, "Unsupported resource %s failed unregistering listener %s", resource, listener);
+			}
+		}
+		
+		try
+		{
+			listener.postUnregister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerUnregistrationException(), failure);
+		}
 	}
 
 	public static final Resource<CommandListener> getCommandResource()

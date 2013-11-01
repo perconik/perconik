@@ -2,7 +2,10 @@ package sk.stuba.fiit.perconik.core.services.resources;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
+import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
@@ -41,22 +44,41 @@ public abstract class AbstractResourceManager extends AbstractManager implements
 	{
 		check(type, resource);
 
-		resource.preRegister();
-			
-		this.multimap().put(type, resource);
-			
-		resource.postRegister();
+		try
+		{
+			resource.preRegister();
+				
+			this.multimap().put(type, resource);
+				
+			resource.postRegister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ResourceRegistrationException(), failure);
+		}
 	}
 	
 	public final <L extends Listener> void unregister(final Class<L> type, final Resource<? super L> resource)
 	{
 		check(type, resource);
 
-		resource.preUnregister();
-		resource.unregisterAll(type);
+		try
+		{
+			resource.preUnregister();
+
+			// TODO consider
+//			for (L listener: resource.registered(type))
+//			{
+//				resource.unregister(listener);
+//			}
 			
-		this.multimap().remove(type, resource);
+			this.multimap().remove(type, resource);
 			
-		resource.postUnregister();
+			resource.postUnregister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ResourceUnregistrationException(), failure);
+		}
 	}
 }

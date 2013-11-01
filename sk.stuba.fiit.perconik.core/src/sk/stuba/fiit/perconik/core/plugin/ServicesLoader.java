@@ -1,7 +1,10 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
 import java.util.List;
+import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
 import sk.stuba.fiit.perconik.core.Listeners;
+import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
@@ -30,9 +33,20 @@ final class ServicesLoader
 		Services.setListenerService(listener.service);
 		
 		ServiceSnapshot.take().servicesInStartOrder().startSynchronously();
-		
-		Resources.registerAll(resource.supplier);
-		Listeners.registerAll(listener.supplier);
+
+		try
+		{
+			Resources.registerAll(resource.supplier);
+			Listeners.registerAll(listener.supplier);
+		}
+		catch (ResourceRegistrationException failure)
+		{
+			log.error(failure, "Unexpected error during initial registration of resources");
+		}
+		catch (ListenerRegistrationException failure)
+		{
+			log.error(failure, "Unexpected error during initial registration of listeners");
+		}
 		
 		return data;
 	}

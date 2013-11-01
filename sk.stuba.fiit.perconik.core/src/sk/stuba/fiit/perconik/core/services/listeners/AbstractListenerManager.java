@@ -5,7 +5,7 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
-import sk.stuba.fiit.perconik.core.UnsupportedResourceException;
+import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 
@@ -34,7 +34,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	{
 		Set<Resource<? super L>> resources = this.manager().registrables((Class<L>) listener.getClass());
 		
-		for (Class<? extends Listener> type: Listeners.types(listener))
+		for (Class<? extends Listener> type: Listeners.resolveTypes(listener))
 		{
 			if (this.manager().registrables(type).isEmpty())
 			{
@@ -47,32 +47,11 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	
 	public final <L extends Listener> void register(final L listener)
 	{
-		for (Resource<? super L> resource: this.registrables(listener))
-		{
-			// TODO consider
-			try
-			{
-				resource.register(listener);
-			}
-			catch (UnsupportedResourceException e)
-			{
-				failure(e, "Unsupported resource %s failed registering listener %s", resource, listener);
-			}
-		}
+		DefaultResources.registerAndHookListener(this.registrables(listener), listener);
 	}
 
 	public final <L extends Listener> void unregister(final L listener)
 	{
-		for (Resource<? super L> resource: this.registrables(listener))
-		{
-			try
-			{
-				resource.unregister(listener);
-			}
-			catch (UnsupportedResourceException e)
-			{
-				failure(e, "Unsupported resource %s failed unregistering listener %s", resource, listener);
-			}
-		}
+		DefaultResources.unregisterAndHookListener(this.registrables(listener), listener);
 	}
 }

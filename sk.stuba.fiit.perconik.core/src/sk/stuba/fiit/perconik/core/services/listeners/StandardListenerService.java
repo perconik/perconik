@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
+
 final class StandardListenerService extends AbstractListenerService
 {
 	StandardListenerService(final Builder builder)
@@ -40,7 +43,14 @@ final class StandardListenerService extends AbstractListenerService
 	@Override
 	protected final void doStop()
 	{
-		this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class);
+		try
+		{
+			this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class);
+		}
+		catch (ListenerUnregistrationException failure)
+		{
+			log.error(failure, "Unexpected error during final unregistration of listeners");
+		}
 		
 		this.notifyStopped();
 	}

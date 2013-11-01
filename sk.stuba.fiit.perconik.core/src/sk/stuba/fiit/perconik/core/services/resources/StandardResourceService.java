@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
+
 final class StandardResourceService extends AbstractResourceService
 {
 	StandardResourceService(final Builder builder)
@@ -41,7 +44,14 @@ final class StandardResourceService extends AbstractResourceService
 	@Override
 	protected final void doStop()
 	{
-		this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class);
+		try
+		{
+			this.manager.unregisterAll(sk.stuba.fiit.perconik.core.Listener.class);
+		}
+		catch (ResourceUnregistrationException failure)
+		{
+			log.error(failure, "Unexpected error during final unregistration of resources");
+		}
 	
 		this.notifyStopped();
 	}

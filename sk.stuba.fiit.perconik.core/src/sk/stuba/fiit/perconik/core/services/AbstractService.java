@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.core.plugin.Activator;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -26,16 +25,6 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 	 */
 	protected AbstractService()
 	{
-	}
-
-	protected final static void failure(final Throwable cause, final String format, final Object ... args)
-	{
-		failure(cause, String.format(format, args));
-	}
-
-	protected final static void failure(final Throwable cause, final String message)
-	{
-		Activator.getDefault().getConsole().error(message, cause);
 	}
 	
 	protected final void checkState(final State first, final State ... rest)

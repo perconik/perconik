@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerAlreadyRegistredException;
 import sk.stuba.fiit.perconik.core.ListenerNotRegistredException;
+import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
+import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.Manager;
 import com.google.common.collect.SetMultimap;
@@ -20,22 +22,38 @@ public interface ListenerManager extends Manager
 {
 	/**
 	 * Registers a listener to all compatible resources.
+	 * Listener unregistration hooks are properly invoked during
+	 * the unregistration process.
+	 * 
+	 * <p>Note that this method propagates any exception
+	 * thrown by the specified listener as a cause of a
+	 * {@code ListenerRegistrationException} instance.
 	 * 
 	 * @param listener the listener to be registered, not {@code null}
 	 * 
 	 * @throws ListenerAlreadyRegistredException if the specified listener
 	 *         is already registered and this listener manager panics
+	 * @throws ListenerRegistrationException if an exception is thrown
+	 *         by the specified listener during the unregistration process 
 	 * @throws NullPointerException if the specified listener is {@code null}
 	 */
 	public <L extends Listener> void register(final L listener);
 	
 	/**
 	 * Unregisters a listener from all compatible resources.
+	 * Listener unregistration hooks are properly invoked during
+	 * the unregistration process.
+	 * 
+	 * <p>Note that this method propagates any exception
+	 * thrown by the specified listener as a cause of a
+	 * {@code ListenerUnregistrationException} instance.
 	 * 
 	 * @param listener the listener to be unregistered, not {@code null}
 	 * 
 	 * @throws ListenerNotRegistredException if the specified listener
 	 *         is not registered and this listener manager panics
+	 * @throws ListenerUnregistrationException if an exception is thrown
+	 *         by the specified listener during the registration process 
 	 * @throws NullPointerException if the specified listener is {@code null}
 	 */
 	public <L extends Listener> void unregister(final L listener);
@@ -43,11 +61,19 @@ public interface ListenerManager extends Manager
 	/**
 	 * Unregisters all listeners assignable to the specified listener type
 	 * from all compatible resources. A listener is assignable to a listener
-	 * type if it is an instance of that type.
+	 * type if it is an instance of that type. Listener unregistration hooks
+	 * are properly invoked for all matched listeners during the unregistration
+	 * process.
+	 *
+	 * <p>Note that this method collects all exceptions thrown by listeners
+	 * during the unregistration process and propagates them as suppressed
+	 * exceptions of a {@code ListenerUnregistrationException} instance.
 	 * 
 	 * @param type the listener type to which the assignable listeners
 	 *             are going be unregistered, not {@code null}
 	 * 
+	 * @throws ListenerUnregistrationException if an exception is thrown
+	 *         by one or more listeners during the unregistration process
 	 * @throws NullPointerException if the specified listener
 	 *         type is {@code null}
 	 */

@@ -139,13 +139,14 @@ class Synchronized
 			}
 		}
 
-		public final void unregisterAll(final Class<? extends Listener> type)
-		{
-			synchronized (this.mutex)
-			{
-				this.delegate.unregisterAll(type);
-			}
-		}
+		// TODO rm
+//		public final void unregisterAll(final Class<? extends Listener> type)
+//		{
+//			synchronized (this.mutex)
+//			{
+//				this.delegate.unregisterAll(type);
+//			}
+//		}
 
 		public final <U extends Listener> Collection<U> registered(final Class<U> type)
 		{
