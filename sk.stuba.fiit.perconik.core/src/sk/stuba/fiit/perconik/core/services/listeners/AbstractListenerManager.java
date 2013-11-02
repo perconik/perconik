@@ -47,11 +47,11 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 	
 	public final <L extends Listener> void register(final L listener)
 	{
-		DefaultResources.registerAndHookListener(this.registrables(listener), listener);
+		DefaultResources.registerTo(this.registrables(listener), listener);
 	}
 
 	public final <L extends Listener> void unregister(final L listener)
 	{
-		DefaultResources.unregisterAndHookListener(this.registrables(listener), listener);
+		DefaultResources.unregisterFrom(this.registrables(listener), listener);
 	}
 }

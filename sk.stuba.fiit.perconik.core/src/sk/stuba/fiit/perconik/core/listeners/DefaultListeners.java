@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
-import static sk.stuba.fiit.perconik.core.resources.DefaultResources.registerAndHookListener;
-import static sk.stuba.fiit.perconik.core.resources.DefaultResources.unregisterAndHookListener;
+import static sk.stuba.fiit.perconik.core.resources.DefaultResources.registerTo;
+import static sk.stuba.fiit.perconik.core.resources.DefaultResources.unregisterFrom;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
@@ -184,331 +184,331 @@ public final class DefaultListeners
 
 	public static final void register(final CommandListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandResource(), listener);
+		registerTo(DefaultResources.getCommandResource(), listener);
 	}
 
 	public static final void register(final CommandCategoryListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandCategoryResource(), listener);
+		registerTo(DefaultResources.getCommandCategoryResource(), listener);
 	}
 
 	public static final void register(final CommandContextListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandContextResource(), listener);
+		registerTo(DefaultResources.getCommandContextResource(), listener);
 	}
 
 	public static final void register(final CommandContextManagerListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandContextManagerResource(), listener);
+		registerTo(DefaultResources.getCommandContextManagerResource(), listener);
 	}
 
 	public static final void register(final CommandExecutionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandExecutionResource(), listener);
+		registerTo(DefaultResources.getCommandExecutionResource(), listener);
 	}
 	
 	public static final void register(final CommandHandlerListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandHandlerResource(), listener);
+		registerTo(DefaultResources.getCommandHandlerResource(), listener);
 	}
 	
 	public static final void register(final CommandManagerListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCommandManagerResource(), listener);
+		registerTo(DefaultResources.getCommandManagerResource(), listener);
 	}
 	
 	public static final void register(final CompletionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getCompletionResource(), listener);
+		registerTo(DefaultResources.getCompletionResource(), listener);
 	}
 	
 	public static final void register(final DebugEventsListener listener)
 	{
-		registerAndHookListener(DefaultResources.getDebugEventsResource(), listener);
+		registerTo(DefaultResources.getDebugEventsResource(), listener);
 	}
 	
 	public static final void register(final DocumentListener listener)
 	{
-		registerAndHookListener(DefaultResources.getDocumentResource(), listener);
+		registerTo(DefaultResources.getDocumentResource(), listener);
 	}
 	
 	public static final void register(final EditorListener listener)
 	{
-		registerAndHookListener(DefaultResources.getEditorResource(), listener);
+		registerTo(DefaultResources.getEditorResource(), listener);
 	}
 	
 	public static final void register(final FileBufferListener listener)
 	{
-		registerAndHookListener(DefaultResources.getFileBufferResource(), listener);
+		registerTo(DefaultResources.getFileBufferResource(), listener);
 	}
 	
 	public static final void register(final GitConfigurationListener listener)
 	{
-		registerAndHookListener(DefaultResources.getGitConfigurationResource(), listener);
+		registerTo(DefaultResources.getGitConfigurationResource(), listener);
 	}
 
 	public static final void register(final GitIndexListener listener)
 	{
-		registerAndHookListener(DefaultResources.getGitIndexResource(), listener);
+		registerTo(DefaultResources.getGitIndexResource(), listener);
 	}
 
 	public static final void register(final GitReferenceListener listener)
 	{
-		registerAndHookListener(DefaultResources.getGitReferenceResource(), listener);
+		registerTo(DefaultResources.getGitReferenceResource(), listener);
 	}
 
 	public static final void register(final JavaElementListener listener)
 	{
-		registerAndHookListener(DefaultResources.getJavaElementResource(), listener);
+		registerTo(DefaultResources.getJavaElementResource(), listener);
 	}
 
 	public static final void register(final LaunchListener listener)
 	{
-		registerAndHookListener(DefaultResources.getLaunchResource(), listener);
+		registerTo(DefaultResources.getLaunchResource(), listener);
 	}
 
 	public static final void register(final LaunchesListener listener)
 	{
-		registerAndHookListener(DefaultResources.getLaunchesResource(), listener);
+		registerTo(DefaultResources.getLaunchesResource(), listener);
 	}
 
 	public static final void register(final LaunchConfigurationListener listener)
 	{
-		registerAndHookListener(DefaultResources.getLaunchConfigurationResource(), listener);
+		registerTo(DefaultResources.getLaunchConfigurationResource(), listener);
 	}
 	
 	public static final void register(final MarkSelectionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getMarkSelectionResource(), listener);
+		registerTo(DefaultResources.getMarkSelectionResource(), listener);
 	}
 
 	public static final void register(final OperationHistoryListener listener)
 	{
-		registerAndHookListener(DefaultResources.getOperationHistoryResource(), listener);
+		registerTo(DefaultResources.getOperationHistoryResource(), listener);
 	}
 
 	public static final void register(final PageListener listener)
 	{
-		registerAndHookListener(DefaultResources.getPageResource(), listener);
+		registerTo(DefaultResources.getPageResource(), listener);
 	}
 
 	public static final void register(final PartListener listener)
 	{
-		registerAndHookListener(DefaultResources.getPartResource(), listener);
+		registerTo(DefaultResources.getPartResource(), listener);
 	}
 	
 	public static final void register(final PerspectiveListener listener)
 	{
-		registerAndHookListener(DefaultResources.getPerspectiveResource(), listener);
+		registerTo(DefaultResources.getPerspectiveResource(), listener);
 	}
 
 	public static final void register(final RefactoringExecutionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getRefactoringExecutionResource(), listener);
+		registerTo(DefaultResources.getRefactoringExecutionResource(), listener);
 	}
 	
 	public static final void register(final RefactoringHistoryListener listener)
 	{
-		registerAndHookListener(DefaultResources.getRefactoringHistoryResource(), listener);
+		registerTo(DefaultResources.getRefactoringHistoryResource(), listener);
 	}
 
 	public static final void register(final ResourceListener listener)
 	{
-		registerAndHookListener(DefaultResources.getResourceResource(), listener);
+		registerTo(DefaultResources.getResourceResource(), listener);
 	}
 
 	public static final void register(final SelectionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getSelectionResource(), listener);
+		registerTo(DefaultResources.getSelectionResource(), listener);
 	}
 	
 	public static final void register(final StructuredSelectionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getStructuredSelectionResource(), listener);
+		registerTo(DefaultResources.getStructuredSelectionResource(), listener);
 	}
 
 	public static final void register(final TestRunListener listener)
 	{
-		registerAndHookListener(DefaultResources.getTestRunResource(), listener);
+		registerTo(DefaultResources.getTestRunResource(), listener);
 	}
 
 	public static final void register(final TextSelectionListener listener)
 	{
-		registerAndHookListener(DefaultResources.getTextSelectionResource(), listener);
+		registerTo(DefaultResources.getTextSelectionResource(), listener);
 	}
 
 	public static final void register(final WindowListener listener)
 	{
-		registerAndHookListener(DefaultResources.getWindowResource(), listener);
+		registerTo(DefaultResources.getWindowResource(), listener);
 	}
 
 	public static final void register(final WorkbenchListener listener)
 	{
-		registerAndHookListener(DefaultResources.getWorkbenchResource(), listener);
+		registerTo(DefaultResources.getWorkbenchResource(), listener);
 	}
 	
 	public static final void unregister(final CommandListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandResource(), listener);
+		unregisterFrom(DefaultResources.getCommandResource(), listener);
 	}
 
 	public static final void unregister(final CommandCategoryListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandCategoryResource(), listener);
+		unregisterFrom(DefaultResources.getCommandCategoryResource(), listener);
 	}
 
 	public static final void unregister(final CommandContextListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandContextResource(), listener);
+		unregisterFrom(DefaultResources.getCommandContextResource(), listener);
 	}
 
 	public static final void unregister(final CommandContextManagerListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandContextManagerResource(), listener);
+		unregisterFrom(DefaultResources.getCommandContextManagerResource(), listener);
 	}
 
 	public static final void unregister(final CommandExecutionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandExecutionResource(), listener);
+		unregisterFrom(DefaultResources.getCommandExecutionResource(), listener);
 	}
 	
 	public static final void unregister(final CommandHandlerListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandHandlerResource(), listener);
+		unregisterFrom(DefaultResources.getCommandHandlerResource(), listener);
 	}
 	
 	public static final void unregister(final CommandManagerListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCommandManagerResource(), listener);
+		unregisterFrom(DefaultResources.getCommandManagerResource(), listener);
 	}
 	
 	public static final void unregister(final CompletionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getCompletionResource(), listener);
+		unregisterFrom(DefaultResources.getCompletionResource(), listener);
 	}
 	
 	public static final void unregister(final DebugEventsListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getDebugEventsResource(), listener);
+		unregisterFrom(DefaultResources.getDebugEventsResource(), listener);
 	}
 	
 	public static final void unregister(final DocumentListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getDocumentResource(), listener);
+		unregisterFrom(DefaultResources.getDocumentResource(), listener);
 	}
 	
 	public static final void unregister(final EditorListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getEditorResource(), listener);
+		unregisterFrom(DefaultResources.getEditorResource(), listener);
 	}
 	
 	public static final void unregister(final FileBufferListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getFileBufferResource(), listener);
+		unregisterFrom(DefaultResources.getFileBufferResource(), listener);
 	}
 	
 	public static final void unregister(final GitConfigurationListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getGitConfigurationResource(), listener);
+		unregisterFrom(DefaultResources.getGitConfigurationResource(), listener);
 	}
 
 	public static final void unregister(final GitIndexListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getGitIndexResource(), listener);
+		unregisterFrom(DefaultResources.getGitIndexResource(), listener);
 	}
 
 	public static final void unregister(final GitReferenceListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getGitReferenceResource(), listener);
+		unregisterFrom(DefaultResources.getGitReferenceResource(), listener);
 	}
 	
 	public static final void unregister(final JavaElementListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getJavaElementResource(), listener);
+		unregisterFrom(DefaultResources.getJavaElementResource(), listener);
 	}
 
 	public static final void unregister(final LaunchListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getLaunchResource(), listener);
+		unregisterFrom(DefaultResources.getLaunchResource(), listener);
 	}
 
 	public static final void unregister(final LaunchesListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getLaunchesResource(), listener);
+		unregisterFrom(DefaultResources.getLaunchesResource(), listener);
 	}
 
 	public static final void unregister(final LaunchConfigurationListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getLaunchConfigurationResource(), listener);
+		unregisterFrom(DefaultResources.getLaunchConfigurationResource(), listener);
 	}
 	
 	public static final void unregister(final MarkSelectionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getMarkSelectionResource(), listener);
+		unregisterFrom(DefaultResources.getMarkSelectionResource(), listener);
 	}
 
 	public static final void unregister(final OperationHistoryListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getOperationHistoryResource(), listener);
+		unregisterFrom(DefaultResources.getOperationHistoryResource(), listener);
 	}
 
 	public static final void unregister(final PageListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getPageResource(), listener);
+		unregisterFrom(DefaultResources.getPageResource(), listener);
 	}
 
 	public static final void unregister(final PartListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getPartResource(), listener);
+		unregisterFrom(DefaultResources.getPartResource(), listener);
 	}
 	
 	public static final void unregister(final PerspectiveListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getPerspectiveResource(), listener);
+		unregisterFrom(DefaultResources.getPerspectiveResource(), listener);
 	}
 
 	public static final void unregister(final RefactoringExecutionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getRefactoringExecutionResource(), listener);
+		unregisterFrom(DefaultResources.getRefactoringExecutionResource(), listener);
 	}
 	
 	public static final void unregister(final RefactoringHistoryListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getRefactoringHistoryResource(), listener);
+		unregisterFrom(DefaultResources.getRefactoringHistoryResource(), listener);
 	}
 
 	public static final void unregister(final ResourceListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getResourceResource(), listener);
+		unregisterFrom(DefaultResources.getResourceResource(), listener);
 	}
 
 	public static final void unregister(final SelectionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getSelectionResource(), listener);
+		unregisterFrom(DefaultResources.getSelectionResource(), listener);
 	}
 	
 	public static final void unregister(final StructuredSelectionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getStructuredSelectionResource(), listener);
+		unregisterFrom(DefaultResources.getStructuredSelectionResource(), listener);
 	}
 
 	public static final void unregister(final TestRunListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getTestRunResource(), listener);
+		unregisterFrom(DefaultResources.getTestRunResource(), listener);
 	}
 
 	public static final void unregister(final TextSelectionListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getTextSelectionResource(), listener);
+		unregisterFrom(DefaultResources.getTextSelectionResource(), listener);
 	}
 
 	public static final void unregister(final WindowListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getWindowResource(), listener);
+		unregisterFrom(DefaultResources.getWindowResource(), listener);
 	}
 
 	public static final void unregister(final WorkbenchListener listener)
 	{
-		unregisterAndHookListener(DefaultResources.getWorkbenchResource(), listener);
+		unregisterFrom(DefaultResources.getWorkbenchResource(), listener);
 	}
 }

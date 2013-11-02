@@ -28,7 +28,7 @@ abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> 
 		// TODO rm
 		//resource.register(hook);
 		
-		DefaultResources.registerAndHookListener(resource, hook);
+		DefaultResources.registerTo(resource, hook);
 	}
 	
 	final void unhook(final Resource<? super H> resource, final L listener)
@@ -40,7 +40,7 @@ abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> 
 			// TODO rm
 			//resource.unregister(hook);
 			
-			DefaultResources.unregisterAndHookListener(resource, hook);
+			DefaultResources.unregisterFrom(resource, hook);
 		}
 	}
 }

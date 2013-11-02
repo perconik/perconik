@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
-import java.util.Collections;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
 import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
@@ -184,6 +183,116 @@ public final class DefaultResources
 		throw new AssertionError();
 	}
 	
+	private static final <L extends Listener> void safePreRegister(final L listener)
+	{
+		try
+		{
+			listener.preRegister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerRegistrationException(), failure);
+		}
+	}
+
+	private static final <L extends Listener> void safeRegisterTo(final Resource<? super L> resource, final L listener)
+	{
+		try
+		{
+			resource.register(listener);
+		}
+		catch (UnsupportedResourceException failure)
+		{
+			log.error(failure, "Unsupported resource %s failed registering listener %s", resource, listener);
+		}
+	}
+
+	private static final <L extends Listener> void safePostRegister(final Listener listener)
+	{
+		try
+		{
+			listener.postRegister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerRegistrationException(), failure);
+		}
+	}
+
+	private static final <L extends Listener> void safePreUnregister(final L listener)
+	{
+		try
+		{
+			listener.preUnregister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerUnregistrationException(), failure);
+		}
+	}
+
+	private static final <L extends Listener> void safeUnregisterFrom(final Resource<? super L> resource, final L listener)
+	{
+		try
+		{
+			resource.unregister(listener);
+		}
+		catch (UnsupportedResourceException failure)
+		{
+			log.error(failure, "Unsupported resource %s failed unregistering listener %s", resource, listener);
+		}
+	}
+
+	private static final <L extends Listener> void safePostUnregister(final L listener)
+	{
+		try
+		{
+			listener.postUnregister();
+		}
+		catch (Exception failure)
+		{
+			throw MoreThrowables.initializeCause(new ListenerUnregistrationException(), failure);
+		}
+	}
+
+	public static final <L extends Listener> void registerTo(final Resource<L> resource, final L listener)
+	{
+		safePreRegister(listener);
+		safeRegisterTo(resource, listener);
+		safePostRegister(listener);
+	}
+
+	public static final <L extends Listener> void registerTo(final Iterable<Resource<? super L>> resources, final L listener)
+	{
+		safePreRegister(listener);
+		
+		for (Resource<? super L> resource: resources)
+		{
+			safeRegisterTo(resource, listener);
+		}
+		
+		safePostRegister(listener);
+	}
+
+	public static final <L extends Listener> void unregisterFrom(final Resource<L> resource, final L listener)
+	{
+		safePreUnregister(listener);
+		safeUnregisterFrom(resource, listener);
+		safePostUnregister(listener);
+	}
+
+	public static final <L extends Listener> void unregisterFrom(final Iterable<Resource<? super L>> resources, final L listener)
+	{
+		safePreUnregister(listener);
+		
+		for (Resource<? super L> resource: resources)
+		{
+			safeUnregisterFrom(resource, listener);
+		}
+		
+		safePostUnregister(listener);
+	}
+
 	private static final class ManagerHolder
 	{
 		static final ResourceManager instance;
@@ -311,92 +420,10 @@ public final class DefaultResources
 		boolean unsupported = handler.getClass().isAnnotationPresent(Unimplemented.class);
 		
 		Resource<L> resource = StandardResource.newInstance(Pools.safe(Pools.getListenerPoolFactory().create(handler), type), unsupported);
-
+	
 		builder.add(type, resource);
 		
 		return resource;
-	}
-	
-	public static final <L extends Listener> void registerAndHookListener(final Resource<L> resource, final L listener)
-	{
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		Iterable<Resource<? super L>> resources = (Iterable) Collections.singleton(resource); 
-		
-		registerAndHookListener(resources, listener);
-	}
-	
-	public static final <L extends Listener> void registerAndHookListener(final Iterable<Resource<? super L>> resources, final L listener)
-	{
-		try
-		{
-			listener.preRegister();
-		}
-		catch (Exception failure)
-		{
-			throw MoreThrowables.initializeCause(new ListenerRegistrationException(), failure);
-		}
-		
-		for (Resource<? super L> resource: resources)
-		{
-			try
-			{
-				resource.register(listener);
-			}
-			catch (UnsupportedResourceException failure)
-			{
-				log.error(failure, "Unsupported resource %s failed registering listener %s", resource, listener);
-			}
-		}
-		
-		try
-		{
-			listener.postRegister();
-		}
-		catch (Exception failure)
-		{
-			throw MoreThrowables.initializeCause(new ListenerRegistrationException(), failure);
-		}
-	}
-
-	public static final <L extends Listener> void unregisterAndHookListener(final Resource<L> resource, final L listener)
-	{
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		Iterable<Resource<? super L>> resources = (Iterable) Collections.singleton(resource); 
-		
-		unregisterAndHookListener(resources, listener);
-	}
-	
-	public static final <L extends Listener> void unregisterAndHookListener(final Iterable<Resource<? super L>> resources, final L listener)
-	{
-		try
-		{
-			listener.preUnregister();
-		}
-		catch (Exception failure)
-		{
-			throw MoreThrowables.initializeCause(new ListenerUnregistrationException(), failure);
-		}
-		
-		for (Resource<? super L> resource: resources)
-		{
-			try
-			{
-				resource.unregister(listener);
-			}
-			catch (UnsupportedResourceException failure)
-			{
-				log.error(failure, "Unsupported resource %s failed unregistering listener %s", resource, listener);
-			}
-		}
-		
-		try
-		{
-			listener.postUnregister();
-		}
-		catch (Exception failure)
-		{
-			throw MoreThrowables.initializeCause(new ListenerUnregistrationException(), failure);
-		}
 	}
 
 	public static final Resource<CommandListener> getCommandResource()
