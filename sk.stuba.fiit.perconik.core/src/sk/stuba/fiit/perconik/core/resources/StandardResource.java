@@ -32,18 +32,6 @@ class StandardResource<L extends Listener> extends AbstractResource<L>
 		this.pool.remove(listener);
 	}
 	
-	// TODO rm
-//	public final void unregisterAll(final Class<? extends Listener> type)
-//	{
-//		for (L listener: this.pool.toCollection())
-//		{
-//			if (type.isInstance(listener))
-//			{
-//				this.unregister(listener);
-//			}
-//		}
-//	}
-	
 	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{
 		Collection<L> listeners = this.pool.toCollection();

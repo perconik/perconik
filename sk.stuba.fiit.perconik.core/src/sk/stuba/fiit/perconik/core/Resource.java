@@ -72,26 +72,6 @@ public interface Resource<L extends Listener> extends Nameable, Registrable
 	 */
 	public void unregister(L listener);
 
-	// TODO rm
-//	/**
-//	 * Unregisters all listeners assignable to the specified listener type.
-//	 * A listener is assignable to a listener type if it is an instance of
-//	 * that type.
-//	 * 
-//	 * <p><b>Warning:</b> Does not invoke unregistration hooks of assignable
-//	 * listener. Only {@link ListenerManager#register(Listener)} is responsible
-//	 * for proper hook method invocation during the unregistration process.
-//	 * 
-//	 * @param type the listener type to which the assignable listeners
-//	 *             are going be unregistered, not {@code null}
-//	 * 
-//	 * @throws NullPointerException if the specified listener
-//	 *         type is {@code null}
-//	 * @throws UnsupportedResourceException if the resource does not support
-//	 *         this operation (it could mean that it is not implemented yet)
-//	 */
-//	public void unregisterAll(Class<? extends Listener> type);
-	
 	/**
 	 * Returns all registered listeners assignable to the specified
 	 * listener type. A listener is assignable to a listener type

@@ -29,15 +29,4 @@ public final class MainPreferences extends AbstractPreferences
 	{
 		return new MainPreferences(Scope.INSTANCE);
 	}
-
-	// TODO add
-//	public final void setAdmin(final boolean value)
-//	{
-//		this.store.setValue(this.key(admin), value);
-//	}
-//	
-//	public final boolean isAdmin()
-//	{
-//		return this.store.getBoolean(this.key(admin));
-//	}
 }

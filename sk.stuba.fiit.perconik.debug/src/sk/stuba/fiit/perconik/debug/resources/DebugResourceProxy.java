@@ -75,17 +75,6 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
 		this.untab();
 	}
 
-	// TODO rm
-//	public final void unregisterAll(final Class<? extends Listener> type)
-//	{
-//		this.print("Unregistering all listeners from resource %s", DebugResources.toString(this.delegate()));
-//		this.tab();
-//		
-//		this.delegate().unregisterAll(type);
-//		
-//		this.untab();
-//	}
-
 	public final <U extends Listener> Collection<U> registered(final Class<U> type)
 	{
 		return this.delegate().registered(type);

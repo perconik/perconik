@@ -30,9 +30,6 @@ final class StandardListenerManager extends AbstractListenerManager
 		
 		for (Resource<? extends L> resource: this.manager().assignables(type))
 		{
-			// TODO rm
-			//resource.unregisterAll(type);
-			
 			for (L listener: resource.registered(type))
 			{
 				try

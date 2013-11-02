@@ -24,10 +24,7 @@ abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> 
 			
 			this.hooks.put(listener, hook);
 		}
-		
-		// TODO rm
-		//resource.register(hook);
-		
+
 		DefaultResources.registerTo(resource, hook);
 	}
 	
@@ -37,9 +34,6 @@ abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> 
 		
 		if (hook != null)
 		{
-			// TODO rm
-			//resource.unregister(hook);
-			
 			DefaultResources.unregisterFrom(resource, hook);
 		}
 	}
