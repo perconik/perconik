@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Core Persistence Model
 Bundle-SymbolicName: sk.stuba.fiit.perconik.core.persistence;singleton:=true
-Bundle-Version: 0.0.2.v20130911-1834
+Bundle-Version: 0.0.3.v20131103-1105
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
