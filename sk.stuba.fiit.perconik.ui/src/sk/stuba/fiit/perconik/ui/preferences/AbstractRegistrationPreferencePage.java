@@ -222,6 +222,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		});
 		
 		this.loadInternal(this.source());
+		this.performRefresh();
 
 		Dialog.applyDialogFont(composite);
 		
