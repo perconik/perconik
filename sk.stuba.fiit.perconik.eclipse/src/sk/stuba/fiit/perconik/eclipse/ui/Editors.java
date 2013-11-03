@@ -51,13 +51,18 @@ public final class Editors
 		return page.getActiveEditor();
 	}
 	
-	public static final IResource getResource(final IEditorPart editor)
+	public static final IResource getResource(@Nullable final IEditorPart editor)
 	{
-		return (IResource) editor.getEditorInput().getAdapter(IResource.class);
+		return editor != null ? (IResource) editor.getEditorInput().getAdapter(IResource.class) : null;
 	}
 
-	public static final IFile getFile(final IEditorPart editor)
+	public static final IFile getFile(@Nullable final IEditorPart editor)
 	{
+		if (editor == null)
+		{
+			return null;
+		}
+		
 		IEditorInput input = editor.getEditorInput();
 		
 		if (input instanceof IFileEditorInput)
