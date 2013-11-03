@@ -56,7 +56,7 @@
           id="com.gratex.perconik.tag.builder.nature.enable"
           name="Enable Tag Nature">
     </command>	      
-		<command id="com.gratex.perconik.tag.builder.nature.disable" name="Disable Tag Nature" />	     
+		<command id="com.gratex.perconik.tag.builder.nature.disable" name="Disable Tag Nature" />
 	</extension>
 
 
@@ -64,11 +64,11 @@
        point="org.eclipse.ui.menus">
 		
 		<menuContribution
-        	locationURI="popup:org.eclipse.ui.popup.any">
+        allPopups="false"
+        locationURI="popup:org.eclipse.jdt.ui.PackageExplorer?after=additions">
 
 		<menu
-			id="com.gratex.perconik.tag.ui.object.menu"
-            label="PerConIK Tools">
+        label="PerConIK Tools">
             
         		<command commandId="com.gratex.perconik.tag.builder.nature.disable">
                		<visibleWhen checkEnabled="false">
