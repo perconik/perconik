@@ -8,12 +8,10 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
-import sk.stuba.fiit.perconik.core.ResourceNotFoundException;
 import sk.stuba.fiit.perconik.core.persistence.InvalidListenerException;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedListenerData;
-import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import com.google.common.base.Optional;
@@ -148,6 +146,11 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 	{
 		Listener listener = this.getListener();
 		
+		if (listener == null)
+		{
+			return this;
+		}
+		
 		boolean status = Listeners.isRegistered(listener);
 		
 		if (this.registered == status)
@@ -155,22 +158,13 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
 			return this;
 		}
 
-		try
+		if (this.registered)
 		{
-			if (this.registered)
-			{
-				Listeners.register(listener);
-			}
-			else
-			{
-				Listeners.unregister(listener);
-			}
+			Listeners.register(listener);
 		}
-		catch (ResourceNotFoundException e)
+		else
 		{
-			Activator.getDefault().getConsole().notice("Trying to register or unregister listener implemented by " + this.implementation.getName() + " but no resources found");
-			
-			return this;
+			Listeners.unregister(listener);
 		}
 		
 		return new ListenerPersistenceData(status, this.implementation, this.listener);

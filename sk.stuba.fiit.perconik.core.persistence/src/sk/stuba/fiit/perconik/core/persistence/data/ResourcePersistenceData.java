@@ -160,6 +160,11 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
 	{
 		Resource<?> resource = this.getResource();
 		
+		if (resource == null)
+		{
+			return this;
+		}
+		
 		boolean status = Resources.isRegistered(this.type, resource);
 		
 		if (this.registered == status)
