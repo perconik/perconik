@@ -13,7 +13,11 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.ui;bundle-version="3.105.0",
  org.eclipse.ui.editors;bundle-version="3.8.100",
  com.gratex.perconik.services;bundle-version="0.1.0",
+<<<<<<< HEAD
  sk.stuba.fiit.perconik.eclipse;bundle-version="0.1.0",
+=======
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.0.7",
+>>>>>>> Format some code
  sk.stuba.fiit.perconik.environment;bundle-version="0.0.3",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2"
 Bundle-ActivationPolicy: lazy
