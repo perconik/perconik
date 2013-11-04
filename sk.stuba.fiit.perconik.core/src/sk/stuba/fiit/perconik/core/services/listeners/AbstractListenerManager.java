@@ -38,7 +38,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 		{
 			if (this.manager().registrables(type).isEmpty())
 			{
-				throw new ResourceNotRegistredException("No registred resources for listener type " + listener.getClass().getName() + " as " + type.getName());
+				throw new ResourceNotRegistredException("No registred resources for listener implementation " + listener.getClass().getName() + " as " + type.getName());
 			}
 		}
 

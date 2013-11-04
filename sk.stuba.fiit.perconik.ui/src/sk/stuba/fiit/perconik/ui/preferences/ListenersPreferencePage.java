@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Table;
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
-import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
@@ -120,12 +119,8 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 			String message;
 			
 			message  = "Listener registration failed due to one or more unregistered but required resources. ";
-			message += "Select only listeners with registered resources.";
-			
-			if (Environment.debug)
-			{
-				message += "\n\n" + e.getMessage();
-			}
+			message += "Select only listeners with registered resources.\n\n";
+			message += e.getMessage() + ".";
 			
 			this.displayError("Listener registration", message);
 			this.performRefresh();
