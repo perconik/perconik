@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Gratex Tag
 Bundle-SymbolicName: com.gratex.perconik.tag;singleton:=true
-Bundle-Version: 0.0.7.v20131104-0212
+Bundle-Version: 0.0.8.v20131104-0228
 Bundle-Activator: com.gratex.perconik.tag.plugin.Activator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.core.resources;bundle-version="3.8.100",
