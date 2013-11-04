@@ -10,6 +10,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.RE
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.filebuffers.FileBuffers;
@@ -24,6 +25,7 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
@@ -36,10 +38,12 @@ import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.SetMultimap;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.vs.IVsActivityWatcherService;
@@ -59,7 +63,6 @@ import com.gratex.perconik.services.vs.IdeDocumentOperationTypeEnum;
  */
 public final class IdeDocumentListener extends IdeListener implements EditorListener, FileBufferListener, ResourceListener, SelectionListener
 {
-	// TODO rename generates rename + add
 	// TODO note that switch_to is generated before open/close 
 	// TODO open is also generated on initial switch to previously opened tab directly after eclipse launch 
 	
@@ -72,11 +75,6 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 	}
 	
-	static final IEditorPart dereferenceEditor(final IEditorReference reference)
-	{
-		return reference.getEditor(false);
-	}
-
 	private final boolean updateFile(final UnderlyingDocument<?> document)
 	{
 		if (document != null)
@@ -136,11 +134,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		private final long time;
 		
+		private final SetMultimap<IdeDocumentOperationTypeEnum, IFile> operations;
+		
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
 			super(type);
 			
-			this.time = time;
+			this.time       = time;
+			this.operations = LinkedHashMultimap.create(3, 2);
 		}
 
 		@Override
@@ -180,7 +181,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				
 				if (!path.lastSegment().equals(resource.getFullPath().lastSegment()))
 				{
-					send(build(this.time, (IFile) resource, IdeDocumentOperationTypeEnum.RENAME));
+					this.operations.put(IdeDocumentOperationTypeEnum.RENAME, (IFile) resource);
 					
 					return false;
 				}
@@ -188,8 +189,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
 
-			if (kind == ADDED)   send(build(this.time, (IFile) resource, IdeDocumentOperationTypeEnum.ADD));
-			if (kind == REMOVED) send(build(this.time, (IFile) resource, IdeDocumentOperationTypeEnum.REMOVE));
+			if (kind == ADDED)   this.operations.put(IdeDocumentOperationTypeEnum.ADD,    (IFile) resource);
+			if (kind == REMOVED) this.operations.put(IdeDocumentOperationTypeEnum.REMOVE, (IFile) resource);
 
 			return false;
 		}
@@ -199,6 +200,20 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			return false;
 		}
+
+		@Override
+		final void postVisitOrHandle()
+		{
+			if (this.operations.containsKey(IdeDocumentOperationTypeEnum.RENAME))
+			{
+				this.operations.removeAll(IdeDocumentOperationTypeEnum.ADD);
+			}
+			
+			for (Entry<IdeDocumentOperationTypeEnum, IFile> entry: this.operations.entries())
+			{
+				send(build(this.time, entry.getValue(), entry.getKey()));
+			}
+		}
 	}
 
 	static final void process(final long time, final IResourceChangeEvent event)
@@ -206,14 +221,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
 		IResourceDelta    delta = event.getDelta();
 
-		if (delta != null)
-		{
-			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(time, type));
-		}
-		else
-		{
-			new ResourceDeltaVisitor(time, type).handle(event.getResource());
-		}
+		new ResourceDeltaVisitor(time, type).visitOrHandle(delta, event);
 	}
 	
 	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
@@ -254,6 +262,97 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		}
 	}
 	
+	@Override
+	public final void postRegister()
+	{
+		Display.getDefault().asyncExec(new Runnable()
+		{
+			@Override
+			public final void run()
+			{
+				final UnderlyingDocument<?> document = UnderlyingDocument.of(Editors.getActiveEditor());
+
+				if (document == null)
+				{
+					return;
+				}
+
+				final long time = currentTime();
+				
+				executor.execute(new Runnable()
+				{
+					public final void run()
+					{
+						send(build(time, document, IdeDocumentOperationTypeEnum.OPEN));
+					}
+				});
+			}
+		});
+	}
+
+	@Override
+	public final void preUnregister()
+	{
+		// TODO generate close event of all opened documents here 
+		
+//		Display.getDefault().syncExec(new Runnable()
+//		{
+//			@Override
+//			public final void run()
+//			{
+//				console.print("====================== SYNC " +Arrays.toString(Workbenches.getWorkbench().getWorkbenchWindows()));
+//			}
+//		});
+//		
+//		Display.getDefault().asyncExec(new Runnable()
+//		{
+//			@Override
+//			public final void run()
+//			{
+//				console.print("====================== ASYNC " +Arrays.toString(Workbenches.getWorkbench().getWorkbenchWindows()));
+//			}
+//		});
+//		
+//		console.print("====================== CURRENT " +Arrays.toString(Workbenches.getWorkbench().getWorkbenchWindows()));
+//		
+//		for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows())
+//		{
+//			console.print("====================== z " +window);
+//
+//			for (IWorkbenchPage page: window.getPages())
+//			{
+//				console.print("====================== zz " +page);
+//				
+//				for (IEditorReference reference: page.getEditorReferences())
+//				{
+//					console.print("====================== zzz " +reference);
+//					
+//					final IEditorPart           editor   = dereferenceEditor(reference);
+//					final UnderlyingDocument<?> document = UnderlyingDocument.of(editor);
+//
+//					console.print("====================== " + editor);
+//					
+//					if (document == null)
+//					{
+//						continue;
+//					}
+//
+//					console.print("====================== XXXXX " + editor);
+//					
+//					final long time = currentTime();
+//					
+//					executor.execute(new Runnable()
+//					{
+//						public final void run()
+//						{
+//							send(build(time, document, IdeDocumentOperationTypeEnum.CLOSE));
+//						}
+//					});
+//				}
+//			}
+//		}
+	}
+
 	public final void resourceChanged(final IResourceChangeEvent event)
 	{
 		final long time = currentTime();
@@ -306,11 +405,11 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
+				UnderlyingDocument<?> document = UnderlyingDocument.of(dereferenceEditor(reference));
 				
-				if (resource != null)
+				if (document != null)
 				{
-					send(build(time, resource, IdeDocumentOperationTypeEnum.CLOSE));
+					send(build(time, document, IdeDocumentOperationTypeEnum.CLOSE));
 				}
 			}
 		});
@@ -318,12 +417,6 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	public final void editorActivated(final IEditorReference reference)
 	{
-//		IFile file = Editors.getFile(dereferenceEditor(reference));
-//		
-//		if (this.updateFile(file))
-//		{
-//			process(file, IdeDocumentOperationTypeEnum.SWITCH_TO);
-//		}
 	}
 
 	public final void editorDeactivated(final IEditorReference reference)

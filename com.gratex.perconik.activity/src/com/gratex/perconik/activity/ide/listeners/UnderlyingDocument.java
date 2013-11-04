@@ -1,5 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
+import javax.annotation.Nullable;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.ui.IEditorPart;
@@ -21,8 +22,13 @@ abstract class UnderlyingDocument<T>
 		this.resource = resource;
 	}
 	
-	static final UnderlyingDocument<?> of(final IEditorPart editor)
+	static final UnderlyingDocument<?> of(@Nullable final IEditorPart editor)
 	{
+		if (editor == null)
+		{
+			return null;
+		}
+		
 		IFile file = Editors.getFile(editor);
 		
 		if (file != null)

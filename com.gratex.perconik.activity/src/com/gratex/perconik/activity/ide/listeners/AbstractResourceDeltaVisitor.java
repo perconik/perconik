@@ -2,8 +2,10 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import javax.annotation.Nullable;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 
 abstract class AbstractResourceDeltaVisitor implements IResourceDeltaVisitor
@@ -35,4 +37,22 @@ abstract class AbstractResourceDeltaVisitor implements IResourceDeltaVisitor
 	abstract boolean resolveDelta(IResourceDelta delta, IResource resource);
 
 	abstract boolean resolveResource(IResource resource);
+	
+	public final void visitOrHandle(@Nullable final IResourceDelta delta, @Nullable final IResourceChangeEvent event)
+	{
+		if (delta != null)
+		{
+			ResourceDeltas.accept(delta, this);
+		}
+		else
+		{
+			this.handle(event.getResource());
+		}
+		
+		this.postVisitOrHandle();
+	}
+
+	void postVisitOrHandle()
+	{
+	}
 }

@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
@@ -26,7 +27,6 @@ import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltas;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import com.google.common.collect.ImmutableSet;
@@ -51,7 +51,6 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 {
 	// TODO rename not implemented
 	// TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
-	// TODO close --> explorer/a --> generates close(a),open(a)
 	
 	private final Object lock = new Object();
 	
@@ -122,6 +121,11 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		@Override
 		final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
 		{
+//			// TODO rm
+//			if (IdeApplication.getInstance().isDebug()) { console.put("resource: "+ resource);
+//			console.put("  type: "+ this.type);console.put("  kind: "+ ResourceDeltaKind.valueOf(delta.getKind()).toString());
+//			console.print("  flags: "+ResourceDeltaFlag.setOf(delta.getFlags()).toString()); }
+
 			assert delta != null && resource != null;
 			
 			if (ResourceType.valueOf(resource.getType()) != PROJECT)
@@ -131,11 +135,13 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 			
 			if (this.type == POST_CHANGE)
 			{
+				IProject project = (IProject) resource;
+				
 				ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
 				Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 				
-				if (kind == ADDED) send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.ADD));
-				if (flags.contains(OPEN)) send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.OPEN));
+				if (kind == ADDED) send(build(this.time, project, IdeProjectOperationTypeEnum.ADD));
+				if (flags.contains(OPEN) && project.isOpen()) send(build(this.time, project, IdeProjectOperationTypeEnum.OPEN));
 				
 				return false;
 			}
@@ -172,18 +178,10 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	
 	static final void process(final long time, final IResourceChangeEvent event)
 	{
-		ResourceEventType type = ResourceEventType.valueOf(event.getType());
+		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
+		IResourceDelta    delta = event.getDelta();
 	
-		IResourceDelta delta = event.getDelta();
-	
-		if (delta != null)
-		{
-			ResourceDeltas.accept(delta, new ResourceDeltaVisitor(time, type));
-		}
-		else
-		{
-			new ResourceDeltaVisitor(time, type).handle(event.getResource());
-		}
+		new ResourceDeltaVisitor(time, type).visitOrHandle(delta, event);
 	}
 
 	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
@@ -222,8 +220,8 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
 		final long time = currentTime();
-		
-		executor.execute(new Runnable()
+
+		Display.getDefault().asyncExec(new Runnable()
 		{
 			public final void run()
 			{
