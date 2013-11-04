@@ -277,15 +277,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 					return;
 				}
 
-				final long time = currentTime();
-				
-				executor.execute(new Runnable()
-				{
-					public final void run()
-					{
-						send(build(time, document, IdeDocumentOperationTypeEnum.OPEN));
-					}
-				});
+				send(build(currentTime(), document, IdeDocumentOperationTypeEnum.OPEN));
 			}
 		});
 	}
