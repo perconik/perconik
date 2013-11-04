@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Gratex Tag
 Bundle-SymbolicName: com.gratex.perconik.tag;singleton:=true
-Bundle-Version: 0.0.5.v20131103-1752
+Bundle-Version: 0.0.7.v20131104-0212
 Bundle-Activator: com.gratex.perconik.tag.plugin.Activator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.core.resources;bundle-version="3.8.100",
@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.ui.editors;bundle-version="3.8.100",
  com.gratex.perconik.services;bundle-version="0.1.0",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.0.5",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.0.6",
  sk.stuba.fiit.perconik.environment;bundle-version="0.0.3"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
