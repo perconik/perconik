@@ -9,6 +9,7 @@ public final class AstMatchingNode<N extends ASTNode>
 {
 	private static final ASTMatcher matcher = new ASTMatcher(true);
 	
+	@Nullable
 	private final N node;
 	
 	private int hash;
@@ -18,7 +19,7 @@ public final class AstMatchingNode<N extends ASTNode>
 		this.node = node;
 	}
 	
-	public static final <N extends ASTNode> AstMatchingNode<N> of(@Nullable final N node)
+	public static final <N extends ASTNode> AstMatchingNode<N> from(@Nullable final N node)
 	{
 		return new AstMatchingNode<>(node);
 	}
@@ -68,21 +69,21 @@ public final class AstMatchingNode<N extends ASTNode>
 		return this.node != null ? this.node.toString() : null;
 	}
 
-	public final ASTNode getRoot()
-	{
-		return AstNodes.root(this.node);
-	}
-
-	public final ASTNode getParent()
-	{
-		return AstNodes.parent(this.node);
-	}
-
-	public final N getNode()
+	public final N asNode()
 	{
 		return this.node;
 	}
-	
+
+	public final AstMatchingNode<?> getRoot()
+	{
+		return from(AstNodes.root(this.node));
+	}
+
+	public final AstMatchingNode<?> getParent()
+	{
+		return from(AstNodes.parent(this.node));
+	}
+
 	public final AstNodeType getType()
 	{
 		return AstNodes.typeAsConstant(this.node);
