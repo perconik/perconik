@@ -89,7 +89,7 @@ public final class AstFilters
 		return cast(NotNull.INSTANCE);
 	}
 	
-	// TODO add: and, or, not, asPredicate, fromPredicate
+	// TODO add: and, or, not
 
 	private static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> cast(final AstTypeFilter<?, ?> filter)
 	{
