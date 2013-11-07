@@ -529,6 +529,8 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 
 	private static final TypeConstantSupport<AstNodeType, ASTNode> types = TypeConstantSupport.of(AstNodeType.class);
 
+	private static final int count = values().length;
+	
 	private final String name;
 	
 	private final int value;
@@ -544,6 +546,11 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 		this.type  = type;
 	}
 
+	public static final int count()
+	{
+		return count;
+	}
+	
 	public static final Set<Integer> valuesAsIntegers()
 	{
 		return integers.getIntegers();
