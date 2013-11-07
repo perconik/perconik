@@ -33,11 +33,6 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 		@Override
 		public final List<N> collect(@Nullable final N node)
 		{
-			if (node == null)
-			{
-				return null;
-			}
-
 			return new Processor().perform(node);
 		}
 		
@@ -80,11 +75,6 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 		@Override
 		public final List<R> collect(@Nullable final N node)
 		{
-			if (node == null)
-			{
-				return null;
-			}
-
 			return new Processor().perform(node);
 		}
 		

@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import java.util.Collections;
 import java.util.List;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -18,6 +19,11 @@ abstract class AbstractCollectingVisitor<N extends ASTNode, R extends ASTNode> e
 	
 	final List<R> perform(final N node)
 	{
+		if (node == null)
+		{
+			return Collections.emptyList();
+		}
+		
 		node.accept(this);
 		
 		return this.result;
