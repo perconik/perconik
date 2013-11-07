@@ -36,9 +36,17 @@ public final class AstTransformers
 	//	{
 	//		
 	//	}
-		
-	// TODO add toParent trnasformer, firstParentOfType, ...
 	
+	private static enum ToRoot implements AstTransformer<ASTNode, ASTNode>
+	{
+		INSTANCE;
+
+		public final ASTNode transform(@Nullable final ASTNode node)
+		{
+			return AstNodes.root(node);
+		}
+	}
+
 	private static enum ToParent implements AstTransformer<ASTNode, ASTNode>
 	{
 		INSTANCE;
@@ -58,10 +66,21 @@ public final class AstTransformers
 		return result;
 	}
 
+	public static final <N extends ASTNode> AstTransformer<N, ASTNode> toRoot()
+	{
+		return cast(ToRoot.INSTANCE);
+	}
+	
 	public static final <N extends ASTNode> AstTransformer<N, ASTNode> toParent()
 	{
 		return cast(ToParent.INSTANCE);
 	}
+	
+	// TODO add
+//	public static final <N extends ASTNode> AstTransformer<N, ASTNode> toFirstAncestor(final )
+//	{
+//		return cast(ToRoot.INSTANCE);
+//	}
 
 	public static final <N extends ASTNode> AstCutter<N> cutterUsingFilter(final AstFilter<ASTNode> filter)
 	{

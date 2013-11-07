@@ -10,6 +10,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
+// TODO refactor, use AstNodeType instead of Class
+// TODO move code from AstPredicates here
+
 public abstract class AstTypeFilter<N extends ASTNode, F extends ASTNode> implements AstFilter<N> 
 {
 	static final Mode defaultMode = Mode.INCLUDE;
