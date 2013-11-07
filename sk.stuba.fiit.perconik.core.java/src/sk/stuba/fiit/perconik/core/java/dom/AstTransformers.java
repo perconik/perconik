@@ -15,8 +15,6 @@ public final class AstTransformers
 		throw new AssertionError();
 	}
 	
-	// TODO add counters
-
 	// TODO add
 		
 	//	public static final AstTransformer<N, R> from(final AstCollector<N, R> collector)

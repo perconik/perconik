@@ -14,6 +14,11 @@ abstract class AbstractCountingVisitor<N extends ASTNode> extends ASTVisitor
 	
 	final int perform(final N node)
 	{
+		if (node == null)
+		{
+			return 0;
+		}
+		
 		node.accept(this);
 		
 		return this.count;

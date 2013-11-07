@@ -19,11 +19,6 @@ public final class AstFilteringCounter<N extends ASTNode> implements AstCounter<
 
 	public final int count(final N node)
 	{
-		if (node == null)
-		{
-			return 0;
-		}
-
 		return new Processor().perform(node);
 	}
 	

@@ -147,6 +147,4 @@ public final class AstCollectors
 	{
 		return usingFilter(AstFilters.<N, R>ofType(types));
 	}
-	
-	// TODO add children collector, ancestor, descendant collectors
 }
