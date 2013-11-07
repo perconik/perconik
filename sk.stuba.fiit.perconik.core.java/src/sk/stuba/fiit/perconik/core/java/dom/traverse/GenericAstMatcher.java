@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.java.dom;
+package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
@@ -85,6 +85,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+import sk.stuba.fiit.perconik.core.java.dom.AstVisitOption;
 
 public class GenericAstMatcher extends AstMatcher
 {

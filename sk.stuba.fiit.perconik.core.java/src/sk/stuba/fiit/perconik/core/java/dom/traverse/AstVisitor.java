@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.java.dom;
+package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -95,12 +95,6 @@ public abstract class AstVisitor extends ASTVisitor
 {
 	protected AstVisitor()
 	{
-	}
-	
-	// TODO resolve javadoc tags
-	public static enum Flag
-	{
-		JAVADOC_TAGS;
 	}
 
 	public abstract boolean pre(ASTNode node);

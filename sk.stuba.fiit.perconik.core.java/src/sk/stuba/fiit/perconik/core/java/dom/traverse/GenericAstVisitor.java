@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.java.dom;
+package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;

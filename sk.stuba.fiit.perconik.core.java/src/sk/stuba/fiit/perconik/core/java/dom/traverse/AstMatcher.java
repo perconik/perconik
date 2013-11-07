@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.java.dom;
+package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
 import static sk.stuba.fiit.perconik.core.java.dom.AstVisitOption.INCLUDE_JAVADOC_TAGS;
 import java.util.Arrays;
@@ -90,6 +90,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+import sk.stuba.fiit.perconik.core.java.dom.AstVisitOption;
 import sk.stuba.fiit.perconik.utilities.MoreLists;
 
 public class AstMatcher
