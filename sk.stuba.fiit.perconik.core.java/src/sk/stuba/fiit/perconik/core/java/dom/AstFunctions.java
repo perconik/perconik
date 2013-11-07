@@ -57,7 +57,7 @@ public final class AstFunctions
 	
 	static final class AstCollectorFunction<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements Function<N, List<R>>, Serializable
 	{
-		private static final long serialVersionUID = 6475124622073770321L;
+		private static final long serialVersionUID = 0L;
 		
 		private final AstCollector<N, R> collector;
 		
@@ -81,7 +81,7 @@ public final class AstFunctions
 
 	static final class AstFlattenerFunction<N extends ASTNode> extends ForwardingObject implements Function<N, CharSequence>, Serializable
 	{
-		private static final long serialVersionUID = -2118896370922641617L;
+		private static final long serialVersionUID = 0L;
 		
 		private final AstFlattener<N> flattener;
 		
@@ -105,7 +105,7 @@ public final class AstFunctions
 	
 	static final class AstFilterFunction<N extends ASTNode> extends ForwardingObject implements Function<N, Boolean>, Serializable
 	{
-		private static final long serialVersionUID = -2118896370922641617L;
+		private static final long serialVersionUID = 0L;
 		
 		private final AstFilter<N> filter;
 		
@@ -129,7 +129,7 @@ public final class AstFunctions
 
 	static final class AstTokenizerFunction<N extends ASTNode> extends ForwardingObject implements Function<N, List<String>>, Serializable
 	{
-		private static final long serialVersionUID = -4489361493532944705L;
+		private static final long serialVersionUID = 0L;
 		
 		private final AstTokenizer<N> tokenizer;
 		
@@ -153,7 +153,7 @@ public final class AstFunctions
 	
 	static final class AstTransformerFunction<N extends ASTNode, R> extends ForwardingObject implements Function<N, R>, Serializable
 	{
-		private static final long serialVersionUID = -4489361493532944705L;
+		private static final long serialVersionUID = 0L;
 		
 		private final AstTransformer<N, R> transformer;
 		
@@ -227,7 +227,7 @@ public final class AstFunctions
 
 	static final class FunctionAstCollector<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements AstCollector<N, R>, Serializable
 	{
-		private static final long serialVersionUID = 6625641694238470658L;
+		private static final long serialVersionUID = 0L;
 		
 		private final Function<N, List<R>> function;
 		
@@ -251,7 +251,7 @@ public final class AstFunctions
 
 	static final class FunctionAstFlattener<N extends ASTNode> extends ForwardingObject implements AstFlattener<N>, Serializable
 	{
-		private static final long serialVersionUID = 5042838680048402141L;
+		private static final long serialVersionUID = 0L;
 		
 		private final Function<N, CharSequence> function;
 		
@@ -275,7 +275,7 @@ public final class AstFunctions
 	
 	static final class FunctionAstFilter<N extends ASTNode> extends ForwardingObject implements AstFilter<N>, Serializable
 	{
-		private static final long serialVersionUID = 5042838680048402141L;
+		private static final long serialVersionUID = 0L;
 		
 		private final Function<N, Boolean> function;
 		
@@ -299,7 +299,7 @@ public final class AstFunctions
 
 	static final class FunctionAstTokenizer<N extends ASTNode> extends ForwardingObject implements AstTokenizer<N>, Serializable
 	{
-		private static final long serialVersionUID = -6111479455753684242L;
+		private static final long serialVersionUID = 0L;
 		
 		private final Function<N, List<String>> function;
 		
@@ -323,7 +323,7 @@ public final class AstFunctions
 	
 	static final class FunctionAstTransformer<N extends ASTNode, R> extends ForwardingObject implements AstTransformer<N, R>, Serializable
 	{
-		private static final long serialVersionUID = -6111479455753684242L;
+		private static final long serialVersionUID = 0L;
 		
 		private final Function<N, R> function;
 		
