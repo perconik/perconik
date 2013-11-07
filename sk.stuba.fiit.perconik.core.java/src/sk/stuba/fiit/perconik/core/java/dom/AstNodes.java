@@ -94,7 +94,7 @@ public final class AstNodes
 	{
 		final LinkedList<ASTNode> children = Lists.newLinkedList();
 
-		ASTVisitor visitor = new ASTVisitor()
+		ASTVisitor visitor = new ASTVisitor(true)
 		{
 			@Override
 			public final boolean preVisit2(final ASTNode child)
@@ -134,7 +134,7 @@ public final class AstNodes
 			return descendants;
 		}
 		
-		ASTVisitor visitor = new ASTVisitor()
+		ASTVisitor visitor = new ASTVisitor(true)
 		{
 			@Override
 			public final void preVisit(final ASTNode descendant)
@@ -223,7 +223,7 @@ public final class AstNodes
 	{
 		final MutableReference<ASTNode> descendant = new MutableReference<>();
 		
-		ASTVisitor visitor = new ASTVisitor()
+		ASTVisitor visitor = new ASTVisitor(true)
 		{
 			@Override
 			public final boolean preVisit2(final ASTNode other)
@@ -322,7 +322,7 @@ public final class AstNodes
 		
 		final MutableBoolean visit = new MutableBoolean(true);
 		
-		ASTVisitor visitor = new ASTVisitor()
+		ASTVisitor visitor = new ASTVisitor(true)
 		{
 			@Override
 			public final boolean preVisit2(final ASTNode other)

@@ -55,123 +55,147 @@ public final class AstFunctions
 		return cast(StringLiteralToLiteralValue.INSTANCE);
 	}
 	
-	static final class AstCollectorFunction<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements Function<N, List<R>>, Serializable
+	static final class FunctionAstCollector<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements AstCollector<N, R>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
 		
-		private final AstCollector<N, R> collector;
+		private final Function<N, List<R>> function;
 		
-		AstCollectorFunction(final AstCollector<N, R> collector)
+		FunctionAstCollector(final Function<N, List<R>> function)
 		{
-			this.collector = Preconditions.checkNotNull(collector);
+			this.function = Preconditions.checkNotNull(function);
 		}
-
-		@Override
-		protected final AstCollector<N, R> delegate()
-		{
-			return this.collector;
-		}
-
-		@Override
-		public final List<R> apply(final N node)
-		{
-			return this.collector.collect(node);
-		}
-	}
-
-	static final class AstFlattenerFunction<N extends ASTNode> extends ForwardingObject implements Function<N, CharSequence>, Serializable
-	{
-		private static final long serialVersionUID = 0L;
 		
-		private final AstFlattener<N> flattener;
-		
-		AstFlattenerFunction(final AstFlattener<N> flattener)
-		{
-			this.flattener = Preconditions.checkNotNull(flattener);
-		}
-
 		@Override
-		protected final AstFlattener<N> delegate()
+		protected final Function<N, List<R>> delegate()
 		{
-			return this.flattener;
+			return this.function;
 		}
-
-		@Override
-		public final CharSequence apply(final N node)
-		{
-			return this.flattener.flatten(node);
-		}
-	}
 	
-	static final class AstFilterFunction<N extends ASTNode> extends ForwardingObject implements Function<N, Boolean>, Serializable
-	{
-		private static final long serialVersionUID = 0L;
-		
-		private final AstFilter<N> filter;
-		
-		AstFilterFunction(final AstFilter<N> filter)
-		{
-			this.filter = Preconditions.checkNotNull(filter);
-		}
-
 		@Override
-		protected final AstFilter<N> delegate()
+		public final List<R> collect(N node)
 		{
-			return this.filter;
-		}
-
-		@Override
-		public final Boolean apply(final N node)
-		{
-			return this.filter.accept(node);
+			return this.function.apply(node);
 		}
 	}
 
-	static final class AstTokenizerFunction<N extends ASTNode> extends ForwardingObject implements Function<N, List<String>>, Serializable
+	static final class FunctionAstCounter<N extends ASTNode> extends ForwardingObject implements AstCounter<N>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
 		
-		private final AstTokenizer<N> tokenizer;
+		private final Function<N, Integer> function;
 		
-		AstTokenizerFunction(final AstTokenizer<N> tokenizer)
+		FunctionAstCounter(final Function<N, Integer> function)
 		{
-			this.tokenizer = Preconditions.checkNotNull(tokenizer);
+			this.function = Preconditions.checkNotNull(function);
 		}
-
+		
 		@Override
-		protected final AstTokenizer<N> delegate()
+		protected final Function<N, Integer> delegate()
 		{
-			return this.tokenizer;
+			return this.function;
 		}
-
-		@Override
-		public final List<String> apply(final N node)
-		{
-			return this.tokenizer.tokenize(node);
-		}
-	}
 	
-	static final class AstTransformerFunction<N extends ASTNode, R> extends ForwardingObject implements Function<N, R>, Serializable
+		@Override
+		public final int count(N node)
+		{
+			return this.function.apply(node);
+		}
+	}
+
+	static final class FunctionAstFlattener<N extends ASTNode> extends ForwardingObject implements AstFlattener<N>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
 		
-		private final AstTransformer<N, R> transformer;
+		private final Function<N, CharSequence> function;
 		
-		AstTransformerFunction(final AstTransformer<N, R> transformer)
+		FunctionAstFlattener(final Function<N, CharSequence> function)
 		{
-			this.transformer = Preconditions.checkNotNull(transformer);
+			this.function = Preconditions.checkNotNull(function);
 		}
-
+		
 		@Override
-		protected final AstTransformer<N, R> delegate()
+		protected final Function<N, CharSequence> delegate()
 		{
-			return this.transformer;
+			return this.function;
 		}
-
+	
 		@Override
-		public final R apply(final N node)
+		public final CharSequence flatten(N node)
 		{
-			return this.transformer.transform(node);
+			return this.function.apply(node);
+		}
+	}
+
+	static final class FunctionAstFilter<N extends ASTNode> extends ForwardingObject implements AstFilter<N>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final Function<N, Boolean> function;
+		
+		FunctionAstFilter(final Function<N, Boolean> function)
+		{
+			this.function = Preconditions.checkNotNull(function);
+		}
+		
+		@Override
+		protected final Function<N, Boolean> delegate()
+		{
+			return this.function;
+		}
+	
+		@Override
+		public final boolean accept(N node)
+		{
+			return this.function.apply(node);
+		}
+	}
+
+	static final class FunctionAstTokenizer<N extends ASTNode> extends ForwardingObject implements AstTokenizer<N>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final Function<N, List<String>> function;
+		
+		FunctionAstTokenizer(final Function<N, List<String>> function)
+		{
+			this.function = Preconditions.checkNotNull(function);
+		}
+		
+		@Override
+		protected final Function<N, List<String>> delegate()
+		{
+			return this.function;
+		}
+	
+		@Override
+		public final List<String> tokenize(N node)
+		{
+			return this.function.apply(node);
+		}
+	}
+
+	static final class FunctionAstTransformer<N extends ASTNode, R> extends ForwardingObject implements AstTransformer<N, R>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final Function<N, R> function;
+		
+		FunctionAstTransformer(final Function<N, R> function)
+		{
+			this.function = Preconditions.checkNotNull(function);
+		}
+		
+		@Override
+		protected final Function<N, R> delegate()
+		{
+			return this.function;
+		}
+	
+		@Override
+		public final R transform(N node)
+		{
+			return this.function.apply(node);
 		}
 	}
 
@@ -183,6 +207,16 @@ public final class AstFunctions
 		}
 		
 		return new FunctionAstCollector<>(function);
+	}
+
+	public static final <N extends ASTNode> AstCounter<N> asCounter(final Function<N, Integer> function)
+	{
+		if (function instanceof AstCounterFunction)
+		{
+			return ((AstCounterFunction<N>) function).delegate();
+		}
+		
+		return new FunctionAstCounter<>(function);
 	}
 
 	public static final <N extends ASTNode> AstFlattener<N> asFlattener(final Function<N, CharSequence> function)
@@ -225,123 +259,147 @@ public final class AstFunctions
 		return new FunctionAstTransformer<>(function);
 	}
 
-	static final class FunctionAstCollector<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements AstCollector<N, R>, Serializable
+	static final class AstCollectorFunction<N extends ASTNode, R extends ASTNode> extends ForwardingObject implements Function<N, List<R>>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
 		
-		private final Function<N, List<R>> function;
+		private final AstCollector<N, R> collector;
 		
-		FunctionAstCollector(final Function<N, List<R>> function)
+		AstCollectorFunction(final AstCollector<N, R> collector)
 		{
-			this.function = Preconditions.checkNotNull(function);
-		}
-		
-		@Override
-		protected final Function<N, List<R>> delegate()
-		{
-			return this.function;
-		}
-
-		@Override
-		public final List<R> collect(N node)
-		{
-			return this.function.apply(node);
-		}
-	}
-
-	static final class FunctionAstFlattener<N extends ASTNode> extends ForwardingObject implements AstFlattener<N>, Serializable
-	{
-		private static final long serialVersionUID = 0L;
-		
-		private final Function<N, CharSequence> function;
-		
-		FunctionAstFlattener(final Function<N, CharSequence> function)
-		{
-			this.function = Preconditions.checkNotNull(function);
-		}
-		
-		@Override
-		protected final Function<N, CharSequence> delegate()
-		{
-			return this.function;
+			this.collector = Preconditions.checkNotNull(collector);
 		}
 	
 		@Override
-		public final CharSequence flatten(N node)
+		protected final AstCollector<N, R> delegate()
 		{
-			return this.function.apply(node);
-		}
-	}
-	
-	static final class FunctionAstFilter<N extends ASTNode> extends ForwardingObject implements AstFilter<N>, Serializable
-	{
-		private static final long serialVersionUID = 0L;
-		
-		private final Function<N, Boolean> function;
-		
-		FunctionAstFilter(final Function<N, Boolean> function)
-		{
-			this.function = Preconditions.checkNotNull(function);
-		}
-		
-		@Override
-		protected final Function<N, Boolean> delegate()
-		{
-			return this.function;
+			return this.collector;
 		}
 	
 		@Override
-		public final boolean accept(N node)
+		public final List<R> apply(final N node)
 		{
-			return this.function.apply(node);
+			return this.collector.collect(node);
 		}
 	}
 
-	static final class FunctionAstTokenizer<N extends ASTNode> extends ForwardingObject implements AstTokenizer<N>, Serializable
+	static final class AstCounterFunction<N extends ASTNode> extends ForwardingObject implements Function<N, Integer>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
 		
-		private final Function<N, List<String>> function;
+		private final AstCounter<N> counter;
 		
-		FunctionAstTokenizer(final Function<N, List<String>> function)
+		AstCounterFunction(final AstCounter<N> counter)
 		{
-			this.function = Preconditions.checkNotNull(function);
+			this.counter = Preconditions.checkNotNull(counter);
 		}
-		
-		@Override
-		protected final Function<N, List<String>> delegate()
-		{
-			return this.function;
-		}
-
-		@Override
-		public final List<String> tokenize(N node)
-		{
-			return this.function.apply(node);
-		}
-	}
 	
-	static final class FunctionAstTransformer<N extends ASTNode, R> extends ForwardingObject implements AstTransformer<N, R>, Serializable
+		@Override
+		protected final AstCounter<N> delegate()
+		{
+			return this.counter;
+		}
+	
+		@Override
+		public final Integer apply(final N node)
+		{
+			return this.counter.count(node);
+		}
+	}
+
+	static final class AstFlattenerFunction<N extends ASTNode> extends ForwardingObject implements Function<N, CharSequence>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
 		
-		private final Function<N, R> function;
+		private final AstFlattener<N> flattener;
 		
-		FunctionAstTransformer(final Function<N, R> function)
+		AstFlattenerFunction(final AstFlattener<N> flattener)
 		{
-			this.function = Preconditions.checkNotNull(function);
+			this.flattener = Preconditions.checkNotNull(flattener);
 		}
-		
+	
 		@Override
-		protected final Function<N, R> delegate()
+		protected final AstFlattener<N> delegate()
 		{
-			return this.function;
+			return this.flattener;
 		}
+	
+		@Override
+		public final CharSequence apply(final N node)
+		{
+			return this.flattener.flatten(node);
+		}
+	}
 
-		@Override
-		public final R transform(N node)
+	static final class AstFilterFunction<N extends ASTNode> extends ForwardingObject implements Function<N, Boolean>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final AstFilter<N> filter;
+		
+		AstFilterFunction(final AstFilter<N> filter)
 		{
-			return this.function.apply(node);
+			this.filter = Preconditions.checkNotNull(filter);
+		}
+	
+		@Override
+		protected final AstFilter<N> delegate()
+		{
+			return this.filter;
+		}
+	
+		@Override
+		public final Boolean apply(final N node)
+		{
+			return this.filter.accept(node);
+		}
+	}
+
+	static final class AstTokenizerFunction<N extends ASTNode> extends ForwardingObject implements Function<N, List<String>>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final AstTokenizer<N> tokenizer;
+		
+		AstTokenizerFunction(final AstTokenizer<N> tokenizer)
+		{
+			this.tokenizer = Preconditions.checkNotNull(tokenizer);
+		}
+	
+		@Override
+		protected final AstTokenizer<N> delegate()
+		{
+			return this.tokenizer;
+		}
+	
+		@Override
+		public final List<String> apply(final N node)
+		{
+			return this.tokenizer.tokenize(node);
+		}
+	}
+
+	static final class AstTransformerFunction<N extends ASTNode, R> extends ForwardingObject implements Function<N, R>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final AstTransformer<N, R> transformer;
+		
+		AstTransformerFunction(final AstTransformer<N, R> transformer)
+		{
+			this.transformer = Preconditions.checkNotNull(transformer);
+		}
+	
+		@Override
+		protected final AstTransformer<N, R> delegate()
+		{
+			return this.transformer;
+		}
+	
+		@Override
+		public final R apply(final N node)
+		{
+			return this.transformer.transform(node);
 		}
 	}
 
@@ -353,6 +411,16 @@ public final class AstFunctions
 		}
 		
 		return new AstCollectorFunction<>(collector);
+	}
+
+	public static final <N extends ASTNode> Function<N, Integer> from(final AstCounter<N> counter)
+	{
+		if (counter instanceof FunctionAstCounter)
+		{
+			return ((FunctionAstCounter<N>) counter).delegate();
+		}
+		
+		return new AstCounterFunction<>(counter);
 	}
 
 	public static final <N extends ASTNode> Function<N, CharSequence> from(final AstFlattener<N> flattener)

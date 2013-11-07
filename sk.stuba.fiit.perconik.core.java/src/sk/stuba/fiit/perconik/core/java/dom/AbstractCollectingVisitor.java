@@ -5,12 +5,14 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import com.google.common.collect.Lists;
 
-abstract class AstCollectingVisitor<N extends ASTNode, R extends ASTNode> extends ASTVisitor
+abstract class AbstractCollectingVisitor<N extends ASTNode, R extends ASTNode> extends ASTVisitor
 {
 	final List<R> result;
 	
-	AstCollectingVisitor()
+	AbstractCollectingVisitor()
 	{
+		super(true);
+		
 		this.result = Lists.newLinkedList(); 
 	}
 	

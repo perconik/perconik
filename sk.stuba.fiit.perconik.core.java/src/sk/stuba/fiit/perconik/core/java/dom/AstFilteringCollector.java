@@ -41,7 +41,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 			return new Processor().perform(node);
 		}
 		
-		private final class Processor extends AstCollectingVisitor<N, N>
+		private final class Processor extends AbstractCollectingVisitor<N, N>
 		{
 			Processor()
 			{
@@ -88,7 +88,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 			return new Processor().perform(node);
 		}
 		
-		private final class Processor extends AstCollectingVisitor<N, R>
+		private final class Processor extends AbstractCollectingVisitor<N, R>
 		{
 			Processor()
 			{

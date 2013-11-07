@@ -34,6 +34,7 @@ public final class AstCutter<N extends ASTNode> implements AstTransformer<N, N>
 	{
 		Processor()
 		{
+			super(true);
 		}
 		
 		public final N perform(final N node)

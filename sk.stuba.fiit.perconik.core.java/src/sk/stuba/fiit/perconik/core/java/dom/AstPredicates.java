@@ -135,40 +135,6 @@ public final class AstPredicates
 		return new MultiIsMatching<>(types);
 	}
 	
-	static final class AstFilterPredicate<N extends ASTNode> extends ForwardingObject implements Predicate<N>, Serializable
-	{
-		private static final long serialVersionUID = 0L;
-		
-		private final AstFilter<N> filter;
-		
-		AstFilterPredicate(final AstFilter<N> filter)
-		{
-			this.filter = Preconditions.checkNotNull(filter);
-		}
-
-		@Override
-		protected final AstFilter<N> delegate()
-		{
-			return this.filter;
-		}
-
-		@Override
-		public final boolean apply(final N node)
-		{
-			return this.filter.accept(node);
-		}
-	}
-	
-	public static final <N extends ASTNode> AstFilter<N> asFilter(final Predicate<N> predicate)
-	{
-		if (predicate instanceof AstFilterPredicate)
-		{
-			return ((AstFilterPredicate<N>) predicate).delegate();
-		}
-		
-		return new PredicateAstFilter<>(predicate);
-	}
-	
 	static final class PredicateAstFilter<N extends ASTNode> extends ForwardingObject implements AstFilter<N>, Serializable
 	{
 		private static final long serialVersionUID = 0L;
@@ -185,14 +151,48 @@ public final class AstPredicates
 		{
 			return this.predicate;
 		}
-
+	
 		@Override
 		public final boolean accept(N node)
 		{
 			return this.predicate.apply(node);
 		}
 	}
+
+	public static final <N extends ASTNode> AstFilter<N> asFilter(final Predicate<N> predicate)
+	{
+		if (predicate instanceof AstFilterPredicate)
+		{
+			return ((AstFilterPredicate<N>) predicate).delegate();
+		}
+		
+		return new PredicateAstFilter<>(predicate);
+	}
 	
+	static final class AstFilterPredicate<N extends ASTNode> extends ForwardingObject implements Predicate<N>, Serializable
+	{
+		private static final long serialVersionUID = 0L;
+		
+		private final AstFilter<N> filter;
+		
+		AstFilterPredicate(final AstFilter<N> filter)
+		{
+			this.filter = Preconditions.checkNotNull(filter);
+		}
+	
+		@Override
+		protected final AstFilter<N> delegate()
+		{
+			return this.filter;
+		}
+	
+		@Override
+		public final boolean apply(final N node)
+		{
+			return this.filter.accept(node);
+		}
+	}
+
 	public static final <N extends ASTNode> Predicate<N> from(final AstFilter<N> filter)
 	{
 		if (filter instanceof PredicateAstFilter)
