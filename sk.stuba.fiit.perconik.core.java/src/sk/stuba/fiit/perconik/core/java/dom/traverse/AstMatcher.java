@@ -95,13 +95,18 @@ import sk.stuba.fiit.perconik.utilities.MoreLists;
 
 public class AstMatcher
 {
-	private final Internals internals;
+	final Internals internals;
 	
-	public AstMatcher(AstVisitOption ... options)
+	public AstMatcher(final AstVisitOption ... options)
 	{
 		Set<AstVisitOption> set = EnumSet.copyOf(Arrays.asList(options));
 		
 		this.internals = new Internals(this, set.contains(INCLUDE_JAVADOC_TAGS));
+	}
+	
+	public final ASTMatcher asUnderlyingMatcher()
+	{
+		return this.internals;
 	}
 	
 	public final boolean subtreeMatch(final ASTNode node, final Object object)
@@ -1794,9 +1799,9 @@ public class AstMatcher
 		return this.internals.standardMatch(node, other);
 	}
 
-	private static final class Internals extends ASTMatcher 
+	static final class Internals extends ASTMatcher 
 	{
-		private final AstMatcher matcher;
+		final AstMatcher matcher;
 		
 		Internals(final AstMatcher matcher, final boolean includeJavadocTags)
 		{

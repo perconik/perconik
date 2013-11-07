@@ -89,18 +89,18 @@ import sk.stuba.fiit.perconik.core.java.dom.AstVisitOption;
 
 public class GenericAstMatcher extends AstMatcher
 {
-	public GenericAstMatcher(AstVisitOption ... options)
+	public GenericAstMatcher(final AstVisitOption ... options)
 	{
 		super(options);
 	}
 	
 	@SuppressWarnings("unused")
-	public void genericPreMatch(ASTNode node, Object other)
+	protected void genericPreMatch(ASTNode node, Object other)
 	{
 	}
 	
 	@SuppressWarnings({"static-method", "unused"})
-	public boolean genericPostMatch(ASTNode node, Object other, boolean result)
+	protected boolean genericPostMatch(ASTNode node, Object other, boolean result)
 	{
 		return result;
 	}
@@ -360,8 +360,10 @@ public class GenericAstMatcher extends AstMatcher
 	@Override
 	public void preMatch(Javadoc node, Object other)
 	{
-
-		this.genericPreMatch(node, other);
+		if (this.internals.standardMatch(node, other))
+		{
+			this.genericPreMatch(node, other);
+		}
 	}
 
 	@Override

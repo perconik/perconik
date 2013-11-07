@@ -1,5 +1,9 @@
 package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
+import static sk.stuba.fiit.perconik.core.java.dom.AstVisitOption.INCLUDE_JAVADOC_TAGS;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Set;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
@@ -86,1212 +90,3089 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+import sk.stuba.fiit.perconik.core.java.dom.AstVisitOption;
 
-// TODO refactor:
-// override all methods as final, use custom named methods
-// add R and P as in javax.lang.model.element.ElementVisitor
-
-public abstract class AstVisitor extends ASTVisitor
+public abstract class AstVisitor
 {
-	protected AstVisitor()
+	final Internals internals;
+	
+	protected AstVisitor(final AstVisitOption ... options)
+	{
+		Set<AstVisitOption> set = EnumSet.copyOf(Arrays.asList(options));
+		
+		this.internals = new Internals(this, set.contains(INCLUDE_JAVADOC_TAGS));
+	}
+	
+	public final ASTVisitor asUnderlyingVisitor()
+	{
+		return this.internals;
+	}
+	
+	public final void subtreeVisit(final ASTNode node)
+	{
+		AstVisitors.accept(node, this);
+	}
+
+	@SuppressWarnings({"static-method", "unused"})
+	public final boolean preVisit(ASTNode node)
+	{
+		return true;
+	}
+
+	@SuppressWarnings("unused")
+	public final void postVisit(ASTNode node)
 	{
 	}
 
-	public abstract boolean pre(ASTNode node);
-
-	public abstract void post(ASTNode node);
-
-	@Override
-	public final void preVisit(final ASTNode node)
-	{
-		this.pre(node);
-	}
-
-	@Override
-	public final boolean preVisit2(final ASTNode node)
-	{
-		return this.pre(node);
-	}
-
-	@Override
-	public final void postVisit(final ASTNode node)
-	{
-		this.post(node);
-	}
-
-	@Override
+	
 	public boolean visit(AnnotationTypeDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(AnnotationTypeMemberDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(AnonymousClassDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ArrayAccess node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ArrayCreation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ArrayInitializer node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ArrayType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(AssertStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(Assignment node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(Block node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(BlockComment node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(BooleanLiteral node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(BreakStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(CastExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(CatchClause node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(CharacterLiteral node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ClassInstanceCreation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(CompilationUnit node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ConditionalExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ConstructorInvocation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ContinueStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(DoStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(EmptyStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(EnhancedForStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(EnumConstantDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(EnumDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ExpressionStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(FieldAccess node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(FieldDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ForStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(IfStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ImportDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(InfixExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(InstanceofExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(Initializer node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(Javadoc node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(LabeledStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(LineComment node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MarkerAnnotation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MemberRef node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MemberValuePair node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MethodRef node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MethodRefParameter node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MethodDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(MethodInvocation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(Modifier node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(NormalAnnotation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(NullLiteral node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(NumberLiteral node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(PackageDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ParameterizedType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ParenthesizedExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(PostfixExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(PrefixExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(PrimitiveType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(QualifiedName node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(QualifiedType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ReturnStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SimpleName node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SimpleType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SingleMemberAnnotation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SingleVariableDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(StringLiteral node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SuperConstructorInvocation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SuperFieldAccess node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SuperMethodInvocation node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SwitchCase node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SwitchStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(SynchronizedStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TagElement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TextElement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ThisExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(ThrowStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TryStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TypeDeclaration node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TypeDeclarationStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TypeLiteral node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(TypeParameter node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(UnionType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(VariableDeclarationExpression node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(VariableDeclarationStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(VariableDeclarationFragment node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(WhileStatement node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
 	public boolean visit(WildcardType node)
 	{
 
-		return super.visit(node);
+		return this.internals.standardVisit(node);
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(AnnotationTypeDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(AnnotationTypeMemberDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(AnonymousClassDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ArrayAccess node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ArrayCreation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ArrayInitializer node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ArrayType node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(AssertStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(Assignment node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(Block node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(BlockComment node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(BooleanLiteral node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(BreakStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(CastExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(CatchClause node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(CharacterLiteral node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ClassInstanceCreation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(CompilationUnit node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ConditionalExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ConstructorInvocation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ContinueStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(DoStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(EmptyStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(EnhancedForStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(EnumConstantDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(EnumDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ExpressionStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(FieldAccess node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(FieldDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ForStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(IfStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ImportDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(InfixExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(InstanceofExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(Initializer node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(Javadoc node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(LabeledStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(LineComment node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MarkerAnnotation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MemberRef node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MemberValuePair node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MethodRef node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MethodRefParameter node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MethodDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(MethodInvocation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(Modifier node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(NormalAnnotation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(NullLiteral node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(NumberLiteral node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(PackageDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ParameterizedType node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ParenthesizedExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(PostfixExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(PrefixExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(PrimitiveType node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(QualifiedName node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(QualifiedType node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ReturnStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SimpleName node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SimpleType node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SingleMemberAnnotation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SingleVariableDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(StringLiteral node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SuperConstructorInvocation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SuperFieldAccess node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SuperMethodInvocation node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SwitchCase node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SwitchStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(SynchronizedStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TagElement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TextElement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ThisExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(ThrowStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TryStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TypeDeclaration node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TypeDeclarationStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TypeLiteral node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(TypeParameter node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(UnionType node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(VariableDeclarationExpression node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(VariableDeclarationStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(VariableDeclarationFragment node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(WhileStatement node)
 	{
 
-		super.endVisit(node);
+		
 	}
 
-	@Override
+	
+	@SuppressWarnings("unused")
 	public void endVisit(WildcardType node)
 	{
 
-		super.endVisit(node);
+		
+	}
+	
+	static final class Internals extends ASTVisitor
+	{
+		final AstVisitor visitor;
+		
+		Internals(final AstVisitor visitor, final boolean includeJavadocTags)
+		{
+			super(includeJavadocTags);
+			
+			this.visitor = visitor;
+		}
+
+		@Override
+		public final void preVisit(final ASTNode node)
+		{
+			this.visitor.preVisit(node);
+		}
+
+		@Override
+		public final boolean preVisit2(final ASTNode node)
+		{
+			return this.visitor.preVisit(node);
+		}
+
+		@Override
+		public final void postVisit(final ASTNode node)
+		{
+			this.visitor.postVisit(node);
+		}
+
+		@Override
+		public final boolean visit(AnnotationTypeDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(AnnotationTypeMemberDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(AnonymousClassDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ArrayAccess node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ArrayCreation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ArrayInitializer node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ArrayType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(AssertStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(Assignment node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(Block node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(BlockComment node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(BooleanLiteral node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(BreakStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(CastExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(CatchClause node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(CharacterLiteral node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ClassInstanceCreation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(CompilationUnit node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ConditionalExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ConstructorInvocation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ContinueStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(DoStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(EmptyStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(EnhancedForStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(EnumConstantDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(EnumDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ExpressionStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(FieldAccess node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(FieldDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ForStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(IfStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ImportDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(InfixExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(InstanceofExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(Initializer node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(Javadoc node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(LabeledStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(LineComment node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MarkerAnnotation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MemberRef node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MemberValuePair node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MethodRef node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MethodRefParameter node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MethodDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(MethodInvocation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(Modifier node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(NormalAnnotation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(NullLiteral node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(NumberLiteral node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(PackageDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ParameterizedType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ParenthesizedExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(PostfixExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(PrefixExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(PrimitiveType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(QualifiedName node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(QualifiedType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ReturnStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SimpleName node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SimpleType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SingleMemberAnnotation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SingleVariableDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(StringLiteral node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SuperConstructorInvocation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SuperFieldAccess node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SuperMethodInvocation node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SwitchCase node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SwitchStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(SynchronizedStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TagElement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TextElement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ThisExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(ThrowStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TryStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TypeDeclaration node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TypeDeclarationStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TypeLiteral node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(TypeParameter node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(UnionType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(VariableDeclarationExpression node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(VariableDeclarationStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(VariableDeclarationFragment node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(WhileStatement node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		@Override
+		public final boolean visit(WildcardType node)
+		{
+
+			return this.visitor.visit(node);
+		}
+
+		final boolean standardVisit(AnnotationTypeDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		final boolean standardVisit(AnnotationTypeMemberDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(AnonymousClassDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ArrayAccess node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ArrayCreation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ArrayInitializer node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ArrayType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(AssertStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(Assignment node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(Block node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(BlockComment node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(BooleanLiteral node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(BreakStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(CastExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(CatchClause node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(CharacterLiteral node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ClassInstanceCreation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(CompilationUnit node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ConditionalExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ConstructorInvocation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ContinueStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(DoStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(EmptyStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(EnhancedForStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(EnumConstantDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(EnumDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ExpressionStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(FieldAccess node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(FieldDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ForStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(IfStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ImportDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(InfixExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(InstanceofExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(Initializer node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(Javadoc node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(LabeledStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(LineComment node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MarkerAnnotation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MemberRef node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MemberValuePair node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MethodRef node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MethodRefParameter node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MethodDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(MethodInvocation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(Modifier node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(NormalAnnotation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(NullLiteral node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(NumberLiteral node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(PackageDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ParameterizedType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ParenthesizedExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(PostfixExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(PrefixExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(PrimitiveType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(QualifiedName node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(QualifiedType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ReturnStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SimpleName node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SimpleType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SingleMemberAnnotation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SingleVariableDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(StringLiteral node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SuperConstructorInvocation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SuperFieldAccess node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SuperMethodInvocation node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SwitchCase node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SwitchStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(SynchronizedStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TagElement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TextElement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ThisExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(ThrowStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TryStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TypeDeclaration node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TypeDeclarationStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TypeLiteral node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(TypeParameter node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(UnionType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(VariableDeclarationExpression node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(VariableDeclarationStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(VariableDeclarationFragment node)
+		{
+
+			return super.visit(node);
+		}
+
+		final boolean standardVisit(WhileStatement node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		final boolean standardVisit(WildcardType node)
+		{
+
+			return super.visit(node);
+		}
+
+		
+		@Override
+		public final void endVisit(AnnotationTypeDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(AnnotationTypeMemberDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(AnonymousClassDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ArrayAccess node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ArrayCreation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ArrayInitializer node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ArrayType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(AssertStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(Assignment node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(Block node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(BlockComment node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(BooleanLiteral node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(BreakStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(CastExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(CatchClause node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(CharacterLiteral node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ClassInstanceCreation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(CompilationUnit node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ConditionalExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ConstructorInvocation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ContinueStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(DoStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(EmptyStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(EnhancedForStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(EnumConstantDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(EnumDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ExpressionStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(FieldAccess node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(FieldDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ForStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(IfStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ImportDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(InfixExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(InstanceofExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(Initializer node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(Javadoc node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(LabeledStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(LineComment node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MarkerAnnotation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MemberRef node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MemberValuePair node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MethodRef node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MethodRefParameter node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MethodDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(MethodInvocation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(Modifier node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(NormalAnnotation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(NullLiteral node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(NumberLiteral node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(PackageDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ParameterizedType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ParenthesizedExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(PostfixExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(PrefixExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(PrimitiveType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(QualifiedName node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(QualifiedType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ReturnStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SimpleName node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SimpleType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SingleMemberAnnotation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SingleVariableDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(StringLiteral node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SuperConstructorInvocation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SuperFieldAccess node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SuperMethodInvocation node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SwitchCase node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SwitchStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(SynchronizedStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TagElement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TextElement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ThisExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(ThrowStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TryStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TypeDeclaration node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TypeDeclarationStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TypeLiteral node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(TypeParameter node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(UnionType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(VariableDeclarationExpression node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(VariableDeclarationStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(VariableDeclarationFragment node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(WhileStatement node)
+		{
+
+			this.visitor.endVisit(node);
+		}
+
+		@Override
+		public final void endVisit(WildcardType node)
+		{
+
+			this.visitor.endVisit(node);
+		}
 	}
 }
