@@ -14,6 +14,8 @@ public final class AstTransformers
 	{
 		throw new AssertionError();
 	}
+	
+	// TODO add counters
 
 	// TODO add
 		
