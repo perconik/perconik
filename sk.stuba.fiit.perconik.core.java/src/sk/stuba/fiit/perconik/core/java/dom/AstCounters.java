@@ -28,6 +28,12 @@ public final class AstCounters
 			
 			return visitor.perform(node);
 		}
+		
+		@Override
+		public final String toString()
+		{
+			return "counter";
+		}
 	}
 
 	private static final <N extends ASTNode> Numerate<N> cast(final Numerate<?> numerate)

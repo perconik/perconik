@@ -293,5 +293,12 @@ public abstract class AstTypeFilter<N extends ASTNode, F extends ASTNode> implem
 		return this.getAcceptedTypes().hashCode();
 	}
 	
+	// TODO rename
 	public abstract Set<Class<? extends F>> getAcceptedTypes();
+	
+	@Override
+	public final String toString()
+	{
+		return "filter(" + this.getAcceptedTypes() + ")";
+	}
 }

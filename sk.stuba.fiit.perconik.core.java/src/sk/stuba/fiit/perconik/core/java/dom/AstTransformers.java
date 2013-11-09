@@ -25,6 +25,12 @@ public final class AstTransformers
 		{
 			return AstNodes.root(node);
 		}
+		
+		@Override
+		public final String toString()
+		{
+			return "root";
+		}
 	}
 
 	private static enum ToParent implements Function<ASTNode, ASTNode>
@@ -34,6 +40,12 @@ public final class AstTransformers
 		public final ASTNode apply(@Nullable final ASTNode node)
 		{
 			return AstNodes.parent(node);
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "parent";
 		}
 	}
 	

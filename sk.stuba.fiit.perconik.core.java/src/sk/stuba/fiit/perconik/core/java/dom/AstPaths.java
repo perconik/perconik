@@ -50,6 +50,12 @@ public class AstPaths
 				
 				return unknownPathName;
 			}
+			
+			@Override
+			public final String toString()
+			{
+				return "name";
+			}
 		},
 		
 		TYPE
@@ -57,6 +63,12 @@ public class AstPaths
 			public final String apply(final ASTNode node)
 			{
 				return node != null ? node.getClass().getSimpleName() : unknownPathName;
+			}
+			
+			@Override
+			public final String toString()
+			{
+				return "type";
 			}
 		};
 	}

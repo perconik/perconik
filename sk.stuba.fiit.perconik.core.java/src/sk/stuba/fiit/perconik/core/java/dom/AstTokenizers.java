@@ -31,6 +31,12 @@ public final class AstTokenizers
 		{
 			return AstTokenizers.tokenize(tokenizer, node);
 		}
+		
+		@Override
+		public final String toString()
+		{
+			return "tokenizer(" + factory.toString() + ")";
+		}
 	}
 	
 	static final List<String> tokenize(final IdentifierNameTokeniser tokenizer, @Nullable final ASTNode node)

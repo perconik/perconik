@@ -19,6 +19,12 @@ public final class AstFlatteners
 		{
 			return node == null ? "" : node.toString();
 		}
+		
+		@Override
+		public final String toString()
+		{
+			return "toString";
+		}
 	}
 	
 	private static final <N extends ASTNode, S extends CharSequence> Function<N, S> cast(final Function<?, S> flattener)

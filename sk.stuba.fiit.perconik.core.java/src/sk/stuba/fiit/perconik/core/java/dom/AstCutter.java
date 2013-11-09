@@ -32,6 +32,12 @@ public final class AstCutter<N extends ASTNode> implements Function<N, N>
 		return new Processor().perform(node);
 	}
 	
+	@Override
+	public final String toString()
+	{
+		return "cutter(" + this.filter.toString() + ")";
+	}
+	
 	private final class Processor extends ASTVisitor
 	{
 		Processor()

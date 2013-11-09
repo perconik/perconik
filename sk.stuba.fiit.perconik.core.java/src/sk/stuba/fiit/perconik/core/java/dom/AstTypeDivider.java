@@ -53,4 +53,10 @@ public final class AstTypeDivider<N extends ASTNode> implements Function<N, Mult
 			this.result.put(AstNodeType.valueOf(node), node);
 		}
 	}
+	
+	@Override
+	public final String toString()
+	{
+		return "divider";
+	}
 }

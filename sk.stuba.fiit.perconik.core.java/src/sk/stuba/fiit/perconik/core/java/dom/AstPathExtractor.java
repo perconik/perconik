@@ -75,4 +75,10 @@ public final class AstPathExtractor<N extends ASTNode> implements Function<N, Pa
 		
 		return builder.toString();
 	}
+	
+	@Override
+	public final String toString()
+	{
+		return "path(" + this.strategy + ")";
+	}
 }

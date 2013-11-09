@@ -24,6 +24,12 @@ public final class AstFilteringCounter<N extends ASTNode> implements Numerate<N>
 		return new Processor().perform(node);
 	}
 	
+	@Override
+	public final String toString()
+	{
+		return "counter(" + this.filter.toString() + ")";
+	}
+	
 	private final class Processor extends AbstractCountingVisitor<N>
 	{
 		Processor()

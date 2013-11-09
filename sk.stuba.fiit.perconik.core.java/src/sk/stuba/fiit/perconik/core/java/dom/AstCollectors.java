@@ -31,6 +31,12 @@ public final class AstCollectors
 		{
 			return AstNodes.children(node);
 		}
+
+		@Override
+		public final String toString()
+		{
+			return "children";
+		}
 	}
 
 	private static enum Ancestors implements ListCollector<ASTNode, ASTNode>
@@ -41,6 +47,12 @@ public final class AstCollectors
 		{
 			return AstNodes.ancestors(node);
 		}
+		
+		@Override
+		public final String toString()
+		{
+			return "ancestors";
+		}
 	}
 
 	private static enum Descendants implements ListCollector<ASTNode, ASTNode>
@@ -50,6 +62,12 @@ public final class AstCollectors
 		public final LinkedList<ASTNode> apply(@Nullable final ASTNode node)
 		{
 			return AstNodes.descendants(node);
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "descendants";
 		}
 	}
 
