@@ -17,9 +17,9 @@ import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import sk.stuba.fiit.perconik.core.java.dom.difference.AstDifference;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstApiLevel;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
+import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Lists;
 import difflib.Delta;
@@ -33,16 +33,16 @@ class CompilationUnitDifferencer
 	
 	private final RelevantAstCollector collector;
 	
-	private AstDifference.Builder<ASTNode> builder;
+	private NodeDeltaSet.Builder<ASTNode> builder;
 	
 	public CompilationUnitDifferencer()
 	{
 		this.collector = new RelevantAstCollector();
 	}
 	
-	public final AstDifference<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised)
+	public final NodeDeltaSet<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised)
 	{
-		this.builder = AstDifference.builder();
+		this.builder = NodeDeltaSet.builder();
 		
 		if (original != null || revised != null)
 		{
@@ -190,7 +190,7 @@ class CompilationUnitDifferencer
 			return isSimilar((AbstractTypeDeclaration) original, revised);
 		}
 		
-		switch (AstNodeType.valueOf(original))
+		switch (NodeType.valueOf(original))
 		{
 			case ANNOTATION_TYPE_MEMBER_DECLARATION:
 				return isSimilar((AnnotationTypeMemberDeclaration) original, revised);
@@ -209,7 +209,7 @@ class CompilationUnitDifferencer
 	
 	private static final boolean isSimilar(final AbstractTypeDeclaration original, final ASTNode revised)
 	{
-		switch (AstNodeType.valueOf(original))
+		switch (NodeType.valueOf(original))
 		{
 			case ANNOTATION_TYPE_DECLARATION:
 				return isSimilar((AnnotationTypeDeclaration) original, revised);
@@ -290,7 +290,7 @@ class CompilationUnitDifferencer
 		
 		boolean restMatches = true;
 		
-		switch (AstApiLevel.valueOf(original))
+		switch (TreeApiLevel.valueOf(original))
 		{
 			case JLS2:
 				throw new UnsupportedOperationException();
@@ -404,7 +404,7 @@ class CompilationUnitDifferencer
 			return true;
 		}
 		
-		switch (AstApiLevel.valueOf(original))
+		switch (TreeApiLevel.valueOf(original))
 		{
 			case JLS2:
 				throw new UnsupportedOperationException();
@@ -460,7 +460,7 @@ class CompilationUnitDifferencer
 		
 		boolean restMatches = true;
 		
-		switch (AstApiLevel.valueOf(original))
+		switch (TreeApiLevel.valueOf(original))
 		{
 			case JLS2:
 				throw new UnsupportedOperationException();

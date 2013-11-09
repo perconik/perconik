@@ -84,8 +84,8 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeFlag;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeFlag;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringExecutionEventType;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
@@ -418,9 +418,9 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 	
-		AstNodeType type = AstNodeType.valueOf(unit.getNodeType());
+		NodeType type = NodeType.valueOf(unit.getNodeType());
 		
-		Set<AstNodeFlag> flags = AstNodeFlag.setOf(unit.getFlags());
+		Set<NodeFlag> flags = NodeFlag.setOf(unit.getFlags());
 		
 		int startPosition = unit.getStartPosition();
 		int length        = unit.getLength();
