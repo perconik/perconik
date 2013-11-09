@@ -16,9 +16,9 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import sk.stuba.fiit.perconik.core.annotations.Experimental;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
-import sk.stuba.fiit.perconik.core.java.dom.NodeTransformers;
-import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
+import sk.stuba.fiit.perconik.core.java.dom.NodePaths;
 import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDelta;
+import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
@@ -88,7 +88,7 @@ public final class IdeElementListener extends IdeListener implements JavaElement
 		data.setEventType(type);
 		
 		data.setElementType(NodeType.valueOf(node).toString());
-		data.setElementFullName(NodeTransformers.namePathExtractor().transform(node).toString());
+		data.setElementFullName(NodePaths.namePathExtractor().apply(node).toString());
 		
 		// TODO
 		if (IdeApplication.getInstance().isDebug()){

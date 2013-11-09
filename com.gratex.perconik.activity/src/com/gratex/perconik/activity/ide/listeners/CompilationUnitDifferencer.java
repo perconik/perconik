@@ -46,8 +46,8 @@ class CompilationUnitDifferencer
 		
 		if (original != null || revised != null)
 		{
-			List<ASTNode> originalNodes = this.collector.collect(original);
-			List<ASTNode> revisedNodes  = this.collector.collect(revised);
+			List<ASTNode> originalNodes = this.collector.apply(original);
+			List<ASTNode> revisedNodes  = this.collector.apply(revised);
 			
 			this.compute(originalNodes, revisedNodes);
 		}
