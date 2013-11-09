@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+// TODO rename to NodeDeltaSet
 public final class AstDifference<N extends ASTNode> extends ForwardingSet<AstNodeDelta<N>>
 {
 	private static final AstDifference<?> none = new AstDifference<>(ImmutableSet.<AstNodeDelta<ASTNode>>of());

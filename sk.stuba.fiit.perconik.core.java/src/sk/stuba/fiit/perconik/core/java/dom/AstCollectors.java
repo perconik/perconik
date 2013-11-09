@@ -12,11 +12,11 @@ import com.google.common.base.Predicate;
 
 public final class AstCollectors
 {
-	private static final ListCollector<?, Comment> comments = usingFilter(AstFilters.comments());
+	private static final ListCollector<?, Comment> comments = usingFilter(AstTypeFilters.comments());
 	
-	private static final ListCollector<?, SimpleName> simpleNames = usingFilter(AstFilters.simpleNames());
+	private static final ListCollector<?, SimpleName> simpleNames = usingFilter(AstTypeFilters.simpleNames());
 	
-	private static final ListCollector<?, StringLiteral> stringLiterals = usingFilter(AstFilters.stringLiterals());
+	private static final ListCollector<?, StringLiteral> stringLiterals = usingFilter(AstTypeFilters.stringLiterals());
 	
 	private AstCollectors()
 	{
@@ -134,37 +134,37 @@ public final class AstCollectors
 	
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Class<? extends R> type)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(type));
+		return usingFilter(AstTypeFilters.<N, R>ofType(type));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Class<? extends R> a, final Class<? extends R> b)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(a, b));
+		return usingFilter(AstTypeFilters.<N, R>ofType(a, b));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(a, b, c));
+		return usingFilter(AstTypeFilters.<N, R>ofType(a, b, c));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(a, b, c, d));
+		return usingFilter(AstTypeFilters.<N, R>ofType(a, b, c, d));
 	}
 
 	@SafeVarargs
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(a, b, c, d, rest));
+		return usingFilter(AstTypeFilters.<N, R>ofType(a, b, c, d, rest));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Iterable<Class<? extends R>> types)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(types));
+		return usingFilter(AstTypeFilters.<N, R>ofType(types));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofType(final Iterator<Class<? extends R>> types)
 	{
-		return usingFilter(AstFilters.<N, R>ofType(types));
+		return usingFilter(AstTypeFilters.<N, R>ofType(types));
 	}
 }

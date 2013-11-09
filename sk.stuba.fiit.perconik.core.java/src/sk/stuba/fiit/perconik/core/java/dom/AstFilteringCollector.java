@@ -89,7 +89,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 			@Override
 			public final void preVisit(final ASTNode node)
 			{
-				for (Class<? extends R> type: Type.this.filter.getAcceptedTypes())
+				for (Class<? extends R> type: Type.this.filter.getNodeClasses())
 				{
 					if (type.isInstance(node))
 					{
@@ -101,7 +101,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 						
 						try
 						{
-							accepted = Type.this.filter.accept(casted);
+							accepted = Type.this.filter.apply(casted);
 						}
 						catch (ClassCastException e)
 						{

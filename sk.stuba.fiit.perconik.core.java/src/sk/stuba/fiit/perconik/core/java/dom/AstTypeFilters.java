@@ -2,31 +2,24 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Iterator;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.BlockComment;
 import org.eclipse.jdt.core.dom.Comment;
+import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.StringLiteral;
-import com.google.common.base.Predicate;
 
-public final class AstFilters
+public final class AstTypeFilters
 {
-	private static final AstTypeFilter<?, Comment> comments = ofType(Comment.class);
+	private static final AstTypeFilter<?, Comment> comments = AstTypeFilters.ofType(BlockComment.class, Javadoc.class, LineComment.class);
 	
 	private static final AstTypeFilter<?, SimpleName> simpleNames = ofType(SimpleName.class);
 	
 	private static final AstTypeFilter<?, StringLiteral> stringLiterals = ofType(StringLiteral.class);
 	
-	private AstFilters()
+	private AstTypeFilters()
 	{
 		throw new AssertionError();
-	}
-	
-	private static final <N extends ASTNode> Predicate<N> cast(final Predicate<?> filter)
-	{
-		// only for stateless internal singletons shared across all types
-		@SuppressWarnings("unchecked")
-		Predicate<N> result = (Predicate<N>) filter;
-		
-		return result;
 	}
 
 	private static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> cast(final AstTypeFilter<?, ?> filter)
