@@ -15,8 +15,6 @@ public final class AstPredicates
 		throw new AssertionError();
 	}
 
-	// TODO refactor: add equals, hashCode and toString
-	
 	private static abstract class SingleType<N extends ASTNode> implements Predicate<N>
 	{
 		final AstNodeType type;

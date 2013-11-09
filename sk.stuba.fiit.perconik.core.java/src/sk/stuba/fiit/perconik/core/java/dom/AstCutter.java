@@ -33,9 +33,28 @@ public final class AstCutter<N extends ASTNode> implements Function<N, N>
 	}
 	
 	@Override
+	public final boolean equals(@Nullable Object o)
+	{
+		if (o instanceof AstCutter)
+		{
+			AstCutter<?> other = (AstCutter<?>) o;
+			
+			return this.filter.equals(other.filter);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.filter.hashCode();
+	}
+	
+	@Override
 	public final String toString()
 	{
-		return "cutter(" + this.filter.toString() + ")";
+		return "cutter(" + this.filter + ")";
 	}
 	
 	private final class Processor extends ASTVisitor

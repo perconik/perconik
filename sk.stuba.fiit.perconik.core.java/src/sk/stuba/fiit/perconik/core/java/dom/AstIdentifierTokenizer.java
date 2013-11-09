@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.List;
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
@@ -69,6 +70,25 @@ public abstract class AstIdentifierTokenizer<N extends ASTNode> implements ListC
 	public final List<String> apply(final N node)
 	{
 		return AstTokenizers.tokenize(this.tokenizer, node);
+	}
+	
+	@Override
+	public final boolean equals(@Nullable Object o)
+	{
+		if (o instanceof AstIdentifierTokenizer)
+		{
+			AstIdentifierTokenizer<?> other = (AstIdentifierTokenizer<?>) o;
+			
+			return this.tokenizer.equals(other.tokenizer);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.tokenizer.hashCode();
 	}
 	
 	@Override

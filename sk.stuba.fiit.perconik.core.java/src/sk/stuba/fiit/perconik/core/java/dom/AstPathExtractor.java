@@ -77,6 +77,25 @@ public final class AstPathExtractor<N extends ASTNode> implements Function<N, Pa
 	}
 	
 	@Override
+	public final boolean equals(@Nullable Object o)
+	{
+		if (o instanceof AstPathExtractor)
+		{
+			AstPathExtractor<?> other = (AstPathExtractor<?>) o;
+			
+			return this.strategy.equals(other.strategy);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.strategy.hashCode();
+	}
+	
+	@Override
 	public final String toString()
 	{
 		return "path(" + this.strategy + ")";

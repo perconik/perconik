@@ -63,6 +63,12 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 				}
 			}
 		}
+
+		@Override
+		public final Predicate<N> getFilter()
+		{
+			return this.filter;
+		}
 	}
 	
 	private static final class Type<N extends ASTNode, R extends ASTNode> extends AstFilteringCollector<N, R>
@@ -118,5 +124,38 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 				}
 			}
 		}
+
+		@Override
+		public final Predicate<N> getFilter()
+		{
+			return this.filter;
+		}
 	}
+	
+	@Override
+	public final boolean equals(@Nullable Object o)
+	{
+		if (o instanceof AstFilteringCollector)
+		{
+			AstFilteringCollector<?, ?> other = (AstFilteringCollector<?, ?>) o;
+			
+			return this.getFilter().equals(other.getFilter());
+		}
+		
+		return false;
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.getFilter().hashCode();
+	}
+	
+	@Override
+	public final String toString()
+	{
+		return "collector(" + this.getFilter() + ")";
+	}
+	
+	public abstract Predicate<N> getFilter();
 }

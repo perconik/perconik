@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
@@ -10,13 +11,19 @@ import com.google.common.collect.Multimap;
 
 public final class AstTypeDivider<N extends ASTNode> implements Function<N, Multimap<AstNodeType, ASTNode>>
 {
+	private static final AstTypeDivider<ASTNode> instance = new AstTypeDivider<>();
+	
 	AstTypeDivider()
 	{
 	}
 
 	public static final <N extends ASTNode> AstTypeDivider<N> create()
 	{
-		return new AstTypeDivider<>();
+		// stateless internal singleton is shared across all types
+		@SuppressWarnings("unchecked")
+		AstTypeDivider<N> casted = (AstTypeDivider<N>) instance;
+		
+		return casted;
 	}
 	
 	public final Multimap<AstNodeType, ASTNode> apply(final N node)
@@ -52,6 +59,18 @@ public final class AstTypeDivider<N extends ASTNode> implements Function<N, Mult
 		{
 			this.result.put(AstNodeType.valueOf(node), node);
 		}
+	}
+	
+	@Override
+	public final boolean equals(@Nullable Object o)
+	{
+		return o == this;
+	}
+
+	@Override
+	public final int hashCode()
+	{
+		return this.hashCode();
 	}
 	
 	@Override
