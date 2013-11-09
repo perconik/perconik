@@ -2,7 +2,9 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -105,15 +107,6 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 			return this;
 		}
 
-		public final Builder<N, R> exact()
-		{
-			Preconditions.checkState(this.strategy == null);
-			
-			this.strategy = Strategy.IS_MATCHING;
-			
-			return this;
-		}
-
 		public final Builder<N, R> instanceOf()
 		{
 			Preconditions.checkState(this.strategy == null);
@@ -123,6 +116,15 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 			return this;
 		}
 		
+		public final Builder<N, R> matchedBy()
+		{
+			Preconditions.checkState(this.strategy == null);
+			
+			this.strategy = Strategy.IS_MATCHING;
+			
+			return this;
+		}
+
 		public final Builder<N, R> type(Class<? extends R> type)
 		{
 			this.types.add(type);
@@ -243,7 +245,7 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 		@Override
 		public final Set<AstNodeType> getNodeTypes()
 		{
-			return ImmutableSet.of(this.type);
+			return EnumSet.of(this.type);
 		}
 	}
 
@@ -259,14 +261,14 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 			
 			this.classes = implementations;
 			
-			ImmutableSet.Builder<AstNodeType> builder = ImmutableSet.builder();
+			Set<AstNodeType> types = EnumSet.noneOf(AstNodeType.class);
 			
 			for (Class<? extends R> implementation: this.classes)
 			{
-				builder.add(AstNodeType.valueOf(implementation));
+				types.add(AstNodeType.valueOf(implementation));
 			}
 			
-			this.types = builder.build();
+			this.types = Sets.immutableEnumSet(types);
 		}
 
 		@Override
@@ -297,7 +299,7 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 	}
 
 	@Override
-	public final boolean equals(final Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (this == o)
 		{
@@ -309,13 +311,15 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 			return false;
 		}
 		
-		return this.getNodeClasses().equals(((AstTypeFilter<?, ?>) o).getNodeClasses());
+		AstTypeFilter<?, ?> other = (AstTypeFilter<?, ?>) o;
+		
+		return this.mode == other.mode && this.strategy == other.strategy && this.getNodeTypes().equals(other.getNodeTypes());
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return this.getNodeClasses().hashCode();
+		return Objects.hash(this.mode, this.strategy, this.getNodeTypes());
 	}
 	
 	public abstract Set<Class<? extends R>> getNodeClasses();

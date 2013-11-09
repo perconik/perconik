@@ -42,7 +42,7 @@ public final class AstFilteringCounter<N extends ASTNode> implements Numerate<N>
 	}
 
 	@Override
-	public final boolean equals(@Nullable Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (o instanceof AstFilteringCounter)
 		{

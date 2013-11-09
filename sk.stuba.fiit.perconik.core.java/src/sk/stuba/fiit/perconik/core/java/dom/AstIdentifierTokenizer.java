@@ -73,7 +73,7 @@ public abstract class AstIdentifierTokenizer<N extends ASTNode> implements ListC
 	}
 	
 	@Override
-	public final boolean equals(@Nullable Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (o instanceof AstIdentifierTokenizer)
 		{

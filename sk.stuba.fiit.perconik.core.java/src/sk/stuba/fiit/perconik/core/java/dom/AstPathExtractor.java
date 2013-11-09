@@ -77,7 +77,7 @@ public final class AstPathExtractor<N extends ASTNode> implements Function<N, Pa
 	}
 	
 	@Override
-	public final boolean equals(@Nullable Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (o instanceof AstPathExtractor)
 		{

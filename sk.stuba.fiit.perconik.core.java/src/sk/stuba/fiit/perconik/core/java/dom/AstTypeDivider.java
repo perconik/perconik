@@ -62,7 +62,7 @@ public final class AstTypeDivider<N extends ASTNode> implements Function<N, Mult
 	}
 	
 	@Override
-	public final boolean equals(@Nullable Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		return o == this;
 	}

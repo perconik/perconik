@@ -133,7 +133,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 	}
 	
 	@Override
-	public final boolean equals(@Nullable Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		if (o instanceof AstFilteringCollector)
 		{
