@@ -14,6 +14,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
+// TODO rename to class filter + refactor back!
+
 public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implements Predicate<N> 
 {
 	static final Mode defaultMode = Mode.INCLUDE;

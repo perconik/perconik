@@ -1,12 +1,11 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import java.util.Arrays;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 public final class AstPredicates
 {
@@ -14,56 +13,41 @@ public final class AstPredicates
 	{
 		throw new AssertionError();
 	}
-
-	private static abstract class SingleType<N extends ASTNode> implements Predicate<N>
-	{
-		final AstNodeType type;
-		
-		SingleType(final AstNodeType type)
-		{
-			this.type = Preconditions.checkNotNull(type);
-		}
-	}
 	
-	private static final class SingleIsInstance<N extends ASTNode> extends SingleType<N>
-	{
-		SingleIsInstance(final AstNodeType type)
-		{
-			super(type);
-		}
-
-		public final boolean apply(final N node)
-		{
-			return this.type.isInstance(node);
-		}
-	}
-	
-	private static final class SingleIsMatching<N extends ASTNode> extends SingleType<N>
-	{
-		SingleIsMatching(final AstNodeType type)
-		{
-			super(type);
-		}
-
-		public final boolean apply(final N node)
-		{
-			return this.type.isMatching(node);
-		}
-	}
-
-	private static abstract class MultiType<N extends ASTNode> implements Predicate<N>
+	private static abstract class AbstractNodeTypePredicate<N extends ASTNode> implements Predicate<N>
 	{
 		final Set<AstNodeType> types;
 		
-		MultiType(final Iterable<AstNodeType> types)
+		AbstractNodeTypePredicate(final AstNodeType type, final AstNodeType ... rest)
 		{
-			this.types = ImmutableSet.copyOf(types);
+			this.types = Sets.immutableEnumSet(type, rest);
+		}
+		
+		AbstractNodeTypePredicate(final Iterable<AstNodeType> types)
+		{
+			this.types = Sets.immutableEnumSet(types);
+		}
+		
+		@Override
+		public final int hashCode()
+		{
+			return this.getNodeTypes().hashCode();
+		}
+		
+		final Set<AstNodeType> getNodeTypes()
+		{
+			return this.types;
 		}
 	}
-	
-	private static final class MultiIsInstance<N extends ASTNode> extends MultiType<N>
+
+	private static final class IsInstancePredicate<N extends ASTNode> extends AbstractNodeTypePredicate<N>
 	{
-		MultiIsInstance(final Iterable<AstNodeType> types)
+		IsInstancePredicate(final AstNodeType type, final AstNodeType ... rest)
+		{
+			super(type, rest);
+		}
+		
+		IsInstancePredicate(final Iterable<AstNodeType> types)
 		{
 			super(types);
 		}
@@ -80,11 +64,35 @@ public final class AstPredicates
 			
 			return false;
 		}
+
+		@Override
+		public final boolean equals(@Nullable final Object o)
+		{
+			if (o instanceof IsInstancePredicate)
+			{
+				IsInstancePredicate<?> other = (IsInstancePredicate<?>) o;
+				
+				return this.getNodeTypes().equals(other.getNodeTypes());
+			}
+			
+			return false;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "isInstance(" + this.getNodeTypes() + ")";
+		}
 	}
-	
-	private static final class MultiIsMatching<N extends ASTNode> extends MultiType<N>
+
+	private static final class IsMatchingPredicate<N extends ASTNode> extends AbstractNodeTypePredicate<N>
 	{
-		MultiIsMatching(final Iterable<AstNodeType> types)
+		IsMatchingPredicate(final AstNodeType type, final AstNodeType ... rest)
+		{
+			super(type, rest);
+		}
+		
+		IsMatchingPredicate(final Iterable<AstNodeType> types)
 		{
 			super(types);
 		}
@@ -101,35 +109,44 @@ public final class AstPredicates
 			
 			return false;
 		}
-	}
 
-	public static final <N extends ASTNode> Predicate<N> isInstance(final AstNodeType type)
-	{
-		return new SingleIsInstance<>(type);
+		@Override
+		public final boolean equals(@Nullable final Object o)
+		{
+			if (o instanceof IsMatchingPredicate)
+			{
+				IsMatchingPredicate<?> other = (IsMatchingPredicate<?>) o;
+				
+				return this.getNodeTypes().equals(other.getNodeTypes());
+			}
+			
+			return false;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "isMatching(" + this.getNodeTypes() + ")";
+		}
 	}
-
-	public static final <N extends ASTNode> Predicate<N> isInstance(final AstNodeType ... types)
+	
+	public static final <N extends ASTNode> Predicate<N> isInstance(final AstNodeType type, final AstNodeType ... rest)
 	{
-		return isInstance(Arrays.asList(types));
+		return new IsInstancePredicate<>(type, rest);
 	}
 
 	public static final <N extends ASTNode> Predicate<N> isInstance(final Iterable<AstNodeType> types)
 	{
-		return new MultiIsInstance<>(types);
+		return new IsInstancePredicate<>(types);
 	}
 
-	public static final <N extends ASTNode> Predicate<N> isMatching(final AstNodeType type)
+	public static final <N extends ASTNode> Predicate<N> isMatching(final AstNodeType type, final AstNodeType ... rest)
 	{
-		return new SingleIsMatching<>(type);
-	}
-
-	public static final <N extends ASTNode> Predicate<N> isMatching(final AstNodeType ... types)
-	{
-		return isMatching(Arrays.asList(types));
+		return new IsMatchingPredicate<>(type, rest);
 	}
 
 	public static final <N extends ASTNode> Predicate<N> isMatching(final Iterable<AstNodeType> types)
 	{
-		return new MultiIsMatching<>(types);
+		return new IsMatchingPredicate<>(types);
 	}
 }
