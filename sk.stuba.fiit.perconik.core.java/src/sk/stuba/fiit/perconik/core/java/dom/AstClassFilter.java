@@ -2,31 +2,27 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-// TODO rename to class filter + refactor back!
-
-public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implements Predicate<N> 
+public abstract class AstClassFilter<N extends ASTNode, R extends ASTNode> implements Predicate<N> 
 {
 	static final Mode defaultMode = Mode.INCLUDE;
 	
-	static final Strategy defaultStrategy = Strategy.IS_MATCHING;
+	static final Strategy defaultStrategy = Strategy.INSTANCE_OF;
 	
 	final Mode mode;
 	
 	final Strategy strategy;
 	
-	AstTypeFilter(final Mode mode, final Strategy strategy)
+	AstClassFilter(final Mode mode, final Strategy strategy)
 	{
 		this.mode     = Preconditions.checkNotNull(mode);
 		this.strategy = Preconditions.checkNotNull(strategy);
@@ -42,38 +38,38 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 		return new Multi<>(defaultMode, defaultStrategy, types);
 	}
 	
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Class<? extends R> type)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Class<? extends R> type)
 	{
-		return newSingle(type);
+		return newSingle(Preconditions.checkNotNull(type));
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b)
 	{
 		return newMulti(ImmutableSet.of(a, b));
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c)
 	{
 		return newMulti(ImmutableSet.of(a, b, c));
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d)
 	{
 		return newMulti(ImmutableSet.of(a, b, c, d));
 	}
 
 	@SafeVarargs
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
 	{
 		return newMulti(ImmutableSet.<Class<? extends R>>builder().add(a).add(b).add(c).add(d).addAll(Arrays.asList(rest)).build());
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Iterable<Class<? extends R>> types)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Iterable<Class<? extends R>> types)
 	{
 		return newMulti(ImmutableSet.copyOf(types));
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> AstTypeFilter<N, R> of(final Iterator<Class<? extends R>> types)
+	public static final <N extends ASTNode, R extends ASTNode> AstClassFilter<N, R> of(final Iterator<Class<? extends R>> types)
 	{
 		return newMulti(ImmutableSet.copyOf(types));
 	}
@@ -113,7 +109,7 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 		{
 			Preconditions.checkState(this.strategy == null);
 			
-			this.strategy = Strategy.IS_INSTANCE;
+			this.strategy = Strategy.INSTANCE_OF;
 			
 			return this;
 		}
@@ -122,7 +118,7 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 		{
 			Preconditions.checkState(this.strategy == null);
 			
-			this.strategy = Strategy.IS_MATCHING;
+			this.strategy = Strategy.MATCHED_BY;
 			
 			return this;
 		}
@@ -141,7 +137,7 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 			return this;
 		}
 
-		public final AstTypeFilter<N, R> build()
+		public final AstClassFilter<N, R> build()
 		{
 			if (this.mode == null)
 			{
@@ -197,88 +193,68 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 	
 	private static enum Strategy
 	{
-		IS_INSTANCE
+		INSTANCE_OF
 		{
 			@Override
-			final boolean compute(final AstNodeType type, @Nullable final ASTNode node)
+			final boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node)
 			{
-				return type.isInstance(node);
+				return node != null && implementation.isInstance(node);
 			}
 		},
 		
-		IS_MATCHING
+		MATCHED_BY
 		{
 			@Override
-			final boolean compute(final AstNodeType type, @Nullable final ASTNode node)
+			final boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node)
 			{
-				return type.isMatching(node);
+				return node != null && implementation == node.getClass();
 			}
 		};
 		
-		abstract boolean compute(AstNodeType type, ASTNode node);
+		abstract boolean compute(Class<? extends ASTNode> implementation, ASTNode node);
 	}
 
-	private static final class Single<N extends ASTNode, R extends ASTNode> extends AstTypeFilter<N, R>
+	private static final class Single<N extends ASTNode, R extends ASTNode> extends AstClassFilter<N, R>
 	{
-		private final Set<Class<? extends R>> classes;
-
-		private final AstNodeType type;
+		private final Class<? extends R> implementation;
 		
 		Single(final Mode mode, final Strategy strategy, final Class<? extends R> implementation)
 		{
 			super(mode, strategy);
 			
-			this.classes = ImmutableSet.<Class<? extends R>>of(implementation);
-			this.type    = AstNodeType.valueOf(implementation);
+			this.implementation = implementation;
 		}
 
 		@Override
 		public final boolean apply(@Nullable final N node)
 		{
-			return this.mode.apply(this.strategy.compute(this.type, node));
+			return this.mode.apply(this.strategy.compute(this.implementation, node));
 		}
 
 		@Override
 		public final Set<Class<? extends R>> getNodeClasses()
 		{
-			return this.classes;
-		}
-
-		@Override
-		public final Set<AstNodeType> getNodeTypes()
-		{
-			return EnumSet.of(this.type);
+			return ImmutableSet.<Class<? extends R>>of(this.implementation);
 		}
 	}
 
-	private static final class Multi<N extends ASTNode, R extends ASTNode>  extends AstTypeFilter<N, R>
+	private static final class Multi<N extends ASTNode, R extends ASTNode>  extends AstClassFilter<N, R>
 	{
-		private final Set<Class<? extends R>> classes;
-
-		private final Set<AstNodeType> types;
+		private final Set<Class<? extends R>> implementations;
 		
 		Multi(final Mode mode, final Strategy strategy, final Set<Class<? extends R>> implementations)
 		{
 			super(mode, strategy);
 			
-			this.classes = implementations;
-			
-			Set<AstNodeType> types = EnumSet.noneOf(AstNodeType.class);
-			
-			for (Class<? extends R> implementation: this.classes)
-			{
-				types.add(AstNodeType.valueOf(implementation));
-			}
-			
-			this.types = Sets.immutableEnumSet(types);
+			this.implementations = implementations;
 		}
 
 		@Override
 		public final boolean apply(@Nullable final N node)
 		{
-			for (AstNodeType type: this.types)
+			for (Class<? extends R> implementation: this.implementations)
 			{
-				if (this.mode.apply(this.strategy.compute(type, node)))
+				if (this.mode.apply(this.strategy.compute(implementation, node)))
 				{
 					return true;
 				}
@@ -290,13 +266,7 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 		@Override
 		public final Set<Class<? extends R>> getNodeClasses()
 		{
-			return this.classes;
-		}
-		
-		@Override
-		public final Set<AstNodeType> getNodeTypes()
-		{
-			return this.types;
+			return this.implementations;
 		}
 	}
 
@@ -308,29 +278,27 @@ public abstract class AstTypeFilter<N extends ASTNode, R extends ASTNode> implem
 			return true;
 		}
 
-		if (!(o instanceof AstTypeFilter))
+		if (!(o instanceof AstClassFilter))
 		{
 			return false;
 		}
 		
-		AstTypeFilter<?, ?> other = (AstTypeFilter<?, ?>) o;
+		AstClassFilter<?, ?> other = (AstClassFilter<?, ?>) o;
 		
-		return this.mode == other.mode && this.strategy == other.strategy && this.getNodeTypes().equals(other.getNodeTypes());
+		return this.mode == other.mode && this.strategy == other.strategy && this.getNodeClasses().equals(other.getNodeClasses());
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return Objects.hash(this.mode, this.strategy, this.getNodeTypes());
+		return Objects.hash(this.mode, this.strategy, this.getNodeClasses());
 	}
 	
 	public abstract Set<Class<? extends R>> getNodeClasses();
 	
-	public abstract Set<AstNodeType> getNodeTypes();
-	
 	@Override
 	public final String toString()
 	{
-		return "filter(" + this.getNodeTypes() + ")";
+		return "filter(" + this.getNodeClasses() + ")";
 	}
 }

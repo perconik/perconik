@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.SimpleName;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
@@ -13,6 +13,8 @@ import com.google.common.collect.Lists;
 
 public final class AstTokenizers
 {
+	private static final ListCollector<ASTNode, ASTNode> collector = AstFilteringCollector.using(AstPredicates.isMatching(AstNodeType.SIMPLE_NAME));
+	
 	private AstTokenizers()
 	{
 		throw new AssertionError();
@@ -46,10 +48,10 @@ public final class AstTokenizers
 			return ImmutableList.of();
 		}
 		
-		List<SimpleName> names  = AstCollectors.simpleNames().apply(node);
-		List<String>     tokens = Lists.newArrayListWithCapacity(names.size());
+		List<ASTNode> names  = collector.apply(node);
+		List<String>  tokens = Lists.newArrayListWithCapacity(names.size());
 		
-		for (SimpleName name: names)
+		for (ASTNode name: names)
 		{
 			tokens.addAll(Arrays.asList(tokenizer.tokenise(name.toString())));
 		}

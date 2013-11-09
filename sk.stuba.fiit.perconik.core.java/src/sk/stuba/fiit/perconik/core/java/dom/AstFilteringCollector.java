@@ -18,7 +18,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 		return new Generic<>(filter);
 	}
 	
-	public static final <N extends ASTNode, R extends ASTNode> AstFilteringCollector<N, R> using(final AstTypeFilter<N, R> filter)
+	public static final <N extends ASTNode, R extends ASTNode> AstFilteringCollector<N, R> using(final AstClassFilter<N, R> filter)
 	{
 		return new Type<>(filter);
 	}
@@ -73,9 +73,9 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 	
 	private static final class Type<N extends ASTNode, R extends ASTNode> extends AstFilteringCollector<N, R>
 	{
-		final AstTypeFilter<N, R> filter;
+		final AstClassFilter<N, R> filter;
 
-		Type(final AstTypeFilter<N, R> filter)
+		Type(final AstClassFilter<N, R> filter)
 		{
 			this.filter = Preconditions.checkNotNull(filter);
 		}
