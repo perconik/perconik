@@ -17,7 +17,7 @@ public final class AstTransformers
 		return AstCutter.using(filter);
 	}
 
-	private static enum ToRoot implements Function<ASTNode, ASTNode>
+	private static enum ToRootFunction implements Function<ASTNode, ASTNode>
 	{
 		INSTANCE;
 
@@ -33,7 +33,7 @@ public final class AstTransformers
 		}
 	}
 
-	private static enum ToParent implements Function<ASTNode, ASTNode>
+	private static enum ToParentFunction implements Function<ASTNode, ASTNode>
 	{
 		INSTANCE;
 
@@ -60,12 +60,12 @@ public final class AstTransformers
 
 	public static final <N extends ASTNode> Function<N, ASTNode> toRoot()
 	{
-		return cast(ToRoot.INSTANCE);
+		return cast(ToRootFunction.INSTANCE);
 	}
 	
 	public static final <N extends ASTNode> Function<N, ASTNode> toParent()
 	{
-		return cast(ToParent.INSTANCE);
+		return cast(ToParentFunction.INSTANCE);
 	}
 	
 	// TODO add

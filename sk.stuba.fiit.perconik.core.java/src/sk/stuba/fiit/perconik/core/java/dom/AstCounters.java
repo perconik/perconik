@@ -11,7 +11,7 @@ public final class AstCounters
 		throw new AssertionError();
 	}
 	
-	private static enum Nodes implements Numerate<ASTNode>
+	private static enum NodeCounter implements Numerate<ASTNode>
 	{
 		INSTANCE;
 
@@ -47,7 +47,7 @@ public final class AstCounters
 	
 	public static final <N extends ASTNode> Numerate<N> nodes()
 	{
-		return cast(Nodes.INSTANCE);
+		return cast(NodeCounter.INSTANCE);
 	}
 
 	public static final <N extends ASTNode> Numerate<N> usingFilter(final Predicate<ASTNode> filter)

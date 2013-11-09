@@ -10,9 +10,9 @@ public class AstPaths
 	
 	static final String variableSeparator = ",";
 
-	private static final AstPathExtractor<?> namePathExtractor = AstPathExtractor.using(PathExtractorStrategy.NAME);
+	private static final AstPathExtractor<?> namePathExtractor = AstPathExtractor.using(PathNameStrategy.NAME);
 	
-	private static final AstPathExtractor<?> typePathExtractor = AstPathExtractor.using(PathExtractorStrategy.TYPE);
+	private static final AstPathExtractor<?> typePathExtractor = AstPathExtractor.using(PathNameStrategy.TYPE);
 
 	private AstPaths()
 	{
@@ -29,7 +29,7 @@ public class AstPaths
 		return variableSeparator;
 	}
 	
-	private static enum PathExtractorStrategy implements Function<ASTNode, String>
+	private static enum PathNameStrategy implements Function<ASTNode, String>
 	{
 		NAME
 		{

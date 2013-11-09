@@ -11,7 +11,7 @@ public final class AstFlatteners
 		throw new AssertionError();
 	}
 	
-	private static enum ToString implements Function<ASTNode, CharSequence>
+	private static enum ToStringFlattener implements Function<ASTNode, CharSequence>
 	{
 		INSTANCE;
 		
@@ -38,6 +38,6 @@ public final class AstFlatteners
 
 	public static final <N extends ASTNode> Function<N, CharSequence> toStringBased()
 	{
-		return cast(ToString.INSTANCE);
+		return cast(ToStringFlattener.INSTANCE);
 	}
 }

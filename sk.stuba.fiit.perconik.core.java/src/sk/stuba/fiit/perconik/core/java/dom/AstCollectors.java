@@ -23,7 +23,7 @@ public final class AstCollectors
 		throw new AssertionError();
 	}
 	
-	private static enum Children implements ListCollector<ASTNode, ASTNode>
+	private static enum ChildrenCollector implements ListCollector<ASTNode, ASTNode>
 	{
 		INSTANCE;
 
@@ -39,7 +39,7 @@ public final class AstCollectors
 		}
 	}
 
-	private static enum Ancestors implements ListCollector<ASTNode, ASTNode>
+	private static enum AncestorsCollector implements ListCollector<ASTNode, ASTNode>
 	{
 		INSTANCE;
 
@@ -55,7 +55,7 @@ public final class AstCollectors
 		}
 	}
 
-	private static enum Descendants implements ListCollector<ASTNode, ASTNode>
+	private static enum DescendantsCollector implements ListCollector<ASTNode, ASTNode>
 	{
 		INSTANCE;
 
@@ -82,17 +82,17 @@ public final class AstCollectors
 	
 	public static final <N extends ASTNode> ListCollector<N, ASTNode> children()
 	{
-		return cast(Children.INSTANCE);
+		return cast(ChildrenCollector.INSTANCE);
 	}
 	
 	public static final <N extends ASTNode> ListCollector<N, ASTNode> ancestors()
 	{
-		return cast(Ancestors.INSTANCE);
+		return cast(AncestorsCollector.INSTANCE);
 	}
 	
 	public static final <N extends ASTNode> ListCollector<N, ASTNode> descendants()
 	{
-		return cast(Descendants.INSTANCE);
+		return cast(DescendantsCollector.INSTANCE);
 	}
 	
 	public static final <N extends ASTNode> ListCollector<N, Comment> comments()
