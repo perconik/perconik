@@ -11,6 +11,9 @@ import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+// TODO refactor: separate tokenization from node collection + add node transforming:
+// node -> collect nodes -> transform nodes to strings -> extract identifiers
+
 public final class AstTokenizers
 {
 	private static final ListCollector<ASTNode, ASTNode> collector = AstFilteringCollector.using(AstPredicates.isMatching(AstNodeType.SIMPLE_NAME));
