@@ -674,16 +674,22 @@ public enum AstNodeType implements IntegralConstant, TypeConstant<ASTNode>
 		return false;
 	}
 	
-	public final boolean isInstance(final ASTNode node)
+	public final boolean isInstance(@Nullable final ASTNode node)
 	{
-		return this.type.isInstance(node);
+		return node != null && this.type.isInstance(node);
 	}
 	
-	public final boolean isMatching(final ASTNode node)
+	public final boolean isMatching(@Nullable final ASTNode node)
 	{
-		return this.value == node.getNodeType();
+		return node != null && this.value == node.getNodeType();
 	}
 	
+	@Override
+	public final String toString()
+	{
+		return this.getName();
+	}
+
 	public final String getName()
 	{
 		return this.name;
