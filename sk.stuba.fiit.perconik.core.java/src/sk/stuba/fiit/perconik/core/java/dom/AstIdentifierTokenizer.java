@@ -6,28 +6,71 @@ import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
-public final class AstIdentifierTokenizer<N extends ASTNode> implements ListCollector<N, String>
+public abstract class AstIdentifierTokenizer<N extends ASTNode> implements ListCollector<N, String>
 {
 	private final IdentifierNameTokeniser tokenizer;
 	
-	private AstIdentifierTokenizer(final IdentifierNameTokeniser tokenizer)
+	AstIdentifierTokenizer(final IdentifierNameTokeniser tokenizer)
 	{
 		this.tokenizer = Preconditions.checkNotNull(tokenizer);
 	}
 
 	public static final <N extends ASTNode> AstIdentifierTokenizer<N> create(final IdentifierNameTokeniser tokenizer)
 	{
-		return new AstIdentifierTokenizer<>(tokenizer);
+		return new Unknown<>(tokenizer);
 	}
 
 	public static final <N extends ASTNode> AstIdentifierTokenizer<N> create(final IdentifierNameTokeniserFactory factory)
 	{
-		return new AstIdentifierTokenizer<>(factory.create());
+		return new Known<>(factory);
+	}
+	
+	private static final class Known<N extends ASTNode> extends AstIdentifierTokenizer<N>
+	{
+		private final String settings;
+		
+		Known(final IdentifierNameTokeniserFactory factory)
+		{
+			this(factory.toString(), factory.create());
+		}
+		
+		Known(final String settings, final IdentifierNameTokeniser tokenizer)
+		{
+			super(tokenizer);
+			
+			Preconditions.checkArgument(!Strings.isNullOrEmpty(settings));
+			
+			this.settings = settings;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "tokenizer(" + this.settings + ")";
+		}
 	}
 
+	private static final class Unknown<N extends ASTNode> extends AstIdentifierTokenizer<N>
+	{
+		Unknown(final IdentifierNameTokeniser tokenizer)
+		{
+			super(tokenizer);
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "tokenizer(?)";
+		}
+	}
+	
 	public final List<String> apply(final N node)
 	{
 		return AstTokenizers.tokenize(this.tokenizer, node);
 	}
+	
+	@Override
+	public abstract String toString();
 }
