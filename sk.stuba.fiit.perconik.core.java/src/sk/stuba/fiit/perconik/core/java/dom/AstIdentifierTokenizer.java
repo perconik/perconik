@@ -2,11 +2,12 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.List;
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
 import com.google.common.base.Preconditions;
 
-public final class AstIdentifierTokenizer<N extends ASTNode> implements AstTokenizer<N>
+public final class AstIdentifierTokenizer<N extends ASTNode> implements ListCollector<N, String>
 {
 	private final IdentifierNameTokeniser tokenizer;
 	
@@ -25,7 +26,7 @@ public final class AstIdentifierTokenizer<N extends ASTNode> implements AstToken
 		return new AstIdentifierTokenizer<>(factory.create());
 	}
 
-	public final List<String> tokenize(final N node)
+	public final List<String> apply(final N node)
 	{
 		return AstTokenizers.tokenize(this.tokenizer, node);
 	}

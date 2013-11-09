@@ -86,6 +86,6 @@ public final class AstMatchingNode<N extends ASTNode>
 
 	public final AstNodeType getType()
 	{
-		return AstNodes.typeAsConstant(this.node);
+		return AstNodes.toType(this.node);
 	}
 }

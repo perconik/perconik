@@ -1,11 +1,11 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Iterator;
-import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import com.google.common.base.Predicate;
 
 public final class AstFilters
 {
@@ -20,76 +20,14 @@ public final class AstFilters
 		throw new AssertionError();
 	}
 	
-	private static enum AlwaysAccept implements AstFilter<ASTNode>
-	{
-		INSTANCE;
-	
-		public final boolean accept(@Nullable final ASTNode node)
-		{
-			return true;
-		}
-	}
-
-	private static enum AlwaysReject implements AstFilter<ASTNode>
-	{
-		INSTANCE;
-	
-		public final boolean accept(@Nullable final ASTNode node)
-		{
-			return false;
-		}
-	}
-	
-	private static enum IsNull implements AstFilter<ASTNode>
-	{
-		INSTANCE;
-	
-		public final boolean accept(@Nullable final ASTNode node)
-		{
-			return node == null;
-		}
-	}
-	
-	private static enum NotNull implements AstFilter<ASTNode>
-	{
-		INSTANCE;
-	
-		public final boolean accept(@Nullable final ASTNode node)
-		{
-			return node != null;
-		}
-	}
-
-	private static final <N extends ASTNode> AstFilter<N> cast(final AstFilter<?> filter)
+	private static final <N extends ASTNode> Predicate<N> cast(final Predicate<?> filter)
 	{
 		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstFilter<N> result = (AstFilter<N>) filter;
+		Predicate<N> result = (Predicate<N>) filter;
 		
 		return result;
 	}
-
-	public static final <N extends ASTNode> AstFilter<N> alwaysAccept()
-	{
-		return cast(AlwaysAccept.INSTANCE);
-	}
-	
-	public static final <N extends ASTNode> AstFilter<N> alwaysReject()
-	{
-		return cast(AlwaysReject.INSTANCE);
-	}
-	
-	public static final <N extends ASTNode> AstFilter<N> isNull()
-	{
-		return cast(IsNull.INSTANCE);
-	}
-	
-	public static final <N extends ASTNode> AstFilter<N> notNull()
-	{
-		return cast(NotNull.INSTANCE);
-	}
-	
-	// TODO add: and, or, not
 
 	private static final <N extends ASTNode, F extends ASTNode> AstTypeFilter<N, F> cast(final AstTypeFilter<?, ?> filter)
 	{

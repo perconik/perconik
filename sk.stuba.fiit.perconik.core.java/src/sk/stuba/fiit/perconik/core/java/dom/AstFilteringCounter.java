@@ -1,23 +1,25 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.utilities.function.Numerate;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 
-public final class AstFilteringCounter<N extends ASTNode> implements AstCounter<N>
+public final class AstFilteringCounter<N extends ASTNode> implements Numerate<N>
 {
-	final AstFilter<ASTNode> filter;
+	final Predicate<ASTNode> filter;
 	
-	AstFilteringCounter(final AstFilter<ASTNode> filter)
+	AstFilteringCounter(final Predicate<ASTNode> filter)
 	{
 		this.filter = Preconditions.checkNotNull(filter);
 	}
 	
-	public static final <N extends ASTNode> AstFilteringCounter<N> using(final AstFilter<ASTNode> filter)
+	public static final <N extends ASTNode> AstFilteringCounter<N> using(final Predicate<ASTNode> filter)
 	{
 		return new AstFilteringCounter<>(filter);
 	}
 
-	public final int count(final N node)
+	public final int apply(final N node)
 	{
 		return new Processor().perform(node);
 	}
@@ -31,7 +33,7 @@ public final class AstFilteringCounter<N extends ASTNode> implements AstCounter<
 		@Override
 		public final void preVisit(final ASTNode node)
 		{
-			if (AstFilteringCounter.this.filter.accept(node))
+			if (AstFilteringCounter.this.filter.apply(node))
 			{
 				this.count ++;
 			}

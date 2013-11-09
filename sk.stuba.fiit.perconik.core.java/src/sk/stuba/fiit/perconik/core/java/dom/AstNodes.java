@@ -390,17 +390,17 @@ public final class AstNodes
 		}
 	}
 
-	public static final Class<? extends ASTNode> typeAsClass(@Nullable final ASTNode node)
+	public static final Class<? extends ASTNode> toClass(@Nullable final ASTNode node)
 	{
 		return node != null ? node.getClass() : null;
 	}
 
-	public static final AstNodeType typeAsConstant(@Nullable final ASTNode node)
+	public static final AstNodeType toType(@Nullable final ASTNode node)
 	{
 		return node != null ? AstNodeType.valueOf(node) : null;
 	}
 
-	public static final String typeAsString(@Nullable final ASTNode node)
+	public static final String toTypeString(@Nullable final ASTNode node)
 	{
 		return node != null ? AstNodeType.valueOf(node).getName() : null;
 	}

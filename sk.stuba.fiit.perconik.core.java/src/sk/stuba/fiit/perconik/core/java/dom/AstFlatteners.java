@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import com.google.common.base.Function;
 
 public final class AstFlatteners
 {
@@ -10,26 +11,26 @@ public final class AstFlatteners
 		throw new AssertionError();
 	}
 	
-	private static enum ToString implements AstFlattener<ASTNode>
+	private static enum ToString implements Function<ASTNode, CharSequence>
 	{
 		INSTANCE;
 		
-		public final CharSequence flatten(@Nullable final ASTNode node)
+		public final CharSequence apply(@Nullable final ASTNode node)
 		{
 			return node == null ? "" : node.toString();
 		}
 	}
 	
-	private static final <N extends ASTNode> AstFlattener<N> cast(final AstFlattener<?> flattener)
+	private static final <N extends ASTNode, S extends CharSequence> Function<N, S> cast(final Function<?, S> flattener)
 	{
 		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstFlattener<N> result = (AstFlattener<N>) flattener;
+		Function<N, S> result = (Function<N, S>) flattener;
 		
 		return result;
 	}
 
-	public static final <N extends ASTNode> AstFlattener<N> toStringBased()
+	public static final <N extends ASTNode> Function<N, CharSequence> toStringBased()
 	{
 		return cast(ToString.INSTANCE);
 	}

@@ -3,15 +3,17 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import java.util.List;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 
-public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode> implements AstCollector<N, R>
+public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode> implements ListCollector<N, R>
 {
 	AstFilteringCollector()
 	{
 	}
 	
-	public static final <N extends ASTNode> AstFilteringCollector<N, N> using(final AstFilter<N> filter)
+	public static final <N extends ASTNode> AstFilteringCollector<N, N> using(final Predicate<N> filter)
 	{
 		return new Generic<>(filter);
 	}
@@ -23,15 +25,15 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 	
 	private static final class Generic<N extends ASTNode> extends AstFilteringCollector<N, N>
 	{
-		final AstFilter<N> filter;
+		final Predicate<N> filter;
 		
-		Generic(final AstFilter<N> filter)
+		Generic(final Predicate<N> filter)
 		{
 			this.filter = Preconditions.checkNotNull(filter);
 		}
 
 		@Override
-		public final List<N> collect(@Nullable final N node)
+		public final List<N> apply(@Nullable final N node)
 		{
 			return new Processor().perform(node);
 		}
@@ -51,7 +53,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 				
 				try
 				{
-					if (Generic.this.filter.accept(casted))
+					if (Generic.this.filter.apply(casted))
 					{
 						this.result.add(casted);
 					}
@@ -73,7 +75,7 @@ public abstract class AstFilteringCollector<N extends ASTNode, R extends ASTNode
 		}
 		
 		@Override
-		public final List<R> collect(@Nullable final N node)
+		public final List<R> apply(@Nullable final N node)
 		{
 			return new Processor().perform(node);
 		}

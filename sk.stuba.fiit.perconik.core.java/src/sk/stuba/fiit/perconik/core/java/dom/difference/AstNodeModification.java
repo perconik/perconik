@@ -27,9 +27,9 @@ public final class AstNodeModification<N extends ASTNode> extends AstNodeDelta<N
 	{
 		SmartStringBuilder builder = this.toStringBuilder(indent);
 		
-		builder.append("original: ").appendln(AstNodes.typeAsString(this.original));
+		builder.append("original: ").appendln(AstNodes.toTypeString(this.original));
 		builder.tab().lines(this.original).untab();
-		builder.append("revised: ").appendln(AstNodes.typeAsString(this.revised));
+		builder.append("revised: ").appendln(AstNodes.toTypeString(this.revised));
 		builder.tab().lines(this.revised);
 		
 		return builder.toString();

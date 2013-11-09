@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.SimpleName;
+import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
 import com.google.common.collect.ImmutableList;
@@ -17,7 +18,7 @@ public final class AstTokenizers
 		throw new AssertionError();
 	}
 
-	private static enum IdentifierNameTokenizer implements AstTokenizer<ASTNode>
+	private static enum IdentifierNameTokenizer implements ListCollector<ASTNode, String>
 	{
 		INSTANCE;
 		
@@ -26,7 +27,7 @@ public final class AstTokenizers
 		private static final IdentifierNameTokeniser tokenizer = factory.create();
 		
 		@Override
-		public final List<String> tokenize(@Nullable final ASTNode node)
+		public final List<String> apply(@Nullable final ASTNode node)
 		{
 			return AstTokenizers.tokenize(tokenizer, node);
 		}
@@ -39,7 +40,7 @@ public final class AstTokenizers
 			return ImmutableList.of();
 		}
 		
-		List<SimpleName> names  = AstCollectors.simpleNames().collect(node);
+		List<SimpleName> names  = AstCollectors.simpleNames().apply(node);
 		List<String>     tokens = Lists.newArrayListWithCapacity(names.size());
 		
 		for (SimpleName name: names)
@@ -50,16 +51,16 @@ public final class AstTokenizers
 		return tokens;
 	}
 
-	private static final <N extends ASTNode> AstTokenizer<N> cast(final AstTokenizer<?> tokenizer)
+	private static final <N extends ASTNode> ListCollector<N, String> cast(final ListCollector<?, String> tokenizer)
 	{
 		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
-		AstTokenizer<N> result = (AstTokenizer<N>) tokenizer;
+		ListCollector<N, String> result = (ListCollector<N, String>) tokenizer;
 		
 		return result;
 	}
 	
-	public static final <N extends ASTNode> AstTokenizer<N> identifierNames()
+	public static final <N extends ASTNode> ListCollector<N, String> identifierNames()
 	{
 		return cast(IdentifierNameTokenizer.INSTANCE);
 	}

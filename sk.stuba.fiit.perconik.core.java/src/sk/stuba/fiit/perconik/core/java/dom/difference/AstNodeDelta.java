@@ -72,7 +72,7 @@ public abstract class AstNodeDelta<N extends ASTNode>
 
 	public AstNodeType getOriginalNodeType()
 	{
-		return AstNodes.typeAsConstant(this.getOriginalNode());
+		return AstNodes.toType(this.getOriginalNode());
 	}
 
 	public boolean hasRevisedNode()
@@ -94,7 +94,7 @@ public abstract class AstNodeDelta<N extends ASTNode>
 
 	public AstNodeType getRevisedNodeType()
 	{
-		return AstNodes.typeAsConstant(this.getRevisedNode());
+		return AstNodes.toType(this.getRevisedNode());
 	}
 	
 	public abstract AstNodeDeltaType getType();

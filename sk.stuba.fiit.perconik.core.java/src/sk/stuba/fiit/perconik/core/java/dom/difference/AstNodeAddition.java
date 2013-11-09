@@ -24,7 +24,7 @@ public final class AstNodeAddition<N extends ASTNode> extends AstNodeDelta<N>
 	{
 		SmartStringBuilder builder = this.toStringBuilder(indent);
 		
-		builder.append("revised: ").appendln(AstNodes.typeAsString(this.node));
+		builder.append("revised: ").appendln(AstNodes.toTypeString(this.node));
 		builder.tab().lines(this.node);
 		
 		return builder.toString();

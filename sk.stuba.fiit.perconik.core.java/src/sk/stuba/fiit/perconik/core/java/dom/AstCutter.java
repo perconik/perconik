@@ -3,24 +3,26 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 
-public final class AstCutter<N extends ASTNode> implements AstTransformer<N, N>
+public final class AstCutter<N extends ASTNode> implements Function<N, N>
 {
-	final AstFilter<ASTNode> filter;
+	final Predicate<ASTNode> filter;
 	
-	private AstCutter(final AstFilter<ASTNode> filter)
+	private AstCutter(final Predicate<ASTNode> filter)
 	{
 		this.filter = Preconditions.checkNotNull(filter);
 	}
 	
-	public static final <N extends ASTNode> AstCutter<N> using(final AstFilter<ASTNode> filter)
+	public static final <N extends ASTNode> AstCutter<N> using(final Predicate<ASTNode> filter)
 	{
 		return new AstCutter<>(filter);
 	}
 	
 	@Override
-	public final N transform(@Nullable final N node)
+	public final N apply(@Nullable final N node)
 	{
 		if (node == null)
 		{
@@ -47,7 +49,7 @@ public final class AstCutter<N extends ASTNode> implements AstTransformer<N, N>
 		@Override
 		public final boolean preVisit2(ASTNode node)
 		{
-			if (AstCutter.this.filter.accept(node))
+			if (AstCutter.this.filter.apply(node))
 			{
 				node.delete();
 				

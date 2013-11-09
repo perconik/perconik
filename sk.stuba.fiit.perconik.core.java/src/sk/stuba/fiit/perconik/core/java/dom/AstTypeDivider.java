@@ -3,11 +3,12 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 
-public final class AstTypeDivider<N extends ASTNode> implements AstTransformer<N, Multimap<AstNodeType, ASTNode>>
+public final class AstTypeDivider<N extends ASTNode> implements Function<N, Multimap<AstNodeType, ASTNode>>
 {
 	AstTypeDivider()
 	{
@@ -18,7 +19,7 @@ public final class AstTypeDivider<N extends ASTNode> implements AstTransformer<N
 		return new AstTypeDivider<>();
 	}
 	
-	public final Multimap<AstNodeType, ASTNode> transform(final N node)
+	public final Multimap<AstNodeType, ASTNode> apply(final N node)
 	{
 		return new Processor().perform(node);
 	}
