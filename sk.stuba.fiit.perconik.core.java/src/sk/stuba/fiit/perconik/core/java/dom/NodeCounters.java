@@ -76,6 +76,22 @@ public final class NodeCounters
 		}
 	}
 
+	private static enum MemoryCounter implements Numerate<ASTNode>
+	{
+		INSTANCE;
+	
+		public final int apply(@Nullable final ASTNode node)
+		{
+			return node != null ? node.subtreeBytes() : 0;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "counter(bytes)";
+		}
+	}
+
 	private static final <N extends ASTNode> Numerate<N> cast(final Numerate<?> numerate)
 	{
 		// only for stateless internal singletons shared across all types
@@ -98,6 +114,11 @@ public final class NodeCounters
 	public static final <N extends ASTNode> Numerate<N> characters()
 	{
 		return cast(CharacterCounter.INSTANCE);
+	}
+
+	public static final <N extends ASTNode> Numerate<N> memory()
+	{
+		return cast(MemoryCounter.INSTANCE);
 	}
 
 	public static final <N extends ASTNode> Numerate<N> usingFilter(final Predicate<ASTNode> filter)
