@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -96,6 +97,11 @@ public final class MoreStrings
 		Comparator<T> comparator = (Comparator<T>) ToStringComparator.INSTANCE;
 		
 		return comparator;
+	}
+
+	public static final <T> Function<T, String> toStringFunction()
+	{
+		return (Function<T, String>) Functions.toStringFunction();
 	}
 	
 	public static final Function<String, String> toLowerCaseFunction()

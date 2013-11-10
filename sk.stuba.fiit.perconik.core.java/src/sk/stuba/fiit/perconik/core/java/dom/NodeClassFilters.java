@@ -6,10 +6,7 @@ import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.QualifiedName;
-import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Statement;
-import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class NodeClassFilters
 {
@@ -21,13 +18,7 @@ public final class NodeClassFilters
 
 	private static final NodeClassFilter<?, Name> names = of(Name.class);
 
-	private static final NodeClassFilter<?, QualifiedName> qualifiedNames = of(QualifiedName.class);
-
-	private static final NodeClassFilter<?, SimpleName> simpleNames = of(SimpleName.class);
-	
 	private static final NodeClassFilter<?, Statement> statements = of(Statement.class);
-
-	private static final NodeClassFilter<?, StringLiteral> stringLiterals = of(StringLiteral.class);
 	
 	private NodeClassFilters()
 	{
@@ -63,23 +54,8 @@ public final class NodeClassFilters
 		return cast(names);
 	}
 
-	public static final <N extends ASTNode> NodeClassFilter<N, Comment> qualifiedNames()
-	{
-		return cast(qualifiedNames);
-	}
-	
-	public static final <N extends ASTNode> NodeClassFilter<N, SimpleName> simpleNames()
-	{
-		return cast(simpleNames);
-	}
-
 	public static final <N extends ASTNode> NodeClassFilter<N, Comment> statements()
 	{
 		return cast(statements);
-	}
-
-	public static final <N extends ASTNode> NodeClassFilter<N, StringLiteral> stringLiterals()
-	{
-		return cast(stringLiterals);
 	}
 }

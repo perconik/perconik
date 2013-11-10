@@ -17,11 +17,11 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 {
 	private static final LinkedList<ASTNode> empty = new LinkedList<>();
 	
-	private final Function<ASTNode, String> strategy;
+	private final Function<ASTNode, String> transformer;
 	
-	private NodePathExtractor(final Function<ASTNode, String> strategy)
+	private NodePathExtractor(final Function<ASTNode, String> transformer)
 	{
-		this.strategy = Preconditions.checkNotNull(strategy);
+		this.transformer = Preconditions.checkNotNull(transformer);
 	}
 	
 	public static final <N extends ASTNode> NodePathExtractor<N> using(final Function<ASTNode, String> strategy)
@@ -41,7 +41,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 		
 		Iterator<ASTNode> iterator = branch.descendingIterator();
 		
-		String   first = this.strategy.apply(iterator.next());
+		String   first = this.transformer.apply(iterator.next());
 		String[] rest  = new String[branch.size() - 1];
 		
 		for (int i = 0; i < rest.length; i ++)
@@ -54,7 +54,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 			}
 			else
 			{
-				rest[i] = this.strategy.apply(other);
+				rest[i] = this.transformer.apply(other);
 			}
 		}
 		
@@ -86,12 +86,12 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 		
 		if (iterator.hasNext())
 		{
-			builder.append(this.strategy.apply(iterator.next()));
+			builder.append(this.transformer.apply(iterator.next()));
 			
 			while (iterator.hasNext())
 			{
 				builder.append(NodePaths.variableSeparator);
-				builder.append(this.strategy.apply(iterator.next()));
+				builder.append(this.transformer.apply(iterator.next()));
 			}
 		}
 		
@@ -105,7 +105,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 		{
 			NodePathExtractor<?> other = (NodePathExtractor<?>) o;
 			
-			return this.strategy.equals(other.strategy);
+			return this.transformer.equals(other.transformer);
 		}
 		
 		return false;
@@ -114,17 +114,17 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 	@Override
 	public final int hashCode()
 	{
-		return this.strategy.hashCode();
+		return this.transformer.hashCode();
 	}
 	
 	@Override
 	public final String toString()
 	{
-		return "path(" + this.strategy + ")";
+		return "path(" + this.transformer + ")";
 	}
 
-	public final Function<ASTNode, String> getStrategy()
+	public final Function<ASTNode, String> getTransformer()
 	{
-		return this.strategy;
+		return this.transformer;
 	}
 }

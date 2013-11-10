@@ -1,34 +1,34 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-public abstract class IdentifierTokenizer<N extends ASTNode> implements ListCollector<N, String>
+public abstract class Tokenizer implements ListCollector<String, String>
 {
 	private final IdentifierNameTokeniser tokenizer;
 	
-	IdentifierTokenizer(final IdentifierNameTokeniser tokenizer)
+	Tokenizer(final IdentifierNameTokeniser tokenizer)
 	{
 		this.tokenizer = Preconditions.checkNotNull(tokenizer);
 	}
 
-	public static final <N extends ASTNode> IdentifierTokenizer<N> create(final IdentifierNameTokeniser tokenizer)
+	public static final Tokenizer create(final IdentifierNameTokeniser tokenizer)
 	{
-		return new Unknown<>(tokenizer);
+		return new Unknown(tokenizer);
 	}
 
-	public static final <N extends ASTNode> IdentifierTokenizer<N> create(final IdentifierNameTokeniserFactory factory)
+	public static final Tokenizer create(final IdentifierNameTokeniserFactory factory)
 	{
-		return new Known<>(factory);
+		return new Known(factory);
 	}
 	
-	private static final class Known<N extends ASTNode> extends IdentifierTokenizer<N>
+	private static final class Known extends Tokenizer
 	{
 		private final String settings;
 		
@@ -53,7 +53,7 @@ public abstract class IdentifierTokenizer<N extends ASTNode> implements ListColl
 		}
 	}
 
-	private static final class Unknown<N extends ASTNode> extends IdentifierTokenizer<N>
+	private static final class Unknown extends Tokenizer
 	{
 		Unknown(final IdentifierNameTokeniser tokenizer)
 		{
@@ -67,17 +67,17 @@ public abstract class IdentifierTokenizer<N extends ASTNode> implements ListColl
 		}
 	}
 	
-	public final List<String> apply(final N node)
+	public final List<String> apply(final String input)
 	{
-		return NodeTokenizers.tokenize(this.tokenizer, node);
+		return Arrays.asList(this.tokenizer.tokenise(input));
 	}
 	
 	@Override
 	public final boolean equals(@Nullable final Object o)
 	{
-		if (o instanceof IdentifierTokenizer)
+		if (o instanceof Tokenizer)
 		{
-			IdentifierTokenizer<?> other = (IdentifierTokenizer<?>) o;
+			Tokenizer other = (Tokenizer) o;
 			
 			return this.tokenizer.equals(other.tokenizer);
 		}

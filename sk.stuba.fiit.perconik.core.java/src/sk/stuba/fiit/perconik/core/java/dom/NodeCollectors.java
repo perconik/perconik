@@ -1,9 +1,9 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import com.google.common.base.Predicate;
 
@@ -86,7 +86,7 @@ public final class NodeCollectors
 		return cast(DescendantsCollector.INSTANCE);
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, N> usingFilter(final Predicate<N> filter)
+	public static final <N extends R, R extends ASTNode> ListCollector<N, R> usingFilter(final Predicate<N> filter)
 	{
 		return NodeFilteringCollector.using(filter);
 	}
@@ -96,30 +96,10 @@ public final class NodeCollectors
 		return NodeFilteringCollector.using(filter);
 	}
 	
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> type)
-	{
-		return usingFilter(NodeClassFilter.<N, R>of(type));
-	}
-
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b)
-	{
-		return usingFilter(NodeClassFilter.<N, R>of(a, b));
-	}
-
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c)
-	{
-		return usingFilter(NodeClassFilter.<N, R>of(a, b, c));
-	}
-
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d)
-	{
-		return usingFilter(NodeClassFilter.<N, R>of(a, b, c, d));
-	}
-
 	@SafeVarargs
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
+	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> implementation, final Class<? extends R> ... rest)
 	{
-		return usingFilter(NodeClassFilter.<N, R>of(a, b, c, d, rest));
+		return usingFilter(NodeClassFilter.<N, R>of(implementation, rest));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Iterable<Class<? extends R>> types)
@@ -127,8 +107,13 @@ public final class NodeCollectors
 		return usingFilter(NodeClassFilter.<N, R>of(types));
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Iterator<Class<? extends R>> types)
+	public static final <N extends R, R extends ASTNode> ListCollector<N, R> ofType(final NodeType type, final NodeType ... rest)
 	{
-		return usingFilter(NodeClassFilter.<N, R>of(types));
+		return usingFilter(NodeFilters.<N>isMatching(type, rest));
+	}
+
+	public static final <N extends R, R extends ASTNode> ListCollector<N, R> ofType(final Iterable<NodeType> types)
+	{
+		return usingFilter(NodeFilters.<N>isMatching(types));
 	}
 }

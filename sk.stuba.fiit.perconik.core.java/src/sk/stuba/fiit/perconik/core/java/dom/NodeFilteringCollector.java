@@ -13,7 +13,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
 	{
 	}
 	
-	public static final <N extends ASTNode> NodeFilteringCollector<N, N> using(final Predicate<N> filter)
+	public static final <N extends R, R extends ASTNode> NodeFilteringCollector<N, R> using(final Predicate<N> filter)
 	{
 		return new Generic<>(filter);
 	}
@@ -23,7 +23,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
 		return new Type<>(filter);
 	}
 	
-	private static final class Generic<N extends ASTNode> extends NodeFilteringCollector<N, N>
+	private static final class Generic<N extends R, R extends ASTNode> extends NodeFilteringCollector<N, R>
 	{
 		final Predicate<N> filter;
 		
@@ -33,12 +33,12 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
 		}
 
 		@Override
-		public final List<N> apply(@Nullable final N node)
+		public final List<R> apply(@Nullable final N node)
 		{
 			return new Processor().perform(node);
 		}
 		
-		private final class Processor extends AbstractCollectingVisitor<N, N>
+		private final class Processor extends AbstractCollectingVisitor<N, R>
 		{
 			Processor()
 			{

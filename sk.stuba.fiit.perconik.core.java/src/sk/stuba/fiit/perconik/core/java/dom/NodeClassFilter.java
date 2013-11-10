@@ -1,13 +1,15 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
-import com.google.common.base.Preconditions;
+import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -24,23 +26,23 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	
 	NodeClassFilter(final Mode mode, final Strategy strategy)
 	{
-		this.mode     = Preconditions.checkNotNull(mode);
-		this.strategy = Preconditions.checkNotNull(strategy);
+		this.mode     = checkNotNull(mode);
+		this.strategy = checkNotNull(strategy);
 	}
 	
-	private static final <N extends ASTNode, R extends ASTNode> Single<N, R> newSingle(final Class<? extends R> type)
+	private static final <N extends ASTNode, R extends ASTNode> Single<N, R> newSingle(final Class<? extends R> implementation)
 	{
-		return new Single<>(defaultMode, defaultStrategy, type);
+		return new Single<>(defaultMode, defaultStrategy, implementation);
 	}
 	
-	private static final <N extends ASTNode, R extends ASTNode> Multi<N, R> newMulti(final Set<Class<? extends R>> types)
+	private static final <N extends ASTNode, R extends ASTNode> Multi<N, R> newMulti(final Set<Class<? extends R>> implementations)
 	{
-		return new Multi<>(defaultMode, defaultStrategy, types);
+		return new Multi<>(defaultMode, defaultStrategy, implementations);
 	}
 	
-	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> type)
+	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> implementation)
 	{
-		return newSingle(Preconditions.checkNotNull(type));
+		return newSingle(checkNotNull(implementation));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b)
@@ -59,19 +61,19 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	}
 
 	@SafeVarargs
-	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
+	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> implementation, final Class<? extends R> ... rest)
 	{
-		return newMulti(ImmutableSet.<Class<? extends R>>builder().add(a).add(b).add(c).add(d).addAll(Arrays.asList(rest)).build());
+		return newMulti(ImmutableSet.<Class<? extends R>>builder().add(implementation).addAll(Arrays.asList(rest)).build());
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Iterable<Class<? extends R>> types)
+	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Iterable<Class<? extends R>> implementations)
 	{
-		return newMulti(ImmutableSet.copyOf(types));
+		return newMulti(ImmutableSet.copyOf(implementations));
 	}
 
-	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Iterator<Class<? extends R>> types)
+	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Iterator<Class<? extends R>> implementations)
 	{
-		return newMulti(ImmutableSet.copyOf(types));
+		return newMulti(ImmutableSet.copyOf(implementations));
 	}
 	
 	public static final class Builder<N extends ASTNode, R extends ASTNode>
@@ -89,7 +91,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 		
 		public final Builder<N, R> include()
 		{
-			Preconditions.checkState(this.mode == null);
+			checkState(this.mode == null);
 
 			this.mode = Mode.INCLUDE;
 			
@@ -98,7 +100,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 
 		public final Builder<N, R> exclude()
 		{
-			Preconditions.checkState(this.mode == null);
+			checkState(this.mode == null);
 			
 			this.mode = Mode.EXCLUDE;
 			
@@ -107,7 +109,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 
 		public final Builder<N, R> instanceOf()
 		{
-			Preconditions.checkState(this.strategy == null);
+			checkState(this.strategy == null);
 			
 			this.strategy = Strategy.INSTANCE_OF;
 			
@@ -116,21 +118,21 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 		
 		public final Builder<N, R> matchedBy()
 		{
-			Preconditions.checkState(this.strategy == null);
+			checkState(this.strategy == null);
 			
 			this.strategy = Strategy.MATCHED_BY;
 			
 			return this;
 		}
 
-		public final Builder<N, R> type(Class<? extends R> type)
+		public final Builder<N, R> type(final Class<? extends R> type)
 		{
 			this.types.add(type);
 			
 			return this;
 		}
 
-		public final Builder<N, R> types(Collection<Class<? extends R>> types)
+		public final Builder<N, R> types(final Collection<Class<? extends R>> types)
 		{
 			this.types.addAll(types);
 			
@@ -139,15 +141,8 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 
 		public final NodeClassFilter<N, R> build()
 		{
-			if (this.mode == null)
-			{
-				this.mode = defaultMode;
-			}
-
-			if (this.strategy == null)
-			{
-				this.strategy = defaultStrategy;
-			}
+			Mode     mode     = firstNonNull(this.mode, defaultMode);
+			Strategy strategy = firstNonNull(this.strategy, defaultStrategy);
 			
 			Set<Class<? extends R>> types = ImmutableSet.copyOf(this.types);
 			
@@ -156,9 +151,9 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 				case 0:
 					throw new IllegalStateException();
 				case 1:
-					return new Single<>(this.mode, this.strategy, types.iterator().next());
+					return new Single<>(mode, strategy, types.iterator().next());
 				default:
-					return new Multi<>(this.mode, this.strategy, types);
+					return new Multi<>(mode, strategy, types);
 			}
 		}
 	}
@@ -291,7 +286,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	@Override
 	public final int hashCode()
 	{
-		return Objects.hash(this.mode, this.strategy, this.getNodeClasses());
+		return Objects.hashCode(this.mode, this.strategy, this.getNodeClasses());
 	}
 	
 	public abstract Set<Class<? extends R>> getNodeClasses();

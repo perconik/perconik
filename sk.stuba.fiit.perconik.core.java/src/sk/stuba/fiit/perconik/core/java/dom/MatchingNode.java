@@ -5,7 +5,7 @@ import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
-public final class ContentEqualNode<N extends ASTNode>
+public final class MatchingNode<N extends ASTNode>
 {
 	private static final ASTMatcher matcher = new ASTMatcher(true);
 	
@@ -14,14 +14,14 @@ public final class ContentEqualNode<N extends ASTNode>
 	
 	private int hash;
 	
-	private ContentEqualNode(@Nullable final N node)
+	private MatchingNode(@Nullable final N node)
 	{
 		this.node = node;
 	}
 	
-	public static final <N extends ASTNode> ContentEqualNode<N> from(@Nullable final N node)
+	public static final <N extends ASTNode> MatchingNode<N> from(@Nullable final N node)
 	{
-		return new ContentEqualNode<>(node);
+		return new MatchingNode<>(node);
 	}
 
 	@Override
@@ -32,12 +32,12 @@ public final class ContentEqualNode<N extends ASTNode>
 			return true;
 		}
 		
-		if (!(o instanceof ContentEqualNode))
+		if (!(o instanceof MatchingNode))
 		{
 			return false;
 		}
 		
-		ContentEqualNode<?> other = (ContentEqualNode<?>) o;
+		MatchingNode<?> other = (MatchingNode<?>) o;
 		
 		return matcher.safeSubtreeMatch(this.node, other.node);
 	}
@@ -74,12 +74,12 @@ public final class ContentEqualNode<N extends ASTNode>
 		return this.node;
 	}
 
-	public final ContentEqualNode<?> getRoot()
+	public final MatchingNode<?> getRoot()
 	{
 		return from(Nodes.root(this.node));
 	}
 
-	public final ContentEqualNode<?> getParent()
+	public final MatchingNode<?> getParent()
 	{
 		return from(Nodes.parent(this.node));
 	}
