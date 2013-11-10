@@ -98,37 +98,37 @@ public final class NodeCollectors
 	
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> type)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(type));
+		return usingFilter(NodeClassFilter.<N, R>of(type));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(a, b));
+		return usingFilter(NodeClassFilter.<N, R>of(a, b));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(a, b, c));
+		return usingFilter(NodeClassFilter.<N, R>of(a, b, c));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(a, b, c, d));
+		return usingFilter(NodeClassFilter.<N, R>of(a, b, c, d));
 	}
 
 	@SafeVarargs
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(a, b, c, d, rest));
+		return usingFilter(NodeClassFilter.<N, R>of(a, b, c, d, rest));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Iterable<Class<? extends R>> types)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(types));
+		return usingFilter(NodeClassFilter.<N, R>of(types));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Iterator<Class<? extends R>> types)
 	{
-		return usingFilter(NodeClassFilters.<N, R>ofClass(types));
+		return usingFilter(NodeClassFilter.<N, R>of(types));
 	}
 }

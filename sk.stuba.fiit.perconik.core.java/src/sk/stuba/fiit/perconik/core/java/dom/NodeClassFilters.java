@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import java.util.Iterator;
+import static sk.stuba.fiit.perconik.core.java.dom.NodeClassFilter.of;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Comment;
@@ -13,21 +13,21 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class NodeClassFilters
 {
-	private static final NodeClassFilter<?, Annotation> annotations = NodeClassFilters.ofClass(Annotation.class);
+	private static final NodeClassFilter<?, Annotation> annotations = of(Annotation.class);
 	
-	private static final NodeClassFilter<?, Comment> comments = NodeClassFilters.ofClass(Comment.class);
+	private static final NodeClassFilter<?, Comment> comments = of(Comment.class);
 
-	private static final NodeClassFilter<?, Expression> expressions = NodeClassFilters.ofClass(Expression.class);
+	private static final NodeClassFilter<?, Expression> expressions = of(Expression.class);
 
-	private static final NodeClassFilter<?, Name> names = NodeClassFilters.ofClass(Name.class);
+	private static final NodeClassFilter<?, Name> names = of(Name.class);
 
-	private static final NodeClassFilter<?, QualifiedName> qualifiedNames = ofClass(QualifiedName.class);
+	private static final NodeClassFilter<?, QualifiedName> qualifiedNames = of(QualifiedName.class);
 
-	private static final NodeClassFilter<?, SimpleName> simpleNames = ofClass(SimpleName.class);
+	private static final NodeClassFilter<?, SimpleName> simpleNames = of(SimpleName.class);
 	
-	private static final NodeClassFilter<?, Statement> statements = NodeClassFilters.ofClass(Statement.class);
+	private static final NodeClassFilter<?, Statement> statements = of(Statement.class);
 
-	private static final NodeClassFilter<?, StringLiteral> stringLiterals = ofClass(StringLiteral.class);
+	private static final NodeClassFilter<?, StringLiteral> stringLiterals = of(StringLiteral.class);
 	
 	private NodeClassFilters()
 	{
@@ -81,41 +81,5 @@ public final class NodeClassFilters
 	public static final <N extends ASTNode> NodeClassFilter<N, StringLiteral> stringLiterals()
 	{
 		return cast(stringLiterals);
-	}
-
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Class<? extends F> type)
-	{
-		return NodeClassFilter.of(type);
-	}
-
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Class<? extends F> a, final Class<? extends F> b)
-	{
-		return NodeClassFilter.of(a, b);
-	}
-
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c)
-	{
-		return NodeClassFilter.of(a, b, c);
-	}
-
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d)
-	{
-		return NodeClassFilter.of(a, b, c, d); 
-	}
-
-	@SafeVarargs
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Class<? extends F> a, final Class<? extends F> b, final Class<? extends F> c, final Class<? extends F> d, final Class<? extends F> ... rest)
-	{
-		return NodeClassFilter.of(a, b, c, d, rest);
-	}
-
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Iterable<Class<? extends F>> types)
-	{
-		return NodeClassFilter.of(types); 
-	}
-
-	public static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> ofClass(final Iterator<Class<? extends F>> types)
-	{
-		return NodeClassFilter.of(types);
 	}
 }
