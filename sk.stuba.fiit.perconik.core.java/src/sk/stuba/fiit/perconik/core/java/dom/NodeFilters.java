@@ -4,6 +4,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
@@ -81,7 +82,7 @@ public final class NodeFilters
 		@Override
 		public final String toString()
 		{
-			return "isInstance(" + this.getNodeTypes() + ")";
+			return "isInstance(" + Joiner.on(',').join(this.getNodeTypes()) + ")";
 		}
 	}
 
@@ -126,7 +127,7 @@ public final class NodeFilters
 		@Override
 		public final String toString()
 		{
-			return "isMatching(" + this.getNodeTypes() + ")";
+			return "isMatching(" + Joiner.on(',').join(this.getNodeTypes()) + ")";
 		}
 	}
 	

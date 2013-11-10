@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
@@ -294,6 +295,6 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	@Override
 	public final String toString()
 	{
-		return "filter(" + this.getNodeClasses() + ")";
+		return "filter(" + Joiner.on(',').join(this.getNodeClasses()) + ")";
 	}
 }

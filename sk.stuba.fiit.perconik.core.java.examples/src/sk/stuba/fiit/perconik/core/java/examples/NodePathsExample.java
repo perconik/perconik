@@ -31,7 +31,7 @@ public class NodePathsExample
 		{
 			public String apply(ASTNode n)
 			{
-				return "(" + pt.getStrategy().apply(n) + ") " + pn.getStrategy().apply(n);
+				return "(" + pt.getTransformer().apply(n) + ") " + pn.getTransformer().apply(n);
 			}
 		});
 		
