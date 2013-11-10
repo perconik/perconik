@@ -616,7 +616,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public final SmartStringBuilder lines(@Nullable String s)
 	{
-		String[] lines = String.valueOf(s).split("\r?\n|\r");
+		String[] lines = String.valueOf(s).split(MoreStrings.lineSeparatorRegex);
 
 		int last = lines.length - 1;
 
