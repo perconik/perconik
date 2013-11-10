@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 
@@ -12,7 +13,7 @@ abstract class AbstractCountingVisitor<N extends ASTNode> extends ASTVisitor
 		super(true);
 	}
 	
-	final int perform(final N node)
+	final int perform(@Nullable final N node)
 	{
 		if (node == null)
 		{

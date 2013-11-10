@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.utilities.function.Numerate;
 import com.google.common.base.Predicate;
@@ -15,7 +16,7 @@ public final class NodeCounters
 	{
 		INSTANCE;
 
-		public final int apply(final ASTNode node)
+		public final int apply(@Nullable final ASTNode node)
 		{
 			AbstractCountingVisitor<ASTNode> visitor = new AbstractCountingVisitor<ASTNode>()
 			{
@@ -32,7 +33,46 @@ public final class NodeCounters
 		@Override
 		public final String toString()
 		{
-			return "counter";
+			return "counter(nodes)";
+		}
+	}
+	
+	private static enum LineCounter implements Numerate<ASTNode>
+	{
+		INSTANCE;
+
+		public final int apply(@Nullable final ASTNode node)
+		{
+			if (node == null || !Nodes.hasSource(node))
+			{
+				return 0;
+			}
+			
+			String source = Nodes.source(node, NodeRangeType.STANDARD);
+			
+			return source.split("\r?\n|\r").length - 1;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "counter(lines)";
+		}
+	}
+	
+	private static enum CharacterCounter implements Numerate<ASTNode>
+	{
+		INSTANCE;
+
+		public final int apply(@Nullable final ASTNode node)
+		{
+			return node != null ? node.getLength() : 0;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return "counter(characters)";
 		}
 	}
 
@@ -49,11 +89,19 @@ public final class NodeCounters
 	{
 		return cast(NodeCounter.INSTANCE);
 	}
+	
+	public static final <N extends ASTNode> Numerate<N> lines()
+	{
+		return cast(LineCounter.INSTANCE);
+	}
+	
+	public static final <N extends ASTNode> Numerate<N> characters()
+	{
+		return cast(CharacterCounter.INSTANCE);
+	}
 
 	public static final <N extends ASTNode> Numerate<N> usingFilter(final Predicate<ASTNode> filter)
 	{
 		return NodeFilteringCounter.using(filter);
 	}
-
-	// TODO node counter, line counter, char counter?
 }
