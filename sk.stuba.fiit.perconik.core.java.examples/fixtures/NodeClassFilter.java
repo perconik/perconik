@@ -167,52 +167,52 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	{
 		return new Builder<>();
 	}
-	
-	private static enum Mode
-	{
-		INCLUDE
-		{
-			@Override
-			final boolean apply(final boolean result)
-			{
-				return result;
-			}
-		},
-		
-		EXCLUDE
-		{
-			@Override
-			final boolean apply(final boolean result)
-			{
-				return !result;
-			}
-		};
-		
-		abstract boolean apply(final boolean result);
-	}
-	
-	private static enum Strategy
-	{
-		INSTANCE_OF
-		{
-			@Override
-			final boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node)
-			{
-				return node != null && implementation.isInstance(node);
-			}
-		},
-		
-		MATCHED_BY
-		{
-			@Override
-			final boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node)
-			{
-				return node != null && implementation == node.getClass();
-			}
-		};
-		
-		abstract boolean compute(Class<? extends ASTNode> implementation, ASTNode node);
-	}
+
+//	private static enum Mode
+//	{
+//		INCLUDE
+//		{
+//			@Override
+//			final boolean apply(final boolean result)
+//			{
+//				return result;
+//			}
+//		},
+//		
+//		EXCLUDE
+//		{
+//			@Override
+//			final boolean apply(final boolean result)
+//			{
+//				return !result;
+//			}
+//		};
+//		
+//		abstract boolean apply(final boolean result);
+//	}
+//	
+//	private static enum Strategy
+//	{
+//		INSTANCE_OF
+//		{
+//			@Override
+//			final boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node)
+//			{
+//				return node != null && implementation.isInstance(node);
+//			}
+//		},
+//		
+//		MATCHED_BY
+//		{
+//			@Override
+//			final boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node)
+//			{
+//				return node != null && implementation == node.getClass();
+//			}
+//		};
+//		
+//		abstract boolean compute(Class<? extends ASTNode> implementation, ASTNode node);
+//	}
 
 	private static final class Single<N extends ASTNode, R extends ASTNode> extends NodeClassFilter<N, R>
 	{
