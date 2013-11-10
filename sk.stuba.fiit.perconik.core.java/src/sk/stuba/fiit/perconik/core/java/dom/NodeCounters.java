@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.function.Numerate;
 import com.google.common.base.Predicate;
 
@@ -33,7 +34,7 @@ public final class NodeCounters
 		@Override
 		public final String toString()
 		{
-			return "counter(nodes)";
+			return "nodes";
 		}
 	}
 	
@@ -56,7 +57,7 @@ public final class NodeCounters
 		@Override
 		public final String toString()
 		{
-			return "counter(lines)";
+			return "lines(?)";
 		}
 	}
 	
@@ -72,7 +73,7 @@ public final class NodeCounters
 		@Override
 		public final String toString()
 		{
-			return "counter(characters)";
+			return "characters";
 		}
 	}
 
@@ -88,7 +89,7 @@ public final class NodeCounters
 		@Override
 		public final String toString()
 		{
-			return "counter(bytes)";
+			return "memory";
 		}
 	}
 
@@ -109,6 +110,30 @@ public final class NodeCounters
 	public static final <N extends ASTNode> Numerate<N> lines()
 	{
 		return cast(LineCounter.INSTANCE);
+	}
+	
+	public static final <N extends ASTNode> Numerate<N> lines(final String source)
+	{
+		return new Numerate<N>()
+		{
+			public final int apply(final N node)
+			{
+				int index;
+				
+				if (node == null || (index = node.getStartPosition()) == -1)
+				{
+					return 0;
+				}
+				
+				return MoreStrings.lines(source.substring(index, index + node.getLength() - 1)).size();
+			}
+
+			@Override
+			public String toString()
+			{
+				return "lines(source)";
+			}
+		};
 	}
 	
 	public static final <N extends ASTNode> Numerate<N> characters()
