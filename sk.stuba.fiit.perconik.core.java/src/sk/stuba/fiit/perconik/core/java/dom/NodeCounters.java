@@ -125,7 +125,7 @@ public final class NodeCounters
 					return 0;
 				}
 				
-				return MoreStrings.lines(source.substring(index, index + node.getLength() - 1)).size();
+				return MoreStrings.lines(source.substring(index, index + node.getLength())).size();
 			}
 
 			@Override
