@@ -260,7 +260,7 @@ public final class Nodes
 		{
 			CompilationUnit unit = (CompilationUnit) root;
 			ITypeRoot       type = unit.getTypeRoot();
-
+			
 			try
 			{
 				if (type != null && type.getBuffer() != null)

@@ -50,7 +50,7 @@ public final class NodeCounters
 			
 			String source = Nodes.source(node, NodeRangeType.STANDARD);
 			
-			return source.split("\r?\n|\r").length - 1;
+			return source != null ? source.split("\r?\n|\r").length : 0;
 		}
 		
 		@Override
