@@ -14,8 +14,8 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import sk.stuba.fiit.perconik.core.java.dom.compatibility.TreeCompatibility;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
@@ -60,6 +60,17 @@ public final class Nodes
 		return create(parser, source.toString().toCharArray());
 	}
 
+	// TODO rm?
+//	public static final ASTNode create(final ASTParser parser, final ICompilationUnit source)
+//	{
+//		return create(parser, source.toString().toCharArray());
+//	}
+//	
+//	public static final ASTNode create(final ASTParser parser, final IClassFile source)
+//	{
+//		return create(parser, source.toString().toCharArray());
+//	}
+	
 	public static final <N extends ASTNode> N copyOf(final N node)
 	{
 		if (node == null)
