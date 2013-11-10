@@ -130,22 +130,22 @@ public final class NodePredicates
 		}
 	}
 	
-	public static final <N extends ASTNode> Predicate<N> isInstance(final NodeType type, final NodeType ... rest)
+	public static final Predicate<ASTNode> isInstance(final NodeType type, final NodeType ... rest)
 	{
 		return new IsInstancePredicate<>(type, rest);
 	}
 
-	public static final <N extends ASTNode> Predicate<N> isInstance(final Iterable<NodeType> types)
+	public static final Predicate<ASTNode> isInstance(final Iterable<NodeType> types)
 	{
 		return new IsInstancePredicate<>(types);
 	}
 
-	public static final <N extends ASTNode> Predicate<N> isMatching(final NodeType type, final NodeType ... rest)
+	public static final Predicate<ASTNode> isMatching(final NodeType type, final NodeType ... rest)
 	{
 		return new IsMatchingPredicate<>(type, rest);
 	}
 
-	public static final <N extends ASTNode> Predicate<N> isMatching(final Iterable<NodeType> types)
+	public static final Predicate<ASTNode> isMatching(final Iterable<NodeType> types)
 	{
 		return new IsMatchingPredicate<>(types);
 	}

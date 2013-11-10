@@ -129,7 +129,7 @@ public final class NodeCounters
 			}
 
 			@Override
-			public String toString()
+			public final String toString()
 			{
 				return "lines(source)";
 			}

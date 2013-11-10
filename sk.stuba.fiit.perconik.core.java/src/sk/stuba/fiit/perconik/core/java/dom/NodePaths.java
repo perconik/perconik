@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import com.google.common.base.Function;
 
 public class NodePaths
@@ -62,7 +63,7 @@ public class NodePaths
 		{
 			public final String apply(final ASTNode node)
 			{
-				return node != null ? node.getClass().getSimpleName() : unknownPathName;
+				return node != null ? NodeType.valueOf(node).getName() : unknownPathName;
 			}
 			
 			@Override
