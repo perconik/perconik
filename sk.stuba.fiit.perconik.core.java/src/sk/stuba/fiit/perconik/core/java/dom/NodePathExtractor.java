@@ -15,6 +15,8 @@ import com.google.common.base.Preconditions;
 
 public final class NodePathExtractor<N extends ASTNode> implements Function<N, Path>
 {
+	private static final LinkedList<ASTNode> empty = new LinkedList<>();
+	
 	private final Function<ASTNode, String> strategy;
 	
 	private NodePathExtractor(final Function<ASTNode, String> strategy)
@@ -30,18 +32,13 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 	@Override
 	public final Path apply(@Nullable final ASTNode node)
 	{
-		if (node == null)
-		{
-			return Paths.get(NodePaths.unknownPathName);
-		}
-		
-		LinkedList<ASTNode> branch = Nodes.upToRoot(node);
-		
-		if (NodeType.valueOf(branch.getLast()) == NodeType.COMPILATION_UNIT)
-		{
-			branch.removeLast();
-		}
+		LinkedList<ASTNode> branch = branch(node);
 
+		if (branch.isEmpty())
+		{
+			return NodePaths.singleUnknownPath;
+		}
+		
 		Iterator<ASTNode> iterator = branch.descendingIterator();
 		
 		String   first = this.strategy.apply(iterator.next());
@@ -62,6 +59,23 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 		}
 		
 		return Paths.get(first, rest);
+	}
+	
+	private static final LinkedList<ASTNode> branch(final ASTNode node)
+	{
+		if (node == null)
+		{
+			return empty;
+		}
+		
+		LinkedList<ASTNode> branch = Nodes.upToRoot(node);
+		
+		if (NodeType.valueOf(branch.getLast()) == NodeType.COMPILATION_UNIT)
+		{
+			branch.removeLast();
+		}
+		
+		return branch;
 	}
 	
 	private final String fragments(final List<VariableDeclarationFragment> fragments)

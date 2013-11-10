@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
@@ -10,6 +12,8 @@ public class NodePaths
 	static final String unknownPathName = "_";
 	
 	static final String variableSeparator = ",";
+
+	static final Path singleUnknownPath = Paths.get(unknownPathName);
 
 	private static final NodePathExtractor<?> namePathExtractor = NodePathExtractor.using(PathNameStrategy.NAME);
 	

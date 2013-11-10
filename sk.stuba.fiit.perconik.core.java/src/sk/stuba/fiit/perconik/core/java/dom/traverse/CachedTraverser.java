@@ -41,7 +41,7 @@ public final class CachedTraverser extends TreeTraverser<ASTNode>
 		node.accept(visitor);
 	}
 	
-	public static final CachedTraverser forNode(@Nullable final ASTNode node)
+	public static final CachedTraverser create(@Nullable final ASTNode node)
 	{
 		return new CachedTraverser(node);
 	}
