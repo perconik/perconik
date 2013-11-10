@@ -113,9 +113,11 @@ public final class Nodes
 				if (isChild(node, child))
 				{
 					children.add(child);
+					
+					return false;
 				}
 				
-				return false;
+				return true;
 			}
 		};
 		
