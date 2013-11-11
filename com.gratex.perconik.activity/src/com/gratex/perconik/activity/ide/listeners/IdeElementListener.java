@@ -16,13 +16,13 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import sk.stuba.fiit.perconik.core.annotations.Experimental;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
-import sk.stuba.fiit.perconik.core.java.dom.AstTransformers;
-import sk.stuba.fiit.perconik.core.java.dom.difference.AstDifference;
-import sk.stuba.fiit.perconik.core.java.dom.difference.AstNodeDelta;
+import sk.stuba.fiit.perconik.core.java.dom.NodePaths;
+import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDelta;
+import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableSet;
@@ -87,8 +87,8 @@ public final class IdeElementListener extends IdeListener implements JavaElement
 
 		data.setEventType(type);
 		
-		data.setElementType(AstNodeType.valueOf(node).toString());
-		data.setElementFullName(AstTransformers.namePathExtractor().transform(node).toString());
+		data.setElementType(NodeType.valueOf(node).toString());
+		data.setElementFullName(NodePaths.namePathExtractor().apply(node).toString());
 		
 		// TODO
 		if (IdeApplication.getInstance().isDebug()){
@@ -122,9 +122,9 @@ public final class IdeElementListener extends IdeListener implements JavaElement
 		
 		if (revised != null && original != null)
 		{
-			AstDifference<ASTNode> difference = this.differencer.difference(original, revised);
+			NodeDeltaSet<ASTNode> difference = this.differencer.difference(original, revised);
 
-			for (AstNodeDelta<ASTNode> pair: difference)
+			for (NodeDelta<ASTNode> pair: difference)
 			{
 				send(build(time, element, pair.getOriginalNode(), null));
 			}

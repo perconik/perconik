@@ -16,6 +16,8 @@ public final class Reflections
 		throw new AssertionError();
 	}
 	
+
+	
 	private static enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>>
 	{
 		INSTANCE;
@@ -23,6 +25,12 @@ public final class Reflections
 		public final Class<? extends Annotation> apply(Annotation annotation)
 		{
 			return annotation.annotationType();
+		}
+
+		@Override
+		public final String toString()
+		{
+			return Classes.toMethodName(this.getClass());
 		}
 	}
 	
@@ -34,6 +42,12 @@ public final class Reflections
 		{
 			return object.getClass();
 		}
+
+		@Override
+		public final String toString()
+		{
+			return Classes.toMethodName(this.getClass());
+		}
 	}
 	
 	private static enum ToEnumTypeFunction implements Function<Enum<?>, Class<?>>
@@ -43,6 +57,12 @@ public final class Reflections
 		public final Class<?> apply(Enum<?> constant)
 		{
 			return constant.getDeclaringClass();
+		}
+
+		@Override
+		public final String toString()
+		{
+			return Classes.toMethodName(this.getClass());
 		}
 	}
 	

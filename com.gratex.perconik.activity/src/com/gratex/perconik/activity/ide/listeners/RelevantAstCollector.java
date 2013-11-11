@@ -16,24 +16,24 @@ import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import sk.stuba.fiit.perconik.core.java.dom.AstCollector;
+import sk.stuba.fiit.perconik.utilities.function.Collector;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 @Beta
-final class RelevantAstCollector implements AstCollector<CompilationUnit, ASTNode>
+final class RelevantAstCollector implements Collector<CompilationUnit, ASTNode>
 {
 	public RelevantAstCollector()
 	{
 	}
 	
-	public final List<ASTNode> collect(final CompilationUnit unit)
+	public final List<ASTNode> apply(final CompilationUnit unit)
 	{
-		return new Processor().collect(unit);
+		return new Processor().apply(unit);
 	}
 
-	private static final class Processor extends ASTVisitor implements AstCollector<CompilationUnit, ASTNode>
+	private static final class Processor extends ASTVisitor implements Collector<CompilationUnit, ASTNode>
 	{
 		private final Set<ASTNode> result;
 		
@@ -42,7 +42,7 @@ final class RelevantAstCollector implements AstCollector<CompilationUnit, ASTNod
 			this.result = Sets.newLinkedHashSet();
 		}
 		
-		public final List<ASTNode> collect(final CompilationUnit unit)
+		public final List<ASTNode> apply(final CompilationUnit unit)
 		{
 			unit.accept(this);
 

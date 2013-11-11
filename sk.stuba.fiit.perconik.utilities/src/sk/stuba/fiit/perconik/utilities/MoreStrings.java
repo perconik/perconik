@@ -1,7 +1,10 @@
 package sk.stuba.fiit.perconik.utilities;
 
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -12,6 +15,8 @@ import com.google.common.base.Function;
  */
 public final class MoreStrings
 {
+	static final String lineSeparatorRegex = "\r?\n|\r";
+	
 	private MoreStrings()
 	{
 		throw new AssertionError();
@@ -45,6 +50,16 @@ public final class MoreStrings
 		{
 			return s.toUpperCase();
 		}
+	}
+	
+	public static final String lineSeparatorRegex()
+	{
+		return lineSeparatorRegex;
+	}
+	
+	public static final List<String> lines(final String s)
+	{
+		return Arrays.asList(s.split(lineSeparatorRegex));
 	}
 
 	public static final String toDefaultString(Object o)
@@ -82,6 +97,11 @@ public final class MoreStrings
 		Comparator<T> comparator = (Comparator<T>) ToStringComparator.INSTANCE;
 		
 		return comparator;
+	}
+
+	public static final <T> Function<T, String> toStringFunction()
+	{
+		return (Function<T, String>) Functions.toStringFunction();
 	}
 	
 	public static final Function<String, String> toLowerCaseFunction()

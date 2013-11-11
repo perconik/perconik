@@ -1,0 +1,37 @@
+package sk.stuba.fiit.perconik.core.java.dom;
+
+import static sk.stuba.fiit.perconik.core.java.dom.NodeCollectors.ofType;
+import static sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType.QUALIFIED_NAME;
+import static sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType.SIMPLE_NAME;
+import org.eclipse.jdt.core.dom.ASTNode;
+
+public final class NodeTokenizers
+{
+	private static final NodeTokenizer<ASTNode> qualifiedNames = NodeTokenizer.using(ofType(QUALIFIED_NAME));
+	
+	private static final NodeTokenizer<ASTNode> simpleNames = NodeTokenizer.using(ofType(SIMPLE_NAME));
+	
+	private NodeTokenizers()
+	{
+		throw new AssertionError();
+	}
+
+	private static final <N extends ASTNode> NodeTokenizer<N> cast(final NodeTokenizer<?> tokenizer)
+	{
+		// only for stateless internal singletons shared across all types
+		@SuppressWarnings("unchecked")
+		NodeTokenizer<N> result = (NodeTokenizer<N>) tokenizer;
+		
+		return result;
+	}
+	
+	public static final <N extends ASTNode> NodeTokenizer<N> qualifiedNames()
+	{
+		return cast(qualifiedNames);
+	}
+	
+	public static final <N extends ASTNode> NodeTokenizer<N> simpleNames()
+	{
+		return cast(simpleNames);
+	}
+}

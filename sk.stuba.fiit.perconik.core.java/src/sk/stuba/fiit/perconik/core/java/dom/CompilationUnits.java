@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.AstNodeType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
 public final class CompilationUnits
 {
@@ -15,7 +15,7 @@ public final class CompilationUnits
 	
 	public static final CompilationUnit valueOf(@Nullable final ASTNode node)
 	{
-		return (CompilationUnit) AstNodes.firstUpToRoot(node, AstPredicates.isMatching(AstNodeType.COMPILATION_UNIT));
+		return (CompilationUnit) Nodes.firstUpToRoot(node, NodeFilters.isMatching(NodeType.COMPILATION_UNIT));
 	}
 	
 	public static final IJavaElement element(@Nullable final CompilationUnit unit)
