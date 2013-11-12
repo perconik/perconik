@@ -31,23 +31,6 @@ public final class GitRepositories
 		
 		return git != null ? git.getRepository() : null;
 	}
-
-	public static final String getBranch(final Repository repository)
-	{
-		try
-		{
-			return repository.getBranch();
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	public static final Ref switchBranch(final Repository repository, final String branchName)
-	{
-		return handleCheckoutCommand(new Git(repository).checkout().setName(branchName));
-	}
 	
 	private static final Ref handleCheckoutCommand(final CheckoutCommand command)
 	{
