@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
 import java.util.NoSuchElementException;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
@@ -9,7 +8,6 @@ import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-
 import com.google.common.base.Throwables;
 
 /**
@@ -32,23 +30,6 @@ public final class GitRepositories
 		return git != null ? git.getRepository() : null;
 	}
 
-	public static final String getBranch(final Repository repository)
-	{
-		try
-		{
-			return repository.getBranch();
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	public static final Ref switchBranch(final Repository repository, final String branchName)
-	{
-		return handleCheckoutCommand(new Git(repository).checkout().setName(branchName));
-	}
-	
 	private static final Ref handleCheckoutCommand(final CheckoutCommand command)
 	{
 		try
@@ -60,7 +41,7 @@ public final class GitRepositories
 			throw Throwables.propagate(e);
 		}
 	}
-	
+
 	private static final RevCommit handleMostRecentCommit(final LogCommand command)
 	{
 		try
@@ -70,6 +51,23 @@ public final class GitRepositories
 		catch (NoSuchElementException e)
 		{
 			return null;
+		}
+		catch (Exception e)
+		{
+			throw Throwables.propagate(e);
+		}
+	}
+
+	public static final Ref switchBranch(final Repository repository, final String branch)
+	{
+		return handleCheckoutCommand(new Git(repository).checkout().setName(branch));
+	}
+
+	public static final String getBranch(final Repository repository)
+	{
+		try
+		{
+			return repository.getBranch();
 		}
 		catch (Exception e)
 		{
