@@ -76,6 +76,23 @@ public final class GitRepositories
 			throw Throwables.propagate(e);
 		}
 	}
+
+	public static final Ref switchBranch(final Repository repository, final String branch)
+	{
+		return handleCheckoutCommand(new Git(repository).checkout().setName(branch));
+	}
+
+	public static final String getBranch(final Repository repository)
+	{
+		try
+		{
+			return repository.getBranch();
+		}
+		catch (Exception e)
+		{
+			throw Throwables.propagate(e);
+		}
+	}
 	
 	public static final RevCommit getMostRecentCommit(final Repository repository)
 	{
