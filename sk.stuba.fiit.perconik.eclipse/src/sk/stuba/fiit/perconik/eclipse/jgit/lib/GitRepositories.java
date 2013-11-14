@@ -9,7 +9,6 @@ import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-
 import com.google.common.base.Throwables;
 
 /**
@@ -59,6 +58,22 @@ public final class GitRepositories
 			throw Throwables.propagate(e);
 		}
 	}
+	
+	private static final Iterator<RevCommit> handleLogCommand(final LogCommand command)
+	{
+		try
+		{
+			return command.all().call().iterator();
+		}
+		catch (NoSuchElementException e)
+		{
+			return null;
+		}
+		catch (Exception e)
+		{
+			throw Throwables.propagate(e);
+		}
+	}
 
 	public static final Ref switchBranch(final Repository repository, final String branch)
 	{
@@ -77,25 +92,14 @@ public final class GitRepositories
 		}
 	}
 	
+	public static final Ref checkoutFile(final Repository repository, final String path, final RevCommit commit)
+	{
+		return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(commit).addPath(path));
+	}
+	
 	public static final Iterator<RevCommit> getLogFile(final Repository repository, final String path)
 	{
 		return handleLogCommand(new Git(repository).log().addPath(path));
-	}
-	
-	private static final Iterator<RevCommit> handleLogCommand(final LogCommand command)
-	{
-		try
-		{
-			return command.all().call().iterator();
-		}
-		catch (NoSuchElementException e)
-		{
-			return null;
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(e);
-		}
 	}
 	
 	public static final RevCommit getMostRecentCommit(final Repository repository)
