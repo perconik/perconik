@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
@@ -70,6 +70,27 @@ public final class GitRepositories
 		try
 		{
 			return repository.getBranch();
+		}
+		catch (Exception e)
+		{
+			throw Throwables.propagate(e);
+		}
+	}
+	
+	public static final Iterator<RevCommit> getLogFile(final Repository repository, final String path)
+	{
+		return handleLogCommand(new Git(repository).log().addPath(path));
+	}
+	
+	private static final Iterator<RevCommit> handleLogCommand(final LogCommand command)
+	{
+		try
+		{
+			return command.all().call().iterator();
+		}
+		catch (NoSuchElementException e)
+		{
+			return null;
 		}
 		catch (Exception e)
 		{
