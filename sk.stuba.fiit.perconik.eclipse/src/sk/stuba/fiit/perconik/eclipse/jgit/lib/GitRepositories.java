@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -99,7 +100,7 @@ public final class GitRepositories
 	
 	public static final Ref checkoutFileToHEAD(final Repository repository, final String path)
 	{
-		return handleCheckoutCommand(new Git(repository).checkout().setStartPoint("HEAD").addPath(path));
+		return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(Constants.HEAD).addPath(path));
 	}
 	
 	public static final Iterator<RevCommit> getLogFile(final Repository repository, final String path)
