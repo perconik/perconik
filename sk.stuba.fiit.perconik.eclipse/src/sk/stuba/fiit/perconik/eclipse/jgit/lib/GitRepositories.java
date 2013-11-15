@@ -97,6 +97,11 @@ public final class GitRepositories
 		return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(commit).addPath(path));
 	}
 	
+	public static final Ref checkoutFileToHEAD(final Repository repository, final String path)
+	{
+		return handleCheckoutCommand(new Git(repository).checkout().setStartPoint("HEAD").addPath(path));
+	}
+	
 	public static final Iterator<RevCommit> getLogFile(final Repository repository, final String path)
 	{
 		return handleLogCommand(new Git(repository).log().addPath(path));
