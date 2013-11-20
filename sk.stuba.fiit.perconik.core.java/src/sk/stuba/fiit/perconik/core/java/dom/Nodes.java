@@ -61,7 +61,6 @@ public final class Nodes
 		return create(parser, source.toString().toCharArray());
 	}
 
-	// TODO rm?
 	public static final ASTNode create(final ASTParser parser, final ICompilationUnit source)
 	{
 		return create(parser, source, false);
@@ -71,9 +70,11 @@ public final class Nodes
 	{
 		parser.setSource(source);
 		parser.setResolveBindings(resolveBindings);
+
 		return parser.createAST(null);
 	}
-//	
+
+// TODO consider	
 //	public static final ASTNode create(final ASTParser parser, final IClassFile source)
 //	{
 //		return create(parser, source.toString().toCharArray());
