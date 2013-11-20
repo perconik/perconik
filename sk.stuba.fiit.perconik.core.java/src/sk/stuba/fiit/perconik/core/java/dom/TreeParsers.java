@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
@@ -61,17 +62,17 @@ public final class TreeParsers
 		return Nodes.create(newParser(level), source);
 	}
 	
-	// TODO rm?
-//	public static final ASTNode parse(final ICompilationUnit source)
-//	{
-//		return parse(source, TreeApiLevel.latest());
-//	}
-//	
-//	public static final ASTNode parse(final ICompilationUnit source, final TreeApiLevel level)
-//	{
-//		return Nodes.create(newParser(level), source);
-//	}
-//	
+	public static final ASTNode parse(final ICompilationUnit source)
+	{
+		return parse(source, TreeApiLevel.latest(), true);
+	}
+	
+	public static final ASTNode parse(final ICompilationUnit source, final TreeApiLevel level, final boolean resolveBindings)
+	{
+		return Nodes.create(newParser(level), source, resolveBindings);
+	}
+
+//  TODO rm?
 //	public static final ASTNode parse(final IClassFile source)
 //	{
 //		return parse(source, TreeApiLevel.latest());
