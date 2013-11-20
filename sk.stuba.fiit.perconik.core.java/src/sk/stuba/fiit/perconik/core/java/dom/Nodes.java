@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
@@ -61,10 +62,17 @@ public final class Nodes
 	}
 
 	// TODO rm?
-//	public static final ASTNode create(final ASTParser parser, final ICompilationUnit source)
-//	{
-//		return create(parser, source.toString().toCharArray());
-//	}
+	public static final ASTNode create(final ASTParser parser, final ICompilationUnit source)
+	{
+		return create(parser, source, false);
+	}
+	
+	public static final ASTNode create(final ASTParser parser, final ICompilationUnit source, final boolean resolveBindings)
+	{
+		parser.setSource(source);
+		parser.setResolveBindings(resolveBindings);
+		return parser.createAST(null);
+	}
 //	
 //	public static final ASTNode create(final ASTParser parser, final IClassFile source)
 //	{
