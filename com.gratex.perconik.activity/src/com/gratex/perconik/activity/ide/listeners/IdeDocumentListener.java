@@ -276,73 +276,10 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				{
 					return;
 				}
-
+				
 				send(build(currentTime(), document, IdeDocumentOperationTypeEnum.OPEN));
 			}
 		});
-	}
-
-	@Override
-	public final void preUnregister()
-	{
-		// TODO generate close event of all opened documents here 
-		
-//		Display.getDefault().syncExec(new Runnable()
-//		{
-//			@Override
-//			public final void run()
-//			{
-//				console.print("====================== SYNC " +Arrays.toString(Workbenches.getWorkbench().getWorkbenchWindows()));
-//			}
-//		});
-//		
-//		Display.getDefault().asyncExec(new Runnable()
-//		{
-//			@Override
-//			public final void run()
-//			{
-//				console.print("====================== ASYNC " +Arrays.toString(Workbenches.getWorkbench().getWorkbenchWindows()));
-//			}
-//		});
-//		
-//		console.print("====================== CURRENT " +Arrays.toString(Workbenches.getWorkbench().getWorkbenchWindows()));
-//		
-//		for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows())
-//		{
-//			console.print("====================== z " +window);
-//
-//			for (IWorkbenchPage page: window.getPages())
-//			{
-//				console.print("====================== zz " +page);
-//				
-//				for (IEditorReference reference: page.getEditorReferences())
-//				{
-//					console.print("====================== zzz " +reference);
-//					
-//					final IEditorPart           editor   = dereferenceEditor(reference);
-//					final UnderlyingDocument<?> document = UnderlyingDocument.of(editor);
-//
-//					console.print("====================== " + editor);
-//					
-//					if (document == null)
-//					{
-//						continue;
-//					}
-//
-//					console.print("====================== XXXXX " + editor);
-//					
-//					final long time = currentTime();
-//					
-//					executor.execute(new Runnable()
-//					{
-//						public final void run()
-//						{
-//							send(build(time, document, IdeDocumentOperationTypeEnum.CLOSE));
-//						}
-//					});
-//				}
-//			}
-//		}
 	}
 
 	public final void resourceChanged(final IResourceChangeEvent event)
