@@ -1,9 +1,6 @@
 package sk.stuba.fiit.perconik.preferences;
 
-import java.util.Collections;
 import java.util.Set;
-
-import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 
 /**
