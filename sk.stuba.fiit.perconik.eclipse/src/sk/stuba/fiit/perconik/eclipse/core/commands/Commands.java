@@ -42,7 +42,7 @@ public final class Commands
 			return null;
 		}
 		
-		return (ICommandService) workbench.getAdapter(ICommandService.class);
+		return (ICommandService) workbench.getService(ICommandService.class);
 	}
 	
 	/**
