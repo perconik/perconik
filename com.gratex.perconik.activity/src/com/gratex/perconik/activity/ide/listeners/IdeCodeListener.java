@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
+import sk.stuba.fiit.perconik.eclipse.core.commands.ActivatableHandler;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
@@ -184,7 +185,7 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 		send(build(time, resource, data, IdeCodeOperationTypeEnum.PASTE));
 	}
 	
-	private static class PasteHandler extends AbstractCommandHandler
+	private static class PasteHandler extends ActivatableHandler
 	{
 		final AtomicBoolean pasted;
 		

@@ -36,6 +36,7 @@ import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
+import sk.stuba.fiit.perconik.eclipse.core.resources.AbstractResourceDeltaVisitor;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
@@ -134,18 +135,23 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		private final long time;
 		
+		private final ResourceEventType type;
+
 		private final SetMultimap<IdeDocumentOperationTypeEnum, IFile> operations;
 		
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
-			super(type);
+			assert time >= 0;
+			assert type != null;
 			
-			this.time       = time;
+			this.time = time;
+			this.type = type;
+
 			this.operations = LinkedHashMultimap.create(3, 2);
 		}
 
 		@Override
-		final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
+		protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
 		{
 			assert delta != null && resource != null;
 			
@@ -196,13 +202,13 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		}
 
 		@Override
-		final boolean resolveResource(final IResource resource)
+		protected final boolean resolveResource(final IResource resource)
 		{
 			return false;
 		}
 
 		@Override
-		final void postVisitOrHandle()
+		protected final void postVisitOrHandle()
 		{
 			if (this.operations.containsKey(IdeDocumentOperationTypeEnum.RENAME))
 			{

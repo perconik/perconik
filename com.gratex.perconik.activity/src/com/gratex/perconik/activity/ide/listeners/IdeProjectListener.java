@@ -24,6 +24,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
+import sk.stuba.fiit.perconik.eclipse.core.resources.AbstractResourceDeltaVisitor;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
@@ -111,15 +112,19 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	{
 		private final long time;
 		
+		private final ResourceEventType type;
+		
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
-			super(type);
+			assert time >= 0;
+			assert type != null;
 			
 			this.time = time;
+			this.type = type;
 		}
 
 		@Override
-		final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
+		protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
 		{
 //			// TODO rm
 //			if (IdeApplication.getInstance().isDebug()) { console.put("resource: "+ resource);
@@ -150,7 +155,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		}
 
 		@Override
-		final boolean resolveResource(final IResource resource)
+		protected final boolean resolveResource(final IResource resource)
 		{
 			assert ResourceType.valueOf(resource.getType()) == PROJECT;
 			
