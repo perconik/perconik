@@ -16,7 +16,7 @@ public final class CommandExecutionStateHandler
 		this.state      = new AtomicReference<>(WAITING);
 	}
 	
-	public CommandExecutionStateHandler of(final String identifier)
+	public static final CommandExecutionStateHandler of(final String identifier)
 	{
 		return new CommandExecutionStateHandler(identifier);
 	}
