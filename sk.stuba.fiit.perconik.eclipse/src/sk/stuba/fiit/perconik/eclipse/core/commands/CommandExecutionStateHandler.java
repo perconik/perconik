@@ -21,14 +21,29 @@ public final class CommandExecutionStateHandler
 		return new CommandExecutionStateHandler(identifier);
 	}
 	
-	public final void transit(final String identifier, final CommandExecutionState state)
+	public final void transit(final CommandExecutionState state)
+	{
+		this.state.set(state);
+	}
+	
+	public final void transitOnMatch(final String identifier, final CommandExecutionState state)
 	{
 		if (identifier.equals(this.identifier))
 		{
 			this.state.set(state);
 		}
 	}
+	
+	public final boolean compareAndTransit(final CommandExecutionState expect, final CommandExecutionState state)
+	{
+		return this.state.compareAndSet(expect, state);
+	}
 
+	public final boolean compareAndTransitOnMatch(final String identifier, final CommandExecutionState expect, final CommandExecutionState state)
+	{
+		return identifier.equals(this.identifier) && this.state.compareAndSet(expect, state);
+	}
+	
 	public final String getIdentifier()
 	{
 		return this.identifier;
