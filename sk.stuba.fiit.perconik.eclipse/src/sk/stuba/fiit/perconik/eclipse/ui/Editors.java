@@ -11,6 +11,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import com.google.common.base.Preconditions;
 
 /**
@@ -24,6 +25,24 @@ public final class Editors
 	private Editors()
 	{
 		throw new AssertionError();
+	}
+	
+	public static final IEditorPart forDocument(final IDocument document)
+	{
+		for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows())
+		{
+			for (IWorkbenchPage page: window.getPages())
+			{
+				IEditorPart editor = page.getActiveEditor();
+				
+				if (document.equals(Editors.getDocument(editor)))
+				{
+					return editor;
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
