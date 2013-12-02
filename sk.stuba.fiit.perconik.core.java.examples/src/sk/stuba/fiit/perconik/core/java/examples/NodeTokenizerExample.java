@@ -30,7 +30,7 @@ public class NodeTokenizerExample
 		cf.setSeparatorCharacters("$._-,;:='\"?!@ |/\\()[]{}<>\n\r\t#%*`");
 		
 		NodeTokenizer<ASTNode> ct = NodeTokenizer.builder()
-		.collector(NodeCollectors.ofType(NodeType.JAVADOC,NodeType.QUALIFIED_NAME, NodeType.SIMPLE_NAME, NodeType.STRING_LITERAL))
+		.collector(NodeCollectors.ofType(NodeType.JAVADOC, NodeType.QUALIFIED_NAME, NodeType.SIMPLE_NAME, NodeType.STRING_LITERAL))
 		.transformer(new Function<ASTNode, String>()
 		{
 			public String apply(ASTNode input)
