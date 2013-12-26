@@ -4,9 +4,17 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
-import java.util.concurrent.atomic.AtomicBoolean;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.FAILED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jface.text.BadLocationException;
@@ -14,19 +22,19 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
+import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
-import sk.stuba.fiit.perconik.eclipse.core.commands.ActivatableHandler;
+import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeApplication;
-import com.gratex.perconik.services.vs.IVsActivityWatcherService;
-import com.gratex.perconik.services.vs.IdeCodeOperationDto;
-import com.gratex.perconik.services.vs.IdeCodeOperationTypeEnum;
+import com.gratex.perconik.services.IVsActivityWatcherService;
+import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
+import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
 
 /**
  * A listener of {@code IdeCodeOperation} events. This listener creates
@@ -39,15 +47,13 @@ import com.gratex.perconik.services.vs.IdeCodeOperationTypeEnum;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCodeListener extends IdeListener implements DocumentListener, TextSelectionListener
+public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
 {
-	// TODO code operation type PasteFromWeb is not supported
-
-	private final PasteHandler handler;
+	private final CommandExecutionStateHandler paste;
 	
 	public IdeCodeListener()
 	{
-		this.handler = new PasteHandler();
+		this.paste = CommandExecutionStateHandler.of("org.eclipse.ui.edit.paste");
 	}
 
 	static final class Region
@@ -66,7 +72,7 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 		static final Region of(final IDocument document, int offset, int length, final String text)
 		{
 			checkArgument(offset >= 0);
-			checkArgument(length > 0);
+			checkArgument(length >= 0);
 			checkArgument(text != null);
 			
 			Region data = new Region();
@@ -81,7 +87,7 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 				
 				String delimeter = document.getLineDelimiter(data.end.line);
 				
-				if (delimeter != null && data.text.endsWith(delimeter))
+				if (delimeter != null && text.endsWith(delimeter))
 				{
 					data.end.line ++;
 					data.end.offset = 0;
@@ -128,7 +134,7 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 		if (IdeApplication.getInstance().isDebug()){
 		Object x = document.resource;
 		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)) + "  " + type);
-		System.out.println("TEXT: "+region.text+" FROM "+region.start.line+":"+region.start.offset+" TO "+region.end.line+":"+region.end.offset);
+		System.out.println("TEXT: '"+region.text+"' FROM "+region.start.line+":"+region.start.offset+" TO "+region.end.line+":"+region.end.offset);
 		}
 		
 		document.setDocumentData(data);
@@ -167,13 +173,13 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 	
 	static final void process(final long time, final DocumentEvent event)
 	{
-		IEditorPart editor   = Editors.getActiveEditor();
-		IDocument   document = Editors.getDocument(editor);
-
-		if (!event.getDocument().equals(document))
+		IDocument   document = event.getDocument();
+		IEditorPart editor   = Editors.forDocument(document);
+		
+		if (editor == null)
 		{
 			// TODO rm
-			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- documents not equal");}
+			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- editor not found / documents not equal");}
 
 			return;
 		}
@@ -185,38 +191,52 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 		send(build(time, resource, data, IdeCodeOperationTypeEnum.PASTE));
 	}
 	
-	private static class PasteHandler extends ActivatableHandler
-	{
-		final AtomicBoolean pasted;
-		
-		PasteHandler()
-		{
-			this.pasted = new AtomicBoolean(false);
-		}
-
-		public final Object execute(final ExecutionEvent event) throws ExecutionException
-		{
-			// TODO rm
-			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.pasted + " changes to true");}
-			
-			this.pasted.set(true);
-			
-			return null;
-		}
-	}
+	// TODO rm
+//	private static class PasteHandler extends ActivatableHandler
+//	{
+//		final AtomicBoolean pasted;
+//		
+//		PasteHandler()
+//		{
+//			this.pasted = new AtomicBoolean(false);
+//		}
+//
+//		public final Object execute(final ExecutionEvent event) throws ExecutionException
+//		{
+//			// TODO rm
+//			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.pasted + " changes to true");}
+//			
+//			this.pasted.set(true);
+//			
+//			// TODO pass editor out like this
+//			HandlerUtil.getActiveEditor(event);
+//			
+//			return null;
+//		}
+//	}
 	
-	@Override
-	public final void postRegister()
-	{
-		this.handler.activate(IWorkbenchCommandConstants.EDIT_PASTE);
-	}
-
-	@Override
-	public final void preUnregister()
-	{
-		this.handler.deactivate();
-	}
-
+	//TODO rm
+//	@Override
+//	public final void postRegister()
+//	{
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_PASTE);
+//		
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_COPY);
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_CUT);
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_DELETE);
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_REDO);
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_UNDO);
+//		this.handler.activate(IWorkbenchCommandConstants.EDIT_FIND_AND_REPLACE);
+//		
+//		console.print(this.handler.getActivations().toString());
+//	}
+//
+//	@Override
+//	public final void preUnregister()
+//	{
+//		this.handler.deactivate();
+//	}
+	
 	public final void documentAboutToBeChanged(final DocumentEvent event)
 	{
 	}
@@ -224,12 +244,22 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 	public final void documentChanged(final DocumentEvent event)
 	{
 		// TODO rm
-		if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.handler.pasted + " compares to true and sets to false");}
+//		if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.handler.pasted + " compares to true and sets to false");}
+//
+//		if (!this.handler.pasted.compareAndSet(true, false))
+//		{
+//			// TODO rm
+//			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- comparison failed");}
+//
+//			return;
+//		}
+		
+		if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.paste.getState() + "");}
 
-		if (!this.handler.pasted.compareAndSet(true, false))
+		if (this.paste.getState() != EXECUTING)
 		{
 			// TODO rm
-			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- comparison failed");}
+			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- comparison failed -> not executing");}
 
 			return;
 		}
@@ -256,5 +286,40 @@ public final class IdeCodeListener extends IdeListener implements DocumentListen
 				process(time, part, selection);
 			}
 		});
+	}
+
+	public final void preExecute(final String id, final ExecutionEvent event)
+	{
+//		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
+//		Object contents = clipboard.getContents(TextTransfer.getInstance());
+//		System.out.println(Arrays.toString(clipboard.getAvailableTypeNames()));
+//		System.out.println("'"+contents+"'");
+		
+		this.paste.transitOnMatch(id, EXECUTING);
+	}
+
+	public final void postExecuteSuccess(final String id, final Object result)
+	{
+		this.paste.transitOnMatch(id, SUCCEEDED);
+	}
+
+	public final void postExecuteFailure(final String id, final ExecutionException exception)
+	{
+		this.paste.transitOnMatch(id, FAILED);
+	}
+
+	public final void notDefined(final String id, final NotDefinedException exception)
+	{
+		this.paste.transitOnMatch(id, UNDEFINED);
+	}
+
+	public final void notEnabled(final String id, final NotEnabledException exception)
+	{
+		this.paste.transitOnMatch(id, DISABLED);
+	}
+
+	public final void notHandled(final String id, final NotHandledException exception)
+	{
+		this.paste.transitOnMatch(id, UNHANDLED);
 	}
 }
