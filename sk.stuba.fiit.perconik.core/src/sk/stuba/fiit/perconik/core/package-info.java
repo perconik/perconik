@@ -1,5 +1,5 @@
 /**
- * Base interfaces and classes of the <i>PerConIK</i> core.
+ * Base interfaces and classes of the core listener and resource model.
  */
 @ParametersAreNonnullByDefault
 package sk.stuba.fiit.perconik.core;

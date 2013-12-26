@@ -1,5 +1,5 @@
 /**
- * Base interfaces and classes of the core persistence.
+ * Base interfaces and classes of the core persistence model.
  */
 @ParametersAreNonnullByDefault
 package sk.stuba.fiit.perconik.core.persistence;
