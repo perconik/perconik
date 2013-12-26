@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfstring;
 
 
 /**
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="targetUries" type="{http://schemas.microsoft.com/2003/10/Serialization/Arrays}ArrayOfstring" minOccurs="0"/>
  *         &lt;element name="getDeleted" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
+ *         &lt;element name="astRcsContextConstraint" type="{http://perconik.fiit.stuba.sk/ITM}AstRcsContextConstraint" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "targetUries",
-    "getDeleted"
+    "getDeleted",
+    "astRcsContextConstraint"
 })
 @XmlRootElement(name = "GetInformationTagsUri")
 public class GetInformationTagsUri {
@@ -40,6 +43,8 @@ public class GetInformationTagsUri {
     @XmlElementRef(name = "targetUries", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
     protected JAXBElement<ArrayOfstring> targetUries;
     protected Boolean getDeleted;
+    @XmlElementRef(name = "astRcsContextConstraint", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
+    protected JAXBElement<AstRcsContextConstraint> astRcsContextConstraint;
 
     /**
      * Gets the value of the targetUries property.
@@ -87,6 +92,30 @@ public class GetInformationTagsUri {
      */
     public void setGetDeleted(Boolean value) {
         this.getDeleted = value;
+    }
+
+    /**
+     * Gets the value of the astRcsContextConstraint property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link JAXBElement }{@code <}{@link AstRcsContextConstraint }{@code >}
+     *     
+     */
+    public JAXBElement<AstRcsContextConstraint> getAstRcsContextConstraint() {
+        return astRcsContextConstraint;
+    }
+
+    /**
+     * Sets the value of the astRcsContextConstraint property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link JAXBElement }{@code <}{@link AstRcsContextConstraint }{@code >}
+     *     
+     */
+    public void setAstRcsContextConstraint(JAXBElement<AstRcsContextConstraint> value) {
+        this.astRcsContextConstraint = value;
     }
 
 }

@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "pageCnt"
 })
 @XmlSeeAlso({
-    SearchTagProfileResponse2 .class
+    SearchTagProfileResponse.class
 })
 public class SearchResponse {
 

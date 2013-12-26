@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jaxws:bindings
+	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  wsdlLocation="TagProfileWcfSvc.svc.wsdl">
+	<jaxws:package name="com.gratex.perconik.services"/>
+	<jaxws:bindings	node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc']">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.gratex.perconik.services.tag"/>
+      <jaxb:nameXmlTransform>
+        <jaxb:elementName prefix="Anonymous"/>
+      </jaxb:nameXmlTransform>
+		</jaxb:schemaBindings>
+	</jaxws:bindings>
+  <jaxws:enableAsyncMapping>true</jaxws:enableAsyncMapping>
+</jaxws:bindings>

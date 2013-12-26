@@ -1,1 +1,3 @@
-..\..\metro\bin\wsimport -extension -keep -Xnocompile -p com.gratex.perconik.services.vs -d src http://localhost:7979/VsActivityWatcherService?singleWsdl
+rem http://localhost:7979/VsActivityWatcherService?singleWsdl
+
+wsimport -extension -keep -s src -Xnocompile http://localhost:7979/VsActivityWatcherService?singleWsdl -b VsActivityWatcherService.jaxws

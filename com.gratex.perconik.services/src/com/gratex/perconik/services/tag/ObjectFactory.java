@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the com.gratex.perconik.tagadm.itagprofilewcfsvc package. 
+ * generated in the com.gratex.perconik.services.tag package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -23,10 +23,18 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.gratex.perconik.tagadm.itagprofilewcfsvc
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.gratex.perconik.services.tag
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link AnonymousSearchTagProfileResponse }
+     * 
+     */
+    public AnonymousSearchTagProfileResponse createAnonymousSearchTagProfileResponse() {
+        return new AnonymousSearchTagProfileResponse();
     }
 
     /**
@@ -38,19 +46,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SearchTagProfileResponse2 }
+     * Create an instance of {@link AnonymousSearchTagProfile }
      * 
      */
-    public SearchTagProfileResponse2 createSearchTagProfileResponse2() {
-        return new SearchTagProfileResponse2();
-    }
-
-    /**
-     * Create an instance of {@link SearchTagProfile }
-     * 
-     */
-    public SearchTagProfile createSearchTagProfile() {
-        return new SearchTagProfile();
+    public AnonymousSearchTagProfile createAnonymousSearchTagProfile() {
+        return new AnonymousSearchTagProfile();
     }
 
     /**
@@ -62,11 +62,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetTagProfile }
+     * Create an instance of {@link AnonymousGetTagProfile }
      * 
      */
-    public GetTagProfile createGetTagProfile() {
-        return new GetTagProfile();
+    public AnonymousGetTagProfile createAnonymousGetTagProfile() {
+        return new AnonymousGetTagProfile();
     }
 
     /**
@@ -78,19 +78,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AnonymousGetTagProfileResponse }
+     * 
+     */
+    public AnonymousGetTagProfileResponse createAnonymousGetTagProfileResponse() {
+        return new AnonymousGetTagProfileResponse();
+    }
+
+    /**
      * Create an instance of {@link GetTagProfileResponse }
      * 
      */
     public GetTagProfileResponse createGetTagProfileResponse() {
         return new GetTagProfileResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetTagProfileResponse2 }
-     * 
-     */
-    public GetTagProfileResponse2 createGetTagProfileResponse2() {
-        return new GetTagProfileResponse2();
     }
 
     /**

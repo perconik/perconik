@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jaxws:bindings
+	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  wsdlLocation="ITMService.svc.wsdl">
+	<jaxws:package name="com.gratex.perconik.services"/>
+	<jaxws:bindings	node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://perconik.fiit.stuba.sk/ITM']">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.gratex.perconik.services.itm"/>
+		</jaxb:schemaBindings>
+	</jaxws:bindings>
+	<jaxws:bindings	node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://schemas.microsoft.com/2003/10/Serialization/']">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.gratex.perconik.services.itm.serialization"/>
+		</jaxb:schemaBindings>
+	</jaxws:bindings>
+	<jaxws:bindings	node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://schemas.microsoft.com/2003/10/Serialization/Arrays']">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.gratex.perconik.services.itm.serialization.arrays"/>
+		</jaxb:schemaBindings>
+	</jaxws:bindings>
+	<jaxws:bindings	node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://schemas.datacontract.org/2004/07/ITMaintenance.Lib.DataContract.AttributeQueries']">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.gratex.perconik.services.itm.serialization.queries"/>
+		</jaxb:schemaBindings>
+	</jaxws:bindings>
+  <jaxws:enableAsyncMapping>true</jaxws:enableAsyncMapping>
+</jaxws:bindings>

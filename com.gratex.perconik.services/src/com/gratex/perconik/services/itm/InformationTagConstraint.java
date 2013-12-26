@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfstring;
 
 
 /**
@@ -20,6 +21,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="AstRcsContextConstraint" type="{http://perconik.fiit.stuba.sk/ITM}AstRcsContextConstraint" minOccurs="0"/>
  *         &lt;element name="AttributeQuery" type="{http://perconik.fiit.stuba.sk/ITM}BaseAttributeQuery" minOccurs="0"/>
  *         &lt;element name="Authors" type="{http://schemas.microsoft.com/2003/10/Serialization/Arrays}ArrayOfstring" minOccurs="0"/>
  *         &lt;element name="CreatedAfter" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
@@ -42,6 +44,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InformationTagConstraint", propOrder = {
+    "astRcsContextConstraint",
     "attributeQuery",
     "authors",
     "createdAfter",
@@ -57,6 +60,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class InformationTagConstraint {
 
+    @XmlElementRef(name = "AstRcsContextConstraint", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
+    protected JAXBElement<AstRcsContextConstraint> astRcsContextConstraint;
     @XmlElementRef(name = "AttributeQuery", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
     protected JAXBElement<BaseAttributeQuery> attributeQuery;
     @XmlElementRef(name = "Authors", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
@@ -81,6 +86,30 @@ public class InformationTagConstraint {
     protected JAXBElement<XMLGregorianCalendar> savedBefore;
     @XmlElementRef(name = "Types", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
     protected JAXBElement<ArrayOfstring> types;
+
+    /**
+     * Gets the value of the astRcsContextConstraint property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link JAXBElement }{@code <}{@link AstRcsContextConstraint }{@code >}
+     *     
+     */
+    public JAXBElement<AstRcsContextConstraint> getAstRcsContextConstraint() {
+        return astRcsContextConstraint;
+    }
+
+    /**
+     * Sets the value of the astRcsContextConstraint property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link JAXBElement }{@code <}{@link AstRcsContextConstraint }{@code >}
+     *     
+     */
+    public void setAstRcsContextConstraint(JAXBElement<AstRcsContextConstraint> value) {
+        this.astRcsContextConstraint = value;
+    }
 
     /**
      * Gets the value of the attributeQuery property.

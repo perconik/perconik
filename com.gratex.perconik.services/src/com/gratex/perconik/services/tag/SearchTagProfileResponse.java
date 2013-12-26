@@ -4,23 +4,22 @@ package com.gratex.perconik.services.tag;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for SearchTagProfileResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="SearchTagProfileResponse">
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc}SearchResponse">
  *       &lt;sequence>
- *         &lt;element name="SearchTagProfileResult" type="{http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc}SearchTagProfileResponse" minOccurs="0"/>
+ *         &lt;element name="ResultSet" type="{http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc}ArrayOfTagProfileSearchResItemDto" minOccurs="0"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -28,37 +27,38 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "searchTagProfileResult"
+@XmlType(name = "SearchTagProfileResponse", propOrder = {
+    "resultSet"
 })
-@XmlRootElement(name = "SearchTagProfileResponse")
-public class SearchTagProfileResponse {
+public class SearchTagProfileResponse
+    extends SearchResponse
+{
 
-    @XmlElement(name = "SearchTagProfileResult")
-    protected SearchTagProfileResponse2 searchTagProfileResult;
+    @XmlElement(name = "ResultSet")
+    protected ArrayOfTagProfileSearchResItemDto resultSet;
 
     /**
-     * Gets the value of the searchTagProfileResult property.
+     * Gets the value of the resultSet property.
      * 
      * @return
      *     possible object is
-     *     {@link SearchTagProfileResponse2 }
+     *     {@link ArrayOfTagProfileSearchResItemDto }
      *     
      */
-    public SearchTagProfileResponse2 getSearchTagProfileResult() {
-        return searchTagProfileResult;
+    public ArrayOfTagProfileSearchResItemDto getResultSet() {
+        return resultSet;
     }
 
     /**
-     * Sets the value of the searchTagProfileResult property.
+     * Sets the value of the resultSet property.
      * 
      * @param value
      *     allowed object is
-     *     {@link SearchTagProfileResponse2 }
+     *     {@link ArrayOfTagProfileSearchResItemDto }
      *     
      */
-    public void setSearchTagProfileResult(SearchTagProfileResponse2 value) {
-        this.searchTagProfileResult = value;
+    public void setResultSet(ArrayOfTagProfileSearchResItemDto value) {
+        this.resultSet = value;
     }
 
 }

@@ -4,21 +4,20 @@ package com.gratex.perconik.services.tag;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for GetTagProfileResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="GetTagProfileResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="GetTagProfileResult" type="{http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc}GetTagProfileResponse" minOccurs="0"/>
+ *         &lt;element name="Profile" type="{http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc}TagProfileDto" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -28,37 +27,36 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "getTagProfileResult"
+@XmlType(name = "GetTagProfileResponse", propOrder = {
+    "profile"
 })
-@XmlRootElement(name = "GetTagProfileResponse")
 public class GetTagProfileResponse {
 
-    @XmlElement(name = "GetTagProfileResult")
-    protected GetTagProfileResponse2 getTagProfileResult;
+    @XmlElement(name = "Profile")
+    protected TagProfileDto profile;
 
     /**
-     * Gets the value of the getTagProfileResult property.
+     * Gets the value of the profile property.
      * 
      * @return
      *     possible object is
-     *     {@link GetTagProfileResponse2 }
+     *     {@link TagProfileDto }
      *     
      */
-    public GetTagProfileResponse2 getGetTagProfileResult() {
-        return getTagProfileResult;
+    public TagProfileDto getProfile() {
+        return profile;
     }
 
     /**
-     * Sets the value of the getTagProfileResult property.
+     * Sets the value of the profile property.
      * 
      * @param value
      *     allowed object is
-     *     {@link GetTagProfileResponse2 }
+     *     {@link TagProfileDto }
      *     
      */
-    public void setGetTagProfileResult(GetTagProfileResponse2 value) {
-        this.getTagProfileResult = value;
+    public void setProfile(TagProfileDto value) {
+        this.profile = value;
     }
 
 }
