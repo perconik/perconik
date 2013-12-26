@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Gratex Activity
 Bundle-SymbolicName: com.gratex.perconik.activity;singleton:=true
-Bundle-Version: 0.1.6.v20131112-1827
+Bundle-Version: 0.2.0.v20131226-1548
 Bundle-Activator: com.gratex.perconik.activity.ide.plugin.Activator
 Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.core.runtime;bundle-version="3.9.0",
@@ -15,13 +15,13 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.ltk.core.refactoring;bundle-version="3.6.100",
  org.eclipse.ui;bundle-version="3.105.0",
  org.eclipse.ui.forms;bundle-version="3.6.0",
- com.gratex.perconik.services;bundle-version="0.1.1",
- sk.stuba.fiit.perconik.core;bundle-version="0.1.5",
- sk.stuba.fiit.perconik.core.java;bundle-version="0.1.1",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.1.1",
+ com.gratex.perconik.services;bundle-version="0.2.0",
+ sk.stuba.fiit.perconik.core;bundle-version="0.1.6",
+ sk.stuba.fiit.perconik.core.java;bundle-version="0.1.2",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.1.2",
  sk.stuba.fiit.perconik.environment;bundle-version="0.0.3",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.1.0"
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.1.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
