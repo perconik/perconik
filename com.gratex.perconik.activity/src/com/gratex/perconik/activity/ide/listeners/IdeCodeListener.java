@@ -189,53 +189,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 		
 		send(build(time, resource, data, IdeCodeOperationTypeEnum.PASTE));
-	}
-	
-	// TODO rm
-//	private static class PasteHandler extends ActivatableHandler
-//	{
-//		final AtomicBoolean pasted;
-//		
-//		PasteHandler()
-//		{
-//			this.pasted = new AtomicBoolean(false);
-//		}
-//
-//		public final Object execute(final ExecutionEvent event) throws ExecutionException
-//		{
-//			// TODO rm
-//			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.pasted + " changes to true");}
-//			
-//			this.pasted.set(true);
-//			
-//			// TODO pass editor out like this
-//			HandlerUtil.getActiveEditor(event);
-//			
-//			return null;
-//		}
-//	}
-	
-	//TODO rm
-//	@Override
-//	public final void postRegister()
-//	{
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_PASTE);
-//		
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_COPY);
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_CUT);
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_DELETE);
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_REDO);
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_UNDO);
-//		this.handler.activate(IWorkbenchCommandConstants.EDIT_FIND_AND_REPLACE);
-//		
-//		console.print(this.handler.getActivations().toString());
-//	}
-//
-//	@Override
-//	public final void preUnregister()
-//	{
-//		this.handler.deactivate();
-//	}
+	}	
 	
 	public final void documentAboutToBeChanged(final DocumentEvent event)
 	{
@@ -243,17 +197,6 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void documentChanged(final DocumentEvent event)
 	{
-		// TODO rm
-//		if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.handler.pasted + " compares to true and sets to false");}
-//
-//		if (!this.handler.pasted.compareAndSet(true, false))
-//		{
-//			// TODO rm
-//			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- comparison failed");}
-//
-//			return;
-//		}
-		
 		if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.paste.getState() + "");}
 
 		if (this.paste.getState() != EXECUTING)
@@ -290,6 +233,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void preExecute(final String id, final ExecutionEvent event)
 	{
+// TODO note
 //		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 //		Object contents = clipboard.getContents(TextTransfer.getInstance());
 //		System.out.println(Arrays.toString(clipboard.getAvailableTypeNames()));
