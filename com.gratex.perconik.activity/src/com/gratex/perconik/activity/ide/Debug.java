@@ -15,7 +15,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
-import com.gratex.perconik.services.vs.IdeEventDto;
+import com.gratex.perconik.services.uaca.vs.IdeEventDto;
 
 final class Debug
 {

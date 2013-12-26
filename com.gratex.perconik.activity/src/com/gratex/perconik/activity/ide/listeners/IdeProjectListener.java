@@ -33,9 +33,9 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeApplication;
-import com.gratex.perconik.services.vs.IVsActivityWatcherService;
-import com.gratex.perconik.services.vs.IdeProjectOperationDto;
-import com.gratex.perconik.services.vs.IdeProjectOperationTypeEnum;
+import com.gratex.perconik.services.IVsActivityWatcherService;
+import com.gratex.perconik.services.uaca.vs.IdeProjectOperationDto;
+import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
 
 /**
  * A listener of {@code IdeProjectOperation} events. This listener creates

@@ -4,16 +4,14 @@ import java.net.URL;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import com.gratex.perconik.services.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.ArrayOfTagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.SearchTagProfileRequest;
-import com.gratex.perconik.services.tag.SearchTagProfileResponse2;
+import com.gratex.perconik.services.tag.SearchTagProfileResponse;
 import com.gratex.perconik.services.tag.TagProfileSearchResItemDto;
-import com.gratex.perconik.services.tag.TagProfileWcfSvc;
 import com.gratex.perconik.tag.assistant.ConAssist;
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.ws.WsTags;
@@ -72,7 +70,7 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 			
 			String id = null;
 			
-			SearchTagProfileResponse2 rs = s.getBasicHttpBindingITagProfileWcfSvc().searchTagProfile(r);
+			SearchTagProfileResponse rs = s.getBasicHttpBindingITagProfileWcfSvc().searchTagProfile(r);
 			ArrayOfTagProfileSearchResItemDto a = rs.getResultSet();
 			for(TagProfileSearchResItemDto i : a.getTagProfileSearchResItem()){
 				id = i.getId();

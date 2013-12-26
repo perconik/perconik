@@ -13,13 +13,13 @@ import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
 import com.gratex.perconik.activity.ide.plugin.Activator;
-import com.gratex.perconik.services.vs.IdeCheckinDto;
-import com.gratex.perconik.services.vs.IdeCodeOperationDto;
-import com.gratex.perconik.services.vs.IdeDocumentOperationDto;
-import com.gratex.perconik.services.vs.IdeDocumentOperationTypeEnum;
-import com.gratex.perconik.services.vs.IdeEventDto;
-import com.gratex.perconik.services.vs.IdeProjectOperationDto;
-import com.gratex.perconik.services.vs.IdeStateChangeDto;
+import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
+import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
+import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
+import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
+import com.gratex.perconik.services.uaca.vs.IdeEventDto;
+import com.gratex.perconik.services.uaca.vs.IdeProjectOperationDto;
+import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
 
 final class Internals
 {

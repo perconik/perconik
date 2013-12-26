@@ -47,9 +47,9 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeApplication;
-import com.gratex.perconik.services.vs.IVsActivityWatcherService;
-import com.gratex.perconik.services.vs.IdeDocumentOperationDto;
-import com.gratex.perconik.services.vs.IdeDocumentOperationTypeEnum;
+import com.gratex.perconik.services.IVsActivityWatcherService;
+import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
+import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
 
 /**
  * A listener of {@code IdeDocumentOperation} events. This listener creates

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.eclipse.jface.preference.IPreferenceStore;
+import com.gratex.perconik.services.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.ArrayOfTagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.ArrayOfTagType;
 import com.gratex.perconik.services.tag.BoolTagAttribute;
@@ -12,14 +13,13 @@ import com.gratex.perconik.services.tag.EnumTagAttribute;
 import com.gratex.perconik.services.tag.EnumValue;
 import com.gratex.perconik.services.tag.FloatTagAttribute;
 import com.gratex.perconik.services.tag.GetTagProfileRequest;
-import com.gratex.perconik.services.tag.GetTagProfileResponse2;
+import com.gratex.perconik.services.tag.GetTagProfileResponse;
 import com.gratex.perconik.services.tag.IntTagAttribute;
 import com.gratex.perconik.services.tag.SearchTagProfileRequest;
-import com.gratex.perconik.services.tag.SearchTagProfileResponse2;
+import com.gratex.perconik.services.tag.SearchTagProfileResponse;
 import com.gratex.perconik.services.tag.StringTagAttribute;
 import com.gratex.perconik.services.tag.TagAttribute;
 import com.gratex.perconik.services.tag.TagProfileSearchResItemDto;
-import com.gratex.perconik.services.tag.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.TagType;
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.prefs.PrefKeys;
@@ -132,7 +132,7 @@ public class WsTags {
 			r.setNameStartPart(ps.getString(PrefKeys.profile));
 			//r.setNameStartPart("Test1");
 			
-			SearchTagProfileResponse2 rs = s.getBasicHttpBindingITagProfileWcfSvc().searchTagProfile(r);
+			SearchTagProfileResponse rs = s.getBasicHttpBindingITagProfileWcfSvc().searchTagProfile(r);
 			ArrayOfTagProfileSearchResItemDto a = rs.getResultSet();
 			for(TagProfileSearchResItemDto i : a.getTagProfileSearchResItem()){
 				id = i.getId();
@@ -142,7 +142,7 @@ public class WsTags {
 			GetTagProfileRequest r = new GetTagProfileRequest();
 			r.setProfileId(id);
 			
-			GetTagProfileResponse2 rs = s.getBasicHttpBindingITagProfileWcfSvc().getTagProfile(r);
+			GetTagProfileResponse rs = s.getBasicHttpBindingITagProfileWcfSvc().getTagProfile(r);
 			
 			ArrayOfTagType at = rs.getProfile().getTagTypes();
 			
