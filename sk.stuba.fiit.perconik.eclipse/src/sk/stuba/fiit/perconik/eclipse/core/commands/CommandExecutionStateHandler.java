@@ -48,4 +48,9 @@ public final class CommandExecutionStateHandler
 	{
 		return this.identifier;
 	}
+	
+	public final CommandExecutionState getState()
+	{
+		return this.state.get();
+	}
 }
