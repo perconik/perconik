@@ -3,8 +3,7 @@ package sk.stuba.fiit.perconik.environment;
 import java.lang.management.ManagementFactory;
 
 /**
- * Bridge between <i>PerConIK</i> project and environment of a platform
- * on which it is running.
+ * Bridge between plug-in environment and the native platform.
  * 
  * @author Pavol Zbell
  * @since 1.0
