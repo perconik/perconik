@@ -56,7 +56,7 @@ public final class JavaElements
 	{
 		try
 		{
-			return element.getCorrespondingResource();
+			return element != null ? element.getCorrespondingResource() : null;
 		}
 		catch (JavaModelException e)
 		{
@@ -68,7 +68,7 @@ public final class JavaElements
 	{
 		try
 		{
-			return element.getUnderlyingResource();
+			return element != null ? element.getUnderlyingResource() : null;
 		}
 		catch (JavaModelException e)
 		{
