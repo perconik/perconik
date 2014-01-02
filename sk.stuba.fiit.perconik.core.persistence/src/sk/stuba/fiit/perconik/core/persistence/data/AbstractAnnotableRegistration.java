@@ -15,7 +15,7 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
  */
 abstract class AbstractAnnotableRegistration implements AnnotableRegistration
 {
-	private transient Annotable annotable;
+	private transient volatile Annotable annotable;
 	
 	/**
 	 * Constructor for use by subclasses.
