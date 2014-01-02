@@ -62,7 +62,7 @@ public final class NodeTransformers
 		@Override
 		public final boolean equals(@Nullable final Object o)
 		{
-			return this.getClass() == o.getClass() && this.predicate.equals(((InternalFunction<?>) o).predicate);
+			return null != o && this.getClass() == o.getClass() && this.predicate.equals(((InternalFunction<?>) o).predicate);
 		}
 
 		@Override
