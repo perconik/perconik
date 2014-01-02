@@ -2,7 +2,7 @@
 <feature
       id="com.gratex.perconik.activity.feature"
       label="PerConIK Gratex Activity Watcher"
-      version="0.2.0.v20131226-1550"
+      version="0.2.1.v20140102-2333"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>

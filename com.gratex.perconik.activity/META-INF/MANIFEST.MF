@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Gratex Activity
 Bundle-SymbolicName: com.gratex.perconik.activity;singleton:=true
-Bundle-Version: 0.2.0.v20131226-1548
+Bundle-Version: 0.2.2.v20140102-2332
 Bundle-Activator: com.gratex.perconik.activity.ide.plugin.Activator
 Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
  org.eclipse.core.runtime;bundle-version="3.9.0",
