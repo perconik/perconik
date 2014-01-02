@@ -21,7 +21,7 @@ final class DelegatedAnnotable implements Annotable
 
 	public final <A extends Annotation> A getAnnotation(Class<A> type)
 	{
-		return this.getAnnotation(type);
+		return this.element.getAnnotation(type);
 	}
 
 	public final Set<Annotation> getAnnotations()
