@@ -11,6 +11,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PO
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.filebuffers.FileBuffers;
@@ -185,7 +186,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			{
 				IPath path = delta.getMovedToPath();
 				
-				if (!path.lastSegment().equals(resource.getFullPath().lastSegment()))
+				if (!Objects.equals(path.lastSegment(), resource.getFullPath().lastSegment()))
 				{
 					this.operations.put(IdeDocumentOperationTypeEnum.RENAME, (IFile) resource);
 					
