@@ -12,7 +12,7 @@ public final class MatchingNode<N extends ASTNode>
 	@Nullable
 	private final N node;
 	
-	private int hash;
+	private volatile int hash;
 	
 	private MatchingNode(@Nullable final N node)
 	{
