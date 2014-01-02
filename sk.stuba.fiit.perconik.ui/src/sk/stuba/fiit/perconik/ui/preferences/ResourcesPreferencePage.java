@@ -123,18 +123,18 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 		{
 			if (data.isRegistered() && !data.hasRegistredMark() && !data.getResource().registered(Listener.class).isEmpty())
 			{
-				String message;
+				StringBuilder message = new StringBuilder();
 				
-				message  = "Resource unregistration failed due to one or more listeners registered. ";
-				message += "Select only resources with currently no registered listeners or unregister all listeners from the resources to be unregistered first.\n\n";
-				message += data.getResource();
+				message.append("Resource unregistration failed due to one or more listeners registered. ");
+				message.append("Select only resources with currently no registered listeners or unregister all listeners from the resources to be unregistered first.\n\n");
+				message.append(data.getResource());
 				
 				for (Listener listener: data.getResource().registered(Listener.class))
 				{
-					message += "\n  " + listener.getClass().getName();
+					message.append("\n  " + listener.getClass().getName());
 				}
 
-				this.displayError("Resource unregistration", message);
+				this.displayError("Resource unregistration", message.toString());
 				this.performRefresh();
 				
 				return;

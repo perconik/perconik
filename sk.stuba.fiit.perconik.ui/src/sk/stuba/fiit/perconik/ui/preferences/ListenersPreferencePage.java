@@ -116,13 +116,13 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 		}
 		catch (ResourceNotRegistredException e)
 		{
-			String message;
+			StringBuilder message = new StringBuilder();
 			
-			message  = "Listener registration failed due to one or more unregistered but required resources. ";
-			message += "Select only listeners with registered resources.\n\n";
-			message += e.getMessage() + ".";
+			message.append("Listener registration failed due to one or more unregistered but required resources. ");
+			message.append("Select only listeners with registered resources.\n\n");
+			message.append(e.getMessage() + ".");
 			
-			this.displayError("Listener registration", message);
+			this.displayError("Listener registration", message.toString());
 			this.performRefresh();
 		}
 	}
