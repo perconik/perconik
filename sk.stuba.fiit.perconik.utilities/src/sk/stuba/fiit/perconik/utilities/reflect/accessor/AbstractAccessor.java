@@ -43,7 +43,7 @@ abstract class AbstractAccessor<T> implements Accessor<T>
 		@Nullable
 		final Object receiver;
 		
-		FieldAccessor(TypeToken<T> type, Field field, Object receiver)
+		FieldAccessor(TypeToken<T> type, Field field, @Nullable Object receiver)
 		{
 			super(type);
 			
@@ -67,7 +67,7 @@ abstract class AbstractAccessor<T> implements Accessor<T>
 		
 		final Object[] arguments;
 		
-		InvokableAccessor(TypeToken<T> type, Invokable<Object, T> invokable, Object receiver, Object ... arguments)
+		InvokableAccessor(TypeToken<T> type, Invokable<Object, T> invokable, @Nullable Object receiver, Object ... arguments)
 		{
 			super(type);
 			
