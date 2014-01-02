@@ -43,7 +43,7 @@ public class TreeTraverserExample
 		
 		String r = Paths.get(e.apply(pr.get(0)).getName(0).toString(), e.apply(pr.get(0)).getName(1).toString()).toString() + e.apply(pr.get(0)).getFileSystem().getSeparator();
 		
-		out.printf("%-120s %-120s %-120s\n\n", "PRE-ORDER", "POST-ORDER", "BREADTH-FIRST");
+		out.printf("%-120s %-120s %-120s%n%n", "PRE-ORDER", "POST-ORDER", "BREADTH-FIRST");
 		
 		for (int i = 0; i < br.size(); i ++)
 		{
@@ -51,7 +51,7 @@ public class TreeTraverserExample
 			String poe = e.apply(po.get(i)).toString().replace(r, "");
 			String bre = e.apply(br.get(i)).toString().replace(r, "");
 			
-			out.printf("%-120s %-120s %-120s\n", pre, poe, bre);
+			out.printf("%-120s %-120s %-120s%n", pre, poe, bre);
 		}
 	}
 }

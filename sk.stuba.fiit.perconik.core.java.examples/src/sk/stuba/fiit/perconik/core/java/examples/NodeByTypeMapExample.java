@@ -30,16 +30,16 @@ public class NodeByTypeMapExample
 		k.addAll(m.keySet());
 		
 		out.println(m.size() + " nodes");
-		out.println(k.size() + " of " + NodeType.count() + " types\n");
+		out.println(k.size() + " of " + NodeType.count() + " types%n");
 		
 		for (NodeType t: k)
 		{
-			out.printf("%-40s %4d\n", t, m.get(t).size());
+			out.printf("%-40s %4d%n", t, m.get(t).size());
 		}
 		
 		List<MethodDeclaration> methods = NodeCollectors.ofClass(MethodDeclaration.class).apply(unit);
 
-		out.println("\n" + methods.size() + " methods \n");
+		out.println("%n" + methods.size() + " methods %n");
 
 		MethodDeclaration method = methods.get(10);
 		
@@ -52,11 +52,11 @@ public class NodeByTypeMapExample
 		k.addAll(m.keySet());
 		
 		out.println(m.size() + " nodes");
-		out.println(k.size() + " of " + NodeType.count() + " types\n");
+		out.println(k.size() + " of " + NodeType.count() + " types%n");
 		
 		for (NodeType t: k)
 		{
-			out.printf("%-40s %4d -> %s\n", t, m.get(t).size(), m.get(t).toString().replaceAll("\r?\n|\r", ""));
+			out.printf("%-40s %4d -> %s%n", t, m.get(t).size(), m.get(t).toString().replaceAll("\r?%n|\r", ""));
 		}
 	}
 }
