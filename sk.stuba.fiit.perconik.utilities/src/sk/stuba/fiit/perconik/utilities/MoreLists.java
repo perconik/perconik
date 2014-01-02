@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.utilities;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import com.google.common.collect.Lists;
 
 /**
@@ -21,7 +20,7 @@ public final class MoreLists
 	
 	public static final <E> List<E> toList(Iterable<E> elements)
 	{
-		return elements instanceof Set ? (List<E>) elements : Lists.newArrayList(elements);
+		return elements instanceof List ? (List<E>) elements : Lists.newArrayList(elements);
 	}
 	
 	public static final <E> ArrayList<E> toArrayList(Iterable<E> elements)
