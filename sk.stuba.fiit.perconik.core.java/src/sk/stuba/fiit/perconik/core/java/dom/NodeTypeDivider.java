@@ -70,7 +70,7 @@ public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollect
 	@Override
 	public final int hashCode()
 	{
-		return this.hashCode();
+		return super.hashCode();
 	}
 	
 	@Override
