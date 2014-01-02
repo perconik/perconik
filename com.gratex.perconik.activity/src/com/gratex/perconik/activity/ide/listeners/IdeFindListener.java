@@ -1,8 +1,12 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import org.eclipse.core.commands.CommandEvent;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.NotEnabledException;
+import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
-import sk.stuba.fiit.perconik.core.listeners.CommandListener;
+import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import com.gratex.perconik.services.uaca.vs.IdeFindOperationDto;
 
 /**
@@ -17,15 +21,33 @@ import com.gratex.perconik.services.uaca.vs.IdeFindOperationDto;
  * @since 1.0
  */
 @Unsupported
-public final class IdeFindListener extends IdeListener implements CommandListener
+public final class IdeFindListener extends IdeListener implements CommandExecutionListener
 {
 	public IdeFindListener()
 	{
 	}
 	
-	// TODO impl
+	public final void preExecute(final String id, final ExecutionEvent event)
+	{
+	}
 
-	public void commandChanged(CommandEvent commandEvent)
+	public final void postExecuteSuccess(final String id, final Object result)
+	{
+	}
+
+	public final void postExecuteFailure(final String id, final ExecutionException exception)
+	{
+	}
+
+	public final void notDefined(final String id, final NotDefinedException exception)
+	{
+	}
+
+	public final void notEnabled(final String id, final NotEnabledException exception)
+	{
+	}
+
+	public final void notHandled(final String id, final NotHandledException exception)
 	{
 	}
 }
