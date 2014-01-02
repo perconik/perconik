@@ -207,7 +207,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 			}
 		};
 		
-		abstract boolean compute(Class<? extends ASTNode> implementation, ASTNode node);
+		abstract boolean compute(Class<? extends ASTNode> implementation, @Nullable ASTNode node);
 	}
 
 	private static final class Single<N extends ASTNode, R extends ASTNode> extends NodeClassFilter<N, R>
