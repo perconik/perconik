@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class MainPreferencePage extends AbstractWorkbenchPreferencePage
+public final class MainPreferencePage extends AbstractWorkbenchPreferencePage
 {
 	private MainPreferences preferences;
 	
