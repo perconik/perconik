@@ -113,7 +113,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
 			return true;
 		}
 
-		if (!(o instanceof NodeClassFilter))
+		if (!(o instanceof NodeTokenizer))
 		{
 			return false;
 		}
