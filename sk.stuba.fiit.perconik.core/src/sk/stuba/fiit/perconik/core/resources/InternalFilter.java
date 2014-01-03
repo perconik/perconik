@@ -19,7 +19,7 @@ abstract class InternalFilter<L extends Listener> extends AbstractWrapper<L> imp
 			return true;
 		}
 		
-		if (this.getClass() != o.getClass())
+		if (null == o || this.getClass() != o.getClass())
 		{
 			return false;
 		}
