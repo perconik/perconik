@@ -61,6 +61,9 @@ import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
+import org.eclipse.search.ui.ISearchQuery;
+import org.eclipse.search.ui.ISearchResult;
+import org.eclipse.search.ui.SearchResultEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -1168,6 +1171,55 @@ public final class Debug
 		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
 	
 		builder.appendln("resource:").lines(dumpResource(resource));
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpSearchQuery(final ISearchQuery query)
+	{
+		SmartStringBuilder builder = builder();
+		
+		String label = query.getLabel();
+		
+		ISearchResult result = query.getSearchResult();
+		
+		boolean runInBackground = query.canRunInBackground();
+		boolean rerun           = query.canRerun();
+		
+		builder.append("label: ").appendln(label);
+		
+		builder.appendln("result: ").lines(dumpSearchResult(result));
+		
+		builder.append("can run in background: ").appendln(runInBackground);
+		builder.append("can rerun: ").appendln(rerun);
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpSearchResult(final ISearchResult result)
+	{
+		SmartStringBuilder builder = builder();
+		
+		String label = result.getLabel();
+		String tooltip = result.getTooltip();
+		
+		builder.append("label: ").appendln(label);
+		builder.append("tooltip: ").appendln(tooltip);
+		
+		return builder.toString();
+	}
+	
+	public static final String dumpSearchResultEvent(final SearchResultEvent event)
+	{
+		SmartStringBuilder builder = builder();
+		
+		Class<?> type = event.getClass();
+		
+		ISearchResult result = event.getSearchResult();
+		
+		builder.append("class: ").appendln(dumpClass(type));
+		
+		builder.appendln("result: ").lines(dumpSearchResult(result));
 		
 		return builder.toString();
 	}

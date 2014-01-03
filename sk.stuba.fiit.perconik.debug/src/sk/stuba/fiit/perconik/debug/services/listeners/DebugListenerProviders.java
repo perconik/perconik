@@ -27,6 +27,8 @@ import sk.stuba.fiit.perconik.debug.listeners.PerspectiveDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.RefactoringExecutionDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.RefactoringHistoryDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.ResourceDebugListener;
+import sk.stuba.fiit.perconik.debug.listeners.SearchQueryDebugListener;
+import sk.stuba.fiit.perconik.debug.listeners.SearchResultDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.SelectionDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.StructuredSelectionDebugListener;
 import sk.stuba.fiit.perconik.debug.listeners.TestRunDebugListener;
@@ -67,6 +69,8 @@ public final class DebugListenerProviders
 		builder.add(RefactoringExecutionDebugListener.class);
 		builder.add(RefactoringHistoryDebugListener.class);
 		builder.add(ResourceDebugListener.class);
+		builder.add(SearchQueryDebugListener.class);
+		builder.add(SearchResultDebugListener.class);
 		builder.add(SelectionDebugListener.class);
 		builder.add(StructuredSelectionDebugListener.class);
 		builder.add(TestRunDebugListener.class);
