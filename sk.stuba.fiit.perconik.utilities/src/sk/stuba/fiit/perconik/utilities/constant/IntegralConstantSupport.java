@@ -1,16 +1,18 @@
 package sk.stuba.fiit.perconik.utilities.constant;
 
-import java.io.Serializable;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.util.EnumSet;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
-public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> extends AbstractConstantSupport<Integer, E> implements Serializable
+public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> extends AbstractConstantSupport<Integer, E>
 {
 	private static final long serialVersionUID = 6686975853072661262L;
 	
-	private IntegralConstantSupport(final Class<E> type)
+	IntegralConstantSupport(final Class<E> type)
 	{
 		super(type);
 	}
@@ -19,7 +21,7 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
 	{
 		INSTANCE;
 
-		public final Integer apply(final IntegralConstant constant)
+		public final Integer apply(@Nonnull final IntegralConstant constant)
 		{
 			return constant.getValue();
 		}	
@@ -48,7 +50,34 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
 		
 		return values;
 	}
+
+	private static final class SerializationProxy<E extends Enum<E> & IntegralConstant> extends AbstractSerializationProxy<Integer, E, IntegralConstantSupport<E>>
+	{
+		private static final long serialVersionUID = -8420579032363855266L;
+
+		SerializationProxy(final IntegralConstantSupport<E> support)
+		{
+			super(support);
+		}
+
+		@Override
+		final IntegralConstantSupport<E> resolve(final Class<E> type)
+		{
+			return new IntegralConstantSupport<>(type);
+		}
+	}
 	
+	@SuppressWarnings({"static-method", "unused"})
+	private final void readObject(final ObjectInputStream in) throws InvalidObjectException
+	{
+		throw new InvalidObjectException("Serialization proxy required");
+	}
+
+	private final Object writeReplace()
+	{
+		return new SerializationProxy<>(this);
+	}
+
 	public final Set<Integer> getIntegers()
 	{
 		return this.map.keySet();
