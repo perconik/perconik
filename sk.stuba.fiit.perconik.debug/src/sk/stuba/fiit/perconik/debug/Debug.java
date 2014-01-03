@@ -1179,13 +1179,15 @@ public final class Debug
 	{
 		SmartStringBuilder builder = builder();
 		
-		String label = query.getLabel();
+		Class<?> type  = query.getClass();
+		String   label = query.getLabel();
 		
 		ISearchResult result = query.getSearchResult();
 		
 		boolean runInBackground = query.canRunInBackground();
 		boolean rerun           = query.canRerun();
 		
+		builder.append("class: ").appendln(dumpClass(type));
 		builder.append("label: ").appendln(label);
 		
 		builder.appendln("result: ").lines(dumpSearchResult(result));
