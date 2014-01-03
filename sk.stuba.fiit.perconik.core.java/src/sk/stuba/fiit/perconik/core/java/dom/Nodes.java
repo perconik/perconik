@@ -130,7 +130,10 @@ public final class Nodes
 			}
 		};
 		
-		node.accept(visitor);
+		if (node != null)
+		{
+			node.accept(visitor);
+		}
 		
 		return children;
 	}
@@ -259,7 +262,10 @@ public final class Nodes
 			}
 		};
 		
-		node.accept(visitor);
+		if (node != null)
+		{
+			node.accept(visitor);
+		}
 		
 		return descendant.value;
 	}
