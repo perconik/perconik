@@ -317,6 +317,16 @@ public final class DefaultListeners
 		registerTo(DefaultResources.getResourceResource(), listener);
 	}
 
+	public static final void register(final SearchQueryListener listener)
+	{
+		registerTo(DefaultResources.getSearchQueryResource(), listener);
+	}
+
+	public static final void register(final SearchResultListener listener)
+	{
+		registerTo(DefaultResources.getSearchResultResource(), listener);
+	}
+
 	public static final void register(final SelectionListener listener)
 	{
 		registerTo(DefaultResources.getSelectionResource(), listener);
@@ -482,11 +492,21 @@ public final class DefaultListeners
 		unregisterFrom(DefaultResources.getResourceResource(), listener);
 	}
 
+	public static final void unregister(final SearchQueryListener listener)
+	{
+		unregisterFrom(DefaultResources.getSearchQueryResource(), listener);
+	}
+
+	public static final void unregister(final SearchResultListener listener)
+	{
+		unregisterFrom(DefaultResources.getSearchResultResource(), listener);
+	}
+
 	public static final void unregister(final SelectionListener listener)
 	{
 		unregisterFrom(DefaultResources.getSelectionResource(), listener);
 	}
-	
+
 	public static final void unregister(final StructuredSelectionListener listener)
 	{
 		unregisterFrom(DefaultResources.getStructuredSelectionResource(), listener);

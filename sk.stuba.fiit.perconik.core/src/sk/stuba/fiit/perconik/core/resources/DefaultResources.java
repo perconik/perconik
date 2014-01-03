@@ -33,6 +33,8 @@ import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
+import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
+import sk.stuba.fiit.perconik.core.listeners.SearchResultListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
@@ -122,6 +124,10 @@ public final class DefaultResources
 	static final Resource<RefactoringHistoryListener> refactoringHistory;
 
 	static final Resource<ResourceListener> resource;
+	
+	static final Resource<SearchQueryListener> searchQuery;
+	
+	static final Resource<SearchResultListener> searchResult;
 
 	static final Resource<SelectionListener> selection;
 	
@@ -168,6 +174,8 @@ public final class DefaultResources
 		refactoringExecution  = forge(RefactoringExecutionListener.class, RefactoringExecutionHandler.INSTANCE, builder);
 		refactoringHistory    = forge(RefactoringHistoryListener.class, RefactoringHistoryHandler.INSTANCE, builder);
 		resource              = forge(ResourceListener.class, ResourceHandler.INSTANCE, builder);
+		searchQuery           = forge(SearchQueryListener.class, SearchQueryHandler.INSTANCE, builder);
+		searchResult          = forge(SearchResultListener.class, SearchResultHandler.INSTANCE, builder);
 		selection             = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
 		structuredSelection   = forge(StructuredSelectionListener.class, StructuredSelectionHandler.INSTANCE, builder);
 		testRun               = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
@@ -559,6 +567,16 @@ public final class DefaultResources
 	public static final Resource<ResourceListener> getResourceResource()
 	{
 		return DefaultResources.resource;
+	}
+
+	public static final Resource<SearchQueryListener> getSearchQueryResource()
+	{
+		return DefaultResources.searchQuery;
+	}
+
+	public static final Resource<SearchResultListener> getSearchResultResource()
+	{
+		return DefaultResources.searchResult;
 	}
 
 	public static final Resource<SelectionListener> getSelectionResource()
