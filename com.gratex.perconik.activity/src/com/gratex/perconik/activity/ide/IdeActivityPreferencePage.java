@@ -53,16 +53,19 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public final boolean performOk()
 	{
-		try
+		if (this.watcherUrl != null && this.watcherNamespace != null && this.watcherLocalPart != null)
 		{
-			QName name = new QName(this.watcherNamespace.getStringValue(), this.watcherLocalPart.getStringValue());
-			
-			IdeActivityServices.newWatcherService(this.watcherUrl.getUrlValue(), name);
-			IdeActivityServices.releaseWatcherService();
-		}
-		catch (Exception failure)
-		{
-			MessageDialog.openError(this.getShell(), "Service error", failure.getMessage());
+			try
+			{
+				QName name = new QName(this.watcherNamespace.getStringValue(), this.watcherLocalPart.getStringValue());
+				
+				IdeActivityServices.newWatcherService(this.watcherUrl.getUrlValue(), name);
+				IdeActivityServices.releaseWatcherService();
+			}
+			catch (Exception failure)
+			{
+				MessageDialog.openError(this.getShell(), "Service error", failure.getMessage());
+			}
 		}
 		
 		return super.performOk();
