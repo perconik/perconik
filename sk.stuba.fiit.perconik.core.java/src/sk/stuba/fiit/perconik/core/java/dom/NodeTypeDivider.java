@@ -42,7 +42,7 @@ public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollect
 			this.result = LinkedListMultimap.create(NodeType.count());
 		}
 		
-		final Multimap<NodeType, ASTNode> perform(final N node)
+		final Multimap<NodeType, ASTNode> perform(@Nullable final N node)
 		{
 			if (node == null)
 			{
