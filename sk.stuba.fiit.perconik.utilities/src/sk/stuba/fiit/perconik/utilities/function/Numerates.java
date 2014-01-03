@@ -5,9 +5,9 @@ import java.io.Serializable;
 import javax.annotation.Nullable;
 import com.google.common.base.Function;
 
-public final class Numerators
+public final class Numerates
 {
-	private Numerators()
+	private Numerates()
 	{
 		throw new AssertionError();
 	}
