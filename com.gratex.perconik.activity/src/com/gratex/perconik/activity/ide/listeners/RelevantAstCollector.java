@@ -3,6 +3,7 @@ package com.gratex.perconik.activity.ide.listeners;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
@@ -28,7 +29,7 @@ final class RelevantAstCollector implements Collector<CompilationUnit, ASTNode>
 	{
 	}
 	
-	public final List<ASTNode> apply(final CompilationUnit unit)
+	public final List<ASTNode> apply(@Nullable final CompilationUnit unit)
 	{
 		return new Processor().apply(unit);
 	}
@@ -42,8 +43,13 @@ final class RelevantAstCollector implements Collector<CompilationUnit, ASTNode>
 			this.result = Sets.newLinkedHashSet();
 		}
 		
-		public final List<ASTNode> apply(final CompilationUnit unit)
+		public final List<ASTNode> apply(@Nullable final CompilationUnit unit)
 		{
+			if (unit == null)
+			{
+				return null;
+			}
+			
 			unit.accept(this);
 
 			return Lists.newArrayList(this.result);
