@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
+import sk.stuba.fiit.perconik.core.annotations.Annotations;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
@@ -37,7 +38,6 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -366,14 +366,14 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				return "?";
 			}
 			
-			Set<String> flags = Sets.newTreeSet();
+			Set<String> annotations = Sets.newTreeSet();
 			
 			for (Annotation annotation: registration.getAnnotations())
 			{
-				flags.add(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, annotation.annotationType().getSimpleName()));
+				annotations.add(Annotations.toString(annotation));
 			}
 			
-			return Joiner.on(", ").join(flags);
+			return Joiner.on(", ").join(annotations);
 		}
 
 		public Image getColumnImage(Object element, int column)
