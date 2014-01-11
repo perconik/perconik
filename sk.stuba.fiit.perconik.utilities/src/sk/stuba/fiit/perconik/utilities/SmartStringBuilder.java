@@ -964,49 +964,49 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder hex8Bits(byte a)
+	public final SmartStringBuilder hex8(byte a)
 	{
 		this.hex(new byte[] {a});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex8Bits(short a, int shift)
+	public final SmartStringBuilder hex8(short a, int shift)
 	{
 		this.hex(new byte[] {((byte) ((a >> shift) & 0xff))});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex8Bits(int a, int shift)
+	public final SmartStringBuilder hex8(int a, int shift)
 	{
 		this.hex(new byte[] {((byte) ((a >> shift) & 0xff))});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex8Bits(long a, int shift)
+	public final SmartStringBuilder hex8(long a, int shift)
 	{
 		this.hex(new byte[] {((byte) ((a >> shift) & 0xff))});
 		
 		return this;
 	}
 
-	public final SmartStringBuilder hex16Bits(byte a, byte b)
+	public final SmartStringBuilder hex16(byte a, byte b)
 	{
 		this.hex(new byte[] {a, b});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex16Bits(short a)
+	public final SmartStringBuilder hex16(short a)
 	{
 		this.hex(new byte[] {(byte) (a >> 8), (byte) a});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex16Bits(int a, int shift)
+	public final SmartStringBuilder hex16(int a, int shift)
 	{
 		this.hex(new byte[] {((byte) ((a >> (shift + 8)) & 0xff)),
 		                     ((byte) ((a >> (shift    )) & 0xff))});
@@ -1014,7 +1014,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder hex16Bits(long a, int shift)
+	public final SmartStringBuilder hex16(long a, int shift)
 	{
 		this.hex(new byte[] {((byte) ((a >> (shift + 8)) & 0xff)),
                              ((byte) ((a >> (shift    )) & 0xff))});
@@ -1022,14 +1022,14 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder hex32Bits(byte a, byte b, byte c, byte d)
+	public final SmartStringBuilder hex32(byte a, byte b, byte c, byte d)
 	{
 		this.hex(new byte[] {a, b, c, d});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex32Bits(short a, short b)
+	public final SmartStringBuilder hex32(short a, short b)
 	{
 		this.hex(new byte[] {(byte) (a >> 8), (byte) a,
 		                     (byte) (b >> 8), (byte) b});
@@ -1037,7 +1037,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder hex32Bits(int a)
+	public final SmartStringBuilder hex32(int a)
 	{
 		this.hex(new byte[] {(byte) (a >> 24), (byte) (a >> 16),
 		                     (byte) (a >>  8), (byte)  a       });
@@ -1045,7 +1045,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder hex32Bits(long a, int shift)
+	public final SmartStringBuilder hex32(long a, int shift)
 	{
 		this.hex(new byte[] {((byte) ((a >> (shift + 24)) & 0xff)),
                              ((byte) ((a >> (shift + 16)) & 0xff)),
@@ -1055,14 +1055,14 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder hex48Bits(byte a, byte b, byte c, byte d, byte e, byte f)
+	public final SmartStringBuilder hex48(byte a, byte b, byte c, byte d, byte e, byte f)
 	{
 		this.hex(new byte[] {a, b, c, d, e, f});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex48Bits(short a, short b, short c)
+	public final SmartStringBuilder hex48(short a, short b, short c)
 	{
 		this.hex(new byte[] {(byte) (a >> 8), (byte) a,
                              (byte) (b >> 8), (byte) b,
@@ -1071,14 +1071,14 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
-	public final SmartStringBuilder hex64Bits(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h)
+	public final SmartStringBuilder hex64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h)
 	{
 		this.hex(new byte[] {a, b, c, d, e, f, g, h});
 		
 		return this;
 	}
 	
-	public final SmartStringBuilder hex64Bits(short a, short b, short c, short d)
+	public final SmartStringBuilder hex64(short a, short b, short c, short d)
 	{
 		this.hex(new byte[] {(byte) (a >> 8), (byte) a,
                              (byte) (b >> 8), (byte) b,
@@ -1088,7 +1088,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder hex64Bits(int a, int b)
+	public final SmartStringBuilder hex64(int a, int b)
 	{
 		this.hex(new byte[] {(byte) (a >> 24), (byte) (a >> 16),
                              (byte) (a >>  8), (byte)  a       ,
@@ -1098,12 +1098,92 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 	
-	public final SmartStringBuilder hex64Bits(long a)
+	public final SmartStringBuilder hex64(long a)
 	{
 		this.hex(new byte[] {(byte) (a >> 56), (byte) (a >> 48),
 	                         (byte) (a >> 40), (byte) (a >> 32),
 	                         (byte) (a >> 24), (byte) (a >> 16),
 	                         (byte) (a >>  8), (byte)  a       });
+		
+		return this;
+	}
+	
+	public final SmartStringBuilder hex96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l)
+	{
+		this.hex(new byte[] {a, b, c, d, e, f, g, h, i, j, k, l});
+		
+		return this;
+	}
+
+	public final SmartStringBuilder hex96(short a, short b, short c, short d, short e, short f)
+	{
+		this.hex(new byte[] {(byte) (a >> 8), (byte) a,
+							 (byte) (b >> 8), (byte) b,
+							 (byte) (c >> 8), (byte) c,
+							 (byte) (d >> 8), (byte) d,
+							 (byte) (e >> 8), (byte) e,
+							 (byte) (f >> 8), (byte) f});
+		
+		return this;
+	}
+
+	public final SmartStringBuilder hex96(int a, int b, int c)
+	{
+		this.hex(new byte[] {(byte) (a >> 24), (byte) (a >> 16),
+							 (byte) (a >>  8), (byte)  a       ,
+							 (byte) (b >> 24), (byte) (b >> 16),
+							 (byte) (b >>  8), (byte)  b       ,
+							 (byte) (c >> 24), (byte) (c >> 16),
+							 (byte) (c >>  8), (byte)  c       });
+		
+		return this;
+	}
+
+	public final SmartStringBuilder hex128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p)
+	{
+		this.hex(new byte[] {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p});
+		
+		return this;
+	}
+
+	public final SmartStringBuilder hex128(short a, short b, short c, short d, short e, short f, short g, short h)
+	{
+		this.hex(new byte[] {(byte) (a >> 8), (byte) a,
+		                     (byte) (b >> 8), (byte) b,
+		                     (byte) (c >> 8), (byte) c,
+		                     (byte) (d >> 8), (byte) d,
+		                     (byte) (e >> 8), (byte) e,
+		                     (byte) (f >> 8), (byte) f,
+		                     (byte) (g >> 8), (byte) g,
+		                     (byte) (h >> 8), (byte) h});
+		
+		return this;
+	}
+
+	public final SmartStringBuilder hex128(int a, int b, int c, int d)
+	{
+		this.hex(new byte[] {(byte) (a >> 24), (byte) (a >> 16),
+			                 (byte) (a >>  8), (byte)  a       ,
+			                 (byte) (b >> 24), (byte) (b >> 16),
+			                 (byte) (b >>  8), (byte)  b       ,
+			                 (byte) (c >> 24), (byte) (c >> 16),
+			                 (byte) (c >>  8), (byte)  c       ,
+			                 (byte) (d >> 24), (byte) (d >> 16),
+			                 (byte) (d >>  8), (byte)  d       });
+		
+		return this;
+	}
+
+	public final SmartStringBuilder hex128(long a, long b)
+	{
+		this.hex(new byte[] {(byte) (a >> 56), (byte) (a >> 48),
+							 (byte) (a >> 40), (byte) (a >> 32),
+							 (byte) (a >> 24), (byte) (a >> 16),
+							 (byte) (a >>  8), (byte)  a       ,
+							 (byte) (b >> 56), (byte) (b >> 48),
+							 (byte) (b >> 40), (byte) (b >> 32),
+							 (byte) (b >> 24), (byte) (b >> 16),
+							 (byte) (b >>  8), (byte)  b       });
 		
 		return this;
 	}
