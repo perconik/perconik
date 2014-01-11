@@ -7,6 +7,8 @@ import com.google.common.collect.Lists;
 
 public final class SmartStringBuilder implements Appendable, CharSequence
 {
+	// TODO import static Preconditions.*
+	// TODO add static factories: builder(...) so they can be statically imported
 	// TODO unify separator types: CharSequence, String, char?
 	// TODO review padding / indentation model
 	// TODO add defaults Options for everything: custom new lines, custom separators (i.e. separator for bytes())
@@ -20,6 +22,13 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	// TODO add append(Class) use class.getCanonicalName instead of toString -> add strategy for that?
 	// TODO add support for custom converters of specific types? (Class.toString vs Class.getCanonicalName)
 	// TODO add support for CaseFormat
+	// TODO add listNonEmpty
+	// TODO add list(data, filter)
+	// TODO add list(data, transform-function)
+	// TODO add list(data, filter, transform-function)
+	// TODO add sortedList(data) based on TreeSet
+	// TODO add sortedList(data, comparator)
+	// TODO add support for customizable Map output
 	
 	private static final String lineSeparator = System.lineSeparator();
 	
