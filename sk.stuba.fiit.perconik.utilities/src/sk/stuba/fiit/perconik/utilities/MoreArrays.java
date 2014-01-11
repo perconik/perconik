@@ -41,4 +41,14 @@ public final class MoreArrays
 		
 		return -1;
 	}
+	
+	public static final Object[] wrap(Object o)
+	{
+		if (o instanceof Object[])
+		{
+			return (Object[]) o;
+		}
+		
+		return new Object[] { o };
+	}
 }
