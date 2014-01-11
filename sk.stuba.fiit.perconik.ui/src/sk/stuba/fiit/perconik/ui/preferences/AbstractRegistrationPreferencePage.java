@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.ui.preferences;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -30,7 +29,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
-import sk.stuba.fiit.perconik.core.annotations.Annotations;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
@@ -38,7 +36,7 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-import com.google.common.base.Joiner;
+import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
@@ -64,6 +62,8 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	Button exportButton;
 
 	Button refreshButton;
+	
+	Button notesButton;
 	
 	AbstractRegistrationPreferencePage()
 	{
@@ -221,6 +221,14 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			}
 		});
 		
+		this.notesButton = Buttons.create(buttons, "Notes", new WidgetListener()
+		{
+			public final void handleEvent(final Event e)
+			{
+				performNotes();
+			}
+		});
+		
 		this.loadInternal(this.source());
 		this.performRefresh();
 
@@ -326,6 +334,8 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		this.unregisterButton.setEnabled(unregistrable);
 
 		this.exportButton.setEnabled(selectionCount > 0);
+		
+		this.notesButton.setEnabled(selectionCount == 1);
 	}
 	
 	private static final class StandardContentProvider implements IStructuredContentProvider
@@ -366,14 +376,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				return "?";
 			}
 			
-			Set<String> annotations = Sets.newTreeSet();
-			
-			for (Annotation annotation: registration.getAnnotations())
-			{
-				annotations.add(Annotations.toString(annotation));
-			}
-			
-			return Joiner.on(", ").join(annotations);
+			return Annotations.toString(registration.getAnnotations());
 		}
 
 		public Image getColumnImage(Object element, int column)
@@ -433,6 +436,18 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		{
 			this.updateData(registration, registration.isRegistered());
 		}
+	}
+	
+	void performNotes()
+	{
+		IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
+		
+		R registration = this.cast(selection.toList().get(0));
+
+		String name    = ((ITableLabelProvider) this.tableViewer.getLabelProvider()).getColumnText(registration, 0);
+		String message = Annotations.toString(registration.getAnnotations());
+		
+		this.displayNotice("Notes for " + name, !message.isEmpty() ? message : "No notes available.");
 	}
 	
 	abstract P source();
