@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.persistence.serialization;
 
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
 import com.google.common.base.Optional;
 
 /**
@@ -17,7 +18,7 @@ import com.google.common.base.Optional;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface SerializedListenerData
+public interface SerializedListenerData extends ListenerRegistration
 {
 	/**
 	 * Returns {@code true} if this object holds
