@@ -7,6 +7,20 @@ import com.google.common.collect.Lists;
 
 public final class SmartStringBuilder implements Appendable, CharSequence
 {
+	// TODO unify separator types: CharSequence, String, char?
+	// TODO review padding / indentation model
+	// TODO add defaults Options for everything: custom new lines, custom separators (i.e. separator for bytes())
+	// TODO add customizable bits / bytes converters
+	// TODO add bin(byte[]) and others
+	// TODO add oct(byte[]) and others
+	// TODO rename appendln
+	// TODO drop dependencies on PerConIK utilities, leave only Nullable & Guava
+	// TODO review method names: setCharAt or setCharacterAt?
+	// TODO rename replace -> replaceRange? and replaceAll -> replace
+	// TODO add append(Class) use class.getCanonicalName instead of toString -> add strategy for that?
+	// TODO add support for custom converters of specific types? (Class.toString vs Class.getCanonicalName)
+	// TODO add support for CaseFormat
+	
 	private static final String lineSeparator = System.lineSeparator();
 	
 	private final StringBuilder builder;
