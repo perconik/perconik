@@ -5,6 +5,7 @@ import java.lang.annotation.Annotation;
 import java.util.LinkedList;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.annotations.Experimental;
+import sk.stuba.fiit.perconik.core.annotations.Internal;
 import sk.stuba.fiit.perconik.core.annotations.Persistent;
 import sk.stuba.fiit.perconik.core.annotations.Unsafe;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
@@ -13,7 +14,7 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 /**
- * Static accessor methods pertaining to the registrables core. 
+ * Static helper methods pertaining to the core registrables. 
  * 
  * @author Pavol Zbell
  * @since 1.0
@@ -52,7 +53,12 @@ public final class Registrables
 	{
 		return type.isAnnotationPresent(Experimental.class);
 	}
-	
+
+	public static final boolean isInternal(final Class<? extends Registrable> type)
+	{
+		return type.isAnnotationPresent(Internal.class);
+	}
+
 	public static final boolean isPersistent(final Class<? extends Registrable> type)
 	{
 		return type.isAnnotationPresent(Persistent.class);
