@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="Row" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="Text" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Column" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,7 +31,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IdeFindResultRowDto", propOrder = {
     "row",
-    "text"
+    "text",
+    "column"
 })
 public class IdeFindResultRowDto {
 
@@ -38,6 +40,8 @@ public class IdeFindResultRowDto {
     protected Integer row;
     @XmlElement(name = "Text")
     protected String text;
+    @XmlElement(name = "Column", required = true, type = Integer.class, nillable = true)
+    protected Integer column;
 
     /**
      * Gets the value of the row property.
@@ -85,6 +89,30 @@ public class IdeFindResultRowDto {
      */
     public void setText(String value) {
         this.text = value;
+    }
+
+    /**
+     * Gets the value of the column property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getColumn() {
+        return column;
+    }
+
+    /**
+     * Sets the value of the column property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setColumn(Integer value) {
+        this.column = value;
     }
 
 }

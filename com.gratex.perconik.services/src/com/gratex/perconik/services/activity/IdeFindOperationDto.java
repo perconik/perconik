@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="PatternSyntax" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="FileTypes" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="TotalFilesSearched" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="DerivedResources" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="ResultsPerFiles" type="{http://www.gratex.com/PerConIk/IActivitySvc}ArrayOfIdeFindFileResultDto" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
@@ -44,6 +45,7 @@ import javax.xml.bind.annotation.XmlType;
     "patternSyntax",
     "fileTypes",
     "totalFilesSearched",
+    "derivedResources",
     "resultsPerFiles"
 })
 public class IdeFindOperationDto
@@ -66,6 +68,8 @@ public class IdeFindOperationDto
     protected String fileTypes;
     @XmlElement(name = "TotalFilesSearched", required = true, type = Integer.class, nillable = true)
     protected Integer totalFilesSearched;
+    @XmlElement(name = "DerivedResources", required = true, type = Boolean.class, nillable = true)
+    protected Boolean derivedResources;
     @XmlElement(name = "ResultsPerFiles")
     protected ArrayOfIdeFindFileResultDto resultsPerFiles;
 
@@ -259,6 +263,30 @@ public class IdeFindOperationDto
      */
     public void setTotalFilesSearched(Integer value) {
         this.totalFilesSearched = value;
+    }
+
+    /**
+     * Gets the value of the derivedResources property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public Boolean isDerivedResources() {
+        return derivedResources;
+    }
+
+    /**
+     * Sets the value of the derivedResources property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setDerivedResources(Boolean value) {
+        this.derivedResources = value;
     }
 
     /**

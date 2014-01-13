@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="Path" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="PathType" type="{http://www.gratex.com/PerConIk/IActivitySvc}IdePathTypeEnum"/>
  *         &lt;element name="BranchName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,7 +37,8 @@ import javax.xml.bind.annotation.XmlType;
     "rcsServer",
     "path",
     "pathType",
-    "branchName"
+    "branchName",
+    "id"
 })
 public class IdeDocumentDto {
 
@@ -50,6 +52,8 @@ public class IdeDocumentDto {
     protected IdePathTypeEnum pathType;
     @XmlElement(name = "BranchName")
     protected String branchName;
+    @XmlElement(name = "Id")
+    protected int id;
 
     /**
      * Gets the value of the changesetIdInRcs property.
@@ -169,6 +173,22 @@ public class IdeDocumentDto {
      */
     public void setBranchName(String value) {
         this.branchName = value;
+    }
+
+    /**
+     * Gets the value of the id property.
+     * 
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     * 
+     */
+    public void setId(int value) {
+        this.id = value;
     }
 
 }
