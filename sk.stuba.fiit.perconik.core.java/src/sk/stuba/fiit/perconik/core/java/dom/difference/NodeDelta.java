@@ -50,7 +50,7 @@ public abstract class NodeDelta<N extends ASTNode>
 	{
 		String type = this.getType().toString().toLowerCase();
 		
-		return new SmartStringBuilder().indent(indent).delta(2).append(type).appendln(':').tab();
+		return new SmartStringBuilder().indent(indent).append(type).appendln(':').tab();
 	}
 	
 	public boolean hasOriginalNode()
