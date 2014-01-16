@@ -19,8 +19,10 @@ import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.base.Splitter.MapSplitter;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.ObjectArrays;
 import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Chars;
 import com.google.common.primitives.Doubles;
@@ -1038,6 +1040,19 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
+	@SafeVarargs
+	private static final <T> T[] asArray(@Nullable T first, @Nullable T second, T ... rest)
+	{
+		T[] values = ObjectArrays.newArray(rest, rest.length + 2);
+		
+		values[0] = first;
+		values[1] = second;
+		
+		System.arraycopy(rest, 0, values, 2, rest.length);
+	
+		return values;
+	}
+
 	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest)
 	{
 		return this.list(Lists.asList(first, second, rest));
@@ -1058,13 +1073,10 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.list(values, this.options.listSeparator);
 	}
 
-	// TODO review list methods, add more signatures like:
-//	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest)
-//	public final SmartStringBuilder list(Object[] values)
-//	public final SmartStringBuilder list(Iterable<?> values)
-//	public final SmartStringBuilder list(Iterator<?> values)
-
-	// TODO decide if separators are first or last parameters
+	public final SmartStringBuilder list(Object[] values, String separator)
+	{
+		return this.list(Arrays.asList(values), separator);
+	}
 	
 	public final SmartStringBuilder list(Iterable<?> values, String separator)
 	{
@@ -1090,6 +1102,16 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this;
 	}
 
+	public final SmartStringBuilder list(Joiner joiner, @Nullable Object first, @Nullable Object second, Object ... rest)
+	{
+		return this.append(joiner.join(first, second, rest));
+	}
+
+	public final SmartStringBuilder list(Object[] values, Joiner joiner)
+	{
+		return this.append(joiner.join(values));
+	}
+	
 	public final SmartStringBuilder list(Iterable<?> values, Joiner joiner)
 	{
 		return this.append(joiner.join(values));
@@ -1149,6 +1171,21 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.append(joiner.join(values));
 	}
 
+	public final SmartStringBuilder list(Properties values, MapJoiner joiner)
+	{
+		return this.list(Maps.fromProperties(values), joiner);
+	}
+
+	public final SmartStringBuilder list(Iterable<? extends Entry<?, ?>> values, MapJoiner joiner)
+	{
+		return this.append(joiner.join(values));
+	}
+
+	public final SmartStringBuilder list(Iterator<? extends Entry<?, ?>> values, MapJoiner joiner)
+	{
+		return this.append(joiner.join(values));
+	}
+
 	public final SmartStringBuilder list(boolean ... values)
 	{
 		return this.list(this.options.listSeparator, values);
@@ -1181,32 +1218,62 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final SmartStringBuilder list(String separator, boolean ... values)
 	{
-		return this.list(Booleans.asList(values));
+		return this.list(Booleans.asList(values), separator);
 	}
 
 	public final SmartStringBuilder list(String separator, char ... values)
 	{
-		return this.list(Chars.asList(values));
+		return this.list(Chars.asList(values), separator);
 	}
 
 	public final SmartStringBuilder list(String separator, int ... values)
 	{
-		return this.list(Ints.asList(values));
+		return this.list(Ints.asList(values), separator);
 	}
 
 	public final SmartStringBuilder list(String separator, long ... values)
 	{
-		return this.list(Longs.asList(values));
+		return this.list(Longs.asList(values), separator);
 	}
 
 	public final SmartStringBuilder list(String separator, float ... values)
 	{
-		return this.list(Floats.asList(values));
+		return this.list(Floats.asList(values), separator);
 	}
 
 	public final SmartStringBuilder list(String separator, double ... values)
 	{
-		return this.list(Doubles.asList(values));
+		return this.list(Doubles.asList(values), separator);
+	}
+
+	public final SmartStringBuilder list(Joiner joiner, boolean ... values)
+	{
+		return this.append(joiner.join(Booleans.asList(values)));
+	}
+
+	public final SmartStringBuilder list(Joiner joiner, char ... values)
+	{
+		return this.append(joiner.join(Chars.asList(values)));
+	}
+
+	public final SmartStringBuilder list(Joiner joiner, int ... values)
+	{
+		return this.append(joiner.join(Ints.asList(values)));
+	}
+
+	public final SmartStringBuilder list(Joiner joiner, long ... values)
+	{
+		return this.append(joiner.join(Longs.asList(values)));
+	}
+
+	public final SmartStringBuilder list(Joiner joiner, float ... values)
+	{
+		return this.append(joiner.join(Floats.asList(values)));
+	}
+
+	public final SmartStringBuilder list(Joiner joiner, double ... values)
+	{
+		return this.append(joiner.join(Doubles.asList(values)));
 	}
 
 	private static enum NotEmptyPredicate implements Predicate<CharSequence>
@@ -1219,19 +1286,62 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		}
 	}
 	
+	// TODO add listNonNull, listNonEmpty, filteredList, sortedList with separators & joiners
+	
+//	public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest)
+//	public final SmartStringBuilder list(Object[] values)
+//	public final SmartStringBuilder list(Iterable<?> values)
+//	public final SmartStringBuilder list(Iterator<?> values)
+
 	public final SmartStringBuilder listNonNull(Object first, Object second, Object ... rest)
 	{
-		return this.filteredList(Lists.asList(first, second, rest), Predicates.notNull());
+		return this.listNonNull(Lists.asList(first, second, rest));
+	}
+
+	public final SmartStringBuilder listNonNull(Object[] values)
+	{
+		return this.listNonNull(Arrays.asList(values));
+	}
+
+	public final SmartStringBuilder listNonNull(Iterable<?> values)
+	{
+		return this.listNonNull(values.iterator());
 	}
 	
-	public final SmartStringBuilder listNonEmpty(String first, String second, String ... rest)
+	public final SmartStringBuilder listNonNull(Iterator<?> values)
 	{
-		return this.listNonEmpty((CharSequence) first, second, rest);
+		return this.filteredList(values, Predicates.notNull());
 	}
 	
-	public final SmartStringBuilder listNonEmpty(CharSequence first, CharSequence second, CharSequence ... rest)
+	public final SmartStringBuilder listNonEmpty(@Nullable CharSequence first, @Nullable CharSequence second, CharSequence ... rest)
 	{
-		return this.filteredList(Lists.asList(first, second, rest), NotEmptyPredicate.INSTANCE);
+		return this.listNonEmpty(Lists.asList(first, second, rest));
+	}
+	
+	public final SmartStringBuilder listNonEmpty(CharSequence[] values)
+	{
+		return this.listNonEmpty(Arrays.asList(values));
+	}
+	
+	public final SmartStringBuilder listNonEmpty(Iterable<? extends CharSequence> values)
+	{
+		return this.listNonEmpty(values.iterator());
+	}
+	
+	public final SmartStringBuilder listNonEmpty(Iterator<? extends CharSequence> values)
+	{
+		return this.filteredList(values, NotEmptyPredicate.INSTANCE);
+	}
+	
+	@SafeVarargs
+	public final <T> SmartStringBuilder filteredList(Predicate<? super T> filter, @Nullable T first, @Nullable T second, T ... rest)
+	{
+		return this.filteredList(Lists.asList(first, second, rest), filter);
+	}
+	
+	public final <T> SmartStringBuilder filteredList(T[] values, Predicate<? super T> filter)
+	{
+		return this.filteredList(Arrays.asList(values), filter);
 	}
 
 	public final <T> SmartStringBuilder filteredList(Iterable<T> values, Predicate<? super T> filter)
@@ -1241,36 +1351,68 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final <T> SmartStringBuilder filteredList(Iterator<T> values, Predicate<? super T> filter)
 	{
-		// TODO
+		return this.list(Iterators.filter(values, filter));
+	}
+
+	private final SmartStringBuilder sortedList(Object[] values)
+	{
+		Arrays.sort(values);
+		
+		this.list(values);
+		
 		return this;
+	}
+
+	@SafeVarargs
+	public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(@Nullable T first, @Nullable T second, T ... rest)
+	{
+		return this.sortedList(asArray(first, second, rest));
+	}
+	
+	public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(T[] values)
+	{
+		return this.sortedList((Object[]) values);
 	}
 
 	public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(Iterable<T> values)
 	{
-		Object[] array = Iterables.toArray(values, Object.class);
-		
-		Arrays.sort(array);
-		
-		this.list(array);
-		
-		return this;
+		return this.sortedList(Iterables.toArray(values, Object.class));
+	}
+	
+	public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(Iterator<T> values)
+	{
+		return this.sortedList(Iterators.toArray(values, Object.class));
 	}
 
-	public final <T> SmartStringBuilder sortedList(Iterable<T> values, Comparator<? super T> comparator)
+	@SafeVarargs
+	public final <T> SmartStringBuilder sortedList(Comparator<? super T> comparator, @Nullable T first, @Nullable T second, T ... rest)
 	{
-		T[] array = (T[]) Iterables.toArray(values, Object.class);
+		return this.list(asArray(first, second, rest), comparator);
+	}
+	
+	public final <T> SmartStringBuilder sortedList(T[] values, Comparator<? super T> comparator)
+	{
+		Arrays.sort(values, comparator);
 		
-		Arrays.sort(array, comparator);
-		
-		this.list(array);
+		this.list(values);
 		
 		return this;
 	}
 	
-	// TODO
+	public final <T> SmartStringBuilder sortedList(Iterable<T> values, Comparator<? super T> comparator)
+	{
+		return this.sortedList((T[]) Iterables.toArray(values, Object.class), comparator);
+	}
+	
+	public final <T> SmartStringBuilder sortedList(Iterator<T> values, Comparator<? super T> comparator)
+	{
+		return this.sortedList((T[]) Iterators.toArray(values, Object.class), comparator);
+	}
+	
+	// TODO review
 	public final SmartStringBuilder splitList(Object value, Splitter splitter, Joiner joiner)
 	{
-		return this.splitList(value.toString(), splitter, joiner);
+		return this.splitList(this.toString(value), splitter, joiner);
 	}
 
 	public final SmartStringBuilder splitList(String value, Splitter splitter, Joiner joiner)
@@ -1285,7 +1427,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 
 	public final SmartStringBuilder splitList(Object value, MapSplitter splitter, MapJoiner joiner)
 	{
-		return this.splitList(value.toString(), splitter, joiner);
+		return this.splitList(this.toString(value), splitter, joiner);
 	}
 
 	public final SmartStringBuilder splitList(String value, MapSplitter splitter, MapJoiner joiner)
