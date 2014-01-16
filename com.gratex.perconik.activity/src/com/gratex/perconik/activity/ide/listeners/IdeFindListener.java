@@ -7,6 +7,8 @@ import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProject
 import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.search.internal.ui.text.FileSearchQuery;
@@ -16,6 +18,7 @@ import org.eclipse.search.ui.text.FileTextSearchScope;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkingSet;
 import sk.stuba.fiit.perconik.core.annotations.Dependent;
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
@@ -25,6 +28,7 @@ import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
@@ -82,13 +86,15 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		
 		FileTextSearchScope scope = query.getSearchScope();
 		
-		String[] patterns = scope.getFileNamePatterns();
+		String[]      patterns = scope.getFileNamePatterns();
+		IWorkingSet[] sets     = scope.getWorkingSets();
+		IResource[]   roots    = scope.getRoots();
 
 		data.setDerivedResources(scope.includeDerived());
-		data.setFileTypes(patterns == null ? "*.*" : Joiner.on(",").join(patterns));
-		data.setLookin(query.getSearchScope().getDescription());
+		data.setFileTypes(patterns == null ? "*" : Joiner.on(", ").join(patterns));
+		data.setLookin(sets == null ? toString(roots) : toString(sets));
 		data.setPatternSyntax(query.isRegexSearch() ? "Regular expressions" : "Wildcards");
-		
+
 		FileSearchResult result = (FileSearchResult) query.getSearchResult();
 		
 		data.setResultsPerFiles(buildResults(result));
@@ -175,7 +181,36 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		
 		return data;
 	}
-	
+
+	private static final String toString(IResource[] resources)
+	{
+		if (resources.length == 1 && resources[0] instanceof IWorkspaceRoot)
+		{
+			return "workspace";
+		}
+		
+		List<String> parts = Lists.newArrayListWithCapacity(resources.length);
+		
+		for (IResource resource: resources)
+		{
+			parts.add(resource.getFullPath().toString());
+		}
+		
+		return Joiner.on(", ").join(parts);
+	}
+
+	private static final String toString(IWorkingSet[] sets)
+	{
+		List<String> parts = Lists.newArrayListWithCapacity(sets.length);
+		
+		for (IWorkingSet set: sets)
+		{
+			parts.add(set.getLabel());
+		}
+		
+		return "working sets " + Joiner.on(", ").join(parts);
+	}
+
 	static final void process(final long time, final IWorkbenchPage page, final ISearchQuery query)
 	{
 		IProject project = Projects.fromPage(page);
