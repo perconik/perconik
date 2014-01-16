@@ -44,6 +44,9 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  * 
  * <p> TODO document how DTOs are build and what data they contain
  * 
+ * <p>Note that row and column offsets in documents start from zero
+ * instead of one.
+ * 
  * @author Pavol Zbell
  * @since 1.0
  */

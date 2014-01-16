@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.gratex.perconik.activity.ide.plugin.Activator;
 
-public abstract class IdeListener extends Adapter
+abstract class IdeListener extends Adapter
 {
 	static final PluginConsole console = Activator.getDefault().getConsole();
 	
