@@ -47,8 +47,28 @@ import com.gratex.perconik.services.uaca.vs.IdeFindResultRowDto;
  * 
  * <p> TODO document how DTOs are build and what data they contain
  * 
+ * <p>Possible data available in an {@code IdeFindOperationDto}:
+ * 
+ * <ul>
+ *   <li>{@code derivedResources} - .
+ *   <li>{@code fileTypes} - .
+ *   <li>{@code findWhat} - .
+ *   <li>{@code lookin} - .
+ *   <li>{@code matchCase} - .
+ *   <li>{@code matchWholeWord} - .
+ *   <li>{@code patternSyntax} - .
+ *   <li>{@code resultsPerFiles} - .
+ *   <li>{@code searchSubfolders} - .
+ *   <li>{@code totalFilesSearched} - .
+ *   <li>See {@link IdeListener} for documentation of inherited data.
+ * </ul>
+ * 
  * <p>Note that row and column offsets in documents start from zero
  * instead of one.
+ * 
+ * <p><b>Warning:</b> this listener depends on some Eclipse search API
+ * internals, therefore correct functionality in next versions of Eclipse
+ * IDE is not guaranteed.
  * 
  * @author Pavol Zbell
  * @since 1.0
