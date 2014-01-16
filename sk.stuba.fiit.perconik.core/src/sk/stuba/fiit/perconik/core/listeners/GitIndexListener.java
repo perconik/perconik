@@ -4,7 +4,7 @@ import org.eclipse.jgit.events.IndexChangedListener;
 import sk.stuba.fiit.perconik.core.Listener;
 
 /**
- * A <i>git</i> index listener.
+ * A Git index listener.
  * 
  * @see Listener
  * @see IndexChangedListener

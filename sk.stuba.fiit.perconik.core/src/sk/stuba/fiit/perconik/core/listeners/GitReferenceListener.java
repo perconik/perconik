@@ -4,7 +4,7 @@ import org.eclipse.jgit.events.RefsChangedListener;
 import sk.stuba.fiit.perconik.core.Listener;
 
 /**
- * A <i>git</i> reference listener.
+ * A Git reference listener.
  * 
  * @see Listener
  * @see RefsChangedListener

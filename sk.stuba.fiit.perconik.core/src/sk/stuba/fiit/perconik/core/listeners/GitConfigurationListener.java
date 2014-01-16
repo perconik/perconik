@@ -4,7 +4,7 @@ import org.eclipse.jgit.events.ConfigChangedListener;
 import sk.stuba.fiit.perconik.core.Listener;
 
 /**
- * A <i>git</i> configuration listener.
+ * A Git configuration listener.
  * 
  * @see Listener
  * @see ConfigChangedListener
