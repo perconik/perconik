@@ -4,6 +4,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import java.io.IOException;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -41,7 +46,7 @@ import com.google.common.primitives.UnsignedBytes;
 import com.google.common.primitives.UnsignedInts;
 import com.google.common.primitives.UnsignedLongs;
 
-public final class SmartStringBuilder implements Appendable, CharSequence
+public final class SmartStringBuilder implements Appendable, CharSequence, Serializable
 {
 	// TODO rename appendln
 	// TODO add append(Class) use class.getCanonicalName instead of toString -> add strategy for that?
@@ -49,9 +54,10 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	// TODO add list(data, transform-function)
 	// TODO add list(data, filter, transform-function)
 	// TODO move to its own repo on github, include as submodule here + unit tests
-	// TODO implement Serializable
 	
-	private final StringBuilder builder;
+	private static final long serialVersionUID = -3806860593962543491L;
+
+	final StringBuilder builder;
 
 	final Options options;
 	
@@ -81,12 +87,17 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	
 	public SmartStringBuilder(Options options)
 	{
-		this.builder = options.builder();
-		this.options = options;
+		this(options.builder(), options);
+	}
+
+	SmartStringBuilder(StringBuilder builder, Options options)
+	{
+		this.builder = checkNotNull(builder);
+		this.options = checkNotNull(options);
 		this.indent  = 0;
 		this.line    = true;
 	}
-
+	
 	public static final SmartStringBuilder builder()
 	{
 		return new SmartStringBuilder();
@@ -107,8 +118,10 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return new SmartStringBuilder(string);
 	}
 	
-	public static final class Options
+	public static final class Options implements Serializable
 	{
+		private static final long serialVersionUID = -5687392398758259419L;
+
 		int initialCapacity = 16;
 
 		CharSequence initialValue = "";
@@ -135,21 +148,29 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		{
 		}
 
+		final StringBuilder builder()
+		{
+			return new StringBuilder(this.initialCapacity).append(this.initialValue);
+		}
+
 		public static final Options of(SmartStringBuilder builder)
 		{
 			return builder.options;
 		}
 		
-		public static final Options from(Map<String, ?> map)
+		public static final Options of(Map<String, ?> map)
 		{
-			Options options = new Options();
-			
+			return new Options().from(map);
+		}
+
+		public final Options from(Map<String, ?> map)
+		{
 			for (Entry<String, ?> entry: map.entrySet())
 			{
-				OptionsAccess.put(options, entry.getKey(), entry.getValue());
+				OptionsAccess.put(this, entry.getKey(), entry.getValue());
 			}
 			
-			return options;
+			return this;
 		}
 		
 		public final Map<String, Object> toMap()
@@ -170,9 +191,16 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			return this.toMap().toString();
 		}
 		
-		final StringBuilder builder()
+		private final void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException
 		{
-			return new StringBuilder(this.initialCapacity).append(this.initialValue);
+			in.defaultReadObject();
+			this.from((Map<String, ?>) in.readObject());
+		}
+		
+		private final void writeObject(ObjectOutputStream out) throws java.io.IOException
+		{
+			out.defaultWriteObject();
+			out.writeObject(this.toMap());
 		}
 
 		public final Options initialCapacity(int value)
@@ -188,11 +216,6 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			this.initialValue    = value;
 			
 			return this;
-		}
-		
-		public final Options initialValue(String value)
-		{
-			return this.initialValue((CharSequence) value);
 		}
 		
 		public final Options entrySeparator(String value)
@@ -579,6 +602,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		
 		this.indent = value;
 	}
+	
+	public final void setNewLine(boolean value)
+	{
+		this.line = value;
+	}
 
 	public final void setCharAt(int index, char c)
 	{
@@ -632,9 +660,63 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.builder.toString();
 	}
 
+	public final StringBuilder toStringBuilder()
+	{
+		return new StringBuilder(this.builder);
+	}
+
 	private final String toString(Object o)
 	{
 		return (o == null) ? this.options.nullValue : o.toString();
+	}
+	
+	private static final class SerializationProxy implements Serializable
+	{
+		private static final long serialVersionUID = 1889347853022112994L;
+
+		private final String content;
+
+		private final Options options;
+		
+		private final int indent;
+		
+		private final boolean line;
+		
+		SerializationProxy(SmartStringBuilder builder)
+		{
+			this.content = builder.toString();
+			this.options = builder.options();
+			this.indent  = builder.indent();
+			this.line    = builder.isNewLine();
+		}
+		
+		private final Object readResolve() throws InvalidObjectException
+		{
+			try
+			{
+				SmartStringBuilder builder = new SmartStringBuilder(new StringBuilder(this.content), this.options);
+				
+				builder.setIndent(this.indent);
+				builder.setNewLine(this.line);
+				
+				return builder;
+			}
+			catch (Exception e)
+			{
+				throw new InvalidObjectException("Unknown deserialization error");
+			}
+		}
+	}
+
+	@SuppressWarnings({"static-method", "unused"})
+	private final void readObject(final ObjectInputStream in) throws InvalidObjectException
+	{
+		throw new InvalidObjectException("Serialization proxy required");
+	}
+
+	private final Object writeReplace()
+	{
+		return new SerializationProxy(this);
 	}
 	
 	public final SmartStringBuilder append(@Nullable Object o)
