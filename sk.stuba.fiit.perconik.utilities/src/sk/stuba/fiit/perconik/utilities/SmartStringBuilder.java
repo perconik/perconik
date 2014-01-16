@@ -14,6 +14,7 @@ import java.util.Properties;
 import javax.annotation.Nullable;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
+import com.google.common.base.CaseFormat;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
@@ -38,7 +39,6 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 	// TODO rename appendln
 	// TODO add append(Class) use class.getCanonicalName instead of toString -> add strategy for that?
 	// TODO add support for custom converters of specific types? (Class.toString vs Class.getCanonicalName)
-	// TODO add support for CaseFormat
 	// TODO add list(data, transform-function)
 	// TODO add list(data, filter, transform-function)
 	// TODO move to its own repo on github, include as submodule here + unit tests
@@ -1038,6 +1038,24 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		this.builder.append(String.format(format, args));
 		
 		return this;
+	}
+
+	public final SmartStringBuilder format(CaseFormat from, CaseFormat to, Object value)
+	{
+		this.ensureIndent();		
+		this.builder.append(from.to(to, this.toString(value)));
+		
+		return this;
+	}
+
+	public final SmartStringBuilder format(CaseFormat from, CaseFormat to, String value)
+	{
+		return this.format(from, to, (Object) value);
+	}
+
+	public final SmartStringBuilder format(CaseFormat from, CaseFormat to, CharSequence value)
+	{
+		return this.format(from, to, (Object) value);
 	}
 
 	@SafeVarargs
