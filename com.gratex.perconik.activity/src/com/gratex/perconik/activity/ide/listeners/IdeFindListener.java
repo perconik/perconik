@@ -5,14 +5,8 @@ import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplica
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
 import java.util.List;
-import org.eclipse.core.filebuffers.FileBuffers;
-import org.eclipse.core.filebuffers.ITextFileBuffer;
-import org.eclipse.core.filebuffers.ITextFileBufferManager;
-import org.eclipse.core.filebuffers.LocationKind;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.search.internal.ui.text.FileSearchQuery;
@@ -25,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import sk.stuba.fiit.perconik.core.annotations.Dependent;
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
+import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
@@ -129,28 +123,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		IdeFindFileResultDto data = new IdeFindFileResultDto();
 
 		data.setFile(IdeDataTransferObjects.newDocumentData(file));
-
-
-		// TODO mv
-		ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
-		
-		IPath path = file.getFullPath();
-		LocationKind kind = LocationKind.IFILE;
-		
-		try
-		{
-			manager.connect(path, kind, null);
-		}
-		catch (CoreException e)
-		{
-			CoreExceptions.propagate(e);
-		}
-		
-		ITextFileBuffer buffer = manager.getTextFileBuffer(path, kind);
-		IDocument document = buffer.getDocument();
-
-		
-		data.setRows(buildMatches(document, matches));
+		data.setRows(buildMatches(Documents.fromFile(file), matches));
 		
 		return data;
 	}
