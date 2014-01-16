@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.utilities;
 
+import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -53,6 +55,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	// TODO add support for custom converters of specific types? (Class.toString vs Class.getCanonicalName)
 	// TODO add list(data, transform-function)
 	// TODO add list(data, filter, transform-function)
+	// TODO add documentation
 	// TODO move to its own repo on github, include as submodule here + unit tests
 	
 	private static final long serialVersionUID = -3806860593962543491L;
@@ -171,6 +174,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 			}
 			
 			return this;
+		}
+		
+		public final Map<String, Object> asMap()
+		{
+			return new OptionsMap(this);
 		}
 		
 		public final Map<String, Object> toMap()
@@ -445,6 +453,103 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 			{
 				throw Throwables.propagate(e);
 			}
+		}
+	}
+	
+	private static final class OptionsMap extends AbstractMap<String, Object>
+	{
+		final Options options;
+		
+		private final Set<Entry<String, Object>> entries;
+		
+		OptionsMap(Options options)
+		{
+			assert options != null;
+			
+			ImmutableSet.Builder<Entry<String, Object>> builder = ImmutableSet.builder();
+			
+			for (String name: OptionsAccess.names())
+			{
+				builder.add(new OptionsEntry(name));
+			}
+			
+			this.options = options;
+			this.entries = builder.build();
+		}
+		
+		private final class OptionsEntry implements Entry<String, Object>
+		{
+			private final String name;
+			
+			OptionsEntry(String name)
+			{
+				assert !name.isEmpty();
+				
+				this.name = name;
+			}
+			
+			@Override
+			public final boolean equals(@Nullable Object object)
+			{
+				if (this == object)
+				{
+					return true;
+				}
+
+				if (!(object instanceof Entry))
+				{
+					return false;
+				}
+				
+				Entry<?, ?> other = (Entry<?, ?>) object;
+				
+				return equal(this.name, other.getKey()) && equal(this.getValue(), other.getValue());
+			}
+
+			@Override
+			public final int hashCode()
+			{
+				Object value = this.getValue();
+
+				return this.name.hashCode()	^ ((value == null) ? 0 : value.hashCode());
+			}
+
+			@Override
+			public final String toString()
+			{
+				return this.getKey() + "=" + String.valueOf(this.getValue());
+			}
+
+			public final Object setValue(Object value)
+			{
+				return OptionsMap.this.put(this.name, value);
+			}
+
+			public final String getKey()
+			{
+				return this.name;
+			}
+
+			public final Object getValue()
+			{
+				return OptionsAccess.get(OptionsMap.this.options, this.name);
+			}
+		}
+		
+		@Override
+		public final Set<Entry<String, Object>> entrySet()
+		{
+			return this.entries;
+		}
+
+		@Override
+		public final Object put(String key, @Nullable Object value)
+		{
+			Object other = OptionsAccess.get(this.options, key);
+			
+			OptionsAccess.put(OptionsMap.this.options, key, value);
+			
+			return other;
 		}
 	}
 	
@@ -2053,6 +2158,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	{
 		return this.appendBytes(bytes, 2, 4, separator);
 	}
+	
+	// TODO refactor to return int[]
 	
 	private static final byte[] to8(byte a)
 	{
