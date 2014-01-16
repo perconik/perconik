@@ -4,6 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -11,14 +14,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import javax.annotation.Nullable;
+import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
-import com.google.common.base.CaseFormat;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.base.Splitter.MapSplitter;
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
@@ -120,35 +127,48 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		
 		String sizeSeparator = " ";
 		
-		String valueFormat = "%.2f %s";
-		
 		CharSequence tab = "  ";
 
+		String valueFormat = "%.2f %s";
+		
 		Options()
 		{
 		}
-		
+
 		public static final Options of(SmartStringBuilder builder)
 		{
 			return builder.options;
 		}
-
-		// TODO
-//		public static final Options from(Map<String, ?> map)
-//		{
-//			
-//		}
-//		
-//		public final Options toMap()
-//		{
-//			
-//		}
-//		
-//		@Override
-//		public final String toString()
-//		{
-//			return this.toMap().toString();
-//		}
+		
+		public static final Options from(Map<String, ?> map)
+		{
+			Options options = new Options();
+			
+			for (Entry<String, ?> entry: map.entrySet())
+			{
+				OptionsAccess.put(options, entry.getKey(), entry.getValue());
+			}
+			
+			return options;
+		}
+		
+		public final Map<String, Object> toMap()
+		{
+			Map<String, Object> map = Maps.newHashMap();
+			
+			for (String name: OptionsAccess.names())
+			{
+				map.put(name, OptionsAccess.get(this, name));
+			}
+			
+			return map;
+		}
+		
+		@Override
+		public final String toString()
+		{
+			return this.toMap().toString();
+		}
 		
 		final StringBuilder builder()
 		{
@@ -228,6 +248,13 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			return this;
 		}
 
+		public final Options tab(CharSequence value)
+		{
+			this.tab = checkNotNull(value);
+			
+			return this;
+		}
+
 		public final Options valueFormat(String value)
 		{
 			checkArgument(!value.isEmpty());
@@ -237,11 +264,164 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 			return this;
 		}
 
-		public final Options tab(CharSequence value)
+		public final int initialCapacity()
 		{
-			this.tab = checkNotNull(value);
+			return this.initialCapacity;
+		}
+
+		public final CharSequence initialValue()
+		{
+			return this.initialValue;
+		}
+
+		public final String entrySeparator()
+		{
+			return this.entrySeparator;
+		}
+
+		public final String lineSeparator()
+		{
+			return this.lineSeparator;
+		}
+
+		public final String lineRegex()
+		{
+			return this.lineRegex;
+		}
+
+		public final String listSeparator()
+		{
+			return this.listSeparator;
+		}
+
+		public final String nullValue()
+		{
+			return this.nullValue;
+		}
+
+		public final int sizePrecision()
+		{
+			return this.sizePrecision;
+		}
+
+		public final String sizeSeparator()
+		{
+			return this.sizeSeparator;
+		}
+
+		public final CharSequence tab()
+		{
+			return this.tab;
+		}
+
+		public final String valueFormat()
+		{
+			return this.valueFormat;
+		}
+	}
+	
+	// TODO consider reflection effectiveness
+	private static final class OptionsAccess
+	{
+		private static final Map<String, Field> readers;
+		
+		private static final Map<String, Method> writers;
+		
+		static
+		{
+			Class<?>    type  = Options.class;
+			Set<String> names = resolveNames(type);
 			
-			return this;
+			readers = resolveReaders(type, names); 
+			writers = resolveWriters(type, names);
+			
+			assert readers.keySet().equals(writers.keySet());
+		}
+
+		private static final Set<String> resolveNames(Class<?> type)
+		{
+			ImmutableSet.Builder<String> keys = ImmutableSet.builder();
+			
+			for (Field field: type.getDeclaredFields())
+			{
+				if (!Modifier.isStatic(field.getModifiers()))
+				{
+					keys.add(field.getName());
+				}
+			}
+			
+			return keys.build();
+		}
+		
+		private static final Map<String, Field> resolveReaders(Class<?> type, Set<String> names)
+		{
+			ImmutableMap.Builder<String, Field> readers = ImmutableMap.builder();
+			
+			for (Field field: type.getDeclaredFields())
+			{
+				String name = field.getName();
+				
+				if (names.contains(name))
+				{
+					readers.put(name, field);
+				}
+			}
+			
+			return readers.build();
+		}
+		
+		private static final Map<String, Method> resolveWriters(Class<?> type, Set<String> names)
+		{
+			ImmutableMap.Builder<String, Method> writers = ImmutableMap.builder(); 
+			
+			for (Method method: type.getDeclaredMethods())
+			{
+				String name = method.getName();
+				
+				if (names.contains(name) && method.getParameterTypes().length == 1)
+				{
+					writers.put(name, method);
+				}
+			}
+			
+			return writers.build();
+		}
+		
+		static final Set<String> names()
+		{
+			return readers.keySet();
+		}
+		
+		static final void put(Options options, String key, @Nullable Object value)
+		{
+			Method method = writers.get(key);
+
+			checkArgument(method != null);
+			
+			try
+			{
+				method.invoke(options, value);
+			}
+			catch (ReflectiveOperationException e)
+			{
+				throw Throwables.propagate(e);
+			}
+		}
+		
+		static final Object get(Options options, String key)
+		{
+			Field field = readers.get(key);
+
+			checkArgument(field != null);
+			
+			try
+			{
+				return field.get(options);
+			}
+			catch (ReflectiveOperationException e)
+			{
+				throw Throwables.propagate(e);
+			}
 		}
 	}
 	
@@ -1204,92 +1384,93 @@ public final class SmartStringBuilder implements Appendable, CharSequence
 		return this.append(joiner.join(values));
 	}
 
-	public final SmartStringBuilder list(boolean ... values)
+	// TODO rename
+	public final SmartStringBuilder listValues(boolean ... values)
 	{
 		return this.list(this.options.listSeparator, values);
 	}
 
-	public final SmartStringBuilder list(char ... values)
+	public final SmartStringBuilder listValues(char ... values)
 	{
 		return this.list(this.options.listSeparator, values);
 	}
 
-	public final SmartStringBuilder list(int ... values)
+	public final SmartStringBuilder listValues(int ... values)
 	{
 		return this.list(this.options.listSeparator, values);
 	}
 
-	public final SmartStringBuilder list(long ... values)
+	public final SmartStringBuilder listValues(long ... values)
 	{
 		return this.list(this.options.listSeparator, values);
 	}
 
-	public final SmartStringBuilder list(float ... values)
+	public final SmartStringBuilder listValues(float ... values)
 	{
 		return this.list(this.options.listSeparator, values);
 	}
 
-	public final SmartStringBuilder list(double ... values)
+	public final SmartStringBuilder listValues(double ... values)
 	{
 		return this.list(this.options.listSeparator, values);
 	}
 
-	public final SmartStringBuilder list(String separator, boolean ... values)
+	public final SmartStringBuilder listValues(String separator, boolean ... values)
 	{
 		return this.list(Booleans.asList(values), separator);
 	}
 
-	public final SmartStringBuilder list(String separator, char ... values)
+	public final SmartStringBuilder listValues(String separator, char ... values)
 	{
 		return this.list(Chars.asList(values), separator);
 	}
 
-	public final SmartStringBuilder list(String separator, int ... values)
+	public final SmartStringBuilder listValues(String separator, int ... values)
 	{
 		return this.list(Ints.asList(values), separator);
 	}
 
-	public final SmartStringBuilder list(String separator, long ... values)
+	public final SmartStringBuilder listValues(String separator, long ... values)
 	{
 		return this.list(Longs.asList(values), separator);
 	}
 
-	public final SmartStringBuilder list(String separator, float ... values)
+	public final SmartStringBuilder listValues(String separator, float ... values)
 	{
 		return this.list(Floats.asList(values), separator);
 	}
 
-	public final SmartStringBuilder list(String separator, double ... values)
+	public final SmartStringBuilder listValues(String separator, double ... values)
 	{
 		return this.list(Doubles.asList(values), separator);
 	}
 
-	public final SmartStringBuilder list(Joiner joiner, boolean ... values)
+	public final SmartStringBuilder listValues(Joiner joiner, boolean ... values)
 	{
 		return this.append(joiner.join(Booleans.asList(values)));
 	}
 
-	public final SmartStringBuilder list(Joiner joiner, char ... values)
+	public final SmartStringBuilder listValues(Joiner joiner, char ... values)
 	{
 		return this.append(joiner.join(Chars.asList(values)));
 	}
 
-	public final SmartStringBuilder list(Joiner joiner, int ... values)
+	public final SmartStringBuilder listValues(Joiner joiner, int ... values)
 	{
 		return this.append(joiner.join(Ints.asList(values)));
 	}
 
-	public final SmartStringBuilder list(Joiner joiner, long ... values)
+	public final SmartStringBuilder listValues(Joiner joiner, long ... values)
 	{
 		return this.append(joiner.join(Longs.asList(values)));
 	}
 
-	public final SmartStringBuilder list(Joiner joiner, float ... values)
+	public final SmartStringBuilder listValues(Joiner joiner, float ... values)
 	{
 		return this.append(joiner.join(Floats.asList(values)));
 	}
 
-	public final SmartStringBuilder list(Joiner joiner, double ... values)
+	public final SmartStringBuilder listValues(Joiner joiner, double ... values)
 	{
 		return this.append(joiner.join(Doubles.asList(values)));
 	}
