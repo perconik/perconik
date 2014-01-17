@@ -47,7 +47,9 @@ import com.gratex.perconik.services.uaca.vs.IdeFindResultRowDto;
  * 
  * <p> TODO document how DTOs are build and what data they contain
  * 
- * <p>Possible data available in an {@code IdeFindOperationDto}:
+ * <p> TODO write here when event is logged
+ * 
+ * <p>Data available in an {@code IdeFindOperationDto}:
  * 
  * <ul>
  *   <li>{@code derivedResources} - .

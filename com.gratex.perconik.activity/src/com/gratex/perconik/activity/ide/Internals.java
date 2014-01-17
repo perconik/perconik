@@ -53,10 +53,10 @@ final class Internals
 	{
 		milestoneDataTypes = ImmutableSet.of
 		(
-			IdeStateChangeDto.class,
-			IdeProjectOperationDto.class,
+			IdeCheckinDto.class,
 			IdeCodeOperationDto.class,
-			IdeCheckinDto.class
+			IdeProjectOperationDto.class,
+			IdeStateChangeDto.class
 		);
 	
 		milestoneDocumentOperationTypes = ImmutableSet.of
