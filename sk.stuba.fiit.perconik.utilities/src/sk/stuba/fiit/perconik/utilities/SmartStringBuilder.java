@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import javax.annotation.Nullable;
@@ -120,7 +121,12 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	{
 		return new SmartStringBuilder(string);
 	}
-	
+
+	public static final SmartStringBuilder builder(Options options)
+	{
+		return new SmartStringBuilder(options);
+	}
+
 	public static final class Options implements Serializable
 	{
 		private static final long serialVersionUID = -5687392398758259419L;
@@ -218,8 +224,10 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 			return this;
 		}
 
-		public final Options initialValue(CharSequence value)
+		public final Options initialValue(@Nullable CharSequence value)
 		{
+			value = Objects.toString(value, this.nullValue);
+			
 			this.initialCapacity = Math.max(this.initialCapacity, value.length());
 			this.initialValue    = value;
 			
@@ -598,9 +606,9 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return this;
 	}
 
-	public final char charAt(int i)
+	public final char charAt(int index)
 	{
-		return this.builder.charAt(i);
+		return this.builder.charAt(index);
 	}
 
 	public final int codePointAt(int index)
@@ -770,7 +778,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return new StringBuilder(this.builder);
 	}
 
-	private final String toString(Object o)
+	private final String toString(@Nullable Object o)
 	{
 		return (o == null) ? this.options.nullValue : o.toString();
 	}
@@ -806,7 +814,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 				
 				return builder;
 			}
-			catch (Exception e)
+			catch (RuntimeException e)
 			{
 				throw new InvalidObjectException("Unknown deserialization error");
 			}
@@ -1509,7 +1517,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 	public final SmartStringBuilder list(Map<?, ?> values, String listSeparator, String entrySeparator)
 	{
-		return this.list(values, listSeparator, entrySeparator);
+		return this.list(values.entrySet(), listSeparator, entrySeparator);
 	}
 
 	public final SmartStringBuilder list(Properties values, String listSeparator, String entrySeparator)
@@ -1666,9 +1674,9 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	{
 		INSTANCE;
 
-		public final boolean apply(CharSequence s)
+		public final boolean apply(@Nullable CharSequence s)
 		{
-			return s.length() != 0;
+			return s != null && s.length() != 0;
 		}
 	}
 	
@@ -1833,7 +1841,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 	public final SmartStringBuilder lines(@Nullable String s)
 	{
-		String[] lines = this.toString(s).split(this.options.lineRegex);
+		String   content = this.toString(s);
+		String[] lines   = content.split(this.options.lineRegex);
 	
 		int last = lines.length - 1;
 	
@@ -1842,7 +1851,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 			this.appendln(lines[i]);
 		}
 
-		if (s.endsWith("\r") || s.endsWith("\n"))
+		if (content.endsWith("\r") || content.endsWith("\n"))
 		{
 			this.appendln(lines[last]);
 		}
@@ -1856,7 +1865,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	
 	public final SmartStringBuilder lines(@Nullable CharSequence s)
 	{
-		return this.lines(s.toString());
+		return this.lines(this.toString(s));
 	}
 
 	public final SmartStringBuilder signed(byte i)
