@@ -30,7 +30,8 @@ public class NodeByTypeMapExample
 		k.addAll(m.keySet());
 		
 		out.println(m.size() + " nodes");
-		out.println(k.size() + " of " + NodeType.count() + " types%n");
+		out.println(k.size() + " of " + NodeType.count() + " types");
+		out.println();
 		
 		for (NodeType t: k)
 		{
