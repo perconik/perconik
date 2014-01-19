@@ -60,7 +60,7 @@ abstract class AbstractConstantSupport<P, E extends Enum<E>> implements Serializ
 		
 		abstract AbstractConstantSupport<P, E> resolve(Class<E> type);
 
-		private final Object readResolve() throws InvalidObjectException
+		final Object readResolve() throws InvalidObjectException
 		{
 			try
 			{

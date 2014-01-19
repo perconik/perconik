@@ -38,7 +38,7 @@ public final class MoreStrings
 
 		public final String apply(String s)
 		{
-			return s.toLowerCase();
+			return String.valueOf(s).toLowerCase();
 		}
 	}
 
@@ -48,7 +48,7 @@ public final class MoreStrings
 
 		public final String apply(String s)
 		{
-			return s.toUpperCase();
+			return String.valueOf(s).toUpperCase();
 		}
 	}
 	

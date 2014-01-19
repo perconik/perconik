@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -16,15 +17,13 @@ public final class Reflections
 		throw new AssertionError();
 	}
 	
-
-	
 	private static enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>>
 	{
 		INSTANCE;
 
-		public final Class<? extends Annotation> apply(Annotation annotation)
+		public final Class<? extends Annotation> apply(@Nullable Annotation annotation)
 		{
-			return annotation.annotationType();
+			return annotation != null ? annotation.annotationType() : null;
 		}
 
 		@Override
@@ -38,9 +37,9 @@ public final class Reflections
 	{
 		INSTANCE;
 
-		public final Class<? extends Object> apply(Object object)
+		public final Class<? extends Object> apply(@Nullable Object object)
 		{
-			return object.getClass();
+			return object != null ? object.getClass() : null;
 		}
 
 		@Override
@@ -54,9 +53,9 @@ public final class Reflections
 	{
 		INSTANCE;
 
-		public final Class<?> apply(Enum<?> constant)
+		public final Class<?> apply(@Nullable Enum<?> constant)
 		{
-			return constant.getDeclaringClass();
+			return constant != null ? constant.getDeclaringClass() : null;
 		}
 
 		@Override
