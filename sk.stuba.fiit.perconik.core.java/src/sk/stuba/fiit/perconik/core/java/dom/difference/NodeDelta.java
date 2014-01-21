@@ -53,46 +53,46 @@ public abstract class NodeDelta<N extends ASTNode>
 		return new SmartStringBuilder().indent(indent).append(type).appendln(':').tab();
 	}
 	
-	public boolean hasOriginalNode()
+	public final boolean hasOriginalNode()
 	{
 		return this.getOriginalNode() != null;
 	}
 
 	public abstract N getOriginalNode();
 	
-	public ASTNode getOriginalNodeRoot()
+	public final ASTNode getOriginalNodeRoot()
 	{
 		return Nodes.root(this.getOriginalNode());
 	}
 
-	public ASTNode getOriginalNodeParent()
+	public final ASTNode getOriginalNodeParent()
 	{
 		return Nodes.parent(this.getOriginalNode());
 	}
 
-	public NodeType getOriginalNodeType()
+	public final NodeType getOriginalNodeType()
 	{
 		return Nodes.toType(this.getOriginalNode());
 	}
 
-	public boolean hasRevisedNode()
+	public final boolean hasRevisedNode()
 	{
 		return this.getRevisedNode() != null;
 	}
 
 	public abstract N getRevisedNode();
 	
-	public ASTNode getRevisedNodeRoot()
+	public final ASTNode getRevisedNodeRoot()
 	{
 		return Nodes.root(this.getRevisedNode());
 	}
 
-	public ASTNode getRevisedNodeParent()
+	public final ASTNode getRevisedNodeParent()
 	{
 		return Nodes.parent(this.getRevisedNode());
 	}
 
-	public NodeType getRevisedNodeType()
+	public final NodeType getRevisedNodeType()
 	{
 		return Nodes.toType(this.getRevisedNode());
 	}
