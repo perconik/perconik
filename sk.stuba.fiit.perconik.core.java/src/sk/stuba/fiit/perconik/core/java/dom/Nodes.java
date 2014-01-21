@@ -36,7 +36,7 @@ public final class Nodes
 
 	public static final AST newTree(final TreeApiLevel level)
 	{
-		return TreeCompatibility.getFactory(level).newTree();
+		return TreeCompatibility.getTreeFactory(level).newTree();
 	}
 	
 	public static final <N extends ASTNode> N newNode(final AST tree, final Class<N> type)

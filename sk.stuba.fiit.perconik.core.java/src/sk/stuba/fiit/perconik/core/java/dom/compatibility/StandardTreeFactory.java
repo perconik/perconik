@@ -1,14 +1,30 @@
 package sk.stuba.fiit.perconik.core.java.dom.compatibility;
 
+import java.util.Map;
 import org.eclipse.jdt.core.dom.AST;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 final class StandardTreeFactory implements TreeFactory
 {
-	private final TreeApiLevel level;
+	static final Map<TreeApiLevel, TreeFactory> INSTANCES;
 	
-	StandardTreeFactory(final TreeApiLevel level)
+	private final TreeApiLevel level;
+
+	static
+	{
+		Map<TreeApiLevel, TreeFactory> map = Maps.newHashMap();
+		
+		for (TreeApiLevel level: TreeApiLevel.values())
+		{
+			map.put(level, new StandardTreeFactory(level));
+		}
+		
+		INSTANCES = Maps.immutableEnumMap(map);
+	}
+	
+	private StandardTreeFactory(final TreeApiLevel level)
 	{
 		this.level = Preconditions.checkNotNull(level);
 	}
