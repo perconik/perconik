@@ -48,9 +48,9 @@ public final class IdeActivityPreferences
 	
 	public static final URL getWatcherServiceUrl()
 	{
-		String content = store().getString(watcherUrl);
+		IPreferenceStore store = store();
 		
-		return UniformResources.newUrl(content);
+		return UniformResources.newUrl(store.getString(watcherUrl));
 	}
 	
 	public static final QName getWatcherServiceName()

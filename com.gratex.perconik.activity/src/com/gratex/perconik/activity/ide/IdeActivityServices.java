@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
-import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.VsActivityWatcherService;
@@ -25,13 +24,8 @@ public final class IdeActivityServices
 	{
 		throw new AssertionError();
 	}
-	
-	public static final IVsActivityWatcherService newWatcherService()
-	{
-		return newWatcherService(IdeActivityDefaults.watcherUrl, IdeActivityDefaults.watcherName);
-	}
 
-	public static final IVsActivityWatcherService newWatcherService(final URL url, final QName name)
+	public static final IVsActivityWatcherService createWatcherService(final URL url, final QName name)
 	{
 		VsActivityWatcherService service = new VsActivityWatcherService(url, name);
 
@@ -48,7 +42,7 @@ public final class IdeActivityServices
 			{
 				try
 				{
-					service = newWatcherService(url, name);
+					service = createWatcherService(url, name);
 					
 					services.putInstance(IVsActivityWatcherService.class, service);
 				}
@@ -70,13 +64,6 @@ public final class IdeActivityServices
 		}
 	}
 	
-	static final void reportWatcherServiceFailure(@Nullable final Exception failure)
-	{
-		releaseWatcherService();
-		
-		Activator.getDefault().getConsole().error("Unexpected failure of activity watcher service", failure);
-	}
-
 	public static final void performWatcherServiceOperation(final WatcherServiceOperation operation)
 	{
 		final Runnable command = new Runnable()
@@ -109,6 +96,13 @@ public final class IdeActivityServices
 		};
 		
 		executor.execute(command);
+	}
+
+	static final void reportWatcherServiceFailure(@Nullable final Exception failure)
+	{
+		releaseWatcherService();
+		
+		console.error("Unexpected failure of activity watcher service", failure);
 	}
 
 	public static interface ServiceOperation<S extends Object>

@@ -1,14 +1,20 @@
 package com.gratex.perconik.activity.ide;
 
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
@@ -28,7 +34,30 @@ final class Internals
 	static final boolean debug = Environment.debug;
 	
 	static final int unknonwnPid = -1;
+	
+	static final String optionsSequence;
+	
+	static final Map<String, String> options;
+
+	static
+	{
+		optionsSequence = Strings.nullToEmpty(Environment.getVariable("UACA")).toLowerCase();
 		
+		Splitter entries = Splitter.on(CharMatcher.anyOf(";,")).trimResults();
+		Splitter keys    = Splitter.on(CharMatcher.anyOf(":=")).trimResults().limit(2);
+		
+		ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+		
+		for (String option: entries.split(optionsSequence))
+		{
+			Iterator<String> parts = keys.split(option).iterator();
+			
+			builder.put(parts.next(), parts.hasNext() ? parts.next() : "true");
+		}
+		
+		options = builder.build();
+	}
+	
 	static final DatatypeFactory datatypeFactory;
 	
 	static

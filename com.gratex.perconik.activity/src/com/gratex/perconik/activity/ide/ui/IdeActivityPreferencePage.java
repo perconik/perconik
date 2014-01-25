@@ -10,9 +10,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UriFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
+import com.gratex.perconik.activity.ide.IdeActivityDefaults;
 import com.gratex.perconik.activity.ide.IdeActivityServices;
 import com.gratex.perconik.activity.ide.plugin.Activator;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 
 public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
 {
@@ -44,8 +44,8 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	{
 		Composite parent = this.getFieldEditorParent();
 		
-		URL   url  = IdeActivityPreferences.getWatcherServiceUrl();
-		QName name = IdeActivityPreferences.getWatcherServiceName();
+		URL   url  = IdeActivityDefaults.watcherUrl;
+		QName name = IdeActivityDefaults.watcherName;
 		
 		this.watcherUrl       = new UrlFieldEditor(url.toString(), "URL:", parent);
 		this.watcherNamespace = new UriFieldEditor(name.getNamespaceURI().toString() , "Namespace:", parent);
@@ -64,8 +64,8 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 			try
 			{
 				QName name = new QName(this.watcherNamespace.getStringValue(), this.watcherLocalPart.getStringValue());
-				
-				IdeActivityServices.newWatcherService(this.watcherUrl.getUrlValue(), name);
+
+				IdeActivityServices.createWatcherService(this.watcherUrl.getUrlValue(), name);
 				IdeActivityServices.releaseWatcherService();
 			}
 			catch (Exception failure)

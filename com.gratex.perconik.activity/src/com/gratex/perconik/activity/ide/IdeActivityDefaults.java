@@ -1,5 +1,6 @@
 package com.gratex.perconik.activity.ide;
 
+import static com.gratex.perconik.activity.ide.Internals.*;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
@@ -25,8 +26,8 @@ public final class IdeActivityDefaults
 	
 	static
 	{
-		milestoneResolver = Debug.flags.contains("always-milestone") ? Debug.milestoneResolver : Internals.milestoneResolver;
-		timeSupplier      = Debug.flags.contains("fixed-year")       ? Debug.timeSupplier      : Internals.timeSupplier;
+		milestoneResolver = options.containsKey("always-milestone") ? Debug.milestoneResolver : Internals.milestoneResolver;
+		timeSupplier      = options.containsKey("fixed-year")       ? Debug.timeSupplier      : Internals.timeSupplier;
 	}
 
 	private IdeActivityDefaults()
