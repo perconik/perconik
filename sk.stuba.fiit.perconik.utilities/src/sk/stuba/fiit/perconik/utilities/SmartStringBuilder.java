@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Throwables.propagate;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -1068,11 +1069,16 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return this.appendln();
 	}
 	
-	public final <A extends Appendable> A appendTo(A appendable) throws IOException
+	public final <A extends Appendable> A appendTo(A appendable)
 	{
-		appendable.append(this.builder);
-		
-		return appendable;
+		try
+		{
+			return this.appendSafelyTo(appendable);
+		}
+		catch (IOException failure)
+		{
+			throw propagate(failure);
+		}
 	}
 
 	public final CharBuffer appendTo(CharBuffer writer)
@@ -1093,6 +1099,13 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	public final PrintStream appendTo(PrintStream stream)
 	{
 		return stream.append(this.builder);
+	}
+	
+	public final <A extends Appendable> A appendSafelyTo(A appendable) throws IOException
+	{
+		appendable.append(this.builder);
+		
+		return appendable;
 	}
 
 	public final SmartStringBuilder delete(int from, int to)
