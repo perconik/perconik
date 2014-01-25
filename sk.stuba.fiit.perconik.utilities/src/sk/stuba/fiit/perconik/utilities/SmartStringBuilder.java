@@ -16,6 +16,7 @@ import java.lang.reflect.Modifier;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 		CharSequence initialValue = "";
 
+		String emptyValue = "";
+		
 		String entrySeparator = ": ";
 		
 		String lineSeparator = System.lineSeparator();
@@ -189,8 +192,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		
 		public final Map<String, Object> toMap()
 		{
-			Map<String, Object> map = Maps.newHashMap();
-			
+			return this.toMap(new HashMap<String, Object>());
+		}
+		
+		public final Map<String, Object> toMap(Map<String, Object> map)
+		{
 			for (String name: OptionsAccess.names())
 			{
 				map.put(name, OptionsAccess.get(this, name));
@@ -230,6 +236,13 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 			
 			this.initialCapacity = Math.max(this.initialCapacity, value.length());
 			this.initialValue    = value;
+			
+			return this;
+		}
+		
+		public final Options emptyValue(String value)
+		{
+			this.emptyValue = checkNotNull(value);
 			
 			return this;
 		}
@@ -313,6 +326,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 			return this.initialValue;
 		}
 
+		public final String emptyValue()
+		{
+			return this.emptyValue;
+		}
+		
 		public final String entrySeparator()
 		{
 			return this.entrySeparator;
@@ -778,9 +796,21 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return new StringBuilder(this.builder);
 	}
 
-	private final String toString(@Nullable Object o)
+	private final String toString(@Nullable Object object)
 	{
-		return (o == null) ? this.options.nullValue : o.toString();
+		if (object == null)
+		{
+			return this.options.nullValue;
+		}
+		
+		String value = object.toString();
+		
+		if (value.isEmpty())
+		{
+			return this.options.emptyValue;
+		}
+		
+		return value;
 	}
 	
 	private static final class SerializationProxy implements Serializable
