@@ -26,7 +26,6 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
@@ -272,7 +271,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	@Override
 	public final void postRegister()
 	{
-		Display.getDefault().asyncExec(new Runnable()
+		executeSafely(new Runnable()
 		{
 			@Override
 			public final void run()
@@ -293,7 +292,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -306,7 +305,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -319,7 +318,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -337,7 +336,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -407,7 +406,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{

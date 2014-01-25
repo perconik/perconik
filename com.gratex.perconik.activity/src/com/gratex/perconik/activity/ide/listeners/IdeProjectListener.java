@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
@@ -213,7 +212,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -226,7 +225,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	{
 		final long time = currentTime();
 
-		Display.getDefault().asyncExec(new Runnable()
+		executeSafely(new Runnable()
 		{
 			public final void run()
 			{

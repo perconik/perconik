@@ -2,6 +2,7 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import sk.stuba.fiit.perconik.core.Adapter;
@@ -66,7 +67,6 @@ import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
  */
 public abstract class IdeListener extends Adapter
 {
-	// TODO mk private
 	static final PluginConsole console = Activator.getDefault().getConsole();
 	
 	static final Executor executor = Executors.newCachedThreadPool();
@@ -83,6 +83,16 @@ public abstract class IdeListener extends Adapter
 	static final IEditorPart dereferenceEditor(final IEditorReference reference)
 	{
 		return reference.getEditor(false);
+	}
+
+	static final void execute(final Runnable command)
+	{
+		executor.execute(command);
+	}
+
+	static final void executeSafely(final Runnable command)
+	{
+		Display.getDefault().asyncExec(command);
 	}
 
 	static final boolean isDebug()

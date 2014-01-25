@@ -61,7 +61,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -94,7 +94,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{

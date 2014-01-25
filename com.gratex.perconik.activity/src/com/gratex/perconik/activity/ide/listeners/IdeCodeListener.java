@@ -212,7 +212,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
@@ -225,7 +225,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{

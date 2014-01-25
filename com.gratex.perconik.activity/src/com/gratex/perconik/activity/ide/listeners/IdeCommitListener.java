@@ -117,7 +117,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 	{
 		final long time = currentTime();
 		
-		executor.execute(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{

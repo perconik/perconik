@@ -16,7 +16,6 @@ import org.eclipse.search.internal.ui.text.FileSearchResult;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.text.FileTextSearchScope;
 import org.eclipse.search.ui.text.Match;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkingSet;
 import sk.stuba.fiit.perconik.core.annotations.Dependent;
@@ -290,7 +289,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 	{
 		final long time = currentTime();
 
-		Display.getDefault().asyncExec(new Runnable()
+		executeSafely(new Runnable()
 		{
 			public final void run()
 			{
