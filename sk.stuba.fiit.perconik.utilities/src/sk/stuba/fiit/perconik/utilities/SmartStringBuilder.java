@@ -15,9 +15,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.CharBuffer;
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1466,17 +1472,42 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return this;
 	}
 
+	private static final FieldPosition insignificantPosition = new FieldPosition(0);
+	
 	public final SmartStringBuilder format(String format, Object ... args)
 	{
-		this.ensureIndent();		
+		this.ensureIndent();
 		this.builder.append(String.format(format, args));
 		
 		return this;
 	}
 
+	public final SmartStringBuilder format(String format, Iterable<Object> args)
+	{
+		return this.format(format, Iterables.toArray(args, Object.class));
+	}
+
+	public final SmartStringBuilder format(String format, Iterator<Object> args)
+	{
+		return this.format(format, Iterators.toArray(args, Object.class));
+	}
+
+	public final SmartStringBuilder format(Format format, @Nullable Object value)
+	{
+		return this.format(format, value, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(Format format, @Nullable Object value, FieldPosition position)
+	{
+		this.ensureIndent();
+		this.builder.append(format.format(value, new StringBuffer(), position));
+		
+		return this;
+	}
+	
 	public final SmartStringBuilder format(CaseFormat from, CaseFormat to, Object value)
 	{
-		this.ensureIndent();		
+		this.ensureIndent();	
 		this.builder.append(from.to(to, this.toString(value)));
 		
 		return this;
@@ -1490,6 +1521,78 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	public final SmartStringBuilder format(CaseFormat from, CaseFormat to, CharSequence value)
 	{
 		return this.format(from, to, (Object) value);
+	}
+
+	public final SmartStringBuilder format(DateFormat format, Date value)
+	{
+		return this.format(format, value, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(DateFormat format, Date value, FieldPosition position)
+	{
+		this.ensureIndent();	
+		this.builder.append(format.format(value, new StringBuffer(), position));
+		
+		return this;
+	}
+
+	public final SmartStringBuilder format(MessageFormat format, Object[] args)
+	{
+		return this.format(format, args, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(MessageFormat format, Object[] args, FieldPosition position)
+	{
+		this.ensureIndent();	
+		this.builder.append(format.format(args, new StringBuffer(), position));
+		
+		return this;
+	}
+
+	public final SmartStringBuilder format(MessageFormat format, Iterable<Object> args)
+	{
+		return this.format(format, args, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(MessageFormat format, Iterable<Object> args, FieldPosition position)
+	{
+		return this.format(format, Iterables.toArray(args, Object.class), position);
+	}
+
+	public final SmartStringBuilder format(MessageFormat format, Iterator<Object> args)
+	{
+		return this.format(format, args, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(MessageFormat format, Iterator<Object> args, FieldPosition position)
+	{
+		return this.format(format, Iterators.toArray(args, Object.class), position);
+	}
+
+	public final SmartStringBuilder format(NumberFormat format, long value)
+	{
+		return this.format(format, value, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(NumberFormat format, long value, FieldPosition position)
+	{
+		this.ensureIndent();	
+		this.builder.append(format.format(value, new StringBuffer(), position));
+		
+		return this;
+	}
+
+	public final SmartStringBuilder format(NumberFormat format, double value)
+	{
+		return this.format(format, value, insignificantPosition);
+	}
+
+	public final SmartStringBuilder format(NumberFormat format, double value, FieldPosition position)
+	{
+		this.ensureIndent();	
+		this.builder.append(format.format(value, new StringBuffer(), position));
+		
+		return this;
 	}
 
 	@SafeVarargs
