@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.CharBuffer;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1060,6 +1062,33 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return this.appendln();
 	}
 	
+	public final <A extends Appendable> A appendTo(A appendable) throws IOException
+	{
+		appendable.append(this.builder);
+		
+		return appendable;
+	}
+
+	public final CharBuffer appendTo(CharBuffer writer)
+	{
+		return writer.append(this.builder);
+	}
+
+	public final StringBuffer appendTo(StringBuffer buffer)
+	{
+		return buffer.append(this.builder);
+	}
+
+	public final StringBuilder appendTo(StringBuilder builder)
+	{
+		return builder.append(this.builder);
+	}
+
+	public final PrintStream appendTo(PrintStream stream)
+	{
+		return stream.append(this.builder);
+	}
+
 	public final SmartStringBuilder delete(int from, int to)
 	{
 		this.builder.delete(from, to);
