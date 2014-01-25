@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
+import java.io.Closeable;
+import java.io.Flushable;
 import javax.annotation.Nullable;
 
 /**
@@ -8,8 +10,23 @@ import javax.annotation.Nullable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface PluginConsole
+public interface PluginConsole extends Appendable, Closeable, Flushable
 {
+	@Override
+	public PluginConsole append(@Nullable CharSequence s);
+
+	@Override
+	public PluginConsole append(@Nullable CharSequence s, int from, int to);
+
+	@Override
+	public PluginConsole append(char c);
+	
+	@Override
+	public void close();
+	
+	@Override
+	public void flush();
+	
 	public void put(@Nullable String message);
 
 	public void put(String format, Object ... args);

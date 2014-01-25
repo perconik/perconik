@@ -60,6 +60,35 @@ public final class DebugConsole implements PluginConsole
 		return this.enabled;
 	}
 	
+	public final PluginConsole append(@Nullable CharSequence s)
+	{
+		this.builder.append(s);
+		
+		return this;
+	}
+
+	public final PluginConsole append(@Nullable CharSequence s, int from, int to)
+	{
+		this.builder.append(s, from, to);
+		
+		return this;
+	}
+
+	public final PluginConsole append(char c)
+	{
+		this.builder.append(c);
+		
+		return this;
+	}
+
+	public final void close()
+	{
+	}
+
+	public final void flush()
+	{
+	}
+	
 	public final void tab()
 	{
 		this.builder.tab();

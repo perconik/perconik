@@ -28,6 +28,31 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
 	@Override
 	protected abstract PluginConsole delegate();
 	
+	public PluginConsole append(@Nullable CharSequence s)
+	{
+		return this.delegate().append(s);
+	}
+
+	public PluginConsole append(@Nullable CharSequence s, int from, int to)
+	{
+		return this.delegate().append(s, from, to);
+	}
+
+	public PluginConsole append(char c)
+	{
+		return this.delegate().append(c);
+	}
+
+	public void close()
+	{
+		this.delegate().close();
+	}
+
+	public void flush()
+	{
+		this.delegate().flush();
+	}
+
 	public void put(@Nullable String message)
 	{
 		this.delegate().put(message);
@@ -87,4 +112,6 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
 	{
 		this.delegate().error(failure, format, args);
 	}
+	
+	
 }

@@ -24,6 +24,37 @@ final class StandardPluginConsole implements PluginConsole
 		this.plugin.getLog().log(status);
 	}
 	
+	public final PluginConsole append(@Nullable CharSequence s)
+	{
+		this.out.append(s);
+		
+		return this;
+	}
+
+	public final PluginConsole append(@Nullable CharSequence s, int from, int to)
+	{
+		this.out.append(s, from, to);
+		
+		return this;
+	}
+
+	public final PluginConsole append(char c)
+	{
+		this.out.append(c);
+		
+		return this;
+	}
+
+	public final void close()
+	{
+		this.out.close();
+	}
+
+	public final void flush()
+	{
+		this.out.flush();
+	}
+	
 	public final void put(@Nullable final String message)
 	{
 		this.out.print(message);
