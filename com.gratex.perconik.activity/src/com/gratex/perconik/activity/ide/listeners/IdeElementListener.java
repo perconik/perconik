@@ -4,18 +4,17 @@ import sk.stuba.fiit.perconik.core.annotations.Experimental;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import com.gratex.perconik.services.uaca.vs.IdeCodeElementEventDto;
 
-//TODO rm
 //import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 //import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 //import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 //import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
-//import org.eclipse.jdt.core.ElementChangedEvent;
+//import java.util.Map;
+//import javax.annotation.concurrent.GuardedBy;
 //import org.eclipse.jdt.core.IJavaElement;
 //import org.eclipse.jdt.core.dom.ASTNode;
-//import org.eclipse.jface.text.ITextViewerExtension5;
 //import org.eclipse.jface.text.IViewportListener;
+//import org.eclipse.jface.text.JFaceTextUtil;
 //import org.eclipse.jface.text.source.ISourceViewer;
-//import org.eclipse.swt.widgets.Display;
 //import org.eclipse.ui.IEditorPart;
 //import org.eclipse.ui.IEditorReference;
 //import sk.stuba.fiit.perconik.core.annotations.Experimental;
@@ -24,6 +23,7 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeElementEventDto;
 //import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 //import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 //import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+//import com.google.common.collect.Maps;
 //import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 //import com.gratex.perconik.activity.ide.IdeApplication;
 //import com.gratex.perconik.services.IVsActivityWatcherService;
@@ -43,15 +43,19 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeElementEventDto;
  */
 @Experimental
 @Unsupported
-public final class IdeElementListener extends IdeListener
+public final class IdeElementListener extends IdeListener // implements EditorListener
 {
 }
 
-// TODO rm
-//public final class IdeElementListener extends IdeListener implements EditorListener
-//{
+//
+//	private final Object lock = new Object();
+//	
+//	@GuardedBy("lock")
+//	private final Map<ISourceViewer, IViewportListener> viewersToListeners;
+//	
 //	public IdeElementListener()
 //	{
+//		this.viewersToListeners = Maps.newHashMap();
 //	}
 //
 //	static final void send(final IdeCodeElementEventDto data)
@@ -88,10 +92,44 @@ public final class IdeElementListener extends IdeListener
 //		return data;
 //	}
 //	
-//	final void process(final long time, final ElementChangedEvent event)
+//	final void process(final long time, final IEditorPart editor)
 //	{
+//		ISourceViewer viewer = Editors.getSourceViewer(editor);
+//		
+//		synchronized (this.lock)
+//		{
+//			if (!this.viewersToListeners.containsKey(viewer))
+//			{
+//				this.viewersToListeners.put(viewer, new ScrollListener(viewer));
+//			}
+//		}
+//
+//		
 //	}
 //
+//	private static final class ScrollListener implements IViewportListener
+//	{
+//		private final ISourceViewer viewer;
+//		
+//		ScrollListener(ISourceViewer viewer)
+//		{
+//			assert viewer != null;
+//			
+//			this.viewer = viewer;
+//		}
+//
+//		public final void viewportChanged(int offset)
+//		{
+//			int c = JFaceTextUtil.getPartialTopIndex(this.viewer);
+//			int d = JFaceTextUtil.getPartialBottomIndex(this.viewer);
+//
+//			console.print("partially visible " + c + " - " + d);
+//			
+//			
+//			
+//		}
+//	}
+//	
 //	public final void editorOpened(final IEditorReference reference)
 //	{
 //	}
@@ -106,27 +144,46 @@ public final class IdeElementListener extends IdeListener
 //		
 //		final long time = currentTime();
 //		
-//		Display.getDefault().asyncExec(new Runnable()
+//		executeSafely(new Runnable()
 //		{
 //			public final void run()
 //			{
-//				final IEditorPart   editor = dereferenceEditor(reference);
-//				final ISourceViewer viewer = Editors.getSourceViewer(editor);
-//				
-//				int a = viewer.getTopIndex();
-//				int b = viewer.getBottomIndex();
-//				
-//				viewer.addViewportListener(new IViewportListener() {
-//					
-//					public void viewportChanged(int verticalOffset)
-//					{
-//						console.print("offset: "+verticalOffset);
-//					}
-//				});
-//				
-//				console.print("VISIBLE " + a + " - " + b + "            " + viewer.getClass());
+//				process(time, dereferenceEditor(reference));
 //			}
 //		});
+//		
+////		Display.getDefault().asyncExec(new Runnable()
+////		{
+////			public final void run()
+////			{
+////				final IEditorPart   editor = dereferenceEditor(reference);
+////				final ISourceViewer viewer = Editors.getSourceViewer(editor);
+////				
+////				int a = viewer.getTopIndex();
+////				int b = viewer.getBottomIndex();
+////				
+////				viewer.addViewportListener(new IViewportListener() {
+////					
+////					public void viewportChanged(int offset)
+////					{
+////						int a = viewer.getTopIndex();
+////						int b = viewer.getBottomIndex();
+////						
+////						//console.print("offset: "+offset);
+////						//console.print("line: "+text.getLineIndex(offset));
+////						console.print("VISIBLE " + a + " - " + b);
+////						
+////						
+////						int c = JFaceTextUtil.getPartialTopIndex(viewer);
+////						int d = JFaceTextUtil.getPartialBottomIndex(viewer);
+////
+////						console.print("partially visible " + c + " - " + d);
+////					}
+////				});
+////				
+////				console.print("VISIBLE " + a + " - " + b + "            " + viewer.getClass());
+////			}
+////		});
 //	}
 //
 //	public final void editorDeactivated(final IEditorReference reference)
