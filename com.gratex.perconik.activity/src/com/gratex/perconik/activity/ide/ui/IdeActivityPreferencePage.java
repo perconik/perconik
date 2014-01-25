@@ -1,5 +1,6 @@
-package com.gratex.perconik.activity.ide;
+package com.gratex.perconik.activity.ide.ui;
 
+import java.net.URL;
 import javax.xml.namespace.QName;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -9,7 +10,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UriFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
+import com.gratex.perconik.activity.ide.IdeActivityServices;
 import com.gratex.perconik.activity.ide.plugin.Activator;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 
 public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
 {
@@ -41,9 +44,12 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	{
 		Composite parent = this.getFieldEditorParent();
 		
-		this.watcherUrl       = new UrlFieldEditor(IdeActivityPreferences.watcherUrl, "URL:", parent);
-		this.watcherNamespace = new UriFieldEditor(IdeActivityPreferences.watcherNamespace , "Namespace:", parent);
-		this.watcherLocalPart = new StringFieldEditor(IdeActivityPreferences.watcherLocalPart , "Local part:", parent);
+		URL   url  = IdeActivityPreferences.getWatcherServiceUrl();
+		QName name = IdeActivityPreferences.getWatcherServiceName();
+		
+		this.watcherUrl       = new UrlFieldEditor(url.toString(), "URL:", parent);
+		this.watcherNamespace = new UriFieldEditor(name.getNamespaceURI().toString() , "Namespace:", parent);
+		this.watcherLocalPart = new StringFieldEditor(name.getLocalPart(), "Local part:", parent);
 		
 		this.addField(prepare(this.watcherUrl));
 		this.addField(prepare(this.watcherNamespace));

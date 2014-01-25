@@ -1,10 +1,11 @@
-package com.gratex.perconik.activity.ide;
+package com.gratex.perconik.activity.ide.preferences;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
+import com.gratex.perconik.activity.ide.IdeActivityDefaults;
 import com.gratex.perconik.activity.ide.plugin.Activator;
 
 public final class IdeActivityPreferences
@@ -45,14 +46,14 @@ public final class IdeActivityPreferences
 		return Activator.getDefault().getPreferenceStore();
 	}
 	
-	static final URL getWatcherServiceUrl()
+	public static final URL getWatcherServiceUrl()
 	{
 		String content = store().getString(watcherUrl);
 		
 		return UniformResources.newUrl(content);
 	}
 	
-	static final QName getWatcherServiceName()
+	public static final QName getWatcherServiceName()
 	{
 		IPreferenceStore store = store();
 		

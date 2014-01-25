@@ -9,6 +9,7 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.gratex.perconik.activity.ide.plugin.Activator;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.VsActivityWatcherService;
 
@@ -25,19 +26,19 @@ public final class IdeActivityServices
 		throw new AssertionError();
 	}
 	
-	static final IVsActivityWatcherService newWatcherService()
+	public static final IVsActivityWatcherService newWatcherService()
 	{
 		return newWatcherService(IdeActivityDefaults.watcherUrl, IdeActivityDefaults.watcherName);
 	}
 
-	static final IVsActivityWatcherService newWatcherService(final URL url, final QName name)
+	public static final IVsActivityWatcherService newWatcherService(final URL url, final QName name)
 	{
 		VsActivityWatcherService service = new VsActivityWatcherService(url, name);
 
 		return service.getBasicHttpBindingIVsActivityWatcherService();
 	}
 	
-	static final IVsActivityWatcherService resolveWatcherService(final URL url, final QName name)
+	public static final IVsActivityWatcherService resolveWatcherService(final URL url, final QName name)
 	{
 		synchronized (lock)
 		{
@@ -61,7 +62,7 @@ public final class IdeActivityServices
 		}
 	}
 	
-	static final void releaseWatcherService()
+	public static final void releaseWatcherService()
 	{
 		synchronized (lock)
 		{
@@ -71,10 +72,7 @@ public final class IdeActivityServices
 	
 	static final void reportWatcherServiceFailure(@Nullable final Exception failure)
 	{
-		synchronized (lock)
-		{
-			services.remove(IVsActivityWatcherService.class);
-		}
+		releaseWatcherService();
 		
 		Activator.getDefault().getConsole().error("Unexpected failure of activity watcher service", failure);
 	}

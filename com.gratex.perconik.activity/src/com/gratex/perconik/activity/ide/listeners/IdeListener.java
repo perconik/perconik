@@ -6,6 +6,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.services.uaca.vs.EventDto;
 import com.gratex.perconik.services.uaca.vs.IdeEventDto;
@@ -56,7 +57,8 @@ import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
  * <ul>
  *   <li>{@code projectName} - related project name.
  *   <li>{@code solutionName} - related workspace name (workspace of the
- *   related project). The workspace name is the root directory name.
+ *   related project). The workspace name is the workspace root directory
+ *   name.
  * </ul>
  * 
  * @author Pavol Zbell
@@ -64,6 +66,7 @@ import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
  */
 public abstract class IdeListener extends Adapter
 {
+	// TODO mk private
 	static final PluginConsole console = Activator.getDefault().getConsole();
 	
 	static final Executor executor = Executors.newCachedThreadPool();
@@ -80,5 +83,10 @@ public abstract class IdeListener extends Adapter
 	static final IEditorPart dereferenceEditor(final IEditorReference reference)
 	{
 		return reference.getEditor(false);
+	}
+
+	static final boolean isDebug()
+	{
+		return IdeApplication.getInstance().isDebug();
 	}
 }

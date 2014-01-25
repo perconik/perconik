@@ -2,11 +2,9 @@ package com.gratex.perconik.activity.ide;
 
 import java.net.URL;
 import javax.xml.namespace.QName;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
-import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.services.uaca.vs.IdeEventDto;
 
 public final class IdeActivityDefaults
@@ -34,11 +32,6 @@ public final class IdeActivityDefaults
 	private IdeActivityDefaults()
 	{
 		throw new AssertionError();
-	}
-
-	public static final PluginConsole getConsole()
-	{
-		return Activator.getDefault().getConsole();
 	}
 	
 	public static final MilestoneResolver<IdeEventDto> getMilestoneResolver()
