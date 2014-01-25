@@ -1,5 +1,8 @@
 package com.gratex.perconik.activity.ide.listeners;
 
+import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.eclipse.swt.widgets.Display;
@@ -7,6 +10,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.services.uaca.vs.EventDto;
@@ -69,8 +73,8 @@ public abstract class IdeListener extends Adapter
 {
 	static final PluginConsole console = Activator.getDefault().getConsole();
 	
-	static final Executor executor = Executors.newCachedThreadPool();
-	
+	private static final Executor executor = Executors.newCachedThreadPool();
+
 	IdeListener()
 	{
 	}
@@ -79,7 +83,12 @@ public abstract class IdeListener extends Adapter
 	{
 		return System.currentTimeMillis();
 	}
-	
+
+	static final SmartStringBuilder debug()
+	{
+		return builder().format(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"), new Date()).appendln().tab();
+	}
+
 	static final IEditorPart dereferenceEditor(final IEditorReference reference)
 	{
 		return reference.getEditor(false);
@@ -94,7 +103,7 @@ public abstract class IdeListener extends Adapter
 	{
 		Display.getDefault().asyncExec(command);
 	}
-
+	
 	static final boolean isDebug()
 	{
 		return IdeApplication.getInstance().isDebug();

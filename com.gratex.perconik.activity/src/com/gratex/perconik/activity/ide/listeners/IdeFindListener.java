@@ -29,7 +29,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.ArrayOfIdeFindFileResultDto;
@@ -124,7 +123,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		if (IdeApplication.getInstance().isDebug()){console.print(dump(data));} // TODO rm
+		if (isDebug()) debug().appendln(dump(data)).appendTo(console);
 		
 		return data;
 	}
@@ -239,7 +238,32 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		send(build(time, project, (FileSearchQuery) query));
 	}
 	
-	// TODO rm
+	public final void queryAdded(final ISearchQuery query)
+	{
+	}
+
+	public final void queryRemoved(final ISearchQuery query)
+	{
+	}
+
+	public final void queryStarting(final ISearchQuery query)
+	{
+	}
+
+	public final void queryFinished(final ISearchQuery query)
+	{
+		final long time = currentTime();
+
+		executeSafely(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, Workbenches.getActivePage(), query);
+			}
+		});
+	}
+
+	//TODO rm
 	private static final String dump(IdeFindOperationDto data)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
@@ -271,30 +295,5 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		}
 		
 		return builder.toString();
-	}
-	
-	public final void queryAdded(final ISearchQuery query)
-	{
-	}
-
-	public final void queryRemoved(final ISearchQuery query)
-	{
-	}
-
-	public final void queryStarting(final ISearchQuery query)
-	{
-	}
-
-	public final void queryFinished(final ISearchQuery query)
-	{
-		final long time = currentTime();
-
-		executeSafely(new Runnable()
-		{
-			public final void run()
-			{
-				process(time, Workbenches.getActivePage(), query);
-			}
-		});
 	}
 }

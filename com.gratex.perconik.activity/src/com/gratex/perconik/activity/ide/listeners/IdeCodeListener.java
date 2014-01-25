@@ -15,15 +15,12 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
-import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
@@ -31,7 +28,6 @@ import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
 import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
@@ -133,11 +129,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		data.setOperationType(type);
 		data.setWebUrl(null);
 
-		// TODO rm
-		if (IdeApplication.getInstance().isDebug()){
-		Object x = document.resource;
-		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)) + "  " + type);
-		System.out.println("TEXT: '"+region.text+"' FROM "+region.start.line+":"+region.start.offset+" TO "+region.end.line+":"+region.end.offset);
+		if (isDebug())
+		{
+			debug().appendln("document: " + document.getPath() + " operation: " + type)
+			.append("text: '" + region.text + "' ")
+			.append("from " + region.start.line + ":" + region.start.offset + " ")
+			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
 		}
 		
 		document.setDocumentData(data);
@@ -181,8 +178,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		if (editor == null)
 		{
-			// TODO rm
-			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- editor not found / documents not equal");}
+			if (isDebug()) debug().appendln("paste: editor not found / documents not equal").appendTo(console);
 
 			return;
 		}
@@ -200,12 +196,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void documentChanged(final DocumentEvent event)
 	{
-		if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- current value "+this.paste.getState() + "");}
+		if (isDebug()) debug().appendln("paste: " + this.paste.getState()).appendTo(console);
 
 		if (this.paste.getState() != EXECUTING)
 		{
-			// TODO rm
-			if (IdeApplication.getInstance().isDebug()){System.out.println("--pasted-- comparison failed -> not executing");}
+			if (isDebug()) debug().appendln("paste: comparison failed -> not executing").appendTo(console);
 
 			return;
 		}

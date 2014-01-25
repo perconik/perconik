@@ -29,7 +29,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
-import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
@@ -46,7 +45,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
@@ -121,12 +119,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 		setApplicationData(data);
 		setEventData(data, time);
-		
-		// TODO rm
-		if (IdeApplication.getInstance().isDebug()){
-		Object x = document.resource;
-		System.out.println("DOCUMENT: " + (x instanceof IFile ? ((IFile) x).getFullPath() : ClassFiles.path((IClassFile) x)) + " operation: " + type);
-		}
+
+		if (isDebug()) debug().appendln("document: " + document.getPath() + " operation: " + type).appendTo(console);
 		
 		return data;
 	}

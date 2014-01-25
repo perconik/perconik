@@ -31,7 +31,6 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.activity.ide.IdeApplication;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.IdeProjectOperationDto;
 import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
@@ -100,9 +99,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		// TODO rm
-		if (IdeApplication.getInstance().isDebug()){
-		System.out.println("PROJECT: " + project.getFullPath() + " operation: " + type);}
+		if (isDebug()) debug().appendln("project: " + project.getFullPath() + " operation: " + type).appendTo(console);
 		
 		return data;
 	}

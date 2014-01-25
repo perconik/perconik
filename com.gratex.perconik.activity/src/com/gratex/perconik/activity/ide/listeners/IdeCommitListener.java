@@ -1,5 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
@@ -11,10 +12,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
+import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
 
@@ -100,7 +100,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		File       directory  = repository.getDirectory();
 		String     url        = GitRepositories.getRemoteOriginUrl(repository);
 		
-		Preconditions.checkArgument(url != null, "Unable to get remote origin url from %s", directory);
+		checkArgument(url != null, "Unable to get remote origin url from %s", directory);
 		
 		String    branch = GitRepositories.getBranch(repository);
 		RevCommit commit = GitRepositories.getMostRecentCommit(repository);
