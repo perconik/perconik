@@ -23,7 +23,21 @@ import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
  * the <i>Activity Watcher Service</i> to be transferred into the
  * <i>User Activity Client Application</i> for further processing.
  * 
- * <p> TODO document how DTOs are build and what data they contain
+ * <p>State changes are logged when an application launches from Eclipse,
+ * or Eclipse perspective changes.
+ * 
+ * <p>Data available in an {@code IdeFindOperationDto}:
+ * 
+ * <ul>
+ *   <li>{@code stateType} - in case of an application run or debug start
+ *   the state type consists of the launch mode concatenated to a string
+ *   {@code " (launch)"}, for example {@code "run (launch)"} or
+ *   {@code "debug (launch)"}. In case of a perspective change it
+ *   consists of the perspective name in lowercase concatenated to string
+ *   {@code " (perspective)"}, for example {@code java (perspective)} or
+ *   {@code debug (perspective)}.
+ *   <li>See {@link IdeListener} for documentation of inherited data.
+ * </ul>
  * 
  * @author Pavol Zbell
  * @since 1.0
