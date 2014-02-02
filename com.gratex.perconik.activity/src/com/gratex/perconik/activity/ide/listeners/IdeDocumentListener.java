@@ -50,6 +50,7 @@ import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperat
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
+import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
 
 /**
  * A listener of {@code IdeDocumentOperation} events. This listener creates
@@ -57,7 +58,43 @@ import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
  * the <i>Activity Watcher Service</i> to be transferred into the
  * <i>User Activity Client Application</i> for further processing.
  * 
- * <p> TODO document how DTOs are build and what data they contain
+ * <p>Document operation types that this listener is interested in are
+ * determined by the {@link IdeDocumentOperationTypeEnum} enumeration:
+ * 
+ * <ul>
+ *   <li>Add - a document is added into the project.
+ *   <li>Close - an opened document is closed.
+ *   <li>Open - a closed document is opened.
+ *   <li>Remove - a document is removed from the project.
+ *   <li>Rename - currently not supported.
+ *   <li>Save - a document is saved.
+ *   <li>Switch to - focus is changed from one document to another,
+ *   editor selections (tabs and text) and structured selections in
+ *   package explorer are supported.
+ * </ul>
+ * 
+ * <p>Data available in an {@code IdeDocumentOperationDto}:
+ * 
+ * <ul>
+ *   <li>{@code document} - see {@code IdeDocumentDto} below.
+ *   <li>{@code operationType} - see {@link IdeProjectOperationTypeEnum}
+ *   for possible values of this field.
+ *   <li>See {@link IdeListener} for documentation of inherited data.
+ * </ul>
+ * 
+ * <p>Data available in an {@code IdeDocumentDto}:
+ * 
+ * TODO
+ * 
+ * <ul>
+ *   <li>{@code branchName} - .
+ *   <li>{@code changesetIdInRcs} - .
+ *   <li>{@code id} - unused but exposed internals.
+ *   <li>{@code path} - .
+ *   <li>{@code pathType} - .
+ *   <li>{@code rcsServer} - see documentation of {@code RcsServerDto}
+ *   in {@link IdeCommitListener} for more details.
+ * </ul>
  * 
  * @author Pavol Zbell
  * @since 1.0
