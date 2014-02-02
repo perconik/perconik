@@ -131,7 +131,7 @@ public final class IdeDataTransferObjects
 		
 		Preconditions.checkState(root != null, "Package fragment root not found");
 		
-		setProjectData(data, file.getJavaProject().getElementName(), root.getElementName());
+		setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
 	}
 
 	public static final void setProjectData(final IdeSlnPrjEventDto data, final IProject project)
