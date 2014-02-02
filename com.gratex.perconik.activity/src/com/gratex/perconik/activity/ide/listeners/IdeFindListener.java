@@ -80,8 +80,8 @@ import com.gratex.perconik.services.uaca.vs.IdeFindResultRowDto;
  * <p>Data available in an {@code IdeFindFileResultDto}:
  * 
  * <ul>
- *   <li>{@code file} - see documentation of {@code IdeDocumentDto}
- *   in {@link IdeDocumentListener} for more details.
+ *   <li>{@code file} - matched file, see documentation of
+ *   {@code IdeDocumentDto} in {@link IdeDocumentListener} for more details.
  *   <li>{@code rows} - a list of file matches,
  *   see {@code IdeFindResultRowDto} below.
  * </ul>

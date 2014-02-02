@@ -79,7 +79,7 @@ import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
  * <ul>
  *   <li>{@code document} - see {@code IdeDocumentDto} below.
  *   <li>{@code operationType} - see {@link IdeProjectOperationTypeEnum}
- *   for possible values of this field.
+ *   for all possible values in this field.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
  * 

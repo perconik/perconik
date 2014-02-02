@@ -38,7 +38,36 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  * the <i>Activity Watcher Service</i> to be transferred into the
  * <i>User Activity Client Application</i> for further processing.
  * 
- * <p> TODO document how DTOs are build and what data they contain
+ * <p>Code operation types that this listener is interested in are
+ * determined by the {@link IdeCodeOperationTypeEnum} enumeration:
+ * 
+ * <ul>
+ *   <li>Copy - a code is copied.
+ *   <li>Paste - a code is pasted.
+ *   <li>Paste from web - unused, inferred by UACA from regular paste.
+ *   <li>Selection changed - a code is selected, cursor is moved discarding
+ *   current selection or the code selection is changed otherwise.
+ * </ul>
+ * 
+ * <p>Data available in an {@code IdeCodeOperationDto}:
+ * 
+ * <ul>
+ *   <li>{@code code} - related code.
+ *   <li>{@code document} - related document, see documentation of
+ *   {@code IdeDocumentDto} in {@link IdeDocumentListener} for more details.
+ *   <li>{@code endColumnIndex} - zero based end position
+ *   of code on document line.
+ *   <li>{@code endRowIndex} - zero based end line number
+ *   of code in document.
+ *   <li>{@code operationType} - see {@link IdeCodeOperationTypeEnum}
+ *   for all possible values in this field.
+ *   <li>{@code startColumnIndex} - zero based start position
+ *   of code on document line.
+ *   <li>{@code startRowIndex} - zero based start line number
+ *   of code in document.
+ *   <li>{@code webUrl} - unused, inferred by UACA.
+ *   <li>See {@link IdeListener} for documentation of inherited data.
+ * </ul>
  * 
  * <p>Note that row and column offsets in documents start from zero
  * instead of one.
@@ -48,6 +77,8 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  */
 public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
 {
+	// TODO add support for copy
+	
 	private final CommandExecutionStateHandler paste;
 	
 	public IdeCodeListener()
