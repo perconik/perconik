@@ -26,7 +26,7 @@ import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
  * <p>State changes are logged when an application launches from Eclipse,
  * or Eclipse perspective changes.
  * 
- * <p>Data available in an {@code IdeFindOperationDto}:
+ * <p>Data available in an {@code IdeStateChangeDto}:
  * 
  * <ul>
  *   <li>{@code stateType} - in case of an application run or debug start

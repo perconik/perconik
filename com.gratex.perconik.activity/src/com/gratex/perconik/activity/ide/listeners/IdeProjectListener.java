@@ -42,7 +42,28 @@ import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
  * the <i>Activity Watcher Service</i> to be transferred into the
  * <i>User Activity Client Application</i> for further processing.
  * 
- * <p> TODO document how DTOs are build and what data they contain
+ * <p>Project operation types that this listener is interested in are
+ * determined by the {@link IdeProjectOperationTypeEnum} enumeration:
+ * 
+ * <ul>
+ *   <li>Add - a project is added into the workspace.
+ *   <li>Close - an opened project is closed.
+ *   <li>Open - a closed project is opened.
+ *   <li>Refresh - a project is refreshed.
+ *   <li>Remove - a project is removed from the workspace.
+ *   <li>Rename - currently not supported. (TODO)
+ *   <li>Switch to - focus is changed from one project to another,
+ *   editor selections (tabs and text) and structured selections in
+ *   package explorer are supported.
+ * </ul>
+ * 
+ * <p>Data available in an {@code IdeProjectOperationDto}:
+ * 
+ * <ul>
+ *   <li>{@code operationType} - see {@link IdeProjectOperationTypeEnum}
+ *   for possible values of this field.
+ *   <li>See {@link IdeListener} for documentation of inherited data.
+ * </ul>
  * 
  * @author Pavol Zbell
  * @since 1.0
