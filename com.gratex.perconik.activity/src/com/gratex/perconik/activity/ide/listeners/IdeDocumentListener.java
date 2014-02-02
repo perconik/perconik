@@ -50,6 +50,7 @@ import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperat
 import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
+import com.gratex.perconik.services.uaca.vs.IdePathTypeEnum;
 import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
 
 /**
@@ -84,14 +85,16 @@ import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
  * 
  * <p>Data available in an {@code IdeDocumentDto}:
  * 
- * TODO
- * 
  * <ul>
- *   <li>{@code branchName} - .
- *   <li>{@code changesetIdInRcs} - .
+ *   <li>{@code branchName} - current Git branch name for the document.
+ *   <li>{@code changesetIdInRcs} - most recent Git commit
+ *   identifier for the document (40 hexadecimal characters),
+ *   for example {@code "984dd5f359532d7d806a92b47ef5bfc39d772d64"}.
  *   <li>{@code id} - unused but exposed internals.
- *   <li>{@code path} - .
- *   <li>{@code pathType} - .
+ *   <li>{@code path} - path to the document relative to the workspace root,
+ *   for example {@code "com.gratex.perconik.activity/src/com/gratex/perconik/activity/ide/listeners/IdeCommitListener.java"}.
+ *   <li>{@code pathType} - always {@link IdePathTypeEnum#RELATIVE_LOCAL
+ *   RELATIVE_LOCAL}.
  *   <li>{@code rcsServer} - see documentation of {@code RcsServerDto}
  *   in {@link IdeCommitListener} for more details.
  * </ul>

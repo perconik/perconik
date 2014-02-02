@@ -30,8 +30,9 @@ import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
  * <p>Data available in an {@code IdeCheckinDto}:
  * 
  * <ul>
- *   <li>{@code idInRcs} - current Git commit identifier (40 hexadecimal
- *   characters), for example {@code ffba951d35f710abee873db3f5547043aeb3fde9}.
+ *   <li>{@code idInRcs} - current Git commit
+ *   identifier (40 hexadecimal characters),
+ *   for example {@code "ffba951d35f710abee873db3f5547043aeb3fde9"}.
  *   <li>{@code rcsServer} - see {@code RcsServerDto} below.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
