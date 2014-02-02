@@ -129,9 +129,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		data.setOperationType(type);
 		data.setWebUrl(null);
 
-		if (isDebug())
+		if (Debug.enabled())
 		{
-			debug().appendln("document: " + document.getPath() + " operation: " + type)
+			Debug.message().appendln("document: " + document.getPath() + " operation: " + type)
 			.append("text: '" + region.text + "' ")
 			.append("from " + region.start.line + ":" + region.start.offset + " ")
 			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
@@ -178,7 +178,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		if (editor == null)
 		{
-			if (isDebug()) debug().appendln("paste: editor not found / documents not equal").appendTo(console);
+			if (Debug.enabled()) Debug.message().appendln("paste: editor not found / documents not equal").appendTo(console);
 
 			return;
 		}
@@ -196,16 +196,16 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void documentChanged(final DocumentEvent event)
 	{
-		if (isDebug()) debug().appendln("paste: " + this.paste.getState()).appendTo(console);
+		if (Debug.enabled()) Debug.message().appendln("paste: " + this.paste.getState()).appendTo(console);
 
 		if (this.paste.getState() != EXECUTING)
 		{
-			if (isDebug()) debug().appendln("paste: comparison failed -> not executing").appendTo(console);
+			if (Debug.enabled()) Debug.message().appendln("paste: comparison failed -> not executing").appendTo(console);
 
 			return;
 		}
 		
-		final long time = currentTime();
+		final long time = Utilities.currentTime();
 		
 		execute(new Runnable()
 		{
@@ -218,7 +218,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
 	{
-		final long time = currentTime();
+		final long time = Utilities.currentTime();
 		
 		execute(new Runnable()
 		{

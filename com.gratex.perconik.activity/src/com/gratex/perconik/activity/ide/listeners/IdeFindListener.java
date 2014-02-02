@@ -4,6 +4,7 @@ import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatche
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -123,7 +124,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		if (isDebug()) debug().appendln(dump(data)).appendTo(console);
+		if (Debug.enabled()) Debug.message().appendln(dump(data)).appendTo(console);
 		
 		return data;
 	}

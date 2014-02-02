@@ -3,6 +3,8 @@ package com.gratex.perconik.activity.ide.listeners;
 import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -120,7 +122,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		setApplicationData(data);
 		setEventData(data, time);
 
-		if (isDebug()) debug().appendln("document: " + document.getPath() + " operation: " + type).appendTo(console);
+		if (Debug.enabled()) Debug.message().appendln("document: " + document.getPath() + " operation: " + type).appendTo(console);
 		
 		return data;
 	}
