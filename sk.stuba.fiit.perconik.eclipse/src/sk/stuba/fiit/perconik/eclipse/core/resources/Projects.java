@@ -46,7 +46,7 @@ public final class Projects
 		{
 			return fromEditor(editor);
 		}
-
+		
 		for (IViewReference reference: page.getViewReferences())
 		{
 			IViewPart view = reference.getView(false);

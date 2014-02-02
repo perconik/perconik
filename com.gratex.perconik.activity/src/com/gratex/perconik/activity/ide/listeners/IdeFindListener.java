@@ -44,24 +44,55 @@ import com.gratex.perconik.services.uaca.vs.IdeFindResultRowDto;
  * the <i>Activity Watcher Service</i> to be transferred into the
  * <i>User Activity Client Application</i> for further processing.
  * 
- * <p> TODO document how DTOs are build and what data they contain
- * 
- * <p> TODO write here when event is logged
+ * <p>Find operations are logged when a file search is performed.
  * 
  * <p>Data available in an {@code IdeFindOperationDto}:
  * 
  * <ul>
- *   <li>{@code derivedResources} - .
- *   <li>{@code fileTypes} - .
- *   <li>{@code findWhat} - .
- *   <li>{@code lookin} - .
- *   <li>{@code matchCase} - .
- *   <li>{@code matchWholeWord} - .
- *   <li>{@code patternSyntax} - .
- *   <li>{@code resultsPerFiles} - .
- *   <li>{@code searchSubfolders} - .
- *   <li>{@code totalFilesSearched} - .
+ *   <li>{@code derivedResources} - set to {@code true} if search should
+ *   consider derived resources, {@code false} otherwise.
+ *   <li>{@code fileTypes} - file name patterns separated by {@code ", "}.
+ *   Set to {@code "*"} by default, other examples produce strings such as
+ *   {@code "Map*.*, String*.class"}.
+ *   <li>{@code findWhat} - the search query string.
+ *   <li>{@code lookin} - search scopes separated by {@code ", "}.
+ *   In case of enclosed projects or selected resources the string
+ *   consists of a list of resource (project) paths relative to workspace
+ *   root (but starting with {@code "/"}), and separated by {@code ", "}.
+ *   In case of working sets the string starts with {@code "working sets "}
+ *   concatenated to a list of working set names separated by {@code ", "}.
+ *   Set to {@code "workspace"} by default, other examples produce strings
+ *   such as {@code "/com.gratex.perconik.activity"}, {@code "com.gratex.perconik.activity/src/com/gratex/perconik/activity/ide/listeners/IdeCommitListener.java"},
+ *   (for enclosed projects or selected resources) or {@code "working sets PerConIK Core, PerConIK Gratex, PerConIK Site"} (for working sets).
+ *   <li>{@code matchCase} - set to {@code true} if search is case sensitive,
+ *   {@code false} otherwise.
+ *   <li>{@code matchWholeWord} - set to {@code true} if search should match
+ *   only whole words, {@code false} otherwise.
+ *   <li>{@code patternSyntax} - set to {@code "Regular expressions"} when
+ *   enabled or {@code "Wildcards"} by default.
+ *   <li>{@code resultsPerFiles} - a list of matched files,
+ *   see {@code IdeFindFileResultDto} below.
+ *   <li>{@code searchSubfolders} - always {@code null}.
+ *   <li>{@code totalFilesSearched} - always {@code null}.
  *   <li>See {@link IdeListener} for documentation of inherited data.
+ * </ul>
+ * 
+ * <p>Data available in an {@code IdeFindFileResultDto}:
+ * 
+ * <ul>
+ *   <li>{@code file} - see documentation of {@code IdeDocumentDto}
+ *   in {@link IdeDocumentListener} for more details.
+ *   <li>{@code rows} - a list of file matches,
+ *   see {@code IdeFindResultRowDto} below.
+ * </ul>
+ * 
+ * <p>Data available in an {@code IdeFindResultRowDto}:
+ * 
+ * <ul>
+ *   <li>{@code column} - zero based match position on line,
+ *   or {@code null} if can not be determined.
+ *   <li>{@code row} - zero based match line number.
+ *   <li>{@code text} - matched text.
  * </ul>
  * 
  * <p>Note that row and column offsets in documents start from zero
@@ -235,6 +266,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 	static final void process(final long time, final IWorkbenchPage page, final ISearchQuery query)
 	{
 		IProject project = Projects.fromPage(page);
+
+		// TODO project can not be always determined: when IClassFile is in editor, or when nothing is selected
 		
 		send(build(time, project, (FileSearchQuery) query));
 	}

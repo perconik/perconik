@@ -53,7 +53,11 @@ import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
  * <p>Data available in an {@code IdeSlnPrjEventDto}:
  * 
  * <ul>
- *   <li>{@code projectName} - related project name.
+ *   <li>{@code projectName} - related project name. In case when the project
+ *   name can not be determined, such as when not editable source code is
+ *   selected, the project name is set to the accompanying library, mostly
+ *   some JAR file, for example {@code "rt.jar"} for standard JRE system
+ *   library. Note that the workspace name always is preserved.
  *   <li>{@code solutionName} - related workspace name (workspace of the
  *   related project). The workspace name is the workspace root directory
  *   name.

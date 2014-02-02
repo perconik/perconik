@@ -99,6 +99,10 @@ import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
  *   in {@link IdeCommitListener} for more details.
  * </ul>
  * 
+ * <p>Note that in case of not editable source code, such as classes from JRE
+ * system library, fields {@code branchName}, {@code changesetIdInRcs},
+ * and {@code rcsServer} are unused and set to {@code null}.
+ * 
  * @author Pavol Zbell
  * @since 1.0
  */
