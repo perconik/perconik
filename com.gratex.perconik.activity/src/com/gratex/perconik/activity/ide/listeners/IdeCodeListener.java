@@ -4,6 +4,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
+import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.CUT;
+import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.PASTE;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.FAILED;
@@ -83,16 +86,51 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  */
 public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
 {
-	private final CommandExecutionStateHandler copy;
-	
 	private final CommandExecutionStateHandler paste;
 	
 	public IdeCodeListener()
 	{
-		this.copy  = CommandExecutionStateHandler.of("org.eclipse.ui.edit.copy");
-		this.paste = CommandExecutionStateHandler.of("org.eclipse.ui.edit.paste");
+		this.paste = CommandExecutionStateHandler.of(PASTE.getIdentifier());
 	}
 
+	static enum Operation
+	{
+		COPY("org.eclipse.ui.edit.copy"),
+		
+		CUT("org.eclipse.ui.edit.cut"),
+		
+		PASTE("org.eclipse.ui.edit.paste");
+		
+		private final String id;
+		
+		private Operation(String id)
+		{
+			assert !id.isEmpty();
+			
+			this.id = id;
+		}
+		
+		public static final Operation resolve(String id)
+		{
+			checkArgument(!id.isEmpty());
+			
+			for (Operation operation: values())
+			{
+				if (operation.id.equals(id))
+				{
+					return operation;
+				}
+			}
+			
+			return null;
+		}
+		
+		public final String getIdentifier()
+		{
+			return this.id;
+		}
+	}
+	
 	static final class Region
 	{
 		final Position start = new Position();
@@ -108,21 +146,6 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		static final class Position
 		{
 			int line, offset;
-		}
-		
-		static final Region of(final IDocument document, int offset, int length)
-		{
-			checkArgument(offset >= 0);
-			checkArgument(length >= 0);
-
-			try
-			{
-				return of(document, offset, length, document.get(offset, length));
-			}
-			catch (BadLocationException e)
-			{
-				throw Throwables.propagate(e);
-			}
 		}
 		
 		static final Region of(final IDocument document, int offset, int length, final String text)
@@ -203,26 +226,26 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		return data;
 	}
 	
-	static final void process(final long time)
+	static final void process(final long time, final Operation operation)
 	{
 		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 		
 	    if (!MoreArrays.contains(clipboard.getAvailableTypeNames(), "Rich Text Format"))
 	    {
-	    	if (Debug.enabled()) Debug.message().appendln("copy: not rich text format").appendTo(console);
+	    	if (Debug.enabled()) Debug.message().appendln("copy / cut: not rich text format").appendTo(console);
 	    	
 	    	return;
 	    }
 	    
-	    String content = clipboard.getContents(TextTransfer.getInstance()).toString();
+	    String text = clipboard.getContents(TextTransfer.getInstance()).toString();
 	    
 	    clipboard.dispose();
 		
-		IEditorPart   editor = Editors.getActiveEditor();
+		IEditorPart editor = Editors.getActiveEditor();
 		
 		if (editor == null)
 		{
-			if (Debug.enabled()) Debug.message().appendln("copy: no active editor not found").appendTo(console);
+			if (Debug.enabled()) Debug.message().appendln("copy / cut: no active editor not found").appendTo(console);
 	
 			return;
 		}
@@ -230,21 +253,46 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		ISourceViewer viewer   = Editors.getSourceViewer(editor);
 		IDocument     document = viewer.getDocument();
 		
-		Point range = viewer.getSelectedRange();
-		
 		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
 		
-		Region data = Region.of(document, range.x, range.y);
+		Point range = viewer.getSelectedRange();
 		
-		if (!content.equals(data.text))
+		int offset = range.x;
+		int length = range.y;
+		
+		Region data = Region.of(document, offset, length, text);
+
+		String selection;
+		
+		try
+		{
+			selection = document.get(offset, length);
+		}
+		catch (BadLocationException e)
+		{
+			throw Throwables.propagate(e);
+		}
+
+		if (operation == COPY && !data.text.equals(selection))
 		{
 			if (Debug.enabled())
 			{
 				Debug.message().append("copy: clipboard content not equal to editor selection")
-				.append(" '").append(content).append("' != '").append(data.text).appendln("'")
+				.append(" '").append(data.text).append("' != '").append(selection).appendln("'")
 				.appendTo(console);
 			}
-			
+
+			return;
+		}
+		else if (operation == CUT && !selection.isEmpty())
+		{
+			if (Debug.enabled())
+			{
+				Debug.message().append("cut: editor selection not empty")
+				.append(" '").append(selection).appendln("'")
+				.appendTo(console);
+			}
+
 			return;
 		}
 		
@@ -294,8 +342,6 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		send(build(time, resource, data, IdeCodeOperationTypeEnum.SELECTION_CHANGED));
 	}
-
-
 	
 	public final void documentAboutToBeChanged(final DocumentEvent event)
 	{
@@ -343,7 +389,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void postExecuteSuccess(final String id, final Object result)
 	{
-		if (this.copy.getIdentifier().equals(id))
+		final Operation operation = Operation.resolve(id);
+		
+		if (operation == COPY || operation == CUT)
 		{
 			final long time = Utilities.currentTime();
 			
@@ -351,12 +399,14 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			{
 				public final void run()
 				{
-					process(time);
+					process(time, operation);
 				}
 			});
 		}
-		
-		this.paste.transitOnMatch(id, SUCCEEDED);
+		else if (operation == PASTE)
+		{
+			this.paste.transit(SUCCEEDED);
+		}
 	}
 
 	public final void postExecuteFailure(final String id, final ExecutionException exception)
