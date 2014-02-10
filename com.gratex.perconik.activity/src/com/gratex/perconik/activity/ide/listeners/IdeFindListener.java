@@ -72,8 +72,11 @@ import com.gratex.perconik.services.uaca.vs.IdeFindResultRowDto;
  *   enabled or {@code "Wildcards"} by default.
  *   <li>{@code resultsPerFiles} - a list of matched files,
  *   see {@code IdeFindFileResultDto} below.
- *   <li>{@code searchSubfolders} - always {@code null}.
- *   <li>{@code totalFilesSearched} - always {@code null}.
+ *   <li>{@code searchSubfolders} - always {@code null}, in fact it is always
+ *   {@code true} (whole directory tree is always searched) but {@code null}
+ *   indicates that it is not a search option nor accessible via search API.
+ *   <li>{@code totalFilesSearched} - always {@code null}, not accessible
+ *   via search API.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
  * 

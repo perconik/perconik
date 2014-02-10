@@ -19,6 +19,10 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
@@ -26,6 +30,8 @@ import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.utilities.MoreArrays;
 import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.services.IVsActivityWatcherService;
@@ -42,7 +48,7 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  * determined by the {@link IdeCodeOperationTypeEnum} enumeration:
  * 
  * <ul>
- *   <li>Copy - a code is copied.
+ *   <li>Copy - a code is copied or cut.
  *   <li>Paste - a code is pasted.
  *   <li>Paste from web - unused, inferred by UACA from regular paste.
  *   <li>Selection changed - a code is selected, cursor is moved discarding
@@ -77,12 +83,13 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  */
 public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
 {
-	// TODO add support for copy
+	private final CommandExecutionStateHandler copy;
 	
 	private final CommandExecutionStateHandler paste;
 	
 	public IdeCodeListener()
 	{
+		this.copy  = CommandExecutionStateHandler.of("org.eclipse.ui.edit.copy");
 		this.paste = CommandExecutionStateHandler.of("org.eclipse.ui.edit.paste");
 	}
 
@@ -93,10 +100,29 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		final Position end = new Position();
 		
 		String text;
+		
+		Region()
+		{
+		}
 
 		static final class Position
 		{
 			int line, offset;
+		}
+		
+		static final Region of(final IDocument document, int offset, int length)
+		{
+			checkArgument(offset >= 0);
+			checkArgument(length >= 0);
+
+			try
+			{
+				return of(document, offset, length, document.get(offset, length));
+			}
+			catch (BadLocationException e)
+			{
+				throw Throwables.propagate(e);
+			}
 		}
 		
 		static final Region of(final IDocument document, int offset, int length, final String text)
@@ -176,6 +202,73 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 		return data;
 	}
+	
+	static final void process(final long time)
+	{
+		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
+		
+	    if (!MoreArrays.contains(clipboard.getAvailableTypeNames(), "Rich Text Format"))
+	    {
+	    	if (Debug.enabled()) Debug.message().appendln("copy: not rich text format").appendTo(console);
+	    	
+	    	return;
+	    }
+	    
+	    String content = clipboard.getContents(TextTransfer.getInstance()).toString();
+	    
+	    clipboard.dispose();
+		
+		IEditorPart   editor = Editors.getActiveEditor();
+		
+		if (editor == null)
+		{
+			if (Debug.enabled()) Debug.message().appendln("copy: no active editor not found").appendTo(console);
+	
+			return;
+		}
+		
+		ISourceViewer viewer   = Editors.getSourceViewer(editor);
+		IDocument     document = viewer.getDocument();
+		
+		Point range = viewer.getSelectedRange();
+		
+		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
+		
+		Region data = Region.of(document, range.x, range.y);
+		
+		if (!content.equals(data.text))
+		{
+			if (Debug.enabled())
+			{
+				Debug.message().append("copy: clipboard content not equal to editor selection")
+				.append(" '").append(content).append("' != '").append(data.text).appendln("'")
+				.appendTo(console);
+			}
+			
+			return;
+		}
+		
+		send(build(time, resource, data, IdeCodeOperationTypeEnum.COPY));
+	}
+
+	static final void process(final long time, final DocumentEvent event)
+	{
+		IDocument   document = event.getDocument();
+		IEditorPart editor   = Editors.forDocument(document);
+		
+		if (editor == null)
+		{
+			if (Debug.enabled()) Debug.message().appendln("paste: editor not found / documents not equal").appendTo(console);
+	
+			return;
+		}
+		
+		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
+	
+		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
+		
+		send(build(time, resource, data, IdeCodeOperationTypeEnum.PASTE));
+	}
 
 	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
 	{
@@ -187,13 +280,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		IEditorPart editor   = (IEditorPart) part;
 		IDocument   document = Editors.getDocument(editor);
 		
-		UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
+		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
 		
 		if (document == null || resource == null)
 		{
 			return;
 		}
-		
+
 		Region data = Region.of(document, selection.getOffset(), selection.getLength(), selection.getText());
 		
 		assert data.start.line == selection.getStartLine();
@@ -201,25 +294,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		send(build(time, resource, data, IdeCodeOperationTypeEnum.SELECTION_CHANGED));
 	}
-	
-	static final void process(final long time, final DocumentEvent event)
-	{
-		IDocument   document = event.getDocument();
-		IEditorPart editor   = Editors.forDocument(document);
-		
-		if (editor == null)
-		{
-			if (Debug.enabled()) Debug.message().appendln("paste: editor not found / documents not equal").appendTo(console);
 
-			return;
-		}
-		
-		UnderlyingDocument<?> resource = UnderlyingDocument.of(editor);
 
-		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
-		
-		send(build(time, resource, data, IdeCodeOperationTypeEnum.PASTE));
-	}	
 	
 	public final void documentAboutToBeChanged(final DocumentEvent event)
 	{
@@ -262,17 +338,24 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void preExecute(final String id, final ExecutionEvent event)
 	{
-// TODO note
-//		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
-//		Object contents = clipboard.getContents(TextTransfer.getInstance());
-//		System.out.println(Arrays.toString(clipboard.getAvailableTypeNames()));
-//		System.out.println("'"+contents+"'");
-		
 		this.paste.transitOnMatch(id, EXECUTING);
 	}
 
 	public final void postExecuteSuccess(final String id, final Object result)
 	{
+		if (this.copy.getIdentifier().equals(id))
+		{
+			final long time = Utilities.currentTime();
+			
+			executeSafely(new Runnable()
+			{
+				public final void run()
+				{
+					process(time);
+				}
+			});
+		}
+		
 		this.paste.transitOnMatch(id, SUCCEEDED);
 	}
 

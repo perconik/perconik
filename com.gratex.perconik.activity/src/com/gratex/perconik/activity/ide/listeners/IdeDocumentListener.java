@@ -151,7 +151,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	static final IdeDocumentOperationDto build(final long time, final IFile file, final IdeDocumentOperationTypeEnum type)
 	{
-		return build(time, UnderlyingDocument.valueOf(file), type);
+		return build(time, UnderlyingDocument.of(file), type);
 	}
 	
 	static final IdeDocumentOperationDto build(final long time, final UnderlyingDocument<?> document, final IdeDocumentOperationTypeEnum type)
@@ -280,11 +280,11 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 			if (element instanceof IFile)
 			{
-				document = UnderlyingDocument.valueOf((IFile) element);
+				document = UnderlyingDocument.of((IFile) element);
 			}
 			else if (element instanceof IClassFile)
 			{
-				document = UnderlyingDocument.valueOf((IClassFile) element);
+				document = UnderlyingDocument.of((IClassFile) element);
 			}
 			else if (element instanceof IJavaElement)
 			{
@@ -292,14 +292,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 				if (resource instanceof IFile)
 				{
-					document = UnderlyingDocument.valueOf((IFile) resource);
+					document = UnderlyingDocument.of((IFile) resource);
 				}
 			}
 		}
 		
 		if (document == null && part instanceof IEditorPart)
 		{
-			document = UnderlyingDocument.of((IEditorPart) part);
+			document = UnderlyingDocument.from((IEditorPart) part);
 		}
 		
 		if (this.updateFile(document))
@@ -316,7 +316,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			@Override
 			public final void run()
 			{
-				final UnderlyingDocument<?> document = UnderlyingDocument.of(Editors.getActiveEditor());
+				final UnderlyingDocument<?> document = UnderlyingDocument.from(Editors.getActiveEditor());
 
 				if (document == null)
 				{
@@ -362,7 +362,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingDocument<?> resource = UnderlyingDocument.of(dereferenceEditor(reference));
+				UnderlyingDocument<?> resource = UnderlyingDocument.from(dereferenceEditor(reference));
 				
 				if (resource != null)
 				{
@@ -380,7 +380,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingDocument<?> document = UnderlyingDocument.of(dereferenceEditor(reference));
+				UnderlyingDocument<?> document = UnderlyingDocument.from(dereferenceEditor(reference));
 				
 				if (document != null)
 				{

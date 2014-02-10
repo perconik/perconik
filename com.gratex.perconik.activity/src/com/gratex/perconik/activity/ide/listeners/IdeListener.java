@@ -81,6 +81,7 @@ public abstract class IdeListener extends Adapter
 		executor.execute(command);
 	}
 
+	// TODO refactor all async operations to do minimal job in display threads
 	static final void executeSafely(final Runnable command)
 	{
 		Display.getDefault().asyncExec(command);

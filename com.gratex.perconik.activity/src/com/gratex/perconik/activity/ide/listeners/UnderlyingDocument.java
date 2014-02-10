@@ -22,7 +22,7 @@ abstract class UnderlyingDocument<T>
 		this.resource = resource;
 	}
 	
-	static final UnderlyingDocument<?> of(@Nullable final IEditorPart editor)
+	static final UnderlyingDocument<?> from(@Nullable final IEditorPart editor)
 	{
 		if (editor == null)
 		{
@@ -33,25 +33,25 @@ abstract class UnderlyingDocument<T>
 		
 		if (file != null)
 		{
-			return valueOf(file);
+			return of(file);
 		}
 		
 		IClassFile classFile = (IClassFile) editor.getEditorInput().getAdapter(IClassFile.class);
 		
 		if (classFile != null)
 		{
-			return valueOf(classFile);
+			return of(classFile);
 		}
 		
 		return null;
 	}
 	
-	static final UnderlyingDocument<IClassFile> valueOf(final IClassFile file)
+	static final UnderlyingDocument<IClassFile> of(final IClassFile file)
 	{
 		return new ClassFile(file);
 	}
 
-	static final UnderlyingDocument<IFile> valueOf(final IFile file)
+	static final UnderlyingDocument<IFile> of(final IFile file)
 	{
 		return new File(file);
 	}
