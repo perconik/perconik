@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.gratex.perconik.tag.feature"
-      label="PerConIK Gratex Content Tags"
-      version="0.1.1.v20140118-1439"
-      provider-name="Gratex International">
+      id="com.gratex.perconik.services.feature"
+      label="PerConIK Gratex Services"
+      version="0.3.2.v20140211-1111"
+      provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>
-      PerConIK Gratex Content Tags
+      PerConIK Gratex Services
    </description>
 
    <copyright url="http://perconik.fiit.stuba.sk">
@@ -32,12 +32,8 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
       <update label="PerConIK Eclipse Integration" url="http://perconik.github.io/update"/>
    </url>
 
-   <includes
-         id="com.gratex.perconik.services.feature"
-         version="0.0.0"/>
-
    <plugin
-         id="com.gratex.perconik.tag"
+         id="com.gratex.perconik.services"
          download-size="0"
          install-size="0"
          version="0.0.0"

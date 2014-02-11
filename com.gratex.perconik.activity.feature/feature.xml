@@ -33,18 +33,15 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
    </url>
 
    <includes
+         id="com.gratex.perconik.services.feature"
+         version="0.0.0"/>
+
+   <includes
          id="sk.stuba.fiit.perconik.feature"
          version="0.0.0"/>
 
    <plugin
          id="com.gratex.perconik.activity"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.gratex.perconik.services"
          download-size="0"
          install-size="0"
          version="0.0.0"
