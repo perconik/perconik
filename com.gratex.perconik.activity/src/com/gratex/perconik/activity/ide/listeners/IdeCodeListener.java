@@ -51,7 +51,8 @@ import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
  * determined by the {@link IdeCodeOperationTypeEnum} enumeration:
  * 
  * <ul>
- *   <li>Copy - a code is copied or cut.
+ *   <li>Copy - a code is copied.
+ *   <li>Cut - a code is cut.
  *   <li>Paste - a code is pasted.
  *   <li>Paste from web - unused, inferred by UACA from regular paste.
  *   <li>Selection changed - a code is selected, cursor is moved discarding
@@ -296,7 +297,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 		
-		send(build(time, resource, data, IdeCodeOperationTypeEnum.COPY));
+		send(build(time, resource, data, IdeCodeOperationTypeEnum.valueOf(operation.toString())));
 	}
 
 	static final void process(final long time, final DocumentEvent event)
