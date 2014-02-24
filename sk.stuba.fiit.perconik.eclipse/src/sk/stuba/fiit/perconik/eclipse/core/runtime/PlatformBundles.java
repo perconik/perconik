@@ -9,7 +9,7 @@ import org.osgi.framework.Bundle;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class PlatformBundles
+public final class PlatformBundles
 {
 	static final String platform = "org.eclipse.platform";
 

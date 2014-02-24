@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 
 final class LoadingClassResolver implements ClassResolver
 {
-	private ClassLoader loader;
+	private final ClassLoader loader;
 	
 	LoadingClassResolver(ClassLoader loader)
 	{
