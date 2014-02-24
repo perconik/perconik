@@ -9,6 +9,8 @@ import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 final class Debug
 {
+	private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	
 	private Debug()
 	{
 		throw new AssertionError();
@@ -21,8 +23,6 @@ final class Debug
 
 	static final SmartStringBuilder message()
 	{
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		
 		return builder().format(format, new Date()).appendln().tab();
 	}
 }
