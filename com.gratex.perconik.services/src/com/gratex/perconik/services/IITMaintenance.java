@@ -15,6 +15,7 @@ import com.gratex.perconik.services.itm.AddInformationTagResponse;
 import com.gratex.perconik.services.itm.ArrayOfInformationTag;
 import com.gratex.perconik.services.itm.AstRcsContextConstraint;
 import com.gratex.perconik.services.itm.DeleteInformationTagResponse;
+import com.gratex.perconik.services.itm.EventListenerDetails;
 import com.gratex.perconik.services.itm.ExecuteSparqlQueryResponse;
 import com.gratex.perconik.services.itm.GetInformationTagOfVersionResponse;
 import com.gratex.perconik.services.itm.GetInformationTagResponse;
@@ -25,6 +26,8 @@ import com.gratex.perconik.services.itm.GetInformationTagsUriResponse;
 import com.gratex.perconik.services.itm.InformationTag;
 import com.gratex.perconik.services.itm.InformationTagConstraint;
 import com.gratex.perconik.services.itm.RecoverInformationTagResponse;
+import com.gratex.perconik.services.itm.RegisterEventListenerResponse;
+import com.gratex.perconik.services.itm.UnregisterEventListenerResponse;
 import com.gratex.perconik.services.itm.UpdateInformationTagResponse;
 import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7;
 import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfstring;
@@ -556,6 +559,92 @@ public interface IITMaintenance {
         InformationTagConstraint constraint,
         @WebParam(name = "onlyNewestVersions", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
         Boolean onlyNewestVersions);
+
+    /**
+     * 
+     * @param eventListenerDetails
+     * @return
+     *     returns javax.xml.ws.Response<com.gratex.perconik.services.itm.RegisterEventListenerResponse>
+     */
+    @WebMethod(operationName = "RegisterEventListener", action = "http://perconik.fiit.stuba.sk/ITM/IITMaintenance/RegisterEventListener")
+    @RequestWrapper(localName = "RegisterEventListener", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.RegisterEventListener")
+    @ResponseWrapper(localName = "RegisterEventListenerResponse", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.RegisterEventListenerResponse")
+    public Response<RegisterEventListenerResponse> registerEventListenerAsync(
+        @WebParam(name = "eventListenerDetails", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+        EventListenerDetails eventListenerDetails);
+
+    /**
+     * 
+     * @param eventListenerDetails
+     * @param asyncHandler
+     * @return
+     *     returns java.util.concurrent.Future<? extends java.lang.Object>
+     */
+    @WebMethod(operationName = "RegisterEventListener", action = "http://perconik.fiit.stuba.sk/ITM/IITMaintenance/RegisterEventListener")
+    @RequestWrapper(localName = "RegisterEventListener", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.RegisterEventListener")
+    @ResponseWrapper(localName = "RegisterEventListenerResponse", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.RegisterEventListenerResponse")
+    public Future<?> registerEventListenerAsync(
+        @WebParam(name = "eventListenerDetails", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+        EventListenerDetails eventListenerDetails,
+        @WebParam(name = "asyncHandler", targetNamespace = "")
+        AsyncHandler<RegisterEventListenerResponse> asyncHandler);
+
+    /**
+     * 
+     * @param eventListenerDetails
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod(operationName = "RegisterEventListener", action = "http://perconik.fiit.stuba.sk/ITM/IITMaintenance/RegisterEventListener")
+    @WebResult(name = "RegisterEventListenerResult", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+    @RequestWrapper(localName = "RegisterEventListener", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.RegisterEventListener")
+    @ResponseWrapper(localName = "RegisterEventListenerResponse", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.RegisterEventListenerResponse")
+    public String registerEventListener(
+        @WebParam(name = "eventListenerDetails", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+        EventListenerDetails eventListenerDetails);
+
+    /**
+     * 
+     * @param eventId
+     * @return
+     *     returns javax.xml.ws.Response<com.gratex.perconik.services.itm.UnregisterEventListenerResponse>
+     */
+    @WebMethod(operationName = "UnregisterEventListener", action = "http://perconik.fiit.stuba.sk/ITM/IITMaintenance/UnregisterEventListener")
+    @RequestWrapper(localName = "UnregisterEventListener", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.UnregisterEventListener")
+    @ResponseWrapper(localName = "UnregisterEventListenerResponse", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.UnregisterEventListenerResponse")
+    public Response<UnregisterEventListenerResponse> unregisterEventListenerAsync(
+        @WebParam(name = "eventId", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+        String eventId);
+
+    /**
+     * 
+     * @param eventId
+     * @param asyncHandler
+     * @return
+     *     returns java.util.concurrent.Future<? extends java.lang.Object>
+     */
+    @WebMethod(operationName = "UnregisterEventListener", action = "http://perconik.fiit.stuba.sk/ITM/IITMaintenance/UnregisterEventListener")
+    @RequestWrapper(localName = "UnregisterEventListener", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.UnregisterEventListener")
+    @ResponseWrapper(localName = "UnregisterEventListenerResponse", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.UnregisterEventListenerResponse")
+    public Future<?> unregisterEventListenerAsync(
+        @WebParam(name = "eventId", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+        String eventId,
+        @WebParam(name = "asyncHandler", targetNamespace = "")
+        AsyncHandler<UnregisterEventListenerResponse> asyncHandler);
+
+    /**
+     * 
+     * @param eventId
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod(operationName = "UnregisterEventListener", action = "http://perconik.fiit.stuba.sk/ITM/IITMaintenance/UnregisterEventListener")
+    @WebResult(name = "UnregisterEventListenerResult", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+    @RequestWrapper(localName = "UnregisterEventListener", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.UnregisterEventListener")
+    @ResponseWrapper(localName = "UnregisterEventListenerResponse", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", className = "com.gratex.perconik.services.itm.UnregisterEventListenerResponse")
+    public Boolean unregisterEventListener(
+        @WebParam(name = "eventId", targetNamespace = "http://perconik.fiit.stuba.sk/ITM")
+        String eventId);
 
     /**
      * 

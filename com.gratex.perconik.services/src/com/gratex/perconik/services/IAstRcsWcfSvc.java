@@ -44,6 +44,7 @@ import com.gratex.perconik.services.ast.rcs.SearchFilesRequest;
 import com.gratex.perconik.services.ast.rcs.SearchFoldersRequest;
 import com.gratex.perconik.services.ast.rcs.SearchRcsProjectsRequest;
 import com.gratex.perconik.services.ast.rcs.SearchRcsServersRequest;
+import com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesRequest;
 import com.gratex.perconik.services.ast.rcs.SearchUsersRequest;
 
 
@@ -449,6 +450,49 @@ public interface IAstRcsWcfSvc {
     public com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse searchCodeEntities(
         @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
         SearchCodeEntitiesRequest request);
+
+    /**
+     * 
+     * @param request
+     * @return
+     *     returns javax.xml.ws.Response<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse>
+     */
+    @WebMethod(operationName = "SearchTypeCodeEntities", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntities")
+    @RequestWrapper(localName = "SearchTypeCodeEntities", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntities")
+    @ResponseWrapper(localName = "SearchTypeCodeEntitiesResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse")
+    public Response<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse> searchTypeCodeEntitiesAsync(
+        @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
+        SearchTypeCodeEntitiesRequest request);
+
+    /**
+     * 
+     * @param request
+     * @param asyncHandler
+     * @return
+     *     returns java.util.concurrent.Future<? extends java.lang.Object>
+     */
+    @WebMethod(operationName = "SearchTypeCodeEntities", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntities")
+    @RequestWrapper(localName = "SearchTypeCodeEntities", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntities")
+    @ResponseWrapper(localName = "SearchTypeCodeEntitiesResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse")
+    public Future<?> searchTypeCodeEntitiesAsync(
+        @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
+        SearchTypeCodeEntitiesRequest request,
+        @WebParam(name = "asyncHandler", targetNamespace = "")
+        AsyncHandler<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse> asyncHandler);
+
+    /**
+     * 
+     * @param request
+     * @return
+     *     returns com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse
+     */
+    @WebMethod(operationName = "SearchTypeCodeEntities", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntities")
+    @WebResult(name = "SearchTypeCodeEntitiesResult", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
+    @RequestWrapper(localName = "SearchTypeCodeEntities", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntities")
+    @ResponseWrapper(localName = "SearchTypeCodeEntitiesResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse")
+    public com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse searchTypeCodeEntities(
+        @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
+        SearchTypeCodeEntitiesRequest request);
 
     /**
      * 

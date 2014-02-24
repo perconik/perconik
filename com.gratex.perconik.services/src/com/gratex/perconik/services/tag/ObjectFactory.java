@@ -30,6 +30,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AnonymousGetLineCommentFormats }
+     * 
+     */
+    public AnonymousGetLineCommentFormats createAnonymousGetLineCommentFormats() {
+        return new AnonymousGetLineCommentFormats();
+    }
+
+    /**
+     * Create an instance of {@link GetLineCommentFormatsRequest }
+     * 
+     */
+    public GetLineCommentFormatsRequest createGetLineCommentFormatsRequest() {
+        return new GetLineCommentFormatsRequest();
+    }
+
+    /**
+     * Create an instance of {@link AnonymousGetLineCommentFormatsResponse }
+     * 
+     */
+    public AnonymousGetLineCommentFormatsResponse createAnonymousGetLineCommentFormatsResponse() {
+        return new AnonymousGetLineCommentFormatsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetLineCommentFormatsResponse }
+     * 
+     */
+    public GetLineCommentFormatsResponse createGetLineCommentFormatsResponse() {
+        return new GetLineCommentFormatsResponse();
+    }
+
+    /**
      * Create an instance of {@link AnonymousSearchTagProfileResponse }
      * 
      */
@@ -94,6 +126,78 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link EnumValue }
+     * 
+     */
+    public EnumValue createEnumValue() {
+        return new EnumValue();
+    }
+
+    /**
+     * Create an instance of {@link TagProfileDto }
+     * 
+     */
+    public TagProfileDto createTagProfileDto() {
+        return new TagProfileDto();
+    }
+
+    /**
+     * Create an instance of {@link BoolTagAttribute }
+     * 
+     */
+    public BoolTagAttribute createBoolTagAttribute() {
+        return new BoolTagAttribute();
+    }
+
+    /**
+     * Create an instance of {@link ArrayOfLineCommentFormatDto }
+     * 
+     */
+    public ArrayOfLineCommentFormatDto createArrayOfLineCommentFormatDto() {
+        return new ArrayOfLineCommentFormatDto();
+    }
+
+    /**
+     * Create an instance of {@link ArrayOfTagAttribute }
+     * 
+     */
+    public ArrayOfTagAttribute createArrayOfTagAttribute() {
+        return new ArrayOfTagAttribute();
+    }
+
+    /**
+     * Create an instance of {@link SearchResponse }
+     * 
+     */
+    public SearchResponse createSearchResponse() {
+        return new SearchResponse();
+    }
+
+    /**
+     * Create an instance of {@link ArrayOfTagProfileSearchResItemDto }
+     * 
+     */
+    public ArrayOfTagProfileSearchResItemDto createArrayOfTagProfileSearchResItemDto() {
+        return new ArrayOfTagProfileSearchResItemDto();
+    }
+
+    /**
+     * Create an instance of {@link FloatTagAttribute }
+     * 
+     */
+    public FloatTagAttribute createFloatTagAttribute() {
+        return new FloatTagAttribute();
+    }
+
+    /**
+     * Create an instance of {@link StringTagAttribute }
+     * 
+     */
+    public StringTagAttribute createStringTagAttribute() {
+        return new StringTagAttribute();
+    }
+
+    /**
      * Create an instance of {@link EnumTagAttribute }
      * 
      */
@@ -118,27 +222,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link TagProfileDto }
+     * Create an instance of {@link ArrayOfString }
      * 
      */
-    public TagProfileDto createTagProfileDto() {
-        return new TagProfileDto();
-    }
-
-    /**
-     * Create an instance of {@link EnumValue }
-     * 
-     */
-    public EnumValue createEnumValue() {
-        return new EnumValue();
-    }
-
-    /**
-     * Create an instance of {@link BoolTagAttribute }
-     * 
-     */
-    public BoolTagAttribute createBoolTagAttribute() {
-        return new BoolTagAttribute();
+    public ArrayOfString createArrayOfString() {
+        return new ArrayOfString();
     }
 
     /**
@@ -150,27 +238,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SearchResponse }
+     * Create an instance of {@link LineCommentFormatDto }
      * 
      */
-    public SearchResponse createSearchResponse() {
-        return new SearchResponse();
-    }
-
-    /**
-     * Create an instance of {@link ArrayOfTagAttribute }
-     * 
-     */
-    public ArrayOfTagAttribute createArrayOfTagAttribute() {
-        return new ArrayOfTagAttribute();
-    }
-
-    /**
-     * Create an instance of {@link ArrayOfTagProfileSearchResItemDto }
-     * 
-     */
-    public ArrayOfTagProfileSearchResItemDto createArrayOfTagProfileSearchResItemDto() {
-        return new ArrayOfTagProfileSearchResItemDto();
+    public LineCommentFormatDto createLineCommentFormatDto() {
+        return new LineCommentFormatDto();
     }
 
     /**
@@ -182,27 +254,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FloatTagAttribute }
-     * 
-     */
-    public FloatTagAttribute createFloatTagAttribute() {
-        return new FloatTagAttribute();
-    }
-
-    /**
      * Create an instance of {@link IntTagAttribute }
      * 
      */
     public IntTagAttribute createIntTagAttribute() {
         return new IntTagAttribute();
-    }
-
-    /**
-     * Create an instance of {@link StringTagAttribute }
-     * 
-     */
-    public StringTagAttribute createStringTagAttribute() {
-        return new StringTagAttribute();
     }
 
     /**

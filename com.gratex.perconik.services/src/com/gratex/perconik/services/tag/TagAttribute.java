@@ -34,11 +34,11 @@ import javax.xml.bind.annotation.XmlType;
     "description"
 })
 @XmlSeeAlso({
-    EnumTagAttribute.class,
     BoolTagAttribute.class,
     FloatTagAttribute.class,
-    IntTagAttribute.class,
-    StringTagAttribute.class
+    StringTagAttribute.class,
+    EnumTagAttribute.class,
+    IntTagAttribute.class
 })
 public abstract class TagAttribute {
 

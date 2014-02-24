@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlType;
     SearchRcsServersRequest.class,
     SearchFilesRequest.class,
     GetChildCodeEntitiesRequest.class,
+    SearchTypeCodeEntitiesRequest.class,
     GetChangesetRcsProjectRequest.class,
     SearchBranchesRequest.class,
     SearchFoldersRequest.class,

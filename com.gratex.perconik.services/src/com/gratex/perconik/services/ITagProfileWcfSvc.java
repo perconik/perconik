@@ -11,8 +11,11 @@ import javax.xml.ws.AsyncHandler;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.Response;
 import javax.xml.ws.ResponseWrapper;
+import com.gratex.perconik.services.tag.AnonymousGetLineCommentFormatsResponse;
 import com.gratex.perconik.services.tag.AnonymousGetTagProfileResponse;
 import com.gratex.perconik.services.tag.AnonymousSearchTagProfileResponse;
+import com.gratex.perconik.services.tag.GetLineCommentFormatsRequest;
+import com.gratex.perconik.services.tag.GetLineCommentFormatsResponse;
 import com.gratex.perconik.services.tag.GetTagProfileRequest;
 import com.gratex.perconik.services.tag.GetTagProfileResponse;
 import com.gratex.perconik.services.tag.ObjectFactory;
@@ -118,5 +121,48 @@ public interface ITagProfileWcfSvc {
     public SearchTagProfileResponse searchTagProfile(
         @WebParam(name = "Req", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc")
         SearchTagProfileRequest req);
+
+    /**
+     * 
+     * @param req
+     * @return
+     *     returns javax.xml.ws.Response<com.gratex.perconik.services.tag.AnonymousGetLineCommentFormatsResponse>
+     */
+    @WebMethod(operationName = "GetLineCommentFormats", action = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc/ITagProfileWcfSvc/GetLineCommentFormats")
+    @RequestWrapper(localName = "GetLineCommentFormats", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", className = "com.gratex.perconik.services.tag.AnonymousGetLineCommentFormats")
+    @ResponseWrapper(localName = "GetLineCommentFormatsResponse", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", className = "com.gratex.perconik.services.tag.AnonymousGetLineCommentFormatsResponse")
+    public Response<AnonymousGetLineCommentFormatsResponse> getLineCommentFormatsAsync(
+        @WebParam(name = "req", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc")
+        GetLineCommentFormatsRequest req);
+
+    /**
+     * 
+     * @param asyncHandler
+     * @param req
+     * @return
+     *     returns java.util.concurrent.Future<? extends java.lang.Object>
+     */
+    @WebMethod(operationName = "GetLineCommentFormats", action = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc/ITagProfileWcfSvc/GetLineCommentFormats")
+    @RequestWrapper(localName = "GetLineCommentFormats", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", className = "com.gratex.perconik.services.tag.AnonymousGetLineCommentFormats")
+    @ResponseWrapper(localName = "GetLineCommentFormatsResponse", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", className = "com.gratex.perconik.services.tag.AnonymousGetLineCommentFormatsResponse")
+    public Future<?> getLineCommentFormatsAsync(
+        @WebParam(name = "req", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc")
+        GetLineCommentFormatsRequest req,
+        @WebParam(name = "asyncHandler", targetNamespace = "")
+        AsyncHandler<AnonymousGetLineCommentFormatsResponse> asyncHandler);
+
+    /**
+     * 
+     * @param req
+     * @return
+     *     returns com.gratex.perconik.services.tag.GetLineCommentFormatsResponse
+     */
+    @WebMethod(operationName = "GetLineCommentFormats", action = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc/ITagProfileWcfSvc/GetLineCommentFormats")
+    @WebResult(name = "GetLineCommentFormatsResult", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc")
+    @RequestWrapper(localName = "GetLineCommentFormats", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", className = "com.gratex.perconik.services.tag.AnonymousGetLineCommentFormats")
+    @ResponseWrapper(localName = "GetLineCommentFormatsResponse", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", className = "com.gratex.perconik.services.tag.AnonymousGetLineCommentFormatsResponse")
+    public GetLineCommentFormatsResponse getLineCommentFormats(
+        @WebParam(name = "req", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc")
+        GetLineCommentFormatsRequest req);
 
 }

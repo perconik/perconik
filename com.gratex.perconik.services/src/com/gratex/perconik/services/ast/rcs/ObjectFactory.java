@@ -33,6 +33,7 @@ public class ObjectFactory {
     private final static QName _GetCodeEntityContentResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetCodeEntityContentResponse");
     private final static QName _QueueChangesetForImportResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "QueueChangesetForImportResponse");
     private final static QName _ArrayOfUserDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ArrayOfUserDto");
+    private final static QName _ContentNotIncludedReason_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ContentNotIncludedReason");
     private final static QName _GetChangesetRcsProjectResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetChangesetRcsProjectResponse");
     private final static QName _GetFileRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetFileRequest");
     private final static QName _GetFilesByTfsIdentifiersResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetFilesByTfsIdentifiersResponse");
@@ -43,6 +44,7 @@ public class ObjectFactory {
     private final static QName _InheritanceDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "InheritanceDto");
     private final static QName _GetFileResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetFileResponse");
     private final static QName _ArrayOfCodeEntityVersionDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ArrayOfCodeEntityVersionDto");
+    private final static QName _ArrayOfCodeEntityVersionWithFileUrlDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ArrayOfCodeEntityVersionWithFileUrlDto");
     private final static QName _GetBranchImportedHeadRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetBranchImportedHeadRequest");
     private final static QName _SearchCodeEntitiesRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SearchCodeEntitiesRequest");
     private final static QName _GetCodeEntityRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetCodeEntityRequest");
@@ -92,6 +94,8 @@ public class ObjectFactory {
     private final static QName _ArrayOfChangesetDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ArrayOfChangesetDto");
     private final static QName _GetChildCodeEntitiesRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetChildCodeEntitiesRequest");
     private final static QName _GetCodeEntityContentRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetCodeEntityContentRequest");
+    private final static QName _SearchTypeCodeEntitiesResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SearchTypeCodeEntitiesResponse");
+    private final static QName _SearchTypeCodeEntitiesRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SearchTypeCodeEntitiesRequest");
     private final static QName _GetCodeEntityResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetCodeEntityResponse");
     private final static QName _GetUserResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetUserResponse");
     private final static QName _EnsureRcsServerResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "EnsureRcsServerResponse");
@@ -99,6 +103,7 @@ public class ObjectFactory {
     private final static QName _GetFileContentResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetFileContentResponse");
     private final static QName _SearchBranchesRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SearchBranchesRequest");
     private final static QName _GetCodeEntityChangesetsResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetCodeEntityChangesetsResponse");
+    private final static QName _CodeEntityVersionWithFileUrlDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CodeEntityVersionWithFileUrlDto");
     private final static QName _GetChangesetRcsProjectRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetChangesetRcsProjectRequest");
     private final static QName _GetBranchQueuedHeadResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetBranchQueuedHeadResponse");
     private final static QName _AssociateChangesetWithBranchRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "AssociateChangesetWithBranchRequest");
@@ -118,8 +123,8 @@ public class ObjectFactory {
     private final static QName _GetChangedFilesResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetChangedFilesResponse");
     private final static QName _GetBranchImportedHeadResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetBranchImportedHeadResponse");
     private final static QName _SearchChangesetsRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SearchChangesetsRequest");
-    private final static QName _BranchDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "BranchDto");
     private final static QName _GetCodeEntityChangesetsRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetCodeEntityChangesetsRequest");
+    private final static QName _BranchDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "BranchDto");
     private final static QName _GetImportCapabilitiesRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetImportCapabilitiesRequest");
     private final static QName _CodeEntityVersionDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CodeEntityVersionDto");
     private final static QName _QueuedFileVersionDto_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "QueuedFileVersionDto");
@@ -129,71 +134,72 @@ public class ObjectFactory {
     private final static QName _ChangesetQueuedOrImportedState_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangesetQueuedOrImportedState");
     private final static QName _GetBranchRequest_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetBranchRequest");
     private final static QName _GetFilesByGitIdentifiersResponse_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "GetFilesByGitIdentifiersResponse");
-    private final static QName _RcsProjectDtoUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Url");
-    private final static QName _GetCodeEntityResponseVersion_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Version");
+    private final static QName _GetFilesByTfsIdentifiersResponseVersions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Versions");
+    private final static QName _SearchChangesetsResponseChangesets_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Changesets");
+    private final static QName _GetRcsServerResponseRcsServer_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServer");
+    private final static QName _GetBranchResponseBranch_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Branch");
     private final static QName _EnsureBranchesResponseBranchIds_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "BranchIds");
-    private final static QName _SearchCodeEntitiesRequestEntityId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "EntityId");
-    private final static QName _SearchCodeEntitiesRequestName_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Name");
-    private final static QName _SearchCodeEntitiesRequestFileVersionId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileVersionId");
-    private final static QName _SearchCodeEntitiesRequestChangesetId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangesetId");
-    private final static QName _AssociateChangesetWithBranchRequestChangesetIdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangesetIdInRcs");
-    private final static QName _SearchBranchesRequestRcsProjectId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProjectId");
+    private final static QName _FileGitIdentifierDtoChangesetIdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangesetIdInRcs");
+    private final static QName _FileGitIdentifierDtoBranchName_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "BranchName");
+    private final static QName _FileGitIdentifierDtoRcsProjectUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProjectUrl");
+    private final static QName _FileGitIdentifierDtoUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Url");
+    private final static QName _GetChangesetResponseChangeset_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Changeset");
+    private final static QName _ParameterDtoTypeName_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "TypeName");
+    private final static QName _ParameterDtoModifier_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Modifier");
+    private final static QName _ParameterDtoName_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Name");
+    private final static QName _SearchRcsServersResponseRcsServers_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServers");
+    private final static QName _GetRcsProjectResponseRcsProject_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProject");
+    private final static QName _UserDtoLogin_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Login");
+    private final static QName _QueuedFileVersionDtoContentIdentifier_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ContentIdentifier");
+    private final static QName _QueuedFileVersionDtoFileUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileUrl");
+    private final static QName _GetChangedFilesResponseFileVersions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileVersions");
     private final static QName _GetCodeEntityFullContextResponseParents_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Parents");
     private final static QName _GetCodeEntityFullContextResponseChildren_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Children");
-    private final static QName _GetRcsProjectResponseRcsProject_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProject");
-    private final static QName _SearchChangesetsRequestCommitterId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CommitterId");
-    private final static QName _SearchChangesetsRequestCreatedFrom_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CreatedFrom");
-    private final static QName _SearchChangesetsRequestCreatedTo_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CreatedTo");
-    private final static QName _GetFilesByTfsIdentifiersResponseVersions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Versions");
     private final static QName _EnsureBranchesRequestNames_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Names");
-    private final static QName _EntityVersionDtoAncestor1Id_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor1Id");
-    private final static QName _EntityVersionDtoAncestor1ChangeType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor1ChangeType");
-    private final static QName _EntityVersionDtoAncestor2Id_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor2Id");
-    private final static QName _EntityVersionDtoAncestor2ChangeType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor2ChangeType");
-    private final static QName _DeclarationDtoModifier_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Modifier");
+    private final static QName _SearchFilesRequestEntityId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "EntityId");
+    private final static QName _SearchFilesRequestUrlStart_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "UrlStart");
+    private final static QName _GetFilesByGitIdentifiersRequestIdentifiers_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Identifiers");
+    private final static QName _GetUserResponseUser_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "User");
+    private final static QName _SearchBranchesResponseBranches_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Branches");
+    private final static QName _SearchCodeEntitiesRequestFileVersionId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileVersionId");
+    private final static QName _SearchCodeEntitiesRequestChangesetId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangesetId");
     private final static QName _DeclarationDtoInheritances_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Inheritances");
     private final static QName _DeclarationDtoParameters_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Parameters");
     private final static QName _DeclarationDtoReturnValue_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ReturnValue");
-    private final static QName _GetImportCapabilitiesResponseSupportedFileExtensions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SupportedFileExtensions");
-    private final static QName _ChangesetDtoIdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "IdInRcs");
-    private final static QName _ChangesetDtoMessage_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Message");
-    private final static QName _ChangesetDtoCommitter_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Committer");
-    private final static QName _GetChangedFilesResponseFileVersions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileVersions");
-    private final static QName _SearchUsersRequestLogin_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Login");
-    private final static QName _InheritanceDtoTypeName_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "TypeName");
-    private final static QName _SearchRcsProjectsRequestRcsServerId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServerId");
+    private final static QName _QueueChangesetForImportRequestIdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "IdInRcs");
+    private final static QName _QueueChangesetForImportRequestAncestor2IdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor2IdInRcs");
+    private final static QName _QueueChangesetForImportRequestChangedFiles_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangedFiles");
+    private final static QName _QueueChangesetForImportRequestFilesBlob_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FilesBlob");
+    private final static QName _QueueChangesetForImportRequestMessage_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Message");
+    private final static QName _QueueChangesetForImportRequestCommitter_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Committer");
+    private final static QName _QueueChangesetForImportRequestAncestor1IdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor1IdInRcs");
     private final static QName _CodeEntityVersionDtoDeclaration_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Declaration");
     private final static QName _CodeEntityVersionDtoCommentEndRow_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CommentEndRow");
     private final static QName _CodeEntityVersionDtoParentId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ParentId");
     private final static QName _CodeEntityVersionDtoCommentStartRow_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CommentStartRow");
-    private final static QName _FileGitIdentifierDtoBranchName_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "BranchName");
-    private final static QName _FileGitIdentifierDtoRcsProjectUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProjectUrl");
-    private final static QName _GetRcsServerResponseRcsServer_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServer");
-    private final static QName _SearchBranchesResponseBranches_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Branches");
-    private final static QName _GetFilesByGitIdentifiersRequestIdentifiers_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Identifiers");
-    private final static QName _SearchCodeEntitiesResponseCodeEntityVersions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CodeEntityVersions");
-    private final static QName _GetBranchImportedHeadResponseChangeset_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Changeset");
-    private final static QName _GetCodeEntityChangesetsResponseChangesets_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Changesets");
-    private final static QName _GetFileContentResponseContent_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Content");
-    private final static QName _SearchRcsServersResponseRcsServers_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServers");
-    private final static QName _SearchRcsProjectsResponseRcsProjects_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProjects");
-    private final static QName _GetUserResponseUser_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "User");
-    private final static QName _SearchFilesRequestUrlStart_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "UrlStart");
-    private final static QName _SearchUsersResponseUsers_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Users");
-    private final static QName _QueueChangesetForImportRequestAncestor2IdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor2IdInRcs");
-    private final static QName _QueueChangesetForImportRequestChangedFiles_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ChangedFiles");
-    private final static QName _QueueChangesetForImportRequestFilesBlob_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FilesBlob");
-    private final static QName _QueueChangesetForImportRequestAncestor1IdInRcs_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor1IdInRcs");
-    private final static QName _BranchDtoImportedHeadId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ImportedHeadId");
-    private final static QName _BranchDtoQueuedHeadId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "QueuedHeadId");
-    private final static QName _GetBranchResponseBranch_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Branch");
-    private final static QName _QueuedFileVersionDtoContentIdentifier_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ContentIdentifier");
-    private final static QName _QueuedFileVersionDtoFileUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileUrl");
+    private final static QName _EntityVersionDtoAncestor1Id_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor1Id");
+    private final static QName _EntityVersionDtoAncestor1ChangeType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor1ChangeType");
+    private final static QName _EntityVersionDtoAncestor2Id_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor2Id");
+    private final static QName _EntityVersionDtoAncestor2ChangeType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Ancestor2ChangeType");
     private final static QName _RcsServerDtoType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Type");
-    private final static QName _EnsureRcsServerRequestRcsServerType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServerType");
+    private final static QName _SearchFoldersResponseFolders_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Folders");
+    private final static QName _CodeEntityVersionWithFileUrlDtoFileVersionUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FileVersionUrl");
+    private final static QName _GetFileResponseVersion_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Version");
     private final static QName _FileTfsIdentifierDtoFullUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "FullUrl");
     private final static QName _FileTfsIdentifierDtoRcsServerUrl_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServerUrl");
-    private final static QName _SearchFoldersResponseFolders_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Folders");
+    private final static QName _SearchChangesetsRequestCommitterId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CommitterId");
+    private final static QName _SearchChangesetsRequestCreatedFrom_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CreatedFrom");
+    private final static QName _SearchChangesetsRequestCreatedTo_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CreatedTo");
+    private final static QName _BranchDtoImportedHeadId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "ImportedHeadId");
+    private final static QName _BranchDtoQueuedHeadId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "QueuedHeadId");
+    private final static QName _EnsureRcsServerRequestRcsServerType_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServerType");
+    private final static QName _SearchTypeCodeEntitiesResponseCodeEntityVersions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "CodeEntityVersions");
+    private final static QName _GetCodeEntityContentResponseContent_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Content");
+    private final static QName _SearchRcsProjectsRequestRcsServerId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsServerId");
+    private final static QName _GetImportCapabilitiesResponseSupportedFileExtensions_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "SupportedFileExtensions");
+    private final static QName _SearchUsersResponseUsers_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "Users");
+    private final static QName _SearchRcsProjectsResponseRcsProjects_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProjects");
+    private final static QName _SearchBranchesRequestRcsProjectId_QNAME = new QName("http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", "RcsProjectId");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.gratex.perconik.services.ast.rcs
@@ -299,19 +305,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BranchDto }
-     * 
-     */
-    public BranchDto createBranchDto() {
-        return new BranchDto();
-    }
-
-    /**
      * Create an instance of {@link GetCodeEntityChangesetsRequest }
      * 
      */
     public GetCodeEntityChangesetsRequest createGetCodeEntityChangesetsRequest() {
         return new GetCodeEntityChangesetsRequest();
+    }
+
+    /**
+     * Create an instance of {@link BranchDto }
+     * 
+     */
+    public BranchDto createBranchDto() {
+        return new BranchDto();
     }
 
     /**
@@ -531,11 +537,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link SearchTypeCodeEntitiesResponse }
+     * 
+     */
+    public SearchTypeCodeEntitiesResponse createSearchTypeCodeEntitiesResponse() {
+        return new SearchTypeCodeEntitiesResponse();
+    }
+
+    /**
      * Create an instance of {@link GetCodeEntityContentRequest }
      * 
      */
     public GetCodeEntityContentRequest createGetCodeEntityContentRequest() {
         return new GetCodeEntityContentRequest();
+    }
+
+    /**
+     * Create an instance of {@link SearchTypeCodeEntitiesRequest }
+     * 
+     */
+    public SearchTypeCodeEntitiesRequest createSearchTypeCodeEntitiesRequest() {
+        return new SearchTypeCodeEntitiesRequest();
     }
 
     /**
@@ -560,6 +582,14 @@ public class ObjectFactory {
      */
     public GetChangesetRcsProjectRequest createGetChangesetRcsProjectRequest() {
         return new GetChangesetRcsProjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link CodeEntityVersionWithFileUrlDto }
+     * 
+     */
+    public CodeEntityVersionWithFileUrlDto createCodeEntityVersionWithFileUrlDto() {
+        return new CodeEntityVersionWithFileUrlDto();
     }
 
     /**
@@ -907,6 +937,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ArrayOfCodeEntityVersionWithFileUrlDto }
+     * 
+     */
+    public ArrayOfCodeEntityVersionWithFileUrlDto createArrayOfCodeEntityVersionWithFileUrlDto() {
+        return new ArrayOfCodeEntityVersionWithFileUrlDto();
+    }
+
+    /**
      * Create an instance of {@link ArrayOfCodeEntityVersionDto }
      * 
      */
@@ -1049,6 +1087,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ContentNotIncludedReason }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ContentNotIncludedReason")
+    public JAXBElement<ContentNotIncludedReason> createContentNotIncludedReason(ContentNotIncludedReason value) {
+        return new JAXBElement<ContentNotIncludedReason>(_ContentNotIncludedReason_QNAME, ContentNotIncludedReason.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetChangesetRcsProjectResponse }{@code >}}
      * 
      */
@@ -1136,6 +1183,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ArrayOfCodeEntityVersionDto")
     public JAXBElement<ArrayOfCodeEntityVersionDto> createArrayOfCodeEntityVersionDto(ArrayOfCodeEntityVersionDto value) {
         return new JAXBElement<ArrayOfCodeEntityVersionDto>(_ArrayOfCodeEntityVersionDto_QNAME, ArrayOfCodeEntityVersionDto.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionWithFileUrlDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ArrayOfCodeEntityVersionWithFileUrlDto")
+    public JAXBElement<ArrayOfCodeEntityVersionWithFileUrlDto> createArrayOfCodeEntityVersionWithFileUrlDto(ArrayOfCodeEntityVersionWithFileUrlDto value) {
+        return new JAXBElement<ArrayOfCodeEntityVersionWithFileUrlDto>(_ArrayOfCodeEntityVersionWithFileUrlDto_QNAME, ArrayOfCodeEntityVersionWithFileUrlDto.class, null, value);
     }
 
     /**
@@ -1580,6 +1636,24 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchTypeCodeEntitiesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "SearchTypeCodeEntitiesResponse")
+    public JAXBElement<SearchTypeCodeEntitiesResponse> createSearchTypeCodeEntitiesResponse(SearchTypeCodeEntitiesResponse value) {
+        return new JAXBElement<SearchTypeCodeEntitiesResponse>(_SearchTypeCodeEntitiesResponse_QNAME, SearchTypeCodeEntitiesResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchTypeCodeEntitiesRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "SearchTypeCodeEntitiesRequest")
+    public JAXBElement<SearchTypeCodeEntitiesRequest> createSearchTypeCodeEntitiesRequest(SearchTypeCodeEntitiesRequest value) {
+        return new JAXBElement<SearchTypeCodeEntitiesRequest>(_SearchTypeCodeEntitiesRequest_QNAME, SearchTypeCodeEntitiesRequest.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityResponse }{@code >}}
      * 
      */
@@ -1640,6 +1714,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "GetCodeEntityChangesetsResponse")
     public JAXBElement<GetCodeEntityChangesetsResponse> createGetCodeEntityChangesetsResponse(GetCodeEntityChangesetsResponse value) {
         return new JAXBElement<GetCodeEntityChangesetsResponse>(_GetCodeEntityChangesetsResponse_QNAME, GetCodeEntityChangesetsResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CodeEntityVersionWithFileUrlDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CodeEntityVersionWithFileUrlDto")
+    public JAXBElement<CodeEntityVersionWithFileUrlDto> createCodeEntityVersionWithFileUrlDto(CodeEntityVersionWithFileUrlDto value) {
+        return new JAXBElement<CodeEntityVersionWithFileUrlDto>(_CodeEntityVersionWithFileUrlDto_QNAME, CodeEntityVersionWithFileUrlDto.class, null, value);
     }
 
     /**
@@ -1814,21 +1897,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link BranchDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "BranchDto")
-    public JAXBElement<BranchDto> createBranchDto(BranchDto value) {
-        return new JAXBElement<BranchDto>(_BranchDto_QNAME, BranchDto.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityChangesetsRequest }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "GetCodeEntityChangesetsRequest")
     public JAXBElement<GetCodeEntityChangesetsRequest> createGetCodeEntityChangesetsRequest(GetCodeEntityChangesetsRequest value) {
         return new JAXBElement<GetCodeEntityChangesetsRequest>(_GetCodeEntityChangesetsRequest_QNAME, GetCodeEntityChangesetsRequest.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BranchDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "BranchDto")
+    public JAXBElement<BranchDto> createBranchDto(BranchDto value) {
+        return new JAXBElement<BranchDto>(_BranchDto_QNAME, BranchDto.class, null, value);
     }
 
     /**
@@ -1913,21 +1996,48 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileVersionDto }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = RcsProjectDto.class)
-    public JAXBElement<String> createRcsProjectDtoUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, RcsProjectDto.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Versions", scope = GetFilesByTfsIdentifiersResponse.class)
+    public JAXBElement<ArrayOfFileVersionDto> createGetFilesByTfsIdentifiersResponseVersions(ArrayOfFileVersionDto value) {
+        return new JAXBElement<ArrayOfFileVersionDto>(_GetFilesByTfsIdentifiersResponseVersions_QNAME, ArrayOfFileVersionDto.class, GetFilesByTfsIdentifiersResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CodeEntityVersionDto }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfChangesetDto }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Version", scope = GetCodeEntityResponse.class)
-    public JAXBElement<CodeEntityVersionDto> createGetCodeEntityResponseVersion(CodeEntityVersionDto value) {
-        return new JAXBElement<CodeEntityVersionDto>(_GetCodeEntityResponseVersion_QNAME, CodeEntityVersionDto.class, GetCodeEntityResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changesets", scope = SearchChangesetsResponse.class)
+    public JAXBElement<ArrayOfChangesetDto> createSearchChangesetsResponseChangesets(ArrayOfChangesetDto value) {
+        return new JAXBElement<ArrayOfChangesetDto>(_SearchChangesetsResponseChangesets_QNAME, ArrayOfChangesetDto.class, SearchChangesetsResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RcsServerDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServer", scope = GetRcsServerResponse.class)
+    public JAXBElement<RcsServerDto> createGetRcsServerResponseRcsServer(RcsServerDto value) {
+        return new JAXBElement<RcsServerDto>(_GetRcsServerResponseRcsServer_QNAME, RcsServerDto.class, GetRcsServerResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfChangesetDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changesets", scope = GetCodeEntityChangesetsResponse.class)
+    public JAXBElement<ArrayOfChangesetDto> createGetCodeEntityChangesetsResponseChangesets(ArrayOfChangesetDto value) {
+        return new JAXBElement<ArrayOfChangesetDto>(_SearchChangesetsResponseChangesets_QNAME, ArrayOfChangesetDto.class, GetCodeEntityChangesetsResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BranchDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Branch", scope = GetBranchResponse.class)
+    public JAXBElement<BranchDto> createGetBranchResponseBranch(BranchDto value) {
+        return new JAXBElement<BranchDto>(_GetBranchResponseBranch_QNAME, BranchDto.class, GetBranchResponse.class, value);
     }
 
     /**
@@ -1937,6 +2047,231 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "BranchIds", scope = EnsureBranchesResponse.class)
     public JAXBElement<ArrayOfint> createEnsureBranchesResponseBranchIds(ArrayOfint value) {
         return new JAXBElement<ArrayOfint>(_EnsureBranchesResponseBranchIds_QNAME, ArrayOfint.class, EnsureBranchesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Versions", scope = GetFilesByGitIdentifiersResponse.class)
+    public JAXBElement<ArrayOfFileVersionDto> createGetFilesByGitIdentifiersResponseVersions(ArrayOfFileVersionDto value) {
+        return new JAXBElement<ArrayOfFileVersionDto>(_GetFilesByTfsIdentifiersResponseVersions_QNAME, ArrayOfFileVersionDto.class, GetFilesByGitIdentifiersResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = FileGitIdentifierDto.class)
+    public JAXBElement<String> createFileGitIdentifierDtoChangesetIdInRcs(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoChangesetIdInRcs_QNAME, String.class, FileGitIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "BranchName", scope = FileGitIdentifierDto.class)
+    public JAXBElement<String> createFileGitIdentifierDtoBranchName(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoBranchName_QNAME, String.class, FileGitIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProjectUrl", scope = FileGitIdentifierDto.class)
+    public JAXBElement<String> createFileGitIdentifierDtoRcsProjectUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoRcsProjectUrl_QNAME, String.class, FileGitIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = FileGitIdentifierDto.class)
+    public JAXBElement<String> createFileGitIdentifierDtoUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, FileGitIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangesetDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changeset", scope = GetChangesetResponse.class)
+    public JAXBElement<ChangesetDto> createGetChangesetResponseChangeset(ChangesetDto value) {
+        return new JAXBElement<ChangesetDto>(_GetChangesetResponseChangeset_QNAME, ChangesetDto.class, GetChangesetResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "TypeName", scope = ParameterDto.class)
+    public JAXBElement<String> createParameterDtoTypeName(String value) {
+        return new JAXBElement<String>(_ParameterDtoTypeName_QNAME, String.class, ParameterDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = ParameterDto.class)
+    public JAXBElement<String> createParameterDtoModifier(String value) {
+        return new JAXBElement<String>(_ParameterDtoModifier_QNAME, String.class, ParameterDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = ParameterDto.class)
+    public JAXBElement<String> createParameterDtoName(String value) {
+        return new JAXBElement<String>(_ParameterDtoName_QNAME, String.class, ParameterDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfRcsServerDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServers", scope = SearchRcsServersResponse.class)
+    public JAXBElement<ArrayOfRcsServerDto> createSearchRcsServersResponseRcsServers(ArrayOfRcsServerDto value) {
+        return new JAXBElement<ArrayOfRcsServerDto>(_SearchRcsServersResponseRcsServers_QNAME, ArrayOfRcsServerDto.class, SearchRcsServersResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RcsProjectDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProject", scope = GetRcsProjectResponse.class)
+    public JAXBElement<RcsProjectDto> createGetRcsProjectResponseRcsProject(RcsProjectDto value) {
+        return new JAXBElement<RcsProjectDto>(_GetRcsProjectResponseRcsProject_QNAME, RcsProjectDto.class, GetRcsProjectResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = RcsProjectDto.class)
+    public JAXBElement<String> createRcsProjectDtoUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, RcsProjectDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Login", scope = UserDto.class)
+    public JAXBElement<String> createUserDtoLogin(String value) {
+        return new JAXBElement<String>(_UserDtoLogin_QNAME, String.class, UserDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ContentIdentifier", scope = QueuedFileVersionDto.class)
+    public JAXBElement<String> createQueuedFileVersionDtoContentIdentifier(String value) {
+        return new JAXBElement<String>(_QueuedFileVersionDtoContentIdentifier_QNAME, String.class, QueuedFileVersionDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FileUrl", scope = QueuedFileVersionDto.class)
+    public JAXBElement<String> createQueuedFileVersionDtoFileUrl(String value) {
+        return new JAXBElement<String>(_QueuedFileVersionDtoFileUrl_QNAME, String.class, QueuedFileVersionDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FileVersions", scope = GetChangedFilesResponse.class)
+    public JAXBElement<ArrayOfFileVersionDto> createGetChangedFilesResponseFileVersions(ArrayOfFileVersionDto value) {
+        return new JAXBElement<ArrayOfFileVersionDto>(_GetChangedFilesResponseFileVersions_QNAME, ArrayOfFileVersionDto.class, GetChangedFilesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionIdDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Parents", scope = GetCodeEntityFullContextResponse.class)
+    public JAXBElement<ArrayOfCodeEntityVersionIdDto> createGetCodeEntityFullContextResponseParents(ArrayOfCodeEntityVersionIdDto value) {
+        return new JAXBElement<ArrayOfCodeEntityVersionIdDto>(_GetCodeEntityFullContextResponseParents_QNAME, ArrayOfCodeEntityVersionIdDto.class, GetCodeEntityFullContextResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionIdDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Children", scope = GetCodeEntityFullContextResponse.class)
+    public JAXBElement<ArrayOfCodeEntityVersionIdDto> createGetCodeEntityFullContextResponseChildren(ArrayOfCodeEntityVersionIdDto value) {
+        return new JAXBElement<ArrayOfCodeEntityVersionIdDto>(_GetCodeEntityFullContextResponseChildren_QNAME, ArrayOfCodeEntityVersionIdDto.class, GetCodeEntityFullContextResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Names", scope = EnsureBranchesRequest.class)
+    public JAXBElement<ArrayOfstring> createEnsureBranchesRequestNames(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_EnsureBranchesRequestNames_QNAME, ArrayOfstring.class, EnsureBranchesRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangesetDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changeset", scope = GetBranchQueuedHeadResponse.class)
+    public JAXBElement<ChangesetDto> createGetBranchQueuedHeadResponseChangeset(ChangesetDto value) {
+        return new JAXBElement<ChangesetDto>(_GetChangesetResponseChangeset_QNAME, ChangesetDto.class, GetBranchQueuedHeadResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "EntityId", scope = SearchFilesRequest.class)
+    public JAXBElement<Integer> createSearchFilesRequestEntityId(Integer value) {
+        return new JAXBElement<Integer>(_SearchFilesRequestEntityId_QNAME, Integer.class, SearchFilesRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "UrlStart", scope = SearchFilesRequest.class)
+    public JAXBElement<String> createSearchFilesRequestUrlStart(String value) {
+        return new JAXBElement<String>(_SearchFilesRequestUrlStart_QNAME, String.class, SearchFilesRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileGitIdentifierDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Identifiers", scope = GetFilesByGitIdentifiersRequest.class)
+    public JAXBElement<ArrayOfFileGitIdentifierDto> createGetFilesByGitIdentifiersRequestIdentifiers(ArrayOfFileGitIdentifierDto value) {
+        return new JAXBElement<ArrayOfFileGitIdentifierDto>(_GetFilesByGitIdentifiersRequestIdentifiers_QNAME, ArrayOfFileGitIdentifierDto.class, GetFilesByGitIdentifiersRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link UserDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "User", scope = GetUserResponse.class)
+    public JAXBElement<UserDto> createGetUserResponseUser(UserDto value) {
+        return new JAXBElement<UserDto>(_GetUserResponseUser_QNAME, UserDto.class, GetUserResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfBranchDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Branches", scope = SearchBranchesResponse.class)
+    public JAXBElement<ArrayOfBranchDto> createSearchBranchesResponseBranches(ArrayOfBranchDto value) {
+        return new JAXBElement<ArrayOfBranchDto>(_SearchBranchesResponseBranches_QNAME, ArrayOfBranchDto.class, SearchBranchesResponse.class, value);
     }
 
     /**
@@ -1954,7 +2289,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "EntityId", scope = SearchCodeEntitiesRequest.class)
     public JAXBElement<Integer> createSearchCodeEntitiesRequestEntityId(Integer value) {
-        return new JAXBElement<Integer>(_SearchCodeEntitiesRequestEntityId_QNAME, Integer.class, SearchCodeEntitiesRequest.class, value);
+        return new JAXBElement<Integer>(_SearchFilesRequestEntityId_QNAME, Integer.class, SearchCodeEntitiesRequest.class, value);
     }
 
     /**
@@ -1963,7 +2298,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = SearchCodeEntitiesRequest.class)
     public JAXBElement<String> createSearchCodeEntitiesRequestName(String value) {
-        return new JAXBElement<String>(_SearchCodeEntitiesRequestName_QNAME, String.class, SearchCodeEntitiesRequest.class, value);
+        return new JAXBElement<String>(_ParameterDtoName_QNAME, String.class, SearchCodeEntitiesRequest.class, value);
     }
 
     /**
@@ -1988,117 +2323,162 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = AssociateChangesetWithBranchRequest.class)
-    public JAXBElement<String> createAssociateChangesetWithBranchRequestChangesetIdInRcs(String value) {
-        return new JAXBElement<String>(_AssociateChangesetWithBranchRequestChangesetIdInRcs_QNAME, String.class, AssociateChangesetWithBranchRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = DeclarationDto.class)
+    public JAXBElement<String> createDeclarationDtoModifier(String value) {
+        return new JAXBElement<String>(_ParameterDtoModifier_QNAME, String.class, DeclarationDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfInheritanceDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Inheritances", scope = DeclarationDto.class)
+    public JAXBElement<ArrayOfInheritanceDto> createDeclarationDtoInheritances(ArrayOfInheritanceDto value) {
+        return new JAXBElement<ArrayOfInheritanceDto>(_DeclarationDtoInheritances_QNAME, ArrayOfInheritanceDto.class, DeclarationDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfParameterDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Parameters", scope = DeclarationDto.class)
+    public JAXBElement<ArrayOfParameterDto> createDeclarationDtoParameters(ArrayOfParameterDto value) {
+        return new JAXBElement<ArrayOfParameterDto>(_DeclarationDtoParameters_QNAME, ArrayOfParameterDto.class, DeclarationDto.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = SearchBranchesRequest.class)
-    public JAXBElement<String> createSearchBranchesRequestName(String value) {
-        return new JAXBElement<String>(_SearchCodeEntitiesRequestName_QNAME, String.class, SearchBranchesRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = DeclarationDto.class)
+    public JAXBElement<String> createDeclarationDtoName(String value) {
+        return new JAXBElement<String>(_ParameterDtoName_QNAME, String.class, DeclarationDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReturnValueDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ReturnValue", scope = DeclarationDto.class)
+    public JAXBElement<ReturnValueDto> createDeclarationDtoReturnValue(ReturnValueDto value) {
+        return new JAXBElement<ReturnValueDto>(_DeclarationDtoReturnValue_QNAME, ReturnValueDto.class, DeclarationDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfChangesetDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changesets", scope = GetFileChangesetsResponse.class)
+    public JAXBElement<ArrayOfChangesetDto> createGetFileChangesetsResponseChangesets(ArrayOfChangesetDto value) {
+        return new JAXBElement<ArrayOfChangesetDto>(_SearchChangesetsResponseChangesets_QNAME, ArrayOfChangesetDto.class, GetFileChangesetsResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "IdInRcs", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<String> createQueueChangesetForImportRequestIdInRcs(String value) {
+        return new JAXBElement<String>(_QueueChangesetForImportRequestIdInRcs_QNAME, String.class, QueueChangesetForImportRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Ancestor2IdInRcs", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<String> createQueueChangesetForImportRequestAncestor2IdInRcs(String value) {
+        return new JAXBElement<String>(_QueueChangesetForImportRequestAncestor2IdInRcs_QNAME, String.class, QueueChangesetForImportRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfQueuedFileVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangedFiles", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<ArrayOfQueuedFileVersionDto> createQueueChangesetForImportRequestChangedFiles(ArrayOfQueuedFileVersionDto value) {
+        return new JAXBElement<ArrayOfQueuedFileVersionDto>(_QueueChangesetForImportRequestChangedFiles_QNAME, ArrayOfQueuedFileVersionDto.class, QueueChangesetForImportRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FilesBlob", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<byte[]> createQueueChangesetForImportRequestFilesBlob(byte[] value) {
+        return new JAXBElement<byte[]>(_QueueChangesetForImportRequestFilesBlob_QNAME, byte[].class, QueueChangesetForImportRequest.class, ((byte[]) value));
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Message", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<String> createQueueChangesetForImportRequestMessage(String value) {
+        return new JAXBElement<String>(_QueueChangesetForImportRequestMessage_QNAME, String.class, QueueChangesetForImportRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Committer", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<String> createQueueChangesetForImportRequestCommitter(String value) {
+        return new JAXBElement<String>(_QueueChangesetForImportRequestCommitter_QNAME, String.class, QueueChangesetForImportRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Ancestor1IdInRcs", scope = QueueChangesetForImportRequest.class)
+    public JAXBElement<String> createQueueChangesetForImportRequestAncestor1IdInRcs(String value) {
+        return new JAXBElement<String>(_QueueChangesetForImportRequestAncestor1IdInRcs_QNAME, String.class, QueueChangesetForImportRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Login", scope = SearchUsersRequest.class)
+    public JAXBElement<String> createSearchUsersRequestLogin(String value) {
+        return new JAXBElement<String>(_UserDtoLogin_QNAME, String.class, SearchUsersRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeclarationDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Declaration", scope = CodeEntityVersionDto.class)
+    public JAXBElement<DeclarationDto> createCodeEntityVersionDtoDeclaration(DeclarationDto value) {
+        return new JAXBElement<DeclarationDto>(_CodeEntityVersionDtoDeclaration_QNAME, DeclarationDto.class, CodeEntityVersionDto.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProjectId", scope = SearchBranchesRequest.class)
-    public JAXBElement<Integer> createSearchBranchesRequestRcsProjectId(Integer value) {
-        return new JAXBElement<Integer>(_SearchBranchesRequestRcsProjectId_QNAME, Integer.class, SearchBranchesRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = SearchFoldersRequest.class)
-    public JAXBElement<String> createSearchFoldersRequestUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, SearchFoldersRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionIdDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Parents", scope = GetCodeEntityFullContextResponse.class)
-    public JAXBElement<ArrayOfCodeEntityVersionIdDto> createGetCodeEntityFullContextResponseParents(ArrayOfCodeEntityVersionIdDto value) {
-        return new JAXBElement<ArrayOfCodeEntityVersionIdDto>(_GetCodeEntityFullContextResponseParents_QNAME, ArrayOfCodeEntityVersionIdDto.class, GetCodeEntityFullContextResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionIdDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Children", scope = GetCodeEntityFullContextResponse.class)
-    public JAXBElement<ArrayOfCodeEntityVersionIdDto> createGetCodeEntityFullContextResponseChildren(ArrayOfCodeEntityVersionIdDto value) {
-        return new JAXBElement<ArrayOfCodeEntityVersionIdDto>(_GetCodeEntityFullContextResponseChildren_QNAME, ArrayOfCodeEntityVersionIdDto.class, GetCodeEntityFullContextResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RcsProjectDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProject", scope = GetRcsProjectResponse.class)
-    public JAXBElement<RcsProjectDto> createGetRcsProjectResponseRcsProject(RcsProjectDto value) {
-        return new JAXBElement<RcsProjectDto>(_GetRcsProjectResponseRcsProject_QNAME, RcsProjectDto.class, GetRcsProjectResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CommentEndRow", scope = CodeEntityVersionDto.class)
+    public JAXBElement<Integer> createCodeEntityVersionDtoCommentEndRow(Integer value) {
+        return new JAXBElement<Integer>(_CodeEntityVersionDtoCommentEndRow_QNAME, Integer.class, CodeEntityVersionDto.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CommitterId", scope = SearchChangesetsRequest.class)
-    public JAXBElement<Integer> createSearchChangesetsRequestCommitterId(Integer value) {
-        return new JAXBElement<Integer>(_SearchChangesetsRequestCommitterId_QNAME, Integer.class, SearchChangesetsRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ParentId", scope = CodeEntityVersionDto.class)
+    public JAXBElement<Integer> createCodeEntityVersionDtoParentId(Integer value) {
+        return new JAXBElement<Integer>(_CodeEntityVersionDtoParentId_QNAME, Integer.class, CodeEntityVersionDto.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = SearchChangesetsRequest.class)
-    public JAXBElement<String> createSearchChangesetsRequestChangesetIdInRcs(String value) {
-        return new JAXBElement<String>(_AssociateChangesetWithBranchRequestChangesetIdInRcs_QNAME, String.class, SearchChangesetsRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CreatedFrom", scope = SearchChangesetsRequest.class)
-    public JAXBElement<XMLGregorianCalendar> createSearchChangesetsRequestCreatedFrom(XMLGregorianCalendar value) {
-        return new JAXBElement<XMLGregorianCalendar>(_SearchChangesetsRequestCreatedFrom_QNAME, XMLGregorianCalendar.class, SearchChangesetsRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CreatedTo", scope = SearchChangesetsRequest.class)
-    public JAXBElement<XMLGregorianCalendar> createSearchChangesetsRequestCreatedTo(XMLGregorianCalendar value) {
-        return new JAXBElement<XMLGregorianCalendar>(_SearchChangesetsRequestCreatedTo_QNAME, XMLGregorianCalendar.class, SearchChangesetsRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Versions", scope = GetFilesByTfsIdentifiersResponse.class)
-    public JAXBElement<ArrayOfFileVersionDto> createGetFilesByTfsIdentifiersResponseVersions(ArrayOfFileVersionDto value) {
-        return new JAXBElement<ArrayOfFileVersionDto>(_GetFilesByTfsIdentifiersResponseVersions_QNAME, ArrayOfFileVersionDto.class, GetFilesByTfsIdentifiersResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Names", scope = EnsureBranchesRequest.class)
-    public JAXBElement<ArrayOfstring> createEnsureBranchesRequestNames(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_EnsureBranchesRequestNames_QNAME, ArrayOfstring.class, EnsureBranchesRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CommentStartRow", scope = CodeEntityVersionDto.class)
+    public JAXBElement<Integer> createCodeEntityVersionDtoCommentStartRow(Integer value) {
+        return new JAXBElement<Integer>(_CodeEntityVersionDtoCommentStartRow_QNAME, Integer.class, CodeEntityVersionDto.class, value);
     }
 
     /**
@@ -2141,63 +2521,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = DeclarationDto.class)
-    public JAXBElement<String> createDeclarationDtoModifier(String value) {
-        return new JAXBElement<String>(_DeclarationDtoModifier_QNAME, String.class, DeclarationDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfInheritanceDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Inheritances", scope = DeclarationDto.class)
-    public JAXBElement<ArrayOfInheritanceDto> createDeclarationDtoInheritances(ArrayOfInheritanceDto value) {
-        return new JAXBElement<ArrayOfInheritanceDto>(_DeclarationDtoInheritances_QNAME, ArrayOfInheritanceDto.class, DeclarationDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfParameterDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Parameters", scope = DeclarationDto.class)
-    public JAXBElement<ArrayOfParameterDto> createDeclarationDtoParameters(ArrayOfParameterDto value) {
-        return new JAXBElement<ArrayOfParameterDto>(_DeclarationDtoParameters_QNAME, ArrayOfParameterDto.class, DeclarationDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = DeclarationDto.class)
-    public JAXBElement<String> createDeclarationDtoName(String value) {
-        return new JAXBElement<String>(_SearchCodeEntitiesRequestName_QNAME, String.class, DeclarationDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReturnValueDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ReturnValue", scope = DeclarationDto.class)
-    public JAXBElement<ReturnValueDto> createDeclarationDtoReturnValue(ReturnValueDto value) {
-        return new JAXBElement<ReturnValueDto>(_DeclarationDtoReturnValue_QNAME, ReturnValueDto.class, DeclarationDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "SupportedFileExtensions", scope = GetImportCapabilitiesResponse.class)
-    public JAXBElement<ArrayOfstring> createGetImportCapabilitiesResponseSupportedFileExtensions(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_GetImportCapabilitiesResponseSupportedFileExtensions_QNAME, ArrayOfstring.class, GetImportCapabilitiesResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Versions", scope = GetFilesByGitIdentifiersResponse.class)
-    public JAXBElement<ArrayOfFileVersionDto> createGetFilesByGitIdentifiersResponseVersions(ArrayOfFileVersionDto value) {
-        return new JAXBElement<ArrayOfFileVersionDto>(_GetFilesByTfsIdentifiersResponseVersions_QNAME, ArrayOfFileVersionDto.class, GetFilesByGitIdentifiersResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = SearchFoldersRequest.class)
+    public JAXBElement<String> createSearchFoldersRequestUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, SearchFoldersRequest.class, value);
     }
 
     /**
@@ -2206,7 +2532,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "IdInRcs", scope = ChangesetDto.class)
     public JAXBElement<String> createChangesetDtoIdInRcs(String value) {
-        return new JAXBElement<String>(_ChangesetDtoIdInRcs_QNAME, String.class, ChangesetDto.class, value);
+        return new JAXBElement<String>(_QueueChangesetForImportRequestIdInRcs_QNAME, String.class, ChangesetDto.class, value);
     }
 
     /**
@@ -2233,7 +2559,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Message", scope = ChangesetDto.class)
     public JAXBElement<String> createChangesetDtoMessage(String value) {
-        return new JAXBElement<String>(_ChangesetDtoMessage_QNAME, String.class, ChangesetDto.class, value);
+        return new JAXBElement<String>(_QueueChangesetForImportRequestMessage_QNAME, String.class, ChangesetDto.class, value);
     }
 
     /**
@@ -2242,322 +2568,52 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Committer", scope = ChangesetDto.class)
     public JAXBElement<UserDto> createChangesetDtoCommitter(UserDto value) {
-        return new JAXBElement<UserDto>(_ChangesetDtoCommitter_QNAME, UserDto.class, ChangesetDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FileVersions", scope = GetChangedFilesResponse.class)
-    public JAXBElement<ArrayOfFileVersionDto> createGetChangedFilesResponseFileVersions(ArrayOfFileVersionDto value) {
-        return new JAXBElement<ArrayOfFileVersionDto>(_GetChangedFilesResponseFileVersions_QNAME, ArrayOfFileVersionDto.class, GetChangedFilesResponse.class, value);
+        return new JAXBElement<UserDto>(_QueueChangesetForImportRequestCommitter_QNAME, UserDto.class, ChangesetDto.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Login", scope = SearchUsersRequest.class)
-    public JAXBElement<String> createSearchUsersRequestLogin(String value) {
-        return new JAXBElement<String>(_SearchUsersRequestLogin_QNAME, String.class, SearchUsersRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Type", scope = RcsServerDto.class)
+    public JAXBElement<String> createRcsServerDtoType(String value) {
+        return new JAXBElement<String>(_RcsServerDtoType_QNAME, String.class, RcsServerDto.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "TypeName", scope = InheritanceDto.class)
-    public JAXBElement<String> createInheritanceDtoTypeName(String value) {
-        return new JAXBElement<String>(_InheritanceDtoTypeName_QNAME, String.class, InheritanceDto.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = RcsServerDto.class)
+    public JAXBElement<String> createRcsServerDtoUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, RcsServerDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Folders", scope = SearchFoldersResponse.class)
+    public JAXBElement<ArrayOfstring> createSearchFoldersResponseFolders(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_SearchFoldersResponseFolders_QNAME, ArrayOfstring.class, SearchFoldersResponse.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = InheritanceDto.class)
-    public JAXBElement<String> createInheritanceDtoModifier(String value) {
-        return new JAXBElement<String>(_DeclarationDtoModifier_QNAME, String.class, InheritanceDto.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FileVersionUrl", scope = CodeEntityVersionWithFileUrlDto.class)
+    public JAXBElement<String> createCodeEntityVersionWithFileUrlDtoFileVersionUrl(String value) {
+        return new JAXBElement<String>(_CodeEntityVersionWithFileUrlDtoFileVersionUrl_QNAME, String.class, CodeEntityVersionWithFileUrlDto.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileTfsIdentifierDto }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServerId", scope = SearchRcsProjectsRequest.class)
-    public JAXBElement<Integer> createSearchRcsProjectsRequestRcsServerId(Integer value) {
-        return new JAXBElement<Integer>(_SearchRcsProjectsRequestRcsServerId_QNAME, Integer.class, SearchRcsProjectsRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = SearchRcsProjectsRequest.class)
-    public JAXBElement<String> createSearchRcsProjectsRequestUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, SearchRcsProjectsRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DeclarationDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Declaration", scope = CodeEntityVersionDto.class)
-    public JAXBElement<DeclarationDto> createCodeEntityVersionDtoDeclaration(DeclarationDto value) {
-        return new JAXBElement<DeclarationDto>(_CodeEntityVersionDtoDeclaration_QNAME, DeclarationDto.class, CodeEntityVersionDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CommentEndRow", scope = CodeEntityVersionDto.class)
-    public JAXBElement<Integer> createCodeEntityVersionDtoCommentEndRow(Integer value) {
-        return new JAXBElement<Integer>(_CodeEntityVersionDtoCommentEndRow_QNAME, Integer.class, CodeEntityVersionDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ParentId", scope = CodeEntityVersionDto.class)
-    public JAXBElement<Integer> createCodeEntityVersionDtoParentId(Integer value) {
-        return new JAXBElement<Integer>(_CodeEntityVersionDtoParentId_QNAME, Integer.class, CodeEntityVersionDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CommentStartRow", scope = CodeEntityVersionDto.class)
-    public JAXBElement<Integer> createCodeEntityVersionDtoCommentStartRow(Integer value) {
-        return new JAXBElement<Integer>(_CodeEntityVersionDtoCommentStartRow_QNAME, Integer.class, CodeEntityVersionDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = FileGitIdentifierDto.class)
-    public JAXBElement<String> createFileGitIdentifierDtoChangesetIdInRcs(String value) {
-        return new JAXBElement<String>(_AssociateChangesetWithBranchRequestChangesetIdInRcs_QNAME, String.class, FileGitIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "BranchName", scope = FileGitIdentifierDto.class)
-    public JAXBElement<String> createFileGitIdentifierDtoBranchName(String value) {
-        return new JAXBElement<String>(_FileGitIdentifierDtoBranchName_QNAME, String.class, FileGitIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProjectUrl", scope = FileGitIdentifierDto.class)
-    public JAXBElement<String> createFileGitIdentifierDtoRcsProjectUrl(String value) {
-        return new JAXBElement<String>(_FileGitIdentifierDtoRcsProjectUrl_QNAME, String.class, FileGitIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = FileGitIdentifierDto.class)
-    public JAXBElement<String> createFileGitIdentifierDtoUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, FileGitIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RcsServerDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServer", scope = GetRcsServerResponse.class)
-    public JAXBElement<RcsServerDto> createGetRcsServerResponseRcsServer(RcsServerDto value) {
-        return new JAXBElement<RcsServerDto>(_GetRcsServerResponseRcsServer_QNAME, RcsServerDto.class, GetRcsServerResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfBranchDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Branches", scope = SearchBranchesResponse.class)
-    public JAXBElement<ArrayOfBranchDto> createSearchBranchesResponseBranches(ArrayOfBranchDto value) {
-        return new JAXBElement<ArrayOfBranchDto>(_SearchBranchesResponseBranches_QNAME, ArrayOfBranchDto.class, SearchBranchesResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileGitIdentifierDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Identifiers", scope = GetFilesByGitIdentifiersRequest.class)
-    public JAXBElement<ArrayOfFileGitIdentifierDto> createGetFilesByGitIdentifiersRequestIdentifiers(ArrayOfFileGitIdentifierDto value) {
-        return new JAXBElement<ArrayOfFileGitIdentifierDto>(_GetFilesByGitIdentifiersRequestIdentifiers_QNAME, ArrayOfFileGitIdentifierDto.class, GetFilesByGitIdentifiersRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CodeEntityVersions", scope = SearchCodeEntitiesResponse.class)
-    public JAXBElement<ArrayOfCodeEntityVersionDto> createSearchCodeEntitiesResponseCodeEntityVersions(ArrayOfCodeEntityVersionDto value) {
-        return new JAXBElement<ArrayOfCodeEntityVersionDto>(_SearchCodeEntitiesResponseCodeEntityVersions_QNAME, ArrayOfCodeEntityVersionDto.class, SearchCodeEntitiesResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ChangesetDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changeset", scope = GetBranchImportedHeadResponse.class)
-    public JAXBElement<ChangesetDto> createGetBranchImportedHeadResponseChangeset(ChangesetDto value) {
-        return new JAXBElement<ChangesetDto>(_GetBranchImportedHeadResponseChangeset_QNAME, ChangesetDto.class, GetBranchImportedHeadResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = SearchRcsServersRequest.class)
-    public JAXBElement<String> createSearchRcsServersRequestUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, SearchRcsServersRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfChangesetDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changesets", scope = GetCodeEntityChangesetsResponse.class)
-    public JAXBElement<ArrayOfChangesetDto> createGetCodeEntityChangesetsResponseChangesets(ArrayOfChangesetDto value) {
-        return new JAXBElement<ArrayOfChangesetDto>(_GetCodeEntityChangesetsResponseChangesets_QNAME, ArrayOfChangesetDto.class, GetCodeEntityChangesetsResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = EnsureRcsProjectRequest.class)
-    public JAXBElement<String> createEnsureRcsProjectRequestUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, EnsureRcsProjectRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Content", scope = GetFileContentResponse.class)
-    public JAXBElement<String> createGetFileContentResponseContent(String value) {
-        return new JAXBElement<String>(_GetFileContentResponseContent_QNAME, String.class, GetFileContentResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RcsProjectDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProject", scope = GetChangesetRcsProjectResponse.class)
-    public JAXBElement<RcsProjectDto> createGetChangesetRcsProjectResponseRcsProject(RcsProjectDto value) {
-        return new JAXBElement<RcsProjectDto>(_GetRcsProjectResponseRcsProject_QNAME, RcsProjectDto.class, GetChangesetRcsProjectResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Versions", scope = GetChildCodeEntitiesResponse.class)
-    public JAXBElement<ArrayOfCodeEntityVersionDto> createGetChildCodeEntitiesResponseVersions(ArrayOfCodeEntityVersionDto value) {
-        return new JAXBElement<ArrayOfCodeEntityVersionDto>(_GetFilesByTfsIdentifiersResponseVersions_QNAME, ArrayOfCodeEntityVersionDto.class, GetChildCodeEntitiesResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Login", scope = UserDto.class)
-    public JAXBElement<String> createUserDtoLogin(String value) {
-        return new JAXBElement<String>(_SearchUsersRequestLogin_QNAME, String.class, UserDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "TypeName", scope = ParameterDto.class)
-    public JAXBElement<String> createParameterDtoTypeName(String value) {
-        return new JAXBElement<String>(_InheritanceDtoTypeName_QNAME, String.class, ParameterDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = ParameterDto.class)
-    public JAXBElement<String> createParameterDtoModifier(String value) {
-        return new JAXBElement<String>(_DeclarationDtoModifier_QNAME, String.class, ParameterDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = ParameterDto.class)
-    public JAXBElement<String> createParameterDtoName(String value) {
-        return new JAXBElement<String>(_SearchCodeEntitiesRequestName_QNAME, String.class, ParameterDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "TypeName", scope = ReturnValueDto.class)
-    public JAXBElement<String> createReturnValueDtoTypeName(String value) {
-        return new JAXBElement<String>(_InheritanceDtoTypeName_QNAME, String.class, ReturnValueDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = ReturnValueDto.class)
-    public JAXBElement<String> createReturnValueDtoModifier(String value) {
-        return new JAXBElement<String>(_DeclarationDtoModifier_QNAME, String.class, ReturnValueDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfChangesetDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changesets", scope = SearchChangesetsResponse.class)
-    public JAXBElement<ArrayOfChangesetDto> createSearchChangesetsResponseChangesets(ArrayOfChangesetDto value) {
-        return new JAXBElement<ArrayOfChangesetDto>(_GetCodeEntityChangesetsResponseChangesets_QNAME, ArrayOfChangesetDto.class, SearchChangesetsResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfRcsServerDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServers", scope = SearchRcsServersResponse.class)
-    public JAXBElement<ArrayOfRcsServerDto> createSearchRcsServersResponseRcsServers(ArrayOfRcsServerDto value) {
-        return new JAXBElement<ArrayOfRcsServerDto>(_SearchRcsServersResponseRcsServers_QNAME, ArrayOfRcsServerDto.class, SearchRcsServersResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfRcsProjectDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProjects", scope = SearchRcsProjectsResponse.class)
-    public JAXBElement<ArrayOfRcsProjectDto> createSearchRcsProjectsResponseRcsProjects(ArrayOfRcsProjectDto value) {
-        return new JAXBElement<ArrayOfRcsProjectDto>(_SearchRcsProjectsResponseRcsProjects_QNAME, ArrayOfRcsProjectDto.class, SearchRcsProjectsResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UserDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "User", scope = GetUserResponse.class)
-    public JAXBElement<UserDto> createGetUserResponseUser(UserDto value) {
-        return new JAXBElement<UserDto>(_GetUserResponseUser_QNAME, UserDto.class, GetUserResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Identifiers", scope = GetFilesByTfsIdentifiersRequest.class)
+    public JAXBElement<ArrayOfFileTfsIdentifierDto> createGetFilesByTfsIdentifiersRequestIdentifiers(ArrayOfFileTfsIdentifierDto value) {
+        return new JAXBElement<ArrayOfFileTfsIdentifierDto>(_GetFilesByGitIdentifiersRequestIdentifiers_QNAME, ArrayOfFileTfsIdentifierDto.class, GetFilesByTfsIdentifiersRequest.class, value);
     }
 
     /**
@@ -2570,102 +2626,120 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ChangesetDto }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RcsProjectDto }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changeset", scope = GetBranchQueuedHeadResponse.class)
-    public JAXBElement<ChangesetDto> createGetBranchQueuedHeadResponseChangeset(ChangesetDto value) {
-        return new JAXBElement<ChangesetDto>(_GetBranchImportedHeadResponseChangeset_QNAME, ChangesetDto.class, GetBranchQueuedHeadResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProject", scope = GetChangesetRcsProjectResponse.class)
+    public JAXBElement<RcsProjectDto> createGetChangesetRcsProjectResponseRcsProject(RcsProjectDto value) {
+        return new JAXBElement<RcsProjectDto>(_GetRcsProjectResponseRcsProject_QNAME, RcsProjectDto.class, GetChangesetRcsProjectResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FileVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Version", scope = GetFileResponse.class)
+    public JAXBElement<FileVersionDto> createGetFileResponseVersion(FileVersionDto value) {
+        return new JAXBElement<FileVersionDto>(_GetFileResponseVersion_QNAME, FileVersionDto.class, GetFileResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = AssociateChangesetWithBranchRequest.class)
+    public JAXBElement<String> createAssociateChangesetWithBranchRequestChangesetIdInRcs(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoChangesetIdInRcs_QNAME, String.class, AssociateChangesetWithBranchRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FullUrl", scope = FileTfsIdentifierDto.class)
+    public JAXBElement<String> createFileTfsIdentifierDtoFullUrl(String value) {
+        return new JAXBElement<String>(_FileTfsIdentifierDtoFullUrl_QNAME, String.class, FileTfsIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = FileTfsIdentifierDto.class)
+    public JAXBElement<String> createFileTfsIdentifierDtoChangesetIdInRcs(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoChangesetIdInRcs_QNAME, String.class, FileTfsIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServerUrl", scope = FileTfsIdentifierDto.class)
+    public JAXBElement<String> createFileTfsIdentifierDtoRcsServerUrl(String value) {
+        return new JAXBElement<String>(_FileTfsIdentifierDtoRcsServerUrl_QNAME, String.class, FileTfsIdentifierDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = EnsureRcsProjectRequest.class)
+    public JAXBElement<String> createEnsureRcsProjectRequestUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, EnsureRcsProjectRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = SearchRcsServersRequest.class)
+    public JAXBElement<String> createSearchRcsServersRequestUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, SearchRcsServersRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = IsChangesetQueuedOrImportedRequest.class)
+    public JAXBElement<String> createIsChangesetQueuedOrImportedRequestChangesetIdInRcs(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoChangesetIdInRcs_QNAME, String.class, IsChangesetQueuedOrImportedRequest.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "EntityId", scope = SearchFilesRequest.class)
-    public JAXBElement<Integer> createSearchFilesRequestEntityId(Integer value) {
-        return new JAXBElement<Integer>(_SearchCodeEntitiesRequestEntityId_QNAME, Integer.class, SearchFilesRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CommitterId", scope = SearchChangesetsRequest.class)
+    public JAXBElement<Integer> createSearchChangesetsRequestCommitterId(Integer value) {
+        return new JAXBElement<Integer>(_SearchChangesetsRequestCommitterId_QNAME, Integer.class, SearchChangesetsRequest.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "UrlStart", scope = SearchFilesRequest.class)
-    public JAXBElement<String> createSearchFilesRequestUrlStart(String value) {
-        return new JAXBElement<String>(_SearchFilesRequestUrlStart_QNAME, String.class, SearchFilesRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = SearchChangesetsRequest.class)
+    public JAXBElement<String> createSearchChangesetsRequestChangesetIdInRcs(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoChangesetIdInRcs_QNAME, String.class, SearchChangesetsRequest.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfUserDto }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Users", scope = SearchUsersResponse.class)
-    public JAXBElement<ArrayOfUserDto> createSearchUsersResponseUsers(ArrayOfUserDto value) {
-        return new JAXBElement<ArrayOfUserDto>(_SearchUsersResponseUsers_QNAME, ArrayOfUserDto.class, SearchUsersResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CreatedFrom", scope = SearchChangesetsRequest.class)
+    public JAXBElement<XMLGregorianCalendar> createSearchChangesetsRequestCreatedFrom(XMLGregorianCalendar value) {
+        return new JAXBElement<XMLGregorianCalendar>(_SearchChangesetsRequestCreatedFrom_QNAME, XMLGregorianCalendar.class, SearchChangesetsRequest.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "IdInRcs", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<String> createQueueChangesetForImportRequestIdInRcs(String value) {
-        return new JAXBElement<String>(_ChangesetDtoIdInRcs_QNAME, String.class, QueueChangesetForImportRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Ancestor2IdInRcs", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<String> createQueueChangesetForImportRequestAncestor2IdInRcs(String value) {
-        return new JAXBElement<String>(_QueueChangesetForImportRequestAncestor2IdInRcs_QNAME, String.class, QueueChangesetForImportRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfQueuedFileVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangedFiles", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<ArrayOfQueuedFileVersionDto> createQueueChangesetForImportRequestChangedFiles(ArrayOfQueuedFileVersionDto value) {
-        return new JAXBElement<ArrayOfQueuedFileVersionDto>(_QueueChangesetForImportRequestChangedFiles_QNAME, ArrayOfQueuedFileVersionDto.class, QueueChangesetForImportRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FilesBlob", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<byte[]> createQueueChangesetForImportRequestFilesBlob(byte[] value) {
-        return new JAXBElement<byte[]>(_QueueChangesetForImportRequestFilesBlob_QNAME, byte[].class, QueueChangesetForImportRequest.class, ((byte[]) value));
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Message", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<String> createQueueChangesetForImportRequestMessage(String value) {
-        return new JAXBElement<String>(_ChangesetDtoMessage_QNAME, String.class, QueueChangesetForImportRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Committer", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<String> createQueueChangesetForImportRequestCommitter(String value) {
-        return new JAXBElement<String>(_ChangesetDtoCommitter_QNAME, String.class, QueueChangesetForImportRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Ancestor1IdInRcs", scope = QueueChangesetForImportRequest.class)
-    public JAXBElement<String> createQueueChangesetForImportRequestAncestor1IdInRcs(String value) {
-        return new JAXBElement<String>(_QueueChangesetForImportRequestAncestor1IdInRcs_QNAME, String.class, QueueChangesetForImportRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CreatedTo", scope = SearchChangesetsRequest.class)
+    public JAXBElement<XMLGregorianCalendar> createSearchChangesetsRequestCreatedTo(XMLGregorianCalendar value) {
+        return new JAXBElement<XMLGregorianCalendar>(_SearchChangesetsRequestCreatedTo_QNAME, XMLGregorianCalendar.class, SearchChangesetsRequest.class, value);
     }
 
     /**
@@ -2692,88 +2766,25 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = BranchDto.class)
     public JAXBElement<String> createBranchDtoName(String value) {
-        return new JAXBElement<String>(_SearchCodeEntitiesRequestName_QNAME, String.class, BranchDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link BranchDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Branch", scope = GetBranchResponse.class)
-    public JAXBElement<BranchDto> createGetBranchResponseBranch(BranchDto value) {
-        return new JAXBElement<BranchDto>(_GetBranchResponseBranch_QNAME, BranchDto.class, GetBranchResponse.class, value);
+        return new JAXBElement<String>(_ParameterDtoName_QNAME, String.class, BranchDto.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ContentIdentifier", scope = QueuedFileVersionDto.class)
-    public JAXBElement<String> createQueuedFileVersionDtoContentIdentifier(String value) {
-        return new JAXBElement<String>(_QueuedFileVersionDtoContentIdentifier_QNAME, String.class, QueuedFileVersionDto.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = FileVersionDto.class)
+    public JAXBElement<String> createFileVersionDtoUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, FileVersionDto.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ChangesetDto }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FileUrl", scope = QueuedFileVersionDto.class)
-    public JAXBElement<String> createQueuedFileVersionDtoFileUrl(String value) {
-        return new JAXBElement<String>(_QueuedFileVersionDtoFileUrl_QNAME, String.class, QueuedFileVersionDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = IsChangesetQueuedOrImportedRequest.class)
-    public JAXBElement<String> createIsChangesetQueuedOrImportedRequestChangesetIdInRcs(String value) {
-        return new JAXBElement<String>(_AssociateChangesetWithBranchRequestChangesetIdInRcs_QNAME, String.class, IsChangesetQueuedOrImportedRequest.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfChangesetDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changesets", scope = GetFileChangesetsResponse.class)
-    public JAXBElement<ArrayOfChangesetDto> createGetFileChangesetsResponseChangesets(ArrayOfChangesetDto value) {
-        return new JAXBElement<ArrayOfChangesetDto>(_GetCodeEntityChangesetsResponseChangesets_QNAME, ArrayOfChangesetDto.class, GetFileChangesetsResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Type", scope = RcsServerDto.class)
-    public JAXBElement<String> createRcsServerDtoType(String value) {
-        return new JAXBElement<String>(_RcsServerDtoType_QNAME, String.class, RcsServerDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = RcsServerDto.class)
-    public JAXBElement<String> createRcsServerDtoUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, RcsServerDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link FileVersionDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Version", scope = GetFileResponse.class)
-    public JAXBElement<FileVersionDto> createGetFileResponseVersion(FileVersionDto value) {
-        return new JAXBElement<FileVersionDto>(_GetCodeEntityResponseVersion_QNAME, FileVersionDto.class, GetFileResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfFileTfsIdentifierDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Identifiers", scope = GetFilesByTfsIdentifiersRequest.class)
-    public JAXBElement<ArrayOfFileTfsIdentifierDto> createGetFilesByTfsIdentifiersRequestIdentifiers(ArrayOfFileTfsIdentifierDto value) {
-        return new JAXBElement<ArrayOfFileTfsIdentifierDto>(_GetFilesByGitIdentifiersRequestIdentifiers_QNAME, ArrayOfFileTfsIdentifierDto.class, GetFilesByTfsIdentifiersRequest.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changeset", scope = GetBranchImportedHeadResponse.class)
+    public JAXBElement<ChangesetDto> createGetBranchImportedHeadResponseChangeset(ChangesetDto value) {
+        return new JAXBElement<ChangesetDto>(_GetChangesetResponseChangeset_QNAME, ChangesetDto.class, GetBranchImportedHeadResponse.class, value);
     }
 
     /**
@@ -2791,61 +2802,16 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = EnsureRcsServerRequest.class)
     public JAXBElement<String> createEnsureRcsServerRequestUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, EnsureRcsServerRequest.class, value);
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, EnsureRcsServerRequest.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ChangesetDto }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionWithFileUrlDto }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Changeset", scope = GetChangesetResponse.class)
-    public JAXBElement<ChangesetDto> createGetChangesetResponseChangeset(ChangesetDto value) {
-        return new JAXBElement<ChangesetDto>(_GetBranchImportedHeadResponseChangeset_QNAME, ChangesetDto.class, GetChangesetResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "FullUrl", scope = FileTfsIdentifierDto.class)
-    public JAXBElement<String> createFileTfsIdentifierDtoFullUrl(String value) {
-        return new JAXBElement<String>(_FileTfsIdentifierDtoFullUrl_QNAME, String.class, FileTfsIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "ChangesetIdInRcs", scope = FileTfsIdentifierDto.class)
-    public JAXBElement<String> createFileTfsIdentifierDtoChangesetIdInRcs(String value) {
-        return new JAXBElement<String>(_AssociateChangesetWithBranchRequestChangesetIdInRcs_QNAME, String.class, FileTfsIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServerUrl", scope = FileTfsIdentifierDto.class)
-    public JAXBElement<String> createFileTfsIdentifierDtoRcsServerUrl(String value) {
-        return new JAXBElement<String>(_FileTfsIdentifierDtoRcsServerUrl_QNAME, String.class, FileTfsIdentifierDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = FileVersionDto.class)
-    public JAXBElement<String> createFileVersionDtoUrl(String value) {
-        return new JAXBElement<String>(_RcsProjectDtoUrl_QNAME, String.class, FileVersionDto.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Folders", scope = SearchFoldersResponse.class)
-    public JAXBElement<ArrayOfstring> createSearchFoldersResponseFolders(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_SearchFoldersResponseFolders_QNAME, ArrayOfstring.class, SearchFoldersResponse.class, value);
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CodeEntityVersions", scope = SearchTypeCodeEntitiesResponse.class)
+    public JAXBElement<ArrayOfCodeEntityVersionWithFileUrlDto> createSearchTypeCodeEntitiesResponseCodeEntityVersions(ArrayOfCodeEntityVersionWithFileUrlDto value) {
+        return new JAXBElement<ArrayOfCodeEntityVersionWithFileUrlDto>(_SearchTypeCodeEntitiesResponseCodeEntityVersions_QNAME, ArrayOfCodeEntityVersionWithFileUrlDto.class, SearchTypeCodeEntitiesResponse.class, value);
     }
 
     /**
@@ -2854,7 +2820,142 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Content", scope = GetCodeEntityContentResponse.class)
     public JAXBElement<String> createGetCodeEntityContentResponseContent(String value) {
-        return new JAXBElement<String>(_GetFileContentResponseContent_QNAME, String.class, GetCodeEntityContentResponse.class, value);
+        return new JAXBElement<String>(_GetCodeEntityContentResponseContent_QNAME, String.class, GetCodeEntityContentResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "TypeName", scope = ReturnValueDto.class)
+    public JAXBElement<String> createReturnValueDtoTypeName(String value) {
+        return new JAXBElement<String>(_ParameterDtoTypeName_QNAME, String.class, ReturnValueDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = ReturnValueDto.class)
+    public JAXBElement<String> createReturnValueDtoModifier(String value) {
+        return new JAXBElement<String>(_ParameterDtoModifier_QNAME, String.class, ReturnValueDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsServerId", scope = SearchRcsProjectsRequest.class)
+    public JAXBElement<Integer> createSearchRcsProjectsRequestRcsServerId(Integer value) {
+        return new JAXBElement<Integer>(_SearchRcsProjectsRequestRcsServerId_QNAME, Integer.class, SearchRcsProjectsRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Url", scope = SearchRcsProjectsRequest.class)
+    public JAXBElement<String> createSearchRcsProjectsRequestUrl(String value) {
+        return new JAXBElement<String>(_FileGitIdentifierDtoUrl_QNAME, String.class, SearchRcsProjectsRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CodeEntityVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Version", scope = GetCodeEntityResponse.class)
+    public JAXBElement<CodeEntityVersionDto> createGetCodeEntityResponseVersion(CodeEntityVersionDto value) {
+        return new JAXBElement<CodeEntityVersionDto>(_GetFileResponseVersion_QNAME, CodeEntityVersionDto.class, GetCodeEntityResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "TypeName", scope = InheritanceDto.class)
+    public JAXBElement<String> createInheritanceDtoTypeName(String value) {
+        return new JAXBElement<String>(_ParameterDtoTypeName_QNAME, String.class, InheritanceDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Modifier", scope = InheritanceDto.class)
+    public JAXBElement<String> createInheritanceDtoModifier(String value) {
+        return new JAXBElement<String>(_ParameterDtoModifier_QNAME, String.class, InheritanceDto.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Versions", scope = GetChildCodeEntitiesResponse.class)
+    public JAXBElement<ArrayOfCodeEntityVersionDto> createGetChildCodeEntitiesResponseVersions(ArrayOfCodeEntityVersionDto value) {
+        return new JAXBElement<ArrayOfCodeEntityVersionDto>(_GetFilesByTfsIdentifiersResponseVersions_QNAME, ArrayOfCodeEntityVersionDto.class, GetChildCodeEntitiesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfCodeEntityVersionDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "CodeEntityVersions", scope = SearchCodeEntitiesResponse.class)
+    public JAXBElement<ArrayOfCodeEntityVersionDto> createSearchCodeEntitiesResponseCodeEntityVersions(ArrayOfCodeEntityVersionDto value) {
+        return new JAXBElement<ArrayOfCodeEntityVersionDto>(_SearchTypeCodeEntitiesResponseCodeEntityVersions_QNAME, ArrayOfCodeEntityVersionDto.class, SearchCodeEntitiesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Content", scope = GetFileContentResponse.class)
+    public JAXBElement<String> createGetFileContentResponseContent(String value) {
+        return new JAXBElement<String>(_GetCodeEntityContentResponseContent_QNAME, String.class, GetFileContentResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "SupportedFileExtensions", scope = GetImportCapabilitiesResponse.class)
+    public JAXBElement<ArrayOfstring> createGetImportCapabilitiesResponseSupportedFileExtensions(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_GetImportCapabilitiesResponseSupportedFileExtensions_QNAME, ArrayOfstring.class, GetImportCapabilitiesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfUserDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Users", scope = SearchUsersResponse.class)
+    public JAXBElement<ArrayOfUserDto> createSearchUsersResponseUsers(ArrayOfUserDto value) {
+        return new JAXBElement<ArrayOfUserDto>(_SearchUsersResponseUsers_QNAME, ArrayOfUserDto.class, SearchUsersResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfRcsProjectDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProjects", scope = SearchRcsProjectsResponse.class)
+    public JAXBElement<ArrayOfRcsProjectDto> createSearchRcsProjectsResponseRcsProjects(ArrayOfRcsProjectDto value) {
+        return new JAXBElement<ArrayOfRcsProjectDto>(_SearchRcsProjectsResponseRcsProjects_QNAME, ArrayOfRcsProjectDto.class, SearchRcsProjectsResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "Name", scope = SearchBranchesRequest.class)
+    public JAXBElement<String> createSearchBranchesRequestName(String value) {
+        return new JAXBElement<String>(_ParameterDtoName_QNAME, String.class, SearchBranchesRequest.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", name = "RcsProjectId", scope = SearchBranchesRequest.class)
+    public JAXBElement<Integer> createSearchBranchesRequestRcsProjectId(Integer value) {
+        return new JAXBElement<Integer>(_SearchBranchesRequestRcsProjectId_QNAME, Integer.class, SearchBranchesRequest.class, value);
     }
 
 }
