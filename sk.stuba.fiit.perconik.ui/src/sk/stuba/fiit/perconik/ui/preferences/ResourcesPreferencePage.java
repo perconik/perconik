@@ -48,6 +48,7 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 	{
 		Tables.createColumn(table, layout, "Resource name", gc, 4);
 		Tables.createColumn(table, layout, "Listener type", gc, 4);
+		Tables.createColumn(table, layout, "Version",       gc, 1);
 		Tables.createColumn(table, layout, "Notes",         gc, 1);
 	}
 
@@ -66,10 +67,16 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 			{
 				case 0:
 					return data.getResourceName() + (data.isProvided() ? "" : " (unknown)");
+				
 				case 1:
 					return data.getListenerType().getName();
+				
 				case 2:
+					return this.getVersion(data);
+				
+				case 3:
 					return this.getAnnotations(data);
+				
 				default:
 					throw new IllegalStateException();
 			}

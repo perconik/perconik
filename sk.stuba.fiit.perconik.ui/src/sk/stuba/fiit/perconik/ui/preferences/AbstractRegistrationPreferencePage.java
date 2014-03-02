@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.ui.preferences;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nonnull;
@@ -29,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
+import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
@@ -39,6 +41,7 @@ import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage
@@ -338,6 +341,21 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		this.notesButton.setEnabled(selectionCount == 1);
 	}
 	
+	private static enum AnnotationFilter implements Predicate<Annotation>
+	{
+		INSTANCE;
+		
+		public static final Iterable<Annotation> apply(final Iterable<Annotation> annotations)
+		{
+			return Iterables.filter(annotations, INSTANCE);
+		}
+		
+		public final boolean apply(final Annotation annotation)
+		{
+			return annotation.annotationType() != Version.class;
+		}
+	}
+
 	private static final class StandardContentProvider implements IStructuredContentProvider
 	{
 		private Set<?> data;
@@ -376,7 +394,14 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				return "?";
 			}
 			
-			return Annotations.toString(registration.getAnnotations());
+			return Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
+		}
+		
+		public final String getVersion(final R registration)
+		{
+			Version version = registration.getAnnotation(Version.class);
+			
+			return version != null ? version.value() : "?";
 		}
 
 		public Image getColumnImage(Object element, int column)
@@ -445,7 +470,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		R registration = this.cast(selection.toList().get(0));
 
 		String name    = ((ITableLabelProvider) this.tableViewer.getLabelProvider()).getColumnText(registration, 0);
-		String message = Annotations.toString(registration.getAnnotations());
+		String message = Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
 		
 		this.displayNotice("Notes for " + name, !message.isEmpty() ? message : "No notes available.");
 	}

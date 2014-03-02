@@ -47,6 +47,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 	protected final void makeTableColumns(Table table, TableColumnLayout layout, GC gc)
 	{
 		Tables.createColumn(table, layout, "Listener implementation", gc, 4);
+		Tables.createColumn(table, layout, "Version",                 gc, 1);
 		Tables.createColumn(table, layout, "Notes",                   gc, 1);
 	}
 
@@ -64,8 +65,13 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 			{
 				case 0:
 					return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
+					
 				case 1:
+					return this.getVersion(data);
+					
+				case 2:
 					return this.getAnnotations(data);
+					
 				default:
 					throw new IllegalStateException();
 			}
