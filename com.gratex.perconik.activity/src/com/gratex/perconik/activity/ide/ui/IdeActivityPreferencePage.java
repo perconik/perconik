@@ -63,6 +63,8 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	protected final void createFieldEditors()
 	{
+		// TODO fix click on OK
+		
 		this.watcherUrl       = new UrlFieldEditor(IdeActivityPreferenceKeys.watcherUrl, "URL:", this.getFieldEditorParent());
 		this.watcherNamespace = new UriFieldEditor(IdeActivityPreferenceKeys.watcherNamespace, "Namespace:", this.getFieldEditorParent());
 		this.watcherLocalPart = new StringFieldEditor(IdeActivityPreferenceKeys.watcherLocalPart, "Local part:", this.getFieldEditorParent());
