@@ -48,7 +48,10 @@ public final class IdeActivityServices
 				}
 				catch (Exception failure)
 				{
-					console.error("Unable to construct activity watcher service at " + url + " with name " + name, failure);
+					if (IdeActivityPreferences.isErrorLoggerEnabled())
+					{
+						console.error("Unable to construct activity watcher service at " + url + " with name " + name, failure);
+					}
 				}
 			}
 			
@@ -102,7 +105,10 @@ public final class IdeActivityServices
 	{
 		releaseWatcherService();
 		
-		console.error("Unexpected failure of activity watcher service", failure);
+		if (IdeActivityPreferences.isErrorLoggerEnabled())
+		{
+			console.error("Unexpected failure of activity watcher service", failure);
+		}
 	}
 
 	public static interface ServiceOperation<S extends Object>
