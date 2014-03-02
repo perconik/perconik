@@ -60,7 +60,7 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
 	}
 	
 	@Override
-	protected final ResourceProvider delegate()
+	public final ResourceProvider delegate()
 	{
 		return this.provider;
 	}

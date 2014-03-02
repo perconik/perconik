@@ -49,7 +49,7 @@ public final class DebugResourceManagerProxy extends DebugNameableProxy implemen
 	}
 	
 	@Override
-	protected final ResourceManager delegate()
+	public final ResourceManager delegate()
 	{
 		return this.manager;
 	}

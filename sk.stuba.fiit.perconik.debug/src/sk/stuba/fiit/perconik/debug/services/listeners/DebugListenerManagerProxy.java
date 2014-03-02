@@ -48,7 +48,7 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
 	}
 	
 	@Override
-	protected final ListenerManager delegate()
+	public final ListenerManager delegate()
 	{
 		return this.manager;
 	}

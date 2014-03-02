@@ -10,7 +10,7 @@ public abstract class DebugObjectProxy extends AbstractDebugObject
 		super(console);
 	}
 	
-	protected abstract Object delegate();
+	public abstract Object delegate();
 
 	@Override
 	public final boolean equals(@Nullable final Object o)

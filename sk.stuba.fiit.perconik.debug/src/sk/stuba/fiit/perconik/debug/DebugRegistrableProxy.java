@@ -11,7 +11,7 @@ public abstract class DebugRegistrableProxy extends DebugObjectProxy implements 
 	}
 	
 	@Override
-	protected abstract Registrable delegate();
+	public abstract Registrable delegate();
 	
 	public final void preRegister()
 	{

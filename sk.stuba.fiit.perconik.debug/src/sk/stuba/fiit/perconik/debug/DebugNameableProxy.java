@@ -11,7 +11,7 @@ public abstract class DebugNameableProxy extends DebugObjectProxy implements Nam
 	}
 
 	@Override
-	protected abstract Nameable delegate();
+	public abstract Nameable delegate();
 	
 	public final String getName()
 	{

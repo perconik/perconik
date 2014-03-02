@@ -46,7 +46,7 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
 	}
 	
 	@Override
-	protected final ListenerProvider delegate()
+	public final ListenerProvider delegate()
 	{
 		return this.provider;
 	}

@@ -50,7 +50,7 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
 	}
 	
 	@Override
-	protected final Resource<L> delegate()
+	public final Resource<L> delegate()
 	{
 		return this.resource;
 	}
