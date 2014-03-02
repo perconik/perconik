@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 import sk.stuba.fiit.perconik.utilities.reflect.ClassResolver;
 import com.google.common.base.Preconditions;
@@ -22,6 +23,11 @@ public final class Bundles
 	private Bundles()
 	{
 		throw new AssertionError();
+	}
+	
+	public static final Bundle forClass(final Class<?> type)
+	{
+		return FrameworkUtil.getBundle(type);
 	}
 	
 	public static final Bundle forName(final String name) throws BundleNotFoundException
