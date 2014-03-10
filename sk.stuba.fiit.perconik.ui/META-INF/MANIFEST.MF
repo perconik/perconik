@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK User Interface
 Bundle-SymbolicName: sk.stuba.fiit.perconik.ui;singleton:=true
-Bundle-Version: 0.1.12.v20140210-1838
+Bundle-Version: 0.1.13.v20140310-2135
 Bundle-Activator: sk.stuba.fiit.perconik.ui.plugin.Activator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.jface;bundle-version="3.9.0",
@@ -10,12 +10,12 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
  org.eclipse.text;bundle-version="3.5.300",
  org.eclipse.ui;bundle-version="3.105.0",
  org.eclipse.ui.forms;bundle-version="3.6.0",
- sk.stuba.fiit.perconik.core;bundle-version="0.1.9",
- sk.stuba.fiit.perconik.core.persistence;bundle-version="0.0.9",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.1.5",
+ sk.stuba.fiit.perconik.core;bundle-version="0.1.10",
+ sk.stuba.fiit.perconik.core.persistence;bundle-version="0.0.10",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.1.6",
  sk.stuba.fiit.perconik.environment;bundle-version="0.0.3",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2",
- sk.stuba.fiit.perconik.preferences;bundle-version="0.0.10",
+ sk.stuba.fiit.perconik.preferences;bundle-version="0.0.11",
  sk.stuba.fiit.perconik.utilities;bundle-version="0.1.4"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPoBundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava

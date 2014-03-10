@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Eclipse API Extensions
 Bundle-SymbolicName: sk.stuba.fiit.perconik.eclipse;singleton:=true
-Bundle-Version: 0.1.5.v20140210-1837
+Bundle-Version: 0.1.6.v20140310-2134
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.eclipse.core.commands,
  sk.stuba.fiit.perconik.eclipse.core.commands.operations,
