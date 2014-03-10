@@ -1162,69 +1162,80 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return this.insert(0, d);
 	}
 	
+	private final SmartStringBuilder prependLine(String s)
+	{
+		this.prepend(s + this.options.lineSeparator);
+		
+		this.line = true;
+		
+		this.ensureIndent();
+		
+		return this;
+	}
+	
 	public final SmartStringBuilder prependln()
 	{
-		return this.prepend(this.options.lineSeparator);
+		return this.prependLine("");
 	}
 	
 	public final SmartStringBuilder prependln(@Nullable Object o)
 	{
-		return this.prependln(this.toString(o));
+		return this.prependLine(this.toString(o));
 	}
 
 	public final SmartStringBuilder prependln(@Nullable String s)
 	{
-		return this.prepend(this.toString(s) + this.options.lineSeparator);
+		return this.prependLine(this.toString(s));
 	}
 
 	public final SmartStringBuilder prependln(@Nullable CharSequence s)
 	{
-		return this.prependln(this.toString(s));
+		return this.prependLine(this.toString(s));
 	}
 	
 	public final SmartStringBuilder prependln(@Nullable CharSequence s, int from, int to)
 	{
-		return this.prepend(this.toString(s).substring(from, to) + this.options.lineSeparator);
+		return this.prependLine(this.toString(s).substring(from, to));
 	}
 
 	public final SmartStringBuilder prependln(boolean b)
 	{
-		return this.prepend(b + this.options.lineSeparator);
+		return this.prependLine(Boolean.toString(b));
 	}
 
 	public final SmartStringBuilder prependln(char c)
 	{
-		return this.prepend(c + this.options.lineSeparator);
+		return this.prependLine(Character.toString(c));
 	}
 	
 	public final SmartStringBuilder prependln(char[] s)
 	{
-		return this.prepend(new String(s) + this.options.lineSeparator);
+		return this.prependLine(new String(s));
 	}
 	
 	public final SmartStringBuilder prependln(char[] s, int offset, int length)
 	{
-		return this.prepend(new String(s, offset, length) + this.options.lineSeparator);
+		return this.prependLine(new String(s, offset, length));
 	}
 
 	public final SmartStringBuilder prependln(int i)
 	{
-		return this.prepend(i + this.options.lineSeparator);
+		return this.prependLine(Integer.toString(i));
 	}
 
 	public final SmartStringBuilder prependln(long l)
 	{
-		return this.prepend(l + this.options.lineSeparator);
+		return this.prependLine(Long.toString(l));
 	}
 
 	public final SmartStringBuilder prependln(float f)
 	{
-		return this.prepend(f + this.options.lineSeparator);
+		return this.prependLine(Float.toString(f));
 	}
 
 	public final SmartStringBuilder prependln(double d)
 	{
-		return this.prepend(d + this.options.lineSeparator);
+		return this.prependLine(Double.toString(d));
 	}
 
 	public final SmartStringBuilder delete(int from, int to)
