@@ -696,7 +696,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		return this.builder.substring(offset);
 	}
 
-	public final String subString(int from, int to)
+	public final String substring(int from, int to)
 	{
 		return this.builder.substring(from, to);
 	}
@@ -877,7 +877,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 		
 		return this.append(this.toString(o));
 	}
-
+	
 	public final SmartStringBuilder append(@Nullable String s)
 	{
 		this.ensureIndent();
@@ -888,10 +888,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 	public final SmartStringBuilder append(@Nullable CharSequence s)
 	{
-		this.ensureIndent();
-		this.builder.append(this.toString(s));
-		
-		return this;
+		return this.append(this.toString(s));
 	}
 	
 	public final SmartStringBuilder append(@Nullable CharSequence s, int from, int to)
@@ -991,10 +988,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 	public final SmartStringBuilder appendln(@Nullable CharSequence s)
 	{
-		this.ensureIndent();
-		this.builder.append(this.toString(s));
-		
-		return this.appendln();
+		return this.appendln(this.toString(s));
 	}
 	
 	public final SmartStringBuilder appendln(@Nullable CharSequence s, int from, int to)
@@ -1100,12 +1094,137 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 	{
 		return stream.append(this.builder);
 	}
-	
+
 	public final <A extends Appendable> A appendSafelyTo(A appendable) throws IOException
 	{
 		appendable.append(this.builder);
 		
 		return appendable;
+	}
+	
+	public final SmartStringBuilder prepend(@Nullable Object o)
+	{
+		return this.insert(0, o);
+	}
+	
+	public final SmartStringBuilder prepend(@Nullable String s)
+	{
+		return this.insert(0, s);
+	}
+
+	public final SmartStringBuilder prepend(@Nullable CharSequence s)
+	{
+		return this.insert(0, s);
+	}
+	
+	public final SmartStringBuilder prepend(@Nullable CharSequence s, int from, int to)
+	{
+		return this.insert(0, s, from, to);
+	}
+
+	public final SmartStringBuilder prepend(boolean b)
+	{
+		return this.insert(0, b);
+	}
+
+	public final SmartStringBuilder prepend(char c)
+	{
+		return this.insert(0, c);
+	}
+
+	public final SmartStringBuilder prepend(char[] s)
+	{
+		return this.insert(0, s);
+	}
+	
+	public final SmartStringBuilder prepend(char[] s, int offset, int length)
+	{
+		return this.insert(0, s, offset, length);
+	}
+	
+	public final SmartStringBuilder prepend(int i)
+	{
+		return this.insert(0, i);
+	}
+
+	public final SmartStringBuilder prepend(long l)
+	{
+		return this.insert(0, l);
+	}
+
+	public final SmartStringBuilder prepend(float f)
+	{
+		return this.insert(0, f);
+	}
+
+	public final SmartStringBuilder prepend(double d)
+	{
+		return this.insert(0, d);
+	}
+	
+	public final SmartStringBuilder prependln()
+	{
+		return this.prepend(this.options.lineSeparator);
+	}
+	
+	public final SmartStringBuilder prependln(@Nullable Object o)
+	{
+		return this.prependln(this.toString(o));
+	}
+
+	public final SmartStringBuilder prependln(@Nullable String s)
+	{
+		return this.prepend(this.toString(s) + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(@Nullable CharSequence s)
+	{
+		return this.prependln(this.toString(s));
+	}
+	
+	public final SmartStringBuilder prependln(@Nullable CharSequence s, int from, int to)
+	{
+		return this.prepend(this.toString(s).substring(from, to) + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(boolean b)
+	{
+		return this.prepend(b + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(char c)
+	{
+		return this.prepend(c + this.options.lineSeparator);
+	}
+	
+	public final SmartStringBuilder prependln(char[] s)
+	{
+		return this.prepend(new String(s) + this.options.lineSeparator);
+	}
+	
+	public final SmartStringBuilder prependln(char[] s, int offset, int length)
+	{
+		return this.prepend(new String(s, offset, length) + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(int i)
+	{
+		return this.prepend(i + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(long l)
+	{
+		return this.prepend(l + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(float f)
+	{
+		return this.prepend(f + this.options.lineSeparator);
+	}
+
+	public final SmartStringBuilder prependln(double d)
+	{
+		return this.prepend(d + this.options.lineSeparator);
 	}
 
 	public final SmartStringBuilder delete(int from, int to)
@@ -1124,14 +1243,14 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 	public final SmartStringBuilder insert(int offset, @Nullable Object o)
 	{
-		this.builder.insert(offset, o);
+		this.builder.insert(offset, this.toString(o));
 		
 		return this;
 	}
 
 	public final SmartStringBuilder insert(int offset, @Nullable String s)
 	{
-		this.builder.insert(offset, s);
+		this.builder.insert(offset, this.toString(s));
 		
 		return this;
 	}
@@ -1147,7 +1266,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
 	public final SmartStringBuilder insert(int offset, @Nullable CharSequence s, int from, int to)
 	{
-		this.builder.insert(offset, s, from, to);
+		this.builder.insert(offset, this.toString(s), from, to);
 		
 		return this;
 	}
