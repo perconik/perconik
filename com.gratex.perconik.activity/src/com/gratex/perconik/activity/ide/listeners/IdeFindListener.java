@@ -155,7 +155,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		if (Debug.enabled()) Debug.message().appendln(dump(data)).appendTo(console);
+		if (Log.enabled()) Log.message().appendln(dump(data)).appendTo(console);
 		
 		return data;
 	}

@@ -121,7 +121,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		if (Debug.enabled()) Debug.message().appendln("project: " + project.getFullPath() + " operation: " + type).appendTo(console);
+		if (Log.enabled()) Log.message().appendln("project: " + project.getFullPath() + " operation: " + type).appendTo(console);
 		
 		return data;
 	}

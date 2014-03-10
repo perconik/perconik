@@ -1,5 +1,7 @@
 package com.gratex.perconik.activity.ide;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,7 +20,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
-import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
 import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
 import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
@@ -29,8 +30,10 @@ import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
 
 final class Internals
 {
-	static final PluginConsole console = Activator.getDefault().getConsole();
+	static final PluginConsole console = IdeActivityConsole.getInstance();
 	
+	static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
 	static final boolean debug = Environment.debug;
 	
 	static final int unknonwnPid = -1;
@@ -38,7 +41,7 @@ final class Internals
 	static final String optionsSequence;
 	
 	static final Map<String, String> options;
-
+	
 	static
 	{
 		optionsSequence = Strings.nullToEmpty(Environment.getVariable("UACA")).toLowerCase();

@@ -210,9 +210,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		data.setOperationType(type);
 		data.setWebUrl(null);
 
-		if (Debug.enabled())
+		if (Log.enabled())
 		{
-			Debug.message().appendln("document: " + document.getPath() + " operation: " + type)
+			Log.message().appendln("document: " + document.getPath() + " operation: " + type)
 			.append("text: '" + region.text + "' ")
 			.append("from " + region.start.line + ":" + region.start.offset + " ")
 			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
@@ -233,7 +233,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 	    if (!MoreArrays.contains(clipboard.getAvailableTypeNames(), "Rich Text Format"))
 	    {
-	    	if (Debug.enabled()) Debug.message().appendln("copy / cut: not rich text format").appendTo(console);
+	    	if (Log.enabled()) Log.message().appendln("copy / cut: not rich text format").appendTo(console);
 	    	
 	    	return;
 	    }
@@ -246,7 +246,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		if (editor == null)
 		{
-			if (Debug.enabled()) Debug.message().appendln("copy / cut: no active editor not found").appendTo(console);
+			if (Log.enabled()) Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
 	
 			return;
 		}
@@ -276,9 +276,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 		if (operation == COPY && !data.text.equals(selection))
 		{
-			if (Debug.enabled())
+			if (Log.enabled())
 			{
-				Debug.message().append("copy: clipboard content not equal to editor selection")
+				Log.message().append("copy: clipboard content not equal to editor selection")
 				.append(" '").append(data.text).append("' != '").append(selection).appendln("'")
 				.appendTo(console);
 			}
@@ -287,9 +287,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 		else if (operation == CUT && !selection.isEmpty())
 		{
-			if (Debug.enabled())
+			if (Log.enabled())
 			{
-				Debug.message().append("cut: editor selection not empty")
+				Log.message().append("cut: editor selection not empty")
 				.append(" '").append(selection).appendln("'")
 				.appendTo(console);
 			}
@@ -307,7 +307,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		if (editor == null)
 		{
-			if (Debug.enabled()) Debug.message().appendln("paste: editor not found / documents not equal").appendTo(console);
+			if (Log.enabled()) Log.message().appendln("paste: editor not found / documents not equal").appendTo(console);
 	
 			return;
 		}
@@ -350,11 +350,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void documentChanged(final DocumentEvent event)
 	{
-		if (Debug.enabled()) Debug.message().appendln("paste: " + this.paste.getState()).appendTo(console);
+		if (Log.enabled()) Log.message().appendln("paste: " + this.paste.getState()).appendTo(console);
 
 		if (this.paste.getState() != EXECUTING)
 		{
-			if (Debug.enabled()) Debug.message().appendln("paste: comparison failed -> not executing").appendTo(console);
+			if (Log.enabled()) Log.message().appendln("paste: comparison failed -> not executing").appendTo(console);
 
 			return;
 		}
