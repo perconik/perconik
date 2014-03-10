@@ -112,6 +112,8 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		setApplicationData(data);
 		setEventData(data, time);
 		
+		if (Log.enabled()) Log.message().appendln("commit: " + id + " url: " + url).appendTo(console);
+		
 		return data;
 	}
 	

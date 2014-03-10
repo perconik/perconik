@@ -33,7 +33,7 @@ public final class IdeActivityConsole extends ForwardingPluginConsole
 			this.notice(message);
 		}
 		
-		return builder().format(Internals.dateFormat, new Date()).appendln().tab().append(message).toString(); 
+		return builder().format(Internals.dateFormat, new Date()).appendln().lines(message).toString(); 
 	}
 
 	@Override

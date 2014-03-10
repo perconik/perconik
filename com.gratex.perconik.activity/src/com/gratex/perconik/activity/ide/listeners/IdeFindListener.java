@@ -155,7 +155,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		if (Log.enabled()) Log.message().appendln(dump(data)).appendTo(console);
+		if (Log.enabled()) Log.message().appendln("find:").tab().lines(dump(data)).appendTo(console);
 		
 		return data;
 	}
@@ -297,7 +297,6 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		});
 	}
 
-	//TODO rm
 	private static final String dump(IdeFindOperationDto data)
 	{
 		SmartStringBuilder builder = new SmartStringBuilder();
