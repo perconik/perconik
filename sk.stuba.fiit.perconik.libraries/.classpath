@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/guava-16.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/antlr4-runtime-4.1.jar" sourcepath="C:/Users/zbell/.m2/repository/org/antlr/antlr4-runtime/4.1/antlr4-runtime-4.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jsr305-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/sigar/sigar-1.6.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/antlr4-runtime-4.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/diffutils-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/elasticsearch-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/guava-16.0.1.jar" sourcepath="D:/workspace/java/guava-16.0.1-sources.jar">
+		<attributes>
+			<attribute name="source_encoding" value="UTF-8"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/intt.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jna-3.3.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr305-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jts-1.12.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.17.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-analyzers-common-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-codecs-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-core-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-grouping-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-highlighter-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-join-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-memory-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-misc-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-queries-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-queryparser-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-sandbox-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-spatial-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-suggest-4.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spatial4j-0.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
