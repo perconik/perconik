@@ -178,7 +178,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			}
 		});
 
-		Widgets.createSeparator(buttons);
+		Widgets.createButtonSeparator(buttons);
 
 		this.registerButton = Buttons.create(buttons, "Register", new WidgetListener()
 		{
@@ -196,7 +196,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			}
 		});
 		
-		Widgets.createSeparator(buttons);
+		Widgets.createButtonSeparator(buttons);
 		
 		this.importButton = Buttons.create(buttons, "Import", new WidgetListener()
 		{
@@ -214,7 +214,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			}
 		});
 		
-		Widgets.createSeparator(buttons);
+		Widgets.createButtonSeparator(buttons);
 		
 		this.refreshButton = Buttons.create(buttons, "Refresh", new WidgetListener()
 		{
