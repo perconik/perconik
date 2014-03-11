@@ -1,6 +1,6 @@
 package com.gratex.perconik.activity.ide.preferences;
 
-import com.gratex.perconik.activity.ide.plugin.Activator;
+import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferenceKeys
 {

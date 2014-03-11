@@ -16,9 +16,9 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UriFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import com.gratex.perconik.activity.ide.IdeActivityServices;
-import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
 {

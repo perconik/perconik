@@ -4,8 +4,8 @@ import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 import java.util.Date;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
-import com.gratex.perconik.activity.ide.plugin.Activator;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityConsole extends ForwardingPluginConsole
 {

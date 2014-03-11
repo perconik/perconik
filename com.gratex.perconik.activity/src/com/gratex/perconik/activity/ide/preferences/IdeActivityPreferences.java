@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.gratex.perconik.activity.ide.IdeActivityDefaults;
-import com.gratex.perconik.activity.ide.plugin.Activator;
+import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferences
 {
