@@ -6,9 +6,9 @@ public final class IdeActivityPreferenceKeys
 {
 	static final String prefix = Activator.PLUGIN_ID + ".preferences";
 
-	public static final String logErrors = prefix + ".logger.error";
+	public static final String logErrors = prefix + ".log.error";
 	
-	public static final String logEvents = prefix + ".logger.event";
+	public static final String logEvents = prefix + ".log.event";
 	
 	public static final String watcherUrl = prefix + ".watcher.url";
 	
