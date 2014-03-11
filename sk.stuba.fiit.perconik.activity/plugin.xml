@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="sk.stuba.fiit.perconik.activity.ide.preferences.IdeActivityPreferences$Initializer">
+      </initializer>
+   </extension>
+   <extension
+         id="com.gratex.perconik.activity"
+         name="Gatex Preferences UI"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            class="sk.stuba.fiit.perconik.activity.ide.ui.IdeActivityPreferencePage"
+            id="sk.stuba.fiit.perconik.activity.ui.preferences.client"
+            name="FIIT">
+      </page>
+   </extension>
+   <extension
+         point="sk.stuba.fiit.perconik.core.services.listeners">
+      <provider
+            class="sk.stuba.fiit.perconik.activity.ide.IdeListenerProviderFactory"></provider>
+   </extension>
+
+</plugin>
