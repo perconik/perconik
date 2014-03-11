@@ -7,9 +7,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  lib/antlr4-runtime-4.1.jar,
  lib/diffutils-1.2.1.jar,
- lib/guava-15.0.jar,
  lib/intt.jar,
- lib/jsr305-2.0.1.jar
+ lib/jsr305-2.0.1.jar,
+ lib/guava-16.0.1.jar
 Export-Package: com.google.common.annotations,
  com.google.common.base,
  com.google.common.base.internal,
