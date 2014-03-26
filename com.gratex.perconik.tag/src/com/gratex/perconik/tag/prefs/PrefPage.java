@@ -4,9 +4,9 @@ import java.net.URL;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import com.gratex.perconik.services.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.ArrayOfTagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.SearchTagProfileRequest;
@@ -18,6 +18,10 @@ import com.gratex.perconik.tag.ws.WsTags;
 
 public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
 
+	public PrefPage() {
+		super(GRID);
+	}
+	
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());		
@@ -37,15 +41,13 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 	
 	@Override
 	protected void createFieldEditors() {
-		Composite parent = this.getFieldEditorParent();
+		t = new StringFieldEditor(PrefKeys.url, "URL:", this.getFieldEditorParent());
+		f = new StringFieldEditor(PrefKeys.profile, "Profile:", this.getFieldEditorParent());
+		u = new StringFieldEditor(PrefKeys.user, "User:", this.getFieldEditorParent());
 		
-		t = prepare(new StringFieldEditor(PrefKeys.url, "URL:", parent));
-		f = prepare(new StringFieldEditor(PrefKeys.profile, "Profile:", parent));
-		u = prepare(new StringFieldEditor(PrefKeys.user, "User:", parent));
-		
-		addField(t);
-		addField(f);
-		addField(u);
+		addField(prepare(t));
+		addField(prepare(f));
+		addField(prepare(u));
 		
 		
 //		t.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);

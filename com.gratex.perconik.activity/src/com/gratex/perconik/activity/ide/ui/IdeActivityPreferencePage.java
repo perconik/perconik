@@ -54,7 +54,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 		this.watcherNamespace = new UriFieldEditor(IdeActivityPreferenceKeys.watcherNamespace, "Namespace:", this.getFieldEditorParent());
 		this.watcherLocalPart = new StringFieldEditor(IdeActivityPreferenceKeys.watcherLocalPart, "Local part:", this.getFieldEditorParent());
 
-		Widgets.createFieldSeparator(getFieldEditorParent());
+		Widgets.createFieldSeparator(this.getFieldEditorParent());
 		
 		this.logErrors = new BooleanFieldEditor(IdeActivityPreferenceKeys.logErrors, "Log errors:", SEPARATE_LABEL, this.getFieldEditorParent());
 		this.logEvents = new BooleanFieldEditor(IdeActivityPreferenceKeys.logEvents, "Log events:", SEPARATE_LABEL, this.getFieldEditorParent());
