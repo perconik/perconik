@@ -1,10 +1,10 @@
 package com.gratex.perconik.activity.ide.preferences;
 
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys.logErrors;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys.logEvents;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys.watcherLocalPart;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys.watcherNamespace;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys.watcherUrl;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logErrors;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logEvents;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherLocalPart;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherNamespace;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherUrl;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -37,6 +37,26 @@ public final class IdeActivityPreferences
 			store.setDefault(watcherUrl,       IdeActivityDefaults.watcherUrl.toString());
 			store.setDefault(watcherNamespace, IdeActivityDefaults.watcherName.getNamespaceURI());
 			store.setDefault(watcherLocalPart, IdeActivityDefaults.watcherName.getLocalPart());
+		}
+	}
+	
+	public static final class Keys
+	{
+		static final String prefix = Activator.PLUGIN_ID + ".preferences";
+
+		public static final String logErrors = prefix + ".log.errors";
+		
+		public static final String logEvents = prefix + ".log.events";
+		
+		public static final String watcherUrl = prefix + ".watcher.url";
+		
+		public static final String watcherNamespace = prefix + ".watcher.namespace";
+		
+		public static final String watcherLocalPart = prefix + ".watcher.local";
+		
+		private Keys()
+		{
+			throw new AssertionError();
 		}
 	}
 	

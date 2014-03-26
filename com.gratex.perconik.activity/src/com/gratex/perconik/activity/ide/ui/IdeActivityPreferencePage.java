@@ -13,8 +13,8 @@ import sk.stuba.fiit.perconik.eclipse.jface.preference.UriFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import com.gratex.perconik.activity.ide.IdeActivityServices;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferenceKeys;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
 import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
@@ -50,14 +50,14 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	protected final void createFieldEditors()
 	{
-		this.watcherUrl       = new UrlFieldEditor(IdeActivityPreferenceKeys.watcherUrl, "URL:", this.getFieldEditorParent());
-		this.watcherNamespace = new UriFieldEditor(IdeActivityPreferenceKeys.watcherNamespace, "Namespace:", this.getFieldEditorParent());
-		this.watcherLocalPart = new StringFieldEditor(IdeActivityPreferenceKeys.watcherLocalPart, "Local part:", this.getFieldEditorParent());
+		this.watcherUrl       = new UrlFieldEditor(Keys.watcherUrl, "URL:", this.getFieldEditorParent());
+		this.watcherNamespace = new UriFieldEditor(Keys.watcherNamespace, "Namespace:", this.getFieldEditorParent());
+		this.watcherLocalPart = new StringFieldEditor(Keys.watcherLocalPart, "Local part:", this.getFieldEditorParent());
 
 		Widgets.createFieldSeparator(this.getFieldEditorParent());
 		
-		this.logErrors = new BooleanFieldEditor(IdeActivityPreferenceKeys.logErrors, "Log errors:", SEPARATE_LABEL, this.getFieldEditorParent());
-		this.logEvents = new BooleanFieldEditor(IdeActivityPreferenceKeys.logEvents, "Log events:", SEPARATE_LABEL, this.getFieldEditorParent());
+		this.logErrors = new BooleanFieldEditor(Keys.logErrors, "Log errors:", SEPARATE_LABEL, this.getFieldEditorParent());
+		this.logEvents = new BooleanFieldEditor(Keys.logEvents, "Log events:", SEPARATE_LABEL, this.getFieldEditorParent());
 
 		this.addField(prepare(this.watcherUrl));
 		this.addField(prepare(this.watcherNamespace));
