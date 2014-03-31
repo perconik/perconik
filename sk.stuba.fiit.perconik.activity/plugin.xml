@@ -4,7 +4,10 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="sk.stuba.fiit.perconik.activity.ide.preferences.IdeActivityPreferences$Initializer">
+            class="sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences$Initializer">
+      </initializer>
+      <initializer
+            class="sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences$Initializer">
       </initializer>
    </extension>
    <extension
@@ -13,7 +16,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="sk.stuba.fiit.perconik.ui.preferences.main"
-            class="sk.stuba.fiit.perconik.activity.ide.ui.IdeActivityPreferencePage"
+            class="sk.stuba.fiit.perconik.activity.ui.ActivityPreferencePage"
             id="sk.stuba.fiit.perconik.activity.ui.preferences.client"
             name="FIIT">
       </page>
@@ -21,7 +24,7 @@
    <extension
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
-            class="sk.stuba.fiit.perconik.activity.ide.IdeListenerProviderFactory"></provider>
+            class="sk.stuba.fiit.perconik.activity.listeners.ListenerProviderFactory"></provider>
    </extension>
 
 </plugin>
