@@ -26,8 +26,12 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.300",
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
-Export-Package: sk.stuba.fiit.perconik.activity.ide,
- sk.stuba.fiit.perconik.activity.ide.listeners,
- sk.stuba.fiit.perconik.activity.ide.preferences,
- sk.stuba.fiit.perconik.activity.ide.ui,
- sk.stuba.fiit.perconik.activity.plugin
+Export-Package: sk.stuba.fiit.perconik.activity,
+ sk.stuba.fiit.perconik.activity.data,
+ sk.stuba.fiit.perconik.activity.listeners,
+ sk.stuba.fiit.perconik.activity.plugin,
+ sk.stuba.fiit.perconik.activity.preferences,
+ sk.stuba.fiit.perconik.activity.store,
+ sk.stuba.fiit.perconik.activity.store.elasticsearch,
+ sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences,
+ sk.stuba.fiit.perconik.activity.ui
