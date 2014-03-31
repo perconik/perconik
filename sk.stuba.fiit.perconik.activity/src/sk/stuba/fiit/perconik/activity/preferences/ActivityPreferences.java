@@ -2,46 +2,25 @@ package sk.stuba.fiit.perconik.activity.preferences;
 
 import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.logErrors;
 import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.logEvents;
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
 
-public final class ActivityPreferences
+public abstract class ActivityPreferences
 {
-	private static final ActivityPreferences instance = new ActivityPreferences();
+	protected final IPreferenceStore store;
 	
-	private final IPreferenceStore store;
-	
-	private ActivityPreferences()
+	protected ActivityPreferences()
 	{
 		this.store = Activator.getDefault().getPreferenceStore();
 	}
 	
-	final void initialize()
+	protected void initialize()
 	{
 		this.store.setDefault(logErrors, true);
 		this.store.setDefault(logEvents, false);
 	}
 	
-	public static final ActivityPreferences getInstance()
-	{
-		return instance;
-	}
-	
-	public static final class Initializer extends AbstractPreferenceInitializer
-	{
-		public Initializer()
-		{
-		}
-
-		@Override
-		public final void initializeDefaultPreferences()
-		{
-			ActivityPreferences.getInstance().initialize();
-		}
-	}
-	
-	public static final class Keys
+	protected static class Keys
 	{
 		static final String prefix = Activator.PLUGIN_ID + ".preferences";
 
@@ -49,7 +28,7 @@ public final class ActivityPreferences
 		
 		public static final String logEvents = prefix + ".log.events";
 		
-		private Keys()
+		protected Keys()
 		{
 			throw new AssertionError();
 		}

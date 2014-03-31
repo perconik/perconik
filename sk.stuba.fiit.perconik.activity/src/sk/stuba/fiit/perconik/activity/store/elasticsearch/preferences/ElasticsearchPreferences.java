@@ -7,27 +7,30 @@ import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.El
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportSniff;
 import java.net.InetSocketAddress;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.IPreferenceStore;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.ImmutableSettings.Builder;
+import org.elasticsearch.common.settings.Settings;
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
+import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
 
-public final class ElasticsearchPreferences
+public final class ElasticsearchPreferences extends ActivityPreferences
 {
 	private static final ElasticsearchPreferences instance = new ElasticsearchPreferences();
 	
-	private final IPreferenceStore store;
-	
 	private ElasticsearchPreferences()
 	{
-		this.store = Activator.getDefault().getPreferenceStore();
 	}
 	
-	final void initialize()
+	@Override
+	protected final void initialize()
 	{
+		super.initialize();
+		
 		this.store.setDefault(clusterName, "PerConIK Cluster");
+		this.store.setDefault(indexName, "events");
 		this.store.setDefault(transportHost, "localhost");
 		this.store.setDefault(transportPort, 9300);
 		this.store.setDefault(transportSniff, true);
-		this.store.setDefault(indexName, "events");
 	}
 	
 	public static final ElasticsearchPreferences getInstance()
@@ -48,24 +51,37 @@ public final class ElasticsearchPreferences
 		}
 	}
 	
-	public static final class Keys
+	public static final class Keys extends ActivityPreferences.Keys
 	{
-		static final String prefix = Activator.PLUGIN_ID + ".preferences.elasticsearch";
+		static final String prefix = Activator.PLUGIN_ID + ".preferences.elasticsearch.";
 
-		public static final String clusterName = prefix + ".cluster.name";
+		public static final String clusterName = prefix + "cluster.name";
 		
-		public static final String indexName = prefix + ".index.name";
+		public static final String indexName = prefix + "index.name";
 
-		public static final String transportHost = prefix + ".transport.host";
+		public static final String transportHost = prefix + "transport.host";
 		
-		public static final String transportPort = prefix + ".transport.port";
+		public static final String transportPort = prefix + "transport.port";
 		
-		public static final String transportSniff = prefix + ".transport.sniff";
+		public static final String transportSniff = prefix + "transport.sniff";
 		
 		private Keys()
 		{
 			throw new AssertionError();
 		}
+	}
+	
+	public final Settings toSettings()
+	{
+		Builder builder = ImmutableSettings.builder();
+		
+		builder.put("client.transport.host", this.getTransportHost());
+		builder.put("client.transport.port", this.getTransportPort());
+		builder.put("client.transport.sniff", this.getTransportSniff());
+		builder.put("cluster.name", this.getClusterName());
+		builder.put("index.name", this.getIndexName());
+				
+		return builder.build();
 	}
 	
 	public final String getClusterName()
@@ -76,11 +92,6 @@ public final class ElasticsearchPreferences
 	public final String getIndexName()
 	{
 		return this.getPreferenceStore().getString(indexName);
-	}
-
-	public final IPreferenceStore getPreferenceStore()
-	{
-		return this.store;
 	}
 
 	public final InetSocketAddress getTransportAddress()
