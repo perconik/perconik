@@ -4,9 +4,6 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences$Initializer">
-      </initializer>
-      <initializer
             class="sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences$Initializer">
       </initializer>
    </extension>
@@ -16,9 +13,9 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="sk.stuba.fiit.perconik.ui.preferences.main"
-            class="sk.stuba.fiit.perconik.activity.ui.ActivityPreferencePage"
+            class="sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ui.ElasticsearchPreferencePage"
             id="sk.stuba.fiit.perconik.activity.ui.preferences.client"
-            name="FIIT">
+            name="Elasticsearch">
       </page>
    </extension>
    <extension

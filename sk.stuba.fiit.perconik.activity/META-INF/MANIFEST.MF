@@ -34,4 +34,5 @@ Export-Package: sk.stuba.fiit.perconik.activity,
  sk.stuba.fiit.perconik.activity.store,
  sk.stuba.fiit.perconik.activity.store.elasticsearch,
  sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences,
+ sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ui,
  sk.stuba.fiit.perconik.activity.ui
