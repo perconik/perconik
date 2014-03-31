@@ -104,11 +104,21 @@ public final class MoreStrings
 		return (Function<T, String>) Functions.toStringFunction();
 	}
 	
+	public static final String toLowerCaseFirst(String s)
+	{
+		return Character.toLowerCase(s.charAt(0)) + s.substring(1);
+	}
+	
 	public static final Function<String, String> toLowerCaseFunction()
 	{
 		return ToLowerCaseFunction.INSTANCE;
 	}
 
+	public static final String toUpperCaseFirst(String s)
+	{
+		return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+	}
+	
 	public static final Function<String, String> toUpperCaseFunction()
 	{
 		return ToUpperCaseFunction.INSTANCE;
