@@ -2,6 +2,7 @@ package com.gratex.perconik.activity.ide.preferences;
 
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logEvents;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.validate;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherLocalPart;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherNamespace;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherUrl;
@@ -34,6 +35,8 @@ public final class IdeActivityPreferences
 			store.setDefault(logErrors, true);
 			store.setDefault(logEvents, false);
 			
+			store.setDefault(validate, true);
+			
 			store.setDefault(watcherUrl,       IdeActivityDefaults.watcherUrl.toString());
 			store.setDefault(watcherNamespace, IdeActivityDefaults.watcherName.getNamespaceURI());
 			store.setDefault(watcherLocalPart, IdeActivityDefaults.watcherName.getLocalPart());
@@ -42,17 +45,19 @@ public final class IdeActivityPreferences
 	
 	public static final class Keys
 	{
-		static final String prefix = Activator.PLUGIN_ID + ".preferences";
+		static final String prefix = Activator.PLUGIN_ID + ".preferences.";
 
-		public static final String logErrors = prefix + ".log.errors";
+		public static final String logErrors = prefix + "log.errors";
 		
-		public static final String logEvents = prefix + ".log.events";
+		public static final String logEvents = prefix + "log.events";
 		
-		public static final String watcherUrl = prefix + ".watcher.url";
+		public static final String validate = prefix + "validate";
+
+		public static final String watcherUrl = prefix + "watcher.url";
 		
-		public static final String watcherNamespace = prefix + ".watcher.namespace";
+		public static final String watcherNamespace = prefix + "watcher.namespace";
 		
-		public static final String watcherLocalPart = prefix + ".watcher.local";
+		public static final String watcherLocalPart = prefix + "watcher.local";
 		
 		private Keys()
 		{

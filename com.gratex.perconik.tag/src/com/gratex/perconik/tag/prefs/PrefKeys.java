@@ -1,10 +1,20 @@
 package com.gratex.perconik.tag.prefs;
 
-public class PrefKeys
+import com.gratex.perconik.tag.plugin.Activator;
+
+public final class PrefKeys
 {
-	public static final String url = "com.gratex.perconik.tag.preferences.url";
+	static final String prefix = Activator.PLUGIN_ID + ".preferences.";
 	
-	public static final String profile = "com.gratex.perconik.tag.preferences.profile";
+	public static final String url = prefix + "url";
+	
+	public static final String profile = prefix + "profile";
 			
-	public static final String user = "com.gratex.perconik.tag.preferences.user";		
+	public static final String user = prefix + "user";
+	
+	public static final String validate = prefix + "validate";
+	
+	private PrefKeys()
+	{
+	}
 }

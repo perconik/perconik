@@ -12,6 +12,7 @@ public class PrefInit extends AbstractPreferenceInitializer{
 		store.setDefault(PrefKeys.profile, "Test");
 		store.setDefault(PrefKeys.user, new com.sun.security.auth.module.NTSystem().getDomain()+"/"+System.getProperty("user.name"));
 		store.setDefault(PrefKeys.url, "http://perconik.fiit.stuba.sk/tagAdm/Wcf");
+		store.setDefault(PrefKeys.validate, true);
 	//	store.setDefault(RepositoryLocation.repProfile, "");
 	}
 
