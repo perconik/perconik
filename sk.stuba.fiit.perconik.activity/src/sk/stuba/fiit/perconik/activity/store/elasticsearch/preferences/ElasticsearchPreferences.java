@@ -5,6 +5,7 @@ import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.El
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportHost;
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportPort;
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportSniff;
+import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.validate;
 import java.net.InetSocketAddress;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -26,11 +27,15 @@ public final class ElasticsearchPreferences extends ActivityPreferences
 	{
 		super.initialize();
 		
-		this.store.setDefault(clusterName, "PerConIK Cluster");
+		this.store.setDefault(clusterName, "PerConIK-Cluster");
+		
 		this.store.setDefault(indexName, "events");
+		
 		this.store.setDefault(transportHost, "localhost");
 		this.store.setDefault(transportPort, 9300);
 		this.store.setDefault(transportSniff, true);
+		
+		this.store.setDefault(validate, true);
 	}
 	
 	public static final ElasticsearchPreferences getInstance()
@@ -64,6 +69,8 @@ public final class ElasticsearchPreferences extends ActivityPreferences
 		public static final String transportPort = prefix + "transport.port";
 		
 		public static final String transportSniff = prefix + "transport.sniff";
+		
+		public static final String validate = prefix + "validate";
 		
 		private Keys()
 		{

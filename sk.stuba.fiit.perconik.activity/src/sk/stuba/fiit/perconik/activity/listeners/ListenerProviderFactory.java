@@ -15,7 +15,11 @@ public final class ListenerProviderFactory implements sk.stuba.fiit.perconik.cor
 	{
 		Builder<Class<? extends Listener>> builder = ImmutableSet.builder();
 		
+		builder.add(LaunchListener.class);
+		builder.add(PerspectiveListener.class);
 		builder.add(SelectionListener.class);
+		builder.add(WindowListener.class);
+		builder.add(WorkbenchListener.class);
 
 		classes = builder.build();
 	}
