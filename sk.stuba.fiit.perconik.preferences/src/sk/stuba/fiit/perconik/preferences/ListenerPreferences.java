@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import static sk.stuba.fiit.perconik.preferences.ListenerPreferences.Keys.persistence;
 import java.util.Set;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
+import sk.stuba.fiit.perconik.preferences.plugin.Activator;
 
 /**
  * Listener preferences. Supports both <i>default</i>
@@ -12,12 +14,52 @@ import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
  */
 public final class ListenerPreferences extends AbstractPreferences
 {
-	private static final String persistence = "persistence";
-	
 	private ListenerPreferences(final Scope scope)
 	{
-		super(scope, "listeners");
+		super(scope);
 	}
+	
+	/**
+	 * Used to aid in default listener preferences initialization.
+	 * 
+	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+	 * 
+	 * @author Pavol Zbell
+	 * @since 1.0
+	 */
+	public static final class Initializer extends AbstractPreferences.Initializer
+	{
+		/**
+		 * The constructor.
+		 */
+		public Initializer()
+		{
+		}
+
+		/**
+		 * Called by the preference initializer to
+		 * initialize default listener preferences.
+		 * 
+		 * <p><b>Warning:</b> Clients should not call this method.
+		 * It will be called automatically by the preference initializer
+		 * when the appropriate default preference node is accessed.
+		 */
+		@Override
+		public final void initializeDefaultPreferences()
+		{
+			Set<ListenerPersistenceData> data = ListenerPersistenceData.defaults();
+			
+			ListenerPreferences.getDefault().setListenerPersistenceData(data);
+		}
+	}
+	
+	public static final class Keys extends AbstractPreferences.Keys
+	{
+		static final String prefix = Activator.PLUGIN_ID + ".listeners.";
+		
+		public static final String persistence = prefix + "persistence";
+	}
+
 
 	/**
 	 * Gets default listener preferences.
@@ -42,7 +84,7 @@ public final class ListenerPreferences extends AbstractPreferences
 	 */
 	public final void setListenerPersistenceData(final Set<ListenerPersistenceData> data)
 	{
-		this.setValue(this.key(persistence), data);
+		this.setValue(persistence, data);
 	}
 	
 	/**
@@ -52,7 +94,7 @@ public final class ListenerPreferences extends AbstractPreferences
 	{
 		try
 		{
-			return (Set<ListenerPersistenceData>) this.getObject(this.key(persistence));
+			return (Set<ListenerPersistenceData>) this.getObject(persistence);
 		}
 		catch (RuntimeException e)
 		{

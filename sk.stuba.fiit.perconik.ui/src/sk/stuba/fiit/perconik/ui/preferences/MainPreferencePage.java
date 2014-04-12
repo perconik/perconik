@@ -19,12 +19,12 @@ public final class MainPreferencePage extends AbstractWorkbenchPreferencePage
 	public MainPreferencePage()
 	{
 	}
-
+	
 	@Override
 	public final void init(final IWorkbench workbench)
 	{
 		this.noDefaultAndApplyButton();
-		
+
 		this.setDescription("Expand the tree to edit preferences for a specific feature.");
 	}
 

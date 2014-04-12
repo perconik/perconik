@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.environment;
 
 import java.lang.management.ManagementFactory;
+import org.osgi.framework.Version;
+import com.google.common.base.StandardSystemProperty;
 
 /**
  * Bridge between plug-in environment and the native platform.
@@ -38,6 +40,11 @@ public final class Environment
 		}
 	}
 
+	public static final Version getJavaVersion()
+	{
+		return JavaVerifier.parseJavaVersion(StandardSystemProperty.JAVA_VERSION.value());
+	}
+	
 	/**
 	 * Returns the value of the specified environment variable.
 	 * An environment variable is a system-dependent external named value. 

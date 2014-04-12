@@ -1,31 +1,25 @@
 package sk.stuba.fiit.perconik.preferences;
 
 import java.io.IOException;
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.DefaultPreferenceStore;
 import sk.stuba.fiit.perconik.preferences.plugin.Activator;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 
-abstract class AbstractPreferences
+public abstract class AbstractPreferences
 {
-	final IPreferenceStore store;
-	
 	final Scope scope;
 
-	final String key;
-
-	AbstractPreferences(final Scope scope, final String key)
+	final IPreferenceStore store;
+	
+	AbstractPreferences(final Scope scope)
 	{
-		Preconditions.checkArgument(!Strings.isNullOrEmpty(key));
-		
-		this.store = scope.store();
 		this.scope = scope;
-		this.key   = Activator.PLUGIN_ID + "." + key;
+		this.store = scope.store();
 	}
 	
-	static enum Scope
+	public static enum Scope
 	{
 		DEFAULT
 		{
@@ -47,8 +41,23 @@ abstract class AbstractPreferences
 		
 		abstract IPreferenceStore store();
 	}
-	
-	final String toStringOrFailure(final String key, final Object value)
+
+	public static abstract class Initializer extends AbstractPreferenceInitializer
+	{
+		Initializer()
+		{
+		}
+	}
+
+	public static abstract class Keys
+	{
+		Keys()
+		{
+			throw new AssertionError();
+		}
+	}
+
+	static final String toStringOrFailure(final String key, final Object value)
 	{
 		try
 		{
@@ -60,7 +69,7 @@ abstract class AbstractPreferences
 		}
 	}
 
-	final Object fromStringOrFailure(final String key, final String value)
+	static final Object fromStringOrFailure(final String key, final String value)
 	{
 		try
 		{
@@ -72,11 +81,16 @@ abstract class AbstractPreferences
 		}
 	}
 
-	final String key(final String name)
+	public final Scope getScope()
 	{
-		return this.key + "." + name;
+		return this.scope;
 	}
-
+	
+	public final IPreferenceStore getStore()
+	{
+		return this.store;
+	}
+	
 	protected final void setDefault(final String key, final Object value)
 	{
 		this.store.setDefault(key, toStringOrFailure(key, value));
@@ -97,9 +111,14 @@ abstract class AbstractPreferences
 		return fromStringOrFailure(key, this.store.getString(key));
 	}
 	
+	protected final boolean canSave()
+	{
+		return this.store instanceof IPersistentPreferenceStore;
+	}
+
 	public final void save() throws IOException
 	{
-		if (this.store instanceof IPersistentPreferenceStore)
+		if (this.canSave())
 		{
 			((IPersistentPreferenceStore) this.store).save();
 		}

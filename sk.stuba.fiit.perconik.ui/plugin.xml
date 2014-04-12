@@ -23,5 +23,12 @@
             name="Listeners">
       </page>
    </extension>
+   <extension
+         id="sk.stuba.fiit.perconik.ui.startup"
+         name="PerConIK UI"
+         point="org.eclipse.ui.startup">
+      <startup
+            class="sk.stuba.fiit.perconik.ui.plugin.Activator$Startup"></startup>
+   </extension>
 
 </plugin>
