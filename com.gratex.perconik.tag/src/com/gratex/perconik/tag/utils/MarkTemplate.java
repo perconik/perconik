@@ -15,8 +15,16 @@ public class MarkTemplate {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'0000Z'");
 		sf.setTimeZone(TimeZone.getTimeZone("UTC"));
 		String unm = Activator.getDefault().getPreferenceStore().getString(PrefKeys.user);
-		if (unm == null || unm.isEmpty()) unm = new com.sun.security.auth.module.NTSystem().getDomain()+"/"+System.getProperty("user.name");		
+		if (unm == null || unm.isEmpty()) unm = getDomain()+"/"+System.getProperty("user.name");		
 		mk = unm+" "+sf.format(d)+" ";
+	}
+	
+	public static String getDomain() {
+		try {
+			return new com.sun.security.auth.module.NTSystem().getDomain();
+		} catch ( Throwable t ) {
+			return "unknown-domain";
+		}
 	}
 	
 	public String getInfo(){ return mk; }
