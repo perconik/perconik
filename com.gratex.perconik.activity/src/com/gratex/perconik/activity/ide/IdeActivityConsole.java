@@ -2,6 +2,7 @@ package com.gratex.perconik.activity.ide;
 
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
@@ -11,6 +12,8 @@ public final class IdeActivityConsole extends ForwardingPluginConsole
 {
 	private static final IdeActivityConsole instance = new IdeActivityConsole();
 
+	private static final AtomicReference<PluginConsole> console = new AtomicReference<>();
+	
 	private IdeActivityConsole()
 	{
 	}
@@ -23,7 +26,14 @@ public final class IdeActivityConsole extends ForwardingPluginConsole
 	@Override
 	protected final PluginConsole delegate()
 	{
-		return Activator.getDefault().getConsole();
+		Activator activator = Activator.getDefault();
+		
+		if (activator != null)
+		{
+			console.set(activator.getConsole());
+		}
+		
+		return console.get();
 	}
 	
 	private final String hook(final String message)
