@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchWindow;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import com.gratex.perconik.services.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.ArrayOfTagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.ArrayOfTagType;
@@ -110,21 +116,42 @@ public class WsTags {
 	private static List<WsTags> l;
 	public static void clear(){ l = null; }
 	
+	private static void displayError(final String message) {
+		final Runnable dialog = new Runnable() {
+			public final void run()	{
+				IWorkbenchWindow window = Workbenches.getActiveWindow();
+				Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell(); 
+				String title = "Tag profile service error";
+				String toggle= "Always display warning on service failure";
+				Preference preference = Preference.usingToggleState(Activator.getDefault().getPreferenceStore(), PrefKeys.displayErrors);  
+				MessageDialogWithPreference.openError(shell, title, message, toggle, preference);
+			}
+		};
+		Display.getDefault().asyncExec(dialog);
+	}
+	
 	// "Test1"
 	public static List<WsTags> load(){
+		try {
+			return load0();
+		} catch (Exception e) {
+			if (Activator.getDefault().getPreferenceStore().getBoolean(PrefKeys.displayErrors)) {
+				displayError(e.getMessage());
+			}
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private static List<WsTags> load0() throws Exception{
 		if(l != null) return l;
 		ArrayList<WsTags> tmp = new ArrayList<WsTags>();
 		
 		IPreferenceStore ps = Activator.getDefault().getPreferenceStore();
 		
 		TagProfileWcfSvc s;
-		try {// http://perconikapp1:9903/Adm/Wcf/TagProfileWcfSvc.svc?singleWsdl
-			String tmp2 = ps.getString(PrefKeys.url);
-			if(!tmp2.endsWith("/")) tmp2 = tmp2 + "/";
-			s = new TagProfileWcfSvc(new URL(tmp2+"TagProfileWcfSvc.svc?singleWsdl")); // Activator.class.getResource("/TagProfileWcfSvc.svc")
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		String tmp2 = ps.getString(PrefKeys.url);
+		if(!tmp2.endsWith("/")) tmp2 = tmp2 + "/";
+		s = new TagProfileWcfSvc(new URL(tmp2+"TagProfileWcfSvc.svc?singleWsdl")); // Activator.class.getResource("/TagProfileWcfSvc.svc")
 		
 		String id = null;
 		{

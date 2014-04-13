@@ -8,6 +8,8 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import com.gratex.perconik.services.TagProfileWcfSvc;
@@ -33,7 +35,8 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 	StringFieldEditor f;
 	StringFieldEditor u;
 	StringFieldEditor t;
-	ExtendedBooleanFieldEditor v;
+	ExtendedBooleanFieldEditor c;
+	ExtendedBooleanFieldEditor d;
 	
 	static final <E extends StringFieldEditor> E prepare(final E editor)
 	{
@@ -51,13 +54,15 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 		
 		Widgets.createFieldSeparator(this.getFieldEditorParent());
 
-		v = new ExtendedBooleanFieldEditor(PrefKeys.validate, "Validate service on confirmation", this.getFieldEditorParent());
+		c = new ExtendedBooleanFieldEditor(PrefKeys.checkConnection, "Verify service connection on confirmation", this.getFieldEditorParent());
+		d = new ExtendedBooleanFieldEditor(PrefKeys.displayErrors, "Display warning on service failure", this.getFieldEditorParent());
 		
 		addField(prepare(t));
 		addField(prepare(f));
 		addField(prepare(u));
 		
-		addField(v);
+		addField(c);
+		addField(d);
 		
 //		t.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
 //		f.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
@@ -71,10 +76,10 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 	
 	@Override
 	public boolean performOk() {
-		return super.performOk() && (this.v.getBooleanValue() ? this.validate() : true);
+		return super.performOk() && (this.c.getBooleanValue() ? this.checkConnection() : true);
 	}
 	
-	boolean validate() {
+	boolean checkConnection() {
 		try {
 			String tmp = t.getStringValue();
 			if(!tmp.endsWith("/")) tmp = tmp + "/";
@@ -94,14 +99,12 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 			
 			if(id == null || id.isEmpty()){				
 				//MessageDialog.openError(this.getShell(), "Service error", "Profile not found.");
-				boolean validate = MessageDialogWithToggle.openError(this.getShell(), "Tag profile service error", "Profile not found.", "Always validate on confirmation", this.v.getBooleanValue(), this.getPreferenceStore(), this.v.getPreferenceName()).getToggleState();
-				this.v.getChangeControl().setSelection(validate);
+				displayError(this.c, "Profile not found.");
 				return false;
 			}
 		} catch (Exception e) {
 			//MessageDialog.openError(this.getShell(), "Service error", e.getMessage());
-			boolean validate = MessageDialogWithToggle.openError(this.getShell(), "Tag profile service error", e.getMessage(), "Always show on confirmation", this.v.getBooleanValue(), this.getPreferenceStore(), this.v.getPreferenceName()).getToggleState();
-			this.v.getChangeControl().setSelection(validate);
+			displayError(this.c, e.getMessage());
 			return false;
 		}
 		
@@ -112,4 +115,15 @@ public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPre
 		return true;
 	}	
 	
+	
+	void displayError(ExtendedBooleanFieldEditor e, String message){
+		String title = "Tag profile service error";
+		String toggle = "Always validate service on confirmation";
+		
+		Preference preference = Preference.usingToggleState(this.getPreferenceStore(), e.getPreferenceName());
+		
+		boolean state = MessageDialogWithPreference.openError(this.getShell(), title, message, toggle, preference).getToggleState();
+
+		e.getChangeControl().setSelection(state);
+	}
 }

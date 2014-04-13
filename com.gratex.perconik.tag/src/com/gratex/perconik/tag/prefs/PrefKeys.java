@@ -12,7 +12,9 @@ public final class PrefKeys
 			
 	public static final String user = prefix + "user";
 	
-	public static final String validate = prefix + "validate";
+	public static final String checkConnection = prefix + "checkConnection";
+	
+	public static final String displayErrors = prefix + "displayErrors";
 	
 	private PrefKeys()
 	{
