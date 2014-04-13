@@ -4,7 +4,6 @@ import static org.eclipse.jface.preference.BooleanFieldEditor.SEPARATE_LABEL;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -22,23 +21,27 @@ import sk.stuba.fiit.perconik.activity.store.elasticsearch.Elasticsearch;
 import sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences;
 import sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys;
 import sk.stuba.fiit.perconik.activity.ui.ActivityPreferencePage;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 
 public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 {
+	private ExtendedBooleanFieldEditor displayErrors;
+	
 	private StringFieldEditor clusterName;
 
 	private StringFieldEditor indexName;
 	
+	private ExtendedBooleanFieldEditor requestClusterState;
+
 	private StringFieldEditor transportHost;
 	
 	private IntegerFieldEditor transportPort;
 	
 	private BooleanFieldEditor transportSniff;
 	
-	private ExtendedBooleanFieldEditor validate;
-
 	private Button statusButton;
 	
 	public ElasticsearchPreferencePage()
@@ -93,10 +96,11 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 		
 		Widgets.createFieldSeparator(this.getFieldEditorParent());
 		
-		this.logErrors = new BooleanFieldEditor(Keys.logErrors, "Write errors to Error Log", this.getFieldEditorParent());
-		this.logEvents = new BooleanFieldEditor(Keys.logEvents, "Log processed events (for debug only)", this.getFieldEditorParent());	
+		this.requestClusterState = new ExtendedBooleanFieldEditor(Keys.requestClusterState, "Request cluster status on confirmation", this.getFieldEditorParent());
+		this.displayErrors       = new ExtendedBooleanFieldEditor(Keys.displayErrors, "Display warning on search engine failure", this.getFieldEditorParent());
 		
-		this.validate = new ExtendedBooleanFieldEditor(Keys.validate, "Request cluster status on confirmation", this.getFieldEditorParent());
+		this.logErrors = new BooleanFieldEditor(Keys.logErrors, "Write errors to Error Log on search engine failure", this.getFieldEditorParent());
+		this.logEvents = new BooleanFieldEditor(Keys.logEvents, "Log processed events (for debug only)", this.getFieldEditorParent());	
 		
 		this.addField(prepare(this.transportHost));
 		this.addField(prepare(this.transportPort));
@@ -105,16 +109,22 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 		this.addField(prepare(this.clusterName));
 		this.addField(prepare(this.indexName));
 		
+		this.addField(this.requestClusterState);
+		this.addField(this.displayErrors);
+
 		this.addField(this.logErrors);
 		this.addField(this.logEvents);
 		
-		this.addField(this.validate);
+		// TODO implement and rm
+		this.displayErrors.setEnabled(false, this.getFieldEditorParent());
+		this.logErrors.setEnabled(false, this.getFieldEditorParent());
+		this.logEvents.setEnabled(false, this.getFieldEditorParent());
 	}
 
 	@Override
 	public final boolean performOk()
 	{
-		return super.performOk() && (this.validate.getBooleanValue() ? this.validate(false) : true);
+		return super.performOk() && (this.requestClusterState.getBooleanValue() ? this.validate(false) : true);
 	}
 	
 	final boolean validate(final boolean display)
@@ -151,7 +161,7 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 		}
 		catch (Exception failure)
 		{
-			String title, message;
+			String title, message, toggle;
 			
 			if (failure instanceof ElasticsearchException)
 			{
@@ -166,9 +176,13 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 				message = failure.getMessage();
 			}
 			
-			boolean validate = MessageDialogWithToggle.openError(this.getShell(), title, message, "Always validate on confirmation", this.validate.getBooleanValue(), this.getPreferenceStore(), this.validate.getPreferenceName()).getToggleState();
+			toggle = "Always request cluster status on confirmation";
+			
+			Preference preference = Preference.usingToggleState(this.getPreferenceStore(), this.requestClusterState.getPreferenceName());
+			
+			boolean state = MessageDialogWithPreference.openError(this.getShell(), title, message, toggle, preference).getToggleState();
 
-			this.validate.getChangeControl().setSelection(validate);
+			this.requestClusterState.getChangeControl().setSelection(state);
 			
 			return false;
 		}
