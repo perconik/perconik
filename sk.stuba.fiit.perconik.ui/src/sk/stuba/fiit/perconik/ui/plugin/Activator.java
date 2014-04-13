@@ -97,9 +97,9 @@ public final class Activator extends UserInterfacePlugin
 				{
 					IWorkbenchWindow window = Workbenches.getActiveWindow();
 					
-					Shell  shell = window != null ? window.getShell() : Display.getDefault().getActiveShell(); 
-					String title = "PerConIK Core for Eclipse Platform";
-					
+					Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell(); 
+
+					String title   = "PerConIK Core for Eclipse Platform";
 					String message = "PerConIK Extension requires Java ";
 					
 					message += Versions.toString(e.getRequiredJavaVersion(), MAJOR, MINOR);
