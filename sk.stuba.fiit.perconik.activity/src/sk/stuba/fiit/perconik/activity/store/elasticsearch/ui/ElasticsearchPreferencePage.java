@@ -73,7 +73,7 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 			public final void widgetSelected(final SelectionEvent e)
 			{
 				ElasticsearchPreferencePage.super.performOk();
-				ElasticsearchPreferencePage.this.validate(true);
+				ElasticsearchPreferencePage.this.requestClusterState(true);
 			}
 		});
 		
@@ -124,10 +124,10 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 	@Override
 	public final boolean performOk()
 	{
-		return super.performOk() && (this.requestClusterState.getBooleanValue() ? this.validate(false) : true);
+		return super.performOk() && (this.requestClusterState.getBooleanValue() ? this.requestClusterState(false) : true);
 	}
 	
-	final boolean validate(final boolean display)
+	final boolean requestClusterState(final boolean display)
 	{
 		try
 		{

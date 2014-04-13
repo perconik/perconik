@@ -92,10 +92,10 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 			IdeActivityServices.releaseWatcherService();
 		}
 
-		return super.performOk() && (this.checkConnection.getBooleanValue() ? this.validate() : true);
+		return super.performOk() && (this.checkConnection.getBooleanValue() ? this.checkConnection() : true);
 	}
 	
-	final boolean validate()
+	final boolean checkConnection()
 	{
 		try
 		{
