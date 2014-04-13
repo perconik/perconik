@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Utilities
 Bundle-SymbolicName: sk.stuba.fiit.perconik.utilities;singleton:=true
-Bundle-Version: 0.1.4.v20140210-1837
+Bundle-Version: 0.1.5.v20140413-1815
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.utilities,
  sk.stuba.fiit.perconik.utilities.constant,
@@ -11,6 +11,6 @@ Export-Package: sk.stuba.fiit.perconik.utilities,
  sk.stuba.fiit.perconik.utilities.reflect,
  sk.stuba.fiit.perconik.utilities.reflect.accessor,
  sk.stuba.fiit.perconik.utilities.reflect.annotation
-Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.0.2"
+Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.1.0"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
