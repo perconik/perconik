@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.checkArgument;
+import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.specialize;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import com.google.common.reflect.Invokable;
@@ -59,7 +60,7 @@ public abstract class DynamicAccessor<T> extends AbstractAccessor<T>
 		
 		checkArgument(!method.isStatic(), "Method %s of %s is static", name, instance.getClass());
 		
-		return new InstanceMethod<>(type, method.returning(type), instance, arguments);
+		return new InstanceMethod<>(type, specialize(method, type), instance, arguments);
 	}
 	
 	private static final class InstanceConstant<T> extends ConstantAccessor<T>
