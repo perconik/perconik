@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -50,9 +49,6 @@ import javax.xml.bind.annotation.XmlType;
     "parentId",
     "startIndex",
     "startRow"
-})
-@XmlSeeAlso({
-    CodeEntityVersionWithFileUrlDto.class
 })
 public class CodeEntityVersionDto
     extends EntityVersionDto

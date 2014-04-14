@@ -27,6 +27,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="IdInRcs" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="Message" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="RcsProjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="TimeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -44,6 +45,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "id",
     "idInRcs",
     "message",
+    "rcsProjectId",
     "timeStamp"
 })
 public class ChangesetDto {
@@ -60,6 +62,8 @@ public class ChangesetDto {
     protected JAXBElement<String> idInRcs;
     @XmlElementRef(name = "Message", namespace = "http://schemas.datacontract.org/2004/07/Gratex.PerConIK.AstRcs.Svc.Interfaces", type = JAXBElement.class, required = false)
     protected JAXBElement<String> message;
+    @XmlElement(name = "RcsProjectId")
+    protected Integer rcsProjectId;
     @XmlElement(name = "TimeStamp")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar timeStamp;
@@ -206,6 +210,30 @@ public class ChangesetDto {
      */
     public void setMessage(JAXBElement<String> value) {
         this.message = value;
+    }
+
+    /**
+     * Gets the value of the rcsProjectId property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getRcsProjectId() {
+        return rcsProjectId;
+    }
+
+    /**
+     * Sets the value of the rcsProjectId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setRcsProjectId(Integer value) {
+        this.rcsProjectId = value;
     }
 
     /**

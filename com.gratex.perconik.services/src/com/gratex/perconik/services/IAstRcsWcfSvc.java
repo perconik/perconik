@@ -44,7 +44,7 @@ import com.gratex.perconik.services.ast.rcs.SearchFilesRequest;
 import com.gratex.perconik.services.ast.rcs.SearchFoldersRequest;
 import com.gratex.perconik.services.ast.rcs.SearchRcsProjectsRequest;
 import com.gratex.perconik.services.ast.rcs.SearchRcsServersRequest;
-import com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesRequest;
+import com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightRequest;
 import com.gratex.perconik.services.ast.rcs.SearchUsersRequest;
 
 
@@ -455,14 +455,14 @@ public interface IAstRcsWcfSvc {
      * 
      * @param request
      * @return
-     *     returns javax.xml.ws.Response<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse>
+     *     returns javax.xml.ws.Response<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse>
      */
-    @WebMethod(operationName = "SearchTypeCodeEntities", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntities")
-    @RequestWrapper(localName = "SearchTypeCodeEntities", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntities")
-    @ResponseWrapper(localName = "SearchTypeCodeEntitiesResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse")
-    public Response<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse> searchTypeCodeEntitiesAsync(
+    @WebMethod(operationName = "SearchTypeCodeEntitiesLight", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntitiesLight")
+    @RequestWrapper(localName = "SearchTypeCodeEntitiesLight", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLight")
+    @ResponseWrapper(localName = "SearchTypeCodeEntitiesLightResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse")
+    public Response<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse> searchTypeCodeEntitiesLightAsync(
         @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
-        SearchTypeCodeEntitiesRequest request);
+        SearchTypeCodeEntitiesLightRequest request);
 
     /**
      * 
@@ -471,28 +471,28 @@ public interface IAstRcsWcfSvc {
      * @return
      *     returns java.util.concurrent.Future<? extends java.lang.Object>
      */
-    @WebMethod(operationName = "SearchTypeCodeEntities", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntities")
-    @RequestWrapper(localName = "SearchTypeCodeEntities", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntities")
-    @ResponseWrapper(localName = "SearchTypeCodeEntitiesResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse")
-    public Future<?> searchTypeCodeEntitiesAsync(
+    @WebMethod(operationName = "SearchTypeCodeEntitiesLight", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntitiesLight")
+    @RequestWrapper(localName = "SearchTypeCodeEntitiesLight", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLight")
+    @ResponseWrapper(localName = "SearchTypeCodeEntitiesLightResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse")
+    public Future<?> searchTypeCodeEntitiesLightAsync(
         @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
-        SearchTypeCodeEntitiesRequest request,
+        SearchTypeCodeEntitiesLightRequest request,
         @WebParam(name = "asyncHandler", targetNamespace = "")
-        AsyncHandler<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse> asyncHandler);
+        AsyncHandler<com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse> asyncHandler);
 
     /**
      * 
      * @param request
      * @return
-     *     returns com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse
+     *     returns com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse
      */
-    @WebMethod(operationName = "SearchTypeCodeEntities", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntities")
-    @WebResult(name = "SearchTypeCodeEntitiesResult", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
-    @RequestWrapper(localName = "SearchTypeCodeEntities", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntities")
-    @ResponseWrapper(localName = "SearchTypeCodeEntitiesResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse")
-    public com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse searchTypeCodeEntities(
+    @WebMethod(operationName = "SearchTypeCodeEntitiesLight", action = "http://www.gratex.com/PerConIk/AstRcs/IEntityService/IAstRcsWcfSvc/SearchTypeCodeEntitiesLight")
+    @WebResult(name = "SearchTypeCodeEntitiesLightResult", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
+    @RequestWrapper(localName = "SearchTypeCodeEntitiesLight", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLight")
+    @ResponseWrapper(localName = "SearchTypeCodeEntitiesLightResponse", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", className = "com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse")
+    public com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse searchTypeCodeEntitiesLight(
         @WebParam(name = "request", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService")
-        SearchTypeCodeEntitiesRequest request);
+        SearchTypeCodeEntitiesLightRequest request);
 
     /**
      * 

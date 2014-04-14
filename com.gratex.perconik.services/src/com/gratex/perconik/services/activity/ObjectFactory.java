@@ -31,8 +31,8 @@ public class ObjectFactory {
     private final static QName _LyncStatusChangeDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "LyncStatusChangeDto");
     private final static QName _RunningApplicationsListDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "RunningApplicationsListDto");
     private final static QName _IdeCodeOperationDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "IdeCodeOperationDto");
-    private final static QName _HwUsageDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "HwUsageDto");
     private final static QName _IdeCheckinDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "IdeCheckinDto");
+    private final static QName _HwUsageDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "HwUsageDto");
     private final static QName _IdeDocumentOperationDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "IdeDocumentOperationDto");
     private final static QName _IdeStateChangeDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "IdeStateChangeDto");
     private final static QName _IdeCodeElementEventDto_QNAME = new QName("http://www.gratex.com/PerConIk/IActivitySvc", "IdeCodeElementEventDto");
@@ -164,19 +164,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link HwUsageDto }
-     * 
-     */
-    public HwUsageDto createHwUsageDto() {
-        return new HwUsageDto();
-    }
-
-    /**
      * Create an instance of {@link IdeCheckinDto }
      * 
      */
     public IdeCheckinDto createIdeCheckinDto() {
         return new IdeCheckinDto();
+    }
+
+    /**
+     * Create an instance of {@link HwUsageDto }
+     * 
+     */
+    public HwUsageDto createHwUsageDto() {
+        return new HwUsageDto();
     }
 
     /**
@@ -571,21 +571,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link HwUsageDto }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/IActivitySvc", name = "HwUsageDto")
-    public JAXBElement<HwUsageDto> createHwUsageDto(HwUsageDto value) {
-        return new JAXBElement<HwUsageDto>(_HwUsageDto_QNAME, HwUsageDto.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link IdeCheckinDto }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/IActivitySvc", name = "IdeCheckinDto")
     public JAXBElement<IdeCheckinDto> createIdeCheckinDto(IdeCheckinDto value) {
         return new JAXBElement<IdeCheckinDto>(_IdeCheckinDto_QNAME, IdeCheckinDto.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link HwUsageDto }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/IActivitySvc", name = "HwUsageDto")
+    public JAXBElement<HwUsageDto> createHwUsageDto(HwUsageDto value) {
+        return new JAXBElement<HwUsageDto>(_HwUsageDto_QNAME, HwUsageDto.class, null, value);
     }
 
     /**

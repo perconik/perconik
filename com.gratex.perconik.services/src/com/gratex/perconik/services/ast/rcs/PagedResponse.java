@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
     SearchUsersResponse.class,
     SearchRcsProjectsResponse.class,
     GetChildCodeEntitiesResponse.class,
-    SearchTypeCodeEntitiesResponse.class,
+    SearchTypeCodeEntitiesLightResponse.class,
     SearchChangesetsResponse.class,
     SearchRcsServersResponse.class,
     SearchFoldersResponse.class,

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="BaseChangesetId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="EntityId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="Id" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
+ *         &lt;element name="RcsProjectId" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,7 +44,8 @@ import javax.xml.bind.annotation.XmlType;
     "ancestor2Id",
     "baseChangesetId",
     "entityId",
-    "id"
+    "id",
+    "rcsProjectId"
 })
 @XmlSeeAlso({
     CodeEntityVersionDto.class,
@@ -65,6 +67,8 @@ public class EntityVersionDto {
     protected Integer entityId;
     @XmlElement(name = "Id")
     protected Integer id;
+    @XmlElement(name = "RcsProjectId")
+    protected Integer rcsProjectId;
 
     /**
      * Gets the value of the ancestor1ChangeType property.
@@ -232,6 +236,30 @@ public class EntityVersionDto {
      */
     public void setId(Integer value) {
         this.id = value;
+    }
+
+    /**
+     * Gets the value of the rcsProjectId property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public Integer getRcsProjectId() {
+        return rcsProjectId;
+    }
+
+    /**
+     * Sets the value of the rcsProjectId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setRcsProjectId(Integer value) {
+        this.rcsProjectId = value;
     }
 
 }

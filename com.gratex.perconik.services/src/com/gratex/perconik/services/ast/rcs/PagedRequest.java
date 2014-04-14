@@ -36,10 +36,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlSeeAlso({
     SearchChangesetsRequest.class,
     SearchUsersRequest.class,
+    SearchTypeCodeEntitiesLightRequest.class,
     SearchRcsServersRequest.class,
     SearchFilesRequest.class,
     GetChildCodeEntitiesRequest.class,
-    SearchTypeCodeEntitiesRequest.class,
     GetChangesetRcsProjectRequest.class,
     SearchBranchesRequest.class,
     SearchFoldersRequest.class,

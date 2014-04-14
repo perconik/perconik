@@ -38,7 +38,7 @@ import com.gratex.perconik.services.ast.rcs.SearchFilesRequest;
 import com.gratex.perconik.services.ast.rcs.SearchFoldersRequest;
 import com.gratex.perconik.services.ast.rcs.SearchRcsProjectsRequest;
 import com.gratex.perconik.services.ast.rcs.SearchRcsServersRequest;
-import com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesRequest;
+import com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightRequest;
 import com.gratex.perconik.services.ast.rcs.SearchUsersRequest;
 
 
@@ -59,42 +59,42 @@ import com.gratex.perconik.services.ast.rcs.SearchUsersRequest;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _GetFileContentResponseGetFileContentResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFileContentResult");
-    private final static QName _EnsureRcsProjectRequest_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "request");
-    private final static QName _QueueChangesetForImportResponseQueueChangesetForImportResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "QueueChangesetForImportResult");
+    private final static QName _GetCodeEntityResponseGetCodeEntityResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetCodeEntityResult");
+    private final static QName _SearchTypeCodeEntitiesLightResponseSearchTypeCodeEntitiesLightResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchTypeCodeEntitiesLightResult");
+    private final static QName _GetCodeEntityFullContextRequest_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "request");
+    private final static QName _GetChangesetRcsProjectResponseGetChangesetRcsProjectResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChangesetRcsProjectResult");
     private final static QName _EnsureBranchesResponseEnsureBranchesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "EnsureBranchesResult");
     private final static QName _SearchRcsServersResponseSearchRcsServersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchRcsServersResult");
-    private final static QName _GetRcsProjectResponseGetRcsProjectResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetRcsProjectResult");
-    private final static QName _GetCodeEntityContentResponseGetCodeEntityContentResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetCodeEntityContentResult");
-    private final static QName _SearchUsersResponseSearchUsersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchUsersResult");
-    private final static QName _GetUserResponseGetUserResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetUserResult");
-    private final static QName _GetChangesetRcsProjectResponseGetChangesetRcsProjectResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChangesetRcsProjectResult");
-    private final static QName _SearchCodeEntitiesResponseSearchCodeEntitiesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchCodeEntitiesResult");
-    private final static QName _GetCodeEntityResponseGetCodeEntityResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetCodeEntityResult");
-    private final static QName _GetChangesetResponseGetChangesetResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChangesetResult");
-    private final static QName _GetChangedFilesResponseGetChangedFilesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChangedFilesResult");
-    private final static QName _AssociateChangesetWithBranchResponseAssociateChangesetWithBranchResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "AssociateChangesetWithBranchResult");
-    private final static QName _EnsureRcsServerResponseEnsureRcsServerResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "EnsureRcsServerResult");
-    private final static QName _GetBranchImportedHeadResponseGetBranchImportedHeadResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetBranchImportedHeadResult");
-    private final static QName _EnsureRcsProjectResponseEnsureRcsProjectResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "EnsureRcsProjectResult");
     private final static QName _GetChildCodeEntitiesResponseGetChildCodeEntitiesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChildCodeEntitiesResult");
+    private final static QName _GetRcsProjectResponseGetRcsProjectResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetRcsProjectResult");
+    private final static QName _GetBranchImportedHeadResponseGetBranchImportedHeadResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetBranchImportedHeadResult");
+    private final static QName _QueueChangesetForImportResponseQueueChangesetForImportResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "QueueChangesetForImportResult");
+    private final static QName _SearchUsersResponseSearchUsersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchUsersResult");
+    private final static QName _GetChangesetResponseGetChangesetResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChangesetResult");
+    private final static QName _GetFileChangesetsResponseGetFileChangesetsResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFileChangesetsResult");
+    private final static QName _AssociateChangesetWithBranchResponseAssociateChangesetWithBranchResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "AssociateChangesetWithBranchResult");
+    private final static QName _GetUserResponseGetUserResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetUserResult");
+    private final static QName _GetFileContentResponseGetFileContentResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFileContentResult");
+    private final static QName _GetFilesByGitIdentifiersResponseGetFilesByGitIdentifiersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFilesByGitIdentifiersResult");
+    private final static QName _EnsureRcsProjectResponseEnsureRcsProjectResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "EnsureRcsProjectResult");
     private final static QName _GetBranchQueuedHeadResponseGetBranchQueuedHeadResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetBranchQueuedHeadResult");
     private final static QName _SearchRcsProjectsResponseSearchRcsProjectsResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchRcsProjectsResult");
     private final static QName _SearchBranchesResponseSearchBranchesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchBranchesResult");
     private final static QName _GetBranchResponseGetBranchResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetBranchResult");
-    private final static QName _SearchTypeCodeEntitiesResponseSearchTypeCodeEntitiesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchTypeCodeEntitiesResult");
     private final static QName _SearchFoldersResponseSearchFoldersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchFoldersResult");
     private final static QName _GetCodeEntityChangesetsResponseGetCodeEntityChangesetsResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetCodeEntityChangesetsResult");
     private final static QName _SearchFilesResponseSearchFilesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchFilesResult");
-    private final static QName _GetFilesByGitIdentifiersResponseGetFilesByGitIdentifiersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFilesByGitIdentifiersResult");
+    private final static QName _GetCodeEntityContentResponseGetCodeEntityContentResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetCodeEntityContentResult");
+    private final static QName _GetFilesByTfsIdentifiersResponseGetFilesByTfsIdentifiersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFilesByTfsIdentifiersResult");
     private final static QName _GetCodeEntityFullContextResponseGetCodeEntityFullContextResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetCodeEntityFullContextResult");
     private final static QName _IsChangesetQueuedOrImportedResponseIsChangesetQueuedOrImportedResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "IsChangesetQueuedOrImportedResult");
     private final static QName _GetFileResponseGetFileResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFileResult");
     private final static QName _SearchChangesetsResponseSearchChangesetsResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchChangesetsResult");
-    private final static QName _GetFilesByTfsIdentifiersResponseGetFilesByTfsIdentifiersResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFilesByTfsIdentifiersResult");
-    private final static QName _GetImportCapabilitiesResponseGetImportCapabilitiesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetImportCapabilitiesResult");
-    private final static QName _GetFileChangesetsResponseGetFileChangesetsResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetFileChangesetsResult");
     private final static QName _GetRcsServerResponseGetRcsServerResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetRcsServerResult");
+    private final static QName _EnsureRcsServerResponseEnsureRcsServerResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "EnsureRcsServerResult");
+    private final static QName _GetImportCapabilitiesResponseGetImportCapabilitiesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetImportCapabilitiesResult");
+    private final static QName _GetChangedFilesResponseGetChangedFilesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "GetChangedFilesResult");
+    private final static QName _SearchCodeEntitiesResponseSearchCodeEntitiesResult_QNAME = new QName("http://www.gratex.com/PerConIk/AstRcs/IEntityService", "SearchCodeEntitiesResult");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.gratex.perconik.services.ast.rcs.entity
@@ -197,14 +197,6 @@ public class ObjectFactory {
      */
     public GetBranchQueuedHead createGetBranchQueuedHead() {
         return new GetBranchQueuedHead();
-    }
-
-    /**
-     * Create an instance of {@link SearchTypeCodeEntities }
-     * 
-     */
-    public SearchTypeCodeEntities createSearchTypeCodeEntities() {
-        return new SearchTypeCodeEntities();
     }
 
     /**
@@ -400,6 +392,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse }
+     * 
+     */
+    public com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse createSearchTypeCodeEntitiesLightResponse() {
+        return new com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse();
+    }
+
+    /**
      * Create an instance of {@link com.gratex.perconik.services.ast.rcs.entity.EnsureBranchesResponse }
      * 
      */
@@ -421,6 +421,14 @@ public class ObjectFactory {
      */
     public GetRcsProject createGetRcsProject() {
         return new GetRcsProject();
+    }
+
+    /**
+     * Create an instance of {@link SearchTypeCodeEntitiesLight }
+     * 
+     */
+    public SearchTypeCodeEntitiesLight createSearchTypeCodeEntitiesLight() {
+        return new SearchTypeCodeEntitiesLight();
     }
 
     /**
@@ -544,14 +552,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse }
-     * 
-     */
-    public com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse createSearchTypeCodeEntitiesResponse() {
-        return new com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse();
-    }
-
-    /**
      * Create an instance of {@link com.gratex.perconik.services.ast.rcs.entity.GetFileResponse }
      * 
      */
@@ -664,21 +664,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFileContentResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFileContentResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFileContentResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileContentResponse> createGetFileContentResponseGetFileContentResult(com.gratex.perconik.services.ast.rcs.GetFileContentResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileContentResponse>(_GetFileContentResponseGetFileContentResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFileContentResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFileContentResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetCodeEntityResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse> createGetCodeEntityResponseGetCodeEntityResult(com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse>(_GetCodeEntityResponseGetCodeEntityResult_QNAME, com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EnsureRcsProjectRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = EnsureRcsProject.class)
-    public JAXBElement<EnsureRcsProjectRequest> createEnsureRcsProjectRequest(EnsureRcsProjectRequest value) {
-        return new JAXBElement<EnsureRcsProjectRequest>(_EnsureRcsProjectRequest_QNAME, EnsureRcsProjectRequest.class, EnsureRcsProject.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "SearchTypeCodeEntitiesLightResult", scope = com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse> createSearchTypeCodeEntitiesLightResponseSearchTypeCodeEntitiesLightResult(com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse>(_SearchTypeCodeEntitiesLightResponseSearchTypeCodeEntitiesLightResult_QNAME, com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesLightResponse.class, com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesLightResponse.class, value);
     }
 
     /**
@@ -687,25 +687,25 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntityFullContext.class)
     public JAXBElement<GetCodeEntityFullContextRequest> createGetCodeEntityFullContextRequest(GetCodeEntityFullContextRequest value) {
-        return new JAXBElement<GetCodeEntityFullContextRequest>(_EnsureRcsProjectRequest_QNAME, GetCodeEntityFullContextRequest.class, GetCodeEntityFullContext.class, value);
+        return new JAXBElement<GetCodeEntityFullContextRequest>(_GetCodeEntityFullContextRequest_QNAME, GetCodeEntityFullContextRequest.class, GetCodeEntityFullContext.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "QueueChangesetForImportResult", scope = com.gratex.perconik.services.ast.rcs.entity.QueueChangesetForImportResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse> createQueueChangesetForImportResponseQueueChangesetForImportResult(com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse>(_QueueChangesetForImportResponseQueueChangesetForImportResult_QNAME, com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse.class, com.gratex.perconik.services.ast.rcs.entity.QueueChangesetForImportResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetChangesetRcsProjectResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetChangesetRcsProjectResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse> createGetChangesetRcsProjectResponseGetChangesetRcsProjectResult(com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse>(_GetChangesetRcsProjectResponseGetChangesetRcsProjectResult_QNAME, com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetChangesetRcsProjectResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetFileRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link EnsureRcsProjectRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFile.class)
-    public JAXBElement<GetFileRequest> createGetFileRequest(GetFileRequest value) {
-        return new JAXBElement<GetFileRequest>(_EnsureRcsProjectRequest_QNAME, GetFileRequest.class, GetFile.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = EnsureRcsProject.class)
+    public JAXBElement<EnsureRcsProjectRequest> createEnsureRcsProjectRequest(EnsureRcsProjectRequest value) {
+        return new JAXBElement<EnsureRcsProjectRequest>(_GetCodeEntityFullContextRequest_QNAME, EnsureRcsProjectRequest.class, EnsureRcsProject.class, value);
     }
 
     /**
@@ -727,12 +727,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchRcsProjectsRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchRcsProjects.class)
-    public JAXBElement<SearchRcsProjectsRequest> createSearchRcsProjectsRequest(SearchRcsProjectsRequest value) {
-        return new JAXBElement<SearchRcsProjectsRequest>(_EnsureRcsProjectRequest_QNAME, SearchRcsProjectsRequest.class, SearchRcsProjects.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetChildCodeEntitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetChildCodeEntitiesResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse> createGetChildCodeEntitiesResponseGetChildCodeEntitiesResult(com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse>(_GetChildCodeEntitiesResponseGetChildCodeEntitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetChildCodeEntitiesResponse.class, value);
     }
 
     /**
@@ -745,12 +745,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchRcsServersRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityChangesetsRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchRcsServers.class)
-    public JAXBElement<SearchRcsServersRequest> createSearchRcsServersRequest(SearchRcsServersRequest value) {
-        return new JAXBElement<SearchRcsServersRequest>(_EnsureRcsProjectRequest_QNAME, SearchRcsServersRequest.class, SearchRcsServers.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntityChangesets.class)
+    public JAXBElement<GetCodeEntityChangesetsRequest> createGetCodeEntityChangesetsRequest(GetCodeEntityChangesetsRequest value) {
+        return new JAXBElement<GetCodeEntityChangesetsRequest>(_GetCodeEntityFullContextRequest_QNAME, GetCodeEntityChangesetsRequest.class, GetCodeEntityChangesets.class, value);
     }
 
     /**
@@ -759,16 +759,16 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetUser.class)
     public JAXBElement<GetUserRequest> createGetUserRequest(GetUserRequest value) {
-        return new JAXBElement<GetUserRequest>(_EnsureRcsProjectRequest_QNAME, GetUserRequest.class, GetUser.class, value);
+        return new JAXBElement<GetUserRequest>(_GetCodeEntityFullContextRequest_QNAME, GetUserRequest.class, GetUser.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchTypeCodeEntitiesRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetRcsServerRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchTypeCodeEntities.class)
-    public JAXBElement<SearchTypeCodeEntitiesRequest> createSearchTypeCodeEntitiesRequest(SearchTypeCodeEntitiesRequest value) {
-        return new JAXBElement<SearchTypeCodeEntitiesRequest>(_EnsureRcsProjectRequest_QNAME, SearchTypeCodeEntitiesRequest.class, SearchTypeCodeEntities.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetRcsServer.class)
+    public JAXBElement<GetRcsServerRequest> createGetRcsServerRequest(GetRcsServerRequest value) {
+        return new JAXBElement<GetRcsServerRequest>(_GetCodeEntityFullContextRequest_QNAME, GetRcsServerRequest.class, GetRcsServer.class, value);
     }
 
     /**
@@ -777,25 +777,25 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetChangeset.class)
     public JAXBElement<GetChangesetRequest> createGetChangesetRequest(GetChangesetRequest value) {
-        return new JAXBElement<GetChangesetRequest>(_EnsureRcsProjectRequest_QNAME, GetChangesetRequest.class, GetChangeset.class, value);
+        return new JAXBElement<GetChangesetRequest>(_GetCodeEntityFullContextRequest_QNAME, GetChangesetRequest.class, GetChangeset.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetFileChangesetsRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFileChangesets.class)
-    public JAXBElement<GetFileChangesetsRequest> createGetFileChangesetsRequest(GetFileChangesetsRequest value) {
-        return new JAXBElement<GetFileChangesetsRequest>(_EnsureRcsProjectRequest_QNAME, GetFileChangesetsRequest.class, GetFileChangesets.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetBranchImportedHeadResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetBranchImportedHeadResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse> createGetBranchImportedHeadResponseGetBranchImportedHeadResult(com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse>(_GetBranchImportedHeadResponseGetBranchImportedHeadResult_QNAME, com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetBranchImportedHeadResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetCodeEntityContentResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityContentResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse> createGetCodeEntityContentResponseGetCodeEntityContentResult(com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse>(_GetCodeEntityContentResponseGetCodeEntityContentResult_QNAME, com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityContentResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "QueueChangesetForImportResult", scope = com.gratex.perconik.services.ast.rcs.entity.QueueChangesetForImportResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse> createQueueChangesetForImportResponseQueueChangesetForImportResult(com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse>(_QueueChangesetForImportResponseQueueChangesetForImportResult_QNAME, com.gratex.perconik.services.ast.rcs.QueueChangesetForImportResponse.class, com.gratex.perconik.services.ast.rcs.entity.QueueChangesetForImportResponse.class, value);
     }
 
     /**
@@ -813,16 +813,16 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchUsers.class)
     public JAXBElement<SearchUsersRequest> createSearchUsersRequest(SearchUsersRequest value) {
-        return new JAXBElement<SearchUsersRequest>(_EnsureRcsProjectRequest_QNAME, SearchUsersRequest.class, SearchUsers.class, value);
+        return new JAXBElement<SearchUsersRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchUsersRequest.class, SearchUsers.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetUserResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityContentRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetUserResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetUserResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetUserResponse> createGetUserResponseGetUserResult(com.gratex.perconik.services.ast.rcs.GetUserResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetUserResponse>(_GetUserResponseGetUserResult_QNAME, com.gratex.perconik.services.ast.rcs.GetUserResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetUserResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntityContent.class)
+    public JAXBElement<GetCodeEntityContentRequest> createGetCodeEntityContentRequest(GetCodeEntityContentRequest value) {
+        return new JAXBElement<GetCodeEntityContentRequest>(_GetCodeEntityFullContextRequest_QNAME, GetCodeEntityContentRequest.class, GetCodeEntityContent.class, value);
     }
 
     /**
@@ -831,7 +831,43 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetBranch.class)
     public JAXBElement<GetBranchRequest> createGetBranchRequest(GetBranchRequest value) {
-        return new JAXBElement<GetBranchRequest>(_EnsureRcsProjectRequest_QNAME, GetBranchRequest.class, GetBranch.class, value);
+        return new JAXBElement<GetBranchRequest>(_GetCodeEntityFullContextRequest_QNAME, GetBranchRequest.class, GetBranch.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchFoldersRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchFolders.class)
+    public JAXBElement<SearchFoldersRequest> createSearchFoldersRequest(SearchFoldersRequest value) {
+        return new JAXBElement<SearchFoldersRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchFoldersRequest.class, SearchFolders.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFilesByTfsIdentifiersRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFilesByTfsIdentifiers.class)
+    public JAXBElement<GetFilesByTfsIdentifiersRequest> createGetFilesByTfsIdentifiersRequest(GetFilesByTfsIdentifiersRequest value) {
+        return new JAXBElement<GetFilesByTfsIdentifiersRequest>(_GetCodeEntityFullContextRequest_QNAME, GetFilesByTfsIdentifiersRequest.class, GetFilesByTfsIdentifiers.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFileRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFile.class)
+    public JAXBElement<GetFileRequest> createGetFileRequest(GetFileRequest value) {
+        return new JAXBElement<GetFileRequest>(_GetCodeEntityFullContextRequest_QNAME, GetFileRequest.class, GetFile.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFileChangesetsRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFileChangesets.class)
+    public JAXBElement<GetFileChangesetsRequest> createGetFileChangesetsRequest(GetFileChangesetsRequest value) {
+        return new JAXBElement<GetFileChangesetsRequest>(_GetCodeEntityFullContextRequest_QNAME, GetFileChangesetsRequest.class, GetFileChangesets.class, value);
     }
 
     /**
@@ -840,43 +876,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetChangesetRcsProject.class)
     public JAXBElement<GetChangesetRcsProjectRequest> createGetChangesetRcsProjectRequest(GetChangesetRcsProjectRequest value) {
-        return new JAXBElement<GetChangesetRcsProjectRequest>(_EnsureRcsProjectRequest_QNAME, GetChangesetRcsProjectRequest.class, GetChangesetRcsProject.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AssociateChangesetWithBranchRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = AssociateChangesetWithBranch.class)
-    public JAXBElement<AssociateChangesetWithBranchRequest> createAssociateChangesetWithBranchRequest(AssociateChangesetWithBranchRequest value) {
-        return new JAXBElement<AssociateChangesetWithBranchRequest>(_EnsureRcsProjectRequest_QNAME, AssociateChangesetWithBranchRequest.class, AssociateChangesetWithBranch.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetChangesetRcsProjectResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetChangesetRcsProjectResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse> createGetChangesetRcsProjectResponseGetChangesetRcsProjectResult(com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse>(_GetChangesetRcsProjectResponseGetChangesetRcsProjectResult_QNAME, com.gratex.perconik.services.ast.rcs.GetChangesetRcsProjectResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetChangesetRcsProjectResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "SearchCodeEntitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.SearchCodeEntitiesResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse> createSearchCodeEntitiesResponseSearchCodeEntitiesResult(com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse>(_SearchCodeEntitiesResponseSearchCodeEntitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.SearchCodeEntitiesResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetCodeEntityResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse> createGetCodeEntityResponseGetCodeEntityResult(com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse>(_GetCodeEntityResponseGetCodeEntityResult_QNAME, com.gratex.perconik.services.ast.rcs.GetCodeEntityResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityResponse.class, value);
+        return new JAXBElement<GetChangesetRcsProjectRequest>(_GetCodeEntityFullContextRequest_QNAME, GetChangesetRcsProjectRequest.class, GetChangesetRcsProject.class, value);
     }
 
     /**
@@ -894,34 +894,34 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = QueueChangesetForImport.class)
     public JAXBElement<QueueChangesetForImportRequest> createQueueChangesetForImportRequest(QueueChangesetForImportRequest value) {
-        return new JAXBElement<QueueChangesetForImportRequest>(_EnsureRcsProjectRequest_QNAME, QueueChangesetForImportRequest.class, QueueChangesetForImport.class, value);
+        return new JAXBElement<QueueChangesetForImportRequest>(_GetCodeEntityFullContextRequest_QNAME, QueueChangesetForImportRequest.class, QueueChangesetForImport.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetChildCodeEntitiesRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetChangedFilesResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetChangedFilesResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse> createGetChangedFilesResponseGetChangedFilesResult(com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse>(_GetChangedFilesResponseGetChangedFilesResult_QNAME, com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetChangedFilesResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetChildCodeEntities.class)
+    public JAXBElement<GetChildCodeEntitiesRequest> createGetChildCodeEntitiesRequest(GetChildCodeEntitiesRequest value) {
+        return new JAXBElement<GetChildCodeEntitiesRequest>(_GetCodeEntityFullContextRequest_QNAME, GetChildCodeEntitiesRequest.class, GetChildCodeEntities.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EnsureBranchesRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetFilesByGitIdentifiersRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = EnsureBranches.class)
-    public JAXBElement<EnsureBranchesRequest> createEnsureBranchesRequest(EnsureBranchesRequest value) {
-        return new JAXBElement<EnsureBranchesRequest>(_EnsureRcsProjectRequest_QNAME, EnsureBranchesRequest.class, EnsureBranches.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFilesByGitIdentifiers.class)
+    public JAXBElement<GetFilesByGitIdentifiersRequest> createGetFilesByGitIdentifiersRequest(GetFilesByGitIdentifiersRequest value) {
+        return new JAXBElement<GetFilesByGitIdentifiersRequest>(_GetCodeEntityFullContextRequest_QNAME, GetFilesByGitIdentifiersRequest.class, GetFilesByGitIdentifiers.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchChangesetsRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchChangesets.class)
-    public JAXBElement<SearchChangesetsRequest> createSearchChangesetsRequest(SearchChangesetsRequest value) {
-        return new JAXBElement<SearchChangesetsRequest>(_EnsureRcsProjectRequest_QNAME, SearchChangesetsRequest.class, SearchChangesets.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFileChangesetsResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFileChangesetsResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse> createGetFileChangesetsResponseGetFileChangesetsResult(com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse>(_GetFileChangesetsResponseGetFileChangesetsResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFileChangesetsResponse.class, value);
     }
 
     /**
@@ -930,7 +930,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchFiles.class)
     public JAXBElement<SearchFilesRequest> createSearchFilesRequest(SearchFilesRequest value) {
-        return new JAXBElement<SearchFilesRequest>(_EnsureRcsProjectRequest_QNAME, SearchFilesRequest.class, SearchFiles.class, value);
+        return new JAXBElement<SearchFilesRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchFilesRequest.class, SearchFiles.class, value);
     }
 
     /**
@@ -943,30 +943,48 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetUserResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "EnsureRcsServerResult", scope = com.gratex.perconik.services.ast.rcs.entity.EnsureRcsServerResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse> createEnsureRcsServerResponseEnsureRcsServerResult(com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse>(_EnsureRcsServerResponseEnsureRcsServerResult_QNAME, com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse.class, com.gratex.perconik.services.ast.rcs.entity.EnsureRcsServerResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetUserResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetUserResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetUserResponse> createGetUserResponseGetUserResult(com.gratex.perconik.services.ast.rcs.GetUserResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetUserResponse>(_GetUserResponseGetUserResult_QNAME, com.gratex.perconik.services.ast.rcs.GetUserResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetUserResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchCodeEntitiesRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFileContentResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchCodeEntities.class)
-    public JAXBElement<SearchCodeEntitiesRequest> createSearchCodeEntitiesRequest(SearchCodeEntitiesRequest value) {
-        return new JAXBElement<SearchCodeEntitiesRequest>(_EnsureRcsProjectRequest_QNAME, SearchCodeEntitiesRequest.class, SearchCodeEntities.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFileContentResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFileContentResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileContentResponse> createGetFileContentResponseGetFileContentResult(com.gratex.perconik.services.ast.rcs.GetFileContentResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileContentResponse>(_GetFileContentResponseGetFileContentResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFileContentResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFileContentResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetBranchImportedHeadResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetBranchImportedHeadResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse> createGetBranchImportedHeadResponseGetBranchImportedHeadResult(com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse>(_GetBranchImportedHeadResponseGetBranchImportedHeadResult_QNAME, com.gratex.perconik.services.ast.rcs.GetBranchImportedHeadResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetBranchImportedHeadResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntity.class)
+    public JAXBElement<GetCodeEntityRequest> createGetCodeEntityRequest(GetCodeEntityRequest value) {
+        return new JAXBElement<GetCodeEntityRequest>(_GetCodeEntityFullContextRequest_QNAME, GetCodeEntityRequest.class, GetCodeEntity.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EnsureBranchesRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = EnsureBranches.class)
+    public JAXBElement<EnsureBranchesRequest> createEnsureBranchesRequest(EnsureBranchesRequest value) {
+        return new JAXBElement<EnsureBranchesRequest>(_GetCodeEntityFullContextRequest_QNAME, EnsureBranchesRequest.class, EnsureBranches.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFilesByGitIdentifiersResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFilesByGitIdentifiersResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse> createGetFilesByGitIdentifiersResponseGetFilesByGitIdentifiersResult(com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse>(_GetFilesByGitIdentifiersResponseGetFilesByGitIdentifiersResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFilesByGitIdentifiersResponse.class, value);
     }
 
     /**
@@ -979,24 +997,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetImportCapabilitiesRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetImportCapabilities.class)
-    public JAXBElement<GetImportCapabilitiesRequest> createGetImportCapabilitiesRequest(GetImportCapabilitiesRequest value) {
-        return new JAXBElement<GetImportCapabilitiesRequest>(_EnsureRcsProjectRequest_QNAME, GetImportCapabilitiesRequest.class, GetImportCapabilities.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetChildCodeEntitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetChildCodeEntitiesResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse> createGetChildCodeEntitiesResponseGetChildCodeEntitiesResult(com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse>(_GetChildCodeEntitiesResponseGetChildCodeEntitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.GetChildCodeEntitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetChildCodeEntitiesResponse.class, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetBranchQueuedHeadResponse }{@code >}}
      * 
      */
@@ -1006,12 +1006,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetRcsServerRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchRcsServersRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetRcsServer.class)
-    public JAXBElement<GetRcsServerRequest> createGetRcsServerRequest(GetRcsServerRequest value) {
-        return new JAXBElement<GetRcsServerRequest>(_EnsureRcsProjectRequest_QNAME, GetRcsServerRequest.class, GetRcsServer.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchRcsServers.class)
+    public JAXBElement<SearchRcsServersRequest> createSearchRcsServersRequest(SearchRcsServersRequest value) {
+        return new JAXBElement<SearchRcsServersRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchRcsServersRequest.class, SearchRcsServers.class, value);
     }
 
     /**
@@ -1047,34 +1047,34 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetRcsProject.class)
     public JAXBElement<GetRcsProjectRequest> createGetRcsProjectRequest(GetRcsProjectRequest value) {
-        return new JAXBElement<GetRcsProjectRequest>(_EnsureRcsProjectRequest_QNAME, GetRcsProjectRequest.class, GetRcsProject.class, value);
+        return new JAXBElement<GetRcsProjectRequest>(_GetCodeEntityFullContextRequest_QNAME, GetRcsProjectRequest.class, GetRcsProject.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchFoldersRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchBranchesRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchFolders.class)
-    public JAXBElement<SearchFoldersRequest> createSearchFoldersRequest(SearchFoldersRequest value) {
-        return new JAXBElement<SearchFoldersRequest>(_EnsureRcsProjectRequest_QNAME, SearchFoldersRequest.class, SearchFolders.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchBranches.class)
+    public JAXBElement<SearchBranchesRequest> createSearchBranchesRequest(SearchBranchesRequest value) {
+        return new JAXBElement<SearchBranchesRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchBranchesRequest.class, SearchBranches.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link EnsureRcsServerRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "SearchTypeCodeEntitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse> createSearchTypeCodeEntitiesResponseSearchTypeCodeEntitiesResult(com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse>(_SearchTypeCodeEntitiesResponseSearchTypeCodeEntitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.SearchTypeCodeEntitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.SearchTypeCodeEntitiesResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = EnsureRcsServer.class)
+    public JAXBElement<EnsureRcsServerRequest> createEnsureRcsServerRequest(EnsureRcsServerRequest value) {
+        return new JAXBElement<EnsureRcsServerRequest>(_GetCodeEntityFullContextRequest_QNAME, EnsureRcsServerRequest.class, EnsureRcsServer.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link IsChangesetQueuedOrImportedRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link AssociateChangesetWithBranchRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = IsChangesetQueuedOrImported.class)
-    public JAXBElement<IsChangesetQueuedOrImportedRequest> createIsChangesetQueuedOrImportedRequest(IsChangesetQueuedOrImportedRequest value) {
-        return new JAXBElement<IsChangesetQueuedOrImportedRequest>(_EnsureRcsProjectRequest_QNAME, IsChangesetQueuedOrImportedRequest.class, IsChangesetQueuedOrImported.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = AssociateChangesetWithBranch.class)
+    public JAXBElement<AssociateChangesetWithBranchRequest> createAssociateChangesetWithBranchRequest(AssociateChangesetWithBranchRequest value) {
+        return new JAXBElement<AssociateChangesetWithBranchRequest>(_GetCodeEntityFullContextRequest_QNAME, AssociateChangesetWithBranchRequest.class, AssociateChangesetWithBranch.class, value);
     }
 
     /**
@@ -1101,7 +1101,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetBranchImportedHead.class)
     public JAXBElement<GetBranchImportedHeadRequest> createGetBranchImportedHeadRequest(GetBranchImportedHeadRequest value) {
-        return new JAXBElement<GetBranchImportedHeadRequest>(_EnsureRcsProjectRequest_QNAME, GetBranchImportedHeadRequest.class, GetBranchImportedHead.class, value);
+        return new JAXBElement<GetBranchImportedHeadRequest>(_GetCodeEntityFullContextRequest_QNAME, GetBranchImportedHeadRequest.class, GetBranchImportedHead.class, value);
     }
 
     /**
@@ -1114,21 +1114,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetChangedFilesRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetChangedFiles.class)
-    public JAXBElement<GetChangedFilesRequest> createGetChangedFilesRequest(GetChangedFilesRequest value) {
-        return new JAXBElement<GetChangedFilesRequest>(_EnsureRcsProjectRequest_QNAME, GetChangedFilesRequest.class, GetChangedFiles.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetCodeEntityContentResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityContentResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse> createGetCodeEntityContentResponseGetCodeEntityContentResult(com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse>(_GetCodeEntityContentResponseGetCodeEntityContentResult_QNAME, com.gratex.perconik.services.ast.rcs.GetCodeEntityContentResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetCodeEntityContentResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchRcsProjectsRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFilesByGitIdentifiersResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFilesByGitIdentifiersResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse> createGetFilesByGitIdentifiersResponseGetFilesByGitIdentifiersResult(com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse>(_GetFilesByGitIdentifiersResponseGetFilesByGitIdentifiersResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFilesByGitIdentifiersResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFilesByGitIdentifiersResponse.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchRcsProjects.class)
+    public JAXBElement<SearchRcsProjectsRequest> createSearchRcsProjectsRequest(SearchRcsProjectsRequest value) {
+        return new JAXBElement<SearchRcsProjectsRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchRcsProjectsRequest.class, SearchRcsProjects.class, value);
     }
 
     /**
@@ -1137,16 +1137,16 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetBranchQueuedHead.class)
     public JAXBElement<GetBranchQueuedHeadRequest> createGetBranchQueuedHeadRequest(GetBranchQueuedHeadRequest value) {
-        return new JAXBElement<GetBranchQueuedHeadRequest>(_EnsureRcsProjectRequest_QNAME, GetBranchQueuedHeadRequest.class, GetBranchQueuedHead.class, value);
+        return new JAXBElement<GetBranchQueuedHeadRequest>(_GetCodeEntityFullContextRequest_QNAME, GetBranchQueuedHeadRequest.class, GetBranchQueuedHead.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SearchBranchesRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchBranches.class)
-    public JAXBElement<SearchBranchesRequest> createSearchBranchesRequest(SearchBranchesRequest value) {
-        return new JAXBElement<SearchBranchesRequest>(_EnsureRcsProjectRequest_QNAME, SearchBranchesRequest.class, SearchBranches.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFilesByTfsIdentifiersResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFilesByTfsIdentifiersResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse> createGetFilesByTfsIdentifiersResponseGetFilesByTfsIdentifiersResult(com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse>(_GetFilesByTfsIdentifiersResponseGetFilesByTfsIdentifiersResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFilesByTfsIdentifiersResponse.class, value);
     }
 
     /**
@@ -1164,7 +1164,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFileContent.class)
     public JAXBElement<GetFileContentRequest> createGetFileContentRequest(GetFileContentRequest value) {
-        return new JAXBElement<GetFileContentRequest>(_EnsureRcsProjectRequest_QNAME, GetFileContentRequest.class, GetFileContent.class, value);
+        return new JAXBElement<GetFileContentRequest>(_GetCodeEntityFullContextRequest_QNAME, GetFileContentRequest.class, GetFileContent.class, value);
     }
 
     /**
@@ -1195,84 +1195,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityContentRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchCodeEntitiesRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntityContent.class)
-    public JAXBElement<GetCodeEntityContentRequest> createGetCodeEntityContentRequest(GetCodeEntityContentRequest value) {
-        return new JAXBElement<GetCodeEntityContentRequest>(_EnsureRcsProjectRequest_QNAME, GetCodeEntityContentRequest.class, GetCodeEntityContent.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFilesByTfsIdentifiersResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFilesByTfsIdentifiersResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse> createGetFilesByTfsIdentifiersResponseGetFilesByTfsIdentifiersResult(com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse>(_GetFilesByTfsIdentifiersResponseGetFilesByTfsIdentifiersResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFilesByTfsIdentifiersResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFilesByTfsIdentifiersResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntity.class)
-    public JAXBElement<GetCodeEntityRequest> createGetCodeEntityRequest(GetCodeEntityRequest value) {
-        return new JAXBElement<GetCodeEntityRequest>(_EnsureRcsProjectRequest_QNAME, GetCodeEntityRequest.class, GetCodeEntity.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EnsureRcsServerRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = EnsureRcsServer.class)
-    public JAXBElement<EnsureRcsServerRequest> createEnsureRcsServerRequest(EnsureRcsServerRequest value) {
-        return new JAXBElement<EnsureRcsServerRequest>(_EnsureRcsProjectRequest_QNAME, EnsureRcsServerRequest.class, EnsureRcsServer.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetFilesByGitIdentifiersRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFilesByGitIdentifiers.class)
-    public JAXBElement<GetFilesByGitIdentifiersRequest> createGetFilesByGitIdentifiersRequest(GetFilesByGitIdentifiersRequest value) {
-        return new JAXBElement<GetFilesByGitIdentifiersRequest>(_EnsureRcsProjectRequest_QNAME, GetFilesByGitIdentifiersRequest.class, GetFilesByGitIdentifiers.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetImportCapabilitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetImportCapabilitiesResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse> createGetImportCapabilitiesResponseGetImportCapabilitiesResult(com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse>(_GetImportCapabilitiesResponseGetImportCapabilitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetImportCapabilitiesResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetFilesByTfsIdentifiersRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetFilesByTfsIdentifiers.class)
-    public JAXBElement<GetFilesByTfsIdentifiersRequest> createGetFilesByTfsIdentifiersRequest(GetFilesByTfsIdentifiersRequest value) {
-        return new JAXBElement<GetFilesByTfsIdentifiersRequest>(_EnsureRcsProjectRequest_QNAME, GetFilesByTfsIdentifiersRequest.class, GetFilesByTfsIdentifiers.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetFileChangesetsResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetFileChangesetsResponse.class)
-    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse> createGetFileChangesetsResponseGetFileChangesetsResult(com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse value) {
-        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse>(_GetFileChangesetsResponseGetFileChangesetsResult_QNAME, com.gratex.perconik.services.ast.rcs.GetFileChangesetsResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetFileChangesetsResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetCodeEntityChangesetsRequest }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetCodeEntityChangesets.class)
-    public JAXBElement<GetCodeEntityChangesetsRequest> createGetCodeEntityChangesetsRequest(GetCodeEntityChangesetsRequest value) {
-        return new JAXBElement<GetCodeEntityChangesetsRequest>(_EnsureRcsProjectRequest_QNAME, GetCodeEntityChangesetsRequest.class, GetCodeEntityChangesets.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchCodeEntities.class)
+    public JAXBElement<SearchCodeEntitiesRequest> createSearchCodeEntitiesRequest(SearchCodeEntitiesRequest value) {
+        return new JAXBElement<SearchCodeEntitiesRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchCodeEntitiesRequest.class, SearchCodeEntities.class, value);
     }
 
     /**
@@ -1285,12 +1213,84 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetChildCodeEntitiesRequest }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetImportCapabilitiesRequest }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetChildCodeEntities.class)
-    public JAXBElement<GetChildCodeEntitiesRequest> createGetChildCodeEntitiesRequest(GetChildCodeEntitiesRequest value) {
-        return new JAXBElement<GetChildCodeEntitiesRequest>(_EnsureRcsProjectRequest_QNAME, GetChildCodeEntitiesRequest.class, GetChildCodeEntities.class, value);
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetImportCapabilities.class)
+    public JAXBElement<GetImportCapabilitiesRequest> createGetImportCapabilitiesRequest(GetImportCapabilitiesRequest value) {
+        return new JAXBElement<GetImportCapabilitiesRequest>(_GetCodeEntityFullContextRequest_QNAME, GetImportCapabilitiesRequest.class, GetImportCapabilities.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "EnsureRcsServerResult", scope = com.gratex.perconik.services.ast.rcs.entity.EnsureRcsServerResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse> createEnsureRcsServerResponseEnsureRcsServerResult(com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse>(_EnsureRcsServerResponseEnsureRcsServerResult_QNAME, com.gratex.perconik.services.ast.rcs.EnsureRcsServerResponse.class, com.gratex.perconik.services.ast.rcs.entity.EnsureRcsServerResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetChangedFilesRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = GetChangedFiles.class)
+    public JAXBElement<GetChangedFilesRequest> createGetChangedFilesRequest(GetChangedFilesRequest value) {
+        return new JAXBElement<GetChangedFilesRequest>(_GetCodeEntityFullContextRequest_QNAME, GetChangedFilesRequest.class, GetChangedFiles.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetImportCapabilitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetImportCapabilitiesResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse> createGetImportCapabilitiesResponseGetImportCapabilitiesResult(com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse>(_GetImportCapabilitiesResponseGetImportCapabilitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.GetImportCapabilitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetImportCapabilitiesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchTypeCodeEntitiesLightRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchTypeCodeEntitiesLight.class)
+    public JAXBElement<SearchTypeCodeEntitiesLightRequest> createSearchTypeCodeEntitiesLightRequest(SearchTypeCodeEntitiesLightRequest value) {
+        return new JAXBElement<SearchTypeCodeEntitiesLightRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchTypeCodeEntitiesLightRequest.class, SearchTypeCodeEntitiesLight.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "GetChangedFilesResult", scope = com.gratex.perconik.services.ast.rcs.entity.GetChangedFilesResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse> createGetChangedFilesResponseGetChangedFilesResult(com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse>(_GetChangedFilesResponseGetChangedFilesResult_QNAME, com.gratex.perconik.services.ast.rcs.GetChangedFilesResponse.class, com.gratex.perconik.services.ast.rcs.entity.GetChangedFilesResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SearchChangesetsRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = SearchChangesets.class)
+    public JAXBElement<SearchChangesetsRequest> createSearchChangesetsRequest(SearchChangesetsRequest value) {
+        return new JAXBElement<SearchChangesetsRequest>(_GetCodeEntityFullContextRequest_QNAME, SearchChangesetsRequest.class, SearchChangesets.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link IsChangesetQueuedOrImportedRequest }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "request", scope = IsChangesetQueuedOrImported.class)
+    public JAXBElement<IsChangesetQueuedOrImportedRequest> createIsChangesetQueuedOrImportedRequest(IsChangesetQueuedOrImportedRequest value) {
+        return new JAXBElement<IsChangesetQueuedOrImportedRequest>(_GetCodeEntityFullContextRequest_QNAME, IsChangesetQueuedOrImportedRequest.class, IsChangesetQueuedOrImported.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", name = "SearchCodeEntitiesResult", scope = com.gratex.perconik.services.ast.rcs.entity.SearchCodeEntitiesResponse.class)
+    public JAXBElement<com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse> createSearchCodeEntitiesResponseSearchCodeEntitiesResult(com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse value) {
+        return new JAXBElement<com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse>(_SearchCodeEntitiesResponseSearchCodeEntitiesResult_QNAME, com.gratex.perconik.services.ast.rcs.SearchCodeEntitiesResponse.class, com.gratex.perconik.services.ast.rcs.entity.SearchCodeEntitiesResponse.class, value);
     }
 
 }
