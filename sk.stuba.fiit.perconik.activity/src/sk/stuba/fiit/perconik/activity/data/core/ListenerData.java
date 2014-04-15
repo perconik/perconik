@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.listeners;
+package sk.stuba.fiit.perconik.activity.data.core;
 
 public class ListenerData
 {

@@ -17,8 +17,8 @@ public final class Deserializer extends UntypedObjectDeserializer
 	}
 
 	@Override
-	protected final Object mapObject(final JsonParser parser, final DeserializationContext context) throws IOException, JsonProcessingException
+	protected Object mapObject(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException
 	{
-		return new AnyData((Map<String, Object>) super.mapObject(parser, context));
+		return AnyData.of((Map<String, Object>) super.mapObject(parser, context));
 	}
 }

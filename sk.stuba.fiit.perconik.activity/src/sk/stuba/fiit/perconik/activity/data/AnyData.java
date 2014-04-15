@@ -17,9 +17,14 @@ public class AnyData extends Data
 		this.other = Maps.newLinkedHashMap();
 	}
 	
-	public AnyData(final Map<String, Object> other)
+	protected AnyData(final Map<String, Object> other)
 	{
 		this.other = other;
+	}
+	
+	public static AnyData of(final Map<String, Object> other)
+	{
+		return new AnyData(other);
 	}
 
 	@JsonAnyGetter
