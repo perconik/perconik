@@ -2,8 +2,10 @@ package sk.stuba.fiit.perconik.activity.data;
 
 import java.util.Map;
 import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Maps;
 
 public class AnyData extends Data
@@ -14,6 +16,11 @@ public class AnyData extends Data
 	{
 		this.other = Maps.newLinkedHashMap();
 	}
+	
+	public AnyData(final Map<String, Object> other)
+	{
+		this.other = other;
+	}
 
 	@JsonAnyGetter
 	public final Map<String, Object> any()
@@ -22,6 +29,7 @@ public class AnyData extends Data
 	}
 
 	@JsonAnySetter
+	@JsonDeserialize(using = Deserializer.class)
 	public final void set(final String key, @Nullable final Object value)
 	{
 		this.other.put(key, value);

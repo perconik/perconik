@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -48,7 +49,7 @@ public class Data
 			throw new DataException(e);
 		}
 	}
-
+	
 	@Override
 	public final boolean equals(final Object o)
 	{
