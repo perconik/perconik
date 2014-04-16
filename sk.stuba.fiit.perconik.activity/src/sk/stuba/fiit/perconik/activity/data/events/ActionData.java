@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.activity.data.events;
 
-import sk.stuba.fiit.perconik.activity.data.AnyData;
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public final class ActionData extends AnyData
+public final class ActionData extends AnyStructuredData
 {
 	// TODO
 	

@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.activity.data.system;
 
-import sk.stuba.fiit.perconik.activity.data.AnyData;
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class SystemData extends AnyData
+public class SystemData extends AnyStructuredData
 {
 	protected JavaData java;
 	

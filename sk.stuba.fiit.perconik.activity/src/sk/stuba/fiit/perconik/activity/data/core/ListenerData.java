@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.activity.data.core;
 
-public class ListenerData
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+
+public class ListenerData extends AnyStructuredData
 {
 	// TODO
 	// timestamp

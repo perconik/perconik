@@ -1,10 +1,10 @@
 package sk.stuba.fiit.perconik.activity.data.core;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.activity.data.AnyData;
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
-public class ClassData extends AnyData
+public class ClassData extends AnyStructuredData
 {
 	protected String name;
 	

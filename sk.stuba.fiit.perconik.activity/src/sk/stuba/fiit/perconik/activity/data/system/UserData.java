@@ -1,9 +1,9 @@
 package sk.stuba.fiit.perconik.activity.data.system;
 
 import java.nio.file.Path;
-import sk.stuba.fiit.perconik.activity.data.AnyData;
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class UserData extends AnyData
+public class UserData extends AnyStructuredData
 {
 	protected String name;
 	
