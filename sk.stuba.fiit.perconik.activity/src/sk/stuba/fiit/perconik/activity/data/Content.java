@@ -1,11 +1,12 @@
 package sk.stuba.fiit.perconik.activity.data;
 
 import java.util.Map;
+import javax.annotation.Nullable;
 
 public interface Content
 {
 	@Override
-	public boolean equals(final Object o);
+	public boolean equals(@Nullable Object o);
 
 	@Override
 	public int hashCode();

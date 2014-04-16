@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.bind;
 
 import java.io.IOException;
 import java.util.Map;
-import sk.stuba.fiit.perconik.activity.data.AnyData;
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -19,6 +19,6 @@ public final class Deserializer extends UntypedObjectDeserializer
 	@Override
 	protected Object mapObject(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException
 	{
-		return AnyData.of((Map<String, Object>) super.mapObject(parser, context));
+		return AnyStructuredData.of((Map<String, Object>) super.mapObject(parser, context));
 	}
 }

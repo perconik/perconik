@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -40,7 +41,7 @@ public class Data implements Content
 	}
 	
 	@Override
-	public final boolean equals(final Object o)
+	public final boolean equals(@Nullable final Object o)
 	{
 		return o == this || o instanceof Data && ((Data) o).toMap().equals(this.toMap());
 	}
