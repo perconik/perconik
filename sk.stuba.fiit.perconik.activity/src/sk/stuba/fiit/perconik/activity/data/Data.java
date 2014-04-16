@@ -3,13 +3,11 @@ package sk.stuba.fiit.perconik.activity.data;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.collect.Maps;
 
-public class Data
+public class Data implements Content
 {
 	static final JavaType type = TypeFactory.defaultInstance().constructMapType(LinkedHashMap.class, String.class, Object.class);
 	
@@ -19,20 +17,11 @@ public class Data
 
 	public static final <T extends Data> T fromMap(final Class<T> type, final Map<String, Object> data)
 	{
-		final Object carrier = new Object()
-		{
-			@JsonAnyGetter
-			public final Map<String, Object> view()
-			{
-				return data;
-			}
-		};
-		
 		try
 		{
-			return fromString(type, Mapper.getInstance().writeValueAsString(carrier));
+			return Mapper.getInstance().convertValue(data, type);
 		}
-		catch (JsonProcessingException e)
+		catch (Exception e)
 		{
 			throw new DataException(e);
 		}
@@ -64,7 +53,14 @@ public class Data
 
 	public Map<String, Object> toMap()
 	{
-		return Mapper.getInstance().convertValue(this, type);
+		try
+		{
+			return Mapper.getInstance().convertValue(this, type);
+		}
+		catch (Exception e)
+		{
+			throw new DataException(e);
+		}
 	}
 	
 	public Map<String, Object> toMap(boolean pretty)
@@ -88,7 +84,7 @@ public class Data
 		{
 			return Mapper.getInstance().writeValueAsString(this);
 		}
-		catch (JsonProcessingException e)
+		catch (Exception e)
 		{
 			throw new DataException(e);
 		}
@@ -105,7 +101,7 @@ public class Data
 		{
 			return Mapper.getInstance().writerWithDefaultPrettyPrinter().writeValueAsString(this);
 		}
-		catch (JsonProcessingException e)
+		catch (Exception e)
 		{
 			throw new DataException(e);
 		}
