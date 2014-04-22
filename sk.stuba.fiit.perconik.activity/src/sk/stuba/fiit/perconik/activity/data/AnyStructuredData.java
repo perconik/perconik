@@ -79,32 +79,6 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent
 			return this.map;
 		}
 		
-		// TODO rm
-//		private final Map<String, Object> flatten(Map<String, Object> flat, String prefix)
-//		{
-//			for (Entry<String, Object> entry: this.map.entrySet())
-//			{
-//				String key   = joiner.join(prefix, entry.getKey());
-//				Object value = entry.getValue();
-//				
-//				if (value instanceof AnyStructuredData)
-//				{
-//					((AnyStructuredData) value).structure().flatten(flat, key);
-//				}
-//				else
-//				{
-//					flat.put(key, value);
-//				}
-//			}
-//			
-//			return flat;
-//		}
-//
-//		final Map<String, Object> flatten()
-//		{
-//			return this.flatten(Maps.<String, Object>newLinkedHashMap(), null);
-//		}
-
 		private static final Iterator<String> normalize(Iterator<String> key)
 		{
 			checkState(key.hasNext());
