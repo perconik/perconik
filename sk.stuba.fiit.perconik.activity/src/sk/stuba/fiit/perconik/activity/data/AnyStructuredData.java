@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.activity.data;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
+import sk.stuba.fiit.perconik.utilities.MoreMaps;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Joiner;
@@ -51,9 +53,9 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent
 	{
 		private static final long serialVersionUID = -8851372460060747540L;
 
-		private static final Joiner joiner = Joiner.on(separator).skipNulls();
+		static final Joiner joiner = Joiner.on(separator).skipNulls();
 
-		private static final Splitter splitter = Splitter.on(separator).trimResults();
+		static final Splitter splitter = Splitter.on(separator).trimResults();
 
 		final transient Map<String, Object> map;
 		
@@ -77,30 +79,31 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent
 			return this.map;
 		}
 		
-		private final Map<String, Object> flatten(Map<String, Object> flat, String prefix)
-		{
-			for (Entry<String, Object> entry: this.map.entrySet())
-			{
-				String key   = joiner.join(prefix, entry.getKey());
-				Object value = entry.getValue();
-				
-				if (value instanceof AnyStructuredData)
-				{
-					((AnyStructuredData) value).structure().flatten(flat, key);
-				}
-				else
-				{
-					flat.put(key, value);
-				}
-			}
-			
-			return flat;
-		}
-
-		final Map<String, Object> flatten()
-		{
-			return this.flatten(Maps.<String, Object>newLinkedHashMap(), null);
-		}
+		// TODO rm
+//		private final Map<String, Object> flatten(Map<String, Object> flat, String prefix)
+//		{
+//			for (Entry<String, Object> entry: this.map.entrySet())
+//			{
+//				String key   = joiner.join(prefix, entry.getKey());
+//				Object value = entry.getValue();
+//				
+//				if (value instanceof AnyStructuredData)
+//				{
+//					((AnyStructuredData) value).structure().flatten(flat, key);
+//				}
+//				else
+//				{
+//					flat.put(key, value);
+//				}
+//			}
+//			
+//			return flat;
+//		}
+//
+//		final Map<String, Object> flatten()
+//		{
+//			return this.flatten(Maps.<String, Object>newLinkedHashMap(), null);
+//		}
 
 		private static final Iterator<String> normalize(Iterator<String> key)
 		{
@@ -283,7 +286,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent
 	
 	public Map<String, Object> flatten()
 	{
-		return this.structure().flatten();
+		return MoreMaps.flatten(this.toMap(), Structure.joiner, Maps.<String, Object>newLinkedHashMap());
 	}
 
 	@JsonAnySetter
