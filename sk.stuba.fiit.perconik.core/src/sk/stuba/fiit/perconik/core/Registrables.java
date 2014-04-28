@@ -7,8 +7,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import sk.stuba.fiit.perconik.core.annotations.Experimental;
 import sk.stuba.fiit.perconik.core.annotations.Internal;
 import sk.stuba.fiit.perconik.core.annotations.Persistent;
@@ -103,7 +103,7 @@ public final class Registrables
 
 		types.addFirst(type);
 		
-		Set<Annotation> annotations = Annotations.ofClasses(types);
+		List<Annotation> annotations = Annotations.ofClasses(types);
 		
 		if (Serializable.class.isAssignableFrom(type))
 		{

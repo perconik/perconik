@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.lang.annotation.Annotation;
-import java.util.Set;
+import java.util.List;
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Registrables;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
@@ -56,7 +56,7 @@ abstract class AbstractAnnotableRegistration implements AnnotableRegistration
 		return this.annotable().getAnnotation(type);
 	}
 
-	public final Set<Annotation> getAnnotations()
+	public final List<Annotation> getAnnotations()
 	{
 		return this.annotable().getAnnotations();
 	}
