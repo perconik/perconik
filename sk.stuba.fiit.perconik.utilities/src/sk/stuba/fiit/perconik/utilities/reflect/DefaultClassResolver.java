@@ -8,4 +8,10 @@ enum DefaultClassResolver implements ClassResolver
 	{
 		return Class.forName(name);
 	}
+	
+	@Override
+	public final String toString()
+	{
+		return "DefaultClassResolver";
+	}
 }
