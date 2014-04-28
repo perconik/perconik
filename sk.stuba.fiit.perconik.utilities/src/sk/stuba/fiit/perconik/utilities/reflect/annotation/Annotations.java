@@ -5,6 +5,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -16,7 +17,7 @@ import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessors;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -27,31 +28,31 @@ public final class Annotations
 		throw new AssertionError();
 	}
 	
-	public static final Set<Annotation> ofClass(Class<?> type)
+	public static final List<Annotation> ofClass(Class<?> type)
 	{
 		return ofElement(type);
 	}
 
-	public static final Set<Annotation> ofClasses(Iterable<? extends Class<?>> types)
+	public static final List<Annotation> ofClasses(Iterable<? extends Class<?>> types)
 	{
 		return ofElements(types);
 	}
 
-	public static final Set<Annotation> ofElement(AnnotatedElement element)
+	public static final List<Annotation> ofElement(AnnotatedElement element)
 	{
-		return ImmutableSet.copyOf(element.getAnnotations());
+		return ImmutableList.copyOf(element.getAnnotations());
 	}
 	
-	public static final Set<Annotation> ofElements(Iterable<? extends AnnotatedElement> elements)
+	public static final List<Annotation> ofElements(Iterable<? extends AnnotatedElement> elements)
 	{
-		Set<Annotation> annotations = Sets.newLinkedHashSet();
+		ImmutableList.Builder<Annotation> annotations = ImmutableList.builder();
 		
 		for (AnnotatedElement element: elements)
 		{
 			annotations.addAll(ofElement(element));
 		}
 		
-		return annotations;
+		return annotations.build();
 	}
 
 	public static final Annotable asAnnotable(Collection<Annotation> annotations)

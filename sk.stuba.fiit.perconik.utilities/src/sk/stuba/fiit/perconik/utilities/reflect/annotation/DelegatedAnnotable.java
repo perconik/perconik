@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
-import java.util.Set;
+import java.util.List;
 import com.google.common.base.Preconditions;
 
 final class DelegatedAnnotable implements Annotable
@@ -24,7 +24,7 @@ final class DelegatedAnnotable implements Annotable
 		return this.element.getAnnotation(type);
 	}
 
-	public final Set<Annotation> getAnnotations()
+	public final List<Annotation> getAnnotations()
 	{
 		return Annotations.ofElement(this.element);
 	}

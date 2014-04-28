@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 
 import java.lang.annotation.Annotation;
-import java.util.Set;
+import java.util.List;
 import com.google.common.collect.ForwardingObject;
 
 public abstract class ForwardingAnnotable extends ForwardingObject implements Annotable
@@ -23,7 +23,7 @@ public abstract class ForwardingAnnotable extends ForwardingObject implements An
 		return this.delegate().getAnnotation(type);
 	}
 
-	public Set<Annotation> getAnnotations()
+	public List<Annotation> getAnnotations()
 	{
 		return this.delegate().getAnnotations();
 	}

@@ -2,19 +2,26 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 
 import java.lang.annotation.Annotation;
 import java.util.Iterator;
-import java.util.Set;
-import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Maps;
+import java.util.List;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 
 final class EnumeratedAnnotable implements Annotable
 {
-	private final BiMap<Class<? extends Annotation>, Annotation> map;
+	private final ImmutableMap<Class<? extends Annotation>, Annotation> map;
 	
 	EnumeratedAnnotable(Iterator<Annotation> annotations)
 	{
-		this.map = ImmutableBiMap.copyOf(Maps.uniqueIndex(annotations, Reflections.toAnnotationTypeFunction()));
+		Builder<Class<? extends Annotation>, Annotation> builder = ImmutableMap.builder();
+		
+		while (annotations.hasNext())
+		{
+			Annotation annotation = annotations.next();
+			
+			builder.put(annotation.annotationType(), annotation);
+		}
+		
+		this.map = builder.build();
 	}
 
 	public final boolean hasAnnotation(Class<? extends Annotation> type)
@@ -27,8 +34,8 @@ final class EnumeratedAnnotable implements Annotable
 		return (A) this.map.get(type);
 	}
 
-	public final Set<Annotation> getAnnotations()
+	public final List<Annotation> getAnnotations()
 	{
-		return this.map.values();
+		return this.map.values().asList();
 	}
 }
