@@ -20,6 +20,7 @@ import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 /**
  * Static helper methods pertaining to the core registrables. 
@@ -103,7 +104,7 @@ public final class Registrables
 
 		types.addFirst(type);
 		
-		List<Annotation> annotations = Annotations.ofClasses(types);
+		List<Annotation> annotations = Lists.newArrayList(Annotations.ofClasses(types));
 		
 		if (Serializable.class.isAssignableFrom(type))
 		{
