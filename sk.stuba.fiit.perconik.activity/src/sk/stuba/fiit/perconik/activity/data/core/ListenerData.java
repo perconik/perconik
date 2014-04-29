@@ -1,25 +1,39 @@
 package sk.stuba.fiit.perconik.activity.data.core;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.activity.data.base.ClassData;
+import sk.stuba.fiit.perconik.core.Listener;
 
 public class ListenerData extends AnyStructuredData
 {
-	// TODO
-	// timestamp
-	// action -> 'resource.change'
+	protected ClassData implementation;
 	
-	// resource.name
-	// resource.class
-	// resource.version
-	// resource.annotations
+	public ListenerData()
+	{
+	}
+
+	protected ListenerData(Listener listener)
+	{
+		if (listener == null)
+		{
+			return;
+		}
+		
+		this.setImplementation(ClassData.of(listener.getClass()));
+	}
+
+	public static ListenerData of(Listener listener)
+	{
+		return new ListenerData(listener);
+	}
 	
-	// listener.name
-	// listener.class
-	// listener.version
-	// listener.annotations
+	public void setImplementation(ClassData implementation)
+	{
+		this.implementation = implementation;
+	}
 	
-	// os / environment -> meta
-	// java / jvm / runtime -> meta
-	// elasticsearch -> meta
-	// plugin -> meta
+	public ClassData getImplementation()
+	{
+		return this.implementation;
+	}
 }

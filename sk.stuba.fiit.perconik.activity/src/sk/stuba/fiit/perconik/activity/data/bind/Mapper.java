@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.activity.data.bind;
 
-import sk.stuba.fiit.perconik.activity.data.type.base.BaseModule;
+import sk.stuba.fiit.perconik.activity.data.type.BaseModule;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

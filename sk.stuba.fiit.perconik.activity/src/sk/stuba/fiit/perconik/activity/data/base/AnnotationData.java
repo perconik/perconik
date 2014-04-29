@@ -1,11 +1,11 @@
-package sk.stuba.fiit.perconik.activity.data.core;
+package sk.stuba.fiit.perconik.activity.data.base;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 
 public class AnnotationData extends AnyStructuredData
 {
@@ -21,8 +21,13 @@ public class AnnotationData extends AnyStructuredData
 	
 	protected AnnotationData(Annotation annotation)
 	{
+		if (annotation == null)
+		{
+			return;
+		}
+		
 		this.setType(annotation.annotationType());
-		this.setName(this.type.getName());
+		this.setName(annotation.annotationType().getSimpleName());
 		this.setElements(Annotations.toElements(annotation));
 	}
 	
@@ -31,9 +36,9 @@ public class AnnotationData extends AnyStructuredData
 		return new AnnotationData(annotation);
 	}
 
-	public static Set<AnnotationData> of(Iterable<Annotation> annotations)
+	public static List<AnnotationData> of(Iterable<Annotation> annotations)
 	{
-		Set<AnnotationData> data = Sets.newLinkedHashSet();
+		List<AnnotationData> data = Lists.newArrayList();
 		
 		for (Annotation annotation: annotations)
 		{

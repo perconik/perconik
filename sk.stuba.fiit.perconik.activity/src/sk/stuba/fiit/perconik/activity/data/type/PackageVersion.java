@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.type.base;
+package sk.stuba.fiit.perconik.activity.data.type;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.Versioned;

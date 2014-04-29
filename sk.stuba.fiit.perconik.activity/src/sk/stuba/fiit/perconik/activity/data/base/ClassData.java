@@ -1,16 +1,12 @@
-package sk.stuba.fiit.perconik.activity.data.core;
+package sk.stuba.fiit.perconik.activity.data.base;
 
-import java.util.Set;
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
-
-public class ClassData extends AnyStructuredData
+public class ClassData extends AnnotableData
 {
 	protected String name;
 	
-	protected String canonicalName;
+	protected String simpleName;
 	
-	protected Set<AnnotationData> annotations;
+	protected String canonicalName;
 	
 	public ClassData()
 	{
@@ -18,9 +14,16 @@ public class ClassData extends AnyStructuredData
 
 	protected ClassData(Class<?> type)
 	{
+		super(type);
+		
+		if (type == null)
+		{
+			return;
+		}
+		
 		this.setName(type.getName());
+		this.setSimpleName(type.getSimpleName());
 		this.setCanonicalName(type.getCanonicalName());
-		this.setAnnotations(AnnotationData.of(Annotations.ofClass(type)));
 	}
 
 	public static ClassData of(Class<?> type)
@@ -38,9 +41,9 @@ public class ClassData extends AnyStructuredData
 		this.canonicalName = canonicalName;
 	}
 
-	public void setAnnotations(Set<AnnotationData> annotations)
+	public void setSimpleName(String simpleName)
 	{
-		this.annotations = annotations;
+		this.simpleName = simpleName;
 	}
 
 	public String getName()
@@ -53,8 +56,8 @@ public class ClassData extends AnyStructuredData
 		return this.canonicalName;
 	}
 
-	public Set<AnnotationData> getAnnotations()
+	public String getSimpleName()
 	{
-		return this.annotations;
+		return this.simpleName;
 	}
 }

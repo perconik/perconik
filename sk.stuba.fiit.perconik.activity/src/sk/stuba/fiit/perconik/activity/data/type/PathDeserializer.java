@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.type.base;
+package sk.stuba.fiit.perconik.activity.data.type;
 
 import java.io.IOException;
 import java.nio.file.Path;
