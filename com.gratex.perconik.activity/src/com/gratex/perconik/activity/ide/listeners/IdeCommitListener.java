@@ -1,7 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
@@ -19,10 +18,8 @@ import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
 import com.google.common.collect.Maps;
-import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.IVsActivityWatcherService;
 import com.gratex.perconik.services.uaca.ide.dto.IdeCheckinEventRequest;
 import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
 
