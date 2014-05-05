@@ -107,7 +107,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		final IdeCheckinDto data = new IdeCheckinDto();
 
 		data.setIdInRcs(id);
-		data.setRcsServer(IdeDataTransferObjects.newGitServerData(url));
+	//	data.setRcsServer(IdeDataTransferObjects.newGitServerData(url));
 
 		setApplicationData(data);
 		setEventData(data, time);

@@ -24,5 +24,6 @@ Export-Package: com.gratex.perconik.services,
  com.gratex.perconik.services.itm.serialization.queries,
  com.gratex.perconik.services.plugin,
  com.gratex.perconik.services.tag,
+ com.gratex.perconik.services.uaca.ide.dto,
  com.gratex.perconik.services.uaca.vs,
  com.gratex.perconik.services.uaca.vs.notifications

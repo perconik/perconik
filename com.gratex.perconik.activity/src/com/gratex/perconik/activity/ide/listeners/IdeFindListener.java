@@ -180,7 +180,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 	{
 		IdeFindFileResultDto data = new IdeFindFileResultDto();
 
-		data.setFile(IdeDataTransferObjects.newDocumentData(file));
+		//data.setFile(IdeDataTransferObjects.newDocumentData(file));
 		data.setRows(buildMatches(Documents.fromFile(file), matches));
 		
 		return data;
