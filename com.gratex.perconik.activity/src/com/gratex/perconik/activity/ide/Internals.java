@@ -6,11 +6,15 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -130,9 +134,9 @@ final class Internals
 	{
 		timeSupplier = new TimeSupplier()
 		{
-			public final XMLGregorianCalendar from(final long time)
+			public final XMLGregorianCalendar from(final long time, boolean utc)
 			{
-				GregorianCalendar calendar = new GregorianCalendar();
+				GregorianCalendar calendar = utc ? new GregorianCalendar(TimeZone.getTimeZone("UTC")) : new GregorianCalendar();
 				
 				calendar.setTimeInMillis(time);
 				

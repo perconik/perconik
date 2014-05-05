@@ -30,98 +30,13 @@ public final class IdeDataTransferObjects
 	{
 		throw new AssertionError();
 	}
-	/*
-	@Deprecated
-	public static final IdeDocumentDto newDocumentData(final IFile file)
-	{
-		return newDocumentData(file.getFullPath(), file.getProject());
-	}
 	
-	@Deprecated
-	public static final IdeDocumentDto newDocumentData(final IClassFile file)
-	{
-		LinkedList<String> segments = Lists.newLinkedList();
-		
-		IJavaElement element = file;
-		
-		do
-		{
-			JavaElementType type = JavaElementType.valueOf(element);
-			
-			if (type == JavaElementType.PACKAGE_FRAGMENT_ROOT) break;
-			
-			String segment = element.getElementName();
-			
-			if (type == JavaElementType.PACKAGE_FRAGMENT)
-			{
-				segment = segment.replace('.', '/');
-			}
-			
-			segments.addFirst(segment);
-		}
-		while ((element = element.getParent()) != null);
-		
-		IdeDocumentDto data = new IdeDocumentDto();
-		
-		data.setPath(Joiner.on('/').join(segments));
-		data.setPathType(IdePathTypeEnum.RELATIVE_LOCAL);
-		
-		return data;
-	}
-	
-	@Deprecated
-	private static final IdeDocumentDto newDocumentData(final IPath path)
-	{
-		IdeDocumentDto data = new IdeDocumentDto();
-		
-		data.setPath(path.makeRelative().toString());
-		data.setPathType(IdePathTypeEnum.RELATIVE_LOCAL);
-
-		return data;
-	}
-	
-	@Deprecated
-	private static final IdeDocumentDto newDocumentData(final IPath path, final IProject project)
-	{
-		IdeDocumentDto data = newDocumentData(path);
-
-		Repository repository = GitRepositories.fromProject(project);
-		
-		if (repository != null)
-		{
-			data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
-			data.setBranchName(GitRepositories.getBranch(repository));
-			
-			RevCommit commit = GitRepositories.getMostRecentCommit(repository, path.makeRelative().toString());
-			
-			if (commit != null)
-			{
-				data.setChangesetIdInRcs(commit.getName());
-			}
-		}
-		
-		return data;
-	}
-	
-	@Deprecated
-	public static final RcsServerDto newGitServerData(final String url)
-	{
-		RcsServerDto data = new RcsServerDto();
-		
-		data.setPath(url);
-		data.setType("git");
-		
-		return data;
-	}
-	*/
 	@Deprecated
 	public static final void setEventData(final IdeEventDto data, final long time)
 	{
 		data.setIsMilestone(IdeActivityDefaults.getMilestoneResolver().isMilestone(data));
-		data.setTime(IdeActivityDefaults.getTimeSupplier().from(time));
+		data.setTime(IdeActivityDefaults.getTimeSupplier().from(time, true));
 	}
-
-
 
 	@Deprecated
 	public static final void setApplicationData(final IdeEventDto data)
@@ -160,7 +75,11 @@ public final class IdeDataTransferObjects
 	}
 	
 	
-	
+	public static final void setEventData(final BaseIdeEventRequest data, final long time)
+	{
+		data.setTimestamp(IdeActivityDefaults.getTimeSupplier().from(time, true));
+	}
+
 	public static final RcsServerDto newGitServerData(final String url)
 	{
 		RcsServerDto data = new RcsServerDto();

@@ -1,18 +1,14 @@
 package com.gratex.perconik.activity.ide;
 
-public enum IdeDocumentOperationType {
+public enum IdeProjectEventType {
 
     SWITCH_TO("switchto"),
     ADD("add"),
-    OPEN("open"),
-    CLOSE("close"),
-    REMOVE("remove"),
-    SAVE("save"),
-    RENAME("rename");
+    REMOVE("remove");
     
     private final String urlPath;
 
-    IdeDocumentOperationType(String urlPath) {
+    IdeProjectEventType(String urlPath) {
         this.urlPath = urlPath;
     }
 
@@ -20,8 +16,8 @@ public enum IdeDocumentOperationType {
         return urlPath;
     }
 
-    public static IdeDocumentOperationType fromValue(String urlPath) {
-        for (IdeDocumentOperationType item: IdeDocumentOperationType.values()) {
+    public static IdeProjectEventType fromValue(String urlPath) {
+        for (IdeProjectEventType item: IdeProjectEventType.values()) {
             if (item.urlPath.equals(urlPath)) {
                 return item;
             }

@@ -1,6 +1,9 @@
 package com.gratex.perconik.services.uaca.ide.dto;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 public class BaseIdeEventRequest{
+	private XMLGregorianCalendar timestamp;
 	/**
 	 * Application instance identifier (for instance pid)
 	 */
@@ -80,5 +83,11 @@ public class BaseIdeEventRequest{
 	 */
 	public void setSolutionName(String solutionName) {
 		this.solutionName = solutionName;
+	}
+	public XMLGregorianCalendar getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(XMLGregorianCalendar timestamp) {
+		this.timestamp = timestamp;
 	}
 }

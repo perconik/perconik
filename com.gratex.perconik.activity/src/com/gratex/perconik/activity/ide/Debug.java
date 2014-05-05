@@ -5,9 +5,13 @@ import static com.gratex.perconik.activity.ide.Internals.debug;
 import static com.gratex.perconik.activity.ide.Internals.options;
 import static com.gratex.perconik.activity.ide.Internals.optionsSequence;
 import static java.lang.String.valueOf;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.gratex.perconik.activity.MilestoneResolver;
@@ -26,9 +30,9 @@ final class Debug
 
 	static final TimeSupplier timeSupplier = new TimeSupplier()
 	{
-		public final XMLGregorianCalendar from(final long time)
+		public final XMLGregorianCalendar from(final long time, boolean utc)
 		{
-			GregorianCalendar calendar = new GregorianCalendar();
+			GregorianCalendar calendar = utc ? new GregorianCalendar(TimeZone.getTimeZone("UTC")) : new GregorianCalendar();
 			
 			calendar.setTimeInMillis(time);
 			calendar.set(Calendar.YEAR, 2000);

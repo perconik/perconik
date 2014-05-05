@@ -1,7 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
@@ -13,6 +12,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -28,6 +28,7 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
+
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
@@ -35,11 +36,12 @@ import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.MoreArrays;
+
 import com.google.common.base.Throwables;
-import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.services.IVsActivityWatcherService;
+import com.gratex.perconik.activity.ide.IdeCodeEventType;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.dto.*;
 import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeCodeOperationTypeEnum;
 
 /**
  * A listener of {@code IdeCodeOperation} events. This listener creates
@@ -96,19 +98,21 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	static enum Operation
 	{
-		COPY("org.eclipse.ui.edit.copy"),
+		COPY("org.eclipse.ui.edit.copy", IdeCodeEventType.COPY),
 		
-		CUT("org.eclipse.ui.edit.cut"),
+		CUT("org.eclipse.ui.edit.cut", IdeCodeEventType.CUT),
 		
-		PASTE("org.eclipse.ui.edit.paste");
+		PASTE("org.eclipse.ui.edit.paste", IdeCodeEventType.PASTE);
 		
 		private final String id;
+		private final IdeCodeEventType ideCodeEventType;
 		
-		private Operation(String id)
+		private Operation(String id, IdeCodeEventType ideCodeEventType)
 		{
 			assert !id.isEmpty();
 			
 			this.id = id;
+			this.ideCodeEventType = ideCodeEventType;
 		}
 		
 		public static final Operation resolve(String id)
@@ -129,6 +133,10 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		public final String getIdentifier()
 		{
 			return this.id;
+		}
+		public final IdeCodeEventType getIdeCodeEventType()
+		{
+			return this.ideCodeEventType;
 		}
 	}
 	
@@ -184,35 +192,22 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 
-	static final void send(final IdeCodeOperationDto data)
+	static final IdeCodeEventRequest build(final long time, final UnderlyingDocument<?> document, final Region region)
 	{
-		performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeCodeOperation(data);
-			}
-		});
-	}
-	
-	static final IdeCodeOperationDto build(final long time, final UnderlyingDocument<?> document, final Region region, final IdeCodeOperationTypeEnum type)
-	{
-		final IdeCodeOperationDto data = new IdeCodeOperationDto();
+		final IdeCodeEventRequest data = new IdeCodeEventRequest();
 
-		data.setCode(region.text);
+		data.setText(region.text);
 		
 		data.setStartColumnIndex(region.start.offset);
 		data.setStartRowIndex(region.start.line);
 		
 		data.setEndColumnIndex(region.end.offset);
 		data.setEndRowIndex(region.end.line);
-		
-		data.setOperationType(type);
-		data.setWebUrl(null);
 
 		if (Log.enabled())
 		{
-			Log.message().appendln("document: " + document.getPath() + " operation: " + type)
+//			Log.message().appendln("document: " + document.getPath() + " operation: " + type)
+			Log.message().appendln("document: " + document.getPath())
 			.append("text: '" + region.text + "' ")
 			.append("from " + region.start.line + ":" + region.start.offset + " ")
 			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
@@ -297,7 +292,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 		
-		send(build(time, resource, data, IdeCodeOperationTypeEnum.valueOf(operation.toString())));
+		UacaProxy.sendCodeEvent(build(time, resource, data), operation.getIdeCodeEventType());
 	}
 
 	static final void process(final long time, final DocumentEvent event)
@@ -316,7 +311,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	
 		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 		
-		send(build(time, resource, data, IdeCodeOperationTypeEnum.PASTE));
+		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.PASTE);
 	}
 
 	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
@@ -341,7 +336,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		assert data.start.line == selection.getStartLine();
 		assert data.end.line   == selection.getEndLine();
 		
-		send(build(time, resource, data, IdeCodeOperationTypeEnum.SELECTION_CHANGED));
+		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.SELECTION_CHANGED);
 	}
 	
 	public final void documentAboutToBeChanged(final DocumentEvent event)
