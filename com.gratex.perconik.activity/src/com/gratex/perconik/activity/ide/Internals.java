@@ -42,6 +42,8 @@ final class Internals
 	
 	static final int unknonwnPid = -1;
 	
+	static final String enumUriAppName = "eclipse";
+	
 	static final String optionsSequence;
 	
 	static final Map<String, String> options;
@@ -160,5 +162,9 @@ final class Internals
 		{
 			return unknonwnPid;
 		}
+	}
+	
+	static final String enumUriAppName(){
+		return enumUriAppName;
 	}
 }

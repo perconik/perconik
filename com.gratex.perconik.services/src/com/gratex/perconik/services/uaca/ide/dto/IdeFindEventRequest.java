@@ -30,7 +30,7 @@ public class IdeFindEventRequest extends BaseIdeEventRequest {
 	/**
 	 * Uri specifying syntax of the query string. It should be in form of:
 	 * http://perconik.gratex.com/useractivity/enum/idefindevent/patternsyntaxtype/[idename]#[value]
-	 * where value is "regex", "wildchar", ... and ideName is "eclipse", "vs",
+	 * where value is "regex", "wildcard", ... and ideName is "eclipse", "vs",
 	 * ...
 	 */
 	private String patternSyntaxTypeUri;

@@ -26,13 +26,13 @@ public class EnumUriHelper {
 	public static String getCodeElementTypeUri(String type) {
 		return codeElementTypeUri.build(type).toString();
 	}
-	public static String getIdeStateChangeUri(String ideName, String type) {
-		return ideStateChangeUri.build(ideName, type).toString();
+	public static String getIdeStateChangeUri(String type) {
+		return ideStateChangeUri.build(Internals.enumUriAppName(), type).toString();
 	}
-	public static String getLookinTypeUri(String ideName, String type) {
-		return lookinTypeUri.build(ideName, type).toString();
+	public static String getLookinTypeUri(String type) {
+		return lookinTypeUri.build(Internals.enumUriAppName(), type).toString();
 	}
-	public static String getPatternSyntaxTypeUri(String ideName, String type) {
-		return patternSyntaxTypeUri.build(ideName, type).toString();
+	public static String getPatternSyntaxTypeUri(String type) {
+		return patternSyntaxTypeUri.build(Internals.enumUriAppName(), type).toString();
 	}
 }
