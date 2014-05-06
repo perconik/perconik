@@ -41,6 +41,11 @@ public final class UacaProxy {
 				.post(Entity.entity(req, MediaType.APPLICATION_JSON_TYPE));
 	}
 
+	public static void sendIdeCodeElementEvent(final IdeCodeElementEventRequest req, final IdeCodeElementEventType type) {
+		getRootIdeTarget().path("codeelement").request()
+				.post(Entity.entity(req, MediaType.APPLICATION_JSON_TYPE));
+	}
+
 	private static WebTarget getRootIdeTarget() {
 		// todo: from settings
 		return client.target("http://localhost:16375/").path("ide");
