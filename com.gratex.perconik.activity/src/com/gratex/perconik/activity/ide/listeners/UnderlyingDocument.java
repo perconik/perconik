@@ -11,9 +11,6 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.services.uaca.ide.dto.*;
-import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
 
 abstract class UnderlyingDocument<T>
 {
@@ -68,24 +65,6 @@ abstract class UnderlyingDocument<T>
 		}
 
 		@Override
-		final void setDocumentData(final IdeCodeOperationDto data)
-		{
-			//data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
-		}
-
-		@Override
-		final void setDocumentData(final IdeDocumentOperationDto data)
-		{
-			//data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
-		}
-
-		@Override
-		final void setProjectData(final IdeSlnPrjEventDto data)
-		{
-			//IdeDataTransferObjects.setProjectData(data, this.resource);
-		}
-		
-		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
 			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
@@ -117,24 +96,6 @@ abstract class UnderlyingDocument<T>
 			super(resource);
 		}
 
-		@Override
-		final void setDocumentData(final IdeCodeOperationDto data)
-		{
-			//data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
-		}
-
-		@Override
-		final void setDocumentData(final IdeDocumentOperationDto data)
-		{
-		//	data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
-		}
-
-		@Override
-		final void setProjectData(final IdeSlnPrjEventDto data)
-		{
-		//	IdeDataTransferObjects.setProjectData(data, this.resource);
-		}
-		
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
@@ -181,16 +142,6 @@ abstract class UnderlyingDocument<T>
 	{
 		return this.getPath().hashCode();
 	}
-
-	@Deprecated
-	abstract void setDocumentData(IdeCodeOperationDto data);
-
-	@Deprecated
-	abstract void setDocumentData(IdeDocumentOperationDto data);
-	
-	@Deprecated
-	abstract void setProjectData(IdeSlnPrjEventDto data);
-	
 
 	abstract void setDocumentData(IdeCodeEventRequest data);
 

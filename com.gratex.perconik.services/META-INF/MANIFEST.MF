@@ -13,7 +13,6 @@ Bundle-ClassPath: .
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.gratex.perconik.services.plugin.Activator
 Export-Package: com.gratex.perconik.services,
- com.gratex.perconik.services.activity,
  com.gratex.perconik.services.ast.rcs,
  com.gratex.perconik.services.ast.rcs.entity,
  com.gratex.perconik.services.ast.rcs.serialization,
@@ -24,6 +23,4 @@ Export-Package: com.gratex.perconik.services,
  com.gratex.perconik.services.itm.serialization.queries,
  com.gratex.perconik.services.plugin,
  com.gratex.perconik.services.tag,
- com.gratex.perconik.services.uaca.ide.dto,
- com.gratex.perconik.services.uaca.vs,
- com.gratex.perconik.services.uaca.vs.notifications
+ com.gratex.perconik.services.uaca.ide.dto

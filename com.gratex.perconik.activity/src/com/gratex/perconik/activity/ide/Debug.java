@@ -14,20 +14,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
-import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
-import com.gratex.perconik.services.uaca.vs.IdeEventDto;
 
 final class Debug
 {
-	static final MilestoneResolver<IdeEventDto> milestoneResolver = new MilestoneResolver<IdeEventDto>()
-	{
-		public final boolean isMilestone(final IdeEventDto data)
-		{
-			return true;
-		}
-	};
-
 	static final TimeSupplier timeSupplier = new TimeSupplier()
 	{
 		public final XMLGregorianCalendar from(final long time, boolean utc)

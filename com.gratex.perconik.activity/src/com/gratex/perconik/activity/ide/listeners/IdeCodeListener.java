@@ -41,7 +41,6 @@ import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ide.IdeCodeEventType;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.dto.*;
-import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
 
 /**
  * A listener of {@code IdeCodeOperation} events. This listener creates

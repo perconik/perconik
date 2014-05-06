@@ -53,10 +53,6 @@ import com.google.common.collect.SetMultimap;
 import com.gratex.perconik.activity.ide.IdeDocumentEventType;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.dto.IdeDocumentEventRequest;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
-import com.gratex.perconik.services.uaca.vs.IdePathTypeEnum;
-import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
 
 /**
  * A listener of {@code IdeDocumentOperation} events. This listener creates

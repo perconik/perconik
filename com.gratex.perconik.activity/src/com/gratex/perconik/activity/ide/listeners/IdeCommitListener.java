@@ -21,7 +21,6 @@ import com.google.common.collect.Maps;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.dto.IdeCheckinEventRequest;
-import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
 
 /**
  * A listener of {@code IdeCommit} events. This listener creates

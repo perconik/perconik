@@ -18,7 +18,6 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import com.gratex.perconik.activity.ide.EnumUriHelper;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.dto.IdeStateChangeEventRequest;
-import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
 
 /**
  * A listener of {@code IdeStateChange} events. This listener creates
