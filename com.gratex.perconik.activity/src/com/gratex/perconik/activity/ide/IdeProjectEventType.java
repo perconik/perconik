@@ -4,7 +4,12 @@ public enum IdeProjectEventType {
 
     SWITCH_TO("switchto"),
     ADD("add"),
-    REMOVE("remove");
+    REMOVE("remove"),
+    RENAME("rename"),
+    OPEN("open"),
+    CLOSE("close"),
+    REFRESH("refresh");
+
     
     private final String urlPath;
 

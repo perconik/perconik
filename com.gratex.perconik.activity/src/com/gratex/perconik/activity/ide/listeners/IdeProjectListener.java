@@ -1,6 +1,5 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
@@ -12,8 +11,11 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PR
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+
 import java.util.Set;
+
 import javax.annotation.concurrent.GuardedBy;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -22,6 +24,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
+
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.AbstractResourceDeltaVisitor;
@@ -30,11 +33,11 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+
 import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.services.IVsActivityWatcherService;
-import com.gratex.perconik.services.uaca.vs.IdeProjectOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
+import com.gratex.perconik.activity.ide.IdeProjectEventType;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.dto.IdeProjectEventRequest;
 
 /**
  * A listener of {@code IdeProjectOperation} events. This listener creates
@@ -100,28 +103,15 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		return false;
 	}
 	
-	static final void send(final IdeProjectOperationDto data)
+	static final IdeProjectEventRequest build(final long time, final IProject project)
 	{
-		performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeProjectOperation(data);
-			}
-		});
-	}
-	
-	static final IdeProjectOperationDto build(final long time, final IProject project, final IdeProjectOperationTypeEnum type)
-	{
-		final IdeProjectOperationDto data = new IdeProjectOperationDto();
+		final IdeProjectEventRequest data = new IdeProjectEventRequest();
 
-		data.setOperationType(type);
-		
 		setProjectData(data, project);
 		setApplicationData(data);
 		setEventData(data, time);
 		
-		if (Log.enabled()) Log.message().appendln("project: " + project.getFullPath() + " operation: " + type).appendTo(console);
+		if (Log.enabled()) Log.message().appendln("project: " + project.getFullPath() /*+ " operation: " + type*/).appendTo(console);
 		
 		return data;
 	}
@@ -163,8 +153,14 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 				ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
 				Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 				
-				if (kind == ADDED) send(build(this.time, project, IdeProjectOperationTypeEnum.ADD));
-				if (flags.contains(OPEN) && project.isOpen()) send(build(this.time, project, IdeProjectOperationTypeEnum.OPEN));
+				if (kind == ADDED)
+				{
+					UacaProxy.sendProjectToEvent(build(this.time, project), IdeProjectEventType.ADD);
+				}
+				else if(flags.contains(OPEN) && project.isOpen())
+				{
+					UacaProxy.sendProjectToEvent(build(this.time, project), IdeProjectEventType.OPEN);
+				}
 				
 				return false;
 			}
@@ -180,15 +176,15 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 			switch (this.type)
 			{
 				case PRE_CLOSE:
-					send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.CLOSE));
+					UacaProxy.sendProjectToEvent(build(this.time, (IProject)resource), IdeProjectEventType.CLOSE);
 					break;
 
 				case PRE_DELETE:
-					send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.REMOVE));
+					UacaProxy.sendProjectToEvent(build(this.time, (IProject)resource), IdeProjectEventType.REMOVE);
 					break;
 
 				case PRE_REFRESH:
-					send(build(this.time, (IProject) resource, IdeProjectOperationTypeEnum.REFRESH));
+					UacaProxy.sendProjectToEvent(build(this.time, (IProject)resource), IdeProjectEventType.REFRESH);
 					break;
 
 				default:
@@ -223,7 +219,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		
 		if (this.updateProject(project))
 		{
-			send(build(time, project, IdeProjectOperationTypeEnum.SWITCH_TO));
+			UacaProxy.sendProjectToEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
 		}
 	}
 

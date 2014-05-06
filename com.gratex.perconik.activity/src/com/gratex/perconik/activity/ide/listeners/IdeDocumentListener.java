@@ -158,7 +158,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		setApplicationData(data);
 		setEventData(data, time);
 
-		//if (Log.enabled()) Log.message().appendln("document: " + document.getPath() + " operation: " + type).appendTo(console);
+		if (Log.enabled()) Log.message().appendln("document: " + document.getPath()/* + " operation: " + type*/).appendTo(console);
 		
 		return data;
 	}
