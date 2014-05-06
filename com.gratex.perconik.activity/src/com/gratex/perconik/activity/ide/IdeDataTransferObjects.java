@@ -20,9 +20,6 @@ import com.google.common.collect.Lists;
 import com.gratex.perconik.services.uaca.ide.dto.BaseIdeEventRequest;
 import com.gratex.perconik.services.uaca.ide.dto.IdeDocumentDto;
 import com.gratex.perconik.services.uaca.ide.dto.RcsServerDto;
-import com.gratex.perconik.services.uaca.vs.IdeEventDto;
-import com.gratex.perconik.services.uaca.vs.IdePathTypeEnum;
-import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
 
 public final class IdeDataTransferObjects
 {
@@ -30,50 +27,6 @@ public final class IdeDataTransferObjects
 	{
 		throw new AssertionError();
 	}
-	
-	@Deprecated
-	public static final void setEventData(final IdeEventDto data, final long time)
-	{
-		data.setIsMilestone(IdeActivityDefaults.getMilestoneResolver().isMilestone(data));
-		data.setTime(IdeActivityDefaults.getTimeSupplier().from(time, true));
-	}
-
-	@Deprecated
-	public static final void setApplicationData(final IdeEventDto data)
-	{
-		IdeApplication application = IdeApplication.getInstance();
-		
-		data.setIdePid(application.getPid());
-		data.setApplicationName(application.getName());
-		data.setApplicationVersion(application.getVersion());
-	}
-
-	@Deprecated
-	public static final void setProjectData(final IdeSlnPrjEventDto data, final IFile file)
-	{
-		setProjectData(data, file.getProject());
-	}
-	@Deprecated
-	public static final void setProjectData(final IdeSlnPrjEventDto data, final IClassFile file)
-	{
-		IJavaElement root = file.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
-		
-		Preconditions.checkState(root != null, "Package fragment root not found");
-		
-		setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
-	}
-	@Deprecated
-	public static final void setProjectData(final IdeSlnPrjEventDto data, final IProject project)
-	{
-		setProjectData(data, Workspaces.getName(project.getWorkspace()), project.getName());
-	}
-	@Deprecated
-	private static final void setProjectData(final IdeSlnPrjEventDto data, final String workspace, final String project)
-	{
-		data.setSolutionName(workspace);
-		data.setProjectName(project);
-	}
-	
 	
 	public static final void setEventData(final BaseIdeEventRequest data, final long time)
 	{
@@ -143,7 +96,7 @@ public final class IdeDataTransferObjects
 		{
 			data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
 			data.setBranch(GitRepositories.getBranch(repository));
-			data.setServerPath(data.getLocalPath()); //temp
+			data.setServerPath(data.getLocalPath()); //temp?
 			
 			RevCommit commit = GitRepositories.getMostRecentCommit(repository, path.makeRelative().toString());
 			
