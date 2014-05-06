@@ -2,7 +2,6 @@ package com.gratex.perconik.activity.ide;
 
 import static com.gratex.perconik.activity.ide.Internals.*;
 import java.net.URL;
-import javax.xml.namespace.QName;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
@@ -12,12 +11,9 @@ public final class IdeActivityDefaults
 {
 	public static final URL watcherUrl;
 	
-	public static final QName watcherName;
-	
 	static
 	{
-		watcherUrl  = UniformResources.newUrl("http://localhost:7979/VsActivityWatcherService?wsdl");
-		watcherName = new QName("http://tempuri.org/", "VsActivityWatcherService");
+		watcherUrl  = UniformResources.newUrl("http://localhost:16375");
 	}
 	
 	private static final MilestoneResolver<IdeEventDto> milestoneResolver;
