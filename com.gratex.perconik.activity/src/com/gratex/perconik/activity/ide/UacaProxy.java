@@ -44,7 +44,7 @@ public final class UacaProxy {
 	}
 
 	public static void sendIdeStateChangeEvent(final IdeStateChangeEventRequest req) {
-		postAsync(req, "idestatechangeXX");
+		postAsync(req, "idestatechange");
 	}
 
 	public static void sendIdeCodeElementEvent(final IdeCodeElementEventRequest req, final IdeCodeElementEventType type) {
