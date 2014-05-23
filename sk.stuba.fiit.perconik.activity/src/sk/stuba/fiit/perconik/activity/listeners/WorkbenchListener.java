@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbench;
 import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
 import sk.stuba.fiit.perconik.activity.data.eclipse.StandardPlatformProbe;
