@@ -5,28 +5,21 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import java.util.TimeZone;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
+
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.activity.MilestoneResolver;
 import com.gratex.perconik.activity.TimeSupplier;
-import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
-import com.gratex.perconik.services.uaca.vs.IdeCodeOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
-import com.gratex.perconik.services.uaca.vs.IdeEventDto;
-import com.gratex.perconik.services.uaca.vs.IdeProjectOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
 
 final class Internals
 {
@@ -37,6 +30,8 @@ final class Internals
 	static final boolean debug = Environment.debug;
 	
 	static final int unknonwnPid = -1;
+	
+	static final String enumUriAppName = "eclipse";
 	
 	static final String optionsSequence;
 	
@@ -74,65 +69,16 @@ final class Internals
 			throw Throwables.propagate(e);
 		}
 	}
-	
-	static final Set<Class<? extends IdeEventDto>> milestoneDataTypes;
 
-	static final Set<IdeDocumentOperationTypeEnum> milestoneDocumentOperationTypes;
-
-	static final MilestoneResolver<IdeEventDto> milestoneResolver;
-	
-	static
-	{
-		milestoneDataTypes = ImmutableSet.of
-		(
-			IdeCheckinDto.class,
-			IdeCodeOperationDto.class,
-			IdeProjectOperationDto.class,
-			IdeStateChangeDto.class
-		);
-	
-		milestoneDocumentOperationTypes = ImmutableSet.of
-		(
-			IdeDocumentOperationTypeEnum.ADD,
-			IdeDocumentOperationTypeEnum.REMOVE,
-			IdeDocumentOperationTypeEnum.SAVE
-		);
-		
-		milestoneResolver = new MilestoneResolver<IdeEventDto>()
-		{
-			public final boolean isMilestone(IdeEventDto data)
-			{
-				for (Class<?> type: milestoneDataTypes)
-				{
-					if (type.isInstance(data))
-					{
-						return true;
-					}
-				}
-				
-				if (data instanceof IdeDocumentOperationDto)
-				{
-					IdeDocumentOperationTypeEnum type = ((IdeDocumentOperationDto) data).getOperationType();
-					
-					Preconditions.checkState(type != null);
-					
-					return milestoneDocumentOperationTypes.contains(type);
-				}
-				
-				return false;
-			}
-		};
-	}
-	
 	static final TimeSupplier timeSupplier;
 	
 	static
 	{
 		timeSupplier = new TimeSupplier()
 		{
-			public final XMLGregorianCalendar from(final long time)
+			public final XMLGregorianCalendar from(final long time, boolean utc)
 			{
-				GregorianCalendar calendar = new GregorianCalendar();
+				GregorianCalendar calendar = utc ? new GregorianCalendar(TimeZone.getTimeZone("UTC")) : new GregorianCalendar();
 				
 				calendar.setTimeInMillis(time);
 				
@@ -156,5 +102,9 @@ final class Internals
 		{
 			return unknonwnPid;
 		}
+	}
+	
+	static final String enumUriAppName(){
+		return enumUriAppName;
 	}
 }

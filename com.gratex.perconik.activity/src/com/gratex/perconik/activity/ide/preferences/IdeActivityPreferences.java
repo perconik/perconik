@@ -4,12 +4,9 @@ import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreference
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.displayErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logEvents;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherLocalPart;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherNamespace;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherUrl;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.xml.namespace.QName;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
@@ -43,8 +40,6 @@ public final class IdeActivityPreferences
 			store.setDefault(logEvents, false);
 			
 			store.setDefault(watcherUrl,       IdeActivityDefaults.watcherUrl.toString());
-			store.setDefault(watcherNamespace, IdeActivityDefaults.watcherName.getNamespaceURI());
-			store.setDefault(watcherLocalPart, IdeActivityDefaults.watcherName.getLocalPart());
 		}
 	}
 	
@@ -61,10 +56,6 @@ public final class IdeActivityPreferences
 		public static final String logEvents = prefix + "log.events";
 		
 		public static final String watcherUrl = prefix + "watcher.url";
-		
-		public static final String watcherNamespace = prefix + "watcher.namespace";
-		
-		public static final String watcherLocalPart = prefix + "watcher.local";
 		
 		private Keys()
 		{
@@ -89,13 +80,6 @@ public final class IdeActivityPreferences
 		IPreferenceStore store = getPreferenceStore();
 		
 		return UniformResources.newUrl(store.getString(watcherUrl));
-	}
-	
-	public static final QName getWatcherServiceName()
-	{
-		IPreferenceStore store = getPreferenceStore();
-		
-		return new QName(store.getString(watcherNamespace), store.getString(watcherLocalPart));
 	}
 	
 	public static final boolean isErrorLoggerEnabled()

@@ -1,19 +1,19 @@
 package com.gratex.perconik.activity.ide.ui;
 
-import javax.xml.namespace.QName;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
-import sk.stuba.fiit.perconik.eclipse.jface.preference.UriFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-import com.gratex.perconik.activity.ide.IdeActivityServices;
+
+import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
 import com.gratex.perconik.activity.plugin.Activator;
@@ -25,10 +25,6 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	private BooleanFieldEditor logEvents;
 	
 	private UrlFieldEditor watcherUrl;
-	
-	private UriFieldEditor watcherNamespace;
-	
-	private StringFieldEditor watcherLocalPart;
 	
 	private ExtendedBooleanFieldEditor checkConnection;
 	
@@ -56,8 +52,6 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	protected final void createFieldEditors()
 	{
 		this.watcherUrl       = new UrlFieldEditor(Keys.watcherUrl, "URL:", this.getFieldEditorParent());
-		this.watcherNamespace = new UriFieldEditor(Keys.watcherNamespace, "Namespace:", this.getFieldEditorParent());
-		this.watcherLocalPart = new StringFieldEditor(Keys.watcherLocalPart, "Local part:", this.getFieldEditorParent());
 
 		Widgets.createFieldSeparator(this.getFieldEditorParent());
 		
@@ -68,8 +62,6 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 		this.logEvents = new BooleanFieldEditor(Keys.logEvents, "Log processed events (for debug only)", this.getFieldEditorParent());	
 
 		this.addField(prepare(this.watcherUrl));
-		this.addField(prepare(this.watcherNamespace));
-		this.addField(prepare(this.watcherLocalPart));
 
 		this.addField(this.checkConnection);
 		this.addField(this.displayErrors);
@@ -87,11 +79,6 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public final boolean performOk()
 	{
-		if (this.displayErrors.getBooleanValue() && !IdeActivityServices.probeWatcherService().isPresent())
-		{
-			IdeActivityServices.releaseWatcherService();
-		}
-
 		return super.performOk() && (this.checkConnection.getBooleanValue() ? this.checkConnection() : true);
 	}
 	
@@ -99,10 +86,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	{
 		try
 		{
-			QName name = new QName(this.watcherNamespace.getStringValue(), this.watcherLocalPart.getStringValue());
-
-			IdeActivityServices.createWatcherService(this.watcherUrl.getUrlValue(), name);
-			IdeActivityServices.releaseWatcherService();
+			UacaProxy.checkConnection(this.watcherUrl.getUrlValue().toString());
 			
 			return true;
 		}

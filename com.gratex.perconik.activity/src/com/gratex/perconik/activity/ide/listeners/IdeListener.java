@@ -6,9 +6,6 @@ import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.gratex.perconik.activity.ide.IdeActivityConsole;
-import com.gratex.perconik.services.uaca.vs.EventDto;
-import com.gratex.perconik.services.uaca.vs.IdeEventDto;
-import com.gratex.perconik.services.uaca.vs.IdeSlnPrjEventDto;
 
 /**
  * A base class for all IDE listeners. This listener documents what

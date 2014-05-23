@@ -2,7 +2,6 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import sk.stuba.fiit.perconik.core.annotations.Experimental;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
-import com.gratex.perconik.services.uaca.vs.IdeCodeElementEventDto;
 
 //import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 //import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;

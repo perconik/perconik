@@ -1,21 +1,23 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
+
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
-import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.services.IVsActivityWatcherService;
-import com.gratex.perconik.services.uaca.vs.IdeStateChangeDto;
+
+import com.gratex.perconik.activity.ide.EnumUriHelper;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.dto.IdeStateChangeEventRequest;
 
 /**
  * A listener of {@code IdeStateChange} events. This listener creates
@@ -48,22 +50,11 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 	}
 	
-	static final void send(final IdeStateChangeDto data)
+	static final IdeStateChangeEventRequest build(final long time, final IProject project, final String state)
 	{
-		performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeStateChange(data);
-			}
-		});
-	}
-	
-	static final IdeStateChangeDto build(final long time, final IProject project, final String state)
-	{
-		final IdeStateChangeDto data = new IdeStateChangeDto();
+		final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
 
-		data.setStateType(state);
+		data.setStateTypeUri(EnumUriHelper.getIdeStateChangeUri(state));
 
 		setProjectData(data, project);
 		setApplicationData(data);
@@ -86,7 +77,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 				
 				String state = launch.getLaunchMode() + " (launch)";
 				
-				send(build(time, project, state));
+				UacaProxy.sendIdeStateChangeEvent(build(time, project, state));
 			}
 		});
 	}
@@ -119,7 +110,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 				String state = descriptor.getLabel().toLowerCase() + " (perspective)";
 
-				send(build(time, project, state));
+				UacaProxy.sendIdeStateChangeEvent(build(time, project, state));
 			}
 		});
 	}

@@ -1,23 +1,26 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+
 import java.io.File;
 import java.util.Map;
+
 import javax.annotation.concurrent.GuardedBy;
+
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
+
 import com.google.common.collect.Maps;
-import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
-import com.gratex.perconik.services.IVsActivityWatcherService;
-import com.gratex.perconik.services.uaca.vs.IdeCheckinDto;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.dto.IdeCheckinEventRequest;
 
 /**
  * A listener of {@code IdeCommit} events. This listener creates
@@ -91,22 +94,11 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		return false;
 	}
 
-	static final void send(final IdeCheckinDto data)
+	static final IdeCheckinEventRequest build(final long time, final String url, final String id)
 	{
-		performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeCheckin(data);
-			}
-		});
-	}
-	
-	static final IdeCheckinDto build(final long time, final String url, final String id)
-	{
-		final IdeCheckinDto data = new IdeCheckinDto();
+		final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
 
-		data.setIdInRcs(id);
+		data.setChangesetIdInRcs(id);
 		data.setRcsServer(IdeDataTransferObjects.newGitServerData(url));
 
 		setApplicationData(data);
@@ -132,7 +124,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		
 		if (this.updateLastCommit(directory, branch, id))
 		{
-			send(build(time, url, id));
+			UacaProxy.sendCheckinEvent(build(time, url, id));
 		}
 	}
 

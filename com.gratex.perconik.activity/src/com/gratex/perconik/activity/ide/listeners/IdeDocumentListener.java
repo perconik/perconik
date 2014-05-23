@@ -1,6 +1,5 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeActivityServices.performWatcherServiceOperation;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
@@ -12,10 +11,13 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.RE
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+
 import javax.annotation.concurrent.GuardedBy;
+
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.resources.IFile;
@@ -31,6 +33,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
+
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
@@ -43,15 +46,13 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
-import com.gratex.perconik.activity.ide.IdeActivityServices.WatcherServiceOperation;
-import com.gratex.perconik.services.IVsActivityWatcherService;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationDto;
-import com.gratex.perconik.services.uaca.vs.IdeDocumentOperationTypeEnum;
-import com.gratex.perconik.services.uaca.vs.IdePathTypeEnum;
-import com.gratex.perconik.services.uaca.vs.IdeProjectOperationTypeEnum;
+import com.gratex.perconik.activity.ide.IdeDocumentEventType;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.dto.IdeDocumentEventRequest;
 
 /**
  * A listener of {@code IdeDocumentOperation} events. This listener creates
@@ -137,36 +138,23 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		
 		return false;
 	}
-	
-	static final void send(final IdeDocumentOperationDto data)
-	{
-		performWatcherServiceOperation(new WatcherServiceOperation()
-		{
-			public final void perform(final IVsActivityWatcherService service)
-			{
-				service.notifyIdeDocumentOperation(data);
-			}
-		});
-	}
 
-	static final IdeDocumentOperationDto build(final long time, final IFile file, final IdeDocumentOperationTypeEnum type)
+	static final IdeDocumentEventRequest build(final long time, final IFile file)
 	{
-		return build(time, UnderlyingDocument.of(file), type);
+		return build(time, UnderlyingDocument.of(file));
 	}
 	
-	static final IdeDocumentOperationDto build(final long time, final UnderlyingDocument<?> document, final IdeDocumentOperationTypeEnum type)
+	static final IdeDocumentEventRequest build(final long time, final UnderlyingDocument<?> document)
 	{
-		final IdeDocumentOperationDto data = new IdeDocumentOperationDto();
+		final IdeDocumentEventRequest data = new IdeDocumentEventRequest();
 
-		data.setOperationType(type);
-		
 		document.setDocumentData(data);
 		document.setProjectData(data);
 
 		setApplicationData(data);
 		setEventData(data, time);
 
-		if (Log.enabled()) Log.message().appendln("document: " + document.getPath() + " operation: " + type).appendTo(console);
+		if (Log.enabled()) Log.message().appendln("document: " + document.getPath()/* + " operation: " + type*/).appendTo(console);
 		
 		return data;
 	}
@@ -177,7 +165,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		
 		private final ResourceEventType type;
 
-		private final SetMultimap<IdeDocumentOperationTypeEnum, IFile> operations;
+		private final SetMultimap<IdeDocumentEventType, IFile> operations;
 		
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
@@ -227,7 +215,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				
 				if (!Objects.equals(path.lastSegment(), resource.getFullPath().lastSegment()))
 				{
-					this.operations.put(IdeDocumentOperationTypeEnum.RENAME, (IFile) resource);
+					this.operations.put(IdeDocumentEventType.RENAME, (IFile) resource);
 					
 					return false;
 				}
@@ -235,8 +223,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
 
-			if (kind == ADDED)   this.operations.put(IdeDocumentOperationTypeEnum.ADD,    (IFile) resource);
-			if (kind == REMOVED) this.operations.put(IdeDocumentOperationTypeEnum.REMOVE, (IFile) resource);
+			if (kind == ADDED)   this.operations.put(IdeDocumentEventType.ADD,    (IFile) resource);
+			if (kind == REMOVED) this.operations.put(IdeDocumentEventType.REMOVE, (IFile) resource);
 
 			return false;
 		}
@@ -250,14 +238,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		@Override
 		protected final void postVisitOrHandle()
 		{
-			if (this.operations.containsKey(IdeDocumentOperationTypeEnum.RENAME))
+			if (this.operations.containsKey(IdeDocumentEventType.RENAME))
 			{
-				this.operations.removeAll(IdeDocumentOperationTypeEnum.ADD);
+				this.operations.removeAll(IdeDocumentEventType.ADD);
 			}
 			
-			for (Entry<IdeDocumentOperationTypeEnum, IFile> entry: this.operations.entries())
+			for (Entry<IdeDocumentEventType, IFile> entry: this.operations.entries())
 			{
-				send(build(this.time, entry.getValue(), entry.getKey()));
+				UacaProxy.sendDocumentEvent(build(this.time, entry.getValue()), entry.getKey());
 			}
 		}
 	}
@@ -304,7 +292,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		
 		if (this.updateFile(document))
 		{
-			send(build(time, document, IdeDocumentOperationTypeEnum.SWITCH_TO));
+			UacaProxy.sendDocumentEvent(build(time, document), IdeDocumentEventType.SWITCH_TO);
 		}
 	}
 	
@@ -323,7 +311,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 					return;
 				}
 				
-				send(build(currentTime(), document, IdeDocumentOperationTypeEnum.OPEN));
+				UacaProxy.sendDocumentEvent(build(currentTime(), document), IdeDocumentEventType.OPEN);
 			}
 		});
 	}
@@ -366,7 +354,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				
 				if (resource != null)
 				{
-					send(build(time, resource, IdeDocumentOperationTypeEnum.OPEN));
+					UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.OPEN);
 				}
 			}
 		});
@@ -384,7 +372,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				
 				if (document != null)
 				{
-					send(build(time, document, IdeDocumentOperationTypeEnum.CLOSE));
+					UacaProxy.sendDocumentEvent(build(time, document), IdeDocumentEventType.CLOSE);
 				}
 			}
 		});
@@ -454,7 +442,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				{
 					IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
 					
-					send(build(time, file, IdeDocumentOperationTypeEnum.SAVE));
+					UacaProxy.sendDocumentEvent(build(time, file), IdeDocumentEventType.SAVE);
 				}
 			}
 		});
