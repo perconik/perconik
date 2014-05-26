@@ -312,7 +312,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.PASTE);
 	}
-
+	
+	//todo: add timer - fix continuous event sequence 
 	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
 	{
 		if (!(part instanceof IEditorPart))
@@ -366,6 +367,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
 	{
+		//todo: add timer - fix continuous event sequence 
 		final long time = Utilities.currentTime();
 		
 		execute(new Runnable()

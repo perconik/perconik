@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Gratex Services
 Bundle-SymbolicName: com.gratex.perconik.services;singleton:=true
 Bundle-Version: 0.4.0.v20140523-1228
-Require-Bundle: org.eclipse.ui;bundle-version="3.105.0",
- org.eclipse.core.runtime;bundle-version="3.9.0",
+Require-Bundle: org.eclipse.ui;bundle-version="3.103.0",
+ org.eclipse.core.runtime;bundle-version="3.8.0",
  sk.stuba.fiit.perconik.eclipse;bundle-version="0.1.11",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
