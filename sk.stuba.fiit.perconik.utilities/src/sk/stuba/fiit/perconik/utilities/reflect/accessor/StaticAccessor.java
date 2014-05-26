@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.checkArgument;
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.createArgument;
+import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.specialize;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -73,7 +74,7 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T>
 		
 		checkArgument(method.isStatic(), "Method %s of %s is not static", name, implementation);
 		
-		return new ClassMethod<>(type, method.returning(type), arguments);
+		return new ClassMethod<>(type, specialize(method, type), arguments);
 	}
 	
 	public static final <T> Accessor<T> ofEnumConstant(Class<T> type, String name)

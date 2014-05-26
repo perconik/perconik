@@ -19,6 +19,11 @@ public abstract class Listener extends Adapter
 	{
 	}
 	
+	static final long currentTime()
+	{
+		return System.currentTimeMillis();
+	}
+
 	static final void execute(final Runnable command)
 	{
 		executor.execute(command);

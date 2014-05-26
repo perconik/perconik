@@ -15,4 +15,10 @@ final class LoadingClassResolver implements ClassResolver
 	{
 		return this.loader.loadClass(name);
 	}
+
+	@Override
+	public final String toString()
+	{
+		return "LoadingClassResolver(" + this.loader + ")";
+	}
 }

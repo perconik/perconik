@@ -3,19 +3,22 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-import sk.stuba.fiit.perconik.utilities.Exceptional;
+import org.elasticsearch.common.base.Strings;
 import sk.stuba.fiit.perconik.utilities.MoreLists;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessor;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessors;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.base.Predicates;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public final class Annotations
@@ -25,31 +28,31 @@ public final class Annotations
 		throw new AssertionError();
 	}
 	
-	public static final Set<Annotation> ofClass(Class<?> type)
+	public static final List<Annotation> ofClass(Class<?> type)
 	{
 		return ofElement(type);
 	}
 
-	public static final Set<Annotation> ofClasses(Iterable<? extends Class<?>> types)
+	public static final List<Annotation> ofClasses(Iterable<? extends Class<?>> types)
 	{
 		return ofElements(types);
 	}
 
-	public static final Set<Annotation> ofElement(AnnotatedElement element)
+	public static final List<Annotation> ofElement(AnnotatedElement element)
 	{
-		return ImmutableSet.copyOf(element.getAnnotations());
+		return ImmutableList.copyOf(element.getAnnotations());
 	}
 	
-	public static final Set<Annotation> ofElements(Iterable<? extends AnnotatedElement> elements)
+	public static final List<Annotation> ofElements(Iterable<? extends AnnotatedElement> elements)
 	{
-		Set<Annotation> annotations = Sets.newLinkedHashSet();
+		ImmutableList.Builder<Annotation> annotations = ImmutableList.builder();
 		
 		for (AnnotatedElement element: elements)
 		{
 			annotations.addAll(ofElement(element));
 		}
 		
-		return annotations;
+		return annotations.build();
 	}
 
 	public static final Annotable asAnnotable(Collection<Annotation> annotations)
@@ -66,38 +69,54 @@ public final class Annotations
 	{
 		return new EnumeratedAnnotable(annotations);
 	}
-	
-	public static final String toString(final Annotation annotation)
+
+	public static final Map<String, String> toData(Annotation annotation)
+	{
+		 Map<String, String> data = Maps.newLinkedHashMap();
+		
+		for (Entry<String, Object> entry: toElements(annotation).entrySet())
+		{
+			data.put(keyToString(entry.getKey()), Strings.emptyToNull(valueToString(entry.getValue())));
+		}
+		
+		return data;
+	}
+
+	public static final Map<String, Object> toElements(Annotation annotation)
+	{
+		 Map<String, Object> elements = Maps.newLinkedHashMap();
+		
+		for (Method method: annotation.annotationType().getDeclaredMethods())
+		{
+			String name = method.getName();
+				
+			Accessor<Object> accessor = Accessors.ofInstanceMethod(annotation, Object.class, name).get();
+			
+			elements.put(name, accessor.get());
+		}
+		
+		return elements;
+	}
+
+	public static final String toString(Annotation annotation)
 	{
 		Class<? extends Annotation> type = annotation.annotationType();
+
+		Map<String, String> data = Maps.filterValues(toData(annotation), Predicates.notNull());
 		
 		StringBuilder builder = new StringBuilder(keyToString(type.getSimpleName()));
 		
-		Exceptional<Accessor<Object>> result = Accessors.ofInstanceMethod(annotation, Object.class, "value");
-		
-		if (result.isSuccess())
+		if (data.size() == 1 && data.containsKey("value"))
 		{
-			String value = valueToString(result.get().get());
-
-			if (!value.isEmpty())
-			{
-				builder.append(" (").append(value).append(")");
-			}
+			builder.append(" (").append(data.get("value")).append(")");
 		}
-		else
+		else if (data.size() != 0)
 		{
-			List<Method> methods = Arrays.asList(type.getDeclaredMethods());
+			builder.append(" (");
 			
-			for (Method method: methods)
-			{
-				builder.append(keyToString(method.getName())).append(": ");
-				
-				result = Accessors.ofInstanceMethod(annotation, Object.class, method.getName());
-				
-				String value = valueToString(result.get().get());
-				
-				builder.append(!value.isEmpty() ? value : "null");
-			}
+			Joiner.on(", ").withKeyValueSeparator(": ").appendTo(builder, data);
+			
+			builder.append(")");
 		}
 		
 		return builder.toString();

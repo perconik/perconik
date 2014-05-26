@@ -17,4 +17,12 @@ final class BundleClassResolver implements ClassResolver
 	{
 		return this.bundle.loadClass(name);
 	}
+	
+	@Override
+	public final String toString()
+	{
+		String bundle = this.bundle.getSymbolicName();
+		
+		return "BundleClassResolver(" + (bundle != null ? bundle : this.bundle.getBundleId()) + ")";
+	}
 }

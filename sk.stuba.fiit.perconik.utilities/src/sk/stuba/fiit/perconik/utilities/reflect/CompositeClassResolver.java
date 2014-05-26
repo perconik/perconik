@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.utilities.reflect;
 
 import java.util.List;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -36,5 +37,15 @@ final class CompositeClassResolver implements ClassResolver
 		ClassNotFoundException failure = new ClassNotFoundException(name + " not found");
 		
 		throw MoreThrowables.initializeSuppressor(failure, Lists.reverse(suppressions));
+	}
+	
+	@Override
+	public final String toString()
+	{
+		StringBuilder builder = new StringBuilder("CompositeClassResolver(");
+		
+		Joiner.on(",").appendTo(builder, this.resolvers);
+		
+		return builder.append(")").toString();
 	}
 }
