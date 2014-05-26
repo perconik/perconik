@@ -2,7 +2,7 @@
 <feature
       id="sk.stuba.fiit.perconik.activity.feature"
       label="PerConIK Activity Watcher"
-      version="0.0.4.v20140414-1151"
+      version="0.0.5.v20140523-1240"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>

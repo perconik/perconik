@@ -2,7 +2,7 @@
 <feature
       id="com.gratex.perconik.services.feature"
       label="PerConIK Gratex Services"
-      version="0.5.0.v20140414-1151"
+      version="0.6.0.v20140523-1235"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>
