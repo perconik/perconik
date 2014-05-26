@@ -368,15 +368,15 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
 	{
 		//todo: add timer - fix continuous event sequence 
-//		final long time = Utilities.currentTime();
-//		
-//		execute(new Runnable()
-//		{
-//			public final void run()
-//			{
-//				process(time, part, selection);
-//			}
-//		});
+		final long time = Utilities.currentTime();
+		
+		execute(new Runnable()
+		{
+			public final void run()
+			{
+				process(time, part, selection);
+			}
+		});
 	}
 
 	public final void preExecute(final String id, final ExecutionEvent event)
