@@ -703,7 +703,7 @@ public final class Debug
 		boolean commit    = state.canCommit();
 		boolean resetHead = state.canResetHead();
 		
-		boolean rebasing  = state.isRebasing();
+		//boolean rebasing  = state.isRebasing();
 		
 		builder.append("value: ").appendln(value);
 		builder.append("description: ").appendln(description);
@@ -713,7 +713,7 @@ public final class Debug
 		builder.append("can commit: ").appendln(commit);
 		builder.append("can reset head: ").appendln(resetHead);
 		
-		builder.append("rebasing: ").appendln(rebasing);
+	//	builder.append("rebasing: ").appendln(rebasing);
 		
 		return builder.toString();
 	}

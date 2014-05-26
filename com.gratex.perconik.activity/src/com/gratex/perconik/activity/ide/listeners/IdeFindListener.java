@@ -121,7 +121,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 
 		data.setQueryText(query.getSearchString());
 		data.setMatchCase(query.isCaseSensitive());
-		data.setMatchWholeWord(query.isWholeWord());
+		//data.setMatchWholeWord(query.isWholeWord());
 		data.setSearchSubfolders(null);
 		data.setTotalFilesSearched(null);
 		
