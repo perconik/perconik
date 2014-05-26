@@ -29,7 +29,7 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
    </license>
 
    <url>
-      <update label="PerConIK Eclipse Integration" url="http://perconikprod.hq.gratex.com/eclipsetools"/>
+      <update label="PerConIK Eclipse Integration" url="http://perconik.github.io/update"/>
    </url>
 
    <plugin

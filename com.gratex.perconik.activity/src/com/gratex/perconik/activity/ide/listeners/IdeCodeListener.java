@@ -314,30 +314,30 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	}
 	
 	//todo: add timer - fix continuous event sequence 
-//	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
-//	{
-//		if (!(part instanceof IEditorPart))
-//		{
-//			return;
-//		}
-//		
-//		IEditorPart editor   = (IEditorPart) part;
-//		IDocument   document = Editors.getDocument(editor);
-//		
-//		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
-//		
-//		if (document == null || resource == null)
-//		{
-//			return;
-//		}
-//
-//		Region data = Region.of(document, selection.getOffset(), selection.getLength(), selection.getText());
-//		
-//		assert data.start.line == selection.getStartLine();
-//		assert data.end.line   == selection.getEndLine();
-//		
-//		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.SELECTION_CHANGED);
-//	}
+	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
+	{
+		if (!(part instanceof IEditorPart))
+		{
+			return;
+		}
+		
+		IEditorPart editor   = (IEditorPart) part;
+		IDocument   document = Editors.getDocument(editor);
+		
+		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
+		
+		if (document == null || resource == null)
+		{
+			return;
+		}
+
+		Region data = Region.of(document, selection.getOffset(), selection.getLength(), selection.getText());
+		
+		assert data.start.line == selection.getStartLine();
+		assert data.end.line   == selection.getEndLine();
+		
+		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.SELECTION_CHANGED);
+	}
 	
 	public final void documentAboutToBeChanged(final DocumentEvent event)
 	{
