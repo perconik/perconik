@@ -1,4 +1,4 @@
-package com.gratex.perconik.services.uaca.ide.dto;
+package com.gratex.perconik.services.uaca.ide;
 
 import java.util.List;
 import java.util.ArrayList;

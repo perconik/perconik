@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.ide;
+package com.gratex.perconik.services.uaca.ide.type;
 
 public enum IdeCodeElementEventType {
 

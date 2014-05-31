@@ -1,19 +1,18 @@
-package com.gratex.perconik.activity.ide;
+package com.gratex.perconik.services.uaca.ide.type;
 
-public enum IdeProjectEventType {
+public enum IdeDocumentEventType {
 
     SWITCH_TO("switchto"),
     ADD("add"),
-    REMOVE("remove"),
-    RENAME("rename"),
     OPEN("open"),
     CLOSE("close"),
-    REFRESH("refresh");
-
+    REMOVE("remove"),
+    SAVE("save"),
+    RENAME("rename");
     
     private final String urlPath;
 
-    IdeProjectEventType(String urlPath) {
+    IdeDocumentEventType(String urlPath) {
         this.urlPath = urlPath;
     }
 
@@ -21,8 +20,8 @@ public enum IdeProjectEventType {
         return urlPath;
     }
 
-    public static IdeProjectEventType fromValue(String urlPath) {
-        for (IdeProjectEventType item: IdeProjectEventType.values()) {
+    public static IdeDocumentEventType fromValue(String urlPath) {
+        for (IdeDocumentEventType item: IdeDocumentEventType.values()) {
             if (item.urlPath.equals(urlPath)) {
                 return item;
             }
