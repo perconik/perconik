@@ -1,7 +1,6 @@
 package com.gratex.perconik.activity.ide;
 
 import java.util.LinkedList;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
@@ -9,17 +8,15 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.gratex.perconik.services.uaca.ide.dto.BaseIdeEventRequest;
-import com.gratex.perconik.services.uaca.ide.dto.IdeDocumentDto;
-import com.gratex.perconik.services.uaca.ide.dto.RcsServerDto;
+import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
+import com.gratex.perconik.services.uaca.ide.RcsServerDto;
 
 public final class IdeDataTransferObjects
 {
@@ -28,20 +25,6 @@ public final class IdeDataTransferObjects
 		throw new AssertionError();
 	}
 	
-	public static final void setEventData(final BaseIdeEventRequest data, final long time)
-	{
-		data.setTimestamp(IdeActivityDefaults.getTimeSupplier().from(time));
-	}
-
-	public static final RcsServerDto newGitServerData(final String url)
-	{
-		RcsServerDto data = new RcsServerDto();
-		
-		data.setUrl(url);
-		data.setTypeUri(EnumUriHelper.getRcsServerTypeUri("git"));
-		
-		return data;
-	}
 	public static final IdeDocumentDto newDocumentData(final IFile file)
 	{
 		return newDocumentData(file.getFullPath(), file.getProject());
@@ -96,7 +79,7 @@ public final class IdeDataTransferObjects
 		{
 			data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
 			data.setBranch(GitRepositories.getBranch(repository));
-			data.setServerPath(data.getLocalPath()); //temp?
+			data.setServerPath(data.getLocalPath());
 			
 			RevCommit commit = GitRepositories.getMostRecentCommit(repository, path.makeRelative().toString());
 			
@@ -110,6 +93,16 @@ public final class IdeDataTransferObjects
 	}
 	
 	
+	public static final RcsServerDto newGitServerData(final String url)
+	{
+		RcsServerDto data = new RcsServerDto();
+		
+		data.setUrl(url);
+		data.setTypeUri(UriHelper.forRcsServerType("git"));
+		
+		return data;
+	}
+
 	public static final void setApplicationData(final BaseIdeEventRequest data)
 	{
 		IdeApplication application = IdeApplication.getInstance();
@@ -119,6 +112,11 @@ public final class IdeDataTransferObjects
 		data.setAppVersion(application.getVersion());
 	}
 	
+	public static final void setEventData(final BaseIdeEventRequest data, final long time)
+	{
+		data.setTimestamp(IdeActivityDefaults.getTimeSupplier().from(time));
+	}
+
 	public static final void setProjectData(final BaseIdeEventRequest data, final IFile file)
 	{
 		setProjectData(data, file.getProject());
