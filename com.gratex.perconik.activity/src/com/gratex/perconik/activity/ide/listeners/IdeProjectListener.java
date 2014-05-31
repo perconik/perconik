@@ -11,11 +11,8 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PR
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
-
 import java.util.Set;
-
 import javax.annotation.concurrent.GuardedBy;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -24,7 +21,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
-
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.AbstractResourceDeltaVisitor;
@@ -33,11 +29,10 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
-
 import com.google.common.collect.ImmutableSet;
-import com.gratex.perconik.activity.ide.IdeProjectEventType;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.dto.IdeProjectEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
 
 /**
  * A listener of {@code IdeProjectOperation} events. This listener creates

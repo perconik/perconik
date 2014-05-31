@@ -1,16 +1,13 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import javax.annotation.Nullable;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.ui.IEditorPart;
-
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
-import com.gratex.perconik.services.uaca.ide.dto.*;
+import com.gratex.perconik.services.uaca.ide.*;
 
 abstract class UnderlyingDocument<T>
 {

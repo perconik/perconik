@@ -4,10 +4,8 @@ import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplica
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,7 +19,6 @@ import org.eclipse.search.ui.text.FileTextSearchScope;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkingSet;
-
 import sk.stuba.fiit.perconik.core.annotations.Dependent;
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
@@ -29,14 +26,13 @@ import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import com.gratex.perconik.activity.ide.EnumUriHelper;
+import com.gratex.perconik.activity.ide.UriHelper;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.dto.*;
+import com.gratex.perconik.services.uaca.ide.*;
 
 /**
  * A listener of {@code IdeFindOperation} events. This listener creates
@@ -132,8 +128,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 
 		data.setDerivedResources(scope.includeDerived());
 		data.setFileTypes(patterns == null ? "*" : Joiner.on(",").join(patterns));
-		data.setLookinTypeUri(EnumUriHelper.getLookinTypeUri(sets == null ? toString(roots) : toString(sets)));
-		data.setPatternSyntaxTypeUri(EnumUriHelper.getPatternSyntaxTypeUri(query.isRegexSearch() ? "regex" : "wildcard"));
+		data.setLookinTypeUri(UriHelper.forLookinType(sets == null ? toString(roots) : toString(sets)));
+		data.setPatternSyntaxTypeUri(UriHelper.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
 
 		FileSearchResult result = (FileSearchResult) query.getSearchResult();
 		

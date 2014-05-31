@@ -4,23 +4,18 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
-
 import java.io.File;
 import java.util.Map;
-
 import javax.annotation.concurrent.GuardedBy;
-
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
-
 import com.google.common.collect.Maps;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.dto.IdeCheckinEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
 
 /**
  * A listener of {@code IdeCommit} events. This listener creates

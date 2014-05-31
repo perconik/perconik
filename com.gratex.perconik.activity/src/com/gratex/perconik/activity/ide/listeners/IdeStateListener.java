@@ -4,20 +4,17 @@ import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplica
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
 import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
-
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
-
-import com.gratex.perconik.activity.ide.EnumUriHelper;
+import com.gratex.perconik.activity.ide.UriHelper;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.dto.IdeStateChangeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
 
 /**
  * A listener of {@code IdeStateChange} events. This listener creates
@@ -54,7 +51,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	{
 		final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
 
-		data.setStateTypeUri(EnumUriHelper.getIdeStateChangeUri(state));
+		data.setStateTypeUri(UriHelper.forIdeStateChangeType(state));
 
 		setProjectData(data, project);
 		setApplicationData(data);

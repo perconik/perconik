@@ -12,7 +12,6 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -28,7 +27,6 @@ import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
-
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
@@ -36,11 +34,10 @@ import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.MoreArrays;
-
 import com.google.common.base.Throwables;
-import com.gratex.perconik.activity.ide.IdeCodeEventType;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.dto.*;
+import com.gratex.perconik.services.uaca.ide.*;
+import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
 
 /**
  * A listener of {@code IdeCodeOperation} events. This listener creates

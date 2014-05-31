@@ -11,13 +11,10 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.RE
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
-
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.annotation.concurrent.GuardedBy;
-
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.resources.IFile;
@@ -33,7 +30,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
-
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
@@ -46,13 +42,12 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
-import com.gratex.perconik.activity.ide.IdeDocumentEventType;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.dto.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
 
 /**
  * A listener of {@code IdeDocumentOperation} events. This listener creates
