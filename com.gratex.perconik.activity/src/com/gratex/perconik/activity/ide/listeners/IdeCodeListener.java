@@ -101,14 +101,15 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		PASTE("org.eclipse.ui.edit.paste", IdeCodeEventType.PASTE);
 		
 		private final String id;
-		private final IdeCodeEventType ideCodeEventType;
 		
-		private Operation(String id, IdeCodeEventType ideCodeEventType)
+		private final IdeCodeEventType type;
+		
+		private Operation(String id, IdeCodeEventType type)
 		{
-			assert !id.isEmpty();
+			assert !id.isEmpty() && type != null;
 			
-			this.id = id;
-			this.ideCodeEventType = ideCodeEventType;
+			this.id   = id;
+			this.type = type;
 		}
 		
 		public static final Operation resolve(String id)
@@ -130,9 +131,10 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		{
 			return this.id;
 		}
-		public final IdeCodeEventType getIdeCodeEventType()
+		
+		public final IdeCodeEventType getType()
 		{
-			return this.ideCodeEventType;
+			return this.type;
 		}
 	}
 	
@@ -200,14 +202,15 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		data.setEndColumnIndex(region.end.offset);
 		data.setEndRowIndex(region.end.line);
 
-		if (Log.enabled())
-		{
-//			Log.message().appendln("document: " + document.getPath() + " operation: " + type)
-			Log.message().appendln("document: " + document.getPath())
-			.append("text: '" + region.text + "' ")
-			.append("from " + region.start.line + ":" + region.start.offset + " ")
-			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
-		}
+		// TODO fix logging
+//		if (Log.enabled())
+//		{
+//			Log.message().appendln("document: " + document.getPath() + " operation: " + data.get)
+//			Log.message().appendln("document: " + document.getPath())
+//			.append("text: '" + region.text + "' ")
+//			.append("from " + region.start.line + ":" + region.start.offset + " ")
+//			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
+//		}
 		
 		document.setDocumentData(data);
 		document.setProjectData(data);
@@ -288,7 +291,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 		
-		UacaProxy.sendCodeEvent(build(time, resource, data), operation.getIdeCodeEventType());
+		UacaProxy.sendCodeEvent(build(time, resource, data), operation.getType());
 	}
 
 	static final void process(final long time, final DocumentEvent event)

@@ -29,7 +29,7 @@ import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 //import com.gratex.perconik.services.uaca.vs.IdeCodeElementEventDto;
 //import com.gratex.perconik.services.uaca.vs.IdeCodeElementEventTypeEnum;
 
-/**
+/*
  * A listener of {@code IdeCodeElement} events. This listener creates
  * {@link IdeCodeElementEventDto} data transfer objects and passes them to
  * the <i>Activity Watcher Service</i> to be transferred into the

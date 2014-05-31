@@ -29,10 +29,12 @@ import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import com.gratex.perconik.activity.ide.UriHelper;
 import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.*;
+import com.gratex.perconik.activity.ide.UriHelper;
+import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeFindFileResultDto;
+import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
 
 /**
  * A listener of {@code IdeFindOperation} events. This listener creates
@@ -146,9 +148,11 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 
 	private static final List<IdeFindFileResultDto> buildResults(FileSearchResult result)
 	{
-		ArrayList<IdeFindFileResultDto>  list = new ArrayList<IdeFindFileResultDto>();
+		Object[] elements = result.getElements();
 		
-		for (Object element: result.getElements())
+		List<IdeFindFileResultDto> list = Lists.newArrayListWithCapacity(elements.length);
+		
+		for (Object element: elements)
 		{
 			IFile   file    = result.getFile(element);
 			Match[] matches = result.getMatches(element);
@@ -171,7 +175,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 	
 	private static final List<IdeFindResultRowDto> buildMatches(IDocument document, Match[] matches)
 	{
-		ArrayList<IdeFindResultRowDto> list = new ArrayList<IdeFindResultRowDto>();
+		List<IdeFindResultRowDto> list = Lists.newArrayListWithCapacity(matches.length);
 		
 		for (Match match: matches)
 		{
@@ -250,7 +254,9 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		IProject project = Projects.fromPage(page);
 
 		// TODO project can not be always determined: when IClassFile is in editor, or when nothing is selected
-		if(query instanceof FileSearchQuery) //Not always FileSearchQuery (for instance JavaSearchQuery) - todo: handle other types
+		// TODO handle other query types such as JavaSearchQuery
+
+		if (query instanceof FileSearchQuery) 
 		{
 			UacaProxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
 		}

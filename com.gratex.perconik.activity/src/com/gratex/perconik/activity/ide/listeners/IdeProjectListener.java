@@ -105,8 +105,9 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		setProjectData(data, project);
 		setApplicationData(data);
 		setEventData(data, time);
-		
-		if (Log.enabled()) Log.message().appendln("project: " + project.getFullPath() /*+ " operation: " + type*/).appendTo(console);
+	
+		//TODO fix logging
+//		if (Log.enabled()) Log.message().appendln("project: " + project.getFullPath() + " operation: " + type).appendTo(console);
 		
 		return data;
 	}
@@ -152,7 +153,8 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 				{
 					UacaProxy.sendProjectToEvent(build(this.time, project), IdeProjectEventType.ADD);
 				}
-				else if(flags.contains(OPEN) && project.isOpen())
+				
+				if (flags.contains(OPEN) && project.isOpen())
 				{
 					UacaProxy.sendProjectToEvent(build(this.time, project), IdeProjectEventType.OPEN);
 				}
