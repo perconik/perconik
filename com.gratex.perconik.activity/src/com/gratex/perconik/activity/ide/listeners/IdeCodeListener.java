@@ -198,16 +198,6 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		data.setEndColumnIndex(region.end.offset);
 		data.setEndRowIndex(region.end.line);
-
-		// TODO fix logging
-//		if (Log.enabled())
-//		{
-//			Log.message().appendln("document: " + document.getPath() + " operation: " + data.get)
-//			Log.message().appendln("document: " + document.getPath())
-//			.append("text: '" + region.text + "' ")
-//			.append("from " + region.start.line + ":" + region.start.offset + " ")
-//			.appendln("to " + region.end.line + ":" + region.end.offset).appendTo(console);
-//		}
 		
 		document.setDocumentData(data);
 		document.setProjectData(data);
@@ -216,6 +206,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		setEventData(data, time);
 
 		return data;
+	}
+	
+	static final void buildAndSend(final long time, final UnderlyingDocument<?> document, final Region region)
+	{
+		build(time, document, region);
 	}
 	
 	static final void process(final long time, final Operation operation)
@@ -310,7 +305,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.PASTE);
 	}
 	
-	//todo: add timer - fix continuous event sequence 
+	//TODO add timer - fix continuous event sequence 
 	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
 	{
 		if (!(part instanceof IEditorPart))
@@ -364,7 +359,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
 	{
-		//todo: add timer - fix continuous event sequence 
+		//TODO add timer - fix continuous event sequence 
 		final long time = Utilities.currentTime();
 		
 		execute(new Runnable()
