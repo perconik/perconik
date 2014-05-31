@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
-import com.gratex.perconik.activity.ide.IdeActivityConsole;
+import com.gratex.perconik.activity.ide.IdeConsole;
 
 /**
  * A base class for all IDE listeners. This listener documents what
@@ -65,7 +65,7 @@ import com.gratex.perconik.activity.ide.IdeActivityConsole;
  */
 public abstract class IdeListener extends Adapter
 {
-	static final PluginConsole console = IdeActivityConsole.getInstance();
+	static final PluginConsole console = IdeConsole.getInstance();
 	
 	private static final Executor executor = Executors.newCachedThreadPool();
 

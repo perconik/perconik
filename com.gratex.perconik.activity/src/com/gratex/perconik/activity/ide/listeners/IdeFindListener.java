@@ -1,8 +1,8 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
-import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setProjectData;
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
-import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
+import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.ide.UriHelper;
+import com.gratex.perconik.activity.ide.UacaUriHelper;
 import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeFindFileResultDto;
 import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
@@ -130,8 +130,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 
 		data.setDerivedResources(scope.includeDerived());
 		data.setFileTypes(patterns == null ? "*" : Joiner.on(",").join(patterns));
-		data.setLookinTypeUri(UriHelper.forLookinType(sets == null ? toString(roots) : toString(sets)));
-		data.setPatternSyntaxTypeUri(UriHelper.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
+		data.setLookinTypeUri(UacaUriHelper.forLookinType(sets == null ? toString(roots) : toString(sets)));
+		data.setPatternSyntaxTypeUri(UacaUriHelper.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
 
 		FileSearchResult result = (FileSearchResult) query.getSearchResult();
 		
@@ -167,7 +167,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 	{
 		IdeFindFileResultDto data = new IdeFindFileResultDto();
 
-		data.setFile(IdeDataTransferObjects.newDocumentData(file));
+		data.setFile(IdeData.newDocumentData(file));
 		data.setRows(buildMatches(Documents.fromFile(file), matches));
 		
 		return data;

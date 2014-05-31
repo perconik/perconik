@@ -6,7 +6,7 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
+import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.services.uaca.ide.*;
 
 abstract class UnderlyingDocument<T>
@@ -64,19 +64,19 @@ abstract class UnderlyingDocument<T>
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
-			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentEventRequest data)
 		{
-			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setProjectData(final BaseIdeEventRequest data)
 		{
-			IdeDataTransferObjects.setProjectData(data, this.resource);
+			IdeData.setProjectData(data, this.resource);
 		}
 
 		@Override
@@ -96,19 +96,19 @@ abstract class UnderlyingDocument<T>
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
-			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentEventRequest data)
 		{
-			data.setDocument(IdeDataTransferObjects.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.resource));
 		}
 
 		@Override
 		final void setProjectData(final BaseIdeEventRequest data)
 		{
-			IdeDataTransferObjects.setProjectData(data, this.resource);
+			IdeData.setProjectData(data, this.resource);
 		}
 
 		@Override

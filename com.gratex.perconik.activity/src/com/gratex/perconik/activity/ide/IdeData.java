@@ -18,9 +18,9 @@ import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
 import com.gratex.perconik.services.uaca.ide.RcsServerDto;
 
-public final class IdeDataTransferObjects
+public final class IdeData
 {
-	private IdeDataTransferObjects()
+	private IdeData()
 	{
 		throw new AssertionError();
 	}
@@ -98,7 +98,7 @@ public final class IdeDataTransferObjects
 		RcsServerDto data = new RcsServerDto();
 		
 		data.setUrl(url);
-		data.setTypeUri(UriHelper.forRcsServerType("git"));
+		data.setTypeUri(UacaUriHelper.forRcsServerType("git"));
 		
 		return data;
 	}
@@ -114,7 +114,7 @@ public final class IdeDataTransferObjects
 	
 	public static final void setEventData(final BaseIdeEventRequest data, final long time)
 	{
-		data.setTimestamp(IdeActivityDefaults.getTimeSupplier().from(time));
+		data.setTimestamp(Internals.timeSupplier.from(time));
 	}
 
 	public static final void setProjectData(final BaseIdeEventRequest data, final IFile file)

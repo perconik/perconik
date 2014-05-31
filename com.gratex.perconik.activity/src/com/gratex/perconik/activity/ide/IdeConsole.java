@@ -8,17 +8,17 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.activity.plugin.Activator;
 
-public final class IdeActivityConsole extends ForwardingPluginConsole
+public final class IdeConsole extends ForwardingPluginConsole
 {
-	private static final IdeActivityConsole instance = new IdeActivityConsole();
+	private static final IdeConsole instance = new IdeConsole();
 
 	private static final AtomicReference<PluginConsole> console = new AtomicReference<>();
 	
-	private IdeActivityConsole()
+	private IdeConsole()
 	{
 	}
 	
-	public static final IdeActivityConsole getInstance()
+	public static final IdeConsole getInstance()
 	{
 		return instance;
 	}

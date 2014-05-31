@@ -1,8 +1,8 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeDataTransferObjects.setEventData;
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import java.io.File;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import com.google.common.collect.Maps;
-import com.gratex.perconik.activity.ide.IdeDataTransferObjects;
+import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
 
@@ -94,7 +94,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 		final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
 
 		data.setChangesetIdInRcs(id);
-		data.setRcsServer(IdeDataTransferObjects.newGitServerData(url));
+		data.setRcsServer(IdeData.newGitServerData(url));
 
 		setApplicationData(data);
 		setEventData(data, time);

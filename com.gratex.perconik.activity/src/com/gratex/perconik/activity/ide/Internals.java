@@ -23,7 +23,7 @@ import com.gratex.perconik.activity.TimeSupplier;
 
 final class Internals
 {
-	static final PluginConsole console = IdeActivityConsole.getInstance();
+	static final PluginConsole console = IdeConsole.getInstance();
 	
 	static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -32,8 +32,6 @@ final class Internals
 	static final TimeZone timeZone = TimeZone.getTimeZone("UTC"); 
 	
 	static final int unknonwnPid = -1;
-	
-	static final String enumUriAppName = "eclipse";
 	
 	static final String optionsSequence;
 	

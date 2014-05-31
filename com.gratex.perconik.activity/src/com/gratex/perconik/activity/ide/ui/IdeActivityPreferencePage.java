@@ -24,7 +24,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	
 	private BooleanFieldEditor logEvents;
 	
-	private UrlFieldEditor watcherUrl;
+	private UrlFieldEditor uacaUrl;
 	
 	private ExtendedBooleanFieldEditor checkConnection;
 	
@@ -51,7 +51,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	protected final void createFieldEditors()
 	{
-		this.watcherUrl       = new UrlFieldEditor(Keys.watcherUrl, "URL:", this.getFieldEditorParent());
+		this.uacaUrl = new UrlFieldEditor(Keys.uacaUrl, "URL:", this.getFieldEditorParent());
 
 		Widgets.createFieldSeparator(this.getFieldEditorParent());
 		
@@ -61,7 +61,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 		this.logErrors = new BooleanFieldEditor(Keys.logErrors, "Write errors to Error Log on service failure", this.getFieldEditorParent());
 		this.logEvents = new BooleanFieldEditor(Keys.logEvents, "Log processed events (for debug only)", this.getFieldEditorParent());	
 
-		this.addField(prepare(this.watcherUrl));
+		this.addField(prepare(this.uacaUrl));
 
 		this.addField(this.checkConnection);
 		this.addField(this.displayErrors);
@@ -86,7 +86,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	{
 		try
 		{
-			UacaProxy.checkConnection(this.watcherUrl.getUrlValue().toString());
+			UacaProxy.checkConnection(this.uacaUrl.getUrlValue());
 			
 			return true;
 		}

@@ -4,13 +4,13 @@ import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreference
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.displayErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logEvents;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.watcherUrl;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.uacaUrl;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
-import com.gratex.perconik.activity.ide.IdeActivityDefaults;
+import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferences
@@ -39,7 +39,7 @@ public final class IdeActivityPreferences
 			store.setDefault(logErrors, true);
 			store.setDefault(logEvents, false);
 			
-			store.setDefault(watcherUrl,       IdeActivityDefaults.watcherUrl.toString());
+			store.setDefault(uacaUrl, UacaProxy.getDefaultUrl().toString());
 		}
 	}
 	
@@ -55,7 +55,7 @@ public final class IdeActivityPreferences
 		
 		public static final String logEvents = prefix + "log.events";
 		
-		public static final String watcherUrl = prefix + "watcher.url";
+		public static final String uacaUrl = prefix + "uaca.url";
 		
 		private Keys()
 		{
@@ -75,11 +75,11 @@ public final class IdeActivityPreferences
 		return store.get();
 	}
 	
-	public static final URL getWatcherServiceUrl()
+	public static final URL getUacaUrl()
 	{
 		IPreferenceStore store = getPreferenceStore();
 		
-		return UniformResources.newUrl(store.getString(watcherUrl));
+		return UniformResources.newUrl(store.getString(uacaUrl));
 	}
 	
 	public static final boolean isErrorLoggerEnabled()
