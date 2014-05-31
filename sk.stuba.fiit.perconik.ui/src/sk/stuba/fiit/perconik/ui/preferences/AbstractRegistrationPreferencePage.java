@@ -8,7 +8,6 @@ import javax.annotation.Nonnull;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
-//import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -151,8 +150,6 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				}
 			}
 		});
-		
-	//	BidiUtils.applyTextDirection(this.tableViewer.getControl(), BidiUtils.BTD_DEFAULT);
 
 		Composite buttons = new Composite(innerParent, SWT.NONE);
 		
