@@ -6,14 +6,11 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -28,6 +25,8 @@ final class Internals
 	static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
 	static final boolean debug = Environment.debug;
+	
+	static final TimeZone timeZone = TimeZone.getTimeZone("UTC"); 
 	
 	static final int unknonwnPid = -1;
 	
@@ -76,9 +75,9 @@ final class Internals
 	{
 		timeSupplier = new TimeSupplier()
 		{
-			public final XMLGregorianCalendar from(final long time, boolean utc)
+			public final XMLGregorianCalendar from(final long time)
 			{
-				GregorianCalendar calendar = utc ? new GregorianCalendar(TimeZone.getTimeZone("UTC")) : new GregorianCalendar();
+				GregorianCalendar calendar = new GregorianCalendar(timeZone);
 				
 				calendar.setTimeInMillis(time);
 				

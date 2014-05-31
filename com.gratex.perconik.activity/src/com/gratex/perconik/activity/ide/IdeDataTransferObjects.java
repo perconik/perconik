@@ -30,7 +30,7 @@ public final class IdeDataTransferObjects
 	
 	public static final void setEventData(final BaseIdeEventRequest data, final long time)
 	{
-		data.setTimestamp(IdeActivityDefaults.getTimeSupplier().from(time, true));
+		data.setTimestamp(IdeActivityDefaults.getTimeSupplier().from(time));
 	}
 
 	public static final RcsServerDto newGitServerData(final String url)

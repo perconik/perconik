@@ -4,5 +4,5 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 public interface TimeSupplier
 {
-	public XMLGregorianCalendar from(long time, boolean utc);
+	public XMLGregorianCalendar from(long time);
 }
