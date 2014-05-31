@@ -118,6 +118,11 @@ public final class UacaProxy
 		postAsync(request, "checkin");
 	}
 
+	public static final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type)
+	{
+		postAsync(request, "codeelement/" + type.urlPath());
+	}
+
 	public static final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type)
 	{
 		postAsync(request, "code/" + type.urlPath());
@@ -133,19 +138,14 @@ public final class UacaProxy
 		postAsync(request, "find");
 	}
 
-	public static final void sendIdeStateChangeEvent(final IdeStateChangeEventRequest request)
-	{
-		postAsync(request, "idestatechange");
-	}
-
-	public static final void sendIdeCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type)
-	{
-		postAsync(request, "codeelement/" + type.urlPath());
-	}
-
-	public static final void sendProjectToEvent(final IdeProjectEventRequest request, final IdeProjectEventType type)
+	public static final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type)
 	{
 		postAsync(request, "project/" + type.urlPath());
+	}
+
+	public static final void sendStateChangeEvent(final IdeStateChangeEventRequest request)
+	{
+		postAsync(request, "idestatechange");
 	}
 
 	public static final URL getActiveUrl()

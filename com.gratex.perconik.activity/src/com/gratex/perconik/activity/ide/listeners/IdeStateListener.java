@@ -75,7 +75,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 				
 				String state = launch.getLaunchMode() + " (launch)";
 				
-				UacaProxy.sendIdeStateChangeEvent(build(time, project, state));
+				UacaProxy.sendStateChangeEvent(build(time, project, state));
 			}
 		});
 	}
@@ -108,7 +108,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 				String state = descriptor.getLabel().toLowerCase() + " (perspective)";
 
-				UacaProxy.sendIdeStateChangeEvent(build(time, project, state));
+				UacaProxy.sendStateChangeEvent(build(time, project, state));
 			}
 		});
 	}

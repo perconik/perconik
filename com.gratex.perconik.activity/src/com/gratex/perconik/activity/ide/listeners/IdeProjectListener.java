@@ -150,12 +150,12 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 				
 				if (kind == ADDED)
 				{
-					UacaProxy.sendProjectToEvent(build(this.time, project), IdeProjectEventType.ADD);
+					UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
 				}
 				
 				if (flags.contains(OPEN) && project.isOpen())
 				{
-					UacaProxy.sendProjectToEvent(build(this.time, project), IdeProjectEventType.OPEN);
+					UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.OPEN);
 				}
 				
 				return false;
@@ -172,15 +172,15 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 			switch (this.type)
 			{
 				case PRE_CLOSE:
-					UacaProxy.sendProjectToEvent(build(this.time, (IProject)resource), IdeProjectEventType.CLOSE);
+					UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.CLOSE);
 					break;
 
 				case PRE_DELETE:
-					UacaProxy.sendProjectToEvent(build(this.time, (IProject)resource), IdeProjectEventType.REMOVE);
+					UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REMOVE);
 					break;
 
 				case PRE_REFRESH:
-					UacaProxy.sendProjectToEvent(build(this.time, (IProject)resource), IdeProjectEventType.REFRESH);
+					UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REFRESH);
 					break;
 
 				default:
@@ -215,7 +215,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		
 		if (this.updateProject(project))
 		{
-			UacaProxy.sendProjectToEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
+			UacaProxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
 		}
 	}
 
