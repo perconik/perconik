@@ -50,13 +50,14 @@ import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
 import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
 
 /**
- * A listener of {@code IdeDocumentOperation} events. This listener creates
- * {@link IdeDocumentOperationDto} data transfer objects and passes them to
- * the <i>Activity Watcher Service</i> to be transferred into the
- * <i>User Activity Client Application</i> for further processing.
+ * A listener of IDE document events. This listener handles desired
+ * events and eventually builds corresponding data transfer objects
+ * of type {@link IdeDocumentEventRequest} and passes them to the
+ * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * Application</i> for further processing.
  * 
  * <p>Document operation types that this listener is interested in are
- * determined by the {@link IdeDocumentOperationTypeEnum} enumeration:
+ * determined by the {@link IdeDocumentEventType} enumeration:
  * 
  * <ul>
  *   <li>Add - a document is added into the project.
@@ -65,34 +66,30 @@ import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
  *   <li>Remove - a document is removed from the project.
  *   <li>Rename - currently not supported.
  *   <li>Save - a document is saved.
- *   <li>Switch to - focus is changed from one document to another,
- *   editor selections (tabs and text) and structured selections in
- *   package explorer are supported.
+ *   <li>Switch to - focus is changed from one document to another
+ *   and editor selections (tabs and text). Note that structured
+ *   selections in package explorer are supported.
  * </ul>
  * 
- * <p>Data available in an {@code IdeDocumentOperationDto}:
+ * <p>Data available in an {@code IdeDocumentEventRequest}:
  * 
  * <ul>
  *   <li>{@code document} - see {@code IdeDocumentDto} below.
- *   <li>{@code operationType} - see {@link IdeProjectOperationTypeEnum}
- *   for all possible values in this field.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
  * 
  * <p>Data available in an {@code IdeDocumentDto}:
  * 
  * <ul>
- *   <li>{@code branchName} - current Git branch name for the document.
+ *   <li>{@code branch} - current Git branch name for the document.
  *   <li>{@code changesetIdInRcs} - most recent Git commit
  *   identifier for the document (40 hexadecimal characters),
  *   for example {@code "984dd5f359532d7d806a92b47ef5bfc39d772d64"}.
- *   <li>{@code id} - unused but exposed internals.
- *   <li>{@code path} - path to the document relative to the workspace root,
+ *   <li>{@code localPath} - path to the document relative to the workspace root,
  *   for example {@code "com.gratex.perconik.activity/src/com/gratex/perconik/activity/ide/listeners/IdeCommitListener.java"}.
- *   <li>{@code pathType} - always {@link IdePathTypeEnum#RELATIVE_LOCAL
- *   RELATIVE_LOCAL}.
  *   <li>{@code rcsServer} - see documentation of {@code RcsServerDto}
  *   in {@link IdeCommitListener} for more details.
+ *   <li>{@code serverPath} - always the same as {@code localPath}.
  * </ul>
  * 
  * <p>Note that in case of not editable source code, such as classes from JRE

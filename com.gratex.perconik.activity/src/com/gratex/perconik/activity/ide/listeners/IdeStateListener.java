@@ -17,18 +17,19 @@ import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
 
 /**
- * A listener of {@code IdeStateChange} events. This listener creates
- * {@link IdeStateChangeDto} data transfer objects and passes them to
- * the <i>Activity Watcher Service</i> to be transferred into the
- * <i>User Activity Client Application</i> for further processing.
+ * A listener of IDE state change events. This listener handles desired
+ * events and eventually builds corresponding data transfer objects
+ * of type {@link IdeStateChangeEventRequest} and passes them to the
+ * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * Application</i> for further processing.
  * 
  * <p>State changes are logged when an application launches from Eclipse,
  * or Eclipse perspective changes.
  * 
- * <p>Data available in an {@code IdeStateChangeDto}:
+ * <p>Data available in an {@code IdeStateChangeEventRequest}:
  * 
  * <ul>
- *   <li>{@code stateType} - in case of an application run or debug start
+ *   <li>{@code stateTypeUri} - in case of an application run or debug start
  *   the state type consists of the launch mode concatenated to a string
  *   {@code " (launch)"}, for example {@code "run (launch)"} or
  *   {@code "debug (launch)"}. In case of a perspective change it

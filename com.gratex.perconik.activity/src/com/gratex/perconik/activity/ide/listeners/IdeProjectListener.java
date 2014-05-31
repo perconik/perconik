@@ -35,13 +35,14 @@ import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
 import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
 
 /**
- * A listener of {@code IdeProjectOperation} events. This listener creates
- * {@link IdeProjectOperationDto} data transfer objects and passes them to
- * the <i>Activity Watcher Service</i> to be transferred into the
- * <i>User Activity Client Application</i> for further processing.
+ * A listener of IDE project events. This listener handles desired
+ * events and eventually builds corresponding data transfer objects
+ * of type {@link IdeProjectEventRequest} and passes them to the
+ * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * Application</i> for further processing.
  * 
  * <p>Project operation types that this listener is interested in are
- * determined by the {@link IdeProjectOperationTypeEnum} enumeration:
+ * determined by the {@link IdeProjectEventType} enumeration:
  * 
  * <ul>
  *   <li>Add - a project is added into the workspace.
@@ -49,17 +50,15 @@ import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
  *   <li>Open - a closed project is opened.
  *   <li>Refresh - a project is refreshed.
  *   <li>Remove - a project is removed from the workspace.
- *   <li>Rename - currently not supported. (TODO)
- *   <li>Switch to - focus is changed from one project to another,
- *   editor selections (tabs and text) and structured selections in
- *   package explorer are supported.
+ *   <li>Rename - currently not supported.
+ *   <li>Switch to - focus is changed from one project to another
+ *   and editor selections (tabs and text) are supported. Note that
+ *   structured selections in package explorer are not supported.
  * </ul>
  * 
- * <p>Data available in an {@code IdeProjectOperationDto}:
+ * <p>Data available in an {@code IdeProjectEventRequest}:
  * 
  * <ul>
- *   <li>{@code operationType} - see {@link IdeProjectOperationTypeEnum}
- *   for all possible values in this field.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
  * 

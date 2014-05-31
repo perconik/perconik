@@ -36,28 +36,28 @@ import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.MoreArrays;
 import com.google.common.base.Throwables;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.*;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
 import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
 
 /**
- * A listener of {@code IdeCodeOperation} events. This listener creates
- * {@link IdeCodeOperationDto} data transfer objects and passes them to
- * the <i>Activity Watcher Service</i> to be transferred into the
- * <i>User Activity Client Application</i> for further processing.
+ * A listener of IDE code events. This listener handles desired
+ * events and eventually builds corresponding data transfer objects
+ * of type {@link IdeCodeEventRequest} and passes them to the
+ * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * Application</i> for further processing.
  * 
  * <p>Code operation types that this listener is interested in are
- * determined by the {@link IdeCodeOperationTypeEnum} enumeration:
+ * determined by the {@link IdeCodeEventType} enumeration:
  * 
  * <ul>
  *   <li>Copy - a code is copied.
  *   <li>Cut - a code is cut.
  *   <li>Paste - a code is pasted.
- *   <li>Paste from web - unused, inferred by UACA from regular paste.
  *   <li>Selection changed - a code is selected, cursor is moved discarding
  *   current selection or the code selection is changed otherwise.
  * </ul>
  * 
- * <p>Data available in an {@code IdeCodeOperationDto}:
+ * <p>Data available in an {@code IdeCodeEventRequest}:
  * 
  * <ul>
  *   <li>{@code code} - related code.
@@ -67,13 +67,10 @@ import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
  *   of code on document line.
  *   <li>{@code endRowIndex} - zero based end line number
  *   of code in document.
- *   <li>{@code operationType} - see {@link IdeCodeOperationTypeEnum}
- *   for all possible values in this field.
  *   <li>{@code startColumnIndex} - zero based start position
  *   of code on document line.
  *   <li>{@code startRowIndex} - zero based start line number
  *   of code in document.
- *   <li>{@code webUrl} - unused, inferred by UACA.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
  * 

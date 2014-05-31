@@ -4,7 +4,6 @@ import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
-import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -37,14 +36,15 @@ import com.gratex.perconik.services.uaca.ide.IdeFindFileResultDto;
 import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
 
 /**
- * A listener of {@code IdeFindOperation} events. This listener creates
- * {@link IdeFindOperationDto} data transfer objects and passes them to
- * the <i>Activity Watcher Service</i> to be transferred into the
- * <i>User Activity Client Application</i> for further processing.
+ * A listener of IDE find events. This listener handles desired
+ * events and eventually builds corresponding data transfer objects
+ * of type {@link IdeFindEventRequest} and passes them to the
+ * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * Application</i> for further processing.
  * 
  * <p>Find operations are logged when a file search is performed.
  * 
- * <p>Data available in an {@code IdeFindOperationDto}:
+ * <p>Data available in an {@code IdeFindEventRequest}:
  * 
  * <ul>
  *   <li>{@code derivedResources} - set to {@code true} if search should
@@ -52,8 +52,8 @@ import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
  *   <li>{@code fileTypes} - file name patterns separated by {@code ", "}.
  *   Set to {@code "*"} by default, other examples produce strings such as
  *   {@code "Map*.*, String*.class"}.
- *   <li>{@code findWhat} - the search query string.
- *   <li>{@code lookin} - search scopes separated by {@code ", "}.
+ *   <li>{@code queryText} - the search query string.
+ *   <li>{@code lookinTypeUri} - search scopes separated by {@code ", "}.
  *   In case of enclosed projects or selected resources the string
  *   consists of a list of resource (project) paths relative to workspace
  *   root (but starting with {@code "/"}), and separated by {@code ", "}.
@@ -65,7 +65,7 @@ import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
  *   <li>{@code matchCase} - set to {@code true} if search is case sensitive,
  *   {@code false} otherwise.
  *   <li>{@code matchWholeWord} - always {@code null}, can not be determined.
- *   <li>{@code patternSyntax} - set to {@code "Regular expressions"} when
+ *   <li>{@code patternSyntaxTypeUri} - set to {@code "Regular expressions"} when
  *   enabled or {@code "Wildcards"} by default.
  *   <li>{@code resultsPerFiles} - a list of matched files,
  *   see {@code IdeFindFileResultDto} below.
