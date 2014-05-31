@@ -66,8 +66,7 @@ import com.gratex.perconik.services.uaca.ide.dto.*;
  *   (for enclosed projects or selected resources) or {@code "working sets PerConIK Core, PerConIK Gratex, PerConIK Site"} (for working sets).
  *   <li>{@code matchCase} - set to {@code true} if search is case sensitive,
  *   {@code false} otherwise.
- *   <li>{@code matchWholeWord} - set to {@code true} if search should match
- *   only whole words, {@code false} otherwise.
+ *   <li>{@code matchWholeWord} - always {@code null}, can not be determined.
  *   <li>{@code patternSyntax} - set to {@code "Regular expressions"} when
  *   enabled or {@code "Wildcards"} by default.
  *   <li>{@code resultsPerFiles} - a list of matched files,
@@ -121,7 +120,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 
 		data.setQueryText(query.getSearchString());
 		data.setMatchCase(query.isCaseSensitive());
-		//data.setMatchWholeWord(query.isWholeWord());
+		data.setMatchWholeWord(null);
 		data.setSearchSubfolders(null);
 		data.setTotalFilesSearched(null);
 		
