@@ -92,7 +92,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 		}
 		catch (Exception failure)
 		{
-			String title   = "Activity watcher service error";
+			String title   = "UACA proxy error";
 			String message = failure.getMessage();
 			String toggle  = "Always verify service connection on confirmation";
 			
