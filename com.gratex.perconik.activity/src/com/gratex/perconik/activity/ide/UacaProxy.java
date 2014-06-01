@@ -1,9 +1,6 @@
 
 package com.gratex.perconik.activity.ide;
 
-import static com.gratex.perconik.activity.ide.Internals.console;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.getPreferenceStore;
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isErrorLoggerEnabled;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
 import java.net.URL;
 import java.util.concurrent.Executor;
@@ -20,8 +17,6 @@ import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
-import com.gratex.perconik.activity.ide.ui.IdeActivityMessageDialogs;
 import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
@@ -66,7 +61,7 @@ public final class UacaProxy
 
 					if (isEventLoggerEnabled())
 					{
-						logEvent(target, request);
+						logRequest(target, request);
 					}
 					
 					response = target.request().post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
@@ -75,10 +70,12 @@ public final class UacaProxy
 					
 					if (status.getFamily() == Family.CLIENT_ERROR || status.getFamily() == Family.SERVER_ERROR)
 					{
-						reportFailure(String.format("Request to Uaca failed%n%nPOST %s returned %d %s%n", target.getUri(), status.getStatusCode(), status.getReasonPhrase()), null);
+						String message = String.format("POST %s returned %d %s", target.getUri(), status.getStatusCode(), status.getReasonPhrase());
+						
+						throw new IllegalStateException(message);
 					}
 				}
-				catch (ProcessingException e)
+				catch (IllegalStateException | ProcessingException e)
 				{
 					reportFailure("Request to UACA failed", e);
 				}
@@ -95,27 +92,15 @@ public final class UacaProxy
 		executor.execute(command);
 	}
 	
-	static final <T> void logEvent(final WebTarget target, final T request)
+	static final <T> void logRequest(final WebTarget target, final T request)
 	{
-		if (!isEventLoggerEnabled())
-		{
-			return;
-		}
-		
-		UacaRequestLogger.log(target, request);
+		UacaReporter.logRequest(target, request);
 	}
 	
 	static final void reportFailure(final String message, @Nullable final Exception failure)
 	{
-		if (isErrorLoggerEnabled())
-		{
-			console.error(message, failure);
-		}
-		
-		if (getPreferenceStore().getBoolean(Keys.displayErrors))
-		{
-			IdeActivityMessageDialogs.openError(Keys.displayErrors, message);
-		}
+		UacaReporter.logError(message, failure);
+		UacaReporter.displayError(message);
 	}
 
 	public static final void checkConnection(final String url)

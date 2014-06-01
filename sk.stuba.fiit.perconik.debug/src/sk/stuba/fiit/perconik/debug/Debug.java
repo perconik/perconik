@@ -172,7 +172,7 @@ public final class Debug
 
 	public static final void error(final String message, final Throwable failure)
 	{
-		console().error(message, failure);
+		console().error(failure, message);
 	}
 	
 	private static final SmartStringBuilder builder()

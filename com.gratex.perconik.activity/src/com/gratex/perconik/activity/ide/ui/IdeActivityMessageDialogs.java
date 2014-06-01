@@ -34,7 +34,7 @@ public final class IdeActivityMessageDialogs
 
 				Preference preference = Preference.usingToggleState(IdeActivityPreferences.getPreferenceStore(), key);  
 		
-				MessageDialogWithPreference.openError(shell, title, message, toggle, preference);
+				MessageDialogWithPreference.openError(shell, title, message, toggle, preference).setBlockOnOpen(true);
 			}
 		};
 		
