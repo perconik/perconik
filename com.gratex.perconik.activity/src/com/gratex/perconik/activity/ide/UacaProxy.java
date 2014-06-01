@@ -2,6 +2,9 @@
 package com.gratex.perconik.activity.ide;
 
 import static com.gratex.perconik.activity.ide.Internals.console;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.getPreferenceStore;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isErrorLoggerEnabled;
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
 import java.net.URL;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -15,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
-import org.eclipse.jface.preference.IPreferenceStore;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
@@ -45,12 +47,12 @@ public final class UacaProxy
 		throw new AssertionError();
 	}
 	
-	static final WebTarget newIdeTarget()
+	static final WebTarget newTarget()
 	{
 		return client.target(getActiveUrl().toString()).path("ide");
 	}
 
-	static <T> void postAsync(final T request, final String path)
+	static <T> void postRequest(final String path, final T request)
 	{
 		final Runnable command = new Runnable()
 		{
@@ -60,7 +62,12 @@ public final class UacaProxy
 				
 				try
 				{
-					WebTarget target = newIdeTarget().path(path);
+					WebTarget target = newTarget().path(path);
+
+					if (isEventLoggerEnabled())
+					{
+						logEvent(target, request);
+					}
 					
 					response = target.request().post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
 	
@@ -88,16 +95,24 @@ public final class UacaProxy
 		executor.execute(command);
 	}
 	
+	static final <T> void logEvent(final WebTarget target, final T request)
+	{
+		if (!isEventLoggerEnabled())
+		{
+			return;
+		}
+		
+		UacaRequestLogger.log(target, request);
+	}
+	
 	static final void reportFailure(final String message, @Nullable final Exception failure)
 	{
-		IPreferenceStore store = IdeActivityPreferences.getPreferenceStore();
-	
-		if (store.getBoolean(Keys.logErrors))
+		if (isErrorLoggerEnabled())
 		{
 			console.error(message, failure);
 		}
 		
-		if (store.getBoolean(Keys.displayErrors))
+		if (getPreferenceStore().getBoolean(Keys.displayErrors))
 		{
 			IdeActivityMessageDialogs.openError(Keys.displayErrors, message);
 		}
@@ -115,37 +130,37 @@ public final class UacaProxy
 
 	public static final void sendCheckinEvent(final IdeCheckinEventRequest request)
 	{
-		postAsync(request, "checkin");
+		postRequest("checkin", request);
 	}
 
 	public static final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type)
 	{
-		postAsync(request, "codeelement/" + type.urlPath());
+		postRequest("codeelement/" + type.urlPath(), request);
 	}
 
 	public static final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type)
 	{
-		postAsync(request, "code/" + type.urlPath());
+		postRequest("code/" + type.urlPath(), request);
 	}
 
 	public static final void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type)
 	{
-		postAsync(request, "document/" + type.urlPath());
+		postRequest("document/" + type.urlPath(), request);
 	}
 
 	public static final void sendFindEvent(final IdeFindEventRequest request)
 	{
-		postAsync(request, "find");
+		postRequest("find", request);
 	}
 
 	public static final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type)
 	{
-		postAsync(request, "project/" + type.urlPath());
+		postRequest("project/" + type.urlPath(), request);
 	}
 
 	public static final void sendStateChangeEvent(final IdeStateChangeEventRequest request)
 	{
-		postAsync(request, "idestatechange");
+		postRequest("idestatechange", request);
 	}
 
 	public static final URL getActiveUrl()
