@@ -99,6 +99,25 @@ public final class MoreStrings
 		return comparator;
 	}
 
+	public static final String toStringFallback(Object o)
+	{
+		String result = toImplementedString(o);
+	
+		if (result != null)
+		{
+			return result;
+		}
+	
+		result = toCanonicalString(o);
+		
+		if (result == null)
+		{
+			return result;
+		}
+	
+		return toDefaultString(o);
+	}
+
 	public static final <T> Function<T, String> toStringFunction()
 	{
 		return (Function<T, String>) Functions.toStringFunction();
@@ -122,24 +141,5 @@ public final class MoreStrings
 	public static final Function<String, String> toUpperCaseFunction()
 	{
 		return ToUpperCaseFunction.INSTANCE;
-	}
-	
-	public static final String toStringFallback(Object o)
-	{
-		String result = toImplementedString(o);
-
-		if (result != null)
-		{
-			return result;
-		}
-
-		result = toCanonicalString(o);
-		
-		if (result == null)
-		{
-			return result;
-		}
-
-		return toDefaultString(o);
 	}
 }
