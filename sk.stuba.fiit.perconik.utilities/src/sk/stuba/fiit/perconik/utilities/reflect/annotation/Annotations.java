@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-import org.elasticsearch.common.base.Strings;
 import sk.stuba.fiit.perconik.utilities.MoreLists;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessor;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessors;
@@ -76,7 +75,10 @@ public final class Annotations
 		
 		for (Entry<String, Object> entry: toElements(annotation).entrySet())
 		{
-			data.put(keyToString(entry.getKey()), Strings.emptyToNull(valueToString(entry.getValue())));
+			String key   = keyToString(entry.getKey());
+			String value = valueToString(entry.getValue());
+					
+			data.put(key, value == null || value.isEmpty() ? null : value);
 		}
 		
 		return data;
