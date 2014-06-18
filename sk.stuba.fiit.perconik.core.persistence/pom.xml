@@ -4,6 +4,8 @@
   <artifactId>sk.stuba.fiit.perconik.core.persistence</artifactId>
   <version>0.1.3-SNAPSHOT</version>
   <build>
+   	<sourceDirectory>src</sourceDirectory>
+  	<outputDirectory>bin</outputDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

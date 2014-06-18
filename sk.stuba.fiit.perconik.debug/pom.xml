@@ -4,6 +4,8 @@
   <artifactId>sk.stuba.fiit.perconik.debug</artifactId>
   <version>0.3.2-SNAPSHOT</version>
   <build>
+   	<sourceDirectory>src</sourceDirectory>
+  	<outputDirectory>bin</outputDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
