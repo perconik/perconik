@@ -4,8 +4,7 @@ Bundle-Name: PerConIK Libraries
 Bundle-SymbolicName: sk.stuba.fiit.perconik.libraries;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Bundle-ClassPath: .,
- lib/intt.jar
-Export-Package: uk.ac.open.crc.intt
+Bundle-ClassPath: lib/intt.jar
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
+Export-Package: uk.ac.open.crc.intt

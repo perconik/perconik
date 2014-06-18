@@ -105,7 +105,7 @@ import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Dependent({FileSearchQuery.class, FileSearchResult.class, FileTextSearchScope.class})
+@Dependent({FileSearchQuery.class, FileSearchResult.class})
 public final class IdeFindListener extends IdeListener implements SearchQueryListener
 {
 	public IdeFindListener()
