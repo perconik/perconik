@@ -1,7 +1,8 @@
-bin
-doc
-tmp
-
 .metadata
 .settings
 .sources
+
+bin
+doc
+target
+tmp
