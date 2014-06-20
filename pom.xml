@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>sk.stuba.fiit.perconik</groupId>
+	<artifactId>sk.stuba.fiit.perconik</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+ 
+	<modules>
+<!--
+		<module>com.gratex.perconik.activity.feature</module>
+		<module>com.gratex.perconik.services.feature</module>
+		<module>com.gratex.perconik.tag.feature</module>
+
+		<module>com.gratex.perconik.activity</module>
+		<module>com.gratex.perconik.services</module>
+		<module>com.gratex.perconik.tag</module>
+-->
+		<module>sk.stuba.fiit.perconik.feature</module>
+		<module>sk.stuba.fiit.perconik.activity.feature</module>
+
+		<module>sk.stuba.fiit.perconik.activity</module>
+		<module>sk.stuba.fiit.perconik.core</module>
+		<module>sk.stuba.fiit.perconik.core.java</module>
+		<module>sk.stuba.fiit.perconik.core.java.examples</module>
+		<module>sk.stuba.fiit.perconik.core.persistence</module>
+		<module>sk.stuba.fiit.perconik.debug</module>
+		<module>sk.stuba.fiit.perconik.eclipse</module>
+ 		<module>sk.stuba.fiit.perconik.environment</module>
+		<module>sk.stuba.fiit.perconik.libraries</module>
+		<module>sk.stuba.fiit.perconik.preferences</module>
+		<module>sk.stuba.fiit.perconik.ui</module>
+		<module>sk.stuba.fiit.perconik.utilities</module>
+	</modules>
+
+	<properties>
+		<java.version>1.7</java.version>
+		<tycho.version>0.20.0</tycho.version>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>Kepler</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/kepler</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<directory>bin</directory>
+    	<outputDirectory>bin</outputDirectory>
+		<sourceDirectory>src</sourceDirectory>
+    	
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-versions-plugin</artifactId>
+				<version>${tycho.version}</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.tycho.extras</groupId>
+						<artifactId>tycho-buildtimestamp-jgit</artifactId>
+						<version>${tycho.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<timestampProvider>jgit</timestampProvider>
+					<jgit.ignore>pom.xml</jgit.ignore>
+					<jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project> 

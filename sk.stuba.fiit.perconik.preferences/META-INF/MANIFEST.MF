@@ -2,15 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Preferences
 Bundle-SymbolicName: sk.stuba.fiit.perconik.preferences;singleton:=true
-Bundle-Version: 0.2.2.qualifier
+Bundle-Version: 0.3.0.qualifier
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.8.0",
  org.eclipse.ui;bundle-version="3.8.0",
- sk.stuba.fiit.perconik.core;bundle-version="0.2.3",
- sk.stuba.fiit.perconik.core.persistence;bundle-version="0.1.3",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.2.2",
- sk.stuba.fiit.perconik.environment;bundle-version="0.2.2",
- sk.stuba.fiit.perconik.libraries;bundle-version="0.2.0",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.1.7"
+ sk.stuba.fiit.perconik.core;bundle-version="0.3.0",
+ sk.stuba.fiit.perconik.core.persistence;bundle-version="0.2.0",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.3.0",
+ sk.stuba.fiit.perconik.environment;bundle-version="0.3.0",
+ sk.stuba.fiit.perconik.libraries;bundle-version="0.3.0",
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy

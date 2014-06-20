@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="sk.stuba.fiit.perconik.feature"
-      label="PerConIK Core for Eclipse Platform"
-      version="0.3.3.v20140615-2213"
+      label="PerConIK Eclipse Platform Core"
+      version="0.4.0.qualifier"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description>

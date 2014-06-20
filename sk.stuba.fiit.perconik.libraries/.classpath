@@ -1,8 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/antlr4-runtime-4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/aopalliance-repackaged-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/diffutils-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/elasticsearch-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/guava-17.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hk2-api-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hk2-locator-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hk2-utils-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/intt.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-datatype-guava-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.inject-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.ws.rs-api-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-client-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-common-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-entity-filtering-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-guava-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-media-moxy-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr305-2.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-analyzers-common-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-codecs-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-core-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-grouping-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-highlighter-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-join-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-memory-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-misc-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-queries-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-queryparser-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-sandbox-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-spatial-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/lucene-suggest-4.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.abego.treelayout.core-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.antlr-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.asm-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.core-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.moxy-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spatial4j-0.4.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="lib/intt.jar" exported="true"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
