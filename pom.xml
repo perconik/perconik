@@ -20,10 +20,10 @@
 
 		<module>sk.stuba.fiit.perconik.activity</module>
 		<module>sk.stuba.fiit.perconik.core</module>
+		<module>sk.stuba.fiit.perconik.core.debug</module>
 		<module>sk.stuba.fiit.perconik.core.java</module>
 		<module>sk.stuba.fiit.perconik.core.java.examples</module>
 		<module>sk.stuba.fiit.perconik.core.persistence</module>
-		<module>sk.stuba.fiit.perconik.debug</module>
 		<module>sk.stuba.fiit.perconik.eclipse</module>
  		<module>sk.stuba.fiit.perconik.environment</module>
 		<module>sk.stuba.fiit.perconik.libraries</module>
