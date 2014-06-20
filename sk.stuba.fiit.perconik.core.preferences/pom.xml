@@ -8,7 +8,7 @@
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>sk.stuba.fiit.perconik.preferences</artifactId>
+	<artifactId>sk.stuba.fiit.perconik.core.preferences</artifactId>
 	<version>0.3.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 </project>

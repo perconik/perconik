@@ -20,7 +20,7 @@
 
 		<module>sk.stuba.fiit.perconik.activity</module>
 		<module>sk.stuba.fiit.perconik.core</module>
-		<module>sk.stuba.fiit.perconik.core.debug</module>
+		<!-- TODO module>sk.stuba.fiit.perconik.core.debug</module-->
 		<module>sk.stuba.fiit.perconik.core.java</module>
 		<module>sk.stuba.fiit.perconik.core.java.examples</module>
 		<module>sk.stuba.fiit.perconik.core.persistence</module>
