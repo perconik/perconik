@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="sk.stuba.fiit.perconik.feature"
-      label="PerConIK Eclipse Platform Base"
+      id="sk.stuba.fiit.perconik.core.feature"
+      label="PerConIK Eclipse Platform Core"
       version="0.4.0.qualifier"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
@@ -32,43 +32,54 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
       <update label="PerConIK Eclipse Integration" url="http://perconik.github.io/update"/>
    </url>
 
+   <includes
+         id="sk.stuba.fiit.perconik.feature"
+         version="0.0.0"/>
+
    <plugin
-         id="sk.stuba.fiit.perconik.eclipse"
+         id="sk.stuba.fiit.perconik.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="sk.stuba.fiit.perconik.environment"
+         id="sk.stuba.fiit.perconik.core.debug"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="sk.stuba.fiit.perconik.libraries"
+         id="sk.stuba.fiit.perconik.core.java"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="sk.stuba.fiit.perconik.preferences"
+         id="sk.stuba.fiit.perconik.core.java.examples"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="sk.stuba.fiit.perconik.ui"
+         id="sk.stuba.fiit.perconik.core.persistence"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="sk.stuba.fiit.perconik.utilities"
+         id="sk.stuba.fiit.perconik.core.preferences"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="sk.stuba.fiit.perconik.core.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

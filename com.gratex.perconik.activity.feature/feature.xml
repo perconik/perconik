@@ -40,6 +40,10 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
          id="sk.stuba.fiit.perconik.feature"
          version="0.0.0"/>
 
+   <includes
+         id="sk.stuba.fiit.perconik.core.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.gratex.perconik.activity"
          download-size="0"
