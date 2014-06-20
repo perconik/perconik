@@ -21,7 +21,9 @@ public class MarkTemplate {
 	
 	public static String getDomain() {
 		try {
-			return new com.sun.security.auth.module.NTSystem().getDomain();
+			Class<?> nt = Class.forName("com.sun.security.auth.module.NTSystem");
+			
+			return (String) nt.getMethod("getDomain").invoke(null);
 		} catch ( Throwable t ) {
 			return "unknown-domain";
 		}
