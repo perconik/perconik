@@ -10,18 +10,6 @@
             id="sk.stuba.fiit.perconik.ui.preferences.main"
             name="PerConIK">
       </page>
-      <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
-            class="sk.stuba.fiit.perconik.ui.preferences.ResourcesPreferencePage"
-            id="sk.stuba.fiit.perconik.ui.preferences.resources"
-            name="Resources">
-      </page>
-      <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
-            class="sk.stuba.fiit.perconik.ui.preferences.ListenersPreferencePage"
-            id="sk.stuba.fiit.perconik.ui.preferences.listeners"
-            name="Listeners">
-      </page>
    </extension>
    <extension
          id="sk.stuba.fiit.perconik.ui.startup"

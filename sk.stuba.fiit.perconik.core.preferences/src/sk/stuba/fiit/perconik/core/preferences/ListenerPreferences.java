@@ -1,0 +1,110 @@
+package sk.stuba.fiit.perconik.core.preferences;
+
+import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.persistence;
+import java.util.Set;
+import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
+import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
+import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+
+/**
+ * Listener preferences. Supports both <i>default</i>
+ * and <i>instance</i> (actually used and stored) scopes.
+ * 
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public final class ListenerPreferences extends AbstractPreferences
+{
+	private ListenerPreferences(final Scope scope)
+	{
+		super(scope);
+	}
+	
+	/**
+	 * Used to aid in default listener preferences initialization.
+	 * 
+	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+	 * 
+	 * @author Pavol Zbell
+	 * @since 1.0
+	 */
+	public static final class Initializer extends AbstractPreferences.Initializer
+	{
+		/**
+		 * The constructor.
+		 */
+		public Initializer()
+		{
+		}
+
+		/**
+		 * Called by the preference initializer to
+		 * initialize default listener preferences.
+		 * 
+		 * <p><b>Warning:</b> Clients should not call this method.
+		 * It will be called automatically by the preference initializer
+		 * when the appropriate default preference node is accessed.
+		 */
+		@Override
+		public final void initializeDefaultPreferences()
+		{
+			Set<ListenerPersistenceData> data = ListenerPersistenceData.defaults();
+			
+			ListenerPreferences.getDefault().setListenerPersistenceData(data);
+		}
+	}
+	
+	public static final class Keys extends AbstractPreferences.Keys
+	{
+		static final String prefix = Activator.PLUGIN_ID + ".listeners.";
+		
+		public static final String persistence = prefix + "persistence";
+	}
+
+
+	/**
+	 * Gets default listener preferences.
+	 */
+	public static final ListenerPreferences getDefault()
+	{
+		return new ListenerPreferences(Scope.DEFAULT);
+	}
+	
+	/**
+	 * Gets listener preferences.
+	 */
+	public static final ListenerPreferences getInstance()
+	{
+		return new ListenerPreferences(Scope.INSTANCE);
+	}
+	
+	/**
+	 * Sets listener persistence data.
+	 * @param data listener persistence data
+	 * @throws NullPointerException if {@code data} is {@code null}
+	 */
+	public final void setListenerPersistenceData(final Set<ListenerPersistenceData> data)
+	{
+		this.setValue(persistence, data);
+	}
+	
+	/**
+	 * Gets listener persistence data.
+	 */
+	public final Set<ListenerPersistenceData> getListenerPersistenceData()
+	{
+		try
+		{
+			return (Set<ListenerPersistenceData>) this.getObject(persistence);
+		}
+		catch (RuntimeException e)
+		{
+			if (this.getScope() != Scope.DEFAULT)
+			{
+				return ListenerPersistenceData.defaults();
+			}
+			
+			throw e;
+		}
+	}
+}

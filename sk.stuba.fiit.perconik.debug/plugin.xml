@@ -2,32 +2,32 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="sk.stuba.fiit.perconik.debug.startup"
+         id="sk.stuba.fiit.perconik.core.debug.startup"
          name="PerConIK Debug"
          point="org.eclipse.ui.startup">
       <startup
-            class="sk.stuba.fiit.perconik.debug.plugin.Activator$Startup">
+            class="sk.stuba.fiit.perconik.core.debug.plugin.Activator$Startup">
       </startup>
    </extension>
    <extension
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
-            class="sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerProviderFactory">
+            class="sk.stuba.fiit.perconik.core.debug.services.listeners.DebugListenerProviderFactory">
       </provider>
       <manager
-            class="sk.stuba.fiit.perconik.debug.services.listeners.DebugListenerManagerFactory">
+            class="sk.stuba.fiit.perconik.core.debug.services.listeners.DebugListenerManagerFactory">
       </manager>
    </extension>
    <extension
          point="sk.stuba.fiit.perconik.core.services.resources">
       <provider
-            class="sk.stuba.fiit.perconik.debug.services.resources.DebugResourceProviderFactory">
+            class="sk.stuba.fiit.perconik.core.debug.services.resources.DebugResourceProviderFactory">
       </provider>
       <manager
-            class="sk.stuba.fiit.perconik.debug.services.resources.DebugResourceManagerFactory">
+            class="sk.stuba.fiit.perconik.core.debug.services.resources.DebugResourceManagerFactory">
       </manager>
       <registrations
-            class="sk.stuba.fiit.perconik.debug.resources.DebugListenerPoolNameSupplier">
+            class="sk.stuba.fiit.perconik.core.debug.resources.DebugListenerPoolNameSupplier">
       </registrations>
    </extension>
 

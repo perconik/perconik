@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="sk.stuba.fiit.perconik.core.preferences"
+         name="PerConIK Preferences"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="sk.stuba.fiit.perconik.core.preferences.ResourcePreferences$Initializer">
+      </initializer>
+      <initializer
+            class="sk.stuba.fiit.perconik.core.preferences.ListenerPreferences$Initializer">
+      </initializer>
+   </extension>
+   <extension
+         point="sk.stuba.fiit.perconik.core.services.listeners">
+      <registrations
+            class="sk.stuba.fiit.perconik.core.preferences.RegisteredListenersSupplier">
+      </registrations>
+   </extension>
+   <extension
+         point="sk.stuba.fiit.perconik.core.services.resources">
+      <registrations
+            class="sk.stuba.fiit.perconik.core.preferences.RegisteredResourcesSupplier">
+      </registrations>
+   </extension>
+
+</plugin>

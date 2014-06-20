@@ -13,7 +13,7 @@ public abstract class AbstractPreferences
 
 	final IPreferenceStore store;
 	
-	AbstractPreferences(final Scope scope)
+	public AbstractPreferences(final Scope scope)
 	{
 		this.scope = scope;
 		this.store = scope.store();
@@ -44,14 +44,14 @@ public abstract class AbstractPreferences
 
 	public static abstract class Initializer extends AbstractPreferenceInitializer
 	{
-		Initializer()
+		protected Initializer()
 		{
 		}
 	}
 
 	public static abstract class Keys
 	{
-		Keys()
+		protected Keys()
 		{
 			throw new AssertionError();
 		}

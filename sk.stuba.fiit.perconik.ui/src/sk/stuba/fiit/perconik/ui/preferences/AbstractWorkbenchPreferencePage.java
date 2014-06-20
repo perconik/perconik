@@ -5,9 +5,9 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-abstract class AbstractWorkbenchPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
+public abstract class AbstractWorkbenchPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
 {
-	AbstractWorkbenchPreferencePage()
+	protected AbstractWorkbenchPreferencePage()
 	{
 	}
 	
@@ -16,22 +16,22 @@ abstract class AbstractWorkbenchPreferencePage extends PreferencePage implements
 	{
 	}
 	
-	final void displayQuestion(final String title, final String message)
+	protected final void displayQuestion(final String title, final String message)
 	{
 		MessageDialog.openQuestion(this.getShell(), title, message);
 	}
 
-	final void displayNotice(final String title, final String message)
+	protected final void displayNotice(final String title, final String message)
 	{
 		MessageDialog.openInformation(this.getShell(), title, message);
 	}
 
-	final void displayWarning(final String title, final String message)
+	protected final void displayWarning(final String title, final String message)
 	{
 		MessageDialog.openWarning(this.getShell(), title, message);
 	}
 
-	final void displayError(final String title, final String message)
+	protected final void displayError(final String title, final String message)
 	{
 		MessageDialog.openError(this.getShell(), title, message);
 	}

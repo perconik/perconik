@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="sk.stuba.fiit.perconik.ui.preferences"
+         name="PerConIK Preferences UI"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            class="sk.stuba.fiit.perconik.core.ui.preferences.ResourcesPreferencePage"
+            id="sk.stuba.fiit.perconik.core.ui.preferences.resources"
+            name="Resources">
+      </page>
+      <page
+            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            class="sk.stuba.fiit.perconik.core.ui.preferences.ListenersPreferencePage"
+            id="sk.stuba.fiit.perconik.core.ui.preferences.listeners"
+            name="Listeners">
+      </page>
+   </extension>
+
+</plugin>
