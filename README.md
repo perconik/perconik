@@ -33,6 +33,14 @@ run
 mvn -DnewVersion=1.0.0-SNAPSHOT tycho-versions:set-version tycho-versions:update-pom
 ```
 
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin new-feature`)
+5. Create new Pull Request
+
 ## Acknowledgement
 
 This Software is the partial result of the Research and Development
