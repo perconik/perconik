@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>perconik</groupId>
+		<artifactId>perconik</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	
+	<groupId>sk.stuba.fiit.perconik</groupId>
+	<artifactId>sk.stuba.fiit.perconik</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+ 
+	<modules>
+		<module>../sk.stuba.fiit.perconik.feature</module>
+		<module>../sk.stuba.fiit.perconik.activity.feature</module>
+		<module>../sk.stuba.fiit.perconik.core.feature</module>
+
+		<module>../sk.stuba.fiit.perconik.activity</module>
+ 
+		<module>../sk.stuba.fiit.perconik.core</module>
+		<module>../sk.stuba.fiit.perconik.core.debug</module>
+		<module>../sk.stuba.fiit.perconik.core.java</module>
+		<module>../sk.stuba.fiit.perconik.core.java.examples</module>
+		<module>../sk.stuba.fiit.perconik.core.persistence</module>
+		<module>../sk.stuba.fiit.perconik.core.preferences</module>
+		<module>../sk.stuba.fiit.perconik.core.ui</module>
+
+		<module>../sk.stuba.fiit.perconik.eclipse</module>
+ 		<module>../sk.stuba.fiit.perconik.environment</module>
+		<module>../sk.stuba.fiit.perconik.libraries</module>
+		<module>../sk.stuba.fiit.perconik.preferences</module>
+		<module>../sk.stuba.fiit.perconik.ui</module>
+		<module>../sk.stuba.fiit.perconik.utilities</module>
+	</modules>
+</project> 
