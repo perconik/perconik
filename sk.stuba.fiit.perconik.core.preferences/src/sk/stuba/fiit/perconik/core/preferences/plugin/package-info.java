@@ -1,5 +1,5 @@
 /**
- * Activation utilities for {@code sk.stuba.fiit.perconik.preferences} plug-in.
+ * Activation utilities for {@code sk.stuba.fiit.perconik.core.preferences} plug-in.
  */
 @ParametersAreNonnullByDefault
 package sk.stuba.fiit.perconik.core.preferences.plugin;

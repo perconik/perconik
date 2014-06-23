@@ -1,4 +1,3 @@
-
 package sk.stuba.fiit.perconik.eclipse.jface.dialogs;
 
 import static com.google.common.base.Preconditions.checkNotNull;

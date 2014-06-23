@@ -1,5 +1,5 @@
 /**
- * Preferences UI built atop Eclipse Platform UI.
+ * Core preference UI.
  */
 @ParametersAreNonnullByDefault
 package sk.stuba.fiit.perconik.core.ui.preferences;
