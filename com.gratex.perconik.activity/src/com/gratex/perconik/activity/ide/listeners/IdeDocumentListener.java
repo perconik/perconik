@@ -4,6 +4,7 @@ import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -14,6 +15,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.IFileBuffer;
@@ -23,7 +25,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -104,9 +105,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	// TODO note that switch_to is generated before open/close 
 	// TODO open is also generated on initial switch to previously opened tab directly after eclipse launch 
 	
+	private static final boolean processStructuredSelections = false;
+	
+	private static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(POST_CHANGE);
+	
 	private final Object lock = new Object();
 	
 	@GuardedBy("lock")
+	@Nullable
 	private UnderlyingDocument<?> document;
 	
 	public IdeDocumentListener()
@@ -252,30 +258,27 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		UnderlyingDocument<?> document = null;
 
-		if (selection instanceof StructuredSelection)
+		if (processStructuredSelections)
 		{
-			Object element = ((StructuredSelection) selection).getFirstElement();
-
-			if (element instanceof IFile)
+			if (selection instanceof StructuredSelection)
 			{
-				document = UnderlyingDocument.of((IFile) element);
-			}
-			else if (element instanceof IClassFile)
-			{
-				document = UnderlyingDocument.of((IClassFile) element);
-			}
-			else if (element instanceof IJavaElement)
-			{
-				IResource resource = JavaElements.resource((IJavaElement) element);
-
-				if (resource instanceof IFile)
+				Object element = ((StructuredSelection) selection).getFirstElement();
+	
+				document = UnderlyingDocument.resolve(element);
+	
+				if (document == null && element instanceof IJavaElement)
 				{
-					document = UnderlyingDocument.of((IFile) resource);
+					IResource resource = JavaElements.resource((IJavaElement) element);
+	
+					if (resource instanceof IFile)
+					{
+						document = UnderlyingDocument.of((IFile) resource);
+					}
 				}
 			}
 		}
 		
-		if (document == null && part instanceof IEditorPart)
+		if (isNull(document) && part instanceof IEditorPart)
 		{
 			document = UnderlyingDocument.from((IEditorPart) part);
 		}
@@ -448,6 +451,6 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	public final Set<ResourceEventType> getEventTypes()
 	{
-		return ImmutableSet.of(POST_CHANGE);
+		return resourceEventTypes;
 	}
 }

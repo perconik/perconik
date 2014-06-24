@@ -4,6 +4,7 @@ import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
@@ -69,6 +70,10 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 {
 	// TODO rename not implemented
 	// TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
+	
+	private static final boolean processStructuredSelections = false;
+	
+	private static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(PRE_CLOSE, PRE_DELETE, PRE_REFRESH, POST_CHANGE);
 	
 	private final Object lock = new Object();
 	
@@ -198,14 +203,22 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
 	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
-		IProject project = part instanceof IEditorPart ? Projects.fromEditor((IEditorPart) part) : null;
-		
-		if (project == null && selection instanceof IStructuredSelection)
+		IProject project = null;
+
+		if (processStructuredSelections)
 		{
-			project = Projects.fromSelection((IStructuredSelection) selection);
+			if (project == null && selection instanceof IStructuredSelection)
+			{
+				project = Projects.fromSelection((IStructuredSelection) selection);
+			}
 		}
 		
-		if (project == null)
+		if (isNull(project) && part instanceof IEditorPart)
+		{
+			project = Projects.fromEditor((IEditorPart) part);
+		}
+		
+		if (isNull(project))
 		{
 			project = Projects.fromPage(part.getSite().getPage());
 		}
@@ -244,6 +257,6 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
 	public final Set<ResourceEventType> getEventTypes()
 	{
-		return ImmutableSet.of(PRE_CLOSE, PRE_DELETE, PRE_REFRESH, POST_CHANGE);
+		return resourceEventTypes;
 	}
 }
