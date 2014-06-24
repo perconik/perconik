@@ -44,6 +44,21 @@ abstract class UnderlyingDocument<T>
 		return null;
 	}
 	
+	static final UnderlyingDocument<?> resolve(Object element)
+	{
+		if (element instanceof IFile)
+		{
+			return of((IFile) element);
+		}
+		
+		if (element instanceof IClassFile)
+		{
+			return of((IClassFile) element);
+		}
+		
+		return null;
+	}
+
 	static final UnderlyingDocument<IClassFile> of(final IClassFile file)
 	{
 		return new ClassFile(file);
@@ -53,7 +68,7 @@ abstract class UnderlyingDocument<T>
 	{
 		return new File(file);
 	}
-
+	
 	private static final class ClassFile extends UnderlyingDocument<IClassFile>
 	{
 		ClassFile(final IClassFile resource)
