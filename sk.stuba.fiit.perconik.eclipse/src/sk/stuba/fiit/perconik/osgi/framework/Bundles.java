@@ -7,7 +7,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
-import sk.stuba.fiit.perconik.utilities.reflect.ClassResolver;
+import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

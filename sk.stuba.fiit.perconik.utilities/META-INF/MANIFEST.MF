@@ -7,10 +7,12 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.utilities,
  sk.stuba.fiit.perconik.utilities.constant,
  sk.stuba.fiit.perconik.utilities.function,
+ sk.stuba.fiit.perconik.utilities.io,
  sk.stuba.fiit.perconik.utilities.net,
  sk.stuba.fiit.perconik.utilities.reflect,
  sk.stuba.fiit.perconik.utilities.reflect.accessor,
- sk.stuba.fiit.perconik.utilities.reflect.annotation
+ sk.stuba.fiit.perconik.utilities.reflect.annotation,
+ sk.stuba.fiit.perconik.utilities.reflect.resolver
 Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.3.0"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
