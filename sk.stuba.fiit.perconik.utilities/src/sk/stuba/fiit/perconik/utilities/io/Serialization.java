@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import com.google.common.base.Strings;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
@@ -22,6 +23,11 @@ public final class Serialization
 	
 	public static final Object readFromString(String data, ClassResolver resolver) throws ClassNotFoundException, IOException
 	{
+		if (Strings.isNullOrEmpty(data))
+		{
+			return null;
+		}
+		
 		try (ByteArrayInputStream bytes = new ByteArrayInputStream(data.getBytes()))
 		{
 			try (ObjectInputStream objects = new ClassResolvingObjectInputStream(resolver, bytes))

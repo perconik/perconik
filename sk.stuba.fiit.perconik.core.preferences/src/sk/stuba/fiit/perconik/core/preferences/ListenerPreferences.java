@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ListenerPreferences extends AbstractPreferences
+public final class ListenerPreferences extends AbstractRegistrationPreferences<ListenerPersistenceData>
 {
 	private ListenerPreferences(final Scope scope)
 	{
@@ -85,7 +85,7 @@ public final class ListenerPreferences extends AbstractPreferences
 	 */
 	public final void setListenerPersistenceData(final Set<ListenerPersistenceData> data)
 	{
-		this.setValue(persistence, data);
+		this.setRegistrations(persistence, data);
 	}
 	
 	/**
@@ -93,18 +93,12 @@ public final class ListenerPreferences extends AbstractPreferences
 	 */
 	public final Set<ListenerPersistenceData> getListenerPersistenceData()
 	{
-		try
-		{
-			return (Set<ListenerPersistenceData>) this.getObject(persistence);
-		}
-		catch (RuntimeException e)
-		{
-			if (this.getScope() != Scope.DEFAULT)
-			{
-				return ListenerPersistenceData.defaults();
-			}
-			
-			throw e;
-		}
+		return this.getRegistrations(persistence);
+	}
+
+	@Override
+	final Set<ListenerPersistenceData> getDefaultRegistrations()
+	{
+		return ListenerPersistenceData.defaults();
 	}
 }

@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ResourcePreferences extends AbstractPreferences
+public final class ResourcePreferences extends AbstractRegistrationPreferences<ResourcePersistenceData>
 {
 	private ResourcePreferences(final Scope scope)
 	{
@@ -84,7 +84,7 @@ public final class ResourcePreferences extends AbstractPreferences
 	 */
 	public final void setResourcePersistenceData(final Set<ResourcePersistenceData> data)
 	{
-		this.setValue(persistence, data);
+		this.setRegistrations(persistence, data);
 	}
 
 	/**
@@ -92,18 +92,12 @@ public final class ResourcePreferences extends AbstractPreferences
 	 */
 	public final Set<ResourcePersistenceData> getResourcePersistenceData()
 	{		
-		try
-		{
-			return (Set<ResourcePersistenceData>) this.getObject(persistence);
-		}
-		catch (RuntimeException e)
-		{
-			if (this.getScope() != Scope.DEFAULT)
-			{
-				return ResourcePersistenceData.defaults();
-			}
-			
-			throw e;
-		}
+		return this.getRegistrations(persistence);
+	}
+
+	@Override
+	final Set<ResourcePersistenceData> getDefaultRegistrations()
+	{
+		return ResourcePersistenceData.defaults();
 	}
 }

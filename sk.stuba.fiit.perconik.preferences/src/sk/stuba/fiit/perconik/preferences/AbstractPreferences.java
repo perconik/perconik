@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
@@ -15,8 +16,8 @@ public abstract class AbstractPreferences
 	
 	public AbstractPreferences(final Scope scope)
 	{
-		this.scope = scope;
-		this.store = scope.store();
+		this.scope = checkNotNull(scope);
+		this.store = checkNotNull(scope.store());
 	}
 	
 	public static enum Scope
@@ -57,30 +58,6 @@ public abstract class AbstractPreferences
 		}
 	}
 
-	static final String toStringOrFailure(final String key, final Object value)
-	{
-		try
-		{
-			return Serialization.writeToString(value);
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("Unable to write object under key " + key + " to string", e);
-		}
-	}
-
-	static final Object fromStringOrFailure(final String key, final String value)
-	{
-		try
-		{
-			return Serialization.readFromString(value);
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException("Unable to read object under key " + key + " from string", e);
-		}
-	}
-
 	public final Scope getScope()
 	{
 		return this.scope;
@@ -89,26 +66,6 @@ public abstract class AbstractPreferences
 	public final IPreferenceStore getStore()
 	{
 		return this.store;
-	}
-	
-	protected final void setDefault(final String key, final Object value)
-	{
-		this.store.setDefault(key, toStringOrFailure(key, value));
-	}
-
-	protected final Object getDefaultObject(final String key)
-	{
-		return fromStringOrFailure(key, this.store.getDefaultString(key));
-	}
-
-	protected final void setValue(final String key, final Object value)
-	{
-		this.store.setValue(key, toStringOrFailure(key, value));
-	}
-
-	protected final Object getObject(final String key)
-	{
-		return fromStringOrFailure(key, this.store.getString(key));
 	}
 	
 	protected final boolean canSave()
