@@ -63,6 +63,24 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 		return data;
 	}
 	
+	static final void processLaunch(final long time, final ILaunch launch)
+	{
+		IProject project = Projects.fromLaunch(launch).iterator().next();
+		
+		String state = launch.getLaunchMode() + " (launch)";
+		
+		UacaProxy.sendStateChangeEvent(build(time, project, state));
+	}
+	
+	static final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
+	{
+		IProject project = Projects.fromPage(page);
+
+		String state = descriptor.getLabel().toLowerCase() + " (perspective)";
+
+		UacaProxy.sendStateChangeEvent(build(time, project, state));
+	}
+	
 	public final void launchAdded(final ILaunch launch)
 	{
 		final long time = currentTime();
@@ -71,11 +89,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 		{
 			public final void run()
 			{
-				IProject project = Projects.fromLaunch(launch).iterator().next();
-				
-				String state = launch.getLaunchMode() + " (launch)";
-				
-				UacaProxy.sendStateChangeEvent(build(time, project, state));
+				processLaunch(time, launch);
 			}
 		});
 	}
@@ -104,11 +118,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 		{
 			public final void run()
 			{
-				IProject project = Projects.fromPage(page);
-
-				String state = descriptor.getLabel().toLowerCase() + " (perspective)";
-
-				UacaProxy.sendStateChangeEvent(build(time, project, state));
+				processPerspective(time, page, descriptor);
 			}
 		});
 	}
