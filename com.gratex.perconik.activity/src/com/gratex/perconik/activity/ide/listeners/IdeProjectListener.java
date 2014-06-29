@@ -193,7 +193,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		}
 	}
 	
-	static final void process(final long time, final IResourceChangeEvent event)
+	static final void processResource(final long time, final IResourceChangeEvent event)
 	{
 		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
 		IResourceDelta    delta = event.getDelta();
@@ -201,7 +201,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		new ResourceDeltaVisitor(time, type).visitOrHandle(delta, event);
 	}
 
-	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
+	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
 		IProject project = null;
 
@@ -237,7 +237,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		{
 			public final void run()
 			{
-				process(time, event);
+				processResource(time, event);
 			}
 		});
 	}
@@ -250,7 +250,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		{
 			public final void run()
 			{
-				process(time, part, selection);
+				processSelection(time, part, selection);
 			}
 		});
 	}

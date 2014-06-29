@@ -246,7 +246,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		}
 	}
 
-	static final void process(final long time, final IResourceChangeEvent event)
+	static final void processResource(final long time, final IResourceChangeEvent event)
 	{
 		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
 		IResourceDelta    delta = event.getDelta();
@@ -254,7 +254,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		new ResourceDeltaVisitor(time, type).visitOrHandle(delta, event);
 	}
 	
-	final void process(final long time, final IWorkbenchPart part, final ISelection selection)
+	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
 		UnderlyingDocument<?> document = null;
 
@@ -317,7 +317,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				process(time, event);
+				processResource(time, event);
 			}
 		});
 	}
@@ -330,7 +330,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				process(time, part, selection);
+				processSelection(time, part, selection);
 			}
 		});
 	}
