@@ -12,6 +12,9 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
+import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.concurrent.GuardedBy;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -34,7 +37,9 @@ import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.MoreArrays;
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
 import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
@@ -82,11 +87,23 @@ import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
  */
 public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
 {
+	// TODO set to 500ms
+	private static final long selectionEventWindow = 5000;
+	
 	private final CommandExecutionStateHandler paste;
 	
+	private final Object lock = new Object();
+	
+	@GuardedBy("lock")
+	private final Stopwatch watch;
+	
+	@GuardedBy("lock")
+	private LinkedList<SelectionEvent> selections;
+
 	public IdeCodeListener()
 	{
 		this.paste = CommandExecutionStateHandler.of(PASTE.getIdentifier());
+		this.watch = Stopwatch.createUnstarted();
 	}
 
 	static enum Operation
@@ -135,7 +152,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 	
-	static final class Region
+	static final class TextRegion
 	{
 		final Position start = new Position();
 		
@@ -143,7 +160,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		String text;
 		
-		Region()
+		TextRegion()
 		{
 		}
 
@@ -152,13 +169,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			int line, offset;
 		}
 		
-		static final Region of(final IDocument document, int offset, int length, final String text)
+		static final TextRegion of(final IDocument document, int offset, int length, final String text)
 		{
 			checkArgument(offset >= 0);
 			checkArgument(length >= 0);
 			checkArgument(text != null);
 			
-			Region data = new Region();
+			TextRegion data = new TextRegion();
 			
 			try
 			{
@@ -187,7 +204,25 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 
-	static final IdeCodeEventRequest build(final long time, final UnderlyingDocument<?> document, final Region region)
+	static final class SelectionEvent
+	{
+		final long time;
+		
+		final IWorkbenchPart part;
+		
+		final ITextSelection selection;
+		
+		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
+		{
+			assert part != null && selection != null;
+			
+			this.time      = time;
+			this.part      = part;
+			this.selection = selection;
+		}
+	}
+
+	static final IdeCodeEventRequest build(final long time, final UnderlyingDocument<?> document, final TextRegion region)
 	{
 		final IdeCodeEventRequest data = new IdeCodeEventRequest();
 
@@ -208,12 +243,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		return data;
 	}
 	
-	static final void buildAndSend(final long time, final UnderlyingDocument<?> document, final Region region)
-	{
-		build(time, document, region);
-	}
-	
-	static final void process(final long time, final Operation operation)
+	static final void processCopyOrCut(final long time, final Operation operation)
 	{
 		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 		
@@ -247,7 +277,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		int offset = range.x;
 		int length = range.y;
 		
-		Region data = Region.of(document, offset, length, text);
+		TextRegion data = TextRegion.of(document, offset, length, text);
 
 		String selection;
 		
@@ -286,7 +316,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		UacaProxy.sendCodeEvent(build(time, resource, data), operation.getType());
 	}
 
-	static final void process(final long time, final DocumentEvent event)
+	static final void processPaste(final long time, final DocumentEvent event)
 	{
 		IDocument   document = event.getDocument();
 		IEditorPart editor   = Editors.forDocument(document);
@@ -300,13 +330,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
 	
-		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
+		TextRegion data = TextRegion.of(document, event.getOffset(), event.getLength(), event.getText());
 		
 		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.PASTE);
 	}
 	
-	//TODO add timer - fix continuous event sequence 
-	static final void process(final long time, final IWorkbenchPart part, final ITextSelection selection)
+	static final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection)
 	{
 		if (!(part instanceof IEditorPart))
 		{
@@ -323,14 +352,27 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 
-		Region data = Region.of(document, selection.getOffset(), selection.getLength(), selection.getText());
+		TextRegion data = TextRegion.of(document, selection.getOffset(), selection.getLength(), selection.getText());
 		
+		// TODO: find out why assert fails
 		assert data.start.line == selection.getStartLine();
 		assert data.end.line   == selection.getEndLine();
 		
 		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.SELECTION_CHANGED);
 	}
 	
+	@Override
+	public final void preUnregister()
+	{
+		synchronized (this.lock)
+		{
+			if (this.watch.isRunning())
+			{
+				this.stopWatchAndProcessLastSelectionEvent();
+			}
+		}
+	}
+
 	public final void documentAboutToBeChanged(final DocumentEvent event)
 	{
 	}
@@ -352,21 +394,83 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		{
 			public final void run()
 			{
-				process(time, event);
+				processPaste(time, event);
 			}
 		});
 	}
 
+	@GuardedBy("lock")
+	private final void startWatch()
+	{
+		assert !this.watch.isRunning() && this.selections == null;
+		
+		this.selections = Lists.newLinkedList();
+		
+		this.watch.reset().start();
+	}
+
+	@GuardedBy("lock")
+	private final void stopWatchAndProcessLastSelectionEvent()
+	{
+		assert this.watch.isRunning();
+		
+		selectionChanged(this.selections.getLast());
+		
+		this.selections = null;
+	
+		this.watch.stop();
+	}
+
 	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
 	{
-		//TODO add timer - fix continuous event sequence 
 		final long time = Utilities.currentTime();
+
+		// TODO ask if 0:0 "" selections should be ignored, if so, ignore HERE
 		
+		synchronized (this.lock)
+		{
+			if (this.watch.isRunning() && this.selections.getLast().part != part)
+			{
+				// TODO find out why after part switch there is "" selection even when text is selected
+				if (Log.enabled()) Log.message().format("selection: watch running but different part").appendTo(console);
+
+				this.stopWatchAndProcessLastSelectionEvent();
+			}
+			
+			if (!this.watch.isRunning())
+			{
+				if (Log.enabled()) Log.message().format("selection: watch not running").appendTo(console);
+
+				this.startWatch();
+			}
+
+			long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
+			
+			this.selections.add(new SelectionEvent(time, part, selection));
+
+			if (delta < selectionEventWindow)
+			{
+				if (Log.enabled()) Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
+				
+				return;
+			}
+
+			this.stopWatchAndProcessLastSelectionEvent();
+		}
+	}
+
+	private static final void selectionChanged(final SelectionEvent event)
+	{
+		selectionChanged(event.time, event.part, event.selection);
+	}
+	
+	private static final void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection)
+	{
 		execute(new Runnable()
 		{
 			public final void run()
 			{
-				process(time, part, selection);
+				processSelection(time, part, selection);
 			}
 		});
 	}
@@ -388,7 +492,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			{
 				public final void run()
 				{
-					process(time, operation);
+					processCopyOrCut(time, operation);
 				}
 			});
 		}
