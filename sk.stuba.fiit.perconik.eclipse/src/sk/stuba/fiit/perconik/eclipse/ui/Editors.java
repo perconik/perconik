@@ -13,6 +13,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 
 /**
  * Static utility methods pertaining to Eclipse editors.
@@ -43,6 +44,28 @@ public final class Editors
 		}
 		
 		return null;
+	}
+	
+	public static final Supplier<IEditorPart> activeEditorSupplier()
+	{
+		return new Supplier<IEditorPart>()
+		{
+			public final IEditorPart get()
+			{
+				return getActiveEditor();
+			}
+		};
+	}
+	
+	public static final Supplier<IEditorPart> activeEditorSupplier(@Nullable final IWorkbenchPage page)
+	{
+		return new Supplier<IEditorPart>()
+		{
+			public final IEditorPart get()
+			{
+				return getActiveEditor(page);
+			}
+		};
 	}
 	
 	/**

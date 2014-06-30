@@ -9,6 +9,7 @@ import org.eclipse.ui.PlatformUI;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.plugin.Activator;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 
 /**
  * Static utility methods pertaining to Eclipse workbench.
@@ -23,6 +24,83 @@ public final class Workbenches
 		throw new AssertionError();
 	}
 	
+	public static final Supplier<IWorkbench> workbenchSupplier()
+	{
+		return new Supplier<IWorkbench>()
+		{
+			public final IWorkbench get()
+			{
+				return getWorkbench();
+			}
+		};
+	}
+	
+	public static final Supplier<IWorkbenchWindow> activeWindowSupplier()
+	{
+		return new Supplier<IWorkbenchWindow>()
+		{
+			public final IWorkbenchWindow get()
+			{
+				return getActiveWindow();
+			}
+		};
+	}
+	
+	public static final Supplier<IWorkbenchWindow> activeWindowSupplier(@Nullable final IWorkbench workbench)
+	{
+		return new Supplier<IWorkbenchWindow>()
+		{
+			public final IWorkbenchWindow get()
+			{
+				return getActiveWindow(workbench);
+			}
+		};
+	}
+	
+	public static final Supplier<IWorkbenchPage> activePageSupplier()
+	{
+		return new Supplier<IWorkbenchPage>()
+		{
+			public final IWorkbenchPage get()
+			{
+				return getActivePage();
+			}
+		};
+	}
+	
+	public static final Supplier<IWorkbenchPage> activePageSupplier(@Nullable final IWorkbenchWindow window)
+	{
+		return new Supplier<IWorkbenchPage>()
+		{
+			public final IWorkbenchPage get()
+			{
+				return getActivePage(window);
+			}
+		};
+	}
+	
+	public static final Supplier<IWorkbenchPart> activePartSupplier()
+	{
+		return new Supplier<IWorkbenchPart>()
+		{
+			public final IWorkbenchPart get()
+			{
+				return getActivePart();
+			}
+		};
+	}
+	
+	public static final Supplier<IWorkbenchPart> activePartSupplier(@Nullable final IWorkbenchPage page)
+	{
+		return new Supplier<IWorkbenchPart>()
+		{
+			public final IWorkbenchPart get()
+			{
+				return getActivePart(page);
+			}
+		};
+	}
+
 	/**
 	 * Gets the workbench.
 	 * @return the workbench or {@code null} if it has not been created yet
@@ -40,7 +118,7 @@ public final class Workbenches
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Gets the currently active window.
 	 * @return the active window or {@code null} if
