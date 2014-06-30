@@ -21,12 +21,17 @@ public final class Environment
 	{
 		throw new AssertionError();
 	}
-	
+
+	public static final Version getJavaVersion()
+	{
+		return JavaVerifier.parseJavaVersion(StandardSystemProperty.JAVA_VERSION.value());
+	}
+
 	/**
 	 * Returns the current JVM process identifier.
 	 * @throws RuntimeException if accessing the process identifier fails.
 	 */
-	public static final int pid()
+	public static final int getProcessIdentifier()
 	{
 		String name = ManagementFactory.getRuntimeMXBean().getName();
 
@@ -40,11 +45,6 @@ public final class Environment
 		}
 	}
 
-	public static final Version getJavaVersion()
-	{
-		return JavaVerifier.parseJavaVersion(StandardSystemProperty.JAVA_VERSION.value());
-	}
-	
 	/**
 	 * Returns the value of the specified environment variable.
 	 * An environment variable is a system-dependent external named value. 
