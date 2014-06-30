@@ -4,7 +4,6 @@ package com.gratex.perconik.activity.ide;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
 import java.net.URL;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import javax.annotation.Nullable;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -15,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
+import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
@@ -35,7 +35,7 @@ public final class UacaProxy
 	
 	private static final Client client = ClientBuilder.newClient();
 	
-	private static final Executor executor = Executors.newCachedThreadPool();
+	private static final Executor executor = PlatformExecutors.newLimitedThreadPool();
 
 	private UacaProxy()
 	{

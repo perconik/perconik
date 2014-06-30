@@ -104,7 +104,7 @@ final class Internals
 	{
 		try
 		{
-			return Environment.pid();
+			return Environment.getProcessIdentifier();
 		}
 		catch (RuntimeException e)
 		{

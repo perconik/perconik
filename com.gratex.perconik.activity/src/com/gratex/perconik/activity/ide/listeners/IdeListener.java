@@ -1,10 +1,10 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 import com.gratex.perconik.activity.ide.IdeConsole;
 import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 
@@ -41,7 +41,7 @@ public abstract class IdeListener extends Adapter
 {
 	static final PluginConsole console = IdeConsole.getInstance();
 	
-	private static final Executor executor = Executors.newCachedThreadPool();
+	private static final Executor executor = PlatformExecutors.newLimitedThreadPool();
 
 	IdeListener()
 	{
