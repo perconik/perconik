@@ -5,6 +5,7 @@ Bundle-SymbolicName: sk.stuba.fiit.perconik.utilities;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.utilities,
+ sk.stuba.fiit.perconik.utilities.concurrent,
  sk.stuba.fiit.perconik.utilities.constant,
  sk.stuba.fiit.perconik.utilities.function,
  sk.stuba.fiit.perconik.utilities.io,
