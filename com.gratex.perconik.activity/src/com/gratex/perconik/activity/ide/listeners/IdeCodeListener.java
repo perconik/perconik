@@ -87,8 +87,7 @@ import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
  */
 public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
 {
-	// TODO set to 500ms
-	private static final long selectionEventWindow = 5000;
+	private static final long selectionEventWindow = 500;
 	
 	private final CommandExecutionStateHandler paste;
 	
@@ -152,7 +151,25 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 	
-	static final class TextRegion
+	static final class SelectionEvent
+	{
+		final long time;
+		
+		final IWorkbenchPart part;
+		
+		final ITextSelection selection;
+		
+		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
+		{
+			assert part != null && selection != null;
+			
+			this.time      = time;
+			this.part      = part;
+			this.selection = selection;
+		}
+	}
+
+	static final class Region
 	{
 		final Position start = new Position();
 		
@@ -160,7 +177,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		String text;
 		
-		TextRegion()
+		Region()
 		{
 		}
 
@@ -169,13 +186,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			int line, offset;
 		}
 		
-		static final TextRegion of(final IDocument document, int offset, int length, final String text)
+		static final Region of(final IDocument document, int offset, int length, final String text)
 		{
 			checkArgument(offset >= 0);
 			checkArgument(length >= 0);
 			checkArgument(text != null);
 			
-			TextRegion data = new TextRegion();
+			Region data = new Region();
 			
 			try
 			{
@@ -204,25 +221,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 
-	static final class SelectionEvent
-	{
-		final long time;
-		
-		final IWorkbenchPart part;
-		
-		final ITextSelection selection;
-		
-		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
-		{
-			assert part != null && selection != null;
-			
-			this.time      = time;
-			this.part      = part;
-			this.selection = selection;
-		}
-	}
-
-	static final IdeCodeEventRequest build(final long time, final UnderlyingDocument<?> document, final TextRegion region)
+	static final IdeCodeEventRequest build(final long time, final UnderlyingDocument<?> document, final Region region)
 	{
 		final IdeCodeEventRequest data = new IdeCodeEventRequest();
 
@@ -277,7 +276,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		int offset = range.x;
 		int length = range.y;
 		
-		TextRegion data = TextRegion.of(document, offset, length, text);
+		Region data = Region.of(document, offset, length, text);
 
 		String selection;
 		
@@ -330,7 +329,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
 	
-		TextRegion data = TextRegion.of(document, event.getOffset(), event.getLength(), event.getText());
+		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 		
 		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.PASTE);
 	}
@@ -352,12 +351,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 
-		TextRegion data = TextRegion.of(document, selection.getOffset(), selection.getLength(), selection.getText());
-		
-		// TODO: find out why assert fails
-		assert data.start.line == selection.getStartLine();
-		assert data.end.line   == selection.getEndLine();
-		
+		Region data = Region.of(document, selection.getOffset(), selection.getLength(), selection.getText());
+				
 		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.SELECTION_CHANGED);
 	}
 	
@@ -400,7 +395,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	}
 
 	@GuardedBy("lock")
-	private final void startWatch()
+	private final void startWatchAndClearSelectionEvents()
 	{
 		assert !this.watch.isRunning() && this.selections == null;
 		
@@ -413,11 +408,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	private final void stopWatchAndProcessLastSelectionEvent()
 	{
 		assert this.watch.isRunning();
-		
-		selectionChanged(this.selections.getLast());
-		
+
+		selectionChanged(this.selections.getLast());	
+
 		this.selections = null;
-	
+
 		this.watch.stop();
 	}
 
@@ -425,13 +420,15 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	{
 		final long time = Utilities.currentTime();
 
-		// TODO ask if 0:0 "" selections should be ignored, if so, ignore HERE
+		if (selection.getText().isEmpty())
+		{
+			return;
+		}
 		
 		synchronized (this.lock)
 		{
 			if (this.watch.isRunning() && this.selections.getLast().part != part)
 			{
-				// TODO find out why after part switch there is "" selection even when text is selected
 				if (Log.enabled()) Log.message().format("selection: watch running but different part").appendTo(console);
 
 				this.stopWatchAndProcessLastSelectionEvent();
@@ -441,7 +438,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			{
 				if (Log.enabled()) Log.message().format("selection: watch not running").appendTo(console);
 
-				this.startWatch();
+				this.startWatchAndClearSelectionEvents();
 			}
 
 			long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
