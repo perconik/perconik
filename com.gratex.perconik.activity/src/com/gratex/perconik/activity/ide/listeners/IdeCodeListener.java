@@ -167,6 +167,19 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			this.part      = part;
 			this.selection = selection;
 		}
+		
+		final boolean isContinuousWith(final SelectionEvent other)
+		{
+			if (this.part != other.part)
+			{
+				return false;
+			}
+			
+			int a = this.selection.getOffset();
+			int b = other.selection.getOffset();
+			
+			return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength()); 
+		}
 	}
 
 	static final class Region
@@ -427,7 +440,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		synchronized (this.lock)
 		{
-			if (this.watch.isRunning() && this.selections.getLast().part != part)
+			SelectionEvent event = new SelectionEvent(time, part, selection);
+			
+			if (this.watch.isRunning() && !this.selections.getLast().isContinuousWith(event))
 			{
 				if (Log.enabled()) Log.message().format("selection: watch running but different part").appendTo(console);
 
@@ -443,7 +458,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 			long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
 			
-			this.selections.add(new SelectionEvent(time, part, selection));
+			this.selections.add(event);
 
 			if (delta < selectionEventWindow)
 			{
