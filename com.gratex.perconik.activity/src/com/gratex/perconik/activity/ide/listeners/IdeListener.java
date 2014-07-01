@@ -1,7 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.concurrent.Executor;
-import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
@@ -59,13 +58,5 @@ public abstract class IdeListener extends Adapter
 	static final <V> V execute(final DisplayTask<V> task)
 	{
 		return task.get(displayExecutor);
-	}
-	
-	// TODO refactor all async operations to do minimal job in display threads
-	// TODO rm
-	@Deprecated
-	static final void executeSafely(final Runnable command)
-	{
-		Display.getDefault().asyncExec(command);
 	}
 }
