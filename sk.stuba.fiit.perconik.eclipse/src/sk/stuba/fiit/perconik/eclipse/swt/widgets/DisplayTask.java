@@ -49,8 +49,6 @@ public abstract class DisplayTask<V> implements Callable<V>
 		};
 	}
 	
-	public abstract V call() throws Exception;
-	
 	public final V get(final Executor executor)
 	{
 		return Executables.call(executor, this);

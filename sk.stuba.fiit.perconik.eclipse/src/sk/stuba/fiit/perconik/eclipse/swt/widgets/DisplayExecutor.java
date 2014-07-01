@@ -71,8 +71,6 @@ public abstract class DisplayExecutor implements Executor
 		}
 	}
 
-	public abstract void execute(Runnable command);
-
 	public final Display getDisplay()
 	{
 		return this.display;

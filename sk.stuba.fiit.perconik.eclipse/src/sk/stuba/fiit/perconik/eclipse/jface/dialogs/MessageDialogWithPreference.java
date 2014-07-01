@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.jface.dialogs;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import javax.annotation.Nullable;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -12,7 +13,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle
 {
 	protected Preference preference;
 
-	public MessageDialogWithPreference(Shell shell, String title, Image image, String message, int type, String[] labels, int index, String toggle, Preference preference)
+	public MessageDialogWithPreference(Shell shell, @Nullable String title, @Nullable Image image, String message, int type, String[] labels, int index, String toggle, Preference preference)
 	{
 		super(shell, title, image, message, type, labels, index, toggle, preference.getAsState());
 		
@@ -135,7 +136,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle
 		}
 	}
 	
-	public static MessageDialogWithPreference open(int kind, Shell shell, String title, String message, String toggle, Preference preference, int style)
+	public static MessageDialogWithPreference open(int kind, Shell shell, @Nullable String title, String message, String toggle, Preference preference, int style)
 	{
 		MessageDialogWithPreference dialog = new MessageDialogWithPreference(shell, title, null, message, kind, buttonLabels(kind), 0, toggle, preference);
 
@@ -147,32 +148,32 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle
 		return dialog;
 	}
 
-	public static MessageDialogWithPreference openError(Shell shell, String title, String message, String toggle, Preference preference)
+	public static MessageDialogWithPreference openError(Shell shell, @Nullable String title, String message, String toggle, Preference preference)
 	{
 		return open(ERROR, shell, title, message, toggle, preference, SWT.NONE);
 	}
 
-	public static MessageDialogWithPreference openInformation(Shell shell, String title, String message, String toggle, Preference preference)
+	public static MessageDialogWithPreference openInformation(Shell shell, @Nullable String title, String message, String toggle, Preference preference)
 	{
 		return open(INFORMATION, shell, title, message, toggle, preference, SWT.NONE);
 	}
 
-	public static MessageDialogWithPreference openOkCancelConfirm(Shell shell, String title, String message, String toggle, Preference preference)
+	public static MessageDialogWithPreference openOkCancelConfirm(Shell shell, @Nullable String title, String message, String toggle, Preference preference)
 	{
 		return open(CONFIRM, shell, title, message, toggle, preference, SWT.NONE);
 	}
 
-	public static MessageDialogWithPreference openWarning(Shell shell, String title, String message, String toggle, Preference preference)
+	public static MessageDialogWithPreference openWarning(Shell shell, @Nullable String title, String message, String toggle, Preference preference)
 	{
 		return open(WARNING, shell, title, message, toggle, preference, SWT.NONE);
 	}
 
-	public static MessageDialogWithPreference openYesNoCancelQuestion(Shell shell, String title, String message, String toggle, Preference preference)
+	public static MessageDialogWithPreference openYesNoCancelQuestion(Shell shell, @Nullable String title, String message, String toggle, Preference preference)
 	{
 		return open(QUESTION_WITH_CANCEL, shell, title, message, toggle, preference, SWT.NONE);
 	}
 
-	public static MessageDialogWithPreference openYesNoQuestion(Shell shell, String title, String message, String toggle, Preference preference)
+	public static MessageDialogWithPreference openYesNoQuestion(Shell shell, @Nullable String title, String message, String toggle, Preference preference)
 	{
 		return open(QUESTION, shell, title, message, toggle, preference, SWT.NONE);
 	}
