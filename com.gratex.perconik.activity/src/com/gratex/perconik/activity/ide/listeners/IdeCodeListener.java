@@ -34,6 +34,7 @@ import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.MoreArrays;
@@ -145,43 +146,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return this.id;
 		}
 		
-		public final IdeCodeEventType getType()
+		public final IdeCodeEventType getEventType()
 		{
 			return this.type;
 		}
 	}
 	
-	static final class SelectionEvent
-	{
-		final long time;
-		
-		final IWorkbenchPart part;
-		
-		final ITextSelection selection;
-		
-		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
-		{
-			assert part != null && selection != null;
-			
-			this.time      = time;
-			this.part      = part;
-			this.selection = selection;
-		}
-		
-		final boolean isContinuousWith(final SelectionEvent other)
-		{
-			if (this.part != other.part)
-			{
-				return false;
-			}
-			
-			int a = this.selection.getOffset();
-			int b = other.selection.getOffset();
-			
-			return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength()); 
-		}
-	}
-
 	static final class Region
 	{
 		final Position start = new Position();
@@ -234,7 +204,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 
-	static final IdeCodeEventRequest build(final long time, final UnderlyingDocument<?> document, final Region region)
+	static final IdeCodeEventRequest build(final long time, final UnderlyingResource<?> resource, final Region region)
 	{
 		final IdeCodeEventRequest data = new IdeCodeEventRequest();
 
@@ -246,8 +216,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		data.setEndColumnIndex(region.end.offset);
 		data.setEndRowIndex(region.end.line);
 		
-		document.setDocumentData(data);
-		document.setProjectData(data);
+		resource.setDocumentData(data);
+		resource.setProjectData(data);
 		
 		setApplicationData(data);
 		setEventData(data, time);
@@ -255,41 +225,130 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		return data;
 	}
 	
-	static final void processCopyOrCut(final long time, final Operation operation)
+	private static final class ClipboardReader extends DisplayTask<String>
 	{
-		Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
-		
-	    if (!MoreArrays.contains(clipboard.getAvailableTypeNames(), "Rich Text Format"))
-	    {
-	    	if (Log.enabled()) Log.message().appendln("copy / cut: not rich text format").appendTo(console);
-	    	
-	    	return;
-	    }
-	    
-	    String text = clipboard.getContents(TextTransfer.getInstance()).toString();
-	    
-	    clipboard.dispose();
-		
-		IEditorPart editor = Editors.getActiveEditor();
-		
-		if (editor == null)
+		static final ClipboardReader instance = new ClipboardReader();
+
+		private ClipboardReader()
 		{
-			if (Log.enabled()) Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
-	
-			return;
 		}
 		
-		ISourceViewer viewer   = Editors.getSourceViewer(editor);
+		@Override
+		public final String call()
+		{
+			Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
+			
+		    if (!MoreArrays.contains(clipboard.getAvailableTypeNames(), "Rich Text Format"))
+		    {
+		    	if (Log.enabled()) Log.message().appendln("copy / cut: not rich text").appendTo(console);
+		    	
+		    	return null;
+		    }
+		    
+		    String text = clipboard.getContents(TextTransfer.getInstance()).toString();
+		    
+		    clipboard.dispose();
+		    
+		    return text;
+		}
+	}
+	
+	private static final class SelectionRangeData
+	{
+		final IEditorPart editor;
+		
+		final ISourceViewer viewer;
+		
+		final Point range;
+		
+		SelectionRangeData(final IEditorPart editor, final ISourceViewer viewer, final Point range)
+		{
+			assert editor != null && viewer != null && range != null;
+			
+			this.editor = editor;
+			this.viewer = viewer;
+			this.range  = range;
+		}
+	}
+
+	private static final class SelectionRangeReader extends DisplayTask<SelectionRangeData>
+	{
+		static final SelectionRangeReader instance = new SelectionRangeReader();
+		
+		private SelectionRangeReader()
+		{
+		}
+		
+		@Override
+		public final SelectionRangeData call()
+		{
+			IEditorPart editor = Editors.getActiveEditor();
+			
+			if (editor == null)
+			{
+				if (Log.enabled()) Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
+		
+				return null;
+			}
+			
+			ISourceViewer viewer = Editors.getSourceViewer(editor);
+			
+			return new SelectionRangeData(editor, viewer, viewer.getSelectedRange());
+		}
+	}
+
+	
+	private static final class SelectionEvent
+	{
+		final long time;
+		
+		final IWorkbenchPart part;
+		
+		// TODO use UnderlyingContent instead of part here, problems in preUnregister()
+		
+		final ITextSelection selection;
+		
+		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
+		{
+			assert part != null && selection != null;
+			
+			this.time      = time;
+			this.part      = part;
+			this.selection = selection;
+		}
+		
+		final boolean isContinuousWith(final SelectionEvent other)
+		{
+			if (this.part != other.part)
+			{
+				return false;
+			}
+			
+			int a = this.selection.getOffset();
+			int b = other.selection.getOffset();
+			
+			return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength()); 
+		}
+	}
+
+	static final void processCopyOrCut(final long time, final Operation operation)
+	{
+		String text = execute(ClipboardReader.instance);
+		
+		SelectionRangeData data = execute(SelectionRangeReader.instance);
+		
+		IEditorPart   editor   = data.editor;
+		ISourceViewer viewer   = data.viewer;
 		IDocument     document = viewer.getDocument();
 		
-		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
+		UnderlyingResource<?> resource = UnderlyingResource.from(editor);
 		
-		Point range = viewer.getSelectedRange();
+		Point range = data.range;
 		
 		int offset = range.x;
 		int length = range.y;
 		
-		Region data = Region.of(document, offset, length, text);
+		Region region = Region.of(document, offset, length, text);
 
 		String selection;
 		
@@ -302,12 +361,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			throw Throwables.propagate(e);
 		}
 
-		if (operation == COPY && !data.text.equals(selection))
+		if (operation == COPY && !region.text.equals(selection))
 		{
 			if (Log.enabled())
 			{
 				Log.message().append("copy: clipboard content not equal to editor selection")
-				.append(" '").append(data.text).append("' != '").append(selection).appendln("'")
+				.append(" '").append(region.text).append("' != '").append(selection).appendln("'")
 				.appendTo(console);
 			}
 
@@ -325,7 +384,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 		
-		UacaProxy.sendCodeEvent(build(time, resource, data), operation.getType());
+		UacaProxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
 	}
 
 	static final void processPaste(final long time, final DocumentEvent event)
@@ -340,11 +399,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 		
-		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
+		UnderlyingResource<?> resource = UnderlyingResource.from(editor);
 	
-		Region data = Region.of(document, event.getOffset(), event.getLength(), event.getText());
+		Region region = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 		
-		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.PASTE);
+		UacaProxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
 	}
 	
 	static final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection)
@@ -354,19 +413,14 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 		
-		IEditorPart editor   = (IEditorPart) part;
-		IDocument   document = Editors.getDocument(editor);
-		
-		UnderlyingDocument<?> resource = UnderlyingDocument.from(editor);
-		
-		if (document == null || resource == null)
-		{
-			return;
-		}
-
-		Region data = Region.of(document, selection.getOffset(), selection.getLength(), selection.getText());
+		processSelection(time, UnderlyingContent.from((IEditorPart) part), selection);
+	}
+	
+	static final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection)
+	{
+		Region region = Region.of(content.document, selection.getOffset(), selection.getLength(), selection.getText());
 				
-		UacaProxy.sendCodeEvent(build(time, resource, data), IdeCodeEventType.SELECTION_CHANGED);
+		UacaProxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
 	}
 	
 	@Override
@@ -464,6 +518,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			{
 				if (Log.enabled()) Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
 				
+				this.watch.reset().start();
+				
 				return;
 			}
 
@@ -500,7 +556,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		{
 			final long time = Utilities.currentTime();
 			
-			executeSafely(new Runnable()
+			execute(new Runnable()
 			{
 				public final void run()
 				{
