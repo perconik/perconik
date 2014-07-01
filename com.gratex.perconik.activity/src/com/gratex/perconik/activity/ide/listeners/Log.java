@@ -1,8 +1,7 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
-import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 
 final class Log
 {
@@ -13,11 +12,11 @@ final class Log
 
 	static final boolean enabled()
 	{
-		return isEventLoggerEnabled();
+		return IdeActivityPreferences.isEventLoggerEnabled();
 	}
 
 	static final SmartStringBuilder message()
 	{
-		return builder();
+		return SmartStringBuilder.builder();
 	}
 }
