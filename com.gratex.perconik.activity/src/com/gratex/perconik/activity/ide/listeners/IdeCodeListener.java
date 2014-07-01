@@ -29,10 +29,12 @@ import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
+import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
@@ -86,7 +88,7 @@ import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener
+public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener, WorkbenchListener
 {
 	private static final long selectionEventWindow = 500;
 	
@@ -304,8 +306,6 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		
 		final IWorkbenchPart part;
 		
-		// TODO use UnderlyingContent instead of part here, problems in preUnregister()
-		
 		final ITextSelection selection;
 		
 		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
@@ -433,6 +433,17 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 				this.stopWatchAndProcessLastSelectionEvent();
 			}
 		}
+	}
+
+	public final boolean preShutdown(final IWorkbench workbench, final boolean forced)
+	{
+		this.preUnregister();
+		
+		return true;
+	}
+
+	public final void postShutdown(final IWorkbench workbench)
+	{
 	}
 
 	public final void documentAboutToBeChanged(final DocumentEvent event)
