@@ -4,6 +4,8 @@ import java.util.concurrent.Executor;
 import org.eclipse.swt.widgets.Display;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 import com.gratex.perconik.activity.ide.IdeConsole;
 import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
@@ -41,7 +43,9 @@ public abstract class IdeListener extends Adapter
 {
 	static final PluginConsole console = IdeConsole.getInstance();
 	
-	private static final Executor executor = PlatformExecutors.newLimitedThreadPool();
+	private static final Executor displayExecutor = DisplayExecutor.defaultSynchronous();
+
+	private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
 	IdeListener()
 	{
@@ -49,10 +53,17 @@ public abstract class IdeListener extends Adapter
 	
 	static final void execute(final Runnable command)
 	{
-		executor.execute(command);
+		sharedExecutor.execute(command);
 	}
 
+	static final <V> V execute(final DisplayTask<V> task)
+	{
+		return task.get(displayExecutor);
+	}
+	
 	// TODO refactor all async operations to do minimal job in display threads
+	// TODO rm
+	@Deprecated
 	static final void executeSafely(final Runnable command)
 	{
 		Display.getDefault().asyncExec(command);
