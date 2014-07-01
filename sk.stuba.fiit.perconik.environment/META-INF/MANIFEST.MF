@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Environment
 Bundle-SymbolicName: sk.stuba.fiit.perconik.environment;singleton:=true
-Bundle-Version: 0.3.0.qualifier
+Bundle-Version: 0.4.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.environment,
  sk.stuba.fiit.perconik.environment.plugin
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.8.0",
- sk.stuba.fiit.perconik.libraries;bundle-version="0.3.0"
+ sk.stuba.fiit.perconik.libraries;bundle-version="0.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: sk.stuba.fiit.perconik.environment.plugin.Activator
