@@ -20,19 +20,6 @@ User activity tracking in Eclipse.
 mvn clean install
 ```
 
-### Non-OSGi Dependencies
-
-```
-cd sk.stuba.fiit.perconik.libraries/download
-run
-```
-
-## Versioning
-
-```
-mvn -DnewVersion=1.0.0-SNAPSHOT tycho-versions:set-version tycho-versions:update-pom
-```
-
 ## Contributing
 
 1. Fork it
