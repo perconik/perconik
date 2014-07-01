@@ -207,7 +207,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
 		if (processStructuredSelections)
 		{
-			if (project == null && selection instanceof IStructuredSelection)
+			if (selection instanceof IStructuredSelection)
 			{
 				project = Projects.fromSelection((IStructuredSelection) selection);
 			}
@@ -246,7 +246,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 	{
 		final long time = currentTime();
 
-		executeSafely(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{

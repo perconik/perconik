@@ -42,6 +42,7 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
@@ -292,12 +293,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	@Override
 	public final void postRegister()
 	{
-		executeSafely(new Runnable()
+		execute(new Runnable()
 		{
 			@Override
 			public final void run()
 			{
-				final UnderlyingResource<?> resource = UnderlyingResource.from(Editors.getActiveEditor());
+				IEditorPart editor = execute(DisplayTask.of(Editors.activeEditorSupplier()));
+				
+				UnderlyingResource<?> resource = UnderlyingResource.from(editor);
 
 				if (resource == null)
 				{
