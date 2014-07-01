@@ -7,16 +7,16 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-public abstract class UnderlyingDocument<T>
+public abstract class UnderlyingResource<F>
 {
-	final T resource;
+	final F file;
 	
-	UnderlyingDocument(final T resource)
+	UnderlyingResource(final F file)
 	{
-		this.resource = checkNotNull(resource);
+		this.file = checkNotNull(file);
 	}
 	
-	public static final UnderlyingDocument<?> from(@Nullable final IEditorPart editor)
+	public static final UnderlyingResource<?> from(@Nullable final IEditorPart editor)
 	{
 		if (editor == null)
 		{
@@ -40,17 +40,17 @@ public abstract class UnderlyingDocument<T>
 		return null;
 	}
 	
-	public static final UnderlyingDocument<IClassFile> of(final IClassFile file)
+	public static final UnderlyingResource<IClassFile> of(final IClassFile file)
 	{
 		return new ClassFile(file);
 	}
 
-	public static final UnderlyingDocument<IFile> of(final IFile file)
+	public static final UnderlyingResource<IFile> of(final IFile file)
 	{
-		return new File(file);
+		return new DataFile(file);
 	}
 
-	private static final class ClassFile extends UnderlyingDocument<IClassFile>
+	private static final class ClassFile extends UnderlyingResource<IClassFile>
 	{
 		ClassFile(final IClassFile resource)
 		{
@@ -60,13 +60,13 @@ public abstract class UnderlyingDocument<T>
 		@Override
 		public final String getPath()
 		{
-			return ClassFiles.path(this.resource);
+			return ClassFiles.path(this.file);
 		}
 	}
 
-	private static final class File extends UnderlyingDocument<IFile>
+	private static final class DataFile extends UnderlyingResource<IFile>
 	{
-		File(final IFile resource)
+		DataFile(final IFile resource)
 		{
 			super(resource);
 		}
@@ -74,7 +74,7 @@ public abstract class UnderlyingDocument<T>
 		@Override
 		public final String getPath()
 		{
-			return this.resource.getFullPath().toString();
+			return this.file.getFullPath().toString();
 		}
 	}
 	
@@ -86,12 +86,12 @@ public abstract class UnderlyingDocument<T>
 			return true;
 		}
 
-		if (!(o instanceof UnderlyingDocument))
+		if (!(o instanceof UnderlyingResource))
 		{
 			return false;
 		}
 		
-		return this.getPath().equals(((UnderlyingDocument<?>) o).getPath());
+		return this.getPath().equals(((UnderlyingResource<?>) o).getPath());
 	}
 
 	@Override
