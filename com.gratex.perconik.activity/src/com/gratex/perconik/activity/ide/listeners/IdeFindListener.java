@@ -23,6 +23,7 @@ import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.base.Joiner;
@@ -249,8 +250,10 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		return "working sets " + Joiner.on(",").join(parts);
 	}
 
-	static final void process(final long time, final IWorkbenchPage page, final ISearchQuery query)
+	static final void process(final long time, final ISearchQuery query)
 	{
+		IWorkbenchPage page = execute(DisplayTask.of(Workbenches.activePageSupplier()));
+		
 		IProject project = Projects.fromPage(page);
 
 		// TODO project can not be always determined: when IClassFile is in editor, or when nothing is selected
@@ -278,11 +281,11 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 	{
 		final long time = currentTime();
 
-		executeSafely(new Runnable()
+		execute(new Runnable()
 		{
 			public final void run()
 			{
-				process(time, Workbenches.getActivePage(), query);
+				process(time, query);
 			}
 		});
 	}
