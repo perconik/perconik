@@ -9,18 +9,18 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.services.uaca.ide.*;
 
-abstract class UnderlyingDocument<T>
+abstract class UnderlyingResource<F>
 {
-	final T resource;
+	final F file;
 	
-	UnderlyingDocument(final T resource)
+	UnderlyingResource(final F file)
 	{
-		assert resource != null;
+		assert file != null;
 		
-		this.resource = resource;
+		this.file = file;
 	}
 	
-	static final UnderlyingDocument<?> from(@Nullable final IEditorPart editor)
+	static final UnderlyingResource<?> from(@Nullable final IEditorPart editor)
 	{
 		if (editor == null)
 		{
@@ -44,7 +44,7 @@ abstract class UnderlyingDocument<T>
 		return null;
 	}
 	
-	static final UnderlyingDocument<?> resolve(Object element)
+	static final UnderlyingResource<?> resolve(Object element)
 	{
 		if (element instanceof IFile)
 		{
@@ -59,17 +59,17 @@ abstract class UnderlyingDocument<T>
 		return null;
 	}
 
-	static final UnderlyingDocument<IClassFile> of(final IClassFile file)
+	static final UnderlyingResource<IClassFile> of(final IClassFile file)
 	{
 		return new ClassFile(file);
 	}
 
-	static final UnderlyingDocument<IFile> of(final IFile file)
+	static final UnderlyingResource<IFile> of(final IFile file)
 	{
-		return new File(file);
+		return new DataFile(file);
 	}
 	
-	private static final class ClassFile extends UnderlyingDocument<IClassFile>
+	private static final class ClassFile extends UnderlyingResource<IClassFile>
 	{
 		ClassFile(final IClassFile resource)
 		{
@@ -79,31 +79,31 @@ abstract class UnderlyingDocument<T>
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.file));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.file));
 		}
 
 		@Override
 		final void setProjectData(final BaseIdeEventRequest data)
 		{
-			IdeData.setProjectData(data, this.resource);
+			IdeData.setProjectData(data, this.file);
 		}
 
 		@Override
 		final String getPath()
 		{
-			return ClassFiles.path(this.resource);
+			return ClassFiles.path(this.file);
 		}
 	}
 
-	private static final class File extends UnderlyingDocument<IFile>
+	private static final class DataFile extends UnderlyingResource<IFile>
 	{
-		File(final IFile resource)
+		DataFile(final IFile resource)
 		{
 			super(resource);
 		}
@@ -111,25 +111,25 @@ abstract class UnderlyingDocument<T>
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.file));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.resource));
+			data.setDocument(IdeData.newDocumentData(this.file));
 		}
 
 		@Override
 		final void setProjectData(final BaseIdeEventRequest data)
 		{
-			IdeData.setProjectData(data, this.resource);
+			IdeData.setProjectData(data, this.file);
 		}
 
 		@Override
 		final String getPath()
 		{
-			return this.resource.getFullPath().toString();
+			return this.file.getFullPath().toString();
 		}
 	}
 	
@@ -141,12 +141,12 @@ abstract class UnderlyingDocument<T>
 			return true;
 		}
 
-		if (!(o instanceof UnderlyingDocument))
+		if (!(o instanceof UnderlyingResource))
 		{
 			return false;
 		}
 		
-		return this.getPath().equals(((UnderlyingDocument<?>) o).getPath());
+		return this.getPath().equals(((UnderlyingResource<?>) o).getPath());
 	}
 
 	@Override
