@@ -113,21 +113,21 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	
 	@GuardedBy("lock")
 	@Nullable
-	private UnderlyingDocument<?> document;
+	private UnderlyingResource<?> resource;
 	
 	public IdeDocumentListener()
 	{
 	}
 	
-	private final boolean updateFile(final UnderlyingDocument<?> document)
+	private final boolean updateFile(final UnderlyingResource<?> resource)
 	{
-		if (document != null)
+		if (resource != null)
 		{
 			synchronized (this.lock)
 			{
-				if (!document.equals(this.document))
+				if (!resource.equals(this.resource))
 				{
-					this.document = document;
+					this.resource = resource;
 					
 					return true;
 				}
@@ -139,15 +139,15 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 	static final IdeDocumentEventRequest build(final long time, final IFile file)
 	{
-		return build(time, UnderlyingDocument.of(file));
+		return build(time, UnderlyingResource.of(file));
 	}
 	
-	static final IdeDocumentEventRequest build(final long time, final UnderlyingDocument<?> document)
+	static final IdeDocumentEventRequest build(final long time, final UnderlyingResource<?> resource)
 	{
 		final IdeDocumentEventRequest data = new IdeDocumentEventRequest();
 
-		document.setDocumentData(data);
-		document.setProjectData(data);
+		resource.setDocumentData(data);
+		resource.setProjectData(data);
 
 		setApplicationData(data);
 		setEventData(data, time);
@@ -256,7 +256,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	
 	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
-		UnderlyingDocument<?> document = null;
+		UnderlyingResource<?> resource = null;
 
 		if (processStructuredSelections)
 		{
@@ -264,28 +264,28 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			{
 				Object element = ((StructuredSelection) selection).getFirstElement();
 	
-				document = UnderlyingDocument.resolve(element);
+				resource = UnderlyingResource.resolve(element);
 	
-				if (document == null && element instanceof IJavaElement)
+				if (resource == null && element instanceof IJavaElement)
 				{
-					IResource resource = JavaElements.resource((IJavaElement) element);
+					IResource other = JavaElements.resource((IJavaElement) element);
 	
-					if (resource instanceof IFile)
+					if (other instanceof IFile)
 					{
-						document = UnderlyingDocument.of((IFile) resource);
+						resource = UnderlyingResource.of((IFile) other);
 					}
 				}
 			}
 		}
 		
-		if (isNull(document) && part instanceof IEditorPart)
+		if (isNull(resource) && part instanceof IEditorPart)
 		{
-			document = UnderlyingDocument.from((IEditorPart) part);
+			resource = UnderlyingResource.from((IEditorPart) part);
 		}
 		
-		if (this.updateFile(document))
+		if (this.updateFile(resource))
 		{
-			UacaProxy.sendDocumentEvent(build(time, document), IdeDocumentEventType.SWITCH_TO);
+			UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
 		}
 	}
 	
@@ -297,14 +297,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			@Override
 			public final void run()
 			{
-				final UnderlyingDocument<?> document = UnderlyingDocument.from(Editors.getActiveEditor());
+				final UnderlyingResource<?> resource = UnderlyingResource.from(Editors.getActiveEditor());
 
-				if (document == null)
+				if (resource == null)
 				{
 					return;
 				}
 				
-				UacaProxy.sendDocumentEvent(build(currentTime(), document), IdeDocumentEventType.OPEN);
+				UacaProxy.sendDocumentEvent(build(currentTime(), resource), IdeDocumentEventType.OPEN);
 			}
 		});
 	}
@@ -343,7 +343,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingDocument<?> resource = UnderlyingDocument.from(dereferenceEditor(reference));
+				UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
 				
 				if (resource != null)
 				{
@@ -361,11 +361,11 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingDocument<?> document = UnderlyingDocument.from(dereferenceEditor(reference));
+				UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
 				
-				if (document != null)
+				if (resource != null)
 				{
-					UacaProxy.sendDocumentEvent(build(time, document), IdeDocumentEventType.CLOSE);
+					UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.CLOSE);
 				}
 			}
 		});
