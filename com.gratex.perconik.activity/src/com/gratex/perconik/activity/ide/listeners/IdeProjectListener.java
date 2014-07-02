@@ -24,7 +24,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
-import sk.stuba.fiit.perconik.eclipse.core.resources.AbstractResourceDeltaVisitor;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
@@ -113,7 +113,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		return data;
 	}
 	
-	private static final class ResourceDeltaVisitor extends AbstractResourceDeltaVisitor
+	private static final class ResourceDeltaVisitor extends ResourceDeltaResolver
 	{
 		private final long time;
 		
@@ -198,7 +198,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
 		IResourceDelta    delta = event.getDelta();
 	
-		new ResourceDeltaVisitor(time, type).visitOrHandle(delta, event);
+		new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
 	}
 
 	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)

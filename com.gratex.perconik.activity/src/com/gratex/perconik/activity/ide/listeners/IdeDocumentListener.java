@@ -37,7 +37,7 @@ import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
-import sk.stuba.fiit.perconik.eclipse.core.resources.AbstractResourceDeltaVisitor;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
@@ -157,7 +157,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		return data;
 	}
 	
-	private static final class ResourceDeltaVisitor extends AbstractResourceDeltaVisitor
+	private static final class ResourceDeltaVisitor extends ResourceDeltaResolver
 	{
 		private final long time;
 		
@@ -188,6 +188,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			IProject project = resource.getProject();
 			
+			// TODO try to implement better filter for resources in output location, do not depend on Java projects only
 			try
 			{
 				if (project != null && JavaProjects.inOutputLocation(project, resource))
@@ -242,7 +243,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		}
 
 		@Override
-		protected final void postVisitOrHandle()
+		protected final void postVisitOrProbe()
 		{
 			if (this.operations.containsKey(IdeDocumentEventType.RENAME))
 			{
@@ -261,7 +262,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
 		IResourceDelta    delta = event.getDelta();
 
-		new ResourceDeltaVisitor(time, type).visitOrHandle(delta, event);
+		new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
 	}
 	
 	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
