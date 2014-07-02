@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.Arrays;
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 
@@ -48,7 +48,7 @@ public final class PathPredicates
 			this.prefix = checkNotNull(prefix);
 		}
 	
-		public final boolean apply(@Nullable T path)
+		public final boolean apply(@Nonnull T path)
 		{
 			return path != null ? path.startsWith(this.prefix) : false;
 		}
@@ -67,7 +67,7 @@ public final class PathPredicates
 			this.suffix = checkNotNull(suffix);
 		}
 	
-		public final boolean apply(@Nullable T path)
+		public final boolean apply(@Nonnull T path)
 		{
 			return path != null ? path.endsWith(this.suffix) : false;
 		}
@@ -131,7 +131,7 @@ public final class PathPredicates
 			this.options = Arrays.copyOf(options, options.length);
 		}
 	
-		public final boolean apply(@Nullable T path)
+		public final boolean apply(@Nonnull T path)
 		{
 			return Files.isDirectory(path, this.options);
 		}
@@ -140,7 +140,7 @@ public final class PathPredicates
 		{
 			INSTANCE;
 			
-			public final boolean apply(@Nullable Path path)
+			public final boolean apply(@Nonnull Path path)
 			{
 				return Files.isDirectory(path);
 			}
@@ -162,7 +162,7 @@ public final class PathPredicates
 			this.options = Arrays.copyOf(options, options.length);
 		}
 	
-		public final boolean apply(@Nullable T path)
+		public final boolean apply(@Nonnull T path)
 		{
 			return Files.isRegularFile(path, this.options);
 		}
@@ -171,7 +171,7 @@ public final class PathPredicates
 		{
 			INSTANCE;
 			
-			public final boolean apply(@Nullable Path path)
+			public final boolean apply(@Nonnull Path path)
 			{
 				return Files.isRegularFile(path);
 			}
@@ -186,7 +186,7 @@ public final class PathPredicates
 	{
 		INSTANCE;
 	
-		public final boolean apply(@Nullable Path path)
+		public final boolean apply(@Nonnull Path path)
 		{
 			return Files.isExecutable(path); 
 		}
@@ -198,7 +198,7 @@ public final class PathPredicates
 	{
 		INSTANCE;
 	
-		public final boolean apply(@Nullable Path path)
+		public final boolean apply(@Nonnull Path path)
 		{
 			return Files.isReadable(path);
 		}
@@ -210,7 +210,7 @@ public final class PathPredicates
 	{
 		INSTANCE;
 	
-		public final boolean apply(@Nullable Path path)
+		public final boolean apply(@Nonnull Path path)
 		{
 			return Files.isWritable(path);
 		}
@@ -222,7 +222,7 @@ public final class PathPredicates
 	{
 		INSTANCE;
 	
-		public final boolean apply(@Nullable Path path)
+		public final boolean apply(@Nonnull Path path)
 		{
 			try
 			{
@@ -241,7 +241,7 @@ public final class PathPredicates
 	{
 		INSTANCE;
 	
-		public final boolean apply(@Nullable Path path)
+		public final boolean apply(@Nonnull Path path)
 		{
 			return Files.isSymbolicLink(path);
 		}

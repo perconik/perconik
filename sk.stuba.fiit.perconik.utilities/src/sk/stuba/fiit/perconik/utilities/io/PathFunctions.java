@@ -10,6 +10,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.Arrays;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
@@ -63,7 +64,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final Path apply(@Nullable Path path)
+		public final Path apply(@Nonnull Path path)
 		{
 			return path.normalize();
 		}
@@ -163,7 +164,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final Integer apply(@Nullable Path path)
+		public final Integer apply(@Nonnull Path path)
 		{
 			return path.getNameCount();
 		}
@@ -195,7 +196,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final Path apply(@Nullable Path path)
+		public final Path apply(@Nonnull Path path)
 		{
 			return path.getRoot();
 		}
@@ -207,7 +208,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final Path apply(@Nullable Path path)
+		public final Path apply(@Nonnull Path path)
 		{
 			return path.getParent();
 		}
@@ -219,7 +220,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final Path apply(@Nullable Path path)
+		public final Path apply(@Nonnull Path path)
 		{
 			return path.getFileName();
 		}
@@ -231,7 +232,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final FileSystem apply(Path path)
+		public final FileSystem apply(@Nonnull Path path)
 		{
 			return path.getFileSystem();
 		}
@@ -268,7 +269,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final Path apply(@Nullable Path path)
+		public final Path apply(@Nonnull Path path)
 		{
 			return path.toAbsolutePath();
 		}
@@ -287,7 +288,7 @@ public final class PathFunctions
 			this.options = Arrays.copyOf(options, options.length);
 		}
 	
-		public final T apply(@Nullable T path)
+		public final T apply(@Nonnull T path)
 		{
 			try
 			{
@@ -303,7 +304,7 @@ public final class PathFunctions
 		{
 			INSTANCE;
 			
-			public final Path apply(@Nullable Path path)
+			public final Path apply(@Nonnull Path path)
 			{
 				try
 				{
@@ -325,7 +326,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final File apply(@Nullable Path path)
+		public final File apply(@Nonnull Path path)
 		{
 			return path.toFile(); 
 		}
@@ -337,7 +338,7 @@ public final class PathFunctions
 	{
 		INSTANCE;
 	
-		public final URI apply(@Nullable Path path)
+		public final URI apply(@Nonnull Path path)
 		{
 			return path.toUri();
 		}
