@@ -42,6 +42,7 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.google.common.collect.ImmutableSet;
@@ -187,7 +188,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			IProject project = resource.getProject();
 			
-			if (project != null && JavaProjects.inOutputLocation(project, resource))
+			try
+			{
+				if (project != null && JavaProjects.inOutputLocation(project, resource))
+				{
+					return false;
+				}
+			}
+			catch (RuntimeCoreException e)
 			{
 				return false;
 			}
