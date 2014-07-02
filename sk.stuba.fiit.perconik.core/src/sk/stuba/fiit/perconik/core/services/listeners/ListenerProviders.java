@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Arrays;
 import java.util.Set;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider.Builder;
 import com.google.common.collect.Sets;
@@ -23,16 +24,23 @@ public final class ListenerProviders
 		throw new AssertionError();
 	}
 	
-	public static final ListenerProvider getSystemProvider()
-	{
-		return SystemListenerProvider.getInstance();
-	}
-
 	public static final Builder builder()
 	{
 		return StandardListenerProvider.builder();
 	}
 	
+	public static final Builder builder(@Nullable final ListenerProvider parent)
+	{
+		Builder builder = builder();
+		
+		if (parent != null)
+		{
+			builder.parent(parent);
+		}
+		
+		return builder;
+	}
+
 	public static final ListenerClassesSupplier supplier(final ListenerProvider provider)
 	{
 		return new ListenerClassesSupplier()
@@ -65,5 +73,10 @@ public final class ListenerProviders
 				return classes;
 			}
 		};
+	}
+
+	public static final ListenerProvider getSystemProvider()
+	{
+		return SystemListenerProvider.getInstance();
 	}
 }

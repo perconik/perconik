@@ -30,6 +30,6 @@ public final class ListenerProviderFactory implements sk.stuba.fiit.perconik.cor
 
 	public final ListenerProvider create(final ListenerProvider parent)
 	{
-		return ListenerProviders.builder().addAll(classes).parent(parent).build();
+		return ListenerProviders.builder(parent).addAll(classes).build();
 	}
 }

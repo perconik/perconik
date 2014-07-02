@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
@@ -24,14 +25,21 @@ public final class ResourceProviders
 		throw new AssertionError();
 	}
 	
-	public static final ResourceProvider getSystemProvider()
-	{
-		return SystemResourceProvider.getInstance();
-	}
-	
 	public static final Builder builder()
 	{
 		return StandardResourceProvider.builder();
+	}
+	
+	public static final Builder builder(@Nullable final ResourceProvider parent)
+	{
+		Builder builder = builder();
+		
+		if (parent != null)
+		{
+			builder.parent(parent);
+		}
+		
+		return builder;
 	}
 	
 	public static final ResourceNamesSupplier supplier(final ResourceProvider provider)
@@ -81,5 +89,10 @@ public final class ResourceProviders
 		}
 		
 		return names;
+	}
+
+	public static final ResourceProvider getSystemProvider()
+	{
+		return SystemResourceProvider.getInstance();
 	}
 }
