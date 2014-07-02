@@ -25,7 +25,6 @@ import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
@@ -141,8 +140,6 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 		setProjectData(data, project);
 		setApplicationData(data);
 		setEventData(data, time);
-		
-		if (Log.enabled()) Log.message().appendln("find:").tab().lines(dump(data)).appendTo(console);
 		
 		return data;
 	}
@@ -288,38 +285,5 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 				process(time, query);
 			}
 		});
-	}
-
-	private static final String dump(IdeFindEventRequest data)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder();
-		
-		builder.append("app-name: ").appendln(data.getAppName());
-		builder.append("app-version: ").appendln(data.getAppVersion());
-		builder.append("file-types: ").appendln(data.getFileTypes());
-		builder.append("find-what: ").appendln(data.getQueryText());
-		builder.append("lookin: ").appendln(data.getLookinTypeUri());
-		builder.append("pattern-syntax: ").appendln(data.getPatternSyntaxTypeUri());
-		builder.append("project-name: ").appendln(data.getProjectName());
-		builder.append("solution-name: ").appendln(data.getSolutionName());
-		builder.append("files-searched: ").appendln(data.getTotalFilesSearched());
-		builder.appendln("results:").tab();
-		
-		for (IdeFindFileResultDto result: data.getResultsPerFiles())
-		{
-			builder.append("file: ").appendln(result.getFile().getLocalPath());
-			builder.appendln("rows:").tab();
-			
-			for (IdeFindResultRowDto row: result.getRows())
-			{
-				builder.append("row: ").appendln(row.getRow());
-				builder.append("column: ").appendln(row.getColumn());
-				builder.append("text: ").appendln(row.getText());
-			}
-			
-			builder.untab();
-		}
-		
-		return builder.toString();
 	}
 }
