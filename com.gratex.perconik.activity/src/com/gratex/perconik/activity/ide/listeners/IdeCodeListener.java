@@ -361,7 +361,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			throw Throwables.propagate(e);
 		}
 
-		if (operation == COPY && !region.text.equals(selection))
+		if (operation == COPY && region.text != null && !region.text.equals(selection))
 		{
 			if (Log.enabled())
 			{

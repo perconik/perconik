@@ -6,13 +6,12 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-
+import com.google.common.base.Preconditions;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
@@ -79,11 +78,16 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public final boolean performOk()
 	{
+		Preconditions.checkState(this.checkConnection != null);
+		
 		return super.performOk() && (this.checkConnection.getBooleanValue() ? this.checkConnection() : true);
 	}
 	
 	final boolean checkConnection()
 	{
+		Preconditions.checkState(this.checkConnection != null);
+		Preconditions.checkState(this.uacaUrl != null);
+		
 		try
 		{
 			UacaProxy.checkConnection(this.uacaUrl.getUrlValue());

@@ -3,6 +3,7 @@ package com.gratex.perconik.activity.ide;
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
@@ -47,15 +48,15 @@ public final class IdeConsole extends ForwardingPluginConsole
 	}
 
 	@Override
-	public final PluginConsole append(final CharSequence s)
+	public final PluginConsole append(@Nullable final CharSequence s)
 	{
-		return super.append(this.hook(s.toString()));
+		return super.append(this.hook(String.valueOf(s)));
 	}
 
 	@Override
-	public final PluginConsole append(final CharSequence s, final int from, final int to)
+	public final PluginConsole append(@Nullable final CharSequence s, final int from, final int to)
 	{
-		return super.append(this.hook(s.toString().substring(from, to)));
+		return super.append(this.hook(String.valueOf(s).substring(from, to)));
 	}
 
 	@Override

@@ -40,6 +40,6 @@ public final class IdeListenerProviderFactory implements ListenerProviderFactory
 
 	public final ListenerProvider create(final ListenerProvider parent)
 	{
-		return ListenerProviders.builder().addAll(classes).parent(parent).build();
+		return ListenerProviders.builder(parent).addAll(classes).build();
 	}
 }
