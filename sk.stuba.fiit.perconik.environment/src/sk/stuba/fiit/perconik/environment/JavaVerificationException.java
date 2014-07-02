@@ -7,14 +7,9 @@ public class JavaVerificationException extends Exception
 {
 	private static final long serialVersionUID = 0;
 
-	private final Version required;
+	private final String required;
 
-	private final Version detected;
-	
-	public JavaVerificationException(Version required)
-	{
-		this(required, Environment.getJavaVersion());
-	}
+	private final String detected;
 	
 	public JavaVerificationException(Version required, Version detected)
 	{
@@ -25,17 +20,17 @@ public class JavaVerificationException extends Exception
 	{
 		super("Java " + required + " required but Java " + detected + " detected", cause);
 		
-		this.detected = detected;
-		this.required = required;
+		this.detected = detected.toString();
+		this.required = required.toString();
 	}
 	
 	public final Version getDetectedJavaVersion()
 	{
-		return this.detected;
+		return Version.parseVersion(this.detected);
 	}
 
 	public final Version getRequiredJavaVersion()
 	{
-		return this.required;
+		return Version.parseVersion(this.required);
 	} 
 }

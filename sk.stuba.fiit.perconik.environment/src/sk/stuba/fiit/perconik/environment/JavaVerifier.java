@@ -12,7 +12,7 @@ public enum JavaVerifier
 	
 	JAVA_8("1.8");
 	
-	private final Version version;
+	private final transient Version version;
 
 	private JavaVerifier(final String version)
 	{
@@ -33,7 +33,7 @@ public enum JavaVerifier
 	{
 		if (!this.isJavaCompatible())
 		{
-			throw new JavaVerificationException(this.version);
+			throw new JavaVerificationException(this.version, Environment.getJavaVersion());
 		}
 	}
 
