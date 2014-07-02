@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -143,6 +144,11 @@ public final class Projects
 		catch (CoreException e)
 		{
 			throw CoreExceptions.propagate(e);
+		}
+
+		if (resources == null)
+		{
+			return Collections.emptyList();
 		}
 		
 		Map<String, IProject> projects = Maps.newHashMapWithExpectedSize(resources.length);
