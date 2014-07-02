@@ -208,9 +208,10 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			if (flags.contains(MOVED_TO))
 			{
-				IPath path = delta.getMovedToPath();
+				IPath path  = delta.getMovedToPath();
+				IPath other = resource.getFullPath();
 				
-				if (!Objects.equals(path.lastSegment(), resource.getFullPath().lastSegment()))
+				if (path != null && other != null && !Objects.equals(path.lastSegment(), other.lastSegment()))
 				{
 					this.operations.put(IdeDocumentEventType.RENAME, (IFile) resource);
 					
