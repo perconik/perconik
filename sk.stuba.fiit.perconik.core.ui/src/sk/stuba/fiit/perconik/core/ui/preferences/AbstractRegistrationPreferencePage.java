@@ -348,7 +348,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			return Iterables.filter(annotations, INSTANCE);
 		}
 		
-		public final boolean apply(final Annotation annotation)
+		public final boolean apply(@Nonnull final Annotation annotation)
 		{
 			return annotation.annotationType() != Version.class;
 		}
