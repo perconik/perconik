@@ -10,8 +10,10 @@ public final class CoreExceptions
 		throw new AssertionError();
 	}
 	
-	public static final RuntimeException propagate(final CoreException e)
+	public static final RuntimeCoreException propagate(final CoreException failure)
 	{
-		return Throwables.propagate(e);
+		Throwables.propagateIfPossible(failure);
+		
+		throw new RuntimeCoreException(failure);
 	}
 }

@@ -12,28 +12,28 @@ public final class JavaExceptions
 		throw new AssertionError();
 	}
 	
-	public static final RuntimeException propagate(final CoreException e)
+	public static final RuntimeException propagate(final CoreException failure)
 	{
-		if (e instanceof JavaModelException)
+		if (failure instanceof JavaModelException)
 		{
-			throw new JavaException(e);
+			throw new JavaException(failure);
 		}
 		
-		return CoreExceptions.propagate(e);
+		return CoreExceptions.propagate(failure);
 	}
 
-	static final <T> T handle(final Exception e)
+	static final <T> T handle(final Exception failure)
 	{
-		if (e instanceof JavaModelException)
+		if (failure instanceof JavaModelException)
 		{
-			throw new JavaException(e);
+			throw new JavaException(failure);
 		}
 		
-		if (e instanceof NullPointerException)
+		if (failure instanceof NullPointerException)
 		{
 			return null;
 		}
 
-		throw Throwables.propagate(e);
+		throw Throwables.propagate(failure);
 	}
 }

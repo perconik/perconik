@@ -1,16 +1,15 @@
-package sk.stuba.fiit.perconik.core.java;
+package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
 
-public final class JavaException extends RuntimeCoreException
+public class RuntimeCoreException extends RuntimeException
 {
 	private static final long serialVersionUID = 0;
 
 	/**
 	 * Creates a new instance with no detail message.
 	 */
-	public JavaException()
+	public RuntimeCoreException()
 	{
 		super();
 	}
@@ -18,7 +17,7 @@ public final class JavaException extends RuntimeCoreException
 	/**
 	 * Creates a new instance with the given detail message.
 	 */
-	public JavaException(@Nullable String message)
+	public RuntimeCoreException(@Nullable String message)
 	{
 		super(message);
 	}
@@ -26,7 +25,7 @@ public final class JavaException extends RuntimeCoreException
 	/**
 	 * Creates a new instance with the given detail message and cause.
 	 */
-	public JavaException(@Nullable String message, @Nullable Throwable cause)
+	public RuntimeCoreException(@Nullable String message, @Nullable Throwable cause)
 	{
 		super(message, cause);
 	}
@@ -34,7 +33,7 @@ public final class JavaException extends RuntimeCoreException
 	/**
 	 * Creates a new instance with the given cause.
 	 */
-	public JavaException(@Nullable Throwable cause)
+	public RuntimeCoreException(@Nullable Throwable cause)
 	{
 		super(cause);
 	}
