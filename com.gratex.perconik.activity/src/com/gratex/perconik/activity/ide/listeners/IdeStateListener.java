@@ -65,11 +65,14 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	
 	static final void processLaunch(final long time, final ILaunch launch)
 	{
-		IProject project = Projects.fromLaunch(launch).iterator().next();
+		Iterable<IProject> projects = Projects.fromLaunch(launch);
 		
 		String state = launch.getLaunchMode() + " (launch)";
 		
-		UacaProxy.sendStateChangeEvent(build(time, project, state));
+		for (IProject project: projects)
+		{
+			UacaProxy.sendStateChangeEvent(build(time, project, state));			
+		}
 	}
 	
 	static final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
