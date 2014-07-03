@@ -3,7 +3,6 @@ package com.gratex.perconik.activity.ide.listeners;
 import javax.annotation.Nullable;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
@@ -99,15 +98,13 @@ abstract class UnderlyingResource<R>
 			try
 			{
 				file = (IFile) raw.getUnderlyingResource();
-				path = file.getFullPath();
 			}
-			catch (ClassCastException | JavaModelException e)
+			catch (JavaModelException | RuntimeException e)
 			{
 				file = null;
-				path = new Path(ClassFiles.path(raw));
 			}
 			
-			path = path.makeRelative();
+			path = ClassFiles.path(raw).makeRelative();
 
 			return new ClassFile(path.toString(), raw, path, file);
 		}

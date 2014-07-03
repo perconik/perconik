@@ -3,10 +3,8 @@ package com.gratex.perconik.activity.ide;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
@@ -31,28 +29,21 @@ public final class IdeData
 	
 	public static final IdeDocumentDto newDocumentData(final IClassFile file)
 	{
-		try
-		{
-			return newDocumentData((IFile) file.getUnderlyingResource());
-		}
-		catch (ClassCastException | JavaModelException e)
-		{
-			return newDocumentData(new Path(ClassFiles.path(file)));
-		}
+		return newDocumentData(ClassFiles.path(file));
 	}
 	
 	private static final IdeDocumentDto newDocumentData(final IPath path)
 	{
 		IdeDocumentDto data = new IdeDocumentDto();
 		
-		data.setLocalPath(path.makeRelative().toString());
+		data.setLocalPath(path.toString());
 
 		return data;
 	}
 	
 	private static final IdeDocumentDto newDocumentData(final IPath path, final IProject project)
 	{
-		IdeDocumentDto data = newDocumentData(path);
+		IdeDocumentDto data = newDocumentData(path.makeRelative());
 
 		Repository repository = GitRepositories.fromProject(project);
 		
