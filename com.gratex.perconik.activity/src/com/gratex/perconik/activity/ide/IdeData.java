@@ -1,21 +1,18 @@
 package com.gratex.perconik.activity.ide;
 
-import java.util.LinkedList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
-import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
 import com.gratex.perconik.services.uaca.ide.RcsServerDto;
@@ -36,43 +33,12 @@ public final class IdeData
 	{
 		try
 		{
-			IResource resource = file.getUnderlyingResource();
-			
-			if (resource instanceof IFile)
-			{
-				return newDocumentData((IFile) resource);
-			}
+			return newDocumentData((IFile) file.getUnderlyingResource());
 		}
-		catch (JavaModelException e)
+		catch (ClassCastException | JavaModelException e)
 		{
+			return newDocumentData(new Path(ClassFiles.path(file)));
 		}
-		
-		LinkedList<String> segments = Lists.newLinkedList();
-			
-		IJavaElement element = file;
-		
-		do
-		{
-			JavaElementType type = JavaElementType.valueOf(element);
-			
-			if (type == JavaElementType.PACKAGE_FRAGMENT_ROOT) break;
-			
-			String segment = element.getElementName();
-			
-			if (type == JavaElementType.PACKAGE_FRAGMENT)
-			{
-				segment = segment.replace('.', '/');
-			}
-			
-			segments.addFirst(segment);
-		}
-		while ((element = element.getParent()) != null);
-		
-		IdeDocumentDto data = new IdeDocumentDto();
-		
-		data.setLocalPath(Joiner.on('/').join(segments));
-		
-		return data;
 	}
 	
 	private static final IdeDocumentDto newDocumentData(final IPath path)
