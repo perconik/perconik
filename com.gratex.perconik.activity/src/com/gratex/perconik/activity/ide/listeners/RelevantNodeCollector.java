@@ -23,9 +23,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 @Beta
-final class RelevantAstCollector implements Collector<CompilationUnit, ASTNode>
+final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
 {
-	public RelevantAstCollector()
+	public RelevantNodeCollector()
 	{
 	}
 	

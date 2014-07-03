@@ -31,13 +31,13 @@ class CompilationUnitDifferencer
 {
 	static final ASTMatcher matcher = new ASTMatcher(true);
 	
-	private final RelevantAstCollector collector;
+	private final RelevantNodeCollector collector;
 	
 	private NodeDeltaSet.Builder<ASTNode> builder;
 	
 	public CompilationUnitDifferencer()
 	{
-		this.collector = new RelevantAstCollector();
+		this.collector = new RelevantNodeCollector();
 	}
 	
 	public final NodeDeltaSet<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised)
