@@ -1,8 +1,11 @@
 package sk.stuba.fiit.perconik.core.java;
 
 import java.util.LinkedList;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -14,31 +17,43 @@ public final class ClassFiles
 		throw new AssertionError();
 	}
 	
-	public static final String path(final IClassFile file)
+	public static final IPath path(final IClassFile file)
 	{
 		LinkedList<String> segments = Lists.newLinkedList();
-		
-		for (IJavaElement element: JavaElements.upToRoot(file))
-		{
-			switch (JavaElementType.valueOf(element))
-			{
-				case CLASS_FILE:
-					segments.add(element.getElementName());
-					break;
-					
-				case PACKAGE_FRAGMENT:
-					segments.addFirst(element.getElementName().replace('.', '/'));
-					break;
-					
-				case PACKAGE_FRAGMENT_ROOT:
-					segments.addFirst(element.getPath().toString());
-					break;
 
-				default:
-					continue;
+		IJavaElement element = file;
+
+		do
+		{
+			JavaElementType type = JavaElementType.valueOf(element);
+	
+			if (type == JavaElementType.PACKAGE_FRAGMENT_ROOT)
+			{
+				IPackageFragmentRoot root = (IPackageFragmentRoot) element;
+				
+				String segment = !root.isExternal() ? element.getPath().toString() : root.getElementName();
+				
+				if (segment.startsWith("/"))
+				{
+					segment = segment.substring(1);
+				}
+				
+				segments.addFirst(segment);
+				
+				break;
 			}
+	
+			String segment = element.getElementName();
+	
+			if (type == JavaElementType.PACKAGE_FRAGMENT)
+			{
+				segment = segment.replace('.', '/');
+			}
+	
+			segments.addFirst(segment);
 		}
+		while ((element = element.getParent()) != null);
 		
-		return Joiner.on('/').join(segments);
+		return new Path(Joiner.on('/').skipNulls().join(segments));
 	}
 }
