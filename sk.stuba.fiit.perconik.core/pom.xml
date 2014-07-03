@@ -9,5 +9,6 @@
 	</parent>
 
 	<artifactId>sk.stuba.fiit.perconik.core</artifactId>
+	<version>0.4.1-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 </project>
