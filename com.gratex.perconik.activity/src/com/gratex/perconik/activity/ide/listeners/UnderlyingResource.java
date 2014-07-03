@@ -2,12 +2,17 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import javax.annotation.Nullable;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import com.gratex.perconik.activity.ide.IdeData;
-import com.gratex.perconik.services.uaca.ide.*;
+import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
 
 abstract class UnderlyingResource<F>
 {
@@ -95,7 +100,34 @@ abstract class UnderlyingResource<F>
 		}
 
 		@Override
-		final String getPath()
+		final IFile getFile()
+		{
+			try
+			{
+				// TODO rm
+//				System.out.println(this.file);
+//				System.out.println(this.file.getPath());
+//				System.out.println(this.getPath());
+//				System.out.println(this.getPathAsString());
+//				System.out.println(this.file.getUnderlyingResource());
+				
+				
+				return (IFile) this.file.getUnderlyingResource();
+			}
+			catch (ClassCastException | JavaModelException e)
+			{
+				return null;
+			}
+		}
+
+		@Override
+		final IPath getPath()
+		{
+			return new Path(this.getPathAsString());
+		}
+
+		@Override
+		final String getPathAsString()
 		{
 			return ClassFiles.path(this.file);
 		}
@@ -127,9 +159,21 @@ abstract class UnderlyingResource<F>
 		}
 
 		@Override
-		final String getPath()
+		final IFile getFile()
 		{
-			return this.file.getFullPath().toString();
+			return this.file;
+		}
+
+		@Override
+		final IPath getPath()
+		{
+			return this.file.getFullPath();
+		}
+		
+		@Override
+		final String getPathAsString()
+		{
+			return this.getPath().toString();
 		}
 	}
 	
@@ -146,13 +190,13 @@ abstract class UnderlyingResource<F>
 			return false;
 		}
 		
-		return this.getPath().equals(((UnderlyingResource<?>) o).getPath());
+		return this.getPathAsString().equals(((UnderlyingResource<?>) o).getPathAsString());
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return this.getPath().hashCode();
+		return this.getPathAsString().hashCode();
 	}
 
 	abstract void setDocumentData(IdeCodeEventRequest data);
@@ -161,5 +205,11 @@ abstract class UnderlyingResource<F>
 	
 	abstract void setProjectData(BaseIdeEventRequest data);
 
-	abstract String getPath();
+	abstract IFile getFile();
+	
+	abstract IPath getPath();
+
+	// TODO make private / rm
+	// TODO cache in: private final path variable in abstract root
+	abstract String getPathAsString();
 }

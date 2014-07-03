@@ -37,14 +37,15 @@ import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.SetMultimap;
@@ -114,14 +115,13 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	private final Object lock = new Object();
 	
 	@GuardedBy("lock")
-	@Nullable
 	private UnderlyingResource<?> resource;
 	
 	public IdeDocumentListener()
 	{
 	}
 	
-	private final boolean updateFile(final UnderlyingResource<?> resource)
+	private final boolean updateResource(final UnderlyingResource<?> resource)
 	{
 		if (resource != null)
 		{
@@ -181,22 +181,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			assert delta != null && resource != null;
 			
-			if (this.type != POST_CHANGE)
-			{
-				return false;
-			}
-			
-			IProject project = resource.getProject();
-			
-			// TODO try to implement better filter for resources in output location, do not depend on Java projects only
-			try
-			{
-				if (project != null && JavaProjects.inOutputLocation(project, resource))
-				{
-					return false;
-				}
-			}
-			catch (RuntimeCoreException e)
+			if (this.type != POST_CHANGE || !ResourceFilter.INSTANCE.apply(resource))
 			{
 				return false;
 			}
@@ -256,6 +241,40 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			}
 		}
 	}
+	
+	private static enum ResourceFilter implements Predicate<IResource>
+	{
+		INSTANCE;
+
+		public final boolean apply(@Nullable final IResource resource)
+		{
+			// TODO use JGit here if possible, ignore everything in .gitignore
+
+			if (resource == null)
+			{
+				return false;
+			}
+			
+			IProject project = resource.getProject();
+			
+			if (project != null)
+			{
+				try
+				{
+					if (JavaProjects.inOutputLocation(project, resource))
+					{
+						return false;
+					}
+				}
+				catch (RuntimeCoreException e)
+				{
+					return true;
+				}
+			}
+			
+			return true;
+		}
+	}
 
 	static final void processResource(final long time, final IResourceChangeEvent event)
 	{
@@ -263,6 +282,16 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		IResourceDelta    delta = event.getDelta();
 
 		new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
+	}
+	
+	static final void processResource(final long time, final IEditorReference reference, final IdeDocumentEventType type)
+	{
+		UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
+		
+		if (resource != null)//TODO && ResourceFilter.INSTANCE.apply(resource.getFile()))
+		{
+			UacaProxy.sendDocumentEvent(build(time, resource), type);			
+		}
 	}
 	
 	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
@@ -294,7 +323,9 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			resource = UnderlyingResource.from((IEditorPart) part);
 		}
 		
-		if (this.updateFile(resource))
+		//TODO && ResourceFilter.INSTANCE.apply(resource.getFile()))
+		
+		if (this.updateResource(resource))
 		{
 			UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
 		}
@@ -356,12 +387,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
-				
-				if (resource != null)
-				{
-					UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.OPEN);
-				}
+				processResource(time, reference, IdeDocumentEventType.OPEN);
 			}
 		});
 	}
@@ -374,12 +400,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			public final void run()
 			{
-				UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
-				
-				if (resource != null)
-				{
-					UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.CLOSE);
-				}
+				processResource(time, reference, IdeDocumentEventType.CLOSE);
 			}
 		});
 	}

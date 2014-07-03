@@ -3,9 +3,11 @@ package com.gratex.perconik.activity.ide;
 import java.util.LinkedList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
@@ -32,8 +34,21 @@ public final class IdeData
 	
 	public static final IdeDocumentDto newDocumentData(final IClassFile file)
 	{
-		LinkedList<String> segments = Lists.newLinkedList();
+		try
+		{
+			IResource resource = file.getUnderlyingResource();
+			
+			if (resource instanceof IFile)
+			{
+				return newDocumentData((IFile) resource);
+			}
+		}
+		catch (JavaModelException e)
+		{
+		}
 		
+		LinkedList<String> segments = Lists.newLinkedList();
+			
 		IJavaElement element = file;
 		
 		do
