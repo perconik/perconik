@@ -5,13 +5,13 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-final class UnderlyingContent<F>
+final class UnderlyingContent<R>
 {
 	final IDocument document;
 	
-	final UnderlyingResource<F> resource;
+	final UnderlyingResource<R> resource;
 	
-	UnderlyingContent(final IDocument document, final UnderlyingResource<F> resource)
+	UnderlyingContent(final IDocument document, final UnderlyingResource<R> resource)
 	{
 		assert document != null && resource != null;
 		
@@ -19,7 +19,7 @@ final class UnderlyingContent<F>
 		this.resource = resource;
 	}
 	
-	static final UnderlyingContent<?> from(@Nullable final IEditorPart editor)
+	public static final UnderlyingContent<?> from(@Nullable final IEditorPart editor)
 	{
 		IDocument document = Editors.getDocument(editor);
 		

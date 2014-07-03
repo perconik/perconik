@@ -9,23 +9,33 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import com.google.common.base.Optional;
 import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
 
-abstract class UnderlyingResource<F>
+abstract class UnderlyingResource<R>
 {
-	final F file;
+	private final String id;
 	
-	UnderlyingResource(final F file)
+	final R raw;
+	
+	final IPath path;
+
+	final IFile file;
+	
+	UnderlyingResource(final String id, final R raw, @Nullable final IPath path, @Nullable final IFile file)
 	{
-		assert file != null;
+		assert id != null && raw != null;
 		
+		this.id   = id;
+		this.raw  = raw;
+		this.path = path;
 		this.file = file;
 	}
 	
-	static final UnderlyingResource<?> from(@Nullable final IEditorPart editor)
+	public static final UnderlyingResource<?> from(@Nullable final IEditorPart editor)
 	{
 		if (editor == null)
 		{
@@ -49,131 +59,142 @@ abstract class UnderlyingResource<F>
 		return null;
 	}
 	
-	static final UnderlyingResource<?> resolve(Object element)
+	public static final UnderlyingResource<?> resolve(@Nullable final Object raw)
 	{
-		if (element instanceof IFile)
+		if (raw instanceof IFile)
 		{
-			return of((IFile) element);
+			return of((IFile) raw);
 		}
 		
-		if (element instanceof IClassFile)
+		if (raw instanceof IClassFile)
 		{
-			return of((IClassFile) element);
+			return of((IClassFile) raw);
 		}
 		
 		return null;
 	}
 
-	static final UnderlyingResource<IClassFile> of(final IClassFile file)
+	public static final UnderlyingResource<IClassFile> of(final IClassFile raw)
 	{
-		return new ClassFile(file);
+		return ClassFile.create(raw);
 	}
 
-	static final UnderlyingResource<IFile> of(final IFile file)
+	public static final UnderlyingResource<IFile> of(final IFile raw)
 	{
-		return new DataFile(file);
+		return DataFile.create(raw);
 	}
 	
 	private static final class ClassFile extends UnderlyingResource<IClassFile>
 	{
-		ClassFile(final IClassFile resource)
+		private ClassFile(final String id, final IClassFile raw, @Nullable final IPath path, @Nullable final IFile file)
 		{
-			super(resource);
+			super(id, raw, path, file);
 		}
 
+		static final ClassFile create(final IClassFile raw)
+		{
+			IFile file;
+			IPath path;
+			
+			try
+			{
+				file = (IFile) raw.getUnderlyingResource();
+				path = file.getFullPath();
+			}
+			catch (ClassCastException | JavaModelException e)
+			{
+				file = null;
+				path = new Path(ClassFiles.path(raw));
+			}
+			
+			path = path.makeRelative();
+
+			return new ClassFile(path.toString(), raw, path, file);
+		}
+		
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.file));
+			data.setDocument(IdeData.newDocumentData(this.raw));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.file));
+			data.setDocument(IdeData.newDocumentData(this.raw));
 		}
 
 		@Override
 		final void setProjectData(final BaseIdeEventRequest data)
 		{
-			IdeData.setProjectData(data, this.file);
+			IdeData.setProjectData(data, this.raw);
 		}
 
 		@Override
-		final IFile getFile()
+		public final IClassFile getRaw()
 		{
-			try
-			{
-				// TODO rm
-//				System.out.println(this.file);
-//				System.out.println(this.file.getPath());
-//				System.out.println(this.getPath());
-//				System.out.println(this.getPathAsString());
-//				System.out.println(this.file.getUnderlyingResource());
-				
-				
-				return (IFile) this.file.getUnderlyingResource();
-			}
-			catch (ClassCastException | JavaModelException e)
-			{
-				return null;
-			}
+			return this.raw;
 		}
 
 		@Override
-		final IPath getPath()
+		public final Optional<IFile> getFile()
 		{
-			return new Path(this.getPathAsString());
+			return Optional.fromNullable(this.file);
 		}
-
+		
 		@Override
-		final String getPathAsString()
+		public final Optional<IPath> getPath()
 		{
-			return ClassFiles.path(this.file);
+			return Optional.fromNullable(this.path);
 		}
 	}
 
 	private static final class DataFile extends UnderlyingResource<IFile>
 	{
-		DataFile(final IFile resource)
+		private DataFile(final IFile raw, final IPath path)
 		{
-			super(resource);
+			super(path.toString(), raw, path, raw);
+		}
+		
+		static final DataFile create(final IFile raw)
+		{
+			return new DataFile(raw, raw.getFullPath().makeRelative());
 		}
 
 		@Override
 		final void setDocumentData(final IdeCodeEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.file));
+			data.setDocument(IdeData.newDocumentData(this.raw));
 		}
 
 		@Override
 		final void setDocumentData(final IdeDocumentEventRequest data)
 		{
-			data.setDocument(IdeData.newDocumentData(this.file));
+			data.setDocument(IdeData.newDocumentData(this.raw));
 		}
 
 		@Override
 		final void setProjectData(final BaseIdeEventRequest data)
 		{
-			IdeData.setProjectData(data, this.file);
+			IdeData.setProjectData(data, this.raw);
 		}
 
 		@Override
-		final IFile getFile()
+		public final IFile getRaw()
 		{
-			return this.file;
+			return this.raw;
 		}
 
 		@Override
-		final IPath getPath()
+		public final Optional<IFile> getFile()
 		{
-			return this.file.getFullPath();
+			return Optional.of(this.file);
 		}
-		
+
 		@Override
-		final String getPathAsString()
+		public final Optional<IPath> getPath()
 		{
-			return this.getPath().toString();
+			return Optional.of(this.path);
 		}
 	}
 	
@@ -190,13 +211,13 @@ abstract class UnderlyingResource<F>
 			return false;
 		}
 		
-		return this.getPathAsString().equals(((UnderlyingResource<?>) o).getPathAsString());
+		return this.id.equals(((UnderlyingResource<?>) o).id);
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return this.getPathAsString().hashCode();
+		return this.id.hashCode();
 	}
 
 	abstract void setDocumentData(IdeCodeEventRequest data);
@@ -205,11 +226,9 @@ abstract class UnderlyingResource<F>
 	
 	abstract void setProjectData(BaseIdeEventRequest data);
 
-	abstract IFile getFile();
+	public abstract R getRaw();
 	
-	abstract IPath getPath();
+	public abstract Optional<IPath> getPath();
 
-	// TODO make private / rm
-	// TODO cache in: private final path variable in abstract root
-	abstract String getPathAsString();
+	public abstract Optional<IFile> getFile();
 }
