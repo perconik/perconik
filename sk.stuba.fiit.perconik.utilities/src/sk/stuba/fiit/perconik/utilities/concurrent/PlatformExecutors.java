@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.utilities.concurrent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +40,6 @@ public final class PlatformExecutors
 
 	public static final ExecutorService newLimitedThreadPool(ThreadFactory factory)
 	{
-		return new ThreadPoolExecutor(0, maximumPoolSize(), 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), factory);
+		return new ThreadPoolExecutor(0, maximumPoolSize(), 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), factory);
 	}
 }
