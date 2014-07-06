@@ -36,6 +36,6 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.200",
  org.eclipse.ui.navigator;bundle-version="3.5.200",
  sk.stuba.fiit.perconik.environment;bundle-version="0.4.1",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.4.0",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.3.1"
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.3.2"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy

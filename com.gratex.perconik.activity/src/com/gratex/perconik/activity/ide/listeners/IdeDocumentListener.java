@@ -108,6 +108,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	// TODO note that switch_to is generated before open/close 
 	// TODO open is also generated on initial switch to previously opened tab directly after eclipse launch 
 	
+	private static final Set<String> ignoredDirectoriesByFileOperations = ImmutableSet.of("bin", "target");
+	
 	private static final boolean processStructuredSelections = false;
 	
 	private static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(POST_CHANGE);
@@ -246,31 +248,38 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		INSTANCE;
 
+		// TODO use .gitignore based filter here
+		
+		@SuppressWarnings("synthetic-access")
 		public final boolean apply(@Nullable final IResource resource)
 		{
-			// TODO use JGit here if possible, ignore everything in .gitignore
-
 			if (resource == null)
 			{
 				return false;
 			}
 			
-			IProject project = resource.getProject();
+			String direcotryInProjectRoot = resource.getFullPath().segment(1);
 			
-			if (project != null)
-			{
-				try
-				{
-					if (JavaProjects.inOutputLocation(project, resource))
-					{
-						return false;
-					}
-				}
-				catch (RuntimeCoreException e)
-				{
-					return true;
-				}
-			}
+//			if (ignoredDirectoriesByFileOperations.contains(direcotryInProjectRoot))
+//			{
+//				return false;
+//			}
+//
+//			IProject project = resource.getProject();
+//			
+//			if (project != null)
+//			{
+//				try
+//				{
+//					if (JavaProjects.inOutputLocation(project, resource))
+//					{
+//						return false;
+//					}
+//				}
+//				catch (RuntimeCoreException e)
+//				{
+//				}
+//			}
 			
 			return true;
 		}
@@ -288,7 +297,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
 		
-		if (resource != null)//TODO && ResourceFilter.INSTANCE.apply(resource.getFile()))
+		if (resource != null)
 		{
 			UacaProxy.sendDocumentEvent(build(time, resource), type);			
 		}
@@ -322,8 +331,6 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			resource = UnderlyingResource.from((IEditorPart) part);
 		}
-		
-		//TODO && ResourceFilter.INSTANCE.apply(resource.getFile()))
 		
 		if (this.updateResource(resource))
 		{
@@ -392,6 +399,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		});
 	}
 
+	// TODO close not working for class files
+	
 	public final void editorClosed(final IEditorReference reference)
 	{
 		final long time = currentTime();
