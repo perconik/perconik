@@ -260,26 +260,26 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			
 			String direcotryInProjectRoot = resource.getFullPath().segment(1);
 			
-//			if (ignoredDirectoriesByFileOperations.contains(direcotryInProjectRoot))
-//			{
-//				return false;
-//			}
-//
-//			IProject project = resource.getProject();
-//			
-//			if (project != null)
-//			{
-//				try
-//				{
-//					if (JavaProjects.inOutputLocation(project, resource))
-//					{
-//						return false;
-//					}
-//				}
-//				catch (RuntimeCoreException e)
-//				{
-//				}
-//			}
+			if (ignoredDirectoriesByFileOperations.contains(direcotryInProjectRoot))
+			{
+				return false;
+			}
+
+			IProject project = resource.getProject();
+			
+			if (project != null)
+			{
+				try
+				{
+					if (JavaProjects.inOutputLocation(project, resource))
+					{
+						return false;
+					}
+				}
+				catch (RuntimeCoreException e)
+				{
+				}
+			}
 			
 			return true;
 		}
