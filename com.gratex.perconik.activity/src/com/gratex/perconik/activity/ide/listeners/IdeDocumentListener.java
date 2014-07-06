@@ -399,7 +399,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		});
 	}
 
-	// TODO close not working for class files
+	// TODO close not working for locally build class files
 	
 	public final void editorClosed(final IEditorReference reference)
 	{
