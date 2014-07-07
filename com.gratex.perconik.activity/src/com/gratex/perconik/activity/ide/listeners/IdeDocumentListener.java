@@ -1,5 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
@@ -12,6 +13,9 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.RE
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
@@ -28,6 +32,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
@@ -43,12 +49,17 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
+import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.utilities.io.MorePaths;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
+import com.gratex.perconik.activity.ide.IdeGitProjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
 import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
@@ -59,10 +70,10 @@ import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
  * of type {@link IdeDocumentEventRequest} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
- * 
+ *
  * <p>Document operation types that this listener is interested in are
  * determined by the {@link IdeDocumentEventType} enumeration:
- * 
+ *
  * <ul>
  *   <li>Add - a document is added into the project.
  *   <li>Close - an opened document is closed.
@@ -74,16 +85,16 @@ import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
  *   and editor selections (tabs and text). Note that structured
  *   selections in package explorer are supported.
  * </ul>
- * 
+ *
  * <p>Data available in an {@code IdeDocumentEventRequest}:
- * 
+ *
  * <ul>
  *   <li>{@code document} - see {@code IdeDocumentDto} below.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
- * 
+ *
  * <p>Data available in an {@code IdeDocumentDto}:
- * 
+ *
  * <ul>
  *   <li>{@code branch} - current Git branch name for the document.
  *   <li>{@code changesetIdInRcs} - most recent Git commit
@@ -95,34 +106,32 @@ import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
  *   in {@link IdeCommitListener} for more details.
  *   <li>{@code serverPath} - always the same as {@code localPath}.
  * </ul>
- * 
+ *
  * <p>Note that in case of not editable source code, such as classes from JRE
  * system library, fields {@code branchName}, {@code changesetIdInRcs},
  * and {@code rcsServer} are unused and set to {@code null}.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public final class IdeDocumentListener extends IdeListener implements EditorListener, FileBufferListener, ResourceListener, SelectionListener
 {
-	// TODO note that switch_to is generated before open/close 
-	// TODO open is also generated on initial switch to previously opened tab directly after eclipse launch 
-	
-	private static final Set<String> ignoredDirectoriesByFileOperations = ImmutableSet.of("bin", "target");
-	
+	// TODO note that switch_to is generated before open/close
+	// TODO open is also generated on initial switch to previously opened tab directly after eclipse launch
+
 	private static final boolean processStructuredSelections = false;
-	
+
 	private static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(POST_CHANGE);
-	
+
 	private final Object lock = new Object();
-	
+
 	@GuardedBy("lock")
 	private UnderlyingResource<?> resource;
-	
+
 	public IdeDocumentListener()
 	{
 	}
-	
+
 	private final boolean updateResource(final UnderlyingResource<?> resource)
 	{
 		if (resource != null)
@@ -132,12 +141,12 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				if (!resource.equals(this.resource))
 				{
 					this.resource = resource;
-					
+
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -145,7 +154,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		return build(time, UnderlyingResource.of(file));
 	}
-	
+
 	static final IdeDocumentEventRequest build(final long time, final UnderlyingResource<?> resource)
 	{
 		final IdeDocumentEventRequest data = new IdeDocumentEventRequest();
@@ -155,26 +164,29 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 		setApplicationData(data);
 		setEventData(data, time);
-		
+
 		return data;
 	}
-	
+
 	private static final class ResourceDeltaVisitor extends ResourceDeltaResolver
 	{
 		private final long time;
-		
+
 		private final ResourceEventType type;
 
+		private final Predicate<IResource> filter;
+
 		private final SetMultimap<IdeDocumentEventType, IFile> operations;
-		
+
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
 			assert time >= 0;
 			assert type != null;
-			
+
 			this.time = time;
 			this.type = type;
 
+			this.filter     = Predicates.and(OutputLocationFilter.INSTANCE, new GitIgnoreFilter());
 			this.operations = LinkedHashMultimap.create(3, 2);
 		}
 
@@ -182,39 +194,39 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
 		{
 			assert delta != null && resource != null;
-			
-			if (this.type != POST_CHANGE || !ResourceFilter.INSTANCE.apply(resource))
+
+			if (this.type != POST_CHANGE || !this.filter.apply(resource))
 			{
 				return false;
 			}
-			
+
 			ResourceType type = ResourceType.valueOf(resource.getType());
-			
+
 			Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
-			
+
 			if (type == PROJECT && flags.contains(OPEN))
 			{
 				return false;
 			}
-			
+
 			if (type != FILE)
 			{
 				return true;
 			}
-			
+
 			if (flags.contains(MOVED_TO))
 			{
 				IPath path  = delta.getMovedToPath();
 				IPath other = resource.getFullPath();
-				
+
 				if (path != null && other != null && !Objects.equals(path.lastSegment(), other.lastSegment()))
 				{
 					this.operations.put(IdeDocumentEventType.RENAME, (IFile) resource);
-					
+
 					return false;
 				}
 			}
-			
+
 			ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
 
 			if (kind == ADDED)   this.operations.put(IdeDocumentEventType.ADD,    (IFile) resource);
@@ -236,51 +248,112 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			{
 				this.operations.removeAll(IdeDocumentEventType.ADD);
 			}
-			
+
 			for (Entry<IdeDocumentEventType, IFile> entry: this.operations.entries())
 			{
 				UacaProxy.sendDocumentEvent(build(this.time, entry.getValue()), entry.getKey());
 			}
 		}
 	}
-	
-	private static enum ResourceFilter implements Predicate<IResource>
+
+	private static enum OutputLocationFilter implements Predicate<IResource>
 	{
 		INSTANCE;
 
-		// TODO use .gitignore based filter here
-		
-		@SuppressWarnings("synthetic-access")
 		public final boolean apply(@Nullable final IResource resource)
 		{
 			if (resource == null)
 			{
 				return false;
 			}
-			
-			String direcotryInProjectRoot = resource.getFullPath().segment(1);
-			
-			if (ignoredDirectoriesByFileOperations.contains(direcotryInProjectRoot))
+
+			IProject project = resource.getProject();
+
+			if (project == null)
+			{
+				return true;
+			}
+
+			try
+			{
+				if (JavaProjects.inOutputLocation(project, resource))
+				{
+					return false;
+				}
+			}
+			catch (RuntimeCoreException e)
+			{
+			}
+
+			return true;
+		}
+	}
+
+	private static final class GitIgnoreFilter implements Predicate<IResource>
+	{
+		private final Map<Path, IgnoreNode> ignores;
+
+		GitIgnoreFilter()
+		{
+			this.ignores = Maps.newHashMap();
+		}
+
+		public final boolean apply(@Nullable final IResource resource)
+		{
+			if (resource == null)
 			{
 				return false;
 			}
 
 			IProject project = resource.getProject();
-			
-			if (project != null)
+
+			if (project == null)
 			{
-				try
+				return true;
+			}
+
+			Git git = IdeGitProjects.getGit(project);
+
+			if (git == null)
+			{
+				return true;
+			}
+
+			Path root = git.getRepository().getDirectory().toPath().getParent().toAbsolutePath().normalize();
+			Path path = resource.getLocation().toFile().toPath().toAbsolutePath().normalize();
+
+			checkState(path.startsWith(root));
+
+			boolean isDirectory = Files.isDirectory(path);
+
+			for (Path key: MorePaths.downToRoot(path))
+			{
+				IgnoreNode node = this.ignores.get(key);
+
+				if (node == null)
 				{
-					if (JavaProjects.inOutputLocation(project, resource))
-					{
-						return false;
-					}
+					node = GitRepositories.getIgnoreNode(key);
+
+					this.ignores.put(key, node);
 				}
-				catch (RuntimeCoreException e)
+
+				switch (node.isIgnored(path.toString(), isDirectory))
 				{
+					case IGNORED:
+						return false;
+
+					case NOT_IGNORED:
+						return true;
+
+					default:
+				}
+
+				if (key.equals(root))
+				{
+					break;
 				}
 			}
-			
+
 			return true;
 		}
 	}
@@ -292,17 +365,17 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 		new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
 	}
-	
+
 	static final void processResource(final long time, final IEditorReference reference, final IdeDocumentEventType type)
 	{
 		UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
-		
+
 		if (resource != null)
 		{
-			UacaProxy.sendDocumentEvent(build(time, resource), type);			
+			UacaProxy.sendDocumentEvent(build(time, resource), type);
 		}
 	}
-	
+
 	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
 	{
 		UnderlyingResource<?> resource = null;
@@ -312,13 +385,13 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			if (selection instanceof StructuredSelection)
 			{
 				Object element = ((StructuredSelection) selection).getFirstElement();
-	
+
 				resource = UnderlyingResource.resolve(element);
-	
+
 				if (resource == null && element instanceof IJavaElement)
 				{
 					IResource other = JavaElements.resource((IJavaElement) element);
-	
+
 					if (other instanceof IFile)
 					{
 						resource = UnderlyingResource.of((IFile) other);
@@ -326,18 +399,18 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				}
 			}
 		}
-		
+
 		if (isNull(resource) && part instanceof IEditorPart)
 		{
 			resource = UnderlyingResource.from((IEditorPart) part);
 		}
-		
+
 		if (this.updateResource(resource))
 		{
 			UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
 		}
 	}
-	
+
 	@Override
 	public final void postRegister()
 	{
@@ -347,14 +420,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			public final void run()
 			{
 				IEditorPart editor = execute(DisplayTask.of(Editors.activeEditorSupplier()));
-				
+
 				UnderlyingResource<?> resource = UnderlyingResource.from(editor);
 
 				if (resource == null)
 				{
 					return;
 				}
-				
+
 				UacaProxy.sendDocumentEvent(build(currentTime(), resource), IdeDocumentEventType.OPEN);
 			}
 		});
@@ -363,7 +436,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	public final void resourceChanged(final IResourceChangeEvent event)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
@@ -376,12 +449,12 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
 			{
-				processSelection(time, part, selection);
+				IdeDocumentListener.this.processSelection(time, part, selection);
 			}
 		});
 	}
@@ -389,7 +462,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	public final void editorOpened(final IEditorReference reference)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
@@ -400,11 +473,11 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	}
 
 	// TODO close not working for locally build class files
-	
+
 	public final void editorClosed(final IEditorReference reference)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
@@ -437,7 +510,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	public final void editorInputChanged(final IEditorReference reference)
 	{
 	}
-	
+
 	public final void bufferCreated(final IFileBuffer buffer)
 	{
 	}
@@ -469,7 +542,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	public final void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
@@ -477,7 +550,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				if (!dirty)
 				{
 					IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
-					
+
 					UacaProxy.sendDocumentEvent(build(time, file), IdeDocumentEventType.SAVE);
 				}
 			}
