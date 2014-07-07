@@ -31,7 +31,7 @@ public final class JavaElements
 		return ancestors;
 	}
 	
-	public static final LinkedList<IJavaElement> upToRoot(@Nullable IJavaElement element)
+	public static final LinkedList<IJavaElement> downToRoot(@Nullable IJavaElement element)
 	{
 		LinkedList<IJavaElement> branch = Lists.newLinkedList();
 		

@@ -173,7 +173,7 @@ public final class Nodes
 		return descendants;
 	}
 
-	public static final LinkedList<ASTNode> upToRoot(@Nullable ASTNode node)
+	public static final LinkedList<ASTNode> downToRoot(@Nullable ASTNode node)
 	{
 		LinkedList<ASTNode> branch = Lists.newLinkedList();
 		
@@ -189,7 +189,7 @@ public final class Nodes
 		return branch;
 	}
 	
-	public static final LinkedList<ASTNode> downToLeaves(@Nullable ASTNode node)
+	public static final LinkedList<ASTNode> upToLeaves(@Nullable ASTNode node)
 	{
 		LinkedList<ASTNode> branch = descendants(node);
 		
@@ -201,7 +201,7 @@ public final class Nodes
 		return branch;
 	}
 	
-	public static final ASTNode firstUpToRoot(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
+	public static final ASTNode firstDownToRoot(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
 	{
 		if (node != null)
 		{
@@ -218,9 +218,9 @@ public final class Nodes
 		return null;
 	}
 	
-	public static final ASTNode firstDownToLeaves(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
+	public static final ASTNode firstUpToLeaves(@Nullable ASTNode node, final Predicate<ASTNode> predicate)
 	{
-		for (ASTNode other: downToLeaves(node))
+		for (ASTNode other: upToLeaves(node))
 		{
 			if (predicate.apply(other))
 			{

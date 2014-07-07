@@ -68,7 +68,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
 			return empty;
 		}
 		
-		LinkedList<ASTNode> branch = Nodes.upToRoot(node);
+		LinkedList<ASTNode> branch = Nodes.downToRoot(node);
 		
 		if (NodeType.valueOf(branch.getLast()) == NodeType.COMPILATION_UNIT)
 		{

@@ -15,7 +15,7 @@ public final class CompilationUnits
 	
 	public static final CompilationUnit valueOf(@Nullable final ASTNode node)
 	{
-		return (CompilationUnit) Nodes.firstUpToRoot(node, NodeFilters.isMatching(NodeType.COMPILATION_UNIT));
+		return (CompilationUnit) Nodes.firstDownToRoot(node, NodeFilters.isMatching(NodeType.COMPILATION_UNIT));
 	}
 	
 	public static final IJavaElement element(@Nullable final CompilationUnit unit)

@@ -12,7 +12,7 @@ public final class NodeTransformers
 	{
 		throw new AssertionError();
 	}
-	
+
 	public static final <N extends ASTNode> NodeCutter<N> cutterUsingFilter(final Predicate<ASTNode> filter)
 	{
 		return NodeCutter.using(filter);
@@ -26,7 +26,7 @@ public final class NodeTransformers
 		{
 			return Nodes.root(node);
 		}
-		
+
 		@Override
 		public final String toString()
 		{
@@ -42,18 +42,18 @@ public final class NodeTransformers
 		{
 			return Nodes.parent(node);
 		}
-		
+
 		@Override
 		public final String toString()
 		{
 			return "parent";
 		}
 	}
-	
+
 	private static abstract class InternalFunction<N extends ASTNode> implements Function<N, ASTNode>
 	{
 		final Predicate<ASTNode> predicate;
-		
+
 		InternalFunction(final Predicate<ASTNode> predicate)
 		{
 			this.predicate = Preconditions.checkNotNull(predicate);
@@ -71,45 +71,45 @@ public final class NodeTransformers
 			return this.predicate.hashCode();
 		}
 	}
-	
-	private static final class ToFirstUpToRootFunction<N extends ASTNode> extends InternalFunction<N>
+
+	private static final class ToFirstDownToRootFunction<N extends ASTNode> extends InternalFunction<N>
 	{
-		ToFirstUpToRootFunction(final Predicate<ASTNode> predicate)
+		ToFirstDownToRootFunction(final Predicate<ASTNode> predicate)
 		{
 			super(predicate);
 		}
 
 		public final ASTNode apply(final N node)
 		{
-			return Nodes.firstUpToRoot(node, this.predicate);
+			return Nodes.firstDownToRoot(node, this.predicate);
 		}
-		
+
 		@Override
 		public final String toString()
 		{
-			return "firstUpToRoot";
+			return "firstDownToRoot";
 		}
 	}
-	
-	private static final class ToFirstDownToLeavesFunction<N extends ASTNode> extends InternalFunction<N>
+
+	private static final class ToFirstUpToLeavesFunction<N extends ASTNode> extends InternalFunction<N>
 	{
-		ToFirstDownToLeavesFunction(final Predicate<ASTNode> predicate)
+		ToFirstUpToLeavesFunction(final Predicate<ASTNode> predicate)
 		{
 			super(predicate);
 		}
 
 		public final ASTNode apply(final N node)
 		{
-			return Nodes.firstDownToLeaves(node, this.predicate);
+			return Nodes.firstUpToLeaves(node, this.predicate);
 		}
-		
+
 		@Override
 		public final String toString()
 		{
-			return "firstDownToLeaves";
+			return "firstUpToLeaves";
 		}
 	}
-	
+
 	private static final class ToFirstAncestorFunction<N extends ASTNode> extends InternalFunction<N>
 	{
 		ToFirstAncestorFunction(final Predicate<ASTNode> predicate)
@@ -121,39 +121,39 @@ public final class NodeTransformers
 		{
 			return Nodes.firstAncestor(node, this.predicate);
 		}
-		
+
 		@Override
 		public final String toString()
 		{
 			return "firstAncestor";
 		}
 	}
-	
+
 	private static final class ToFirstDescendantFunction<N extends ASTNode> extends InternalFunction<N>
 	{
 		ToFirstDescendantFunction(final Predicate<ASTNode> predicate)
 		{
 			super(predicate);
 		}
-		
+
 		public final ASTNode apply(final N node)
 		{
 			return Nodes.firstDescendant(node, this.predicate);
 		}
-		
+
 		@Override
 		public final String toString()
 		{
 			return "firstDescendant";
 		}
 	}
-	
+
 	private static final <N extends ASTNode, T> Function<N, T> cast(final Function<?, T> transformer)
 	{
 		// only for stateless internal singletons shared across all types
 		@SuppressWarnings("unchecked")
 		Function<N, T> result = (Function<N, T>) transformer;
-		
+
 		return result;
 	}
 
@@ -161,27 +161,27 @@ public final class NodeTransformers
 	{
 		return cast(ToRootFunction.INSTANCE);
 	}
-	
+
 	public static final <N extends ASTNode> Function<N, ASTNode> toParent()
 	{
 		return cast(ToParentFunction.INSTANCE);
 	}
-	
-	public static final <N extends ASTNode> Function<N, ASTNode> toFirstUpToRoot(final Predicate<ASTNode> predicate)
+
+	public static final <N extends ASTNode> Function<N, ASTNode> toFirstDownToRoot(final Predicate<ASTNode> predicate)
 	{
-		return new ToFirstUpToRootFunction<>(predicate);
+		return new ToFirstDownToRootFunction<>(predicate);
 	}
-	
-	public static final <N extends ASTNode> Function<N, ASTNode> toFirstDownToLeaves(final Predicate<ASTNode> predicate)
+
+	public static final <N extends ASTNode> Function<N, ASTNode> toFirstUpToLeaves(final Predicate<ASTNode> predicate)
 	{
-		return new ToFirstDownToLeavesFunction<>(predicate);
+		return new ToFirstUpToLeavesFunction<>(predicate);
 	}
-	
+
 	public static final <N extends ASTNode> Function<N, ASTNode> toFirstAncestor(final Predicate<ASTNode> predicate)
 	{
 		return new ToFirstAncestorFunction<>(predicate);
 	}
-	
+
 	public static final <N extends ASTNode> Function<N, ASTNode> toFirstDescendant(final Predicate<ASTNode> predicate)
 	{
 		return new ToFirstDescendantFunction<>(predicate);
