@@ -12,8 +12,8 @@ public final class GitCommands
 	{
 		throw new AssertionError();
 	}
-	
-	public static final Git fromProject(final IProject project)
+
+	public static final Git open(final IProject project)
 	{
 		try
 		{
@@ -31,13 +31,13 @@ public final class GitCommands
 					{
 						break;
 					}
-					
+
 					path = path.removeLastSegments(1);
-					
+
 					continue;
 				}
 			}
-			
+
 			return null;
 		}
 		catch (Exception e)

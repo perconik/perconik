@@ -23,14 +23,14 @@ public final class GitRepositories
 	{
 		throw new AssertionError();
 	}
-	
-	public static final Repository fromProject(final IProject project)
+
+	public static final Repository open(final IProject project)
 	{
-		Git git = GitCommands.fromProject(project);
-		
+		Git git = GitCommands.open(project);
+
 		return git != null ? git.getRepository() : null;
 	}
-	
+
 	private static final Ref handleCheckoutCommand(final CheckoutCommand command)
 	{
 		try
@@ -42,7 +42,7 @@ public final class GitRepositories
 			throw Throwables.propagate(e);
 		}
 	}
-	
+
 	private static final Iterable<RevCommit> handleLogCommand(final LogCommand command)
 	{
 		try
@@ -70,7 +70,7 @@ public final class GitRepositories
 			throw Throwables.propagate(e);
 		}
 	}
-	
+
 	public static final Ref checkoutFile(final Repository repository, final String path, final RevCommit commit)
 	{
 		return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(commit).addPath(path));
@@ -102,17 +102,17 @@ public final class GitRepositories
 	{
 		return handleLogCommand(new Git(repository).log().addPath(path));
 	}
-	
+
 	public static final RevCommit getMostRecentCommit(final Repository repository)
 	{
 		return handleMostRecentCommit(new Git(repository).log());
 	}
-	
+
 	public static final RevCommit getMostRecentCommit(final Repository repository, final String path)
 	{
 		return handleMostRecentCommit(new Git(repository).log().addPath(path));
 	}
-	
+
 	public static final String getRemoteOriginUrl(final Repository repository)
 	{
 		return GitConfigurations.getRemoteOriginUrl(repository.getConfig());
