@@ -28,7 +28,7 @@
 
 	<build>
 		<directory>bin</directory>
-    	<outputDirectory>bin</outputDirectory>
+		<outputDirectory>bin</outputDirectory>
 		<sourceDirectory>src</sourceDirectory>
     	
 		<plugins>
