@@ -16,9 +16,8 @@ User activity tracking in Eclipse.
 
 ## Building
 
-```
-mvn clean install
-```
+1. Download external libraries with `sk.stuba.fiit.perconik.libraries/download/run`
+2. Build project by running `mvn clean install`
 
 ## Versioning
 
