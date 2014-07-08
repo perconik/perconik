@@ -326,7 +326,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 			boolean isDirectory = Files.isDirectory(path);
 
-			for (Path key: MorePaths.downToRoot(path))
+			for (Path key: MorePaths.downToBase(root, path))
 			{
 				IgnoreNode node = this.ignores.get(key);
 
