@@ -14,10 +14,15 @@ User activity tracking in Eclipse.
 - Elasticsearch 1.2
 - User Activity Client Application 2.0
 
+## Setup
+
+- Clone [perconik project](https://github.com/perconik/perconik) into workspace
+- Clone [perconik update repository](https://github.com/perconik/perconik.github.io) into workspace
+
 ## Building
 
 1. Download external libraries with `sk.stuba.fiit.perconik.libraries/download/run`
-2. Build project by running `mvn clean install`
+2. Build project by running `mvn clean install -Dtycho.localArtifacts=ignore`
 
 ## Versioning
 
