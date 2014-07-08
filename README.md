@@ -24,7 +24,7 @@ mvn clean install
 
 - Use [version-tiger](https://github.com/inventage/version-tiger) for versioning
 - Commit only version changes, never combine source code with version changes
-- Start each version change commit with "Bump"
+- Start each version change commit with `Bump`
 - Do not use Maven Tycho for versioning 
 
 ## Contributing
