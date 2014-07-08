@@ -9,6 +9,8 @@
 	<modules>
 		<module>com.gratex.perconik</module>
 		<module>sk.stuba.fiit.perconik</module>
+
+		<module>../perconik.github.io</module>
 	</modules>
 
 	<properties>
