@@ -34,8 +34,53 @@ public final class MoreStrings
 		{
 			String r = (String) o;
 
-			// TODO optimize
-			return s.replaceAll(lineSeparatorRegex, "").equals(r.replaceAll(lineSeparatorRegex, ""));
+			char[] v = r.toCharArray();
+			char[] u = s.toCharArray();
+
+			int m = v.length;
+			int n = u.length;
+
+			int i = 0;
+			int j = 0;
+
+			while (i < m)
+			{
+				char c = v[i ++];
+
+				if (c == '\n' || c == '\r')
+				{
+					continue;
+				}
+
+				while (j < n)
+				{
+					char d = u[j ++];
+
+					if (d == '\n' || d == '\r')
+					{
+						continue;
+					}
+
+					if (c == d)
+					{
+						break;
+					}
+
+					return false;
+				}
+			}
+
+			while (j < n)
+			{
+				char c =  u[j ++];
+
+				if (c != '\n' && c != '\r')
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		return false;
