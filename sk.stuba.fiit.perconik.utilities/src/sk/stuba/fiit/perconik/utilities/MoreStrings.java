@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.utilities;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
@@ -22,12 +23,30 @@ public final class MoreStrings
 		throw new AssertionError();
 	}
 
+	public static final boolean equalsIgnoreLineSeparators(String s, @Nullable Object o)
+	{
+		if (s == o)
+		{
+			return true;
+		}
+
+		if (o instanceof String)
+		{
+			String r = (String) o;
+
+			// TODO optimize
+			return s.replaceAll(lineSeparatorRegex, "").equals(r.replaceAll(lineSeparatorRegex, ""));
+		}
+
+		return false;
+	}
+
 	public static final String lineSeparatorRegex()
 	{
 		return lineSeparatorRegex;
 	}
 
-	public static final List<String> lines(final String s)
+	public static final List<String> lines(String s)
 	{
 		return Arrays.asList(s.split(lineSeparatorRegex));
 	}
