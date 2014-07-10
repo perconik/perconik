@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Set;
+import org.osgi.service.prefs.BackingStoreException;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
@@ -30,7 +32,7 @@ abstract class AbstractRegistrationPreferences<R extends Registration> extends A
 	{
 		try
 		{
-			return (Set<R>) this.getObject(key);
+			return (Set<R>) checkNotNull(this.getObject(key));
 		}
 		catch (RuntimeException e)
 		{
@@ -38,7 +40,20 @@ abstract class AbstractRegistrationPreferences<R extends Registration> extends A
 
 			if (this.scope() != Scope.DEFAULT)
 			{
-				return this.getDefaultRegistrations();
+				Set<R> registrations = this.getDefaultRegistrations();
+
+				this.setRegistrations(key, registrations);
+
+				try
+				{
+					this.synchronize();
+				}
+				catch (BackingStoreException x)
+				{
+					PluginConsoles.create(Activator.getDefault()).error(e, "Unable to synchronize registrations under key %s", key);
+				}
+
+				return registrations;
 			}
 
 			throw e;
