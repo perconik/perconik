@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import com.google.common.base.Strings;
+import java.nio.charset.Charset;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
@@ -15,20 +15,15 @@ public final class Serialization
 	{
 		throw new AssertionError();
 	}
-	
-	public static final Object readFromString(String data) throws ClassNotFoundException, IOException
+
+	private static final Object read(byte[] data, ClassResolver resolver) throws ClassNotFoundException, IOException
 	{
-		return readFromString(data, ClassResolvers.getDefault());
-	}
-	
-	public static final Object readFromString(String data, ClassResolver resolver) throws ClassNotFoundException, IOException
-	{
-		if (Strings.isNullOrEmpty(data))
+		if (data == null || data.length == 0)
 		{
 			return null;
 		}
-		
-		try (ByteArrayInputStream bytes = new ByteArrayInputStream(data.getBytes()))
+
+		try (ByteArrayInputStream bytes = new ByteArrayInputStream(data))
 		{
 			try (ObjectInputStream objects = new ClassResolvingObjectInputStream(resolver, bytes))
 			{
@@ -36,8 +31,33 @@ public final class Serialization
 			}
 		}
 	}
-	
-	public static final String writeToString(Object object) throws IOException
+
+	public static final Object fromBytes(byte[] data) throws ClassNotFoundException, IOException
+	{
+		return fromBytes(data, ClassResolvers.getDefault());
+	}
+
+	public static final Object fromBytes(byte[] data, ClassResolver resolver) throws ClassNotFoundException, IOException
+	{
+		return read(data, resolver);
+	}
+
+	public static final Object fromString(String data) throws ClassNotFoundException, IOException
+	{
+		return fromBytes(data.getBytes());
+	}
+
+	public static final Object fromString(String data, Charset charset) throws ClassNotFoundException, IOException
+	{
+		return fromBytes(data.getBytes(charset));
+	}
+
+	public static final Object fromString(String data, Charset charset, ClassResolver resolver) throws ClassNotFoundException, IOException
+	{
+		return fromBytes(data.getBytes(charset), resolver);
+	}
+
+	private static final ByteArrayOutputStream write(Object object) throws IOException
 	{
 		try (ByteArrayOutputStream bytes = new ByteArrayOutputStream())
 		{
@@ -46,8 +66,18 @@ public final class Serialization
 				objects.writeObject(object);
 				objects.flush();
 			}
-			
-			return bytes.toString();
+
+			return bytes;
 		}
+	}
+
+	public static final byte[] toBytes(Object object) throws IOException
+	{
+		return write(object).toByteArray();
+	}
+
+	public static final String toString(Object object) throws IOException
+	{
+		return write(object).toString();
 	}
 }
