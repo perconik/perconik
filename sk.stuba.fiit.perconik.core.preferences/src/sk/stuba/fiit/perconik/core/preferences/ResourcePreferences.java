@@ -9,22 +9,24 @@ import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 /**
  * Resource preferences. Supports both <i>default</i>
  * and <i>instance</i> (actually used and stored) scopes.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public final class ResourcePreferences extends AbstractRegistrationPreferences<ResourcePersistenceData>
 {
+	static final String qualifier = Activator.PLUGIN_ID + ".resources";
+
 	private ResourcePreferences(final Scope scope)
 	{
-		super(scope);
+		super(scope, qualifier);
 	}
 
 	/**
 	 * Used to aid in default resource preferences initialization.
-	 * 
+	 *
 	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-	 * 
+	 *
 	 * @author Pavol Zbell
 	 * @since 1.0
 	 */
@@ -36,11 +38,11 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
 		public Initializer()
 		{
 		}
-	
+
 		/**
 		 * Called by the preference initializer to
 		 * initialize default resource preferences.
-		 * 
+		 *
 		 * <p><b>Warning:</b> Clients should not call this method.
 		 * It will be called automatically by the preference initializer
 		 * when the appropriate default preference node is accessed.
@@ -49,34 +51,32 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
 		public final void initializeDefaultPreferences()
 		{
 			Set<ResourcePersistenceData> data = ResourcePersistenceData.defaults();
-			
+
 			ResourcePreferences.getDefault().setResourcePersistenceData(data);
 		}
 	}
-	
+
 	public static final class Keys extends AbstractPreferences.Keys
 	{
-		static final String prefix = Activator.PLUGIN_ID + ".resources.";
-		
-		public static final String persistence = prefix + "persistence";
+		public static final String persistence = qualifier + ".persistence";
 	}
 
 	/**
-	 * Gets default resource preferences.
+	 * Gets default scoped core preferences.
 	 */
 	public static final ResourcePreferences getDefault()
 	{
 		return new ResourcePreferences(Scope.DEFAULT);
 	}
-	
+
 	/**
-	 * Gets resource preferences.
+	 * Gets configuration scoped core preferences.
 	 */
-	public static final ResourcePreferences getInstance()
+	public static final ResourcePreferences getConfiguration()
 	{
-		return new ResourcePreferences(Scope.INSTANCE);
+		return new ResourcePreferences(Scope.CONFIGURATION);
 	}
-	
+
 	/**
 	 * Sets resource persistence data.
 	 * @param data resource persistence data
@@ -91,7 +91,7 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
 	 * Gets resource persistence data.
 	 */
 	public final Set<ResourcePersistenceData> getResourcePersistenceData()
-	{		
+	{
 		return this.getRegistrations(persistence);
 	}
 

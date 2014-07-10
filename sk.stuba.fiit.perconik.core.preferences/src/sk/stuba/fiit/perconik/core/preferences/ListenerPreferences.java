@@ -9,22 +9,24 @@ import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 /**
  * Listener preferences. Supports both <i>default</i>
  * and <i>instance</i> (actually used and stored) scopes.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public final class ListenerPreferences extends AbstractRegistrationPreferences<ListenerPersistenceData>
 {
+	static final String qualifier = Activator.PLUGIN_ID + ".listeners";
+
 	private ListenerPreferences(final Scope scope)
 	{
-		super(scope);
+		super(scope, qualifier);
 	}
-	
+
 	/**
 	 * Used to aid in default listener preferences initialization.
-	 * 
+	 *
 	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-	 * 
+	 *
 	 * @author Pavol Zbell
 	 * @since 1.0
 	 */
@@ -40,7 +42,7 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
 		/**
 		 * Called by the preference initializer to
 		 * initialize default listener preferences.
-		 * 
+		 *
 		 * <p><b>Warning:</b> Clients should not call this method.
 		 * It will be called automatically by the preference initializer
 		 * when the appropriate default preference node is accessed.
@@ -49,35 +51,32 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
 		public final void initializeDefaultPreferences()
 		{
 			Set<ListenerPersistenceData> data = ListenerPersistenceData.defaults();
-			
+
 			ListenerPreferences.getDefault().setListenerPersistenceData(data);
 		}
 	}
-	
+
 	public static final class Keys extends AbstractPreferences.Keys
 	{
-		static final String prefix = Activator.PLUGIN_ID + ".listeners.";
-		
-		public static final String persistence = prefix + "persistence";
+		public static final String persistence = qualifier + ".persistence";
 	}
 
-
 	/**
-	 * Gets default listener preferences.
+	 * Gets default scoped core preferences.
 	 */
 	public static final ListenerPreferences getDefault()
 	{
 		return new ListenerPreferences(Scope.DEFAULT);
 	}
-	
+
 	/**
-	 * Gets listener preferences.
+	 * Gets configuration scoped core preferences.
 	 */
-	public static final ListenerPreferences getInstance()
+	public static final ListenerPreferences getConfiguration()
 	{
-		return new ListenerPreferences(Scope.INSTANCE);
+		return new ListenerPreferences(Scope.CONFIGURATION);
 	}
-	
+
 	/**
 	 * Sets listener persistence data.
 	 * @param data listener persistence data
@@ -87,7 +86,7 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
 	{
 		this.setRegistrations(persistence, data);
 	}
-	
+
 	/**
 	 * Gets listener persistence data.
 	 */

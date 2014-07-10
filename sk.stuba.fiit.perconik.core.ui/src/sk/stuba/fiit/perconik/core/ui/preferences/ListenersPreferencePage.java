@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.io.IOException;
 import java.text.Collator;
 import java.util.Set;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Table;
+import org.osgi.service.prefs.BackingStoreException;
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
@@ -15,7 +15,7 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
 /**
  * Listeners preference page.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -56,22 +56,22 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 		ListenerLabelProvider()
 		{
 		}
-	
+
 		public final String getColumnText(final Object element, final int column)
 		{
 			ListenerPersistenceData data = (ListenerPersistenceData) element;
-	
+
 			switch (column)
 			{
 				case 0:
 					return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
-					
+
 				case 1:
 					return this.getVersion(data);
-					
+
 				case 2:
 					return this.getAnnotations(data);
-					
+
 				default:
 					throw new IllegalStateException();
 			}
@@ -83,7 +83,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 		ListenerViewerComparator()
 		{
 		}
-	
+
 		@Override
 		public final int compare(final Viewer viewer, final Object a, final Object b)
 		{
@@ -91,18 +91,12 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 			{
 				ListenerPersistenceData data  = (ListenerPersistenceData) a;
 				ListenerPersistenceData other = (ListenerPersistenceData) b;
-				
+
 				return Collator.getInstance().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
 			}
-			
+
 			return super.compare(viewer, a, b);
 		}
-	}
-
-	@Override
-	final ListenerPreferences source()
-	{
-		return ListenerPreferences.getInstance();
 	}
 
 	@Override
@@ -112,22 +106,28 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 	}
 
 	@Override
+	final ListenerPreferences preferences()
+	{
+		return ListenerPreferences.getConfiguration();
+	}
+
+	@Override
 	final void apply()
 	{
 		try
 		{
 			Set<ListenerPersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
-			
+
 			this.getPreferences().setListenerPersistenceData(data);
 		}
 		catch (ResourceNotRegistredException e)
 		{
 			StringBuilder message = new StringBuilder();
-			
+
 			message.append("Listener registration failed due to one or more unregistered but required resources. ");
 			message.append("Select only listeners with registered resources.\n\n");
 			message.append(e.getMessage() + ".");
-			
+
 			this.displayError("Listener registration", message.toString());
 			this.performRefresh();
 		}
@@ -140,15 +140,15 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 	}
 
 	@Override
-	final void save() throws IOException
+	final void save() throws BackingStoreException
 	{
-		this.getListenerPreferences().save();
+		this.getListenerPreferences().flush();
 	}
 
 	public final void setListenerPreferences(final ListenerPreferences preferences)
 	{
 		this.setPreferences(preferences);
-		
+
 		this.registrations = preferences.getListenerPersistenceData();
 	}
 

@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.Set;
@@ -29,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
+import org.osgi.service.prefs.BackingStoreException;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
@@ -47,43 +47,43 @@ import com.google.common.collect.Sets;
 abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage
 {
 	private P preferences;
-	
+
 	Set<R> registrations;
-	
+
 	CheckboxTableViewer tableViewer;
 
 	Button addButton;
-	
+
 	Button removeButton;
-	
+
 	Button registerButton;
-	
+
 	Button unregisterButton;
-	
+
 	Button importButton;
-	
+
 	Button exportButton;
 
 	Button refreshButton;
-	
+
 	Button notesButton;
-	
+
 	AbstractRegistrationPreferencePage()
 	{
 	}
-	
+
 	abstract Class<R> type();
-	
+
 	final R cast(final Object o)
 	{
 		return this.type().cast(o);
 	}
-	
+
 	@Override
 	protected final Control createContents(final Composite parent)
 	{
 		Composite composite = new Composite(parent, SWT.NONE);
-		
+
 		GridLayout parentLayout = new GridLayout();
 		parentLayout.numColumns   = 2;
 		parentLayout.marginHeight = 0;
@@ -91,20 +91,20 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		composite.setLayout(parentLayout);
 
         Composite innerParent = new Composite(composite, SWT.NONE);
-        
+
         GridLayout innerLayout = new GridLayout();
         innerLayout.numColumns   = 2;
         innerLayout.marginHeight = 0;
         innerLayout.marginWidth  = 0;
         innerParent.setLayout(innerLayout);
-        
+
         GridData innerGrid = new GridData(GridData.FILL_BOTH);
         innerGrid.horizontalSpan = 2;
         innerParent.setLayoutData(innerGrid);
 
         Composite         tableComposite = new Composite(innerParent, SWT.NONE);
         TableColumnLayout tableLayout    = new TableColumnLayout();
-        
+
         GridData tableGrid = new GridData(GridData.FILL_BOTH);
         tableGrid.widthHint  = 360;
         tableGrid.heightHint = this.convertHeightInCharsToPixels(10);
@@ -121,7 +121,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		gc.dispose();
 
 		this.tableViewer = new CheckboxTableViewer(table);
-		
+
 		this.tableViewer.setContentProvider(new StandardContentProvider());
 		this.tableViewer.setLabelProvider(this.createContentProvider());
 		this.tableViewer.setComparator(this.createViewerComparator());
@@ -139,7 +139,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			public final void checkStateChanged(final CheckStateChangedEvent e)
 			{
 				R data = (R) e.getElement();
-				
+
 				if (data.isProvided())
 				{
 					updateData(data, e.getChecked());
@@ -153,7 +153,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		});
 
 		Composite buttons = new Composite(innerParent, SWT.NONE);
-		
+
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		parentLayout = new GridLayout();
 		parentLayout.marginHeight = 0;
@@ -193,9 +193,9 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				performUnregister();
 			}
 		});
-		
+
 		Widgets.createButtonSeparator(buttons);
-		
+
 		this.importButton = Buttons.create(buttons, "Import", new WidgetListener()
 		{
 			public final void handleEvent(final Event e)
@@ -211,9 +211,9 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				performExport();
 			}
 		});
-		
+
 		Widgets.createButtonSeparator(buttons);
-		
+
 		this.refreshButton = Buttons.create(buttons, "Refresh", new WidgetListener()
 		{
 			public final void handleEvent(final Event e)
@@ -221,7 +221,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				performRefresh();
 			}
 		});
-		
+
 		this.notesButton = Buttons.create(buttons, "Notes", new WidgetListener()
 		{
 			public final void handleEvent(final Event e)
@@ -229,23 +229,23 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 				performNotes();
 			}
 		});
-		
-		this.loadInternal(this.source());
+
+		this.loadInternal(this.preferences());
 		this.performRefresh();
 
 		Dialog.applyDialogFont(composite);
-		
+
 		innerParent.layout();
-		
+
 		return composite;
 	}
-	
+
 	protected abstract AbstractLabelProvider<R> createContentProvider();
-	
+
 	protected abstract AbstractViewerComparator createViewerComparator();
-	
+
 	protected abstract void makeTableColumns(final Table table, final TableColumnLayout layout, final GC gc);
-	
+
 	final Set<R> checkedData()
 	{
 		return Sets.filter(this.registrations, new Predicate<R>()
@@ -256,7 +256,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			}
 		});
 	}
-	
+
 	final Set<R> unknownData()
 	{
 		return Sets.filter(this.registrations, new Predicate<R>()
@@ -272,7 +272,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	{
 		this.registrations.remove(registration);
 		this.registrations.add(registration.markRegistered(status));
-		
+
 		this.tableViewer.setChecked(registration, status);
 		this.tableViewer.refresh();
 	}
@@ -284,7 +284,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		for (Object item: selection.toList())
 		{
 			R registration = this.cast(item);
-			
+
 			if (registration.isProvided())
 			{
 				this.updateData(registration, status);
@@ -293,7 +293,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
 		this.tableViewer.refresh();
 	}
-	
+
 	final void updateTable()
 	{
 		this.tableViewer.setInput(this.registrations);
@@ -302,27 +302,27 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		this.tableViewer.setCheckedElements(this.checkedData().toArray());
 		this.tableViewer.setGrayedElements(this.unknownData().toArray());
 	}
-	
+
 	final void updateButtons()
 	{
 		IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
-		
+
 		int selectionCount = selection.size();
 		int itemCount      = this.tableViewer.getTable().getItemCount();
-		
+
 		boolean registrable   = false;
 		boolean unregistrable = false;
-		
+
 		if (selectionCount > 0)
 		{
 			for (Object item: selection.toList())
 			{
 				R registration = this.cast(item);
-				
+
 				if (registration.isProvided())
 				{
 					boolean registred = registration.hasRegistredMark();
-					
+
 					registrable   |= !registred;
 					unregistrable |= registred;
 				}
@@ -335,19 +335,19 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		this.unregisterButton.setEnabled(unregistrable);
 
 		this.exportButton.setEnabled(selectionCount > 0);
-		
+
 		this.notesButton.setEnabled(selectionCount == 1);
 	}
-	
+
 	private static enum AnnotationFilter implements Predicate<Annotation>
 	{
 		INSTANCE;
-		
+
 		public static final Iterable<Annotation> apply(final Iterable<Annotation> annotations)
 		{
 			return Iterables.filter(annotations, INSTANCE);
 		}
-		
+
 		public final boolean apply(@Nonnull final Annotation annotation)
 		{
 			return annotation.annotationType() != Version.class;
@@ -357,22 +357,22 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	private static final class StandardContentProvider implements IStructuredContentProvider
 	{
 		private Set<?> data;
-	
+
 		StandardContentProvider()
 		{
 			this.data = Collections.emptySet();
 		}
-		
+
 		public final Object[] getElements(final Object input)
 		{
 			return this.data.toArray();
 		}
-	
+
 		public final void inputChanged(final Viewer viewer, final Object from, final Object to)
 		{
 			this.data = (Set<?>) to;
 		}
-	
+
 		public final void dispose()
 		{
 			this.data = null;
@@ -391,14 +391,14 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			{
 				return "?";
 			}
-			
+
 			return Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
 		}
-		
+
 		public final String getVersion(final R registration)
 		{
 			Version version = registration.getAnnotation(Version.class);
-			
+
 			return version != null ? version.value() : "?";
 		}
 
@@ -413,7 +413,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		AbstractViewerComparator()
 		{
 		}
-	
+
 		@Override
 		public boolean isSorterProperty(Object element, String property)
 		{
@@ -436,7 +436,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		this.updateSelectedData(true);
 		this.updateButtons();
 	}
-	
+
 	void performUnregister()
 	{
 		this.updateSelectedData(false);
@@ -452,7 +452,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	{
 		this.displayNotice("Export", "Operation not yet implemented.");
 	}
-	
+
 	void performRefresh()
 	{
 		for (R registration: Sets.newHashSet(this.registrations))
@@ -460,37 +460,37 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 			this.updateData(registration, registration.isRegistered());
 		}
 	}
-	
+
 	void performNotes()
 	{
 		IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
-		
+
 		R registration = this.cast(selection.toList().get(0));
 
 		String name    = ((ITableLabelProvider) this.tableViewer.getLabelProvider()).getColumnText(registration, 0);
 		String message = Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
-		
+
 		this.displayNotice("Notes for " + name, !message.isEmpty() ? message : "No notes available.");
 	}
-	
-	abstract P source();
 
 	abstract Set<R> defaults();
-	
+
+	abstract P preferences();
+
 	@Override
 	public final boolean performOk()
 	{
 		this.applyInternal();
 		this.saveInternal();
-		
+
 		return super.performOk();
 	}
 
 	@Override
 	public final boolean performCancel()
 	{
-		this.loadInternal(this.source());
-		
+		this.loadInternal(this.preferences());
+
 		return super.performCancel();
 	}
 
@@ -498,10 +498,10 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	protected final void performDefaults()
 	{
 		this.registrations = this.defaults();
-		
+
 		this.updateTable();
 		this.updateButtons();
-		
+
 		super.performDefaults();
 	}
 
@@ -510,17 +510,17 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	{
 		super.performApply();
 	}
-	
+
 	abstract void apply();
 
 	abstract void load(P preferences);
-	
-	abstract void save() throws IOException;
+
+	abstract void save() throws BackingStoreException;
 
 	private final void applyInternal()
 	{
 		this.apply();
-		
+
 		this.updateTable();
 		this.updateButtons();
 	}
@@ -528,23 +528,23 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	private final void loadInternal(final P preferences)
 	{
 		this.load(preferences);
-		
+
 		this.updateTable();
 		this.updateButtons();
 	}
-	
+
 	private final void saveInternal()
 	{
 		try
 		{
 			this.save();
 		}
-		catch (IOException e)
+		catch (BackingStoreException e)
 		{
 			this.displayError("Preferences", "Failed to save preferences.");
 		}
 	}
-	
+
 	final void setPreferences(final P preferences)
 	{
 		this.preferences = Preconditions.checkNotNull(preferences);
