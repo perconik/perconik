@@ -1,46 +1,60 @@
 package sk.stuba.fiit.perconik.preferences;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import java.io.IOException;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.IPersistentPreferenceStore;
-import org.eclipse.jface.preference.IPreferenceStore;
-import sk.stuba.fiit.perconik.eclipse.jface.preference.DefaultPreferenceStore;
-import sk.stuba.fiit.perconik.preferences.plugin.Activator;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.osgi.service.prefs.BackingStoreException;
 
 public abstract class AbstractPreferences
 {
 	final Scope scope;
 
-	final IPreferenceStore store;
-	
-	public AbstractPreferences(final Scope scope)
+	final IEclipsePreferences data;
+
+	public AbstractPreferences(final Scope scope, final String qualifier)
 	{
 		this.scope = checkNotNull(scope);
-		this.store = checkNotNull(scope.store());
+		this.data  = checkNotNull(scope.preferences(qualifier));
 	}
-	
+
 	public static enum Scope
 	{
 		DEFAULT
 		{
 			@Override
-			final IPreferenceStore store()
+			final IScopeContext context()
 			{
-				return DefaultPreferenceStore.of(INSTANCE.store());
+				return DefaultScope.INSTANCE;
 			}
 		},
-		
+
+		CONFIGURATION
+		{
+			@Override
+			final IScopeContext context()
+			{
+				return InstanceScope.INSTANCE;
+			}
+		},
+
 		INSTANCE
 		{
 			@Override
-			final IPreferenceStore store()
+			final IScopeContext context()
 			{
-				return Activator.getDefault().getPreferenceStore();
+				return InstanceScope.INSTANCE;
 			}
 		};
-		
-		abstract IPreferenceStore store();
+
+		abstract IScopeContext context();
+
+		final IEclipsePreferences preferences(final String qualifier)
+		{
+			return context().getNode(qualifier);
+		}
 	}
 
 	public static abstract class Initializer extends AbstractPreferenceInitializer
@@ -58,26 +72,28 @@ public abstract class AbstractPreferences
 		}
 	}
 
-	public final Scope getScope()
+	protected final Scope scope()
 	{
 		return this.scope;
 	}
-	
-	public final IPreferenceStore getStore()
+
+	protected final IEclipsePreferences data()
 	{
-		return this.store;
-	}
-	
-	protected final boolean canSave()
-	{
-		return this.store instanceof IPersistentPreferenceStore;
+		return this.data;
 	}
 
-	public final void save() throws IOException
+	public void clear() throws BackingStoreException
 	{
-		if (this.canSave())
-		{
-			((IPersistentPreferenceStore) this.store).save();
-		}
+		this.data.clear();
+	}
+
+	public void flush() throws BackingStoreException
+	{
+		this.data.flush();
+	}
+
+	public void synchronize() throws BackingStoreException
+	{
+		this.data.sync();
 	}
 }

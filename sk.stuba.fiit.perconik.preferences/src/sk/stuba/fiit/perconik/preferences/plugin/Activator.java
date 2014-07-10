@@ -1,17 +1,17 @@
 package sk.stuba.fiit.perconik.preferences.plugin;
 
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
-import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
- * 
+ *
  * <p><b>Warning:</b> Users should not explicitly instantiate this class.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Activator extends UserInterfacePlugin
+public final class Activator extends Plugin
 {
 	/**
 	 * The plug-in identifier.
@@ -22,7 +22,7 @@ public final class Activator extends UserInterfacePlugin
 	 * The shared instance.
 	 */
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -38,7 +38,7 @@ public final class Activator extends UserInterfacePlugin
 	{
 		return plugin;
 	}
-	
+
 	@Override
 	public final void start(final BundleContext context) throws Exception
 	{
