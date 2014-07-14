@@ -10,7 +10,7 @@
 
 	<groupId>com.gratex.perconik</groupId>
 	<artifactId>com.gratex.perconik</artifactId>
-	<version>0.9.0-SNAPSHOT</version>
+	<version>0.10.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
  
 	<modules>
