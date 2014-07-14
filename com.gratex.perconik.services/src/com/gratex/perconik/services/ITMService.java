@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ITMService", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", wsdlLocation = "file:/D:/workspace/perconik/com.gratex.perconik.services/ITMService.svc.wsdl")
+@WebServiceClient(name = "ITMService", targetNamespace = "http://perconik.fiit.stuba.sk/ITM", wsdlLocation = "file:/D:/workspace/perconik/perconik/com.gratex.perconik.services/ITMService.svc.wsdl")
 public class ITMService
     extends Service
 {
@@ -30,7 +30,7 @@ public class ITMService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/D:/workspace/perconik/com.gratex.perconik.services/ITMService.svc.wsdl");
+            url = new URL("file:/D:/workspace/perconik/perconik/com.gratex.perconik.services/ITMService.svc.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

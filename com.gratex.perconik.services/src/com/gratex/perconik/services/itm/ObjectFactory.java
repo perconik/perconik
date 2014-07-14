@@ -58,43 +58,54 @@ public class ObjectFactory {
     private final static QName _BaseAttributeQuery_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "BaseAttributeQuery");
     private final static QName _EventListenerResponse_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "EventListenerResponse");
     private final static QName _StructuredData_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "StructuredData");
-    private final static QName _RDFObjectUri_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Uri");
-    private final static QName _CompareQueryValue_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Value");
+    private final static QName _AttributeQueryAttribute_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Attribute");
+    private final static QName _GetInformationTagResponseGetInformationTagResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagResult");
+    private final static QName _UnregisterEventListenerEventId_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "eventId");
+    private final static QName _UpdateInformationTagInformationTag_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "informationTag");
     private final static QName _ConnectionDetailsUserName_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "UserName");
     private final static QName _ConnectionDetailsEndpoint_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Endpoint");
     private final static QName _ConnectionDetailsPassword_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Password");
     private final static QName _ConnectionDetailsDomain_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Domain");
-    private final static QName _EventListenerResponseEventListenerId_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "EventListenerId");
+    private final static QName _ExecuteSparqlQueryResponseExecuteSparqlQueryResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "ExecuteSparqlQueryResult");
+    private final static QName _ITargetUri_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Uri");
     private final static QName _GetInformationTagsResponseGetInformationTagsResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagsResult");
-    private final static QName _GetInformationTagResponseGetInformationTagResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagResult");
-    private final static QName _AttributeQueryAttribute_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Attribute");
-    private final static QName _StructuredDataAttributes_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Attributes");
-    private final static QName _StructuredDataType_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Type");
-    private final static QName _UnregisterEventListenerEventId_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "eventId");
     private final static QName _InformationTagConstraintAuthors_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Authors");
     private final static QName _InformationTagConstraintCreatedAfter_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "CreatedAfter");
     private final static QName _InformationTagConstraintSavedBefore_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "SavedBefore");
     private final static QName _InformationTagConstraintSavedAfter_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "SavedAfter");
     private final static QName _InformationTagConstraintGeneratedBefore_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GeneratedBefore");
+    private final static QName _InformationTagConstraintHasAncestors_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "HasAncestors");
     private final static QName _InformationTagConstraintCreatedBefore_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "CreatedBefore");
     private final static QName _InformationTagConstraintTypes_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Types");
     private final static QName _InformationTagConstraintGeneratedAfter_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GeneratedAfter");
+    private final static QName _LiteralValue_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Value");
+    private final static QName _LiteralType_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Type");
+    private final static QName _GetInformationTagsUriResponseGetInformationTagsUriResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagsUriResult");
+    private final static QName _DeleteInformationTagUri_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "uri");
     private final static QName _RDFLiteralLanguage_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Language");
     private final static QName _RDFLiteralTypeUri_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "TypeUri");
+    private final static QName _OperatorQuerySubQueries_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "SubQueries");
+    private final static QName _GetInformationTagOfVersionResponseGetInformationTagOfVersionResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagOfVersionResult");
+    private final static QName _EventListenerResponseEventListenerId_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "EventListenerId");
+    private final static QName _ElementMatchQuerySubQuery_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "SubQuery");
+    private final static QName _GetInformationTagsUriTargetUries_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "targetUries");
+    private final static QName _GetInformationTagsUriAstRcsContextConstraint_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "astRcsContextConstraint");
+    private final static QName _ExecuteSparqlQueryQuery_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "query");
+    private final static QName _GetInformationTagsConstraint_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "constraint");
+    private final static QName _GetInformationTagsHistoricallyResponseGetInformationTagsHistoricallyResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagsHistoricallyResult");
+    private final static QName _EventListenerDetailsTargets_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Targets");
+    private final static QName _EventListenerDetailsConnection_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Connection");
+    private final static QName _RegisterEventListenerEventListenerDetails_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "eventListenerDetails");
+    private final static QName _StructuredDataAttributes_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Attributes");
     private final static QName _SpecificTargetHasSource_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "HasSource");
     private final static QName _SpecificTargetHasSelector_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "HasSelector");
+    private final static QName _AddInformationTagResponseAddInformationTagResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AddInformationTagResult");
+    private final static QName _InformationTagHasAncestor_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "HasAncestor");
     private final static QName _InformationTagAuthor_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Author");
     private final static QName _InformationTagHasBody_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "HasBody");
     private final static QName _InformationTagHasTarget_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "HasTarget");
-    private final static QName _GetInformationTagsHistoricallyConstraint_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "constraint");
-    private final static QName _GetInformationTagsHistoricallyTargetUries_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "targetUries");
-    private final static QName _AddInformationTagResponseAddInformationTagResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AddInformationTagResult");
-    private final static QName _ExecuteSparqlQueryResponseExecuteSparqlQueryResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "ExecuteSparqlQueryResult");
     private final static QName _ArrayQueryValues_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Values");
     private final static QName _RegisterEventListenerResponseRegisterEventListenerResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "RegisterEventListenerResult");
-    private final static QName _GetInformationTagsUriResponseGetInformationTagsUriResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagsUriResult");
-    private final static QName _RegisterEventListenerEventListenerDetails_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "eventListenerDetails");
-    private final static QName _GetInformationTagsUriAstRcsContextConstraint_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "astRcsContextConstraint");
     private final static QName _AstRcsContextConstraintAstRcsProjectIds_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AstRcsProjectIds");
     private final static QName _AstRcsContextConstraintAstRcsFileVersionIds_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AstRcsFileVersionIds");
     private final static QName _AstRcsContextConstraintAstRcsChildrenEntities_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AstRcsChildrenEntities");
@@ -102,16 +113,7 @@ public class ObjectFactory {
     private final static QName _AstRcsContextConstraintAstRcsParents_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AstRcsParents");
     private final static QName _AstRcsContextConstraintAstRcsParentEntities_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AstRcsParentEntities");
     private final static QName _AstRcsContextConstraintAstRcsChildren_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "AstRcsChildren");
-    private final static QName _GetInformationTagsHistoricallyResponseGetInformationTagsHistoricallyResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagsHistoricallyResult");
-    private final static QName _AddInformationTagInformationTag_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "informationTag");
-    private final static QName _OperatorQuerySubQueries_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "SubQueries");
-    private final static QName _GetInformationTagUri_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "uri");
-    private final static QName _ExecuteSparqlQueryQuery_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "query");
-    private final static QName _ElementMatchQuerySubQuery_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "SubQuery");
-    private final static QName _EventListenerDetailsTargets_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Targets");
-    private final static QName _EventListenerDetailsConnection_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "Connection");
     private final static QName _DataAttributePropertyUri_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "PropertyUri");
-    private final static QName _GetInformationTagOfVersionResponseGetInformationTagOfVersionResult_QNAME = new QName("http://perconik.fiit.stuba.sk/ITM", "GetInformationTagOfVersionResult");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.gratex.perconik.services.itm
@@ -825,18 +827,45 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = RDFObject.class)
-    public JAXBElement<String> createRDFObjectUri(String value) {
-        return new JAXBElement<String>(_RDFObjectUri_QNAME, String.class, RDFObject.class, value);
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Attribute", scope = AttributeQuery.class)
+    public JAXBElement<String> createAttributeQueryAttribute(String value) {
+        return new JAXBElement<String>(_AttributeQueryAttribute_QNAME, String.class, AttributeQuery.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Object }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Value", scope = CompareQuery.class)
-    public JAXBElement<Object> createCompareQueryValue(Object value) {
-        return new JAXBElement<Object>(_CompareQueryValue_QNAME, Object.class, CompareQuery.class, value);
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagResult", scope = GetInformationTagResponse.class)
+    public JAXBElement<InformationTag> createGetInformationTagResponseGetInformationTagResult(InformationTag value) {
+        return new JAXBElement<InformationTag>(_GetInformationTagResponseGetInformationTagResult_QNAME, InformationTag.class, GetInformationTagResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "eventId", scope = UnregisterEventListener.class)
+    public JAXBElement<String> createUnregisterEventListenerEventId(String value) {
+        return new JAXBElement<String>(_UnregisterEventListenerEventId_QNAME, String.class, UnregisterEventListener.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "informationTag", scope = UpdateInformationTag.class)
+    public JAXBElement<InformationTag> createUpdateInformationTagInformationTag(InformationTag value) {
+        return new JAXBElement<InformationTag>(_UpdateInformationTagInformationTag_QNAME, InformationTag.class, UpdateInformationTag.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "informationTag", scope = AddInformationTag.class)
+    public JAXBElement<InformationTag> createAddInformationTagInformationTag(InformationTag value) {
+        return new JAXBElement<InformationTag>(_UpdateInformationTagInformationTag_QNAME, InformationTag.class, AddInformationTag.class, value);
     }
 
     /**
@@ -876,21 +905,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7 }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "EventListenerId", scope = EventListenerResponse.class)
-    public JAXBElement<String> createEventListenerResponseEventListenerId(String value) {
-        return new JAXBElement<String>(_EventListenerResponseEventListenerId_QNAME, String.class, EventListenerResponse.class, value);
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "ExecuteSparqlQueryResult", scope = ExecuteSparqlQueryResponse.class)
+    public JAXBElement<ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7> createExecuteSparqlQueryResponseExecuteSparqlQueryResult(ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7 value) {
+        return new JAXBElement<ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7>(_ExecuteSparqlQueryResponseExecuteSparqlQueryResult_QNAME, ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7 .class, ExecuteSparqlQueryResponse.class, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "InformationTag", scope = EventListenerResponse.class)
-    public JAXBElement<InformationTag> createEventListenerResponseInformationTag(InformationTag value) {
-        return new JAXBElement<InformationTag>(_InformationTag_QNAME, InformationTag.class, EventListenerResponse.class, value);
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = ITarget.class)
+    public JAXBElement<String> createITargetUri(String value) {
+        return new JAXBElement<String>(_ITargetUri_QNAME, String.class, ITarget.class, value);
     }
 
     /**
@@ -900,60 +929,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagsResult", scope = GetInformationTagsResponse.class)
     public JAXBElement<ArrayOfInformationTag> createGetInformationTagsResponseGetInformationTagsResult(ArrayOfInformationTag value) {
         return new JAXBElement<ArrayOfInformationTag>(_GetInformationTagsResponseGetInformationTagsResult_QNAME, ArrayOfInformationTag.class, GetInformationTagsResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagResult", scope = GetInformationTagResponse.class)
-    public JAXBElement<InformationTag> createGetInformationTagResponseGetInformationTagResult(InformationTag value) {
-        return new JAXBElement<InformationTag>(_GetInformationTagResponseGetInformationTagResult_QNAME, InformationTag.class, GetInformationTagResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Attribute", scope = AttributeQuery.class)
-    public JAXBElement<String> createAttributeQueryAttribute(String value) {
-        return new JAXBElement<String>(_AttributeQueryAttribute_QNAME, String.class, AttributeQuery.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfDataAttribute }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Attributes", scope = StructuredData.class)
-    public JAXBElement<ArrayOfDataAttribute> createStructuredDataAttributes(ArrayOfDataAttribute value) {
-        return new JAXBElement<ArrayOfDataAttribute>(_StructuredDataAttributes_QNAME, ArrayOfDataAttribute.class, StructuredData.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Type", scope = StructuredData.class)
-    public JAXBElement<String> createStructuredDataType(String value) {
-        return new JAXBElement<String>(_StructuredDataType_QNAME, String.class, StructuredData.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = StructuredData.class)
-    public JAXBElement<String> createStructuredDataUri(String value) {
-        return new JAXBElement<String>(_RDFObjectUri_QNAME, String.class, StructuredData.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "eventId", scope = UnregisterEventListener.class)
-    public JAXBElement<String> createUnregisterEventListenerEventId(String value) {
-        return new JAXBElement<String>(_UnregisterEventListenerEventId_QNAME, String.class, UnregisterEventListener.class, value);
     }
 
     /**
@@ -1011,6 +986,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "HasAncestors", scope = InformationTagConstraint.class)
+    public JAXBElement<ArrayOfstring> createInformationTagConstraintHasAncestors(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_InformationTagConstraintHasAncestors_QNAME, ArrayOfstring.class, InformationTagConstraint.class, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}}
      * 
      */
@@ -1047,6 +1031,42 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Object }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Value", scope = Literal.class)
+    public JAXBElement<Object> createLiteralValue(Object value) {
+        return new JAXBElement<Object>(_LiteralValue_QNAME, Object.class, Literal.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Type", scope = Literal.class)
+    public JAXBElement<String> createLiteralType(String value) {
+        return new JAXBElement<String>(_LiteralType_QNAME, String.class, Literal.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagsUriResult", scope = GetInformationTagsUriResponse.class)
+    public JAXBElement<ArrayOfstring> createGetInformationTagsUriResponseGetInformationTagsUriResult(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_GetInformationTagsUriResponseGetInformationTagsUriResult_QNAME, ArrayOfstring.class, GetInformationTagsUriResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = DeleteInformationTag.class)
+    public JAXBElement<String> createDeleteInformationTagUri(String value) {
+        return new JAXBElement<String>(_DeleteInformationTagUri_QNAME, String.class, DeleteInformationTag.class, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
@@ -1070,7 +1090,250 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Value", scope = RDFLiteral.class)
     public JAXBElement<Object> createRDFLiteralValue(Object value) {
-        return new JAXBElement<Object>(_CompareQueryValue_QNAME, Object.class, RDFLiteral.class, value);
+        return new JAXBElement<Object>(_LiteralValue_QNAME, Object.class, RDFLiteral.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfBaseAttributeQuery }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "SubQueries", scope = OperatorQuery.class)
+    public JAXBElement<ArrayOfBaseAttributeQuery> createOperatorQuerySubQueries(ArrayOfBaseAttributeQuery value) {
+        return new JAXBElement<ArrayOfBaseAttributeQuery>(_OperatorQuerySubQueries_QNAME, ArrayOfBaseAttributeQuery.class, OperatorQuery.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = RecoverInformationTag.class)
+    public JAXBElement<String> createRecoverInformationTagUri(String value) {
+        return new JAXBElement<String>(_DeleteInformationTagUri_QNAME, String.class, RecoverInformationTag.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagOfVersionResult", scope = GetInformationTagOfVersionResponse.class)
+    public JAXBElement<InformationTag> createGetInformationTagOfVersionResponseGetInformationTagOfVersionResult(InformationTag value) {
+        return new JAXBElement<InformationTag>(_GetInformationTagOfVersionResponseGetInformationTagOfVersionResult_QNAME, InformationTag.class, GetInformationTagOfVersionResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "EventListenerId", scope = EventListenerResponse.class)
+    public JAXBElement<String> createEventListenerResponseEventListenerId(String value) {
+        return new JAXBElement<String>(_EventListenerResponseEventListenerId_QNAME, String.class, EventListenerResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "InformationTag", scope = EventListenerResponse.class)
+    public JAXBElement<InformationTag> createEventListenerResponseInformationTag(InformationTag value) {
+        return new JAXBElement<InformationTag>(_InformationTag_QNAME, InformationTag.class, EventListenerResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BaseAttributeQuery }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "SubQuery", scope = ElementMatchQuery.class)
+    public JAXBElement<BaseAttributeQuery> createElementMatchQuerySubQuery(BaseAttributeQuery value) {
+        return new JAXBElement<BaseAttributeQuery>(_ElementMatchQuerySubQuery_QNAME, BaseAttributeQuery.class, ElementMatchQuery.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = RDFObject.class)
+    public JAXBElement<String> createRDFObjectUri(String value) {
+        return new JAXBElement<String>(_ITargetUri_QNAME, String.class, RDFObject.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTagsUri.class)
+    public JAXBElement<ArrayOfstring> createGetInformationTagsUriTargetUries(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_GetInformationTagsUriTargetUries_QNAME, ArrayOfstring.class, GetInformationTagsUri.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link AstRcsContextConstraint }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "astRcsContextConstraint", scope = GetInformationTagsUri.class)
+    public JAXBElement<AstRcsContextConstraint> createGetInformationTagsUriAstRcsContextConstraint(AstRcsContextConstraint value) {
+        return new JAXBElement<AstRcsContextConstraint>(_GetInformationTagsUriAstRcsContextConstraint_QNAME, AstRcsContextConstraint.class, GetInformationTagsUri.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "query", scope = ExecuteSparqlQuery.class)
+    public JAXBElement<String> createExecuteSparqlQueryQuery(String value) {
+        return new JAXBElement<String>(_ExecuteSparqlQueryQuery_QNAME, String.class, ExecuteSparqlQuery.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "constraint", scope = GetInformationTags.class)
+    public JAXBElement<InformationTagConstraint> createGetInformationTagsConstraint(InformationTagConstraint value) {
+        return new JAXBElement<InformationTagConstraint>(_GetInformationTagsConstraint_QNAME, InformationTagConstraint.class, GetInformationTags.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTags.class)
+    public JAXBElement<ArrayOfstring> createGetInformationTagsTargetUries(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_GetInformationTagsUriTargetUries_QNAME, ArrayOfstring.class, GetInformationTags.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfInformationTag }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagsHistoricallyResult", scope = GetInformationTagsHistoricallyResponse.class)
+    public JAXBElement<ArrayOfInformationTag> createGetInformationTagsHistoricallyResponseGetInformationTagsHistoricallyResult(ArrayOfInformationTag value) {
+        return new JAXBElement<ArrayOfInformationTag>(_GetInformationTagsHistoricallyResponseGetInformationTagsHistoricallyResult_QNAME, ArrayOfInformationTag.class, GetInformationTagsHistoricallyResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Targets", scope = EventListenerDetails.class)
+    public JAXBElement<ArrayOfstring> createEventListenerDetailsTargets(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_EventListenerDetailsTargets_QNAME, ArrayOfstring.class, EventListenerDetails.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "InformationTagConstraint", scope = EventListenerDetails.class)
+    public JAXBElement<InformationTagConstraint> createEventListenerDetailsInformationTagConstraint(InformationTagConstraint value) {
+        return new JAXBElement<InformationTagConstraint>(_InformationTagConstraint_QNAME, InformationTagConstraint.class, EventListenerDetails.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConnectionDetails }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Connection", scope = EventListenerDetails.class)
+    public JAXBElement<ConnectionDetails> createEventListenerDetailsConnection(ConnectionDetails value) {
+        return new JAXBElement<ConnectionDetails>(_EventListenerDetailsConnection_QNAME, ConnectionDetails.class, EventListenerDetails.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Object }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Value", scope = CompareQuery.class)
+    public JAXBElement<Object> createCompareQueryValue(Object value) {
+        return new JAXBElement<Object>(_LiteralValue_QNAME, Object.class, CompareQuery.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "constraint", scope = GetInformationTagsCount.class)
+    public JAXBElement<InformationTagConstraint> createGetInformationTagsCountConstraint(InformationTagConstraint value) {
+        return new JAXBElement<InformationTagConstraint>(_GetInformationTagsConstraint_QNAME, InformationTagConstraint.class, GetInformationTagsCount.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTagsCount.class)
+    public JAXBElement<ArrayOfstring> createGetInformationTagsCountTargetUries(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_GetInformationTagsUriTargetUries_QNAME, ArrayOfstring.class, GetInformationTagsCount.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "constraint", scope = GetInformationTagsHistorically.class)
+    public JAXBElement<InformationTagConstraint> createGetInformationTagsHistoricallyConstraint(InformationTagConstraint value) {
+        return new JAXBElement<InformationTagConstraint>(_GetInformationTagsConstraint_QNAME, InformationTagConstraint.class, GetInformationTagsHistorically.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTagsHistorically.class)
+    public JAXBElement<ArrayOfstring> createGetInformationTagsHistoricallyTargetUries(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_GetInformationTagsUriTargetUries_QNAME, ArrayOfstring.class, GetInformationTagsHistorically.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = GetInformationTagOfVersion.class)
+    public JAXBElement<String> createGetInformationTagOfVersionUri(String value) {
+        return new JAXBElement<String>(_DeleteInformationTagUri_QNAME, String.class, GetInformationTagOfVersion.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EventListenerDetails }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "eventListenerDetails", scope = RegisterEventListener.class)
+    public JAXBElement<EventListenerDetails> createRegisterEventListenerEventListenerDetails(EventListenerDetails value) {
+        return new JAXBElement<EventListenerDetails>(_RegisterEventListenerEventListenerDetails_QNAME, EventListenerDetails.class, RegisterEventListener.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfDataAttribute }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Attributes", scope = StructuredData.class)
+    public JAXBElement<ArrayOfDataAttribute> createStructuredDataAttributes(ArrayOfDataAttribute value) {
+        return new JAXBElement<ArrayOfDataAttribute>(_StructuredDataAttributes_QNAME, ArrayOfDataAttribute.class, StructuredData.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Type", scope = StructuredData.class)
+    public JAXBElement<String> createStructuredDataType(String value) {
+        return new JAXBElement<String>(_LiteralType_QNAME, String.class, StructuredData.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = StructuredData.class)
+    public JAXBElement<String> createStructuredDataUri(String value) {
+        return new JAXBElement<String>(_ITargetUri_QNAME, String.class, StructuredData.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = GetInformationTag.class)
+    public JAXBElement<String> createGetInformationTagUri(String value) {
+        return new JAXBElement<String>(_DeleteInformationTagUri_QNAME, String.class, GetInformationTag.class, value);
     }
 
     /**
@@ -1095,9 +1358,18 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = ITarget.class)
-    public JAXBElement<String> createITargetUri(String value) {
-        return new JAXBElement<String>(_RDFObjectUri_QNAME, String.class, ITarget.class, value);
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "AddInformationTagResult", scope = AddInformationTagResponse.class)
+    public JAXBElement<String> createAddInformationTagResponseAddInformationTagResult(String value) {
+        return new JAXBElement<String>(_AddInformationTagResponseAddInformationTagResult_QNAME, String.class, AddInformationTagResponse.class, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "HasAncestor", scope = InformationTag.class)
+    public JAXBElement<ArrayOfstring> createInformationTagHasAncestor(ArrayOfstring value) {
+        return new JAXBElement<ArrayOfstring>(_InformationTagHasAncestor_QNAME, ArrayOfstring.class, InformationTag.class, value);
     }
 
     /**
@@ -1133,7 +1405,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Type", scope = InformationTag.class)
     public JAXBElement<String> createInformationTagType(String value) {
-        return new JAXBElement<String>(_StructuredDataType_QNAME, String.class, InformationTag.class, value);
+        return new JAXBElement<String>(_LiteralType_QNAME, String.class, InformationTag.class, value);
     }
 
     /**
@@ -1142,43 +1414,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Uri", scope = InformationTag.class)
     public JAXBElement<String> createInformationTagUri(String value) {
-        return new JAXBElement<String>(_RDFObjectUri_QNAME, String.class, InformationTag.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "constraint", scope = GetInformationTagsHistorically.class)
-    public JAXBElement<InformationTagConstraint> createGetInformationTagsHistoricallyConstraint(InformationTagConstraint value) {
-        return new JAXBElement<InformationTagConstraint>(_GetInformationTagsHistoricallyConstraint_QNAME, InformationTagConstraint.class, GetInformationTagsHistorically.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTagsHistorically.class)
-    public JAXBElement<ArrayOfstring> createGetInformationTagsHistoricallyTargetUries(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_GetInformationTagsHistoricallyTargetUries_QNAME, ArrayOfstring.class, GetInformationTagsHistorically.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "AddInformationTagResult", scope = AddInformationTagResponse.class)
-    public JAXBElement<String> createAddInformationTagResponseAddInformationTagResult(String value) {
-        return new JAXBElement<String>(_AddInformationTagResponseAddInformationTagResult_QNAME, String.class, AddInformationTagResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7 }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "ExecuteSparqlQueryResult", scope = ExecuteSparqlQueryResponse.class)
-    public JAXBElement<ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7> createExecuteSparqlQueryResponseExecuteSparqlQueryResult(ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7 value) {
-        return new JAXBElement<ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7>(_ExecuteSparqlQueryResponseExecuteSparqlQueryResult_QNAME, ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7 .class, ExecuteSparqlQueryResponse.class, value);
+        return new JAXBElement<String>(_ITargetUri_QNAME, String.class, InformationTag.class, value);
     }
 
     /**
@@ -1197,42 +1433,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "RegisterEventListenerResult", scope = RegisterEventListenerResponse.class)
     public JAXBElement<String> createRegisterEventListenerResponseRegisterEventListenerResult(String value) {
         return new JAXBElement<String>(_RegisterEventListenerResponseRegisterEventListenerResult_QNAME, String.class, RegisterEventListenerResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagsUriResult", scope = GetInformationTagsUriResponse.class)
-    public JAXBElement<ArrayOfstring> createGetInformationTagsUriResponseGetInformationTagsUriResult(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_GetInformationTagsUriResponseGetInformationTagsUriResult_QNAME, ArrayOfstring.class, GetInformationTagsUriResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EventListenerDetails }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "eventListenerDetails", scope = RegisterEventListener.class)
-    public JAXBElement<EventListenerDetails> createRegisterEventListenerEventListenerDetails(EventListenerDetails value) {
-        return new JAXBElement<EventListenerDetails>(_RegisterEventListenerEventListenerDetails_QNAME, EventListenerDetails.class, RegisterEventListener.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTagsUri.class)
-    public JAXBElement<ArrayOfstring> createGetInformationTagsUriTargetUries(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_GetInformationTagsHistoricallyTargetUries_QNAME, ArrayOfstring.class, GetInformationTagsUri.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AstRcsContextConstraint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "astRcsContextConstraint", scope = GetInformationTagsUri.class)
-    public JAXBElement<AstRcsContextConstraint> createGetInformationTagsUriAstRcsContextConstraint(AstRcsContextConstraint value) {
-        return new JAXBElement<AstRcsContextConstraint>(_GetInformationTagsUriAstRcsContextConstraint_QNAME, AstRcsContextConstraint.class, GetInformationTagsUri.class, value);
     }
 
     /**
@@ -1299,150 +1499,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfInformationTag }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagsHistoricallyResult", scope = GetInformationTagsHistoricallyResponse.class)
-    public JAXBElement<ArrayOfInformationTag> createGetInformationTagsHistoricallyResponseGetInformationTagsHistoricallyResult(ArrayOfInformationTag value) {
-        return new JAXBElement<ArrayOfInformationTag>(_GetInformationTagsHistoricallyResponseGetInformationTagsHistoricallyResult_QNAME, ArrayOfInformationTag.class, GetInformationTagsHistoricallyResponse.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "informationTag", scope = AddInformationTag.class)
-    public JAXBElement<InformationTag> createAddInformationTagInformationTag(InformationTag value) {
-        return new JAXBElement<InformationTag>(_AddInformationTagInformationTag_QNAME, InformationTag.class, AddInformationTag.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Object }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Value", scope = Literal.class)
-    public JAXBElement<Object> createLiteralValue(Object value) {
-        return new JAXBElement<Object>(_CompareQueryValue_QNAME, Object.class, Literal.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Type", scope = Literal.class)
-    public JAXBElement<String> createLiteralType(String value) {
-        return new JAXBElement<String>(_StructuredDataType_QNAME, String.class, Literal.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfBaseAttributeQuery }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "SubQueries", scope = OperatorQuery.class)
-    public JAXBElement<ArrayOfBaseAttributeQuery> createOperatorQuerySubQueries(ArrayOfBaseAttributeQuery value) {
-        return new JAXBElement<ArrayOfBaseAttributeQuery>(_OperatorQuerySubQueries_QNAME, ArrayOfBaseAttributeQuery.class, OperatorQuery.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = GetInformationTag.class)
-    public JAXBElement<String> createGetInformationTagUri(String value) {
-        return new JAXBElement<String>(_GetInformationTagUri_QNAME, String.class, GetInformationTag.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = DeleteInformationTag.class)
-    public JAXBElement<String> createDeleteInformationTagUri(String value) {
-        return new JAXBElement<String>(_GetInformationTagUri_QNAME, String.class, DeleteInformationTag.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "query", scope = ExecuteSparqlQuery.class)
-    public JAXBElement<String> createExecuteSparqlQueryQuery(String value) {
-        return new JAXBElement<String>(_ExecuteSparqlQueryQuery_QNAME, String.class, ExecuteSparqlQuery.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link BaseAttributeQuery }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "SubQuery", scope = ElementMatchQuery.class)
-    public JAXBElement<BaseAttributeQuery> createElementMatchQuerySubQuery(BaseAttributeQuery value) {
-        return new JAXBElement<BaseAttributeQuery>(_ElementMatchQuerySubQuery_QNAME, BaseAttributeQuery.class, ElementMatchQuery.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = GetInformationTagOfVersion.class)
-    public JAXBElement<String> createGetInformationTagOfVersionUri(String value) {
-        return new JAXBElement<String>(_GetInformationTagUri_QNAME, String.class, GetInformationTagOfVersion.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Targets", scope = EventListenerDetails.class)
-    public JAXBElement<ArrayOfstring> createEventListenerDetailsTargets(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_EventListenerDetailsTargets_QNAME, ArrayOfstring.class, EventListenerDetails.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "InformationTagConstraint", scope = EventListenerDetails.class)
-    public JAXBElement<InformationTagConstraint> createEventListenerDetailsInformationTagConstraint(InformationTagConstraint value) {
-        return new JAXBElement<InformationTagConstraint>(_InformationTagConstraint_QNAME, InformationTagConstraint.class, EventListenerDetails.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ConnectionDetails }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "Connection", scope = EventListenerDetails.class)
-    public JAXBElement<ConnectionDetails> createEventListenerDetailsConnection(ConnectionDetails value) {
-        return new JAXBElement<ConnectionDetails>(_EventListenerDetailsConnection_QNAME, ConnectionDetails.class, EventListenerDetails.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "uri", scope = RecoverInformationTag.class)
-    public JAXBElement<String> createRecoverInformationTagUri(String value) {
-        return new JAXBElement<String>(_GetInformationTagUri_QNAME, String.class, RecoverInformationTag.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "constraint", scope = GetInformationTags.class)
-    public JAXBElement<InformationTagConstraint> createGetInformationTagsConstraint(InformationTagConstraint value) {
-        return new JAXBElement<InformationTagConstraint>(_GetInformationTagsHistoricallyConstraint_QNAME, InformationTagConstraint.class, GetInformationTags.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTags.class)
-    public JAXBElement<ArrayOfstring> createGetInformationTagsTargetUries(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_GetInformationTagsHistoricallyTargetUries_QNAME, ArrayOfstring.class, GetInformationTags.class, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfanyType }{@code >}}
      * 
      */
@@ -1458,42 +1514,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "PropertyUri", scope = DataAttribute.class)
     public JAXBElement<String> createDataAttributePropertyUri(String value) {
         return new JAXBElement<String>(_DataAttributePropertyUri_QNAME, String.class, DataAttribute.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTagConstraint }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "constraint", scope = GetInformationTagsCount.class)
-    public JAXBElement<InformationTagConstraint> createGetInformationTagsCountConstraint(InformationTagConstraint value) {
-        return new JAXBElement<InformationTagConstraint>(_GetInformationTagsHistoricallyConstraint_QNAME, InformationTagConstraint.class, GetInformationTagsCount.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "targetUries", scope = GetInformationTagsCount.class)
-    public JAXBElement<ArrayOfstring> createGetInformationTagsCountTargetUries(ArrayOfstring value) {
-        return new JAXBElement<ArrayOfstring>(_GetInformationTagsHistoricallyTargetUries_QNAME, ArrayOfstring.class, GetInformationTagsCount.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "informationTag", scope = UpdateInformationTag.class)
-    public JAXBElement<InformationTag> createUpdateInformationTagInformationTag(InformationTag value) {
-        return new JAXBElement<InformationTag>(_AddInformationTagInformationTag_QNAME, InformationTag.class, UpdateInformationTag.class, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InformationTag }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://perconik.fiit.stuba.sk/ITM", name = "GetInformationTagOfVersionResult", scope = GetInformationTagOfVersionResponse.class)
-    public JAXBElement<InformationTag> createGetInformationTagOfVersionResponseGetInformationTagOfVersionResult(InformationTag value) {
-        return new JAXBElement<InformationTag>(_GetInformationTagOfVersionResponseGetInformationTagOfVersionResult_QNAME, InformationTag.class, GetInformationTagOfVersionResponse.class, value);
     }
 
 }

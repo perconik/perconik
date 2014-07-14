@@ -28,6 +28,7 @@ import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfstring;
  *         &lt;element name="CreatedBefore" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="GeneratedAfter" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="GeneratedBefore" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="HasAncestors" type="{http://schemas.microsoft.com/2003/10/Serialization/Arrays}ArrayOfstring" minOccurs="0"/>
  *         &lt;element name="IsCreatedAfterOpened" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *         &lt;element name="IsGeneratedAfterOpened" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *         &lt;element name="IsSavedAfterOpened" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
@@ -51,6 +52,7 @@ import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfstring;
     "createdBefore",
     "generatedAfter",
     "generatedBefore",
+    "hasAncestors",
     "isCreatedAfterOpened",
     "isGeneratedAfterOpened",
     "isSavedAfterOpened",
@@ -74,6 +76,8 @@ public class InformationTagConstraint {
     protected JAXBElement<XMLGregorianCalendar> generatedAfter;
     @XmlElementRef(name = "GeneratedBefore", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
     protected JAXBElement<XMLGregorianCalendar> generatedBefore;
+    @XmlElementRef(name = "HasAncestors", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
+    protected JAXBElement<ArrayOfstring> hasAncestors;
     @XmlElement(name = "IsCreatedAfterOpened")
     protected Boolean isCreatedAfterOpened;
     @XmlElement(name = "IsGeneratedAfterOpened")
@@ -253,6 +257,30 @@ public class InformationTagConstraint {
      */
     public void setGeneratedBefore(JAXBElement<XMLGregorianCalendar> value) {
         this.generatedBefore = value;
+    }
+
+    /**
+     * Gets the value of the hasAncestors property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}
+     *     
+     */
+    public JAXBElement<ArrayOfstring> getHasAncestors() {
+        return hasAncestors;
+    }
+
+    /**
+     * Sets the value of the hasAncestors property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}
+     *     
+     */
+    public void setHasAncestors(JAXBElement<ArrayOfstring> value) {
+        this.hasAncestors = value;
     }
 
     /**

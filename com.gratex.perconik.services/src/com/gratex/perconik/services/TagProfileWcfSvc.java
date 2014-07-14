@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "TagProfileWcfSvc", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", wsdlLocation = "file:/D:/workspace/perconik/com.gratex.perconik.services/TagProfileWcfSvc.svc.wsdl")
+@WebServiceClient(name = "TagProfileWcfSvc", targetNamespace = "http://www.gratex.com/PerConIk/TagAdm/ITagProfileWcfSvc", wsdlLocation = "file:/D:/workspace/perconik/perconik/com.gratex.perconik.services/TagProfileWcfSvc.svc.wsdl")
 public class TagProfileWcfSvc
     extends Service
 {
@@ -30,7 +30,7 @@ public class TagProfileWcfSvc
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/D:/workspace/perconik/com.gratex.perconik.services/TagProfileWcfSvc.svc.wsdl");
+            url = new URL("file:/D:/workspace/perconik/perconik/com.gratex.perconik.services/TagProfileWcfSvc.svc.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

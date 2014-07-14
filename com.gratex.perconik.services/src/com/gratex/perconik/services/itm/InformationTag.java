@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
+import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfstring;
 
 
 /**
@@ -24,6 +25,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="Author" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="Created" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="Generated" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="HasAncestor" type="{http://schemas.microsoft.com/2003/10/Serialization/Arrays}ArrayOfstring" minOccurs="0"/>
  *         &lt;element name="HasBody" type="{http://perconik.fiit.stuba.sk/ITM}Body" minOccurs="0"/>
  *         &lt;element name="HasTarget" type="{http://perconik.fiit.stuba.sk/ITM}ArrayOfITarget" minOccurs="0"/>
  *         &lt;element name="HasVersion" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
@@ -44,6 +46,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "author",
     "created",
     "generated",
+    "hasAncestor",
     "hasBody",
     "hasTarget",
     "hasVersion",
@@ -62,6 +65,8 @@ public class InformationTag {
     @XmlElement(name = "Generated")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar generated;
+    @XmlElementRef(name = "HasAncestor", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
+    protected JAXBElement<ArrayOfstring> hasAncestor;
     @XmlElementRef(name = "HasBody", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
     protected JAXBElement<Body> hasBody;
     @XmlElementRef(name = "HasTarget", namespace = "http://perconik.fiit.stuba.sk/ITM", type = JAXBElement.class, required = false)
@@ -148,6 +153,30 @@ public class InformationTag {
      */
     public void setGenerated(XMLGregorianCalendar value) {
         this.generated = value;
+    }
+
+    /**
+     * Gets the value of the hasAncestor property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}
+     *     
+     */
+    public JAXBElement<ArrayOfstring> getHasAncestor() {
+        return hasAncestor;
+    }
+
+    /**
+     * Sets the value of the hasAncestor property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link JAXBElement }{@code <}{@link ArrayOfstring }{@code >}
+     *     
+     */
+    public void setHasAncestor(JAXBElement<ArrayOfstring> value) {
+        this.hasAncestor = value;
     }
 
     /**

@@ -35,14 +35,14 @@ import javax.xml.bind.annotation.XmlType;
 })
 @XmlSeeAlso({
     SearchUsersResponse.class,
-    SearchRcsProjectsResponse.class,
-    GetChildCodeEntitiesResponse.class,
-    SearchTypeCodeEntitiesLightResponse.class,
-    SearchChangesetsResponse.class,
     SearchRcsServersResponse.class,
     SearchFoldersResponse.class,
+    SearchRcsProjectsResponse.class,
     SearchCodeEntitiesResponse.class,
+    GetChildCodeEntitiesResponse.class,
     GetChangesetRcsProjectResponse.class,
+    SearchTypeCodeEntitiesLightResponse.class,
+    SearchChangesetsResponse.class,
     SearchFilesResponse.class,
     SearchBranchesResponse.class
 })

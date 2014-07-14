@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "AstRcsWcfSvc", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", wsdlLocation = "file:/D:/workspace/perconik/com.gratex.perconik.services/AstRcsWcfSvc.svc.wsdl")
+@WebServiceClient(name = "AstRcsWcfSvc", targetNamespace = "http://www.gratex.com/PerConIk/AstRcs/IEntityService", wsdlLocation = "file:/D:/workspace/perconik/perconik/com.gratex.perconik.services/AstRcsWcfSvc.svc.wsdl")
 public class AstRcsWcfSvc
     extends Service
 {
@@ -30,7 +30,7 @@ public class AstRcsWcfSvc
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/D:/workspace/perconik/com.gratex.perconik.services/AstRcsWcfSvc.svc.wsdl");
+            url = new URL("file:/D:/workspace/perconik/perconik/com.gratex.perconik.services/AstRcsWcfSvc.svc.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

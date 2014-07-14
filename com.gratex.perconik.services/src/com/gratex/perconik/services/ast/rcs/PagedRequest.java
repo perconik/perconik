@@ -34,17 +34,17 @@ import javax.xml.bind.annotation.XmlType;
     "pageSize"
 })
 @XmlSeeAlso({
-    SearchChangesetsRequest.class,
-    SearchUsersRequest.class,
-    SearchTypeCodeEntitiesLightRequest.class,
     SearchRcsServersRequest.class,
-    SearchFilesRequest.class,
+    SearchChangesetsRequest.class,
     GetChildCodeEntitiesRequest.class,
-    GetChangesetRcsProjectRequest.class,
+    SearchRcsProjectsRequest.class,
+    SearchTypeCodeEntitiesLightRequest.class,
     SearchBranchesRequest.class,
     SearchFoldersRequest.class,
-    SearchRcsProjectsRequest.class,
-    SearchCodeEntitiesRequest.class
+    GetChangesetRcsProjectRequest.class,
+    SearchCodeEntitiesRequest.class,
+    SearchUsersRequest.class,
+    SearchFilesRequest.class
 })
 public class PagedRequest {
 
