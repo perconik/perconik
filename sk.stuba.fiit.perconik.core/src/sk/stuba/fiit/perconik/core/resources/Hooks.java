@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Arrays;
-import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Display;
@@ -11,8 +12,10 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
+import java.util.Arrays;
+
+import javax.annotation.Nullable;
 
 final class Hooks
 {
@@ -20,7 +23,7 @@ final class Hooks
 	{
 		throw new AssertionError();
 	}
-	
+
 	static final <T> void addAll(final Hook<T, ?> hook, final Iterable<T> objects)
 	{
 		for (T object: objects)
@@ -28,7 +31,7 @@ final class Hooks
 			hook.add(object);
 		}
 	}
-	
+
 	static final <T> void addNonNull(final Hook<T, ?> hook, @Nullable final T object)
 	{
 		if (object != null)
@@ -36,7 +39,7 @@ final class Hooks
 			hook.add(object);
 		}
 	}
-	
+
 	static final <T> void removeAll(final Hook<T, ?> hook, final Iterable<T> objects)
 	{
 		for (T object: objects)
@@ -52,7 +55,7 @@ final class Hooks
 			hook.remove(object);
 		}
 	}
-	
+
 	static final void addWindowsAsynchronouslyTo(final Hook<IWorkbenchWindow, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
@@ -63,10 +66,10 @@ final class Hooks
 				addAll(hook, Arrays.asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
 			}
 		};
-		
+
 		Display.getDefault().asyncExec(initializer);
 	}
-	
+
 	static final void addPagesAsynchronouslyTo(final Hook<IWorkbenchPage, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
@@ -77,7 +80,7 @@ final class Hooks
 				addAll(hook, Arrays.asList(Workbenches.waitForActiveWindow().getPages()));
 			}
 		};
-		
+
 		Display.getDefault().asyncExec(initializer);
 	}
 
@@ -94,7 +97,7 @@ final class Hooks
 				}
 			}
 		};
-		
+
 		Display.getDefault().asyncExec(initializer);
 	}
 
@@ -107,14 +110,14 @@ final class Hooks
 			{
 				for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences())
 				{
-					addNonNull(hook, reference.getEditor(false));
+					addNonNull(hook, dereferenceEditor(reference));
 				}
 			}
 		};
-		
+
 		Display.getDefault().asyncExec(initializer);
 	}
-	
+
 	static final void addSourceViewersAsynchronouslyTo(final Hook<ISourceViewer, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
@@ -124,14 +127,14 @@ final class Hooks
 			{
 				for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences())
 				{
-					addNonNull(hook, Editors.getSourceViewer(reference.getEditor(false)));
+					addNonNull(hook, Editors.getSourceViewer(dereferenceEditor(reference)));
 				}
 			}
 		};
-		
+
 		Display.getDefault().asyncExec(initializer);
 	}
-	
+
 	static final void addDocumentsAsynchronouslyTo(final Hook<IDocument, ?> hook)
 	{
 		final Runnable initializer = new Runnable()
@@ -141,11 +144,16 @@ final class Hooks
 			{
 				for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences())
 				{
-					addNonNull(hook, Editors.getDocument(reference.getEditor(false)));
+					addNonNull(hook, Editors.getDocument(dereferenceEditor(reference)));
 				}
 			}
 		};
-		
+
 		Display.getDefault().asyncExec(initializer);
+	}
+
+	static final IEditorPart dereferenceEditor(final IEditorReference reference)
+	{
+		return reference.getEditor(true);
 	}
 }

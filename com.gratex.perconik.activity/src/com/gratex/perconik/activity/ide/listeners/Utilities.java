@@ -1,8 +1,9 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import javax.annotation.Nullable;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+
+import javax.annotation.Nullable;
 
 final class Utilities
 {
@@ -25,14 +26,14 @@ final class Utilities
 	 */
 	static final IEditorPart dereferenceEditor(final IEditorReference reference)
 	{
-		return reference.getEditor(false);
+		return reference.getEditor(true);
 	}
-	
+
 	/**
 	 * Helper method to avoid compiler {@code null} warnings.
 	 */
 	static final boolean isNull(@Nullable Object object)
 	{
-		return object == null; 
+		return object == null;
 	}
 }
