@@ -6,6 +6,7 @@ import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
+import static java.lang.System.out;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -13,30 +14,12 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.RE
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.GuardedBy;
-import org.eclipse.core.filebuffers.FileBuffers;
-import org.eclipse.core.filebuffers.IFileBuffer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.ignore.IgnoreNode;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchPart;
+
+import com.gratex.perconik.activity.ide.IdeGitProjects;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
+
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
@@ -53,16 +36,41 @@ import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.utilities.io.MorePaths;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
-import com.gratex.perconik.activity.ide.IdeGitProjects;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
+
+import org.eclipse.core.filebuffers.FileBuffers;
+import org.eclipse.core.filebuffers.IFileBuffer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.ignore.IgnoreNode;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPart;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * A listener of IDE document events. This listener handles desired
@@ -195,7 +203,22 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			assert delta != null && resource != null;
 
-			if (this.type != POST_CHANGE || !this.filter.apply(resource))
+			// TODO
+			out.println(resource.getFullPath()+" : "+resource.getLocation()+" -- "+OutputLocationFilter.INSTANCE.apply(resource)+" -- "+new GitIgnoreFilter().apply(resource));
+
+			if (this.type != POST_CHANGE)
+			{
+				return false;
+			}
+
+			try
+			{
+				if (!this.filter.apply(resource))
+				{
+					return false;
+				}
+			}
+			catch (RuntimeException e)
 			{
 				return false;
 			}
@@ -319,14 +342,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 				return true;
 			}
 
-			Path root = git.getRepository().getDirectory().toPath().getParent().toAbsolutePath().normalize();
-			Path path = resource.getLocation().toFile().toPath().toAbsolutePath().normalize();
+			Path base = repositoryPath(git.getRepository()).toAbsolutePath().normalize();
+			Path path = resourcePath(resource).toAbsolutePath().normalize();
 
-			checkState(path.startsWith(root));
+			checkState(path.startsWith(base), "%s does not start with %s", path, base);
 
 			boolean isDirectory = Files.isDirectory(path);
 
-			for (Path key: MorePaths.downToBase(root, path))
+			for (Path key: MorePaths.downToBase(base, path))
 			{
 				IgnoreNode node = this.ignores.get(key);
 
@@ -339,22 +362,36 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 				switch (node.isIgnored(path.toString(), isDirectory))
 				{
-					case IGNORED:
-						return false;
+				case IGNORED:
+					return false;
 
-					case NOT_IGNORED:
-						return true;
+				case NOT_IGNORED:
+					return true;
 
-					default:
+				default:
 				}
 
-				if (key.equals(root))
+				if (key.equals(base))
 				{
 					break;
 				}
 			}
 
 			return true;
+		}
+
+		private static final Path repositoryPath(Repository repository)
+		{
+			return repository.getDirectory().toPath().getParent();
+		}
+
+		private static final Path resourcePath(IResource resource)
+		{
+			IPath location = resource.getLocation();
+
+			checkState(location != null);
+
+			return location.toFile().toPath();
 		}
 	}
 
