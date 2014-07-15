@@ -1,6 +1,7 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Predicates.and;
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
@@ -56,6 +57,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.ignore.IgnoreNode;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -193,7 +195,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			this.time = time;
 			this.type = type;
 
-			this.filter     = Predicates.and(OutputLocationFilter.INSTANCE, new GitIgnoreFilter());
+			this.filter     = Predicates.and(OutputLocationFilter.INSTANCE, and(GitInternalFilter.INSTANCE, new GitIgnoreFilter()));
 			this.operations = LinkedHashMultimap.create(3, 2);
 		}
 
@@ -302,6 +304,36 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			}
 			catch (RuntimeCoreException e)
 			{
+			}
+
+			return true;
+		}
+	}
+
+	private static enum GitInternalFilter implements Predicate<IResource>
+	{
+		INSTANCE;
+
+		public final boolean apply(@Nullable final IResource resource)
+		{
+			if (resource == null)
+			{
+				return false;
+			}
+
+			IPath path = resource.getLocation();
+
+			if (path == null)
+			{
+				path = resource.getFullPath();
+			}
+
+			for (String segment: path.segments())
+			{
+				if (segment.equals(Constants.DOT_GIT))
+				{
+					return false;
+				}
 			}
 
 			return true;
