@@ -6,7 +6,6 @@ import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
-import static java.lang.System.out;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -202,9 +201,6 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
 		{
 			assert delta != null && resource != null;
-
-			// TODO
-			out.println(resource.getFullPath()+" : "+resource.getLocation()+" -- "+OutputLocationFilter.INSTANCE.apply(resource)+" -- "+new GitIgnoreFilter().apply(resource));
 
 			if (this.type != POST_CHANGE)
 			{
