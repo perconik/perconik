@@ -13,12 +13,26 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSeparators;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.concurrent.GuardedBy;
+
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
+
+import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
+import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
+import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
@@ -33,23 +47,17 @@ import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
-import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
-import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
-import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
-import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
-import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
-import com.google.common.base.Stopwatch;
-import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * A listener of IDE code events. This listener handles desired
@@ -92,7 +100,7 @@ import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, TextSelectionListener, WorkbenchListener
+public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, EditorListener, TextSelectionListener, WorkbenchListener
 {
 	private static final long selectionEventWindow = 500;
 
@@ -246,18 +254,18 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		{
 			Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 
-		    if (Collections.disjoint(supportedTypeNames, Arrays.asList(clipboard.getAvailableTypeNames())))
-		    {
-		    	if (Log.enabled()) Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
+			if (Collections.disjoint(supportedTypeNames, Arrays.asList(clipboard.getAvailableTypeNames())))
+			{
+				if (Log.enabled()) Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
 
-		    	return null;
-		    }
+				return null;
+			}
 
-		    String text = clipboard.getContents(TextTransfer.getInstance()).toString();
+			String text = clipboard.getContents(TextTransfer.getInstance()).toString();
 
-		    clipboard.dispose();
+			clipboard.dispose();
 
-		    return text;
+			return text;
 		}
 	}
 
@@ -419,7 +427,14 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			return;
 		}
 
-		processSelection(time, UnderlyingContent.from((IEditorPart) part), selection);
+		UnderlyingContent<?> content = UnderlyingContent.from((IEditorPart) part);
+
+		if (content == null)
+		{
+			return;
+		}
+
+		processSelection(time, content, selection);
 	}
 
 	static final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection)
@@ -429,8 +444,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		UacaProxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
 	}
 
-	@Override
-	public final void preUnregister()
+	private final void preClose()
 	{
 		synchronized (this.lock)
 		{
@@ -439,6 +453,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 				this.stopWatchAndProcessLastSelectionEvent();
 			}
 		}
+	}
+
+	@Override
+	public final void preUnregister()
+	{
+		this.preClose();
 	}
 
 	public final boolean preShutdown(final IWorkbench workbench, final boolean forced)
@@ -558,6 +578,39 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 				processSelection(time, part, selection);
 			}
 		});
+	}
+
+	public final void editorOpened(final IEditorReference reference)
+	{
+	}
+
+	public final void editorClosed(final IEditorReference reference)
+	{
+		this.preClose();
+	}
+
+	public final void editorActivated(final IEditorReference reference)
+	{
+	}
+
+	public final void editorDeactivated(final IEditorReference reference)
+	{
+	}
+
+	public final void editorVisible(final IEditorReference reference)
+	{
+	}
+
+	public final void editorHidden(final IEditorReference reference)
+	{
+	}
+
+	public final void editorBroughtToTop(final IEditorReference reference)
+	{
+	}
+
+	public final void editorInputChanged(final IEditorReference reference)
+	{
 	}
 
 	public final void preExecute(final String id, final ExecutionEvent event)
