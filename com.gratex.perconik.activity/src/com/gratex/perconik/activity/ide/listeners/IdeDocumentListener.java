@@ -351,6 +351,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 		public final boolean apply(@Nullable final IResource resource)
 		{
+			// TODO check all IPath, check all getFullPath usages, check all getLocation usages !!!
+
 			if (resource == null)
 			{
 				return false;
