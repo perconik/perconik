@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
 import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
@@ -21,6 +22,7 @@ import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.core.listeners.GitConfigurationListener;
 import sk.stuba.fiit.perconik.core.listeners.GitIndexListener;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
+import sk.stuba.fiit.perconik.core.listeners.GitRepositoryListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
@@ -51,34 +53,35 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProviders;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
 import com.google.common.collect.SetMultimap;
 
 /**
  * Static accessor methods pertaining to default resource core implementation.
- * 
+ *
  * <p>The core implementation includes default {@code Resource}
  * instances along with respective {@code ResourceNamesSupplier}
  * as well as default {@code ResourceService}, {@code ResourceProvider}
  * and {@code ResourceManager}.
- * 
+ *
  * <p>The default implementations of resources as well as resource provider,
  * manager and service are still available by this class even if the respective
  * resources are unregistered from the core or the services are switched or
  * stopped.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public final class DefaultResources
 {
 	static final Resource<CommandListener> command;
-	
+
 	static final Resource<CommandCategoryListener> commandCategory;
-	
+
 	static final Resource<CommandContextListener> commandContext;
-	
+
 	static final Resource<CommandContextManagerListener> commandContextManager;
-	
+
 	static final Resource<CommandExecutionListener> commandExecution;
 
 	static final Resource<CommandHandlerListener> commandHandler;
@@ -94,29 +97,31 @@ public final class DefaultResources
 	static final Resource<EditorListener> editor;
 
 	static final Resource<FileBufferListener> fileBuffer;
-	
+
 	static final Resource<GitConfigurationListener> gitConfiguration;
-	
+
 	static final Resource<GitIndexListener> gitIndex;
-	
+
 	static final Resource<GitReferenceListener> gitReference;
+
+	static final Resource<GitRepositoryListener> gitRepository;
 
 	static final Resource<JavaElementListener> javaElement;
 
 	static final Resource<LaunchListener> launch;
-	
+
 	static final Resource<LaunchesListener> launches;
 
 	static final Resource<LaunchConfigurationListener> launchConfiguration;
-	
+
 	static final Resource<MarkSelectionListener> markSelection;
 
 	static final Resource<OperationHistoryListener> operationHistory;
-	
+
 	static final Resource<PageListener> page;
-	
+
 	static final Resource<PartListener> part;
-	
+
 	static final Resource<PerspectiveListener> perspective;
 
 	static final Resource<RefactoringExecutionListener> refactoringExecution;
@@ -124,13 +129,13 @@ public final class DefaultResources
 	static final Resource<RefactoringHistoryListener> refactoringHistory;
 
 	static final Resource<ResourceListener> resource;
-	
+
 	static final Resource<SearchQueryListener> searchQuery;
-	
+
 	static final Resource<SearchResultListener> searchResult;
 
 	static final Resource<SelectionListener> selection;
-	
+
 	static final Resource<StructuredSelectionListener> structuredSelection;
 
 	static final Resource<TestRunListener> testRun;
@@ -140,13 +145,13 @@ public final class DefaultResources
 	static final Resource<WindowListener> window;
 
 	static final Resource<WorkbenchListener> workbench;
-	
+
 	static final ResourceProvider provider;
 
 	static
 	{
 		ResourceProvider.Builder builder = ResourceProviders.builder();
-		
+
 		command               = forge(CommandListener.class, CommandHandler.INSTANCE, builder);
 		commandCategory       = forge(CommandCategoryListener.class, CommandCategoryHandler.INSTANCE, builder);
 		commandContext        = forge(CommandContextListener.class, CommandContextHandler.INSTANCE, builder);
@@ -162,6 +167,7 @@ public final class DefaultResources
 		gitConfiguration      = forge(GitConfigurationListener.class, GitConfigurationHandler.INSTANCE, builder);
 		gitIndex              = forge(GitIndexListener.class, GitIndexHandler.INSTANCE, builder);
 		gitReference          = forge(GitReferenceListener.class, GitReferenceHandler.INSTANCE, builder);
+		gitRepository         = forge(GitRepositoryListener.class, GitRepositoryHandler.INSTANCE, builder);
 		javaElement           = forge(JavaElementListener.class, JavaElementHandler.INSTANCE, builder);
 		launch                = forge(LaunchListener.class, LaunchHandler.INSTANCE, builder);
 		launchConfiguration   = forge(LaunchConfigurationListener.class, LaunchConfigurationHandler.INSTANCE, builder);
@@ -182,15 +188,15 @@ public final class DefaultResources
 		textSelection         = forge(TextSelectionListener.class, TextSelectionHandler.INSTANCE, builder);
 		window                = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
 		workbench             = forge(WorkbenchListener.class, WorkbenchHandler.INSTANCE, builder);
-		
+
 		provider = builder.build();
 	}
-	
+
 	private DefaultResources()
 	{
 		throw new AssertionError();
 	}
-	
+
 	private static final <L extends Listener> void safePreRegister(final L listener)
 	{
 		try
@@ -273,12 +279,12 @@ public final class DefaultResources
 	public static final <L extends Listener> void registerTo(final Iterable<Resource<? super L>> resources, final L listener)
 	{
 		safePreRegister(listener);
-		
+
 		for (Resource<? super L> resource: resources)
 		{
 			safeRegisterTo(resource, listener);
 		}
-		
+
 		safePostRegister(listener);
 	}
 
@@ -292,24 +298,24 @@ public final class DefaultResources
 	public static final <L extends Listener> void unregisterFrom(final Iterable<Resource<? super L>> resources, final L listener)
 	{
 		safePreUnregister(listener);
-		
+
 		for (Resource<? super L> resource: resources)
 		{
 			safeUnregisterFrom(resource, listener);
 		}
-		
+
 		safePostUnregister(listener);
 	}
 
 	private static final class ManagerHolder
 	{
 		static final ResourceManager instance;
-		
+
 		static
 		{
 			instance = ResourceManagers.create();
 		}
-		
+
 		private ManagerHolder()
 		{
 			throw new AssertionError();
@@ -319,17 +325,17 @@ public final class DefaultResources
 	private static final class ServiceHolder
 	{
 		static final ResourceService instance;
-		
+
 		static
 		{
 			ResourceService.Builder builder = ResourceServices.builder();
-			
+
 			builder.provider(provider);
 			builder.manager(ManagerHolder.instance);
-			
+
 			instance = builder.build();
 		}
-		
+
 		private ServiceHolder()
 		{
 			throw new AssertionError();
@@ -342,12 +348,12 @@ public final class DefaultResources
 	 * builder from {@link ResourceProviders#builder()} factory method.
 	 * Its direct parent and the only predecessor in the resource provider
 	 * hierarchy is the system resource provider.
-	 * 
+	 *
 	 * <p>The default resource provider is lazily
 	 * initialized at the first call of this method.
-	 * 
+	 *
 	 * @return the default resource provider
-	 * 
+	 *
 	 * @see ResourceProvider
 	 * @see ResourceProviders#builder()
 	 * @see ResourceProviders#getSystemProvider()
@@ -361,12 +367,12 @@ public final class DefaultResources
 	 * Returns the default resource manager. The returned
 	 * manager is a standard resource manager constructed by
 	 * the {@link ResourceManagers#create()} factory method.
-	 * 
+	 *
 	 * <p>The default resource provider is lazily
 	 * initialized at the first call of this method.
-	 * 
+	 *
 	 * @return the default resource manager
-	 * 
+	 *
 	 * @see ResourceManager
 	 * @see ResourceManagers#create()
 	 */
@@ -374,21 +380,21 @@ public final class DefaultResources
 	{
 		return ManagerHolder.instance;
 	}
-	
+
 	/**
 	 * Returns the default resource service. The returned service is a
 	 * standard resource service constructed using the standard service
 	 * builder from {@link ResourceServices#builder()} factory method.
 	 * It contains the default resource provider and manager.
-	 * 
+	 *
 	 * <p>The default resource provider is lazily
 	 * initialized at the first call of this method.
-	 * 
+	 *
 	 * <p><b>Note:</b> The returned service may be unusable if it
 	 * has been retrieved by this method earlier and then stopped.
-	 * 
+	 *
 	 * @return the default resource service
-	 * 
+	 *
 	 * @see ResourceService
 	 * @see ResourceServices#builder()
 	 * @see #getDefaultResourceProvider()
@@ -398,7 +404,7 @@ public final class DefaultResources
 	{
 		return ServiceHolder.instance;
 	}
-	
+
 	/**
 	 * Returns the default resource names supplier.
 	 * The built supplier dynamically supplies resource
@@ -406,9 +412,9 @@ public final class DefaultResources
 	 * currently used {@code ResourceProvider} obtained by this
 	 * {@code Services.getResourceService().getResourceProvider()}
 	 * method call at supplying.
-	 * 
+	 *
 	 * @return the default resource names supplier
-	 * 
+	 *
 	 * @see ResourceNamesSupplier
 	 * @see #getDefaultResourceProvider()
 	 */
@@ -422,15 +428,15 @@ public final class DefaultResources
 			}
 		};
 	}
-	
+
 	private static final <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder)
 	{
 		boolean unsupported = handler.getClass().isAnnotationPresent(Unimplemented.class);
-		
+
 		Resource<L> resource = StandardResource.newInstance(Pools.safe(Pools.getListenerPoolFactory().create(handler), type), unsupported);
-	
+
 		builder.add(type, resource);
-		
+
 		return resource;
 	}
 
@@ -493,7 +499,7 @@ public final class DefaultResources
 	{
 		return DefaultResources.fileBuffer;
 	}
-	
+
 	public static final Resource<GitConfigurationListener> getGitConfigurationResource()
 	{
 		return DefaultResources.gitConfiguration;
@@ -509,6 +515,11 @@ public final class DefaultResources
 		return DefaultResources.gitReference;
 	}
 
+	public static final Resource<GitRepositoryListener> getGitRepositoryResource()
+	{
+		return DefaultResources.gitRepository;
+	}
+
 	public static final Resource<JavaElementListener> getJavaElementResource()
 	{
 		return DefaultResources.javaElement;
@@ -518,7 +529,7 @@ public final class DefaultResources
 	{
 		return DefaultResources.launch;
 	}
-	
+
 	public static final Resource<LaunchesListener> getLaunchesResource()
 	{
 		return DefaultResources.launches;
