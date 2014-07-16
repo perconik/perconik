@@ -24,6 +24,8 @@ Bundle-Vendor: Gratex International
 Export-Package: com.gratex.perconik.tag.antlr,
  com.gratex.perconik.tag.assistant,
  com.gratex.perconik.tag.builder,
+ com.gratex.perconik.tag.command,
+ com.gratex.perconik.tag.dialog,
  com.gratex.perconik.tag.plugin,
  com.gratex.perconik.tag.popup.actions,
  com.gratex.perconik.tag.prefs,
