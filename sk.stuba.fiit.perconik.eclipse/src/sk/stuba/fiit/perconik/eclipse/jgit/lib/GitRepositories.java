@@ -7,7 +7,6 @@ import sk.stuba.fiit.perconik.utilities.io.MorePaths;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
@@ -36,14 +35,6 @@ public final class GitRepositories
 	private GitRepositories()
 	{
 		throw new AssertionError();
-	}
-
-	@Deprecated
-	public static final Repository open(final IProject project)
-	{
-		Git git = GitCommands.open(project);
-
-		return git != null ? git.getRepository() : null;
 	}
 
 	private static final Ref handleCheckoutCommand(final CheckoutCommand command)
