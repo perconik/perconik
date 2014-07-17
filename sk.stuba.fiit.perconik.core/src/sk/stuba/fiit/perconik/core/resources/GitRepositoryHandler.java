@@ -4,6 +4,7 @@ import sk.stuba.fiit.perconik.core.listeners.GitRepositoryListener;
 
 import org.eclipse.egit.core.project.GitProjectData;
 
+@SuppressWarnings("restriction")
 enum GitRepositoryHandler implements Handler<GitRepositoryListener>
 {
 	INSTANCE;

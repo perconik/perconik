@@ -97,6 +97,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("restriction")
 public final class Debug
 {
 	private Debug()

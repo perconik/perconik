@@ -13,6 +13,7 @@ import org.eclipse.egit.core.project.RepositoryChangeListener;
  * @author Pavol Zbell
  * @since 1.0
  */
+@SuppressWarnings("restriction")
 public interface GitRepositoryListener extends Listener, RepositoryChangeListener
 {
 }
