@@ -1,51 +1,47 @@
 package com.gratex.perconik.activity.ide;
 
-import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitProjectCache;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.egit.core.Activator;
+import org.eclipse.egit.core.RepositoryCache;
 import org.eclipse.egit.core.RepositoryUtil;
-import org.eclipse.jgit.api.Git;
+import org.eclipse.egit.core.project.GitProjectData;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
+@SuppressWarnings("restriction") // TODO resolve: not sure why is egit core restricted
 public final class IdeGitProjects
 {
-	private static final GitProjectCache cache = new GitProjectCache();
-
 	private IdeGitProjects()
 	{
 		throw new AssertionError();
 	}
 
-	private static final RepositoryUtil utilities()
+	static final RepositoryCache repositories()
 	{
-		return Activator.getDefault().getRepositoryUtil();
+		return checkNotNullAsState(Activator.getDefault().getRepositoryCache());
 	}
 
-	public static final Git getGit(final IProject project)
+	static final RepositoryUtil utilities()
 	{
-		try
-		{
-			return cache.getUnchecked(project);
-		}
-		catch (RuntimeException e)
-		{
-			return null;
-		}
+		return checkNotNullAsState(Activator.getDefault().getRepositoryUtil());
 	}
 
-	public static final Repository getRepository(final IProject project)
+	public static final GitProjectData getProjectData(final IProject project)
 	{
-		Git git = getGit(project);
+		return GitProjectData.get(project);
+	}
 
-		return git != null ? git.getRepository() : null;
+	public static final Repository getRepository(final IPath path)
+	{
+		return repositories().getRepository(path);
 	}
 
 	public static final boolean isIgnored(final IPath path) throws IOException
 	{
-		return utilities().isIgnored(path);
+		return RepositoryUtil.isIgnored(path);
 	}
 }

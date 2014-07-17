@@ -1,5 +1,15 @@
 package com.gratex.perconik.activity.ide;
 
+import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
+import com.gratex.perconik.services.uaca.ide.RcsServerDto;
+
+import sk.stuba.fiit.perconik.core.java.ClassFiles;
+import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
+import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
+
+import com.google.common.base.Preconditions;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
@@ -7,13 +17,6 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import sk.stuba.fiit.perconik.core.java.ClassFiles;
-import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
-import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
-import com.google.common.base.Preconditions;
-import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
-import com.gratex.perconik.services.uaca.ide.RcsServerDto;
 
 public final class IdeData
 {
@@ -24,15 +27,15 @@ public final class IdeData
 
 	public static final IdeDocumentDto newDocumentData(final IFile file)
 	{
-		return newDocumentData(file.getFullPath(), file.getProject());
+		return newDocumentRepositoryData(file.getFullPath());
 	}
 
 	public static final IdeDocumentDto newDocumentData(final IClassFile file)
 	{
-		return newDocumentData(ClassFiles.path(file));
+		return newDocumentPathData(ClassFiles.path(file));
 	}
 
-	private static final IdeDocumentDto newDocumentData(final IPath path)
+	private static final IdeDocumentDto newDocumentPathData(final IPath path)
 	{
 		IdeDocumentDto data = new IdeDocumentDto();
 
@@ -41,11 +44,11 @@ public final class IdeData
 		return data;
 	}
 
-	private static final IdeDocumentDto newDocumentData(final IPath path, final IProject project)
+	private static final IdeDocumentDto newDocumentRepositoryData(final IPath path)
 	{
-		IdeDocumentDto data = newDocumentData(path.makeRelative());
+		IdeDocumentDto data = newDocumentPathData(path.makeRelative());
 
-		Repository repository = IdeGitProjects.getRepository(project);
+		Repository repository = IdeGitProjects.getRepository(path);
 
 		if (repository != null)
 		{
