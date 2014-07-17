@@ -102,7 +102,7 @@ import javax.annotation.concurrent.GuardedBy;
  */
 public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, EditorListener, TextSelectionListener, WorkbenchListener
 {
-	private static final long selectionEventWindow = 500;
+	static final long selectionEventWindow = 500;
 
 	private final CommandExecutionStateHandler paste;
 
