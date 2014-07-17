@@ -18,6 +18,8 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
+import javax.annotation.Nullable;
+
 public final class IdeData
 {
 	private IdeData()
@@ -27,7 +29,7 @@ public final class IdeData
 
 	public static final IdeDocumentDto newDocumentData(final IFile file)
 	{
-		return newDocumentRepositoryData(file.getFullPath());
+		return newDocumentRepositoryData(file.getFullPath(), IdeGitProjects.getRepository(file));
 	}
 
 	public static final IdeDocumentDto newDocumentData(final IClassFile file)
@@ -44,11 +46,9 @@ public final class IdeData
 		return data;
 	}
 
-	private static final IdeDocumentDto newDocumentRepositoryData(final IPath path)
+	private static final IdeDocumentDto newDocumentRepositoryData(final IPath path, @Nullable final Repository repository)
 	{
 		IdeDocumentDto data = newDocumentPathData(path.makeRelative());
-
-		Repository repository = IdeGitProjects.getRepository(path);
 
 		if (repository != null)
 		{
