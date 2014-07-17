@@ -1,17 +1,20 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.text.Collator;
-import java.util.Set;
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.widgets.Table;
-import org.osgi.service.prefs.BackingStoreException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
+
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Table;
+
+import org.osgi.service.prefs.BackingStoreException;
+
+import java.text.Collator;
+import java.util.Set;
 
 /**
  * Resources preference page.
@@ -65,20 +68,20 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 
 			switch (column)
 			{
-				case 0:
-					return data.getResourceName() + (data.isProvided() ? "" : " (unknown)");
+			case 0:
+				return data.getResourceName() + (data.isProvided() ? "" : " (unknown)");
 
-				case 1:
-					return data.getListenerType().getName();
+			case 1:
+				return data.getListenerType().getName();
 
-				case 2:
-					return this.getVersion(data);
+			case 2:
+				return this.getVersion(data);
 
-				case 3:
-					return this.getAnnotations(data);
+			case 3:
+				return this.getAnnotations(data);
 
-				default:
-					throw new IllegalStateException();
+			default:
+				throw new IllegalStateException();
 			}
 		}
 	}
@@ -162,7 +165,7 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 	@Override
 	final void save() throws BackingStoreException
 	{
-		this.getResourcePreferences().flush();
+		this.getPreferences().flush();
 	}
 
 	public final void setResourcePreferences(final ResourcePreferences preferences)

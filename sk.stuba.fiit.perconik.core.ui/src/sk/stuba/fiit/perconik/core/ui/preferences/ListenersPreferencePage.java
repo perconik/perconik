@@ -1,17 +1,20 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.text.Collator;
-import java.util.Set;
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.widgets.Table;
-import org.osgi.service.prefs.BackingStoreException;
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
+
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Table;
+
+import org.osgi.service.prefs.BackingStoreException;
+
+import java.text.Collator;
+import java.util.Set;
 
 /**
  * Listeners preference page.
@@ -63,17 +66,17 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 
 			switch (column)
 			{
-				case 0:
-					return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
+			case 0:
+				return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
 
-				case 1:
-					return this.getVersion(data);
+			case 1:
+				return this.getVersion(data);
 
-				case 2:
-					return this.getAnnotations(data);
+			case 2:
+				return this.getAnnotations(data);
 
-				default:
-					throw new IllegalStateException();
+			default:
+				throw new IllegalStateException();
 			}
 		}
 	}
@@ -142,7 +145,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 	@Override
 	final void save() throws BackingStoreException
 	{
-		this.getListenerPreferences().flush();
+		this.getPreferences().flush();
 	}
 
 	public final void setListenerPreferences(final ListenerPreferences preferences)

@@ -1,9 +1,21 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.Set;
-import javax.annotation.Nonnull;
+import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
+import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
+import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
+import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
+import sk.stuba.fiit.perconik.ui.utilities.Buttons;
+import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.ui.utilities.Widgets;
+import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
@@ -28,21 +40,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
+
 import org.osgi.service.prefs.BackingStoreException;
-import sk.stuba.fiit.perconik.core.annotations.Version;
-import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
-import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
-import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
-import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
-import sk.stuba.fiit.perconik.ui.utilities.Buttons;
-import sk.stuba.fiit.perconik.ui.utilities.Tables;
-import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
+
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage
 {
@@ -90,28 +95,28 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 		parentLayout.marginWidth  = 0;
 		composite.setLayout(parentLayout);
 
-        Composite innerParent = new Composite(composite, SWT.NONE);
+		Composite innerParent = new Composite(composite, SWT.NONE);
 
-        GridLayout innerLayout = new GridLayout();
-        innerLayout.numColumns   = 2;
-        innerLayout.marginHeight = 0;
-        innerLayout.marginWidth  = 0;
-        innerParent.setLayout(innerLayout);
+		GridLayout innerLayout = new GridLayout();
+		innerLayout.numColumns   = 2;
+		innerLayout.marginHeight = 0;
+		innerLayout.marginWidth  = 0;
+		innerParent.setLayout(innerLayout);
 
-        GridData innerGrid = new GridData(GridData.FILL_BOTH);
-        innerGrid.horizontalSpan = 2;
-        innerParent.setLayoutData(innerGrid);
+		GridData innerGrid = new GridData(GridData.FILL_BOTH);
+		innerGrid.horizontalSpan = 2;
+		innerParent.setLayoutData(innerGrid);
 
-        Composite         tableComposite = new Composite(innerParent, SWT.NONE);
-        TableColumnLayout tableLayout    = new TableColumnLayout();
+		Composite         tableComposite = new Composite(innerParent, SWT.NONE);
+		TableColumnLayout tableLayout    = new TableColumnLayout();
 
-        GridData tableGrid = new GridData(GridData.FILL_BOTH);
-        tableGrid.widthHint  = 360;
-        tableGrid.heightHint = this.convertHeightInCharsToPixels(10);
-        tableComposite.setLayout(tableLayout);
-        tableComposite.setLayoutData(tableGrid);
+		GridData tableGrid = new GridData(GridData.FILL_BOTH);
+		tableGrid.widthHint  = 360;
+		tableGrid.heightHint = this.convertHeightInCharsToPixels(10);
+		tableComposite.setLayout(tableLayout);
+		tableComposite.setLayoutData(tableGrid);
 
-        Table table = Tables.create(tableComposite, SWT.CHECK | SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
+		Table table = Tables.create(tableComposite, SWT.CHECK | SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
 
 		GC gc = new GC(this.getShell());
 		gc.setFont(JFaceResources.getDialogFont());
@@ -249,23 +254,23 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	final Set<R> checkedData()
 	{
 		return Sets.filter(this.registrations, new Predicate<R>()
-		{
+				{
 			public final boolean apply(@Nonnull final R registration)
 			{
 				return registration.hasRegistredMark();
 			}
-		});
+				});
 	}
 
 	final Set<R> unknownData()
 	{
 		return Sets.filter(this.registrations, new Predicate<R>()
-		{
+				{
 			public final boolean apply(@Nonnull final R registration)
 			{
 				return !registration.isProvided();
 			}
-		});
+				});
 	}
 
 	final void updateData(final R registration, final boolean status)
@@ -508,7 +513,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 	@Override
 	protected final void performApply()
 	{
-		super.performApply();
+		this.performOk();
 	}
 
 	abstract void apply();

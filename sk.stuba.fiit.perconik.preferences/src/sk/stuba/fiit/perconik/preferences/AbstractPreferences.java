@@ -1,12 +1,14 @@
 package sk.stuba.fiit.perconik.preferences;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+
 import org.osgi.service.prefs.BackingStoreException;
 
 public abstract class AbstractPreferences
@@ -83,17 +85,17 @@ public abstract class AbstractPreferences
 		return this.data;
 	}
 
-	public void clear() throws BackingStoreException
+	public final void clear() throws BackingStoreException
 	{
 		this.data.clear();
 	}
 
-	public void flush() throws BackingStoreException
+	public final void flush() throws BackingStoreException
 	{
 		this.data.flush();
 	}
 
-	public void synchronize() throws BackingStoreException
+	public final void synchronize() throws BackingStoreException
 	{
 		this.data.sync();
 	}
