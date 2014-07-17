@@ -121,8 +121,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 		
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
-			assert time >= 0;
-			assert type != null;
+			assert time >= 0 && type != null;
 			
 			this.time = time;
 			this.type = type;

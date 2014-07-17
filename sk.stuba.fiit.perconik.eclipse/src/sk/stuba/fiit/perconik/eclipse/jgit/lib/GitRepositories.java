@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
 import static com.google.common.base.Preconditions.checkState;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.NoSuchElementException;
+
+import sk.stuba.fiit.perconik.utilities.io.MorePaths;
+
+import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
@@ -17,9 +17,13 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import sk.stuba.fiit.perconik.utilities.io.MorePaths;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Static utility methods pertaining to Git repositories.
@@ -34,6 +38,7 @@ public final class GitRepositories
 		throw new AssertionError();
 	}
 
+	@Deprecated
 	public static final Repository open(final IProject project)
 	{
 		Git git = GitCommands.open(project);
@@ -251,14 +256,14 @@ public final class GitRepositories
 
 			switch (result)
 			{
-				case IGNORED:
-					return true;
+			case IGNORED:
+				return true;
 
-				case NOT_IGNORED:
-					return false;
+			case NOT_IGNORED:
+				return false;
 
-				default:
-					continue;
+			default:
+				continue;
 			}
 		}
 

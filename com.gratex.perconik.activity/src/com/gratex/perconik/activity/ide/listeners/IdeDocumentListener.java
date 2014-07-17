@@ -1,12 +1,12 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.base.Predicates.and;
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
+import static java.lang.System.out;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
@@ -14,6 +14,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.RE
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.ROOT;
 
 import com.gratex.perconik.activity.ide.IdeGitProjects;
 import com.gratex.perconik.activity.ide.UacaProxy;
@@ -63,6 +64,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -70,6 +72,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
@@ -189,13 +192,13 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
 		ResourceDeltaVisitor(final long time, final ResourceEventType type)
 		{
-			assert time >= 0;
-			assert type != null;
+			assert time >= 0 && type != null;
 
 			this.time = time;
 			this.type = type;
 
-			this.filter     = Predicates.and(OutputLocationFilter.INSTANCE, and(GitInternalFilter.INSTANCE, new GitIgnoreFilter()));
+			// TODO make static
+			this.filter     = Predicates.or(OutputLocationFilter.INSTANCE, GitInternalFilter.INSTANCE, GitIgnoreFilter.INSTANCE);
 			this.operations = LinkedHashMultimap.create(3, 2);
 		}
 
@@ -204,19 +207,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 		{
 			assert delta != null && resource != null;
 
-			if (this.type != POST_CHANGE)
-			{
-				return false;
-			}
-
-			try
-			{
-				if (!this.filter.apply(resource))
-				{
-					return false;
-				}
-			}
-			catch (RuntimeException e)
+			if (this.type != POST_CHANGE || this.filter.apply(resource))
 			{
 				return false;
 			}
@@ -281,32 +272,27 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		INSTANCE;
 
-		public final boolean apply(@Nullable final IResource resource)
+		public final boolean apply(@Nonnull final IResource resource)
 		{
-			if (resource == null)
-			{
-				return false;
-			}
-
 			IProject project = resource.getProject();
 
 			if (project == null)
 			{
-				return true;
+				return false;
 			}
 
 			try
 			{
 				if (JavaProjects.inOutputLocation(project, resource))
 				{
-					return false;
+					return true;
 				}
 			}
 			catch (RuntimeCoreException e)
 			{
 			}
 
-			return true;
+			return false;
 		}
 	}
 
@@ -314,13 +300,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 	{
 		INSTANCE;
 
-		public final boolean apply(@Nullable final IResource resource)
+		public final boolean apply(@Nonnull final IResource resource)
 		{
-			if (resource == null)
-			{
-				return false;
-			}
-
 			IPath path = resource.getLocation();
 
 			if (path == null)
@@ -332,27 +313,64 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 			{
 				if (segment.equals(Constants.DOT_GIT))
 				{
-					return false;
+					return true;
 				}
 			}
 
-			return true;
+			return false;
 		}
 	}
 
-	private static final class GitIgnoreFilter implements Predicate<IResource>
+	private static enum GitIgnoreFilter implements Predicate<IResource>
+	{
+		INSTANCE;
+
+		public final boolean apply(@Nonnull final IResource resource)
+		{
+			ResourceType type = ResourceType.valueOf(resource.getType());
+
+			if (type == ROOT || type == PROJECT)
+			{
+				return false;
+			}
+
+			IPath path = resource.getLocation();
+
+			out.println("LOC - "+path);//TODO rm
+
+			if (path == null)
+			{
+				path = resource.getFullPath();
+
+				out.println("FUP - "+path);//TODO rm
+			}
+
+			try
+			{
+				out.println(IdeGitProjects.isIgnored(path) ? "IGNORED" : "NOT IGNORED");
+
+				return IdeGitProjects.isIgnored(path);
+			}
+			catch (IOException e)
+			{
+				return false;
+			}
+		}
+	}
+
+	// TODO rm
+	@Deprecated
+	private static final class GitIgnoreFilter2 implements Predicate<IResource>
 	{
 		private final Map<Path, IgnoreNode> ignores;
 
-		GitIgnoreFilter()
+		GitIgnoreFilter2()
 		{
 			this.ignores = Maps.newHashMap();
 		}
 
 		public final boolean apply(@Nullable final IResource resource)
 		{
-			// TODO check all IPath, check all getFullPath usages, check all getLocation usages !!!
-
 			if (resource == null)
 			{
 				return false;

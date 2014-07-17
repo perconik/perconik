@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
+import com.google.common.base.Throwables;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import com.google.common.base.Throwables;
 
+@Deprecated
 public final class GitCommands
 {
 	private GitCommands()

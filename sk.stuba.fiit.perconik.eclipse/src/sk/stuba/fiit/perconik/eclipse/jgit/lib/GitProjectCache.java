@@ -1,8 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.jgit.api.Git;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.ForwardingLoadingCache;
@@ -10,6 +9,10 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jgit.api.Git;
+
+@Deprecated
 public final class GitProjectCache extends ForwardingLoadingCache<IProject, Git>
 {
 	private final LoadingCache<IProject, Git> cache;
