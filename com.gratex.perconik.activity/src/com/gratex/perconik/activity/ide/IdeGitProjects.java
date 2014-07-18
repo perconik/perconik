@@ -25,16 +25,25 @@ public final class IdeGitProjects
 
 	public static final Repository getRepository(final IResource resource)
 	{
-		return getRepositoryMapping(resource).getRepository();
+		RepositoryMapping mapping = getRepositoryMapping(resource);
+
+		return mapping != null ? mapping.getRepository() : null;
 	}
 
 	public static final RepositoryMapping getRepositoryMapping(final IResource resource)
 	{
-		return getProjectData(resource.getProject()).getRepositoryMapping(resource);
+		GitProjectData data = getProjectData(resource.getProject());
+
+		return data != null ? data.getRepositoryMapping(resource) : null;
 	}
 
 	public static final boolean isIgnored(final IPath path) throws IOException
 	{
 		return RepositoryUtil.isIgnored(path);
+	}
+
+	public static final boolean isMapped(final IPath path)
+	{
+		return RepositoryMapping.getMapping(path) != null;
 	}
 }
