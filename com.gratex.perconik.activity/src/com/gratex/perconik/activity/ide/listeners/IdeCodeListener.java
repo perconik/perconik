@@ -1,6 +1,7 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
@@ -316,7 +317,6 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		}
 	}
 
-
 	private static final class SelectionEvent
 	{
 		final long time;
@@ -350,6 +350,16 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			int b = other.selection.getOffset();
 
 			return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength());
+		}
+
+		final boolean isSelectionEmpty()
+		{
+			return this.selection.isEmpty();
+		}
+
+		final boolean isSelectionTextEmpty()
+		{
+			return isNullOrEmpty(this.selection.getText());
 		}
 	}
 
@@ -534,7 +544,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	{
 		final long time = Utilities.currentTime();
 
-		if (selection.getText().isEmpty())
+		if (selection.isEmpty())
 		{
 			return;
 		}
@@ -543,6 +553,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		{
 			SelectionEvent event = new SelectionEvent(time, part, selection);
 
+			boolean empty = event.isSelectionTextEmpty();
+
+			if (empty && (this.lastSentSelection == null || this.lastSentSelection.part != part))
+			{
+				return;
+			}
+
 			if (this.lastSentSelection != null && this.lastSentSelection.contentEquals(event))
 			{
 				return;
@@ -550,7 +567,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 			if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event))
 			{
-				if (Log.enabled()) Log.message().format("selection: watch running but different part").appendTo(console);
+				if (Log.enabled()) Log.message().format("selection: watch running but not continuous").appendTo(console);
 
 				this.stopWatchAndProcessLastSelectionEvent();
 			}
@@ -566,7 +583,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 			this.continuousSelections.add(event);
 
-			if (delta < selectionEventWindow)
+			if (!empty && delta < selectionEventWindow)
 			{
 				if (Log.enabled()) Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
 
