@@ -840,9 +840,7 @@ public final class Debug
 		String      category = configuration.getCategory();
 		Set<String> modes    = configuration.getModes();
 
-		String  application = configuration.getAttribute("application", "?");
-		String  product     = configuration.getAttribute("product", "?");
-		boolean useProduct  = configuration.getAttribute("useProduct", false);
+		Map<String, Object> attributes = configuration.getAttributes();
 
 		builder.append("name: ").appendln(name);
 		builder.append("category: ").appendln(category);
@@ -853,18 +851,21 @@ public final class Debug
 		{
 			builder.append("full path: ").appendln(file.getFullPath());
 			builder.append("location: ").appendln(file.getLocation());
-			builder.append("URI: ").appendln(file.getLocationURI());
 		}
 
-		builder.append("application: ").appendln(application);
-		builder.append("product: ").append(product).append(" (use ").append(useProduct).appendln(")");
+		builder.appendln("attributes:").tab();
 
-		//		Map<Object, Object> attributes = configuration.getAttributes();
-		//
-		//		for (Entry<Object, Object> entry: attributes.entrySet())
-		//		{
-		//			builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
-		//		}
+		if (!attributes.isEmpty())
+		{
+			for (Entry<String, Object> entry: attributes.entrySet())
+			{
+				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+			}
+		}
+		else
+		{
+			builder.appendln("none");
+		}
 
 		return builder.toString();
 	}
