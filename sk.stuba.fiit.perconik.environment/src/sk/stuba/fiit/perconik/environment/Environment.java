@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.environment;
 
 import java.lang.management.ManagementFactory;
-import org.osgi.framework.Version;
+
 import com.google.common.base.StandardSystemProperty;
+
+import org.osgi.framework.Version;
 
 /**
  * Bridge between plug-in environment and the native platform.

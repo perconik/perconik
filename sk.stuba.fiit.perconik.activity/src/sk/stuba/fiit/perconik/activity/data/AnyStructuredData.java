@@ -1,24 +1,30 @@
 package sk.stuba.fiit.perconik.activity.data;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
-import sk.stuba.fiit.perconik.utilities.MoreMaps;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
+import sk.stuba.fiit.perconik.utilities.MoreMaps;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+
+import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 
 public class AnyStructuredData extends AnyData implements AnyStructuredContent
 {

@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.IDocument;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 /**

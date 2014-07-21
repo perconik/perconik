@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.annotations.Internal;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
@@ -12,9 +17,6 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
-import com.google.common.collect.Lists;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 /**
  * Static accessor methods pertaining to the listeners core. 

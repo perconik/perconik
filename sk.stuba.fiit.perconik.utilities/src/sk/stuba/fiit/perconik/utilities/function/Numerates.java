@@ -1,9 +1,12 @@
 package sk.stuba.fiit.perconik.utilities.function;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.Serializable;
+
 import javax.annotation.Nullable;
+
 import com.google.common.base.Function;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class Numerates
 {

@@ -2,10 +2,13 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
-import com.google.common.collect.Lists;
 
 abstract class AbstractCollectingVisitor<N extends ASTNode, R extends ASTNode> extends ASTVisitor
 {

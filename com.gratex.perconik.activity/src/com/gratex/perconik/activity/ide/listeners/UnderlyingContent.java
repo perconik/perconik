@@ -1,8 +1,10 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import javax.annotation.Nullable;
+
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
+
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 final class UnderlyingContent<R>

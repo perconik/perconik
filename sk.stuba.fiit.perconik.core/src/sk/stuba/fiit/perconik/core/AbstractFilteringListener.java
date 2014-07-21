@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core;
 
 import java.util.Set;
+
 import com.google.common.collect.ImmutableSet;
 
 /**

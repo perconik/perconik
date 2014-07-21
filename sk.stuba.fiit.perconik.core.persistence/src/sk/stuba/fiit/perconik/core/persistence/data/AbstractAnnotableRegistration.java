@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Registrables;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;

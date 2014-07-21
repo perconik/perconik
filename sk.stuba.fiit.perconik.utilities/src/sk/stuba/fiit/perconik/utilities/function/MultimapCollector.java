@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.function;
 
 import javax.annotation.Nullable;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Multimap;
 

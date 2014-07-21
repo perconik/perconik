@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
+import com.google.common.base.Supplier;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.DelayedLookup;
-import com.google.common.base.Supplier;
 
 final class StaticListenerLookup<L extends Listener> implements Supplier<L>
 {

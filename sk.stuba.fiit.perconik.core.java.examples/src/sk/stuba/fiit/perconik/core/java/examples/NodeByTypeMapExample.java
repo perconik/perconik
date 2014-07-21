@@ -1,19 +1,23 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+
 import sk.stuba.fiit.perconik.core.java.dom.NodeCollectors;
 import sk.stuba.fiit.perconik.core.java.dom.NodeTypeDivider;
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
+
+import static java.lang.System.out;
 
 public class NodeByTypeMapExample
 {

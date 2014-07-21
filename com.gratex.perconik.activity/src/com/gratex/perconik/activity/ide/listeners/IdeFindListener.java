@@ -1,10 +1,11 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeData.setEventData;
-import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import java.util.List;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -18,6 +19,14 @@ import org.eclipse.search.ui.text.FileTextSearchScope;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkingSet;
+
+import com.gratex.perconik.activity.ide.IdeData;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.ide.UacaUriHelper;
+import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeFindFileResultDto;
+import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
+
 import sk.stuba.fiit.perconik.core.annotations.Dependent;
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
@@ -25,15 +34,11 @@ import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
-import com.google.common.base.Joiner;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
-import com.gratex.perconik.activity.ide.IdeData;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.ide.UacaUriHelper;
-import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeFindFileResultDto;
-import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
+
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 
 /**
  * A listener of IDE find events. This listener handles desired

@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.core.persistence.serialization;
 
+import com.google.common.base.Optional;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
-import com.google.common.base.Optional;
 
 /**
  * Interface implemented by optional holders of serialized {@link Listener}

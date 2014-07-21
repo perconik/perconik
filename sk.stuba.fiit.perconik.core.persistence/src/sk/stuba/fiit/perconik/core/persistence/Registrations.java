@@ -2,12 +2,14 @@ package sk.stuba.fiit.perconik.core.persistence;
 
 import java.util.Collection;
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.Listener;
+
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+
+import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * Static utility methods pertaining to {@code Registration} instances.

@@ -6,6 +6,7 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.CommandException;
 import org.eclipse.core.commands.common.NotDefinedException;
+
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;

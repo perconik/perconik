@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
 import java.util.List;
+
 import sk.stuba.fiit.perconik.core.listeners.DefaultListeners;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;

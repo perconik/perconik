@@ -1,9 +1,9 @@
 package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
-import static sk.stuba.fiit.perconik.core.java.dom.traverse.NodeVisitOption.INCLUDE_JAVADOC_TAGS;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
+
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
@@ -90,7 +90,10 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
+
 import sk.stuba.fiit.perconik.utilities.MoreLists;
+
+import static sk.stuba.fiit.perconik.core.java.dom.traverse.NodeVisitOption.INCLUDE_JAVADOC_TAGS;
 
 public class NodeMatcher
 {

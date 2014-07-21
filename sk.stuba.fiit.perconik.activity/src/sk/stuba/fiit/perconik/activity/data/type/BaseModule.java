@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.activity.data.type;
 
 import java.nio.file.Path;
+
 import org.osgi.framework.Version;
+
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 

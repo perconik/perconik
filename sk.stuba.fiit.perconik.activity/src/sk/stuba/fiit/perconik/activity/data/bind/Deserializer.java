@@ -2,11 +2,13 @@ package sk.stuba.fiit.perconik.activity.data.bind;
 
 import java.io.IOException;
 import java.util.Map;
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer;
+
+import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
 public final class Deserializer extends UntypedObjectDeserializer
 {

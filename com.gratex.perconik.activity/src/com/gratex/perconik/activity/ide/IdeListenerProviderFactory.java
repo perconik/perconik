@@ -1,12 +1,10 @@
 package com.gratex.perconik.activity.ide;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
+
 import com.gratex.perconik.activity.ide.listeners.IdeCodeListener;
 import com.gratex.perconik.activity.ide.listeners.IdeCommitListener;
 import com.gratex.perconik.activity.ide.listeners.IdeDocumentListener;
@@ -14,6 +12,11 @@ import com.gratex.perconik.activity.ide.listeners.IdeElementListener;
 import com.gratex.perconik.activity.ide.listeners.IdeFindListener;
 import com.gratex.perconik.activity.ide.listeners.IdeProjectListener;
 import com.gratex.perconik.activity.ide.listeners.IdeStateListener;
+
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
 
 public final class IdeListenerProviderFactory implements ListenerProviderFactory
 {

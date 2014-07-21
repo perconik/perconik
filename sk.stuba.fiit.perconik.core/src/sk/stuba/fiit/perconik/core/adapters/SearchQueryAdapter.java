@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.search.ui.ISearchQuery;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 

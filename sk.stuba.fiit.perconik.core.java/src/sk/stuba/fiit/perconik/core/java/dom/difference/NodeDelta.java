@@ -1,8 +1,11 @@
 package sk.stuba.fiit.perconik.core.java.dom.difference;
 
 import java.util.Objects;
+
 import javax.annotation.Nullable;
+
 import org.eclipse.jdt.core.dom.ASTNode;
+
 import sk.stuba.fiit.perconik.core.java.dom.Nodes;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;

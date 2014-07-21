@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
-import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.persistence;
+import java.util.Set;
 
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 
-import java.util.Set;
+import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.persistence;
 
 /**
  * Listener preferences. Supports both <i>default</i>

@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+
+import com.google.common.collect.Lists;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
-import com.google.common.collect.Lists;
 
 class StandardResource<L extends Listener> extends AbstractResource<L>
 {

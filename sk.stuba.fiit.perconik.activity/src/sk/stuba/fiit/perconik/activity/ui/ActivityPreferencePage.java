@@ -6,6 +6,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
 import sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences;
 

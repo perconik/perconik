@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.jdt.core.JavaCore;
+
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 
 enum JavaElementHandler implements Handler<JavaElementListener>

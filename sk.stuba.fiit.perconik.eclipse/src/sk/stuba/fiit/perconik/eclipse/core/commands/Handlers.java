@@ -1,10 +1,13 @@
 package sk.stuba.fiit.perconik.eclipse.core.commands;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.handlers.IHandlerService;
+
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
-import com.google.common.base.Preconditions;
 
 /**
  * Static utility methods pertaining to Eclipse command handlers.

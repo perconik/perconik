@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
 import sk.stuba.fiit.perconik.core.IllegalResourceClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;

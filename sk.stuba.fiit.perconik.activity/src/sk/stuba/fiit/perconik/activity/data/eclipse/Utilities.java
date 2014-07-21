@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.activity.data.eclipse;
 
 import java.net.URL;
+
 import javax.annotation.Nullable;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.osgi.service.datalocation.Location;
 

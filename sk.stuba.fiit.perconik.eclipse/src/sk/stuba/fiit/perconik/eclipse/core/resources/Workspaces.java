@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.nio.file.Paths;
+
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 

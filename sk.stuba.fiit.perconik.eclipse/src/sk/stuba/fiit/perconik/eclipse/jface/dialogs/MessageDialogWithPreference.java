@@ -1,13 +1,15 @@
 package sk.stuba.fiit.perconik.eclipse.jface.dialogs;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import javax.annotation.Nullable;
+
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MessageDialogWithPreference extends MessageDialogWithToggle
 {

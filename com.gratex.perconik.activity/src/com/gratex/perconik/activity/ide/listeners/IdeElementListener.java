@@ -1,9 +1,10 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import sk.stuba.fiit.perconik.core.annotations.Experimental;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventRequest;
+
+import sk.stuba.fiit.perconik.core.annotations.Experimental;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 
 /**
  * A listener of IDE code element events. This listener handles desired

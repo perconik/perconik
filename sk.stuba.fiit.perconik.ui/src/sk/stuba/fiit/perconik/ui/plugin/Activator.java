@@ -1,18 +1,22 @@
 package sk.stuba.fiit.perconik.ui.plugin;
 
-import static sk.stuba.fiit.perconik.osgi.framework.Versions.Component.MAJOR;
-import static sk.stuba.fiit.perconik.osgi.framework.Versions.Component.MINOR;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbenchWindow;
+
 import org.osgi.framework.BundleContext;
+
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 import sk.stuba.fiit.perconik.environment.JavaVerificationException;
 import sk.stuba.fiit.perconik.osgi.framework.Versions;
+
+import static sk.stuba.fiit.perconik.osgi.framework.Versions.Component.MAJOR;
+import static sk.stuba.fiit.perconik.osgi.framework.Versions.Component.MINOR;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.

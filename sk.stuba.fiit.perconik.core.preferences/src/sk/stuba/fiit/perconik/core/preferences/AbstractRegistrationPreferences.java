@@ -1,13 +1,16 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Set;
+
 import org.osgi.service.prefs.BackingStoreException;
+
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 abstract class AbstractRegistrationPreferences<R extends Registration> extends AbstractObjectPreferences
 {

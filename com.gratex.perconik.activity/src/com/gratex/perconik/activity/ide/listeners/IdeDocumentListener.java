@@ -1,39 +1,12 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeData.setEventData;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
-import static java.util.Arrays.asList;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.REMOVED;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.ROOT;
+import java.io.IOException;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
 
-import com.gratex.perconik.activity.ide.IdeGitProjects;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
-
-import sk.stuba.fiit.perconik.core.java.JavaElements;
-import sk.stuba.fiit.perconik.core.java.JavaProjects;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
-import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
-import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
-import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.GuardedBy;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -57,13 +30,42 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
 
-import java.io.IOException;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
+import com.gratex.perconik.activity.ide.IdeGitProjects;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.concurrent.GuardedBy;
+import sk.stuba.fiit.perconik.core.java.JavaElements;
+import sk.stuba.fiit.perconik.core.java.JavaProjects;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
+import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
+import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
+import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+
+import static java.util.Arrays.asList;
+
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.dereferenceEditor;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
+
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.MOVED_TO;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.REMOVED;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.FILE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.ROOT;
 
 /**
  * A listener of IDE document events. This listener handles desired

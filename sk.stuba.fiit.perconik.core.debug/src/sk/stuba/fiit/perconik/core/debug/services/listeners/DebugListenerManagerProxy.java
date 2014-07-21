@@ -1,6 +1,10 @@
 package sk.stuba.fiit.perconik.core.debug.services.listeners;
 
 import java.util.Collection;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.SetMultimap;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.debug.Debug;
@@ -8,8 +12,6 @@ import sk.stuba.fiit.perconik.core.debug.DebugListeners;
 import sk.stuba.fiit.perconik.core.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.SetMultimap;
 
 public final class DebugListenerManagerProxy extends DebugNameableProxy implements DebugListenerManager
 {

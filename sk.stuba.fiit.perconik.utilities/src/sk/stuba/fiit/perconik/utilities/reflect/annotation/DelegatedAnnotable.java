@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
+
 import com.google.common.base.Preconditions;
 
 final class DelegatedAnnotable implements Annotable

@@ -1,6 +1,7 @@
 package com.gratex.perconik.activity.ide;
 
 import org.eclipse.core.runtime.IProduct;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.Products;
 
 public final class IdeApplication

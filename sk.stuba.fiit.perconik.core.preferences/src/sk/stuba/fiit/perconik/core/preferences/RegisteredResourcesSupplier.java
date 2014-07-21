@@ -1,9 +1,10 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
+import com.google.common.collect.SetMultimap;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
-import com.google.common.collect.SetMultimap;
 
 /**
  * A class that supplies classes of currently registered

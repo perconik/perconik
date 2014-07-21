@@ -2,7 +2,9 @@ package sk.stuba.fiit.perconik.core.debug.plugin;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
+
 import org.osgi.framework.BundleContext;
+
 import sk.stuba.fiit.perconik.core.debug.DebugListeners;
 import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;

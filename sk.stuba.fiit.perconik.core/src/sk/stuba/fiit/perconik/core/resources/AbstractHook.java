@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.Listener;
-import com.google.common.base.Preconditions;
 
 abstract class AbstractHook<T, L extends Listener> extends Adapter implements Hook<T, L>
 {

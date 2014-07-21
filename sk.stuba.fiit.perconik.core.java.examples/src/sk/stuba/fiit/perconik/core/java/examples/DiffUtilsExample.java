@@ -1,13 +1,16 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.util.Arrays;
 import java.util.List;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
 import difflib.Chunk;
 import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
+
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
+import static java.lang.System.out;
 
 public final class DiffUtilsExample
 {

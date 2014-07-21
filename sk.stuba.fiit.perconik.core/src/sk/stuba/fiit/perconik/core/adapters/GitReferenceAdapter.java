@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.jgit.events.RefsChangedEvent;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 

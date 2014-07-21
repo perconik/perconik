@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import javax.annotation.Nullable;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+
 import sk.stuba.fiit.perconik.core.AbstractRegistrable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;

@@ -2,8 +2,10 @@ package sk.stuba.fiit.perconik.eclipse.swt.widgets;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import sk.stuba.fiit.perconik.utilities.concurrent.Executables;
+
 import com.google.common.base.Supplier;
+
+import sk.stuba.fiit.perconik.utilities.concurrent.Executables;
 
 public abstract class DisplayTask<V> implements Callable<V>
 {

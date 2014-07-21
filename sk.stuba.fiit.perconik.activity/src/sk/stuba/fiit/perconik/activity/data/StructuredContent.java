@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data;
 
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.annotation.Nullable;
 
 public interface StructuredContent extends Content

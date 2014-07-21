@@ -1,12 +1,15 @@
 package sk.stuba.fiit.perconik.core.debug.runtime;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+
 import org.eclipse.core.runtime.Plugin;
-import sk.stuba.fiit.perconik.environment.Environment;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
+import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
-import com.google.common.base.Preconditions;
 
 public final class DebugConsole implements PluginConsole
 {

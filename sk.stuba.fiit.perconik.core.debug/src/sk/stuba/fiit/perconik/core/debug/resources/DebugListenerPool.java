@@ -2,12 +2,14 @@ package sk.stuba.fiit.perconik.core.debug.resources;
 
 import java.util.Collection;
 import java.util.Set;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugResource;
 import sk.stuba.fiit.perconik.core.debug.DebugListener;
 import sk.stuba.fiit.perconik.core.debug.annotations.DebugImplementation;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 @DebugImplementation
 public final class DebugListenerPool extends AbstractDebugResource<DebugListener>

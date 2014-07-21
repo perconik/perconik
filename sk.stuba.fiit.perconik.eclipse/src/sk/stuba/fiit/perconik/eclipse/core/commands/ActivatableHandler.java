@@ -1,14 +1,17 @@
 package sk.stuba.fiit.perconik.eclipse.core.commands;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import java.util.Collection;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public abstract class ActivatableHandler extends AbstractHandler
 {

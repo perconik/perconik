@@ -5,3 +5,4 @@
 package sk.stuba.fiit.perconik.utilities.concurrent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+

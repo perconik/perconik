@@ -1,17 +1,21 @@
 package com.gratex.perconik.activity.ide.preferences;
 
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.jface.preference.IPreferenceStore;
+
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.plugin.Activator;
+
+import sk.stuba.fiit.perconik.utilities.net.UniformResources;
+
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.checkConnection;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.displayErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logErrors;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.logEvents;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys.uacaUrl;
-import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.IPreferenceStore;
-import sk.stuba.fiit.perconik.utilities.net.UniformResources;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferences
 {

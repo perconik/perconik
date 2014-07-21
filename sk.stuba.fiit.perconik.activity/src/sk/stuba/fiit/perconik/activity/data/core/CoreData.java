@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.core;
 
 import java.util.List;
 import java.util.Set;
+
 import sk.stuba.fiit.perconik.activity.data.eclipse.BundleData;
 import sk.stuba.fiit.perconik.activity.data.eclipse.PluginData;
 import sk.stuba.fiit.perconik.core.plugin.Activator;

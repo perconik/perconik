@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.util.Arrays;
+
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
+
+import static java.lang.System.out;
 
 public final class IdentifierNameTokeniserExample
 {

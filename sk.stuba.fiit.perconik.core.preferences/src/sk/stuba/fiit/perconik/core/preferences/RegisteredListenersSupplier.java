@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
 import java.util.Set;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;

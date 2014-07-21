@@ -2,12 +2,16 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Arrays;
 import java.util.List;
+
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.utilities.function.ListCollector;
-import uk.ac.open.crc.intt.IdentifierNameTokeniser;
-import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+
+import uk.ac.open.crc.intt.IdentifierNameTokeniser;
+import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
+
+import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 
 public abstract class Tokenizer implements ListCollector<String, String>
 {

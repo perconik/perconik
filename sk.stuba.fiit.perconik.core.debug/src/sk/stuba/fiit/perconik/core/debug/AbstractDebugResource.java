@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.debug;
 
 import javax.annotation.Nullable;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;

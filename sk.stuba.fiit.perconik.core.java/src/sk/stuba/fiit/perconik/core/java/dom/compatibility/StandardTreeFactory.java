@@ -1,10 +1,13 @@
 package sk.stuba.fiit.perconik.core.java.dom.compatibility;
 
 import java.util.Map;
-import org.eclipse.jdt.core.dom.AST;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+
+import org.eclipse.jdt.core.dom.AST;
+
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 
 final class StandardTreeFactory implements TreeFactory
 {

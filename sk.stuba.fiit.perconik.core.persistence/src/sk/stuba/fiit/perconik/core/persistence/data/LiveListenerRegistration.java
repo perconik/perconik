@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
-import com.google.common.collect.Sets;
 
 /**
  * Standard listener registration with lively updated registration status.

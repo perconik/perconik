@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
+
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+
+import org.eclipse.jdt.core.dom.ASTNode;
 
 public final class NodeTransformers
 {

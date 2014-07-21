@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.utilities.io;
 
-import static com.google.common.base.Preconditions.checkState;
 import java.nio.file.Path;
 import java.util.Iterator;
+
 import com.google.common.collect.AbstractSequentialIterator;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public final class MorePaths
 {

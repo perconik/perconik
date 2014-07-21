@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.eclipse.jdt.core.dom;
 
 import java.util.Set;
+
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 

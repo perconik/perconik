@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import java.util.Arrays;
+
+import javax.annotation.Nullable;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -13,9 +14,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import java.util.Arrays;
-
-import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 final class Hooks
 {

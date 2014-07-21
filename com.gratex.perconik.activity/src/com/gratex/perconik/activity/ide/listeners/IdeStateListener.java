@@ -1,9 +1,10 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeData.setEventData;
-import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPartReference;
 
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.activity.ide.UacaUriHelper;
@@ -13,11 +14,10 @@ import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPartReference;
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 
 /**
  * A listener of IDE state change events. This listener handles desired

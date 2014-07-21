@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;

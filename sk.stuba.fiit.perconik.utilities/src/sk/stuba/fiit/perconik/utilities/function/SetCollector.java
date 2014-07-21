@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.function;
 
 import java.util.Set;
+
 import javax.annotation.Nullable;
 
 public interface SetCollector<T, E> extends Collector<T, E>

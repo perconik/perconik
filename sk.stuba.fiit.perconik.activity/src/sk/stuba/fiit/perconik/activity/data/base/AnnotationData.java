@@ -3,9 +3,11 @@ package sk.stuba.fiit.perconik.activity.data.base;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
-import com.google.common.collect.Lists;
 
 public class AnnotationData extends AnyStructuredData
 {

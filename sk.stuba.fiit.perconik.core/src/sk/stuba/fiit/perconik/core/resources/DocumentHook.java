@@ -1,11 +1,11 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.IEditorReference;
+
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.IEditorReference;
 
 final class DocumentHook extends InternalHook<IDocument, DocumentListener> implements EditorListener
 {

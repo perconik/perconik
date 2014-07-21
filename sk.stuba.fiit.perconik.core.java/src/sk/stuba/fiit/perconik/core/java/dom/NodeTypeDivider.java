@@ -1,13 +1,16 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.ASTVisitor;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import sk.stuba.fiit.perconik.utilities.function.MultimapCollector;
+
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+import sk.stuba.fiit.perconik.utilities.function.MultimapCollector;
 
 public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollector<N, NodeType, ASTNode>
 {

@@ -1,13 +1,15 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.concurrent.Executor;
+
+import com.gratex.perconik.activity.ide.IdeConsole;
+import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
-import com.gratex.perconik.activity.ide.IdeConsole;
-import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 
 /**
  * A base class for all IDE listeners. This listener documents available

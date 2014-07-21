@@ -1,5 +1,16 @@
 package sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences;
 
+import java.net.InetSocketAddress;
+
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.ImmutableSettings.Builder;
+import org.elasticsearch.common.settings.Settings;
+
+import sk.stuba.fiit.perconik.activity.plugin.Activator;
+import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
+
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.clusterName;
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.displayErrors;
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.indexName;
@@ -7,13 +18,6 @@ import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.El
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportHost;
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportPort;
 import static sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys.transportSniff;
-import java.net.InetSocketAddress;
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
-import org.elasticsearch.common.settings.Settings;
-import sk.stuba.fiit.perconik.activity.plugin.Activator;
-import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
 
 public final class ElasticsearchPreferences extends ActivityPreferences
 {

@@ -1,20 +1,24 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.TreeTraverser;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+
 import sk.stuba.fiit.perconik.core.java.dom.NodeCollectors;
 import sk.stuba.fiit.perconik.core.java.dom.NodePathExtractor;
 import sk.stuba.fiit.perconik.core.java.dom.NodePaths;
 import sk.stuba.fiit.perconik.core.java.dom.Nodes;
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.core.java.dom.traverse.CachedTraverser;
-import com.google.common.collect.Lists;
-import com.google.common.collect.TreeTraverser;
+
+import static java.lang.System.out;
 
 public class TreeTraverserExample
 {

@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.utilities.io;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
+
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ClassResolvingObjectInputStream extends ObjectInputStream
 {

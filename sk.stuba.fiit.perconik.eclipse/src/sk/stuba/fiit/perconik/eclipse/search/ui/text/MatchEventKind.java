@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.search.ui.text;
 
 import java.util.Set;
+
 import org.eclipse.search.ui.text.MatchEvent;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 

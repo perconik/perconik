@@ -5,13 +5,17 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
 
 public final class NodePathExtractor<N extends ASTNode> implements Function<N, Path>
 {

@@ -1,5 +1,10 @@
 package sk.stuba.fiit.perconik.core.debug.services.listeners;
 
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.debug.listeners.CommandDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.CommandExecutionDebugListener;
@@ -35,11 +40,6 @@ import sk.stuba.fiit.perconik.core.debug.listeners.WindowDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.WorkbenchDebugListener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSet.Builder;
-
-import java.util.Set;
 
 public final class DebugListenerProviders
 {

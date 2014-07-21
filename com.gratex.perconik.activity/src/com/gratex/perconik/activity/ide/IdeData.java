@@ -1,12 +1,6 @@
 package com.gratex.perconik.activity.ide;
 
-import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
-import com.gratex.perconik.services.uaca.ide.RcsServerDto;
-
-import sk.stuba.fiit.perconik.core.java.ClassFiles;
-import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
-import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
+import javax.annotation.Nullable;
 
 import com.google.common.base.Preconditions;
 
@@ -18,7 +12,13 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import javax.annotation.Nullable;
+import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
+import com.gratex.perconik.services.uaca.ide.RcsServerDto;
+
+import sk.stuba.fiit.perconik.core.java.ClassFiles;
+import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
+import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
 public final class IdeData
 {

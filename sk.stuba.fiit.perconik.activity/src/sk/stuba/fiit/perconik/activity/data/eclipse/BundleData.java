@@ -2,13 +2,16 @@ package sk.stuba.fiit.perconik.activity.data.eclipse;
 
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.collect.Lists;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Version;
+
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.osgi.framework.BundleState;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
-import com.google.common.collect.Lists;
 
 public class BundleData extends AnyStructuredData
 {

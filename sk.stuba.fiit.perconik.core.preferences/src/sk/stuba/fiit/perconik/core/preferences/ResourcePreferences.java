@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
-import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.persistence;
 import java.util.Set;
+
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+
+import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.persistence;
 
 /**
  * Resource preferences. Supports both <i>default</i>

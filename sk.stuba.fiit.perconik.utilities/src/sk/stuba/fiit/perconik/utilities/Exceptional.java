@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.utilities;
 
 import java.io.Serializable;
+
 import javax.annotation.Nullable;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 

@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.debug.core;
 
 import java.util.Set;
+
 import org.eclipse.debug.core.DebugEvent;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;

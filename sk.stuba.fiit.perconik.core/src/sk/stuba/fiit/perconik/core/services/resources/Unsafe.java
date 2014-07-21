@@ -1,9 +1,10 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.Resource;
 import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
+
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
 
 final class Unsafe
 {

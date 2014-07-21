@@ -7,6 +7,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 
 public final class Buttons

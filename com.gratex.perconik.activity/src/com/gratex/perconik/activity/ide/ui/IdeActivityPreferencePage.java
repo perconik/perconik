@@ -1,21 +1,24 @@
 package com.gratex.perconik.activity.ide.ui;
 
+import com.google.common.base.Preconditions;
+
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
+import com.gratex.perconik.activity.plugin.Activator;
+
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-import com.google.common.base.Preconditions;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
-import com.gratex.perconik.activity.plugin.Activator;
 
 public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage
 {

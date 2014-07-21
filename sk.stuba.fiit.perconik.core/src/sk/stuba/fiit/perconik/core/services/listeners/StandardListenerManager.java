@@ -3,16 +3,18 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 final class StandardListenerManager extends AbstractListenerManager
 {

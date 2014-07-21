@@ -1,9 +1,9 @@
 package com.gratex.perconik.activity.ide.listeners;
 
+import javax.annotation.Nullable;
+
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
-
-import javax.annotation.Nullable;
 
 final class Utilities
 {

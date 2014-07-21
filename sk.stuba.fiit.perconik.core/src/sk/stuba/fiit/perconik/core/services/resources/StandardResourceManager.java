@@ -3,15 +3,17 @@ package sk.stuba.fiit.perconik.core.services.resources;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 final class StandardResourceManager extends AbstractResourceManager
 {

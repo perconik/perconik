@@ -4,8 +4,9 @@ import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.jface.text.MarkSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
-import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
+
 import sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener;
+import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 
 enum MarkSelectionHandler implements Handler<MarkSelectionListener>
 {

@@ -1,15 +1,18 @@
 package sk.stuba.fiit.perconik.utilities.io;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.Arrays;
+
 import javax.annotation.Nonnull;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class PathPredicates
 {

@@ -1,12 +1,15 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Throwables;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
-import com.google.common.base.Throwables;
 
 /**
  * An abstract implementation of {@link ResourceProvider}.

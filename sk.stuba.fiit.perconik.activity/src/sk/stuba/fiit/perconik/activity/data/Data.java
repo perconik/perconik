@@ -2,11 +2,15 @@ package sk.stuba.fiit.perconik.activity.data;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
+
+import com.google.common.collect.Maps;
+
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.google.common.collect.Maps;
+
+import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
 
 public class Data implements Content
 {

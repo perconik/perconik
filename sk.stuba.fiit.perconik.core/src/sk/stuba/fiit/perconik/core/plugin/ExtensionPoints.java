@@ -1,15 +1,17 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory;
-import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory;
-import com.google.common.collect.ImmutableSet;
 
 final class ExtensionPoints
 {

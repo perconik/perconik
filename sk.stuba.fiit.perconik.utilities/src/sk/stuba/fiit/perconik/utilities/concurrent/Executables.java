@@ -1,11 +1,14 @@
 package sk.stuba.fiit.perconik.utilities.concurrent;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import sk.stuba.fiit.perconik.utilities.MoreSuppliers;
+
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
+
+import sk.stuba.fiit.perconik.utilities.MoreSuppliers;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class Executables
 {

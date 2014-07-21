@@ -1,15 +1,18 @@
 package com.gratex.perconik.activity.ide;
 
+import javax.annotation.Nullable;
+import javax.ws.rs.client.WebTarget;
+
+import com.fasterxml.jackson.databind.ObjectWriter;
+
+import com.gratex.perconik.activity.ObjectMappers;
+import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
+import com.gratex.perconik.activity.ide.ui.IdeActivityMessageDialogs;
+
 import static com.gratex.perconik.activity.ide.Internals.console;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.getPreferenceStore;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isErrorLoggerEnabled;
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
-import javax.annotation.Nullable;
-import javax.ws.rs.client.WebTarget;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.gratex.perconik.activity.ObjectMappers;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
-import com.gratex.perconik.activity.ide.ui.IdeActivityMessageDialogs;
 
 final class UacaReporter
 {

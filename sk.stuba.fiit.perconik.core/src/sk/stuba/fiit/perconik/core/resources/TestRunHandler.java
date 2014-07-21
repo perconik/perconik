@@ -1,11 +1,14 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+
 import org.eclipse.jdt.junit.JUnitCore;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
+
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
-import com.google.common.base.Preconditions;
 
 enum TestRunHandler implements Handler<TestRunListener>
 {

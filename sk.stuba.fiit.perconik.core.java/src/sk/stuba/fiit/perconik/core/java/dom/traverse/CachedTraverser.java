@@ -2,14 +2,17 @@ package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
 import java.util.List;
 import java.util.Set;
+
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.ASTVisitor;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.TreeTraverser;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 
 public final class CachedTraverser extends TreeTraverser<ASTNode>
 {

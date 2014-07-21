@@ -1,25 +1,16 @@
 package sk.stuba.fiit.perconik.core.debug;
 
-import sk.stuba.fiit.perconik.core.debug.plugin.Activator;
-import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
-import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ProjectBuildKind;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
-import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
-import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
-import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaKind;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeFlag;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringExecutionEventType;
-import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.annotation.Nullable;
 
 import org.eclipse.core.commands.Category;
 import org.eclipse.core.commands.Command;
@@ -85,17 +76,26 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.annotation.Nullable;
+import sk.stuba.fiit.perconik.core.debug.plugin.Activator;
+import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
+import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ProjectBuildKind;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
+import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
+import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
+import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaKind;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeFlag;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringExecutionEventType;
+import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 @SuppressWarnings("restriction")
 public final class Debug

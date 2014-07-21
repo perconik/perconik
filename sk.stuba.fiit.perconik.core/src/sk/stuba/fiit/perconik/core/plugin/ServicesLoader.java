@@ -1,14 +1,17 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
-import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
 import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
-import com.google.common.collect.ImmutableList;
+
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
 
 final class ServicesLoader
 {

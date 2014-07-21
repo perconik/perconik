@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history;
 
 import java.util.Set;
+
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 

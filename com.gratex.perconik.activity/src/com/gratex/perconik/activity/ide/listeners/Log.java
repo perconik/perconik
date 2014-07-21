@@ -1,7 +1,8 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 final class Log
 {

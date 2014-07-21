@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
+
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
 
 enum OperationHistoryHandler implements Handler<OperationHistoryListener>

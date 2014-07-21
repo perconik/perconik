@@ -1,12 +1,16 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.Set;
+
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
 public final class NodeFilters
 {

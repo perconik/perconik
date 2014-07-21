@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.activity.plugin;
 
 import org.osgi.framework.BundleContext;
+
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 
 /**

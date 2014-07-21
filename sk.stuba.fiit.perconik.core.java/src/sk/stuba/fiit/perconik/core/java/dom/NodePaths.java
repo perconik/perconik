@@ -2,10 +2,13 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import com.google.common.base.Function;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import com.google.common.base.Function;
 
 public class NodePaths
 {

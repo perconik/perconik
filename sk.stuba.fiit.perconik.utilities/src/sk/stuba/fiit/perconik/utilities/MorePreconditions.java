@@ -1,10 +1,10 @@
 package sk.stuba.fiit.perconik.utilities;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import java.util.Collection;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public final class MorePreconditions
 {

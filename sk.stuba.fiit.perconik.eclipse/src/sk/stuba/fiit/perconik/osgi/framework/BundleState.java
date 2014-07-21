@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.osgi.framework;
 
 import java.util.Set;
+
 import org.osgi.framework.Bundle;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 

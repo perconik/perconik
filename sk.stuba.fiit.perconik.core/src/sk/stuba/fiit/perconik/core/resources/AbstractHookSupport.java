@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
-import com.google.common.collect.Maps;
 
 abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> implements HookFactory<T, L>
 {

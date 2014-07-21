@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Map;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RepositoryListener;
 import org.eclipse.jgit.lib.Repository;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 
 final class GitHandlerSupport<L extends RepositoryListener>
 {

@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import javax.annotation.Nullable;
+
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;

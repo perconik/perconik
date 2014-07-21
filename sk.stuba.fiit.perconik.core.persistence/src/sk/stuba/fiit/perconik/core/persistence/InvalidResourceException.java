@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.persistence;
 
 import java.io.InvalidObjectException;
+
 import javax.annotation.Nullable;
 
 /**

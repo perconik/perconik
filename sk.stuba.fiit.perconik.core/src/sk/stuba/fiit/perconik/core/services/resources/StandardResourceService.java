@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
 import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
+
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
 
 final class StandardResourceService extends AbstractResourceService
 {

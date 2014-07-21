@@ -4,6 +4,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+
+import com.google.common.annotations.Beta;
+import com.google.common.collect.Lists;
+
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
@@ -17,14 +21,14 @@ import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import com.google.common.annotations.Beta;
-import com.google.common.collect.Lists;
+
 import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
+
+import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 
 @Beta
 class CompilationUnitDifferencer

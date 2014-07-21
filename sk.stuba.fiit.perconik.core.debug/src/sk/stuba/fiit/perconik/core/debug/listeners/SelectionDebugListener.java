@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.debug.listeners;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
+
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;

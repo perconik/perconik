@@ -1,7 +1,11 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Collection;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.SetMultimap;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerAlreadyRegistredException;
 import sk.stuba.fiit.perconik.core.ListenerNotRegistredException;
@@ -9,7 +13,6 @@ import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
 import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.Manager;
-import com.google.common.collect.SetMultimap;
 
 /**
  * An object responsible for managing registrations of {@link Listener}

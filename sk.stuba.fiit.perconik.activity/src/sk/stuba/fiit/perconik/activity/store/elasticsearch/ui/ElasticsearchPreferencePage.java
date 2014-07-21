@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.activity.store.elasticsearch.ui;
 
-import static org.eclipse.jface.preference.BooleanFieldEditor.SEPARATE_LABEL;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -14,9 +13,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.cluster.stats.ClusterStatsResponse;
 import org.elasticsearch.common.settings.Settings;
+
 import sk.stuba.fiit.perconik.activity.store.elasticsearch.Elasticsearch;
 import sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences;
 import sk.stuba.fiit.perconik.activity.store.elasticsearch.preferences.ElasticsearchPreferences.Keys;
@@ -25,6 +26,8 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
+
+import static org.eclipse.jface.preference.BooleanFieldEditor.SEPARATE_LABEL;
 
 public final class ElasticsearchPreferencePage extends ActivityPreferencePage
 {

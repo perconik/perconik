@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.utilities.reflect.resolver;
 
 import java.util.List;
-import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
 final class CompositeClassResolver implements ClassResolver
 {

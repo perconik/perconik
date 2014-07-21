@@ -1,15 +1,18 @@
 package sk.stuba.fiit.perconik.eclipse.ui;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
+
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.plugin.Activator;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
 
 /**
  * Static utility methods pertaining to Eclipse workbench.

@@ -1,11 +1,12 @@
 package sk.stuba.fiit.perconik.activity.data.bind;
 
-import sk.stuba.fiit.perconik.activity.data.type.BaseModule;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
+
+import sk.stuba.fiit.perconik.activity.data.type.BaseModule;
 
 public final class Mapper
 {

@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.search.ui.NewSearchUI;
+
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
 
 enum SearchQueryHandler implements Handler<SearchQueryListener>

@@ -5,7 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.persistence.InvalidListenerException;
@@ -14,8 +19,6 @@ import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedListenerData;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
-import com.google.common.base.Optional;
-import com.google.common.collect.Sets;
 
 /**
  * Markable listener registration with lively updated registration status.

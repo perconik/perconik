@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.eclipse.jface.preference;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 

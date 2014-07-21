@@ -3,7 +3,9 @@ package sk.stuba.fiit.perconik.core.resources;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+
 import javax.annotation.Nullable;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

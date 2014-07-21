@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.util.Set;
+
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 /**

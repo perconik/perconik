@@ -1,15 +1,10 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import sk.stuba.fiit.perconik.core.annotations.Version;
-import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
-import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
-import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
-import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
-import sk.stuba.fiit.perconik.ui.utilities.Buttons;
-import sk.stuba.fiit.perconik.ui.utilities.Tables;
-import sk.stuba.fiit.perconik.ui.utilities.Widgets;
-import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -43,11 +38,16 @@ import org.eclipse.swt.widgets.Table;
 
 import org.osgi.service.prefs.BackingStoreException;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
+import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
+import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
+import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
+import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
+import sk.stuba.fiit.perconik.ui.utilities.Buttons;
+import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.ui.utilities.Widgets;
+import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage
 {

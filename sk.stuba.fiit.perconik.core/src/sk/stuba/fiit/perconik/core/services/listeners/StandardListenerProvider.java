@@ -2,17 +2,19 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Maps;
+
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
 import sk.stuba.fiit.perconik.utilities.MoreSets;
 import sk.stuba.fiit.perconik.utilities.reflect.ReflectionException;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.AccessorConstructionException;
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Maps;
 
 final class StandardListenerProvider extends AbstractListenerProvider
 {

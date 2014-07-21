@@ -5,3 +5,4 @@
 package sk.stuba.fiit.perconik.core.persistence.serialization;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+

@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.core.debug;
 
-import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import com.google.common.base.Preconditions;
+
+import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 
 public abstract class AbstractDebugObject implements DebugObject
 {

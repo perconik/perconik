@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
 import java.util.List;
+
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory;

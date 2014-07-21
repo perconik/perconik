@@ -1,9 +1,7 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
-import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.Resource;
-import sk.stuba.fiit.perconik.utilities.MoreSets;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -13,6 +11,10 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.Resource;
+import sk.stuba.fiit.perconik.utilities.MoreSets;
 
 final class StandardResourceProvider extends AbstractResourceProvider
 {

@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.debug.listeners;
 
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
+
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;

@@ -1,12 +1,13 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import static sk.stuba.fiit.perconik.core.java.dom.NodeClassFilter.of;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.Statement;
+
+import static sk.stuba.fiit.perconik.core.java.dom.NodeClassFilter.of;
 
 public final class NodeClassFilters
 {

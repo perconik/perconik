@@ -1,12 +1,14 @@
 package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
 import java.util.List;
-import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+
+import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
 abstract class AbstractLookup<T> implements Lookup<T>
 {

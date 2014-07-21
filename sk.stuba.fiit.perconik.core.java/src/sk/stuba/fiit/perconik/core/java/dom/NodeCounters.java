@@ -1,10 +1,13 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
+
 import org.eclipse.jdt.core.dom.ASTNode;
+
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.function.Numerate;
-import com.google.common.base.Predicate;
 
 public final class NodeCounters
 {

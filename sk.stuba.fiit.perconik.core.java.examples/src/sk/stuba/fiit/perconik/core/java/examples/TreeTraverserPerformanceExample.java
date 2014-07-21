@@ -1,17 +1,21 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.TreeTraverser;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.core.java.dom.traverse.CachedTraverser;
 import sk.stuba.fiit.perconik.core.java.dom.traverse.NaiveTraverser;
-import com.google.common.base.Stopwatch;
-import com.google.common.collect.TreeTraverser;
+
+import static java.lang.System.out;
 
 public class TreeTraverserPerformanceExample
 {

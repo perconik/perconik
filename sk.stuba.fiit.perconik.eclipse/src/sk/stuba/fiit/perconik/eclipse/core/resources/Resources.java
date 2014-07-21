@@ -2,9 +2,11 @@ package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.util.EnumSet;
 import java.util.Set;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 /**

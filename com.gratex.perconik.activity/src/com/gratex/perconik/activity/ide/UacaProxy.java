@@ -1,9 +1,9 @@
 
 package com.gratex.perconik.activity.ide;
 
-import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
 import java.net.URL;
 import java.util.concurrent.Executor;
+
 import javax.annotation.Nullable;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -14,8 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
-import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
-import sk.stuba.fiit.perconik.utilities.net.UniformResources;
+
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
 import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventRequest;
@@ -28,6 +27,11 @@ import com.gratex.perconik.services.uaca.ide.type.IdeCodeElementEventType;
 import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
 import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
 import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
+
+import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
+import sk.stuba.fiit.perconik.utilities.net.UniformResources;
+
+import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
 
 public final class UacaProxy
 {

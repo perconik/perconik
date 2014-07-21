@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.ui.IWorkbenchWindow;
+
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 

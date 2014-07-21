@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
+
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
 public final class MatchingNode<N extends ASTNode>

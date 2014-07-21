@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core;
 
 import java.util.Map;
+
 import com.google.common.util.concurrent.AtomicLongMap;
 
 /**

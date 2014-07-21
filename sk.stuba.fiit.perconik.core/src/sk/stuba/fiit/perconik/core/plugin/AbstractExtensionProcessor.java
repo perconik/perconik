@@ -3,15 +3,7 @@ package sk.stuba.fiit.perconik.core.plugin;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.ISafeRunnable;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.SafeRunner;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
-import sk.stuba.fiit.perconik.environment.Environment;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -20,6 +12,17 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
+
+import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.environment.Environment;
 
 abstract class AbstractExtensionProcessor<T>
 {

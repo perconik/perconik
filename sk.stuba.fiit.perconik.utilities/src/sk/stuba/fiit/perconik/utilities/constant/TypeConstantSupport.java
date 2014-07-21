@@ -3,7 +3,9 @@ package sk.stuba.fiit.perconik.utilities.constant;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.util.Set;
+
 import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 

@@ -1,6 +1,9 @@
 package sk.stuba.fiit.perconik.core.debug.resources;
 
 import java.util.Collection;
+
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.debug.Debug;
@@ -10,7 +13,6 @@ import sk.stuba.fiit.perconik.core.debug.DebugResource;
 import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.core.debug.annotations.DebugProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
-import com.google.common.base.Preconditions;
 
 @DebugProxy
 public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy implements DebugResource<L>

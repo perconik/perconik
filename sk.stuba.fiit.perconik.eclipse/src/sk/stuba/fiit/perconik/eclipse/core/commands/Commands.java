@@ -1,9 +1,12 @@
 package sk.stuba.fiit.perconik.eclipse.core.commands;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.commands.ICommandService;
-import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 /**

@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
-import org.eclipse.core.runtime.CoreException;
 import com.google.common.base.Throwables;
+
+import org.eclipse.core.runtime.CoreException;
 
 public final class CoreExceptions
 {

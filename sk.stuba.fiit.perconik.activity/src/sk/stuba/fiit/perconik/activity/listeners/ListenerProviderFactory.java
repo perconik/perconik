@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSet.Builder;
 
 public final class ListenerProviderFactory implements sk.stuba.fiit.perconik.core.services.listeners.ListenerProviderFactory
 {

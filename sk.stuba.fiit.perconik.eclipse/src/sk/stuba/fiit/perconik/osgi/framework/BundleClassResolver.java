@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.osgi.framework;
 
-import org.osgi.framework.Bundle;
-import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import com.google.common.base.Preconditions;
+
+import org.osgi.framework.Bundle;
+
+import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
 final class BundleClassResolver implements ClassResolver
 {

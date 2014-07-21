@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
-import static sk.stuba.fiit.perconik.core.resources.DefaultResources.registerTo;
-import static sk.stuba.fiit.perconik.core.resources.DefaultResources.unregisterFrom;
+import java.util.Set;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
@@ -14,7 +13,8 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProviders;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
 
-import java.util.Set;
+import static sk.stuba.fiit.perconik.core.resources.DefaultResources.registerTo;
+import static sk.stuba.fiit.perconik.core.resources.DefaultResources.unregisterFrom;
 
 /**
  * Static accessor methods pertaining to default listener core implementation.

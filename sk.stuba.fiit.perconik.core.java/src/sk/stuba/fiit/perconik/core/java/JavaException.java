@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.java;
 
 import javax.annotation.Nullable;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
 
 public final class JavaException extends RuntimeCoreException

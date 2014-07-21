@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.osgi.framework;
 
 import javax.annotation.Nullable;
+
 import org.osgi.framework.BundleException;
 
 /**

@@ -2,12 +2,14 @@ package sk.stuba.fiit.perconik.activity.data.core;
 
 import java.util.Map.Entry;
 import java.util.Set;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
+
 import sk.stuba.fiit.perconik.activity.data.base.NameableBaseData;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.SetMultimap;
 
 public class ResourceServiceData extends NameableBaseData
 {

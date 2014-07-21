@@ -1,10 +1,13 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+
 import org.eclipse.core.resources.IResourceDelta;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * Resource delta kinds.

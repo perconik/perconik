@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.annotations.Internal;
 

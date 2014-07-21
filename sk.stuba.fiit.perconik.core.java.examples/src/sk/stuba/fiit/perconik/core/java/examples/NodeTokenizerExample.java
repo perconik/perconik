@@ -1,20 +1,25 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.nio.file.Paths;
 import java.util.List;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Sets;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.StringLiteral;
+
+import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
+
 import sk.stuba.fiit.perconik.core.java.dom.NodeCollectors;
 import sk.stuba.fiit.perconik.core.java.dom.NodeTokenizer;
 import sk.stuba.fiit.perconik.core.java.dom.NodeTokenizers;
 import sk.stuba.fiit.perconik.core.java.dom.Tokenizer;
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
-import com.google.common.base.Function;
-import com.google.common.collect.Sets;
+
+import static java.lang.System.out;
 
 public class NodeTokenizerExample
 {

@@ -1,12 +1,14 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
+
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 
 /**
  * An abstract implementation of {@link ListenerProvider}. This class

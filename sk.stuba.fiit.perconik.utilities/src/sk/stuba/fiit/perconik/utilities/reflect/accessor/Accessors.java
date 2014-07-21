@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
-import sk.stuba.fiit.perconik.utilities.Exceptional;
 import com.google.common.reflect.TypeToken;
+
+import sk.stuba.fiit.perconik.utilities.Exceptional;
 
 public final class Accessors
 {

@@ -1,8 +1,10 @@
 package sk.stuba.fiit.perconik.eclipse.swt.widgets;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.concurrent.Executor;
+
 import org.eclipse.swt.widgets.Display;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class DisplayExecutor implements Executor
 {

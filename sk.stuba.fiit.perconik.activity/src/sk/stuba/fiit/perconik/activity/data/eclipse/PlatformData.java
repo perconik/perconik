@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.eclipse;
 
 import java.net.URL;
 import java.util.List;
+
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
 public class PlatformData extends AnyStructuredData

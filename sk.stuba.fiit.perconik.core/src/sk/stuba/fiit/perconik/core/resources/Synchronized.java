@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Collection;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resource;
-import com.google.common.base.Preconditions;
 
 class Synchronized
 {

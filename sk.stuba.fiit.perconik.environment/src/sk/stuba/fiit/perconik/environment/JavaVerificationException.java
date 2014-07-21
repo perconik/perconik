@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.environment;
 
 import javax.annotation.Nullable;
+
 import org.osgi.framework.Version;
 
 public class JavaVerificationException extends Exception

@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPartReference;
+
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 

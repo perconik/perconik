@@ -1,19 +1,23 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import static com.google.common.base.Objects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+
+import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> implements Predicate<N> 
 {

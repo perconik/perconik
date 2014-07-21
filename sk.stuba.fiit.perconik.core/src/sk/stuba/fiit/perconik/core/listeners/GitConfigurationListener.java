@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
 import org.eclipse.jgit.events.ConfigChangedListener;
+
 import sk.stuba.fiit.perconik.core.Listener;
 
 /**

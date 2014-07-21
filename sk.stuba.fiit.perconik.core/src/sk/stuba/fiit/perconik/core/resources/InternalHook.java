@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Nameable;
-import com.google.common.base.Preconditions;
 
 abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> implements Nameable
 {

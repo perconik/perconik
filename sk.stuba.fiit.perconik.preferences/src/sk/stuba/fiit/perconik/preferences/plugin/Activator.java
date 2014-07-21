@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.preferences.plugin;
 
 import org.eclipse.core.runtime.Plugin;
+
 import org.osgi.framework.BundleContext;
 
 /**

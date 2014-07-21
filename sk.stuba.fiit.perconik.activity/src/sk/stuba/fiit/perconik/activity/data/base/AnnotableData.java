@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.base;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
+
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotables;

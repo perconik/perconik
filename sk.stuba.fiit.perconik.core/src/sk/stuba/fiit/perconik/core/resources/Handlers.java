@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Set;
+
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.FilteringListener;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
-import com.google.common.base.Preconditions;
 
 final class Handlers
 {

@@ -1,13 +1,15 @@
 package sk.stuba.fiit.perconik.core.debug.services.listeners;
 
 import java.util.Set;
+
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.DebugListeners;
 import sk.stuba.fiit.perconik.core.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
-import com.google.common.base.Preconditions;
 
 public final class DebugListenerProviderProxy extends DebugNameableProxy implements DebugListenerProvider
 {

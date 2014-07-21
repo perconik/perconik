@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.activity.data.events;
 
 import java.util.List;
+
 import sk.stuba.fiit.perconik.activity.data.core.ListenerData;
 import sk.stuba.fiit.perconik.activity.data.core.ResourceData;
 

@@ -3,14 +3,18 @@ package sk.stuba.fiit.perconik.osgi.framework;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import sk.stuba.fiit.perconik.utilities.MoreMaps;
-import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
+import org.eclipse.core.runtime.Platform;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+
+import sk.stuba.fiit.perconik.utilities.MoreMaps;
+import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
 /**
  * Static utility methods pertaining to {@code Bundle} instances.

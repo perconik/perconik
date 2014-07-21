@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+
 import com.google.common.collect.ForwardingObject;
 
 public abstract class ForwardingAnnotable extends ForwardingObject implements Annotable

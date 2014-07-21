@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 

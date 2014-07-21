@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import sk.stuba.fiit.perconik.core.ListenerAlreadyRegistredException;
 import sk.stuba.fiit.perconik.core.ListenerNotRegistredException;
-import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 
 /**
  * Static utility methods pertaining to {@link ListenerManager} instances.

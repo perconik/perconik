@@ -1,14 +1,18 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.io.File;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+
 import sk.stuba.fiit.perconik.core.java.dom.NodeCounters;
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
+
+import static java.lang.System.out;
 
 public class StandardCountersExample
 {

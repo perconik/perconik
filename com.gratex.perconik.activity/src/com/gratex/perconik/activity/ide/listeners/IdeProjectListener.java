@@ -1,17 +1,19 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeData.setEventData;
-import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_CLOSE;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
-import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
+import java.util.Set;
+
+import javax.annotation.concurrent.GuardedBy;
+
+import com.google.common.collect.ImmutableSet;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
@@ -26,20 +28,19 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaResolver;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 
-import com.google.common.collect.ImmutableSet;
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.isNull;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPart;
-
-import java.util.Set;
-
-import javax.annotation.concurrent.GuardedBy;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag.OPEN;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind.ADDED;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_CLOSE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_DELETE;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_REFRESH;
+import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT;
 
 /**
  * A listener of IDE project events. This listener handles desired

@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
 import java.io.Closeable;
 import java.io.Flushable;
+
 import javax.annotation.Nullable;
 
 /**

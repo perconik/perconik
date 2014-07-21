@@ -1,10 +1,13 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.io.IOException;
 import java.nio.file.Paths;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
+
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
+
+import static java.lang.System.out;
 
 public class TreeParserExample
 {

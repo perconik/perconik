@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.debug.listeners;
 
 import org.eclipse.core.commands.CommandManagerEvent;
+
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;

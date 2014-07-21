@@ -1,15 +1,15 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
 import org.eclipse.jface.text.source.ContentAssistantFacade;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
 import org.eclipse.ui.IEditorReference;
+
+import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 final class CompletionHook extends InternalHook<ISourceViewer, CompletionListener> implements EditorListener
 {

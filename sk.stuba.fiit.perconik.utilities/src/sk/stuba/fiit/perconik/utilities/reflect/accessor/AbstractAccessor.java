@@ -3,7 +3,9 @@ package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+
 import javax.annotation.Nullable;
+
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 

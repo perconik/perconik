@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.core.resources.ResourcesPlugin;
+
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 
 enum ResourceHandler implements Handler<ResourceListener>

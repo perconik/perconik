@@ -2,20 +2,24 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import java.util.List;
 import java.util.Set;
+
+import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IStartup;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.osgi.framework.BundleNotFoundException;
 import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.

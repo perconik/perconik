@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
 import org.eclipse.ui.IWorkbenchWindow;
+
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 

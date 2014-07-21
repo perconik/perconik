@@ -1,11 +1,15 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import java.util.LinkedList;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
+
 import org.eclipse.jdt.core.dom.ASTNode;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
-import com.google.common.base.Predicate;
 
 public final class NodeCollectors
 {

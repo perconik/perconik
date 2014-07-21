@@ -1,10 +1,7 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.core.persistence.Registrations;
-import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
-import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
-import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import java.text.Collator;
+import java.util.Set;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.Viewer;
@@ -13,8 +10,11 @@ import org.eclipse.swt.widgets.Table;
 
 import org.osgi.service.prefs.BackingStoreException;
 
-import java.text.Collator;
-import java.util.Set;
+import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.persistence.Registrations;
+import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
+import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
+import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
 /**
  * Resources preference page.

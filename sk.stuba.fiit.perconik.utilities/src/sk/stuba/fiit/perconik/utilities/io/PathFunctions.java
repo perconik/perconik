@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.utilities.io;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -10,10 +8,15 @@ import java.nio.file.FileSystem;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.Arrays;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.google.common.base.Function;
 import com.google.common.base.Throwables;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class PathFunctions
 {

@@ -1,33 +1,12 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeData.setEventData;
-import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
-import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.CUT;
-import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.PASTE;
-import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
-import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
-import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.FAILED;
-import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
-import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
-import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSeparators;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
-
-import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
-import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
-import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
-import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
-import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import javax.annotation.concurrent.GuardedBy;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
@@ -52,13 +31,36 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
 
-import javax.annotation.concurrent.GuardedBy;
+import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
+import sk.stuba.fiit.perconik.core.listeners.EditorListener;
+import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
+import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
+import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
+
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
+import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.CUT;
+import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.PASTE;
+
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.FAILED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
+import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSeparators;
 
 /**
  * A listener of IDE code events. This listener handles desired

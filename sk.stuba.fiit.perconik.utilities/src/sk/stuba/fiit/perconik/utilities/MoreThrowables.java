@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.utilities;
 
 import javax.annotation.Nullable;
+
 import com.google.common.base.Optional;
 
 /**

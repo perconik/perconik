@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.osgi.framework;
 
 import java.util.List;
-import org.osgi.framework.Version;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+
+import org.osgi.framework.Version;
 
 public final class Versions
 {

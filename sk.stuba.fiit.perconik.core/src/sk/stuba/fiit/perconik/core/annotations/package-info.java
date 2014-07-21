@@ -5,3 +5,4 @@
 package sk.stuba.fiit.perconik.core.annotations;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+

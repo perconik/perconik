@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.persistence;
 
 import javax.annotation.Nullable;
+
 import sk.stuba.fiit.perconik.core.Listener;
 
 /**

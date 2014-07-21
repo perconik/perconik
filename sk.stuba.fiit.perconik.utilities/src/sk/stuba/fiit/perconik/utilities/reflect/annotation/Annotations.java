@@ -10,15 +10,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
-import sk.stuba.fiit.perconik.utilities.MoreLists;
-import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessor;
-import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessors;
+
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
+import sk.stuba.fiit.perconik.utilities.MoreLists;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessor;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessors;
 
 public final class Annotations
 {

@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.preferences;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import sk.stuba.fiit.perconik.utilities.io.Serialization;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractObjectPreferences extends AbstractPreferences
 {

@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
+
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
 public final class CompilationUnits

@@ -1,11 +1,11 @@
 package sk.stuba.fiit.perconik.core.debug.listeners;
 
+import org.eclipse.egit.core.project.RepositoryMapping;
+
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.listeners.GitRepositoryListener;
-
-import org.eclipse.egit.core.project.RepositoryMapping;
 
 @SuppressWarnings("restriction")
 public final class GitRepositoryDebugListener extends AbstractDebugListener implements GitRepositoryListener

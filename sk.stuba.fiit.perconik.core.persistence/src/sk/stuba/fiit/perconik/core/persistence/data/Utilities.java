@@ -1,7 +1,14 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.io.Serializable;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Registrables;
@@ -18,10 +25,6 @@ import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
-import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 
 final class Utilities
 {

@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import sk.stuba.fiit.perconik.core.Listener;
 import com.google.common.base.Preconditions;
+
+import sk.stuba.fiit.perconik.core.Listener;
 
 final class StandardHookSupport<H extends Hook<T, L>, T, L extends Listener> extends AbstractHookSupport<H, T, L>
 {

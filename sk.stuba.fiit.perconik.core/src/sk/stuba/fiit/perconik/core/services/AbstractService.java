@@ -4,12 +4,15 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.utilities.MoreStrings;
-import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 /**
  * An abstract implementation of {@link Service}

@@ -2,7 +2,9 @@ package sk.stuba.fiit.perconik.core.debug.listeners;
 
 import java.util.EnumSet;
 import java.util.Set;
+
 import org.eclipse.jdt.core.ElementChangedEvent;
+
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;

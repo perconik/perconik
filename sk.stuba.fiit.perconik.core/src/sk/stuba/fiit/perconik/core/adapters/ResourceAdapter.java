@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.AbstractResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;

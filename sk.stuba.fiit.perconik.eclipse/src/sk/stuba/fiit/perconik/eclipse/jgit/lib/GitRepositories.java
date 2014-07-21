@@ -1,8 +1,11 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
-import static com.google.common.base.Preconditions.checkState;
-
-import sk.stuba.fiit.perconik.utilities.io.MorePaths;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
@@ -17,12 +20,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.NoSuchElementException;
+import sk.stuba.fiit.perconik.utilities.io.MorePaths;
+
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Static utility methods pertaining to Git repositories.

@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Collection;
+
+import com.google.common.collect.SetMultimap;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.ForwardingManager;
-import com.google.common.collect.SetMultimap;
 
 /**
  * A listener manager which forwards all its method calls to another listener

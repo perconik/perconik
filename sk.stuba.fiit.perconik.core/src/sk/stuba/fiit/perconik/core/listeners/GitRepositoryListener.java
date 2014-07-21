@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
-import sk.stuba.fiit.perconik.core.Listener;
-
 import org.eclipse.egit.core.project.RepositoryChangeListener;
+
+import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A Git repository listener.

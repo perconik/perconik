@@ -1,11 +1,14 @@
 package sk.stuba.fiit.perconik.utilities.io;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.DirectoryStream;
+
 import javax.annotation.Nullable;
+
 import com.google.common.base.Predicate;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class PathFilters
 {

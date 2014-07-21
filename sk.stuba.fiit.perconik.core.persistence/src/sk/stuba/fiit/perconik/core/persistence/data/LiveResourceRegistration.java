@@ -1,12 +1,14 @@
 package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
-import com.google.common.collect.Sets;
 
 /**
  * Standard resource registration with lively updated registration status.

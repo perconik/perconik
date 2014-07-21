@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.jdt.core;
 
 import java.util.Set;
+
 import org.eclipse.jdt.core.IJavaElementDelta;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 

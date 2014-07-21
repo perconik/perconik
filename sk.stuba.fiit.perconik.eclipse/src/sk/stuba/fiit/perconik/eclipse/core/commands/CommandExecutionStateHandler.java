@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.eclipse.core.commands;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.WAITING;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAndNotEmpty;
-import java.util.concurrent.atomic.AtomicReference;
 
 public final class CommandExecutionStateHandler
 {

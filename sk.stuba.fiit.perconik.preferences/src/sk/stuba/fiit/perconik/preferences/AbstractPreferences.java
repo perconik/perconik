@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.preferences;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
@@ -10,6 +8,8 @@ import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 
 import org.osgi.service.prefs.BackingStoreException;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractPreferences
 {

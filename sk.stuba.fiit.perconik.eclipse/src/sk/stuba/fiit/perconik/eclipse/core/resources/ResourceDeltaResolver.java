@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
 import javax.annotation.Nullable;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
 

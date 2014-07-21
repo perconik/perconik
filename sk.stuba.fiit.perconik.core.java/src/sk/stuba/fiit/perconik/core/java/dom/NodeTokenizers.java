@@ -1,9 +1,10 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import org.eclipse.jdt.core.dom.ASTNode;
+
 import static sk.stuba.fiit.perconik.core.java.dom.NodeCollectors.ofType;
 import static sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType.QUALIFIED_NAME;
 import static sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType.SIMPLE_NAME;
-import org.eclipse.jdt.core.dom.ASTNode;
 
 public final class NodeTokenizers
 {

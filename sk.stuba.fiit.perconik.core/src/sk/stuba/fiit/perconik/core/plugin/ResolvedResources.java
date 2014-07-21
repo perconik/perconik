@@ -1,8 +1,9 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
+import com.google.common.base.Preconditions;
+
 import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
-import com.google.common.base.Preconditions;
 
 final class ResolvedResources extends ResolvedService<ResourceService>
 {

@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.ui.plugin;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoleFactory;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;

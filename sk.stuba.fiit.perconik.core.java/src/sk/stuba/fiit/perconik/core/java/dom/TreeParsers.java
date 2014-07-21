@@ -3,12 +3,15 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
 public final class TreeParsers
 {

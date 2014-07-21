@@ -1,18 +1,22 @@
 package com.gratex.perconik.activity.ide.listeners;
 
 import javax.annotation.Nullable;
+
+import com.google.common.base.Optional;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
-import sk.stuba.fiit.perconik.core.java.ClassFiles;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import com.google.common.base.Optional;
+
 import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+
+import sk.stuba.fiit.perconik.core.java.ClassFiles;
+import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 abstract class UnderlyingResource<R>
 {

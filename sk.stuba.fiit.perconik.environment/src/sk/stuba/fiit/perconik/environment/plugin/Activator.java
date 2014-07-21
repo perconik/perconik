@@ -3,7 +3,9 @@ package sk.stuba.fiit.perconik.environment.plugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+
 import org.osgi.framework.BundleContext;
+
 import sk.stuba.fiit.perconik.environment.JavaVerificationException;
 import sk.stuba.fiit.perconik.environment.JavaVerifier;
 

@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.eclipse.jface.preference;
 
 import javax.annotation.Nullable;
-import org.eclipse.jface.preference.IPreferenceStore;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
+
+import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
  * A forwarding preference store which forwards all its value accessor method

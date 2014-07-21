@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.services;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableMap;

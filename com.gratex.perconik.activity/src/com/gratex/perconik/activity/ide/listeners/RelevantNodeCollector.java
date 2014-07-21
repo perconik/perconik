@@ -3,7 +3,13 @@ package com.gratex.perconik.activity.ide.listeners;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import com.google.common.annotations.Beta;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
@@ -17,10 +23,8 @@ import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+
 import sk.stuba.fiit.perconik.utilities.function.Collector;
-import com.google.common.annotations.Beta;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 @Beta
 final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>

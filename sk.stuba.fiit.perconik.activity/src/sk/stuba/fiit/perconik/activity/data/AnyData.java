@@ -1,13 +1,18 @@
 package sk.stuba.fiit.perconik.activity.data;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Map;
+
 import javax.annotation.Nullable;
-import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
+
+import com.google.common.collect.Maps;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.collect.Maps;
+
+import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class AnyData extends Data
 {

@@ -1,20 +1,24 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import static java.lang.System.out;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
+
 import sk.stuba.fiit.perconik.core.java.dom.NodeCollectors;
 import sk.stuba.fiit.perconik.core.java.dom.NodePathExtractor;
 import sk.stuba.fiit.perconik.core.java.dom.NodePaths;
 import sk.stuba.fiit.perconik.core.java.dom.Nodes;
 import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
+
+import static java.lang.System.out;
 
 public class NodePathsExample
 {

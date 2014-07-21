@@ -1,11 +1,14 @@
 package sk.stuba.fiit.perconik.core.java;
 
 import java.util.LinkedList;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
-import com.google.common.collect.Lists;
 
 public final class JavaElements
 {

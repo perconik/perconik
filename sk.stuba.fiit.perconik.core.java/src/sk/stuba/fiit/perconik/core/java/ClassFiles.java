@@ -1,14 +1,17 @@
 package sk.stuba.fiit.perconik.core.java;
 
 import java.util.LinkedList;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 public final class ClassFiles
 {

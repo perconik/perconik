@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+import com.google.common.collect.SetMultimap;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
@@ -54,7 +54,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
-import com.google.common.collect.SetMultimap;
+import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
 
 /**
  * Static accessor methods pertaining to default resource core implementation.

@@ -1,21 +1,28 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
-import static com.gratex.perconik.activity.ide.IdeData.setEventData;
-import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 import java.io.File;
 import java.util.Map;
+
 import javax.annotation.concurrent.GuardedBy;
+
+import com.google.common.collect.Maps;
+
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
-import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
-import com.google.common.collect.Maps;
+
 import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
+
+import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
+import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
+import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
+import static com.gratex.perconik.activity.ide.IdeData.setEventData;
+import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 
 /**
  * A listener of IDE commit events. This listener handles desired

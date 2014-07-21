@@ -1,10 +1,14 @@
 package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
 import java.util.List;
+
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
-import sk.stuba.fiit.perconik.core.java.dom.Nodes;
+
 import com.google.common.collect.TreeTraverser;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+
+import sk.stuba.fiit.perconik.core.java.dom.Nodes;
 
 public final class NaiveTraverser extends TreeTraverser<ASTNode>
 {

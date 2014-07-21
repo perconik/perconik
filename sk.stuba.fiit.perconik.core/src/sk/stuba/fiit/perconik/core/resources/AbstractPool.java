@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
+
 import com.google.common.base.Preconditions;
 
 abstract class AbstractPool<T> implements Pool<T>

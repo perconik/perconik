@@ -3,11 +3,13 @@ package sk.stuba.fiit.perconik.core.java.dom.difference;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jdt.core.dom.ASTNode;
+
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
+import org.eclipse.jdt.core.dom.ASTNode;
 
 public final class NodeDeltaSet<N extends ASTNode> extends ForwardingSet<NodeDelta<N>>
 {

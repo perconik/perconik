@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
 

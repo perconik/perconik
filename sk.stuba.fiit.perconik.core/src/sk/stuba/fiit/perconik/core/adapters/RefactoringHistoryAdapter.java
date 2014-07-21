@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener;
 

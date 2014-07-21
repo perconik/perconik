@@ -2,10 +2,13 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Arrays;
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider.Builder;
-import com.google.common.collect.Sets;
 
 /**
  * Static utility methods pertaining to {@link ListenerProvider} instances.

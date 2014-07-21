@@ -1,19 +1,24 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import static com.google.common.base.Objects.firstNonNull;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
 import javax.annotation.Nullable;
-import org.eclipse.jdt.core.dom.ASTNode;
-import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
-import sk.stuba.fiit.perconik.utilities.MoreStrings;
-import sk.stuba.fiit.perconik.utilities.function.ListCollector;
+
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+import sk.stuba.fiit.perconik.utilities.MoreStrings;
+import sk.stuba.fiit.perconik.utilities.function.ListCollector;
+
+import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, String>
 {

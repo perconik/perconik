@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.core.resources;
 
-import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
+import java.util.Collections;
+import java.util.Set;
 
 import com.google.common.collect.Sets;
 
@@ -26,8 +27,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.navigator.CommonNavigator;
 
-import java.util.Collections;
-import java.util.Set;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 /**
  * Static utility methods pertaining to Eclipse projects.

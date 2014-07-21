@@ -1,10 +1,12 @@
 package sk.stuba.fiit.perconik.ui.preferences;
 
+import com.google.common.base.Preconditions;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
+
 import sk.stuba.fiit.perconik.preferences.MainPreferences;
-import com.google.common.base.Preconditions;
 
 /**
  * <i>PerConIK</i> main preference page.

@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.activity.preferences;
 
+import org.eclipse.jface.preference.IPreferenceStore;
+
+import sk.stuba.fiit.perconik.activity.plugin.Activator;
+
 import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.logErrors;
 import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.logEvents;
-import org.eclipse.jface.preference.IPreferenceStore;
-import sk.stuba.fiit.perconik.activity.plugin.Activator;
 
 public abstract class ActivityPreferences
 {

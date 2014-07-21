@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import org.eclipse.core.commands.Command;
 import org.eclipse.swt.widgets.Display;
+
 import sk.stuba.fiit.perconik.core.listeners.CommandListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.Commands;
 

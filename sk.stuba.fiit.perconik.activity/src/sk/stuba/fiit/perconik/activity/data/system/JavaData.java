@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.system;
 
 import java.net.URL;
 import java.nio.file.Path;
+
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
 public class JavaData extends AnyStructuredData

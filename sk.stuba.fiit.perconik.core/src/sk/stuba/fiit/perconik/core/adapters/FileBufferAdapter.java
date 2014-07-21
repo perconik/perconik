@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.runtime.IPath;
+
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 

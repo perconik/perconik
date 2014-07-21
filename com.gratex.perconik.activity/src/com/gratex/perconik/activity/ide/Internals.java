@@ -1,17 +1,16 @@
 package com.gratex.perconik.activity.ide;
 
-import static java.lang.String.valueOf;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TimeZone;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
-import sk.stuba.fiit.perconik.environment.Environment;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
@@ -19,7 +18,13 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
+
 import com.gratex.perconik.activity.TimeSupplier;
+
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.environment.Environment;
+
+import static java.lang.String.valueOf;
 
 final class Internals
 {

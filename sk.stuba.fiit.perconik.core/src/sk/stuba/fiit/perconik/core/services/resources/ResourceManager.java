@@ -1,7 +1,11 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.SetMultimap;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.ResourceAlreadyRegistredException;
@@ -9,7 +13,6 @@ import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
 import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.core.services.Manager;
-import com.google.common.collect.SetMultimap;
 
 /**
  * An object responsible for managing registrations of {@link Resource}

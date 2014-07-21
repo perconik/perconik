@@ -4,7 +4,12 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
@@ -14,11 +19,10 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
+
 import sk.stuba.fiit.perconik.core.java.dom.compatibility.TreeCompatibility;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 
 // TODO add more helpers from org.eclipse.jdt.internal.corext.dom.ASTNodes
 

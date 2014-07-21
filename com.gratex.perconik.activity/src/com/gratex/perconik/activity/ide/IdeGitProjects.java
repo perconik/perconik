@@ -1,5 +1,7 @@
 package com.gratex.perconik.activity.ide;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
@@ -7,8 +9,6 @@ import org.eclipse.egit.core.RepositoryUtil;
 import org.eclipse.egit.core.project.GitProjectData;
 import org.eclipse.egit.core.project.RepositoryMapping;
 import org.eclipse.jgit.lib.Repository;
-
-import java.io.IOException;
 
 @SuppressWarnings("restriction") // TODO resolve: not sure why is egit core restricted
 public final class IdeGitProjects

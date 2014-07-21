@@ -2,7 +2,12 @@ package sk.stuba.fiit.perconik.eclipse.jdt.core.dom;
 
 import java.util.Arrays;
 import java.util.Set;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.CaseFormat;
+import com.google.common.collect.Sets;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
 import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
@@ -88,8 +93,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
-import com.google.common.base.CaseFormat;
-import com.google.common.collect.Sets;
+
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;

@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
 import javax.annotation.Nullable;
+
 import com.google.common.collect.ForwardingObject;
 
 /**

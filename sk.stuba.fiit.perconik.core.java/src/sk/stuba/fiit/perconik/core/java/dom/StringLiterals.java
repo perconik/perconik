@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nonnull;
+
+import com.google.common.base.Function;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StringLiteral;
-import com.google.common.base.Function;
 
 public final class StringLiterals
 {

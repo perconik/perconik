@@ -1,7 +1,9 @@
 package sk.stuba.fiit.perconik.activity.data.type;
 
 import java.io.IOException;
+
 import org.osgi.framework.Version;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

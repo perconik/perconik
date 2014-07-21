@@ -1,11 +1,14 @@
 package sk.stuba.fiit.perconik.eclipse.core.runtime;
 
 import java.io.PrintStream;
+
 import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
-import com.google.common.base.Preconditions;
 
 final class StandardPluginConsole implements PluginConsole
 {
