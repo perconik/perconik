@@ -9,6 +9,6 @@
 	</parent>
 
 	<artifactId>sk.stuba.fiit.perconik.feature</artifactId>
-	<version>0.5.3-SNAPSHOT</version>
+	<version>0.5.4-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 </project>
