@@ -112,7 +112,10 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	private final Stopwatch watch;
 
 	@GuardedBy("lock")
-	private LinkedList<SelectionEvent> selections;
+	private LinkedList<SelectionEvent> continuousSelections;
+
+	@GuardedBy("lock")
+	private SelectionEvent lastSentSelection;
 
 	public IdeCodeListener()
 	{
@@ -331,6 +334,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 			this.selection = selection;
 		}
 
+		final boolean contentEquals(final SelectionEvent other)
+		{
+			return this.part == other.part && this.selection.equals(other.selection);
+		}
+
 		final boolean isContinuousWith(final SelectionEvent other)
 		{
 			if (this.part != other.part)
@@ -501,9 +509,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	@GuardedBy("lock")
 	private final void startWatchAndClearSelectionEvents()
 	{
-		assert !this.watch.isRunning() && this.selections == null;
+		assert !this.watch.isRunning() && this.continuousSelections == null;
 
-		this.selections = Lists.newLinkedList();
+		this.continuousSelections = Lists.newLinkedList();
 
 		this.watch.reset().start();
 	}
@@ -511,11 +519,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 	@GuardedBy("lock")
 	private final void stopWatchAndProcessLastSelectionEvent()
 	{
-		assert this.watch.isRunning();
+		assert this.watch.isRunning() && this.continuousSelections != null;
 
-		selectionChanged(this.selections.getLast());
+		this.lastSentSelection = this.continuousSelections.getLast();
 
-		this.selections = null;
+		selectionChanged(this.lastSentSelection);
+
+		this.continuousSelections = null;
 
 		this.watch.stop();
 	}
@@ -533,7 +543,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 		{
 			SelectionEvent event = new SelectionEvent(time, part, selection);
 
-			if (this.watch.isRunning() && !this.selections.getLast().isContinuousWith(event))
+			if (this.lastSentSelection != null && this.lastSentSelection.contentEquals(event))
+			{
+				return;
+			}
+
+			if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event))
 			{
 				if (Log.enabled()) Log.message().format("selection: watch running but different part").appendTo(console);
 
@@ -549,7 +564,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
 			long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
 
-			this.selections.add(event);
+			this.continuousSelections.add(event);
 
 			if (delta < selectionEventWindow)
 			{

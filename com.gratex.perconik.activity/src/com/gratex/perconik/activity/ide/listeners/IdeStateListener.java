@@ -4,17 +4,20 @@ import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
 import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
+
+import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.ide.UacaUriHelper;
+import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
+
+import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
+import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
+import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
-import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
-import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
-import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
-import com.gratex.perconik.activity.ide.UacaUriHelper;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
 
 /**
  * A listener of IDE state change events. This listener handles desired
@@ -22,12 +25,12 @@ import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
  * of type {@link IdeStateChangeEventRequest} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
- * 
+ *
  * <p>State changes are logged when an application launches from Eclipse,
  * or Eclipse perspective changes.
- * 
+ *
  * <p>Data available in an {@code IdeStateChangeEventRequest}:
- * 
+ *
  * <ul>
  *   <li>{@code stateTypeUri} - in case of an application run or debug start
  *   the state type consists of the launch mode concatenated to a string
@@ -38,7 +41,7 @@ import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
  *   {@code debug (perspective)}.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -47,7 +50,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	public IdeStateListener()
 	{
 	}
-	
+
 	static final IdeStateChangeEventRequest build(final long time, final IProject project, final String state)
 	{
 		final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
@@ -57,24 +60,24 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 		setProjectData(data, project);
 		setApplicationData(data);
 		setEventData(data, time);
-		
+
 		if (Log.enabled()) Log.message().appendln("state: " + state).appendTo(console);
-		
+
 		return data;
 	}
-	
+
 	static final void processLaunch(final long time, final ILaunch launch)
 	{
 		Iterable<IProject> projects = Projects.fromLaunch(launch);
-		
+
 		String state = launch.getLaunchMode() + " (launch)";
-		
+
 		for (IProject project: projects)
 		{
-			UacaProxy.sendStateChangeEvent(build(time, project, state));			
+			UacaProxy.sendStateChangeEvent(build(time, project, state));
 		}
 	}
-	
+
 	static final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 		IProject project = Projects.fromPage(page);
@@ -83,11 +86,11 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
 		UacaProxy.sendStateChangeEvent(build(time, project, state));
 	}
-	
+
 	public final void launchAdded(final ILaunch launch)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
@@ -116,7 +119,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
 	{
 		final long time = currentTime();
-		
+
 		execute(new Runnable()
 		{
 			public final void run()
