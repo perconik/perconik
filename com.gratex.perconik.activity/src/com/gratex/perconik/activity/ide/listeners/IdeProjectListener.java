@@ -75,194 +75,193 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT
  */
 public final class IdeProjectListener extends IdeListener implements ResourceListener, SelectionListener
 {
-	// TODO rename not implemented
-	// TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
+  // TODO rename not implemented
+  // TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
 
-	static final boolean processStructuredSelections = false;
+  static final boolean processStructuredSelections = false;
 
-	static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(PRE_CLOSE, PRE_DELETE, PRE_REFRESH, POST_CHANGE);
+  static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(PRE_CLOSE, PRE_DELETE, PRE_REFRESH, POST_CHANGE);
 
-	private final Object lock = new Object();
+  private final Object lock = new Object();
 
-	@GuardedBy("lock")
-	private IProject project;
+  @GuardedBy("lock")
+  private IProject project;
 
-	public IdeProjectListener()
-	{
-	}
+  public IdeProjectListener()
+  {
+  }
 
-	private final boolean updateProject(final IProject project)
-	{
-		if (project != null)
-		{
-			synchronized (this.lock)
-			{
-				if (!project.equals(this.project))
-				{
-					this.project = project;
+  private final boolean updateProject(final IProject project)
+  {
+    if (project != null)
+    {
+      synchronized (this.lock)
+      {
+        if (!project.equals(this.project))
+        {
+          this.project = project;
 
-					return true;
-				}
-			}
-		}
+          return true;
+        }
+      }
+    }
 
-		return false;
-	}
+    return false;
+  }
 
-	static final IdeProjectEventRequest build(final long time, final IProject project)
-	{
-		final IdeProjectEventRequest data = new IdeProjectEventRequest();
+  static final IdeProjectEventRequest build(final long time, final IProject project)
+  {
+    final IdeProjectEventRequest data = new IdeProjectEventRequest();
 
-		setProjectData(data, project);
-		setApplicationData(data);
-		setEventData(data, time);
+    setProjectData(data, project);
+    setApplicationData(data);
+    setEventData(data, time);
 
-		return data;
-	}
+    return data;
+  }
 
-	private static final class ResourceDeltaVisitor extends ResourceDeltaResolver
-	{
-		private final long time;
+  private static final class ResourceDeltaVisitor extends ResourceDeltaResolver
+  {
+    private final long time;
 
-		private final ResourceEventType type;
+    private final ResourceEventType type;
 
-		ResourceDeltaVisitor(final long time, final ResourceEventType type)
-		{
-			assert time >= 0 && type != null;
+    ResourceDeltaVisitor(final long time, final ResourceEventType type)
+    {
+      assert time >= 0 && type != null;
 
-			this.time = time;
-			this.type = type;
-		}
+      this.time = time;
+      this.type = type;
+    }
 
-		@Override
-		protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
-		{
-			//			// TODO rm
-			//			if (IdeApplication.getInstance().isDebug()) { console.put("resource: "+ resource);
-			//			console.put("  type: "+ this.type);console.put("  kind: "+ ResourceDeltaKind.valueOf(delta.getKind()).toString());
-			//			console.print("  flags: "+ResourceDeltaFlag.setOf(delta.getFlags()).toString()); }
+    @Override
+    protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
+    {
+      //			// TODO rm
+      //			if (IdeApplication.getInstance().isDebug()) { console.put("resource: "+ resource);
+      //			console.put("  type: "+ this.type);console.put("  kind: "+ ResourceDeltaKind.valueOf(delta.getKind()).toString());
+      //			console.print("  flags: "+ResourceDeltaFlag.setOf(delta.getFlags()).toString()); }
 
-			assert delta != null && resource != null;
+      assert delta != null && resource != null;
 
-			if (ResourceType.valueOf(resource.getType()) != PROJECT)
-			{
-				return true;
-			}
+      if (ResourceType.valueOf(resource.getType()) != PROJECT)
+      {
+        return true;
+      }
 
-			if (this.type == POST_CHANGE)
-			{
-				IProject project = (IProject) resource;
+      if (this.type == POST_CHANGE)
+      {
+        IProject project = (IProject) resource;
 
-				ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
-				Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
+        ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
+        Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 
-				if (kind == ADDED)
-				{
-					UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
-				}
+        if (kind == ADDED)
+        {
+          UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
+        }
 
-				if (flags.contains(OPEN) && project.isOpen())
-				{
-					UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.OPEN);
-				}
+        if (flags.contains(OPEN) && project.isOpen())
+        {
+          UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.OPEN);
+        }
 
-				return false;
-			}
+        return false;
+      }
 
-			return this.resolveResource(resource);
-		}
+      return this.resolveResource(resource);
+    }
 
-		@Override
-		protected final boolean resolveResource(final IResource resource)
-		{
-			assert ResourceType.valueOf(resource.getType()) == PROJECT;
+    @Override
+    protected final boolean resolveResource(final IResource resource)
+    {
+      assert ResourceType.valueOf(resource.getType()) == PROJECT;
 
-			switch (this.type)
-			{
-			case PRE_CLOSE:
-				UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.CLOSE);
-				break;
+      switch (this.type)
+      {
+        case PRE_CLOSE:
+          UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.CLOSE);
+          break;
 
-			case PRE_DELETE:
-				UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REMOVE);
-				break;
+        case PRE_DELETE:
+          UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REMOVE);
+          break;
 
-			case PRE_REFRESH:
-				UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REFRESH);
-				break;
+        case PRE_REFRESH:
+          UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REFRESH);
+          break;
 
-			default:
-				break;
-			}
+        default:
+      }
 
-			return false;
-		}
-	}
+      return false;
+    }
+  }
 
-	static final void processResource(final long time, final IResourceChangeEvent event)
-	{
-		ResourceEventType type  = ResourceEventType.valueOf(event.getType());
-		IResourceDelta    delta = event.getDelta();
+  static final void processResource(final long time, final IResourceChangeEvent event)
+  {
+    ResourceEventType type  = ResourceEventType.valueOf(event.getType());
+    IResourceDelta    delta = event.getDelta();
 
-		new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
-	}
+    new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
+  }
 
-	final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
-	{
-		IProject project = null;
+  final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
+  {
+    IProject project = null;
 
-		if (processStructuredSelections)
-		{
-			if (selection instanceof IStructuredSelection)
-			{
-				project = Projects.fromSelection((IStructuredSelection) selection);
-			}
-		}
+    if (processStructuredSelections)
+    {
+      if (selection instanceof IStructuredSelection)
+      {
+        project = Projects.fromSelection((IStructuredSelection) selection);
+      }
+    }
 
-		if (isNull(project) && part instanceof IEditorPart)
-		{
-			project = Projects.fromEditor((IEditorPart) part);
-		}
+    if (isNull(project) && part instanceof IEditorPart)
+    {
+      project = Projects.fromEditor((IEditorPart) part);
+    }
 
-		if (isNull(project))
-		{
-			project = Projects.fromPage(part.getSite().getPage());
-		}
+    if (isNull(project))
+    {
+      project = Projects.fromPage(part.getSite().getPage());
+    }
 
-		if (this.updateProject(project))
-		{
-			UacaProxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
-		}
-	}
+    if (this.updateProject(project))
+    {
+      UacaProxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
+    }
+  }
 
-	public final void resourceChanged(final IResourceChangeEvent event)
-	{
-		final long time = currentTime();
+  public final void resourceChanged(final IResourceChangeEvent event)
+  {
+    final long time = currentTime();
 
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				processResource(time, event);
-			}
-		});
-	}
+    execute(new Runnable()
+    {
+      public final void run()
+      {
+        processResource(time, event);
+      }
+    });
+  }
 
-	public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
-	{
-		final long time = currentTime();
+  public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
+  {
+    final long time = currentTime();
 
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				processSelection(time, part, selection);
-			}
-		});
-	}
+    execute(new Runnable()
+    {
+      public final void run()
+      {
+        processSelection(time, part, selection);
+      }
+    });
+  }
 
-	public final Set<ResourceEventType> getEventTypes()
-	{
-		return resourceEventTypes;
-	}
+  public final Set<ResourceEventType> getEventTypes()
+  {
+    return resourceEventTypes;
+  }
 }
