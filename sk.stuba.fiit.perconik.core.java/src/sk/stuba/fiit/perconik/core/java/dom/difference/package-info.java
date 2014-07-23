@@ -5,4 +5,3 @@
 package sk.stuba.fiit.perconik.core.java.dom.difference;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-

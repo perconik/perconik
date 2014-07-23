@@ -5,4 +5,3 @@
 package sk.stuba.fiit.perconik.osgi.framework;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-

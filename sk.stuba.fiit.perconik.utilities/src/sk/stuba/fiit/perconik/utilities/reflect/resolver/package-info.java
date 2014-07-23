@@ -5,4 +5,3 @@
 package sk.stuba.fiit.perconik.utilities.reflect.resolver;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-

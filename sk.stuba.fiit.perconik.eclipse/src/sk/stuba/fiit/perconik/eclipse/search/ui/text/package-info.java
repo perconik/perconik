@@ -6,4 +6,3 @@
 package sk.stuba.fiit.perconik.eclipse.search.ui.text;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-

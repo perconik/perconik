@@ -6,4 +6,3 @@
 package sk.stuba.fiit.perconik.eclipse.jgit.lib;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
