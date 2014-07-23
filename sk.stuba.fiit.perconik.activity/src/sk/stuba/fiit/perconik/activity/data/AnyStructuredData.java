@@ -12,7 +12,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -23,6 +22,8 @@ import sk.stuba.fiit.perconik.utilities.MoreMaps;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Lists.asList;
+import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 
@@ -59,7 +60,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
     final transient Map<String, Object> map;
 
     Structure() {
-      this.map = Maps.newLinkedHashMap();
+      this.map = newLinkedHashMap();
     }
 
     static final Structure from(final Map<String, Object> map) {
@@ -249,7 +250,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   }
 
   public Object get(String key, String ... more) {
-    return this.get(Lists.asList(key, more));
+    return this.get(asList(key, more));
   }
 
   public Object get(Iterable<String> key) {

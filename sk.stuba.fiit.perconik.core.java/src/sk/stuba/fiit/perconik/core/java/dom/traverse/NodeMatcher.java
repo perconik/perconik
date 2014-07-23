@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.java.dom.traverse;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -93,13 +92,15 @@ import org.eclipse.jdt.core.dom.WildcardType;
 
 import sk.stuba.fiit.perconik.utilities.MoreLists;
 
+import static java.util.Arrays.asList;
+
 import static sk.stuba.fiit.perconik.core.java.dom.traverse.NodeVisitOption.INCLUDE_JAVADOC_TAGS;
 
 public class NodeMatcher {
   final Internals internals;
 
   public NodeMatcher(final NodeVisitOption ... options) {
-    Set<NodeVisitOption> set = EnumSet.copyOf(Arrays.asList(options));
+    Set<NodeVisitOption> set = EnumSet.copyOf(asList(options));
 
     this.internals = new Internals(this, set.contains(INCLUDE_JAVADOC_TAGS));
   }

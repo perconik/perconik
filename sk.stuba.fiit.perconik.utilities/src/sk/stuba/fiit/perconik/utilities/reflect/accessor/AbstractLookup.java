@@ -3,12 +3,16 @@ package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 import java.util.List;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.propagateIfInstanceOf;
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static com.google.common.collect.Lists.newLinkedList;
+
 
 abstract class AbstractLookup<T> implements Lookup<T> {
   final List<Accessor<? extends T>> accessors;
@@ -33,16 +37,16 @@ abstract class AbstractLookup<T> implements Lookup<T> {
     final List<Throwable> suppressions;
 
     public AbstractBuilder() {
-      this.accessors = Lists.newArrayListWithExpectedSize(8);
-      this.suppressions = Lists.newArrayListWithExpectedSize(8);
+      this.accessors = newArrayListWithExpectedSize(8);
+      this.suppressions = newArrayListWithExpectedSize(8);
     }
 
     final void add(Accessor<? extends T> accessor) {
-      this.accessors.add(Preconditions.checkNotNull(accessor));
+      this.accessors.add(checkNotNull(accessor));
     }
 
     final void handle(Throwable e) {
-      Throwables.propagateIfInstanceOf(e, NullPointerException.class);
+      propagateIfInstanceOf(e, NullPointerException.class);
 
       this.suppressions.add(e);
     }
@@ -51,7 +55,7 @@ abstract class AbstractLookup<T> implements Lookup<T> {
   }
 
   public final T get() {
-    List<Throwable> suppressions = Lists.newLinkedList();
+    List<Throwable> suppressions = newLinkedList();
 
     for (Accessor<? extends T> accessor: this.accessors) {
       try {

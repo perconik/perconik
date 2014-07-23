@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.eclipse.ui;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 
 import org.eclipse.core.resources.IFile;
@@ -16,6 +15,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to Eclipse editors.
@@ -164,7 +165,7 @@ public final class Editors {
    * @see #getActiveEditor(IWorkbenchPage)
    */
   public static final IEditorPart waitForActiveEditor(final IWorkbenchPage page) {
-    Preconditions.checkNotNull(page);
+    checkNotNull(page);
 
     IEditorPart editor;
 

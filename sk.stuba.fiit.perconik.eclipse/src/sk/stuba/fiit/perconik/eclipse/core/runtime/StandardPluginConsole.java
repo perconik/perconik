@@ -4,11 +4,11 @@ import java.io.PrintStream;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class StandardPluginConsole implements PluginConsole {
   private final Plugin plugin;
@@ -16,8 +16,8 @@ final class StandardPluginConsole implements PluginConsole {
   private final PrintStream out;
 
   StandardPluginConsole(final Plugin plugin, final PrintStream out) {
-    this.plugin = Preconditions.checkNotNull(plugin);
-    this.out = Preconditions.checkNotNull(out);
+    this.plugin = checkNotNull(plugin);
+    this.out = checkNotNull(out);
   }
 
   private final void log(final Status status) {

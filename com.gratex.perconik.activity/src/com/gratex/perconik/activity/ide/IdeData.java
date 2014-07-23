@@ -2,8 +2,6 @@ package com.gratex.perconik.activity.ide;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
@@ -19,6 +17,8 @@ import com.gratex.perconik.services.uaca.ide.RcsServerDto;
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public final class IdeData {
   private IdeData() {
@@ -87,7 +87,7 @@ public final class IdeData {
   public static final void setProjectData(final BaseIdeEventRequest data, final IClassFile file) {
     IJavaElement root = file.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 
-    Preconditions.checkState(root != null, "Package fragment root not found");
+    checkState(root != null, "Package fragment root not found");
 
     setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
   }

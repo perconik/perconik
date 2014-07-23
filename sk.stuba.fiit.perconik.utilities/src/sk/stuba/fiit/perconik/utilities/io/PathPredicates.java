@@ -10,9 +10,9 @@ import java.util.Arrays;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Throwables;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.propagate;
 
 public final class PathPredicates {
   private PathPredicates() {
@@ -192,7 +192,7 @@ public final class PathPredicates {
       try {
         return Files.isHidden(path);
       } catch (IOException e) {
-        throw Throwables.propagate(e);
+        throw propagate(e);
       }
     }
 

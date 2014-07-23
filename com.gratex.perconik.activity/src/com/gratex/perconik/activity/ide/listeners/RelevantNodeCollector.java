@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -26,6 +24,9 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import sk.stuba.fiit.perconik.utilities.function.Collector;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newLinkedHashSet;
+
 @Beta
 final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode> {
   public RelevantNodeCollector() {}
@@ -38,7 +39,7 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
     private final Set<ASTNode> result;
 
     Processor() {
-      this.result = Sets.newLinkedHashSet();
+      this.result = newLinkedHashSet();
     }
 
     public final List<ASTNode> apply(@Nullable final CompilationUnit unit) {
@@ -48,7 +49,7 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
 
       unit.accept(this);
 
-      return Lists.newArrayList(this.result);
+      return newArrayList(this.result);
     }
 
     private final void addNode(final ASTNode node) {

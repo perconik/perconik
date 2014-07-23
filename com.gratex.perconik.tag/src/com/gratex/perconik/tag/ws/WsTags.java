@@ -4,13 +4,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
-import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
-import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
 import com.gratex.perconik.services.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.ArrayOfTagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.ArrayOfTagType;
@@ -29,6 +28,10 @@ import com.gratex.perconik.services.tag.TagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.TagType;
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.prefs.PrefKeys;
+
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
+import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 public class WsTags {
 	

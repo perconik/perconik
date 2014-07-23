@@ -8,7 +8,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> extends AbstractConstantSupport<Integer, E> {
   private static final long serialVersionUID = 6686975853072661262L;
@@ -90,7 +91,7 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
   public final E getConstant(final int value) {
     E constant = this.map.get(value);
 
-    Preconditions.checkArgument(constant != null, "Constant for value %s not found", value);
+    checkArgument(constant != null, "Constant for value %s not found", value);
 
     return constant;
   }

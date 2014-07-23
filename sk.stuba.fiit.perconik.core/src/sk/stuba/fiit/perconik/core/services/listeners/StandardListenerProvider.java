@@ -4,10 +4,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Maps;
 
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
@@ -15,6 +13,10 @@ import sk.stuba.fiit.perconik.core.ListenerInstantiationException;
 import sk.stuba.fiit.perconik.utilities.MoreSets;
 import sk.stuba.fiit.perconik.utilities.reflect.ReflectionException;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.AccessorConstructionException;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Maps.newConcurrentMap;
 
 final class StandardListenerProvider extends AbstractListenerProvider {
   private final BiMap<String, Class<? extends Listener>> map;
@@ -25,7 +27,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
 
   StandardListenerProvider(final Builder builder) {
     this.map = HashBiMap.create(builder.map);
-    this.cache = Maps.newConcurrentMap();
+    this.cache = newConcurrentMap();
     this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
   }
 
@@ -40,7 +42,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
     }
 
     public final Builder add(final Class<? extends Listener> implementation) {
-      Preconditions.checkNotNull(implementation);
+      checkNotNull(implementation);
 
       this.map.put(implementation.getName(), implementation.asSubclass(Listener.class));
 
@@ -56,9 +58,9 @@ final class StandardListenerProvider extends AbstractListenerProvider {
     }
 
     public final Builder parent(final ListenerProvider parent) {
-      Preconditions.checkState(!this.parent.isPresent());
+      checkState(!this.parent.isPresent());
 
-      this.parent = Optional.of(Preconditions.checkNotNull(parent));
+      this.parent = Optional.of(checkNotNull(parent));
 
       return this;
     }

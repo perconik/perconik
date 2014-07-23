@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 
+import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
+
 /**
  * Static utility methods pertaining to {@code Map} instances.
  *
@@ -30,7 +32,7 @@ public final class MoreMaps {
   }
 
   public static final <K, V> Map<K, V> fromDictionary(Dictionary<K, V> dictionary) {
-    Map<K, V> map = Maps.newHashMapWithExpectedSize(dictionary.size());
+    Map<K, V> map = newHashMapWithExpectedSize(dictionary.size());
 
     copy(dictionary, map);
 

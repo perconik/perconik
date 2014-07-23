@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.utilities.reflect.resolver;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class LoadingClassResolver implements ClassResolver {
   private final ClassLoader loader;
 
   LoadingClassResolver(ClassLoader loader) {
-    this.loader = Preconditions.checkNotNull(loader);
+    this.loader = checkNotNull(loader);
   }
 
   public final Class<?> forName(String name) throws ClassNotFoundException {

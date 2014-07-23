@@ -1,5 +1,17 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+
+import static com.google.common.base.Preconditions.checkState;
+
+
+import static com.google.common.collect.Sets.newHashSet;
+
+
+import static java.util.Arrays.asList;
+
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -24,8 +36,8 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	
 	NodeClassFilter(final Mode mode, final Strategy strategy)
 	{
-		this.mode     = Preconditions.checkNotNull(mode);
-		this.strategy = Preconditions.checkNotNull(strategy);
+		this.mode     = checkNotNull(mode);
+		this.strategy = checkNotNull(strategy);
 	}
 	
 	private static final <N extends ASTNode, R extends ASTNode> Single<N, R> newSingle(final Class<? extends R> type)
@@ -40,7 +52,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	
 	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> type)
 	{
-		return newSingle(Preconditions.checkNotNull(type));
+		return newSingle(checkNotNull(type));
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b)
@@ -61,7 +73,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 	@SafeVarargs
 	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> a, final Class<? extends R> b, final Class<? extends R> c, final Class<? extends R> d, final Class<? extends R> ... rest)
 	{
-		return newMulti(ImmutableSet.<Class<? extends R>>builder().add(a).add(b).add(c).add(d).addAll(Arrays.asList(rest)).build());
+		return newMulti(ImmutableSet.<Class<? extends R>>builder().add(a).add(b).add(c).add(d).addAll(asList(rest)).build());
 	}
 
 	public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Iterable<Class<? extends R>> types)
@@ -84,12 +96,12 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 		
 		public Builder()
 		{
-			this.types = Sets.newHashSet();
+			this.types = newHashSet();
 		}
 		
 		public final Builder<N, R> include()
 		{
-			Preconditions.checkState(this.mode == null);
+			checkState(this.mode == null);
 
 			this.mode = Mode.INCLUDE;
 			
@@ -98,7 +110,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 
 		public final Builder<N, R> exclude()
 		{
-			Preconditions.checkState(this.mode == null);
+			checkState(this.mode == null);
 			
 			this.mode = Mode.EXCLUDE;
 			
@@ -107,7 +119,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 
 		public final Builder<N, R> instanceOf()
 		{
-			Preconditions.checkState(this.strategy == null);
+			checkState(this.strategy == null);
 			
 			this.strategy = Strategy.INSTANCE_OF;
 			
@@ -116,7 +128,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 		
 		public final Builder<N, R> matchedBy()
 		{
-			Preconditions.checkState(this.strategy == null);
+			checkState(this.strategy == null);
 			
 			this.strategy = Strategy.MATCHED_BY;
 			

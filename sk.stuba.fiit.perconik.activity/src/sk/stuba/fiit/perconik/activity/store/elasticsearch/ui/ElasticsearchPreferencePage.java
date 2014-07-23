@@ -27,6 +27,8 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 
+import static java.lang.Math.max;
+
 import static org.eclipse.jface.preference.BooleanFieldEditor.SEPARATE_LABEL;
 
 public final class ElasticsearchPreferencePage extends ActivityPreferencePage {
@@ -61,7 +63,7 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage {
     int hint = this.convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
     int size = this.statusButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x;
 
-    data.widthHint = Math.max(hint, size);
+    data.widthHint = max(hint, size);
 
     this.statusButton.setLayoutData(data);
 

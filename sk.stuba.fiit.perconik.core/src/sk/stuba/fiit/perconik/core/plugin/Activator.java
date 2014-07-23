@@ -3,10 +3,6 @@ package sk.stuba.fiit.perconik.core.plugin;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IStartup;
@@ -20,6 +16,10 @@ import sk.stuba.fiit.perconik.osgi.framework.BundleNotFoundException;
 import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
+
+import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -57,7 +57,7 @@ public final class Activator extends ExtendedPlugin {
   }
 
   public static final Set<String> extensionContributors() {
-    Set<String> contributors = Sets.newHashSet();
+    Set<String> contributors = newHashSet();
 
     for (String point: ExtensionPoints.all) {
       for (IConfigurationElement element: Platform.getExtensionRegistry().getConfigurationElementsFor(point)) {
@@ -72,12 +72,12 @@ public final class Activator extends ExtendedPlugin {
     try {
       return Bundles.forNames(extensionContributors());
     } catch (BundleNotFoundException e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
   }
 
   public static final ClassResolver classResolver() {
-    List<ClassResolver> resolvers = Lists.newArrayList();
+    List<ClassResolver> resolvers = newArrayList();
 
     resolvers.add(Bundles.newClassResolver(getDefault().getBundle()));
     resolvers.addAll(Bundles.newClassResolvers(contributingBundles()));

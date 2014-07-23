@@ -3,9 +3,10 @@ package sk.stuba.fiit.perconik.osgi.framework;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 import org.osgi.framework.Version;
+
+import static com.google.common.collect.Lists.newArrayListWithCapacity;
 
 public final class Versions {
   private static final String separator = ".";
@@ -52,7 +53,7 @@ public final class Versions {
   }
 
   public static final String toString(final Version version, final Component ... components) {
-    List<Object> values = Lists.newArrayListWithCapacity(components.length);
+    List<Object> values = newArrayListWithCapacity(components.length);
 
     for (Component component: components) {
       values.add(component.get(version));

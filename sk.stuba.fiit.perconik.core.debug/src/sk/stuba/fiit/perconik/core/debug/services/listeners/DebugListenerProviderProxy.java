@@ -2,8 +2,6 @@ package sk.stuba.fiit.perconik.core.debug.services.listeners;
 
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
 import sk.stuba.fiit.perconik.core.debug.DebugListeners;
@@ -11,13 +9,15 @@ import sk.stuba.fiit.perconik.core.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public final class DebugListenerProviderProxy extends DebugNameableProxy implements DebugListenerProvider {
   private final ListenerProvider provider;
 
   private DebugListenerProviderProxy(final ListenerProvider provider, final DebugConsole console) {
     super(console);
 
-    this.provider = Preconditions.checkNotNull(provider);
+    this.provider = checkNotNull(provider);
   }
 
   public static final DebugListenerProviderProxy wrap(final ListenerProvider provider) {

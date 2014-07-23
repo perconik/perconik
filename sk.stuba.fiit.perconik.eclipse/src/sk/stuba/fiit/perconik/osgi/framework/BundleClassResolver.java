@@ -1,16 +1,16 @@
 package sk.stuba.fiit.perconik.osgi.framework;
 
-import com.google.common.base.Preconditions;
-
 import org.osgi.framework.Bundle;
 
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class BundleClassResolver implements ClassResolver {
   private Bundle bundle;
 
   BundleClassResolver(Bundle loader) {
-    this.bundle = Preconditions.checkNotNull(loader);
+    this.bundle = checkNotNull(loader);
   }
 
   public final Class<?> forName(String name) throws ClassNotFoundException {

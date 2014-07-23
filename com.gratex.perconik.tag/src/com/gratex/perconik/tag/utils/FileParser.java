@@ -9,13 +9,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
+
 import com.gratex.perconik.tag.antlr.TagGrammarLexer;
 import com.gratex.perconik.tag.antlr.TagGrammarParser;
 import com.gratex.perconik.tag.antlr.TagGrammarParser.AttContext;

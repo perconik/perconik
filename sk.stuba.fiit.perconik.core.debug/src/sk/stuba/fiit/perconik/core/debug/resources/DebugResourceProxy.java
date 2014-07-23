@@ -2,8 +2,6 @@ package sk.stuba.fiit.perconik.core.debug.resources;
 
 import java.util.Collection;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.debug.Debug;
@@ -14,6 +12,8 @@ import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.core.debug.annotations.DebugProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @DebugProxy
 public final class DebugResourceProxy<L extends Listener> extends DebugRegistrableProxy implements DebugResource<L> {
   private final Resource<L> resource;
@@ -21,7 +21,7 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
   private DebugResourceProxy(final Resource<L> resource, final DebugConsole console) {
     super(console);
 
-    this.resource = Preconditions.checkNotNull(resource);
+    this.resource = checkNotNull(resource);
   }
 
   public static final <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource) {

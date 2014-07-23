@@ -16,7 +16,6 @@ import java.text.Format;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,15 +33,12 @@ import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.base.Splitter;
 import com.google.common.base.Splitter.MapSplitter;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.ObjectArrays;
 import com.google.common.primitives.Booleans;
@@ -55,12 +51,19 @@ import com.google.common.primitives.UnsignedBytes;
 import com.google.common.primitives.UnsignedInts;
 import com.google.common.primitives.UnsignedLongs;
 
+import static java.lang.Math.max;
+import static java.util.Arrays.asList;
+import static java.util.Arrays.sort;
+
 import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Predicates.notNull;
 import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.asList;
+import static com.google.common.collect.Lists.newArrayList;
 
 public final class SmartStringBuilder implements Appendable, CharSequence, Serializable {
   // TODO rename appendln
@@ -211,7 +214,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
 
     public final Options initialCapacity(int value) {
-      this.initialCapacity = Math.max(value, this.initialValue.length());
+      this.initialCapacity = max(value, this.initialValue.length());
 
       return this;
     }
@@ -219,7 +222,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     public final Options initialValue(@Nullable CharSequence value) {
       value = Objects.toString(value, this.nullValue);
 
-      this.initialCapacity = Math.max(this.initialCapacity, value.length());
+      this.initialCapacity = max(this.initialCapacity, value.length());
       this.initialValue    = value;
 
       return this;
@@ -408,7 +411,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       try {
         method.invoke(options, value);
       } catch (ReflectiveOperationException e) {
-        throw Throwables.propagate(e);
+        throw propagate(e);
       }
     }
 
@@ -420,7 +423,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       try {
         return field.get(options);
       } catch (ReflectiveOperationException e) {
-        throw Throwables.propagate(e);
+        throw propagate(e);
       }
     }
   }
@@ -1553,11 +1556,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest) {
-    return this.list(Lists.asList(first, second, rest));
+    return this.list(asList(first, second, rest));
   }
 
   public final SmartStringBuilder list(Object[] values) {
-    return this.list(Arrays.asList(values));
+    return this.list(asList(values));
   }
 
   public final SmartStringBuilder list(Iterable<?> values) {
@@ -1569,7 +1572,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   public final SmartStringBuilder list(Object[] values, String separator) {
-    return this.list(Arrays.asList(values), separator);
+    return this.list(asList(values), separator);
   }
 
   public final SmartStringBuilder list(Iterable<?> values, String separator) {
@@ -1751,11 +1754,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   //  public final SmartStringBuilder list(Iterator<?> values)
 
   public final SmartStringBuilder listNonNull(Object first, Object second, Object ... rest) {
-    return this.listNonNull(Lists.asList(first, second, rest));
+    return this.listNonNull(asList(first, second, rest));
   }
 
   public final SmartStringBuilder listNonNull(Object[] values) {
-    return this.listNonNull(Arrays.asList(values));
+    return this.listNonNull(asList(values));
   }
 
   public final SmartStringBuilder listNonNull(Iterable<?> values) {
@@ -1763,15 +1766,15 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   public final SmartStringBuilder listNonNull(Iterator<?> values) {
-    return this.filteredList(values, Predicates.notNull());
+    return this.filteredList(values, notNull());
   }
 
   public final SmartStringBuilder listNonEmpty(@Nullable CharSequence first, @Nullable CharSequence second, CharSequence ... rest) {
-    return this.listNonEmpty(Lists.asList(first, second, rest));
+    return this.listNonEmpty(asList(first, second, rest));
   }
 
   public final SmartStringBuilder listNonEmpty(CharSequence[] values) {
-    return this.listNonEmpty(Arrays.asList(values));
+    return this.listNonEmpty(asList(values));
   }
 
   public final SmartStringBuilder listNonEmpty(Iterable<? extends CharSequence> values) {
@@ -1784,11 +1787,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
   @SafeVarargs
   public final <T> SmartStringBuilder filteredList(Predicate<? super T> filter, @Nullable T first, @Nullable T second, T ... rest) {
-    return this.filteredList(Lists.asList(first, second, rest), filter);
+    return this.filteredList(asList(first, second, rest), filter);
   }
 
   public final <T> SmartStringBuilder filteredList(T[] values, Predicate<? super T> filter) {
-    return this.filteredList(Arrays.asList(values), filter);
+    return this.filteredList(asList(values), filter);
   }
 
   public final <T> SmartStringBuilder filteredList(Iterable<T> values, Predicate<? super T> filter) {
@@ -1800,7 +1803,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   private final SmartStringBuilder sortedList(Object[] values) {
-    Arrays.sort(values);
+    sort(values);
 
     this.list(values);
 
@@ -1830,7 +1833,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   public final <T> SmartStringBuilder sortedList(T[] values, Comparator<? super T> comparator) {
-    Arrays.sort(values, comparator);
+    sort(values, comparator);
 
     this.list(values);
 
@@ -2034,7 +2037,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     public final ValueOptions units(Object ... values) {
       checkArgument(values.length > 0);
 
-      this.units = Lists.newArrayList(values);
+      this.units = newArrayList(values);
       this.unit  = -1;
 
       return this;

@@ -8,7 +8,8 @@ import java.util.Set;
 import com.google.common.base.Function;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Maps;
+
+import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 
 abstract class AbstractConstantSupport<P, E extends Enum<E>> implements Serializable {
   private static final long serialVersionUID = -3235429686838483239L;
@@ -26,7 +27,7 @@ abstract class AbstractConstantSupport<P, E extends Enum<E>> implements Serializ
 
     E[] constants = this.type.getEnumConstants();
 
-    Map<P, E> map = Maps.newHashMapWithExpectedSize(constants.length);
+    Map<P, E> map = newHashMapWithExpectedSize(constants.length);
 
     Function<E, P> transformation = this.transformation();
 

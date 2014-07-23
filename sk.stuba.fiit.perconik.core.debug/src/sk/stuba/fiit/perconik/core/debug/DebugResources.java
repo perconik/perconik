@@ -4,9 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
@@ -14,6 +12,9 @@ import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newTreeSet;
 
 public final class DebugResources {
   private DebugResources() {
@@ -49,7 +50,7 @@ public final class DebugResources {
 
     builder.appendln("Registered resources:").tab();
 
-    List<Resource<?>> resources = Lists.newArrayList(Resources.registrations().values());
+    List<Resource<?>> resources = newArrayList(Resources.registrations().values());
 
     if (!resources.isEmpty()) {
       Collections.sort(resources, MoreStrings.toStringComparator());
@@ -71,7 +72,7 @@ public final class DebugResources {
 
     SetMultimap<Class<? extends Listener>, Resource<?>> map = Resources.registrations();
 
-    SortedSet<Class<? extends Listener>> types = Sets.newTreeSet(MoreStrings.toStringComparator());
+    SortedSet<Class<? extends Listener>> types = newTreeSet(MoreStrings.toStringComparator());
 
     types.addAll(map.keySet());
 
@@ -79,7 +80,7 @@ public final class DebugResources {
       for (Class<? extends Listener> type: types) {
         builder.appendln(DebugListeners.toString(type)).tab();
 
-        List<Resource<?>> resources = Lists.newArrayList(map.get(type));
+        List<Resource<?>> resources = newArrayList(map.get(type));
 
         if (!resources.isEmpty()) {
           Collections.sort(resources, MoreStrings.toStringComparator());

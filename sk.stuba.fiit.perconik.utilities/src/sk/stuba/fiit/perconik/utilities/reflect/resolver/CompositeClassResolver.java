@@ -3,11 +3,13 @@ package sk.stuba.fiit.perconik.utilities.reflect.resolver;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Lists.newLinkedList;
 
 final class CompositeClassResolver implements ClassResolver {
   private final List<ClassResolver> resolvers;
@@ -15,11 +17,11 @@ final class CompositeClassResolver implements ClassResolver {
   CompositeClassResolver(Iterable<ClassResolver> resolvers) {
     this.resolvers = ImmutableList.copyOf(resolvers);
 
-    Preconditions.checkArgument(!this.resolvers.isEmpty());
+    checkArgument(!this.resolvers.isEmpty());
   }
 
   public final Class<?> forName(String name) throws ClassNotFoundException {
-    List<Throwable> suppressions = Lists.newLinkedList();
+    List<Throwable> suppressions = newLinkedList();
 
     for (ClassResolver resolver: this.resolvers) {
       try {

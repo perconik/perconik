@@ -2,18 +2,18 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-
 import sk.stuba.fiit.perconik.core.AbstractRegistrable;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 abstract class AbstractResource<L extends Listener> extends AbstractRegistrable implements Resource<L> {
   final String name;
 
   AbstractResource(final String name) {
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+    checkArgument(!isNullOrEmpty(name));
 
     this.name = name;
   }

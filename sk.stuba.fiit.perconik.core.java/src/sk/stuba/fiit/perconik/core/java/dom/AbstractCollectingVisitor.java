@@ -5,10 +5,10 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
-
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+
+import static com.google.common.collect.Lists.newLinkedList;
 
 abstract class AbstractCollectingVisitor<N extends ASTNode, R extends ASTNode> extends ASTVisitor {
   final List<R> result;
@@ -16,7 +16,7 @@ abstract class AbstractCollectingVisitor<N extends ASTNode, R extends ASTNode> e
   AbstractCollectingVisitor() {
     super(true);
 
-    this.result = Lists.newLinkedList();
+    this.result = newLinkedList();
   }
 
   final List<R> perform(@Nullable final N node) {

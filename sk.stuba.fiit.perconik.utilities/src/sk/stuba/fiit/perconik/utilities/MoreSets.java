@@ -10,6 +10,9 @@ import java.util.TreeSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 
+import static com.google.common.collect.Sets.newLinkedHashSet;
+import static com.google.common.collect.Sets.newTreeSet;
+
 /**
  * Static utility methods pertaining to {@code Set} instances.
  *
@@ -51,11 +54,11 @@ public final class MoreSets {
   }
 
   public static final <E> LinkedHashSet<E> toLinkedHashSet(Iterable<E> elements) {
-    return elements instanceof LinkedHashSet ? (LinkedHashSet<E>) elements : Sets.newLinkedHashSet(elements);
+    return elements instanceof LinkedHashSet ? (LinkedHashSet<E>) elements : newLinkedHashSet(elements);
   }
 
   public static final <E extends Comparable<E>> TreeSet<E> toTreeSet(Iterable<E> elements) {
-    return elements instanceof TreeSet ? (TreeSet<E>) elements : Sets.newTreeSet(elements);
+    return elements instanceof TreeSet ? (TreeSet<E>) elements : newTreeSet(elements);
   }
 
   public static final <E extends Enum<E>> EnumSet<E> toEnumSet(Iterable<E> elements) {

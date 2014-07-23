@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.min;
+
 public final class PlatformExecutors {
   private static final int availableProcessorsUpperBound = 32;
 
@@ -17,7 +19,7 @@ public final class PlatformExecutors {
   }
 
   private static final int boundedAvailableProcessors() {
-    return Math.min(Runtime.getRuntime().availableProcessors(), availableProcessorsUpperBound);
+    return min(Runtime.getRuntime().availableProcessors(), availableProcessorsUpperBound);
   }
 
   private static final int maximumPoolSize() {

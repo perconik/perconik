@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
@@ -19,6 +18,8 @@ import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedResourceData;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Markable resource registration with lively updated registration status.
@@ -72,7 +73,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
   public static final Set<ResourcePersistenceData> defaults() {
     ResourceProvider provider = Services.getResourceService().getResourceProvider();
 
-    Set<ResourcePersistenceData> data = Sets.newHashSet();
+    Set<ResourcePersistenceData> data = newHashSet();
 
     for (Class<? extends Listener> type: provider.types()) {
       for (Resource<?> resource: provider.forType(type)) {
@@ -86,7 +87,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
   public static final Set<ResourcePersistenceData> snapshot() {
     ResourceProvider provider = Services.getResourceService().getResourceProvider();
 
-    Set<ResourcePersistenceData> data = Sets.newHashSet();
+    Set<ResourcePersistenceData> data = newHashSet();
 
     for (Class<? extends Listener> type: provider.types()) {
       for (Resource<?> resource: provider.forType(type)) {

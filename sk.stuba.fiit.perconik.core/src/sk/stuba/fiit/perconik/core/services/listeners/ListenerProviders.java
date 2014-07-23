@@ -1,14 +1,15 @@
 package sk.stuba.fiit.perconik.core.services.listeners;
 
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Sets;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider.Builder;
+
+import static java.util.Arrays.asList;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Static utility methods pertaining to {@link ListenerProvider} instances.
@@ -48,13 +49,13 @@ public final class ListenerProviders {
   }
 
   public static final ListenerClassesSupplier merge(final ListenerClassesSupplier ... suppliers) {
-    return merge(Arrays.asList(suppliers));
+    return merge(asList(suppliers));
   }
 
   public static final ListenerClassesSupplier merge(final Iterable<ListenerClassesSupplier> suppliers) {
     return new ListenerClassesSupplier() {
       public final Set<Class<? extends Listener>> get() {
-        Set<Class<? extends Listener>> classes = Sets.newHashSet();
+        Set<Class<? extends Listener>> classes = newHashSet();
 
         for (ListenerClassesSupplier supplier: suppliers) {
           classes.addAll(supplier.get());

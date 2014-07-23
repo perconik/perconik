@@ -2,13 +2,13 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.jdt.junit.JUnitCore;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 enum TestRunHandler implements Handler<TestRunListener> {
   INSTANCE;
@@ -17,7 +17,7 @@ enum TestRunHandler implements Handler<TestRunListener> {
     private final TestRunListener listener;
 
     public TestRunProxy(final TestRunListener listener) {
-      this.listener = Preconditions.checkNotNull(listener);
+      this.listener = checkNotNull(listener);
     }
 
     public final void preRegister() {

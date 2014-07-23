@@ -6,11 +6,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+
+import static com.google.common.collect.Sets.immutableEnumSet;
 
 public final class NodeFilters {
   private NodeFilters() {
@@ -21,11 +22,11 @@ public final class NodeFilters {
     final Set<NodeType> types;
 
     AbstractNodeTypePredicate(final NodeType type, final NodeType ... rest) {
-      this.types = Sets.immutableEnumSet(type, rest);
+      this.types = immutableEnumSet(type, rest);
     }
 
     AbstractNodeTypePredicate(final Iterable<NodeType> types) {
-      this.types = Sets.immutableEnumSet(types);
+      this.types = immutableEnumSet(types);
     }
 
     @Override

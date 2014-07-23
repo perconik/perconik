@@ -2,6 +2,7 @@
 package com.gratex.perconik.services;
 
 import java.util.concurrent.Future;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -11,6 +12,7 @@ import javax.xml.ws.AsyncHandler;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.Response;
 import javax.xml.ws.ResponseWrapper;
+
 import com.gratex.perconik.services.tag.AnonymousGetLineCommentFormatsResponse;
 import com.gratex.perconik.services.tag.AnonymousGetTagProfileResponse;
 import com.gratex.perconik.services.tag.AnonymousSearchTagProfileResponse;

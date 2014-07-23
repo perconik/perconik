@@ -2,11 +2,11 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
 
-import com.google.common.collect.Lists;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
+
+import static com.google.common.collect.Lists.newArrayListWithCapacity;
 
 class StandardResource<L extends Listener> extends AbstractResource<L> {
   final Pool<L> pool;
@@ -31,7 +31,7 @@ class StandardResource<L extends Listener> extends AbstractResource<L> {
 
   public final <U extends Listener> Collection<U> registered(final Class<U> type) {
     Collection<L> listeners = this.pool.toCollection();
-    Collection<U> filtered = Lists.newArrayListWithCapacity(listeners.size());
+    Collection<U> filtered = newArrayListWithCapacity(listeners.size());
 
     for (L listener: listeners) {
       if (type.isInstance(listener)) {

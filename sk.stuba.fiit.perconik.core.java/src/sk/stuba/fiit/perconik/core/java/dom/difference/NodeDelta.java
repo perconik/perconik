@@ -10,6 +10,8 @@ import sk.stuba.fiit.perconik.core.java.dom.Nodes;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
+import static com.google.common.base.Objects.equal;
+
 public abstract class NodeDelta<N extends ASTNode> {
   NodeDelta() {}
 
@@ -25,7 +27,7 @@ public abstract class NodeDelta<N extends ASTNode> {
 
     NodeDelta<?> other = (NodeDelta<?>) o;
 
-    return Objects.equals(this.getOriginalNode(), other.getOriginalNode()) && Objects.equals(this.getRevisedNode(), other.getRevisedNode());
+    return equal(this.getOriginalNode(), other.getOriginalNode()) && equal(this.getRevisedNode(), other.getRevisedNode());
   }
 
   @Override

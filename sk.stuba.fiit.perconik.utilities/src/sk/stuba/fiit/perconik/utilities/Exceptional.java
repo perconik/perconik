@@ -5,7 +5,8 @@ import java.io.Serializable;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class Exceptional<T> implements Serializable {
   private static final long serialVersionUID = 0;
@@ -31,14 +32,14 @@ public abstract class Exceptional<T> implements Serializable {
 
     @Override
     public final T or(T other) {
-      Preconditions.checkNotNull(other);
+      checkNotNull(other);
 
       return this.reference;
     }
 
     @Override
     public final Exceptional<T> or(Exceptional<T> other) {
-      Preconditions.checkNotNull(other);
+      checkNotNull(other);
 
       return this;
     }
@@ -110,12 +111,12 @@ public abstract class Exceptional<T> implements Serializable {
 
     @Override
     public final T or(T other) {
-      return Preconditions.checkNotNull(other);
+      return checkNotNull(other);
     }
 
     @Override
     public final Exceptional<T> or(Exceptional<T> other) {
-      return Preconditions.checkNotNull(other);
+      return checkNotNull(other);
     }
 
     @Override

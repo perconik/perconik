@@ -1,16 +1,12 @@
 package sk.stuba.fiit.perconik.core.plugin;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
 import org.eclipse.core.runtime.CoreException;
@@ -24,6 +20,13 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
 
+import static java.util.Arrays.asList;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.collect.Lists.newArrayListWithCapacity;
+
 abstract class AbstractExtensionProcessor<T> {
   private final ExtendedPlugin plugin;
 
@@ -36,7 +39,7 @@ abstract class AbstractExtensionProcessor<T> {
   private final ListMultimap<Class<?>, Object> extensions;
 
   AbstractExtensionProcessor(final String point, final Set<Class<?>> types) {
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(point));
+    checkArgument(!isNullOrEmpty(point));
 
     this.plugin = Activator.getDefault();
     this.point = point;
@@ -109,7 +112,7 @@ abstract class AbstractExtensionProcessor<T> {
 
     SafeBlock(final Object object) {
       this.processor = AbstractExtensionProcessor.this;
-      this.object = Preconditions.checkNotNull(object);
+      this.object = checkNotNull(object);
     }
 
     public final void execute() {
@@ -129,7 +132,7 @@ abstract class AbstractExtensionProcessor<T> {
     SafeGet(final Object object, final Class<R> type) {
       super(object);
 
-      this.type = Preconditions.checkNotNull(type);
+      this.type = checkNotNull(type);
     }
 
     public final void run() throws Exception {
@@ -151,7 +154,7 @@ abstract class AbstractExtensionProcessor<T> {
   }
 
   final boolean atLeastOneSupplied(final Class<?> ... types) {
-    return this.atLeastOneSupplied(Arrays.asList(types));
+    return this.atLeastOneSupplied(asList(types));
   }
 
   final boolean atLeastOneSupplied(final Iterable<Class<?>> types) {
@@ -189,7 +192,7 @@ abstract class AbstractExtensionProcessor<T> {
   }
 
   private final <E> Class<E> checkType(final Class<E> type) {
-    Preconditions.checkArgument(this.types.contains(type));
+    checkArgument(this.types.contains(type));
 
     return type;
   }
@@ -209,7 +212,7 @@ abstract class AbstractExtensionProcessor<T> {
   final <E> List<E> getExtensions(final Class<E> type) {
     List<?> extensions = this.extensions.get(this.checkType(type));
 
-    List<E> result = Lists.newArrayListWithCapacity(extensions.size());
+    List<E> result = newArrayListWithCapacity(extensions.size());
 
     for (Object extension: extensions) {
       result.add(type.cast(extension));

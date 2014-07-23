@@ -2,10 +2,11 @@ package sk.stuba.fiit.perconik.eclipse.jface.preference;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A forwarding preference store which forwards all its value accessor method
@@ -27,7 +28,7 @@ public final class DefaultPreferenceStore extends ForwardingPreferenceStore {
    * Constructor for use by subclasses.
    */
   private DefaultPreferenceStore(final IPreferenceStore store) {
-    this.store = Preconditions.checkNotNull(store);
+    this.store = checkNotNull(store);
   }
 
   public static final DefaultPreferenceStore of(final IPreferenceStore store) {

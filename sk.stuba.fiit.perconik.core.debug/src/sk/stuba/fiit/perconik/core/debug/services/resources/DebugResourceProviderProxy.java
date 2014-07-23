@@ -2,9 +2,6 @@ package sk.stuba.fiit.perconik.core.debug.services.resources;
 
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.debug.Debug;
@@ -13,13 +10,16 @@ import sk.stuba.fiit.perconik.core.debug.resources.DebugResourceProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
+
 public final class DebugResourceProviderProxy extends DebugNameableProxy implements DebugResourceProvider {
   private final ResourceProvider provider;
 
   private DebugResourceProviderProxy(final ResourceProvider provider, final DebugConsole console) {
     super(console);
 
-    this.provider = Preconditions.checkNotNull(provider);
+    this.provider = checkNotNull(provider);
   }
 
   public static final DebugResourceProviderProxy wrap(final ResourceProvider provider) {
@@ -43,7 +43,7 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
   }
 
   private static final <L extends Listener> Set<Resource<L>> wrap(final Set<Resource<L>> resources) {
-    Set<Resource<L>> proxies = Sets.newHashSetWithExpectedSize(resources.size());
+    Set<Resource<L>> proxies = newHashSetWithExpectedSize(resources.size());
 
     for (Resource<L> resource: resources) {
       proxies.add(DebugResourceProxy.wrap(resource));

@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
@@ -19,6 +18,7 @@ import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Lists.newArrayList;
 
 public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, String> {
   private final Function<N, ? extends Iterable<ASTNode>> collector;
@@ -85,7 +85,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
     }
 
     Iterable<ASTNode> nodes = this.collector.apply(node);
-    List<String> tokens = Lists.newArrayList();
+    List<String> tokens = newArrayList();
 
     for (ASTNode other: nodes) {
       String input = this.transformer.apply(other);

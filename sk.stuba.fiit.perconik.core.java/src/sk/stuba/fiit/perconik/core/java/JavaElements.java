@@ -4,11 +4,11 @@ import java.util.LinkedList;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
+
+import static com.google.common.collect.Lists.newLinkedList;
 
 public final class JavaElements {
   private JavaElements() {
@@ -20,7 +20,7 @@ public final class JavaElements {
   }
 
   public static final LinkedList<IJavaElement> ancestors(@Nullable IJavaElement element) {
-    final LinkedList<IJavaElement> ancestors = Lists.newLinkedList();
+    final LinkedList<IJavaElement> ancestors = newLinkedList();
 
     while (element != null) {
       ancestors.add(element = element.getParent());
@@ -30,7 +30,7 @@ public final class JavaElements {
   }
 
   public static final LinkedList<IJavaElement> downToRoot(@Nullable IJavaElement element) {
-    LinkedList<IJavaElement> branch = Lists.newLinkedList();
+    LinkedList<IJavaElement> branch = newLinkedList();
 
     if (element != null) {
       do {

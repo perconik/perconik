@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -11,13 +10,15 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+
+import static java.util.Arrays.asList;
 
 import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Sets.newHashSet;
 
 public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> implements Predicate<N> {
   static final Mode defaultMode = Mode.INCLUDE;
@@ -59,7 +60,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
 
   @SafeVarargs
   public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Class<? extends R> implementation, final Class<? extends R> ... rest) {
-    return newMulti(ImmutableSet.<Class<? extends R>>builder().add(implementation).addAll(Arrays.asList(rest)).build());
+    return newMulti(ImmutableSet.<Class<? extends R>>builder().add(implementation).addAll(asList(rest)).build());
   }
 
   public static final <N extends ASTNode, R extends ASTNode> NodeClassFilter<N, R> of(final Iterable<Class<? extends R>> implementations) {
@@ -78,7 +79,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
     private final Set<Class<? extends R>> types;
 
     public Builder() {
-      this.types = Sets.newHashSet();
+      this.types = newHashSet();
     }
 
     public final Builder<N, R> include() {

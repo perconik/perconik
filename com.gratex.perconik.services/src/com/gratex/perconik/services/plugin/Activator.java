@@ -1,6 +1,7 @@
 package com.gratex.perconik.services.plugin;
 
 import org.osgi.framework.BundleContext;
+
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 
 /**

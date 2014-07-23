@@ -5,15 +5,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
+
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Sets.newHashSet;
 
 final class StandardResourceManager extends AbstractResourceManager {
   private final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
@@ -28,7 +29,7 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   public final <L extends Listener> void unregisterAll(final Class<L> type) {
-    List<Exception> failures = Lists.newLinkedList();
+    List<Exception> failures = newLinkedList();
 
     for (Entry<Class<? extends L>, Resource<? extends L>> entry: this.assignablesAsSetMultimap(type).entries()) {
       Resource<L> resource = Unsafe.cast(type, entry.getValue());
@@ -46,7 +47,7 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   public final <L extends Listener> Set<Resource<? extends L>> assignables(final Class<L> type) {
-    return Sets.newHashSet(this.assignablesAsSetMultimap(type).values());
+    return newHashSet(this.assignablesAsSetMultimap(type).values());
   }
 
   private final <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignablesAsSetMultimap(final Class<L> type) {
@@ -62,7 +63,7 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   public final <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type) {
-    Set<Resource<? super L>> result = Sets.newHashSet();
+    Set<Resource<? super L>> result = newHashSet();
 
     for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries()) {
       boolean matched = type == entry.getKey();

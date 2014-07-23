@@ -13,10 +13,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
-import com.google.common.base.Throwables;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.propagate;
 
 public final class PathFunctions {
   private PathFunctions() {
@@ -248,7 +248,7 @@ public final class PathFunctions {
       try {
         return (T) path.toRealPath(this.options);
       } catch (IOException e) {
-        throw Throwables.propagate(e);
+        throw propagate(e);
       }
     }
 
@@ -259,7 +259,7 @@ public final class PathFunctions {
         try {
           return path.toRealPath();
         } catch (IOException e) {
-          throw Throwables.propagate(e);
+          throw propagate(e);
         }
       }
 

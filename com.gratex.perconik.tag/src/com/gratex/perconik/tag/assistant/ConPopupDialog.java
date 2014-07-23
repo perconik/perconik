@@ -1,6 +1,7 @@
 package com.gratex.perconik.tag.assistant;
 
 import java.util.ArrayList;
+
 import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
@@ -19,6 +20,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
+
 import com.gratex.perconik.tag.utils.MarkTemplate;
 import com.gratex.perconik.tag.ws.WsTags;
 

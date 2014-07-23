@@ -2,13 +2,13 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
-
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Throwables.propagate;
 
 /**
  * An abstract implementation of {@link ListenerProvider}. This class
@@ -31,7 +31,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
   protected abstract ClassLoader loader();
 
   protected final Class<?> load(final String name) throws ClassNotFoundException {
-    Preconditions.checkArgument(!name.isEmpty());
+    checkArgument(!name.isEmpty());
 
     return this.loader().loadClass(name);
   }
@@ -62,7 +62,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
     try {
       return this.parentOrFailure().forClass(implementation);
     } catch (Exception e) {
-      throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
+      throw propagate(MoreThrowables.initializeSuppressor(e, cause));
     }
   }
 
@@ -70,7 +70,7 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
     try {
       return this.parentOrFailure().loadClass(name);
     } catch (Exception e) {
-      throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
+      throw propagate(MoreThrowables.initializeSuppressor(e, cause));
     }
   }
 }

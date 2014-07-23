@@ -1,14 +1,14 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.Listener;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class StandardHookSupport<H extends Hook<T, L>, T, L extends Listener> extends AbstractHookSupport<H, T, L> {
   private final HookFactory<T, L> factory;
 
   StandardHookSupport(final HookFactory<T, L> factory) {
-    this.factory = Preconditions.checkNotNull(factory);
+    this.factory = checkNotNull(factory);
   }
 
   static final <H extends Hook<T, L>, T, L extends Listener> StandardHookSupport<H, T, L> using(final HookFactory<T, L> factory) {

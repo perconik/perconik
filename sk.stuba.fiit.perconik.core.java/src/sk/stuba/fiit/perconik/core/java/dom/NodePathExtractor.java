@@ -9,7 +9,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
@@ -17,13 +16,15 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public final class NodePathExtractor<N extends ASTNode> implements Function<N, Path> {
   private static final LinkedList<ASTNode> empty = new LinkedList<>();
 
   private final Function<ASTNode, String> transformer;
 
   private NodePathExtractor(final Function<ASTNode, String> transformer) {
-    this.transformer = Preconditions.checkNotNull(transformer);
+    this.transformer = checkNotNull(transformer);
   }
 
   public static final <N extends ASTNode> NodePathExtractor<N> using(final Function<ASTNode, String> strategy) {

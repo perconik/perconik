@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+
 import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfArrayOfKeyValueOfstringRDFDataWYX0VZP7;
 import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfanyType;
 import com.gratex.perconik.services.itm.serialization.arrays.ArrayOfint;

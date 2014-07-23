@@ -1,12 +1,10 @@
 package sk.stuba.fiit.perconik.eclipse.jdt.core.dom;
 
-import java.util.Arrays;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.CaseFormat;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
@@ -98,6 +96,10 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstant;
 import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
+
+import static java.util.Arrays.asList;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * AST node types.
@@ -573,7 +575,7 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
   }
 
   public static final Set<NodeType> setOf(final Iterable<Class<? extends ASTNode>> types) {
-    Set<NodeType> result = Sets.newHashSet();
+    Set<NodeType> result = newHashSet();
 
     for (Class<? extends ASTNode> type: types) {
       result.add(valueOf(type));
@@ -599,7 +601,7 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
   }
 
   public static final boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d, final NodeType ... rest) {
-    return isInstance(node, a, b, c, d) || isInstance(node, Arrays.asList(rest));
+    return isInstance(node, a, b, c, d) || isInstance(node, asList(rest));
   }
 
   public static final boolean isInstance(@Nullable final ASTNode node, final Iterable<NodeType> types) {
@@ -633,7 +635,7 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
   }
 
   public static final boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d, final NodeType ... rest) {
-    return isMatching(node, a, b, c, d) || isMatching(node, Arrays.asList(rest));
+    return isMatching(node, a, b, c, d) || isMatching(node, asList(rest));
   }
 
   public static final boolean isMatching(@Nullable final ASTNode node, final Iterable<NodeType> types) {

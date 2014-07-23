@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -96,6 +95,8 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringExecutionEventType;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
+import static java.util.Arrays.asList;
 
 @SuppressWarnings("restriction")
 public final class Debug {
@@ -395,7 +396,7 @@ public final class Debug {
 
     builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-    builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+    builder.append("flags: ").list(flags.isEmpty() ? asList("none") : flags).appendln();
 
     builder.append("start position: ").appendln(startPosition);
     builder.append("length: ").appendln(length);
@@ -438,8 +439,8 @@ public final class Debug {
 
     builder.append("data: ").appendln(data);
 
-    builder.append("kinds: ").list(kinds.isEmpty() ? Arrays.asList("none") : kinds).appendln();
-    builder.append("details: ").list(details.isEmpty() ? Arrays.asList("none") : details).appendln();
+    builder.append("kinds: ").list(kinds.isEmpty() ? asList("none") : kinds).appendln();
+    builder.append("details: ").list(details.isEmpty() ? asList("none") : details).appendln();
 
     builder.append("evaluation: ").appendln(evaluation);
     builder.append("step start: ").appendln(stepStart);
@@ -698,7 +699,7 @@ public final class Debug {
     IJavaElement element = delta.getElement();
 
     builder.append("kind: ").appendln(kind);
-    builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+    builder.append("flags: ").list(flags.isEmpty() ? asList("none") : flags).appendln();
 
     builder.appendln("unit:").lines(unit == null ? missing() : dumpCompliationUnit(unit));
     builder.appendln("element:").lines(element == null ? missing() : dumpJavaElement(element));
@@ -762,7 +763,7 @@ public final class Debug {
     builder.append("name: ").appendln(name);
     builder.append("category: ").appendln(category);
     builder.appendln("type:").lines(dumpLaunchConfigurationType(type));
-    builder.append("modes: ").list(modes.isEmpty() ? Arrays.asList("none") : modes).appendln();
+    builder.append("modes: ").list(modes.isEmpty() ? asList("none") : modes).appendln();
 
     if (file != null) {
       builder.append("full path: ").appendln(file.getFullPath());
@@ -1061,7 +1062,7 @@ public final class Debug {
     IResource resource = delta.getResource();
 
     builder.append("kind: ").appendln(kind);
-    builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+    builder.append("flags: ").list(flags.isEmpty() ? asList("none") : flags).appendln();
 
     builder.appendln("resource:").lines(dumpResource(resource));
 
@@ -1153,7 +1154,7 @@ public final class Debug {
     Throwable throwable = status.getException();
 
     builder.append("code: ").appendln(code);
-    builder.append("severity: ").list(severity.isEmpty() ? Arrays.asList("unknown") : severity).appendln();
+    builder.append("severity: ").list(severity.isEmpty() ? asList("unknown") : severity).appendln();
 
     builder.append("plugin: ").appendln(plugin);
     builder.append("message: ").appendln(message);

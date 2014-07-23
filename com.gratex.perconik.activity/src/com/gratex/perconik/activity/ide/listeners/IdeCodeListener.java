@@ -1,6 +1,5 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Set;
@@ -9,9 +8,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.concurrent.GuardedBy;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -45,8 +42,12 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
+import static java.util.Arrays.asList;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.newLinkedList;
 
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
@@ -197,7 +198,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
           data.end.offset = 0;
         }
       } catch (BadLocationException e) {
-        throw Throwables.propagate(e);
+        throw propagate(e);
       }
 
       data.text = text;
@@ -237,7 +238,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     public final String call() {
       Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 
-      if (Collections.disjoint(supportedTypeNames, Arrays.asList(clipboard.getAvailableTypeNames()))) {
+      if (Collections.disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
         if (Log.enabled())
           Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
 
@@ -352,7 +353,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     try {
       selection = document.get(offset, length);
     } catch (BadLocationException e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
 
     if (operation == COPY && region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection))) {
@@ -457,7 +458,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   private final void startWatchAndClearSelectionEvents() {
     assert !this.watch.isRunning() && this.continuousSelections == null;
 
-    this.continuousSelections = Lists.newLinkedList();
+    this.continuousSelections = newLinkedList();
 
     this.watch.reset().start();
   }

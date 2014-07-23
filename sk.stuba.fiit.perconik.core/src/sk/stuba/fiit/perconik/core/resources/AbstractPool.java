@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 abstract class AbstractPool<T> implements Pool<T> {
   final Collection<T> objects;
@@ -10,8 +10,8 @@ abstract class AbstractPool<T> implements Pool<T> {
   final Handler<T> handler;
 
   AbstractPool(final Collection<T> implementation, final Handler<T> handler) {
-    this.objects = Preconditions.checkNotNull(implementation);
-    this.handler = Preconditions.checkNotNull(handler);
+    this.objects = checkNotNull(implementation);
+    this.handler = checkNotNull(handler);
   }
 
   public final void add(final T object) {

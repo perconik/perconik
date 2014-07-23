@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.core.debug.services.resources;
 
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
 import sk.stuba.fiit.perconik.core.Listener;
@@ -14,13 +13,15 @@ import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public final class DebugResourceManagerProxy extends DebugNameableProxy implements DebugResourceManager {
   private final ResourceManager manager;
 
   private DebugResourceManagerProxy(final ResourceManager manager, final DebugConsole console) {
     super(console);
 
-    this.manager = Preconditions.checkNotNull(manager);
+    this.manager = checkNotNull(manager);
   }
 
   public static final DebugResourceManagerProxy wrap(final ResourceManager manager) {

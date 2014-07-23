@@ -2,14 +2,14 @@ package sk.stuba.fiit.perconik.core.debug.runtime;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.core.runtime.Plugin;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class DebugConsole implements PluginConsole {
   private static final int MAX_BUFFER_SIZE = 8192;
@@ -22,7 +22,7 @@ public final class DebugConsole implements PluginConsole {
 
   private DebugConsole(final PluginConsole console) {
     this.enabled = Environment.debug;
-    this.console = Preconditions.checkNotNull(console);
+    this.console = checkNotNull(console);
     this.builder = new SmartStringBuilder();
   }
 

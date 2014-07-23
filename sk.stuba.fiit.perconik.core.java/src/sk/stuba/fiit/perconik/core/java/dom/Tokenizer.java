@@ -1,23 +1,25 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
-
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 
 import uk.ac.open.crc.intt.IdentifierNameTokeniser;
 import uk.ac.open.crc.intt.IdentifierNameTokeniserFactory;
 
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 
+import static java.util.Arrays.asList;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 public abstract class Tokenizer implements ListCollector<String, String> {
   private final IdentifierNameTokeniser tokenizer;
 
   Tokenizer(final IdentifierNameTokeniser tokenizer) {
-    this.tokenizer = Preconditions.checkNotNull(tokenizer);
+    this.tokenizer = checkNotNull(tokenizer);
   }
 
   public static final Tokenizer create(final IdentifierNameTokeniser tokenizer) {
@@ -38,7 +40,7 @@ public abstract class Tokenizer implements ListCollector<String, String> {
     Known(final String settings, final IdentifierNameTokeniser tokenizer) {
       super(tokenizer);
 
-      Preconditions.checkArgument(!Strings.isNullOrEmpty(settings));
+      checkArgument(!isNullOrEmpty(settings));
 
       this.settings = settings;
     }
@@ -61,7 +63,7 @@ public abstract class Tokenizer implements ListCollector<String, String> {
   }
 
   public final List<String> apply(final String input) {
-    return Arrays.asList(this.tokenizer.tokenise(input));
+    return asList(this.tokenizer.tokenise(input));
   }
 
   @Override

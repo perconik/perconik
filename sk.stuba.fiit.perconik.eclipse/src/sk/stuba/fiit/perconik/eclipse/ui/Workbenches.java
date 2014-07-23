@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.eclipse.ui;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 
 import org.eclipse.ui.IWorkbench;
@@ -13,6 +12,8 @@ import org.eclipse.ui.PlatformUI;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.plugin.Activator;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to Eclipse workbench.
@@ -191,7 +192,7 @@ public final class Workbenches {
    * @see #getActiveWindow(IWorkbench)
    */
   public static final IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench) {
-    Preconditions.checkNotNull(workbench);
+    checkNotNull(workbench);
 
     IWorkbenchWindow window;
 
@@ -216,7 +217,7 @@ public final class Workbenches {
    * @see #getActivePage(IWorkbenchWindow)
    */
   public static final IWorkbenchPage waitForActivePage(final IWorkbenchWindow window) {
-    Preconditions.checkNotNull(window);
+    checkNotNull(window);
 
     IWorkbenchPage page;
 
@@ -241,7 +242,7 @@ public final class Workbenches {
    * @see #getActivePart(IWorkbenchPage)
    */
   public static final IWorkbenchPart waitForActivePart(final IWorkbenchPage page) {
-    Preconditions.checkNotNull(page);
+    checkNotNull(page);
 
     IWorkbenchPart part;
 

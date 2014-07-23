@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
 import sk.stuba.fiit.perconik.core.services.Services;
@@ -16,6 +15,8 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
+import static com.google.common.collect.Lists.newLinkedList;
 
 /**
  * Static accessor methods pertaining to the resources core. 
@@ -61,7 +62,7 @@ public final class Resources {
   }
 
   public static final <L extends Listener> void registerAll(final Class<L> type, Iterable<Resource<? super L>> resources) {
-    List<Exception> failures = Lists.newLinkedList();
+    List<Exception> failures = newLinkedList();
 
     ResourceManager manager = manager();
 
@@ -79,7 +80,7 @@ public final class Resources {
   }
 
   public static final void registerAll(final ResourceNamesSupplier supplier) {
-    List<Exception> failures = Lists.newLinkedList();
+    List<Exception> failures = newLinkedList();
 
     for (Entry<Class<? extends Listener>, Collection<String>> entry: supplier.get().asMap().entrySet()) {
       registerAllByNames(entry.getKey(), entry.getValue(), failures);

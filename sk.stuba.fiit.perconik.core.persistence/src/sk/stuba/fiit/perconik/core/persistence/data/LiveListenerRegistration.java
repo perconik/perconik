@@ -2,10 +2,10 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.util.Set;
 
-import com.google.common.collect.Sets;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Standard listener registration with lively updated registration status.
@@ -39,7 +39,7 @@ public class LiveListenerRegistration extends AbstractListenerRegistration {
   }
 
   public static final Set<LiveListenerRegistration> snapshot() {
-    Set<LiveListenerRegistration> data = Sets.newHashSet();
+    Set<LiveListenerRegistration> data = newHashSet();
 
     for (Listener listener: Listeners.registrations().values()) {
       data.add(of(listener));

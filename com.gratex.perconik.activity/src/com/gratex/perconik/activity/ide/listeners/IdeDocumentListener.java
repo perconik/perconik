@@ -2,7 +2,6 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import java.io.IOException;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -51,6 +50,8 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 import static java.util.Arrays.asList;
+
+import static com.google.common.base.Objects.equal;
 
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
@@ -209,7 +210,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
         IPath path = delta.getMovedToPath();
         IPath other = resource.getFullPath();
 
-        if (path != null && other != null && !Objects.equals(path.lastSegment(), other.lastSegment())) {
+        if (path != null && other != null && !equal(path.lastSegment(), other.lastSegment())) {
           this.operations.put(IdeDocumentEventType.RENAME, (IFile) resource);
 
           return false;

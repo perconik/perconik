@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.TreeTraverser;
 
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -19,6 +18,8 @@ import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.core.java.dom.traverse.CachedTraverser;
 
 import static java.lang.System.out;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public class TreeTraverserExample {
   public static void main(String[] args) throws IOException {
@@ -37,9 +38,9 @@ public class TreeTraverserExample {
     out.println(Nodes.descendants(n).size() + " descendants");
     out.println();
 
-    List<ASTNode> pr = Lists.newArrayList(t.preOrderTraversal(n));
-    List<ASTNode> po = Lists.newArrayList(t.postOrderTraversal(n));
-    List<ASTNode> br = Lists.newArrayList(t.breadthFirstTraversal(n));
+    List<ASTNode> pr = newArrayList(t.preOrderTraversal(n));
+    List<ASTNode> po = newArrayList(t.postOrderTraversal(n));
+    List<ASTNode> br = newArrayList(t.breadthFirstTraversal(n));
 
     NodePathExtractor<ASTNode> e = NodePaths.typePathExtractor();
 

@@ -3,10 +3,11 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class NodeTransformers {
   private NodeTransformers() {
@@ -47,7 +48,7 @@ public final class NodeTransformers {
     final Predicate<ASTNode> predicate;
 
     InternalFunction(final Predicate<ASTNode> predicate) {
-      this.predicate = Preconditions.checkNotNull(predicate);
+      this.predicate = checkNotNull(predicate);
     }
 
     @Override

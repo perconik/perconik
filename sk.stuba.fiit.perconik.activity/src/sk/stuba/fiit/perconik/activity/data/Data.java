@@ -5,12 +5,12 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Maps;
-
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
+
+import static com.google.common.collect.Maps.newTreeMap;
 
 public class Data implements Content {
   static final JavaType type = TypeFactory.defaultInstance().constructMapType(LinkedHashMap.class, String.class, Object.class);
@@ -56,7 +56,7 @@ public class Data implements Content {
       return this.toMap();
     }
 
-    Map<String, Object> map = Maps.newTreeMap();
+    Map<String, Object> map = newTreeMap();
 
     map.putAll(this.toMap());
 

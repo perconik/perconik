@@ -4,13 +4,13 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class DelegatedAnnotable implements Annotable {
   private final AnnotatedElement element;
 
   DelegatedAnnotable(AnnotatedElement element) {
-    this.element = Preconditions.checkNotNull(element);
+    this.element = checkNotNull(element);
   }
 
   public final boolean hasAnnotation(Class<? extends Annotation> type) {

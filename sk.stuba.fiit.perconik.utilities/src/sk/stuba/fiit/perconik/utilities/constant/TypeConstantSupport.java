@@ -7,7 +7,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> extends AbstractConstantSupport<Class<? extends T>, E> {
   private static final long serialVersionUID = -2957728433673208288L;
@@ -63,7 +64,7 @@ public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> e
   public final E getConstant(final Class<? extends T> type) {
     E constant = this.map.get(type);
 
-    Preconditions.checkArgument(constant != null, "Constant for type %s not found", type.getName());
+    checkArgument(constant != null, "Constant for type %s not found", type.getName());
 
     return constant;
   }

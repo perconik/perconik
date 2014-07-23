@@ -7,9 +7,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
-
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LogCommand;
@@ -23,6 +20,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import sk.stuba.fiit.perconik.utilities.io.MorePaths;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.newLinkedList;
 
 /**
  * Static utility methods pertaining to Git repositories.
@@ -39,7 +38,7 @@ public final class GitRepositories {
     try {
       return command.call();
     } catch (Exception e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
   }
 
@@ -47,7 +46,7 @@ public final class GitRepositories {
     try {
       return command.all().call();
     } catch (Exception e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
   }
 
@@ -57,7 +56,7 @@ public final class GitRepositories {
     } catch (NoSuchElementException e) {
       return null;
     } catch (Exception e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
   }
 
@@ -85,7 +84,7 @@ public final class GitRepositories {
     try {
       return repository.getBranch();
     } catch (Exception e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
   }
 
@@ -103,7 +102,7 @@ public final class GitRepositories {
 
     checkState(leaf.startsWith(root));
 
-    List<Path> paths = Lists.newLinkedList();
+    List<Path> paths = newLinkedList();
 
     for (Path other: MorePaths.downToRoot(path)) {
       if (other.equals(root)) {
@@ -133,7 +132,7 @@ public final class GitRepositories {
       try {
         node.parse(Files.newInputStream(ignore));
       } catch (IOException e) {
-        Throwables.propagate(e);
+        propagate(e);
       }
     }
 
@@ -145,7 +144,7 @@ public final class GitRepositories {
   }
 
   public static final List<IgnoreNode> getIgnoreNodes(final Repository repository, final Path path) {
-    List<IgnoreNode> nodes = Lists.newLinkedList();
+    List<IgnoreNode> nodes = newLinkedList();
 
     for (Path ignore: getIgnoreFiles(repository, path)) {
       nodes.add(getIgnoreNode(ignore));

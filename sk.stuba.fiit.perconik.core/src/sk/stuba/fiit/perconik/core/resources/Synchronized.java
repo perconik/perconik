@@ -7,11 +7,11 @@ import java.util.Collection;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Resource;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 class Synchronized {
   private Synchronized() {
@@ -26,7 +26,7 @@ class Synchronized {
     final Object mutex;
 
     SynchronizedObject(final T delegate, final Object mutex) {
-      this.delegate = Preconditions.checkNotNull(delegate);
+      this.delegate = checkNotNull(delegate);
       this.mutex = (mutex == null) ? this : mutex;
     }
 

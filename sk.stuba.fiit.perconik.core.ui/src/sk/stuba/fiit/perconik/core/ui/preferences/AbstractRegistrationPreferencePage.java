@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -48,6 +47,9 @@ import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Sets.newHashSet;
 
 abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage {
   private P preferences;
@@ -391,7 +393,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   }
 
   void performRefresh() {
-    for (R registration: Sets.newHashSet(this.registrations)) {
+    for (R registration: newHashSet(this.registrations)) {
       this.updateData(registration, registration.isRegistered());
     }
   }
@@ -470,7 +472,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   }
 
   final void setPreferences(final P preferences) {
-    this.preferences = Preconditions.checkNotNull(preferences);
+    this.preferences = checkNotNull(preferences);
   }
 
   final P getPreferences() {

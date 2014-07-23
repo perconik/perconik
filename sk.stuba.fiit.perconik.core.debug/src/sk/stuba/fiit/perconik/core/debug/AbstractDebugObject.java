@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.core.debug;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractDebugObject implements DebugObject {
   private final DebugConsole console;
@@ -12,7 +12,7 @@ public abstract class AbstractDebugObject implements DebugObject {
   }
 
   protected AbstractDebugObject(final DebugConsole console) {
-    this.console = Preconditions.checkNotNull(console);
+    this.console = checkNotNull(console);
   }
 
   protected final void tab() {

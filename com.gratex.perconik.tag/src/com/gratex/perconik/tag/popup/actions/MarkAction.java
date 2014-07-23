@@ -1,31 +1,18 @@
 package com.gratex.perconik.tag.popup.actions;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.ui.IEditorActionDelegate;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
-
-
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IEditorActionDelegate;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.jdt.ui.IWorkingCopyManager;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.ASTParser;
-import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.ui.JavaUI;
+
 import com.gratex.perconik.tag.assistant.ConPopupDialog;
 import com.gratex.perconik.tag.plugin.Activator;
-import com.gratex.perconik.tag.utils.MarkTemplate;
 
 public class MarkAction implements IEditorActionDelegate {
 	

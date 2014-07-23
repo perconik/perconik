@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 
+import static java.lang.Math.max;
+
 public final class Buttons {
   private Buttons() {
     throw new AssertionError();
@@ -42,6 +44,6 @@ public final class Buttons {
 
     int width = new PixelConverter(button).convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
 
-    return Math.max(width, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
+    return max(width, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
   }
 }

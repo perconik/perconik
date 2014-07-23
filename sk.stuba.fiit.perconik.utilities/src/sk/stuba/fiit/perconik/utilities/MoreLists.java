@@ -1,11 +1,13 @@
 package sk.stuba.fiit.perconik.utilities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import static java.util.Arrays.asList;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
 
 /**
  * Static utility methods pertaining to {@code List} instances.
@@ -23,18 +25,18 @@ public final class MoreLists {
       return (List<?>) object;
     }
 
-    return Arrays.asList(MoreArrays.wrap(object));
+    return asList(MoreArrays.wrap(object));
   }
 
   public static final <E> List<E> toList(Iterable<E> elements) {
-    return elements instanceof List ? (List<E>) elements : Lists.newArrayList(elements);
+    return elements instanceof List ? (List<E>) elements : newArrayList(elements);
   }
 
   public static final <E> ArrayList<E> toArrayList(Iterable<E> elements) {
-    return elements instanceof ArrayList ? (ArrayList<E>) elements : Lists.newArrayList(elements);
+    return elements instanceof ArrayList ? (ArrayList<E>) elements : newArrayList(elements);
   }
 
   public static final <E> LinkedList<E> toLinkedList(Iterable<E> elements) {
-    return elements instanceof LinkedList ? (LinkedList<E>) elements : Lists.newLinkedList(elements);
+    return elements instanceof LinkedList ? (LinkedList<E>) elements : newLinkedList(elements);
   }
 }

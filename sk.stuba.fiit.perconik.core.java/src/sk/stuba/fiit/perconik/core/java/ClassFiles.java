@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.core.java;
 import java.util.LinkedList;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -13,13 +12,15 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 
 import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 
+import static com.google.common.collect.Lists.newLinkedList;
+
 public final class ClassFiles {
   private ClassFiles() {
     throw new AssertionError();
   }
 
   public static final IPath path(final IClassFile file) {
-    LinkedList<String> segments = Lists.newLinkedList();
+    LinkedList<String> segments = newLinkedList();
 
     IJavaElement element = file;
 

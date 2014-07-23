@@ -4,10 +4,10 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public class AnnotationData extends AnyStructuredData {
   protected Class<? extends Annotation> type;
@@ -33,7 +33,7 @@ public class AnnotationData extends AnyStructuredData {
   }
 
   public static List<AnnotationData> of(Iterable<Annotation> annotations) {
-    List<AnnotationData> data = Lists.newArrayList();
+    List<AnnotationData> data = newArrayList();
 
     for (Annotation annotation: annotations) {
       data.add(new AnnotationData(annotation));

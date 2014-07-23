@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.core.java;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -12,13 +10,15 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 
+import static com.google.common.base.Preconditions.checkState;
+
 public final class JavaProjects {
   private JavaProjects() {
     throw new AssertionError();
   }
 
   public static final IJavaProject create(final IProject project) {
-    Preconditions.checkState(isJavaProject(project));
+    checkState(isJavaProject(project));
 
     return JavaCore.create(project);
   }

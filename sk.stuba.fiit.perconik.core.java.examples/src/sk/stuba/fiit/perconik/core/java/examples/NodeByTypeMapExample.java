@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -19,6 +18,8 @@ import sk.stuba.fiit.perconik.utilities.MoreStrings;
 
 import static java.lang.System.out;
 
+import static com.google.common.collect.Sets.newTreeSet;
+
 public class NodeByTypeMapExample {
   public static void main(String[] args) throws Exception {
     CompilationUnit unit = (CompilationUnit) TreeParsers.parse(Paths.get("fixtures/HashMap.java"));
@@ -27,7 +28,7 @@ public class NodeByTypeMapExample {
 
     Multimap<NodeType, ASTNode> m = d.apply(unit);
 
-    Set<NodeType> k = Sets.newTreeSet(MoreStrings.toStringComparator());
+    Set<NodeType> k = newTreeSet(MoreStrings.toStringComparator());
 
     k.addAll(m.keySet());
 
@@ -49,7 +50,7 @@ public class NodeByTypeMapExample {
 
     m = d.apply(method);
 
-    k = Sets.newTreeSet(MoreStrings.toStringComparator());
+    k = newTreeSet(MoreStrings.toStringComparator());
 
     k.addAll(m.keySet());
 

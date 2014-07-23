@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.activity.data.eclipse;
 
-import java.util.Arrays;
-
 import org.eclipse.core.runtime.Platform;
+
+import static java.util.Arrays.asList;
 
 import static sk.stuba.fiit.perconik.activity.data.eclipse.Utilities.urlOrNull;
 
@@ -14,8 +14,8 @@ public class StandardPlatformProbe implements PlatformProbe {
 
     data.setProduct(ProductData.of(Platform.getProduct()));
 
-    data.setApplicationArguments(Arrays.asList(Platform.getApplicationArgs()));
-    data.setCommandLineArguments(Arrays.asList(Platform.getCommandLineArgs()));
+    data.setApplicationArguments(asList(Platform.getApplicationArgs()));
+    data.setCommandLineArguments(asList(Platform.getCommandLineArgs()));
 
     data.setConfigurationLocation(urlOrNull(Platform.getConfigurationLocation()));
     data.setInstallLocation(urlOrNull(Platform.getInstallLocation()));

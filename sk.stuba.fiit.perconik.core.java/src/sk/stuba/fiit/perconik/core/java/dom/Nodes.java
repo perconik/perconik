@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.ITypeRoot;
@@ -23,6 +22,8 @@ import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
 import sk.stuba.fiit.perconik.core.java.dom.compatibility.TreeCompatibility;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
+
+import static com.google.common.collect.Lists.newLinkedList;
 
 // TODO add more helpers from org.eclipse.jdt.internal.corext.dom.ASTNodes
 
@@ -99,7 +100,7 @@ public final class Nodes {
   }
 
   public static final LinkedList<ASTNode> children(@Nullable final ASTNode node) {
-    final LinkedList<ASTNode> children = Lists.newLinkedList();
+    final LinkedList<ASTNode> children = newLinkedList();
 
     ASTVisitor visitor = new ASTVisitor(true) {
       @Override
@@ -122,7 +123,7 @@ public final class Nodes {
   }
 
   public static final LinkedList<ASTNode> ancestors(@Nullable ASTNode node) {
-    final LinkedList<ASTNode> ancestors = Lists.newLinkedList();
+    final LinkedList<ASTNode> ancestors = newLinkedList();
 
     while (node != null) {
       ancestors.add(node = node.getParent());
@@ -132,7 +133,7 @@ public final class Nodes {
   }
 
   public static final LinkedList<ASTNode> descendants(@Nullable ASTNode node) {
-    final LinkedList<ASTNode> descendants = Lists.newLinkedList();
+    final LinkedList<ASTNode> descendants = newLinkedList();
 
     if (node == null) {
       return descendants;
@@ -151,7 +152,7 @@ public final class Nodes {
   }
 
   public static final LinkedList<ASTNode> downToRoot(@Nullable ASTNode node) {
-    LinkedList<ASTNode> branch = Lists.newLinkedList();
+    LinkedList<ASTNode> branch = newLinkedList();
 
     if (node != null) {
       do {

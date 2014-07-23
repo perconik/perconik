@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
 import sk.stuba.fiit.perconik.core.Listener;
@@ -9,6 +8,8 @@ import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
 import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An abstract implementation of {@link ResourceManager}. This class
@@ -33,7 +34,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
       throw new IllegalArgumentException(type.getName() + " is not assignable to " + Listener.class.getName());
     }
 
-    Preconditions.checkNotNull(resource);
+    checkNotNull(resource);
   }
 
   public final <L extends Listener> void register(final Class<L> type, final Resource<? super L> resource) {

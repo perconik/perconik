@@ -3,21 +3,20 @@ package sk.stuba.fiit.perconik.eclipse.core.commands;
 import java.util.Collection;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newLinkedHashMap;
 
 public abstract class ActivatableHandler extends AbstractHandler {
   private Map<String, IHandlerActivation> activations;
 
   protected ActivatableHandler() {
-    this.activations = Maps.newLinkedHashMap();
+    this.activations = newLinkedHashMap();
   }
 
   public final IHandlerActivation activate(final String identifier) {
@@ -69,6 +68,6 @@ public abstract class ActivatableHandler extends AbstractHandler {
   }
 
   public final Collection<IHandlerActivation> getActivations() {
-    return Lists.newArrayList(this.activations.values());
+    return newArrayList(this.activations.values());
   }
 }

@@ -3,19 +3,19 @@ package sk.stuba.fiit.perconik.core.debug.resources;
 import java.util.Collection;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugResource;
 import sk.stuba.fiit.perconik.core.debug.DebugListener;
 import sk.stuba.fiit.perconik.core.debug.annotations.DebugImplementation;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newConcurrentHashSet;
+
 @DebugImplementation
 public final class DebugListenerPool extends AbstractDebugResource<DebugListener> {
   private static final DebugListenerPool instance = new DebugListenerPool();
 
-  private final Set<DebugListener> pool = Sets.newConcurrentHashSet();
+  private final Set<DebugListener> pool = newConcurrentHashSet();
 
   private DebugListenerPool() {}
 
@@ -32,7 +32,7 @@ public final class DebugListenerPool extends AbstractDebugResource<DebugListener
   }
 
   public final <U extends Listener> Collection<U> registered(final Class<U> type) {
-    Collection<U> result = Lists.newArrayList();
+    Collection<U> result = newArrayList();
 
     for (DebugListener listener: this.pool) {
       if (type.isInstance(listener)) {

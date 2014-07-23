@@ -2,6 +2,7 @@ package com.gratex.perconik.tag.prefs;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.utils.MarkTemplate;
 

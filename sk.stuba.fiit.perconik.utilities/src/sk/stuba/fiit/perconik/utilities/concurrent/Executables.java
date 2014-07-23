@@ -4,11 +4,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 import com.google.common.base.Supplier;
-import com.google.common.base.Throwables;
 
 import sk.stuba.fiit.perconik.utilities.MoreSuppliers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.propagate;
 
 public final class Executables {
   private Executables() {
@@ -44,7 +44,7 @@ public final class Executables {
 
     final V getUnchecked() {
       if (this.failure != null) {
-        throw Throwables.propagate(this.failure);
+        throw propagate(this.failure);
       }
 
       return this.result;

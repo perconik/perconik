@@ -10,9 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-
 import sk.stuba.fiit.perconik.core.annotations.Experimental;
 import sk.stuba.fiit.perconik.core.annotations.Internal;
 import sk.stuba.fiit.perconik.core.annotations.Persistent;
@@ -24,9 +21,13 @@ import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
+import static com.google.common.base.Objects.equal;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
- * Static helper methods pertaining to the core registrables. 
- * 
+ * Static helper methods pertaining to the core registrables.
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -56,7 +57,7 @@ public final class Registrables {
       if (member.equals("equals") && parameters.length == 1 && parameters[0] == Object.class) {
         Object o = args[0];
 
-        return (o == this) || (o instanceof Version && Objects.equals(this.value, ((Version) o).value()));
+        return (o == this) || (o instanceof Version && equal(this.value, ((Version) o).value()));
       }
 
       switch (member) {
@@ -83,7 +84,7 @@ public final class Registrables {
   private static final <R extends Registrable> Version version(final Class<R> type) {
     String value = Bundles.forClass(type).getVersion().toString();
 
-    if (Strings.isNullOrEmpty(value)) {
+    if (isNullOrEmpty(value)) {
       throw new IllegalArgumentException();
     }
 
@@ -95,7 +96,7 @@ public final class Registrables {
 
     types.addFirst(type);
 
-    List<Annotation> annotations = Lists.newArrayList(Annotations.ofClasses(types));
+    List<Annotation> annotations = newArrayList(Annotations.ofClasses(types));
 
     if (Serializable.class.isAssignableFrom(type)) {
       annotations.add(persistent);

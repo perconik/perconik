@@ -3,8 +3,6 @@ package sk.stuba.fiit.perconik.activity.data.eclipse;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Version;
@@ -12,6 +10,8 @@ import org.osgi.framework.Version;
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.osgi.framework.BundleState;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public class BundleData extends AnyStructuredData {
   protected long identifier;
@@ -68,7 +68,7 @@ public class BundleData extends AnyStructuredData {
   }
 
   public static List<BundleData> of(Iterable<Bundle> bundles) {
-    List<BundleData> data = Lists.newArrayList();
+    List<BundleData> data = newArrayList();
 
     for (Bundle bundle: bundles) {
       data.add(new BundleData(bundle));

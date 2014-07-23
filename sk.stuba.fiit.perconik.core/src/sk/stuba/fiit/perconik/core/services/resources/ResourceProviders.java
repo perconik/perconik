@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import java.util.Arrays;
-
 import javax.annotation.Nullable;
 
 import com.google.common.collect.HashMultimap;
@@ -10,6 +8,8 @@ import com.google.common.collect.SetMultimap;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider.Builder;
+
+import static java.util.Arrays.asList;
 
 /**
  * Static utility methods pertaining to {@link ResourceProvider} instances.
@@ -49,7 +49,7 @@ public final class ResourceProviders {
   }
 
   public static final ResourceNamesSupplier merge(final ResourceNamesSupplier ... suppliers) {
-    return merge(Arrays.asList(suppliers));
+    return merge(asList(suppliers));
   }
 
   public static final ResourceNamesSupplier merge(final Iterable<ResourceNamesSupplier> suppliers) {

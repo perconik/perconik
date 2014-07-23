@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.utilities;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -8,6 +7,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+
+import static java.util.Arrays.asList;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -81,7 +82,7 @@ public final class MoreStrings {
   }
 
   public static final List<String> lines(String s) {
-    return Arrays.asList(s.split(lineSeparatorRegex));
+    return asList(s.split(lineSeparatorRegex));
   }
 
   public static final String toDefaultString(Object o) {

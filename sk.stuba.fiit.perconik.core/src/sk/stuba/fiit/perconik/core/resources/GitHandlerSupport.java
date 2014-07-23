@@ -2,12 +2,12 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Map;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.events.RepositoryListener;
 import org.eclipse.jgit.lib.Repository;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.newHashMap;
 
 final class GitHandlerSupport<L extends RepositoryListener> {
   private final Class<L> type;
@@ -15,8 +15,8 @@ final class GitHandlerSupport<L extends RepositoryListener> {
   private final Map<L, ListenerHandle> map;
 
   GitHandlerSupport(final Class<L> type) {
-    this.type = Preconditions.checkNotNull(type);
-    this.map = Maps.newHashMap();
+    this.type = checkNotNull(type);
+    this.map = newHashMap();
   }
 
   public final void register(final L listener) {

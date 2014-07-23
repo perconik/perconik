@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.annotation.concurrent.GuardedBy;
 
-import com.google.common.collect.Maps;
-
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -19,6 +17,7 @@ import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Maps.newHashMap;
 
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
@@ -63,7 +62,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
   private final Map<File, Map<String, String>> cache;
 
   public IdeCommitListener() {
-    this.cache = Maps.newHashMap();
+    this.cache = newHashMap();
   }
 
   private final boolean updateLastCommit(final File directory, final String branch, final String id) {
@@ -73,7 +72,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
       cache = this.cache.get(directory);
 
       if (cache == null) {
-        this.cache.put(directory, cache = Maps.newHashMap());
+        this.cache.put(directory, cache = newHashMap());
       }
     }
 

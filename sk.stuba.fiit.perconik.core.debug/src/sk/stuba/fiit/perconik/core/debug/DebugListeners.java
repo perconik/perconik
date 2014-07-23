@@ -4,9 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
@@ -14,6 +12,9 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newTreeSet;
 
 public final class DebugListeners {
   private DebugListeners() {
@@ -53,7 +54,7 @@ public final class DebugListeners {
 
     builder.appendln("Registered listeners:").tab();
 
-    List<? extends Listener> listeners = Lists.newArrayList(Listeners.registered(type));
+    List<? extends Listener> listeners = newArrayList(Listeners.registered(type));
 
     if (!listeners.isEmpty()) {
       Collections.sort(listeners, MoreStrings.toStringComparator());
@@ -75,7 +76,7 @@ public final class DebugListeners {
 
     Multimap<Resource<?>, Listener> map = Listeners.registrations();
 
-    SortedSet<Resource<?>> resources = Sets.newTreeSet(MoreStrings.toStringComparator());
+    SortedSet<Resource<?>> resources = newTreeSet(MoreStrings.toStringComparator());
 
     resources.addAll(map.keySet());
 
@@ -83,7 +84,7 @@ public final class DebugListeners {
       for (Resource<?> resource: resources) {
         builder.appendln(DebugResources.toString(resource)).tab();
 
-        List<Listener> listeners = Lists.newArrayList(map.get(resource));
+        List<Listener> listeners = newArrayList(map.get(resource));
 
         if (!listeners.isEmpty()) {
           Collections.sort(listeners, MoreStrings.toStringComparator());

@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.core.debug.services.listeners;
 
 import java.util.Collection;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.SetMultimap;
 
 import sk.stuba.fiit.perconik.core.Listener;
@@ -13,13 +12,15 @@ import sk.stuba.fiit.perconik.core.debug.DebugNameableProxy;
 import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public final class DebugListenerManagerProxy extends DebugNameableProxy implements DebugListenerManager {
   private final ListenerManager manager;
 
   private DebugListenerManagerProxy(final ListenerManager manager, final DebugConsole console) {
     super(console);
 
-    this.manager = Preconditions.checkNotNull(manager);
+    this.manager = checkNotNull(manager);
   }
 
   public static final DebugListenerManagerProxy wrap(final ListenerManager manager) {

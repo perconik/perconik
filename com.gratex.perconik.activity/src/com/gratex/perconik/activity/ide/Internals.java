@@ -15,8 +15,6 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 
 import com.gratex.perconik.activity.TimeSupplier;
@@ -25,6 +23,9 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
 
 import static java.lang.String.valueOf;
+
+import static com.google.common.base.Strings.nullToEmpty;
+import static com.google.common.base.Throwables.propagate;
 
 final class Internals {
   static final PluginConsole console = IdeConsole.getInstance();
@@ -42,7 +43,7 @@ final class Internals {
   static final Map<String, String> options;
 
   static {
-    optionsSequence = Strings.nullToEmpty(Environment.getVariable("UACA")).toLowerCase();
+    optionsSequence = nullToEmpty(Environment.getVariable("UACA")).toLowerCase();
 
     Splitter entries = Splitter.on(CharMatcher.anyOf(";,")).trimResults();
     Splitter keys = Splitter.on(CharMatcher.anyOf(":=")).trimResults().limit(2);
@@ -71,7 +72,7 @@ final class Internals {
     try {
       datatypeFactory = DatatypeFactory.newInstance();
     } catch (DatatypeConfigurationException e) {
-      throw Throwables.propagate(e);
+      throw propagate(e);
     }
   }
 

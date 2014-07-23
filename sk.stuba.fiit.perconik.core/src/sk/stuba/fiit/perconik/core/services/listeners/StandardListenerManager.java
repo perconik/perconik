@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ListenerUnregistrationException;
@@ -15,6 +13,10 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Sets.newIdentityHashSet;
 
 final class StandardListenerManager extends AbstractListenerManager {
   StandardListenerManager() {}
@@ -25,9 +27,9 @@ final class StandardListenerManager extends AbstractListenerManager {
   }
 
   public final <L extends Listener> void unregisterAll(final Class<L> type) {
-    List<Exception> failures = Lists.newLinkedList();
+    List<Exception> failures = newLinkedList();
 
-    Set<L> processed = Sets.newIdentityHashSet();
+    Set<L> processed = newIdentityHashSet();
 
     for (Resource<? extends L> resource: this.manager().assignables(type)) {
       for (L listener: resource.registered(type)) {
@@ -59,7 +61,7 @@ final class StandardListenerManager extends AbstractListenerManager {
   }
 
   public final <L extends Listener> Collection<L> registered(final Class<L> type) {
-    List<L> listeners = Lists.newArrayList();
+    List<L> listeners = newArrayList();
 
     for (Resource<? extends L> resource: this.manager().assignables(type)) {
       listeners.addAll(resource.registered(type));

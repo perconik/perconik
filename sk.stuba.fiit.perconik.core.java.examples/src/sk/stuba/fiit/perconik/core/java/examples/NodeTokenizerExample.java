@@ -4,7 +4,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Sets;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -20,6 +19,9 @@ import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 
 import static java.lang.System.out;
+
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newTreeSet;
 
 public class NodeTokenizerExample {
   public static void main(String[] args) throws Exception {
@@ -57,9 +59,9 @@ public class NodeTokenizerExample {
     out.println();
 
     out.println("sorted sets:");
-    out.println("  qualified names: " + Sets.newHashSet(qn).size() + " " + Sets.newTreeSet(qn));
-    out.println("  simple names: " + Sets.newHashSet(sn).size() + " " + Sets.newTreeSet(sn));
-    out.println("  custom: " + Sets.newHashSet(cn).size() + " " + Sets.newTreeSet(cn));
+    out.println("  qualified names: " + newHashSet(qn).size() + " " + newTreeSet(qn));
+    out.println("  simple names: " + newHashSet(sn).size() + " " + newTreeSet(sn));
+    out.println("  custom: " + newHashSet(cn).size() + " " + newTreeSet(cn));
     out.println();
   }
 }

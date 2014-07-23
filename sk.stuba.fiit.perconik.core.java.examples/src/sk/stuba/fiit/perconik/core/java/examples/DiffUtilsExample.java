@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.java.examples;
 
-import java.util.Arrays;
 import java.util.List;
 
 import difflib.Chunk;
@@ -11,17 +10,18 @@ import difflib.Patch;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 import static java.lang.System.out;
+import static java.util.Arrays.asList;
 
 public final class DiffUtilsExample {
   public static void main(String[] args) {
     List<?> o0;
     List<?> r0;
 
-    o0 = Arrays.asList("a", "b", "c", "d", "e", "f");
-    r0 = Arrays.asList("x", "a", "b", "c", "x", "e");
+    o0 = asList("a", "b", "c", "d", "e", "f");
+    r0 = asList("x", "a", "b", "c", "x", "e");
 
-    //o0 = Arrays.asList(1000, 1001, 1002, 1003, 1004, 1005, 1006);
-    //r0 = Arrays.asList(2000, 1001, 1002, 1003, 2000, 1004, 1005);
+    //o0 = asList(1000, 1001, 1002, 1003, 1004, 1005, 1006);
+    //r0 = asList(2000, 1001, 1002, 1003, 2000, 1004, 1005);
 
     Patch p = DiffUtils.diff(o0, r0);
 

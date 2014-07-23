@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
@@ -19,6 +18,8 @@ import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.persistence.serialization.SerializedListenerData;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Markable listener registration with lively updated registration status.
@@ -64,7 +65,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
   public static final Set<ListenerPersistenceData> defaults() {
     ListenerProvider provider = Services.getListenerService().getListenerProvider();
 
-    Set<ListenerPersistenceData> data = Sets.newHashSet();
+    Set<ListenerPersistenceData> data = newHashSet();
 
     for (Class<? extends Listener> implementation: provider.classes()) {
       data.add(construct(Utilities.registeredByDefault(implementation), implementation, null));
@@ -76,7 +77,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
   public static final Set<ListenerPersistenceData> snapshot() {
     ListenerProvider provider = Services.getListenerService().getListenerProvider();
 
-    Set<ListenerPersistenceData> data = Sets.newHashSet();
+    Set<ListenerPersistenceData> data = newHashSet();
 
     Collection<Listener> listeners = Listeners.registrations().values();
 

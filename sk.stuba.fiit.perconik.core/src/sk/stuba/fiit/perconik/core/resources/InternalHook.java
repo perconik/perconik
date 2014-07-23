@@ -1,9 +1,9 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Nameable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> implements Nameable {
   private final InternalHandler<T, L> handler;
@@ -11,7 +11,7 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> im
   InternalHook(final InternalHandler<T, L> handler) {
     super(Pools.safe(Pools.getObjectPoolFactory().create(handler), handler.type));
 
-    this.handler = Preconditions.checkNotNull(handler);
+    this.handler = checkNotNull(handler);
   }
 
   static abstract class InternalHandler<T, L extends Listener> implements Handler<T> {
@@ -20,8 +20,8 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> im
     final L listener;
 
     InternalHandler(final Class<T> type, final L listener) {
-      this.type = Preconditions.checkNotNull(type);
-      this.listener = Preconditions.checkNotNull(listener);
+      this.type = checkNotNull(type);
+      this.listener = checkNotNull(listener);
     }
   }
 

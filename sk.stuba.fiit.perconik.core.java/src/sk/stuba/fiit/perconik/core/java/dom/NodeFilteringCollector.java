@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
 import sk.stuba.fiit.perconik.utilities.function.ListCollector;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNode> implements ListCollector<N, R> {
   NodeFilteringCollector() {}
@@ -26,7 +27,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
     final Predicate<N> filter;
 
     Generic(final Predicate<N> filter) {
-      this.filter = Preconditions.checkNotNull(filter);
+      this.filter = checkNotNull(filter);
     }
 
     @Override
@@ -61,7 +62,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
     final NodeClassFilter<N, R> filter;
 
     Type(final NodeClassFilter<N, R> filter) {
-      this.filter = Preconditions.checkNotNull(filter);
+      this.filter = checkNotNull(filter);
     }
 
     @Override

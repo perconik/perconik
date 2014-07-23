@@ -3,8 +3,6 @@ package com.gratex.perconik.activity.ide.listeners;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -35,6 +33,9 @@ import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
+import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.newArrayListWithCapacity;
+
 import static com.gratex.perconik.activity.ide.IdeData.setApplicationData;
 import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.IdeData.setProjectData;
@@ -46,11 +47,11 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * of type {@link IdeFindEventRequest} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
- * 
+ *
  * <p>Find operations are logged when a file search is performed.
- * 
+ *
  * <p>Data available in an {@code IdeFindEventRequest}:
- * 
+ *
  * <ul>
  *   <li>{@code derivedResources} - set to {@code true} if search should
  *   consider derived resources, {@code false} otherwise.
@@ -81,32 +82,32 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  *   via search API.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
- * 
+ *
  * <p>Data available in an {@code IdeFindFileResultDto}:
- * 
+ *
  * <ul>
  *   <li>{@code file} - matched file, see documentation of
  *   {@code IdeDocumentDto} in {@link IdeDocumentListener} for more details.
  *   <li>{@code rows} - a list of file matches,
  *   see {@code IdeFindResultRowDto} below.
  * </ul>
- * 
+ *
  * <p>Data available in an {@code IdeFindResultRowDto}:
- * 
+ *
  * <ul>
  *   <li>{@code column} - zero based match position on line,
  *   or {@code null} if can not be determined.
  *   <li>{@code row} - zero based match line number.
  *   <li>{@code text} - matched text.
  * </ul>
- * 
+ *
  * <p>Note that row and column offsets in documents start from zero
  * instead of one.
- * 
+ *
  * <p><b>Warning:</b> this listener depends on some Eclipse search API
  * internals, therefore correct functionality in next versions of Eclipse
  * IDE is not guaranteed.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -148,7 +149,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
   private static final List<IdeFindFileResultDto> buildResults(FileSearchResult result) {
     Object[] elements = result.getElements();
 
-    List<IdeFindFileResultDto> list = Lists.newArrayListWithCapacity(elements.length);
+    List<IdeFindFileResultDto> list = newArrayListWithCapacity(elements.length);
 
     for (Object element: elements) {
       IFile file = result.getFile(element);
@@ -170,7 +171,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
   }
 
   private static final List<IdeFindResultRowDto> buildMatches(IDocument document, Match[] matches) {
-    List<IdeFindResultRowDto> list = Lists.newArrayListWithCapacity(matches.length);
+    List<IdeFindResultRowDto> list = newArrayListWithCapacity(matches.length);
 
     for (Match match: matches) {
       list.add(buildMatch(document, match));
@@ -203,7 +204,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
           throw new IllegalStateException();
       }
     } catch (BadLocationException e) {
-      Throwables.propagate(e);
+      propagate(e);
     }
 
     return data;
@@ -214,7 +215,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
       return "workspace";
     }
 
-    List<String> parts = Lists.newArrayListWithCapacity(resources.length);
+    List<String> parts = newArrayListWithCapacity(resources.length);
 
     for (IResource resource: resources) {
       parts.add(resource.getFullPath().toString());
@@ -224,7 +225,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
   }
 
   private static final String toString(IWorkingSet[] sets) {
-    List<String> parts = Lists.newArrayListWithCapacity(sets.length);
+    List<String> parts = newArrayListWithCapacity(sets.length);
 
     for (IWorkingSet set: sets) {
       parts.add(set.getLabel());

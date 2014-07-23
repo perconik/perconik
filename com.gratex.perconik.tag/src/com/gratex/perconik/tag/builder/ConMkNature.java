@@ -1,12 +1,11 @@
 package com.gratex.perconik.tag.builder;
 
-import java.util.Arrays;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
-import sk.stuba.fiit.perconik.environment.Environment;
+
 import com.gratex.perconik.tag.plugin.Activator;
 
 public class ConMkNature implements IProjectNature {

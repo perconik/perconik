@@ -2,12 +2,12 @@ package sk.stuba.fiit.perconik.eclipse.core.commands;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to Eclipse command handlers.
@@ -59,7 +59,7 @@ public final class Handlers {
    * @see #getHandlerService(IWorkbench)
    */
   public static final IHandlerService waitForHandlerService(final IWorkbench workbench) {
-    Preconditions.checkNotNull(workbench);
+    checkNotNull(workbench);
 
     IHandlerService service;
 

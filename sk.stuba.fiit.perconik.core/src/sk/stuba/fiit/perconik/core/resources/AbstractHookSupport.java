@@ -2,16 +2,16 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Map;
 
-import com.google.common.collect.Maps;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> implements HookFactory<T, L> {
   private final Map<L, H> hooks;
 
   AbstractHookSupport() {
-    this.hooks = Maps.newHashMap();
+    this.hooks = newHashMap();
   }
 
   final void hook(final Resource<? super H> resource, final L listener) {

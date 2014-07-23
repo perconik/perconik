@@ -3,10 +3,11 @@ package sk.stuba.fiit.perconik.core.services;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.MapMaker;
-import com.google.common.collect.Sets;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Sets.newHashSet;
 
 final class Internals {
   private static final Map<Class<?>, Supplier<?>> suppliers = new MapMaker().concurrencyLevel(1).makeMap();
@@ -28,13 +29,13 @@ final class Internals {
   }
 
   static final <T> void setApi(final Class<T> api, final T implementation) {
-    Preconditions.checkNotNull(implementation);
+    checkNotNull(implementation);
 
     suppliers.put(api, new ImmutableReference<>(implementation));
   }
 
   static final <T> void setApi(final Class<T> api, final Supplier<T> supplier) {
-    Preconditions.checkNotNull(supplier);
+    checkNotNull(supplier);
 
     suppliers.put(api, supplier);
   }
@@ -50,7 +51,7 @@ final class Internals {
   }
 
   static final <T> Set<T> getApis(final Class<T> superclass) {
-    Set<T> implementations = Sets.newHashSet();
+    Set<T> implementations = newHashSet();
 
     for (Supplier<?> supplier: suppliers.values()) {
       Object implementation = supplier.get();

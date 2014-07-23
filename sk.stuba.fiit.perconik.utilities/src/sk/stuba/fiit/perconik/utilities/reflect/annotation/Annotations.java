@@ -13,14 +13,16 @@ import java.util.Set;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.utilities.MoreLists;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessor;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.Accessors;
+
+import static com.google.common.base.Predicates.notNull;
+import static com.google.common.collect.Maps.newLinkedHashMap;
+import static com.google.common.collect.Sets.newTreeSet;
 
 public final class Annotations {
   private Annotations() {
@@ -62,7 +64,7 @@ public final class Annotations {
   }
 
   public static final Map<String, String> toData(Annotation annotation) {
-    Map<String, String> data = Maps.newLinkedHashMap();
+    Map<String, String> data = newLinkedHashMap();
 
     for (Entry<String, Object> entry: toElements(annotation).entrySet()) {
       String key = keyToString(entry.getKey());
@@ -75,7 +77,7 @@ public final class Annotations {
   }
 
   public static final Map<String, Object> toElements(Annotation annotation) {
-    Map<String, Object> elements = Maps.newLinkedHashMap();
+    Map<String, Object> elements = newLinkedHashMap();
 
     for (Method method: annotation.annotationType().getDeclaredMethods()) {
       String name = method.getName();
@@ -91,7 +93,7 @@ public final class Annotations {
   public static final String toString(Annotation annotation) {
     Class<? extends Annotation> type = annotation.annotationType();
 
-    Map<String, String> data = Maps.filterValues(toData(annotation), Predicates.notNull());
+    Map<String, String> data = Maps.filterValues(toData(annotation), notNull());
 
     StringBuilder builder = new StringBuilder(keyToString(type.getSimpleName()));
 
@@ -109,7 +111,7 @@ public final class Annotations {
   }
 
   public static final String toString(Iterable<Annotation> annotations) {
-    Set<String> values = Sets.newTreeSet();
+    Set<String> values = newTreeSet();
 
     for (Annotation annotation: annotations) {
       values.add(toString(annotation));
@@ -123,7 +125,7 @@ public final class Annotations {
   }
 
   private static final String valueToString(Object object) {
-    Set<String> elements = Sets.newTreeSet();
+    Set<String> elements = newTreeSet();
 
     for (Object element: MoreLists.wrap(object)) {
       if (element instanceof Class) {

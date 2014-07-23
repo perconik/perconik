@@ -14,6 +14,8 @@ import com.google.common.collect.Lists;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
  * An abstract implementation of {@link Service}
  * interface covering service name and equivalence.
@@ -43,7 +45,7 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
         }
       };
 
-      List<State> list = Lists.newArrayList(states);
+      List<State> list = newArrayList(states);
 
       Collections.sort(list, MoreStrings.toStringComparator());
 

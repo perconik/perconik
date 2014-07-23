@@ -1,17 +1,12 @@
 package com.gratex.perconik.tag.prefs;
 
 import java.net.URL;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
-import org.eclipse.jface.preference.BooleanFieldEditor;
+
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
-import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
-import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
-import sk.stuba.fiit.perconik.ui.utilities.Widgets;
+
 import com.gratex.perconik.services.TagProfileWcfSvc;
 import com.gratex.perconik.services.tag.ArrayOfTagProfileSearchResItemDto;
 import com.gratex.perconik.services.tag.SearchTagProfileRequest;
@@ -20,6 +15,11 @@ import com.gratex.perconik.services.tag.TagProfileSearchResItemDto;
 import com.gratex.perconik.tag.assistant.ConAssist;
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.ws.WsTags;
+
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
+import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
+import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 
 public class PrefPage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
 

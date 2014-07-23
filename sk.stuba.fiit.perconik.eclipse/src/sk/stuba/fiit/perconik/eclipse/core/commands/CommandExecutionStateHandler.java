@@ -12,6 +12,7 @@ public final class CommandExecutionStateHandler {
 
   CommandExecutionStateHandler(final String identifier) {
     this.identifier = checkNotNullAndNotEmpty(identifier);
+
     this.state = new AtomicReference<>(WAITING);
   }
 

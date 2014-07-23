@@ -2,13 +2,13 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 
 import java.util.Set;
 
-import com.google.common.collect.Sets;
-
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
+
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Standard resource registration with lively updated registration status.
@@ -52,7 +52,7 @@ public class LiveResourceRegistration extends AbstractResourceRegistration {
   public static final Set<LiveResourceRegistration> snapshot() {
     ResourceProvider provider = Services.getResourceService().getResourceProvider();
 
-    Set<LiveResourceRegistration> data = Sets.newHashSet();
+    Set<LiveResourceRegistration> data = newHashSet();
 
     for (Class<? extends Listener> type: provider.types()) {
       for (Resource<?> resource: provider.forType(type)) {

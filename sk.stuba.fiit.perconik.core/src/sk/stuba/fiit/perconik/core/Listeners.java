@@ -1,13 +1,10 @@
 package sk.stuba.fiit.perconik.core;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 
 import sk.stuba.fiit.perconik.core.annotations.Internal;
 import sk.stuba.fiit.perconik.core.services.Services;
@@ -18,15 +15,21 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
 
+import static java.util.Arrays.asList;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
+
 /**
- * Static accessor methods pertaining to the listeners core. 
- * 
+ * Static accessor methods pertaining to the listeners core.
+ *
  * <p>This class provides access to the underlying functionality
  * of the currently active {@code ListenerService}.
- * 
+ *
  * @see Listener
  * @see Resources
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -58,11 +61,11 @@ public final class Listeners {
   }
 
   public static final void registerAll(final Listener ... listeners) {
-    registerAll(Arrays.asList(listeners));
+    registerAll(asList(listeners));
   }
 
   public static final void registerAll(final Iterable<? extends Listener> listeners) {
-    List<Exception> failures = Lists.newLinkedList();
+    List<Exception> failures = newLinkedList();
 
     ListenerManager manager = manager();
 
@@ -80,7 +83,7 @@ public final class Listeners {
   }
 
   public static final void registerAll(final ListenerClassesSupplier supplier) {
-    List<Exception> failures = Lists.newLinkedList();
+    List<Exception> failures = newLinkedList();
 
     ListenerProvider provider = provider();
     ListenerManager manager = manager();
@@ -134,7 +137,7 @@ public final class Listeners {
     raw.remove(Registrable.class);
     raw.remove(Listener.class);
 
-    Set<Class<? extends Listener>> types = Sets.newHashSetWithExpectedSize(raw.size());
+    Set<Class<? extends Listener>> types = newHashSetWithExpectedSize(raw.size());
 
     for (Class<?> type: raw) {
       if (Listener.class.isAssignableFrom(type) && !type.isAnnotationPresent(Internal.class)) {
@@ -142,7 +145,7 @@ public final class Listeners {
       }
     }
 
-    Iterable<Class<? extends Listener>> iterable = Lists.newArrayList(types);
+    Iterable<Class<? extends Listener>> iterable = newArrayList(types);
 
     for (Class<?> a: iterable) {
       for (Class<?> b: iterable) {

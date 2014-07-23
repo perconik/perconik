@@ -7,7 +7,8 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public final class StringConstantSupport<E extends Enum<E> & StringConstant> extends AbstractConstantSupport<String, E> {
   private static final long serialVersionUID = -2957728433673208288L;
@@ -63,7 +64,7 @@ public final class StringConstantSupport<E extends Enum<E> & StringConstant> ext
   public final E getConstant(final String value) {
     E constant = this.map.get(value);
 
-    Preconditions.checkArgument(constant != null, "Constant for value %s not found", value);
+    checkArgument(constant != null, "Constant for value %s not found", value);
 
     return constant;
   }

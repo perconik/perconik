@@ -3,8 +3,6 @@ package sk.stuba.fiit.perconik.eclipse.core.resources;
 import java.util.Collections;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -28,6 +26,9 @@ import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.navigator.CommonNavigator;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
+
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
 
 /**
  * Static utility methods pertaining to Eclipse projects.
@@ -115,7 +116,7 @@ public final class Projects {
   }
 
   public static final Set<IProject> fromLaunchConfiguration(final ILaunchConfiguration configuration) {
-    Set<IProject> projects = Sets.newHashSet();
+    Set<IProject> projects = newHashSet();
 
     projects.addAll(tryJavaRuntime(configuration));
     projects.addAll(tryMappedResources(configuration));
@@ -150,7 +151,7 @@ public final class Projects {
       return Collections.emptySet();
     }
 
-    Set<IProject> projects = Sets.newHashSetWithExpectedSize(resources.length);
+    Set<IProject> projects = newHashSetWithExpectedSize(resources.length);
 
     for (IResource resource: resources) {
       projects.add(resource.getProject());

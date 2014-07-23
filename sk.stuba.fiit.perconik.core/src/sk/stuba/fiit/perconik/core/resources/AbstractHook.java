@@ -2,16 +2,16 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
 
-import com.google.common.base.Preconditions;
-
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.Listener;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 abstract class AbstractHook<T, L extends Listener> extends Adapter implements Hook<T, L> {
   private final Pool<T> pool;
 
   AbstractHook(final Pool<T> pool) {
-    this.pool = Preconditions.checkNotNull(pool);
+    this.pool = checkNotNull(pool);
   }
 
   public final void add(final T object) {

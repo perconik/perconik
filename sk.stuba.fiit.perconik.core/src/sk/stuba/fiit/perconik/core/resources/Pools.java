@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import java.util.Collection;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 class Pools {
   private enum DefaultPoolFactory implements PoolFactory {
@@ -27,12 +27,12 @@ class Pools {
     private final Class<T> type;
 
     SafePool(final Pool<T> pool, final Class<T> type) {
-      this.pool = Preconditions.checkNotNull(pool);
-      this.type = Preconditions.checkNotNull(type);
+      this.pool = checkNotNull(pool);
+      this.type = checkNotNull(type);
     }
 
     private final T check(final T object) {
-      return this.type.cast(Preconditions.checkNotNull(object));
+      return this.type.cast(checkNotNull(object));
     }
 
     public final boolean contains(final Object object) {
@@ -62,11 +62,11 @@ class Pools {
   }
 
   static final void setObjectPoolFactory(final PoolFactory factory) {
-    objectPoolFactory = Preconditions.checkNotNull(factory);
+    objectPoolFactory = checkNotNull(factory);
   }
 
   static final void setListenerPoolFactory(final PoolFactory factory) {
-    listenerPoolFactory = Preconditions.checkNotNull(factory);
+    listenerPoolFactory = checkNotNull(factory);
   }
 
   static final PoolFactory getObjectPoolFactory() {

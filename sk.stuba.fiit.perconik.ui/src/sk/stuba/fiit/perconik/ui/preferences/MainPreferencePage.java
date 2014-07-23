@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.ui.preferences;
 
-import com.google.common.base.Preconditions;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 
 import sk.stuba.fiit.perconik.preferences.MainPreferences;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * <i>PerConIK</i> main preference page.
@@ -32,7 +32,7 @@ public final class MainPreferencePage extends AbstractWorkbenchPreferencePage {
   }
 
   public final void setMainPreferences(final MainPreferences preferences) {
-    this.preferences = Preconditions.checkNotNull(preferences);
+    this.preferences = checkNotNull(preferences);
   }
 
   public final MainPreferences getMainPreferences() {

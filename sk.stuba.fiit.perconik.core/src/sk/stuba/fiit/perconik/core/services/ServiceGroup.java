@@ -4,12 +4,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Service.State;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Lists.asList;
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * An immutable set of {@code Service} instances user-specified
@@ -59,7 +62,7 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
    */
   @SafeVarargs
   public static final <S extends Service> ServiceGroup<S> of(final S first, final S second, final S ... rest) {
-    return new ServiceGroup<>(Lists.asList(first, second, rest));
+    return new ServiceGroup<>(asList(first, second, rest));
   }
 
   // TODO add 4 copyOf methods like in ImmutableSet
@@ -138,12 +141,12 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
 
     U service = iterator.next();
 
-    Preconditions.checkArgument(!iterator.hasNext());
+    checkArgument(!iterator.hasNext());
 
     return service;
   }
 
   public final ServiceGroup<S> reverse() {
-    return new ServiceGroup<>(Lists.reverse(Lists.newArrayList(this.services)));
+    return new ServiceGroup<>(Lists.reverse(newArrayList(this.services)));
   }
 }

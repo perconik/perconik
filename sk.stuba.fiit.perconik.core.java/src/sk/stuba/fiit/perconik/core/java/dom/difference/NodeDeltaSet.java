@@ -7,9 +7,10 @@ import java.util.Set;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public final class NodeDeltaSet<N extends ASTNode> extends ForwardingSet<NodeDelta<N>> {
   private static final NodeDeltaSet<?> none = new NodeDeltaSet<>(ImmutableSet.<NodeDelta<ASTNode>>of());
@@ -53,7 +54,7 @@ public final class NodeDeltaSet<N extends ASTNode> extends ForwardingSet<NodeDel
     private final List<NodeDelta<N>> deltas;
 
     public Builder() {
-      this.deltas = Lists.newArrayList();
+      this.deltas = newArrayList();
     }
 
     public final Builder<N> add(final N node) {

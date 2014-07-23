@@ -3,17 +3,18 @@ package sk.stuba.fiit.perconik.core.java.dom;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public final class NodeCutter<N extends ASTNode> implements Function<N, N> {
   final Predicate<ASTNode> filter;
 
   private NodeCutter(final Predicate<ASTNode> filter) {
-    this.filter = Preconditions.checkNotNull(filter);
+    this.filter = checkNotNull(filter);
   }
 
   public static final <N extends ASTNode> NodeCutter<N> using(final Predicate<ASTNode> filter) {

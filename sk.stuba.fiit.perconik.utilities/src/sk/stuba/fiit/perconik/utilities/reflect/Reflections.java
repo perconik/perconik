@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.utilities.reflect;
 
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -9,8 +8,12 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+
+import static java.util.Arrays.asList;
+
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
 public final class Reflections {
   private Reflections() {
@@ -77,7 +80,7 @@ public final class Reflections {
   }
 
   public static final <T> LinkedList<Class<? super T>> collectSuperclasses(Class<T> type) {
-    LinkedList<Class<? super T>> superclasses = Lists.newLinkedList();
+    LinkedList<Class<? super T>> superclasses = newLinkedList();
 
     Class<? super T> supertype = type;
 
@@ -89,11 +92,11 @@ public final class Reflections {
   }
 
   public static final LinkedHashSet<Class<?>> collectInterfaces(Class<?> type) {
-    Set<Class<?>> resolved = Sets.newHashSet();
+    Set<Class<?>> resolved = newHashSet();
 
-    LinkedHashSet<Class<?>> interfaces = Sets.newLinkedHashSet();
+    LinkedHashSet<Class<?>> interfaces = newLinkedHashSet();
 
-    interfaces.addAll(Arrays.asList(type.getInterfaces()));
+    interfaces.addAll(asList(type.getInterfaces()));
 
     resolved.add(type);
 

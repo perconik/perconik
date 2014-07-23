@@ -6,10 +6,14 @@ import java.util.HashSet;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import static com.google.common.base.Objects.equal;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newIdentityHashSet;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
 final class GenericPool<T> extends AbstractPool<T> {
   private final PresenceStrategy strategy;
@@ -17,7 +21,7 @@ final class GenericPool<T> extends AbstractPool<T> {
   GenericPool(final Builder<T> builder) {
     super(builder.implementation, builder.handler);
 
-    this.strategy = Preconditions.checkNotNull(builder.strategy);
+    this.strategy = checkNotNull(builder.strategy);
   }
 
   public static final class Builder<T> {
@@ -28,43 +32,43 @@ final class GenericPool<T> extends AbstractPool<T> {
     PresenceStrategy strategy;
 
     public Builder(final Handler<T> handler) {
-      this.handler = Preconditions.checkNotNull(handler);
+      this.handler = checkNotNull(handler);
     }
 
     public final Builder<T> arrayList() {
-      Preconditions.checkState(this.implementation == null);
+      checkState(this.implementation == null);
 
-      this.implementation = Lists.newArrayList();
+      this.implementation = newArrayList();
 
       return this;
     }
 
     public final Builder<T> hashSet() {
-      Preconditions.checkState(this.implementation == null);
+      checkState(this.implementation == null);
 
-      this.implementation = Sets.newHashSet();
+      this.implementation = newHashSet();
 
       return this;
     }
 
     public final Builder<T> linkedList() {
-      Preconditions.checkState(this.implementation == null);
+      checkState(this.implementation == null);
 
-      this.implementation = Lists.newLinkedList();
+      this.implementation = newLinkedList();
 
       return this;
     }
 
     public final Builder<T> linkedHashSet() {
-      Preconditions.checkState(this.implementation == null);
+      checkState(this.implementation == null);
 
-      this.implementation = Sets.newLinkedHashSet();
+      this.implementation = newLinkedHashSet();
 
       return this;
     }
 
     public final Builder<T> identity() {
-      Preconditions.checkState(this.strategy == null);
+      checkState(this.strategy == null);
 
       this.strategy = PresenceStrategy.IDENLILY;
 
@@ -72,7 +76,7 @@ final class GenericPool<T> extends AbstractPool<T> {
     }
 
     public final Builder<T> equals() {
-      Preconditions.checkState(this.strategy == null);
+      checkState(this.strategy == null);
 
       this.strategy = PresenceStrategy.EQUALS;
 
@@ -85,7 +89,7 @@ final class GenericPool<T> extends AbstractPool<T> {
       }
 
       if (this.strategy == PresenceStrategy.IDENLILY && this.implementation instanceof HashSet) {
-        this.implementation = Sets.newIdentityHashSet();
+        this.implementation = newIdentityHashSet();
       }
 
       return new GenericPool<>(this);
@@ -121,7 +125,7 @@ final class GenericPool<T> extends AbstractPool<T> {
       @Override
       final boolean contains(final Collection<?> collection, @Nullable final Object object) {
         for (Object other: collection) {
-          if (Objects.equal(object, other)) {
+          if (equal(object, other)) {
             return true;
           }
         }

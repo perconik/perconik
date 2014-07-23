@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.core.resources;
 
-import java.util.Arrays;
-
 import javax.annotation.Nullable;
 
 import org.eclipse.jface.text.IDocument;
@@ -16,6 +14,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+
+import static java.util.Arrays.asList;
 
 final class Hooks {
   private Hooks() {
@@ -50,7 +50,7 @@ final class Hooks {
     final Runnable initializer = new Runnable() {
       @Override
       public final void run() {
-        addAll(hook, Arrays.asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
+        addAll(hook, asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
       }
     };
 
@@ -61,7 +61,7 @@ final class Hooks {
     final Runnable initializer = new Runnable() {
       @Override
       public final void run() {
-        addAll(hook, Arrays.asList(Workbenches.waitForActiveWindow().getPages()));
+        addAll(hook, asList(Workbenches.waitForActiveWindow().getPages()));
       }
     };
 

@@ -2,6 +2,7 @@ package com.gratex.perconik.tag.builder;
 
 import java.util.Collection;
 import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -14,7 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import sk.stuba.fiit.perconik.environment.Environment;
+
 import com.gratex.perconik.tag.plugin.Activator;
 import com.gratex.perconik.tag.utils.FileParser;
 

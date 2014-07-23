@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.Lists;
 
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -29,6 +28,9 @@ import difflib.Patch;
 import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
+
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static com.google.common.collect.Lists.newLinkedList;
 
 @Beta
 class CompilationUnitDifferencer {
@@ -76,7 +78,7 @@ class CompilationUnitDifferencer {
           List<ASTNode> originalNodes = unwrap(delta.getOriginal().getLines());
           List<ASTNode> revisedNodes = unwrap(delta.getRevised().getLines());
 
-          List<ASTNode> unmatchedOriginalNodes = Lists.newLinkedList();
+          List<ASTNode> unmatchedOriginalNodes = newLinkedList();
 
           main: for (ASTNode originalNode: originalNodes) {
             int revisedNodesSize = revisedNodes.size();
@@ -141,7 +143,7 @@ class CompilationUnitDifferencer {
   }
 
   private final static List<AstNodeEqualsWrapper> wrap(final Collection<?> objects) {
-    final List<AstNodeEqualsWrapper> wrapped = Lists.newArrayListWithExpectedSize(objects.size());
+    final List<AstNodeEqualsWrapper> wrapped = newArrayListWithExpectedSize(objects.size());
 
     for (final Object o: objects) {
       wrapped.add(new AstNodeEqualsWrapper((ASTNode) o));
@@ -151,7 +153,7 @@ class CompilationUnitDifferencer {
   }
 
   private final static List<ASTNode> unwrap(final Collection<?> objects) {
-    final List<ASTNode> nodes = Lists.newArrayListWithExpectedSize(objects.size());
+    final List<ASTNode> nodes = newArrayListWithExpectedSize(objects.size());
 
     for (final Object o: objects) {
       nodes.add(((AstNodeEqualsWrapper) o).node);

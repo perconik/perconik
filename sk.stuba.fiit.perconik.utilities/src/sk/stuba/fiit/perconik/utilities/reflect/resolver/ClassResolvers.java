@@ -1,7 +1,8 @@
 package sk.stuba.fiit.perconik.utilities.reflect.resolver;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+
+import static com.google.common.collect.Lists.asList;
 
 public final class ClassResolvers {
   private ClassResolvers() {
@@ -41,7 +42,7 @@ public final class ClassResolvers {
   }
 
   public static final ClassResolver compose(ClassResolver a, ClassResolver b, ClassResolver ... rest) {
-    return compose(Lists.asList(a, b, rest));
+    return compose(asList(a, b, rest));
   }
 
   public static final ClassResolver compose(Iterable<ClassResolver> resolvers) {

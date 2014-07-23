@@ -11,6 +11,8 @@ import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
  * Static accessor methods to core services.
  *
@@ -48,7 +50,7 @@ public final class Services {
   }
 
   static final Set<Service> inStopOrder() {
-    return ImmutableSet.copyOf(Lists.reverse(Lists.newArrayList(inStartOrder())));
+    return ImmutableSet.copyOf(Lists.reverse(newArrayList(inStartOrder())));
   }
 
   /**
