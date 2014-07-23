@@ -10,9 +10,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * AST API levels.
- * 
+ *
  * @see AST
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -32,6 +32,7 @@ public enum TreeApiLevel implements IntegralConstant {
   /**
    * @see AST#JLS4
    */
+  @SuppressWarnings("deprecation")
   JLS4(AST.JLS4);
 
   static final TreeApiLevel latest;

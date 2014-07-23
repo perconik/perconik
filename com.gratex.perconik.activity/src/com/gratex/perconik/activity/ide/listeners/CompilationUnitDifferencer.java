@@ -368,6 +368,7 @@ class CompilationUnitDifferencer {
     return true;
   }
 
+  @SuppressWarnings("deprecation")
   private static final boolean isSimilar(final MethodDeclaration original, final ASTNode revised) {
     if (!(revised instanceof MethodDeclaration)) {
       return false;

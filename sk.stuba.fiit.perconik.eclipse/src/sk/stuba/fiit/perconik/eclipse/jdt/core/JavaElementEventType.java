@@ -9,9 +9,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Java element event types.
- * 
+ *
  * @see ElementChangedEvent
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -30,7 +30,6 @@ public enum JavaElementEventType implements IntegralConstant {
    * @see ElementChangedEvent#PRE_AUTO_BUILD
    */
   @Deprecated
-  @SuppressWarnings("deprecation")
   PRE_AUTO_BUILD(ElementChangedEvent.PRE_AUTO_BUILD);
 
   private static final IntegralConstantSupport<JavaElementEventType> integers = IntegralConstantSupport.of(JavaElementEventType.class);
