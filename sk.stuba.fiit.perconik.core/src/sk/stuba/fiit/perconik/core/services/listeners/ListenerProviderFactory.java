@@ -11,17 +11,16 @@ import sk.stuba.fiit.perconik.core.services.ProviderFactory;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface ListenerProviderFactory extends ProviderFactory<ListenerProvider>
-{
-	/**
-	 * Creates a listener provider.
-	 */
-	@Override
-	public ListenerProvider create(@Nullable ListenerProvider parent);
+public interface ListenerProviderFactory extends ProviderFactory<ListenerProvider> {
+  /**
+   * Creates a listener provider.
+   */
+  @Override
+  public ListenerProvider create(@Nullable ListenerProvider parent);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(@Nullable Object o);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean equals(@Nullable Object o);
 }

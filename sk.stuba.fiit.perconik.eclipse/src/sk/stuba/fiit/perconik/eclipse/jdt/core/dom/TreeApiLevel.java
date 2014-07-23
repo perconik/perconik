@@ -16,70 +16,61 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum TreeApiLevel implements IntegralConstant
-{
-	/**
-	 * @see AST#JLS2
-	 */
-	@SuppressWarnings("deprecation")
-	JLS2(AST.JLS2),
+public enum TreeApiLevel implements IntegralConstant {
+  /**
+   * @see AST#JLS2
+   */
+  @SuppressWarnings("deprecation")
+  JLS2(AST.JLS2),
 
-	/**
-	 * @see AST#JLS3
-	 */
-	@SuppressWarnings("deprecation")
-	JLS3(AST.JLS3),
+  /**
+   * @see AST#JLS3
+   */
+  @SuppressWarnings("deprecation")
+  JLS3(AST.JLS3),
 
-	/**
-	 * @see AST#JLS4
-	 */
-	JLS4(AST.JLS4);
+  /**
+   * @see AST#JLS4
+   */
+  JLS4(AST.JLS4);
 
-	static final TreeApiLevel latest;
-	
-	static
-	{
-		TreeApiLevel[] constants = values();
-		
-		latest = constants[constants.length - 1];
-	}
+  static final TreeApiLevel latest;
 
-	private static final IntegralConstantSupport<TreeApiLevel> integers = IntegralConstantSupport.of(TreeApiLevel.class);
+  static {
+    TreeApiLevel[] constants = values();
 
-	private final int value;
-	
-	private TreeApiLevel(final int value)
-	{
-		this.value = value;
-	}
-	
-	public static final TreeApiLevel latest()
-	{
-		return latest;
-	}
+    latest = constants[constants.length - 1];
+  }
 
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final TreeApiLevel valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  private static final IntegralConstantSupport<TreeApiLevel> integers = IntegralConstantSupport.of(TreeApiLevel.class);
 
-	public static final TreeApiLevel valueOf(final AST tree)
-	{
-		return integers.getConstant(tree.apiLevel());
-	}
+  private final int value;
 
-	public static final TreeApiLevel valueOf(final ASTNode node)
-	{
-		return valueOf(node.getAST());
-	}
-	
-	public final int getValue()
-	{
-		return this.value;
-	}
+  private TreeApiLevel(final int value) {
+    this.value = value;
+  }
+
+  public static final TreeApiLevel latest() {
+    return latest;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final TreeApiLevel valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public static final TreeApiLevel valueOf(final AST tree) {
+    return integers.getConstant(tree.apiLevel());
+  }
+
+  public static final TreeApiLevel valueOf(final ASTNode node) {
+    return valueOf(node.getAST());
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

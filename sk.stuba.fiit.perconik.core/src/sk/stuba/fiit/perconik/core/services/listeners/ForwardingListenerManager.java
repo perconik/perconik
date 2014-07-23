@@ -24,40 +24,32 @@ import sk.stuba.fiit.perconik.core.services.ForwardingManager;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingListenerManager extends ForwardingManager implements ListenerManager
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingListenerManager()
-	{
-	}
-	
-	@Override
-	protected abstract ListenerManager delegate();
+public abstract class ForwardingListenerManager extends ForwardingManager implements ListenerManager {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingListenerManager() {}
 
-	public <L extends Listener> void register(L listener)
-	{
-		this.delegate().register(listener);
-	}
+  @Override
+  protected abstract ListenerManager delegate();
 
-	public <L extends Listener> void unregister(L listener)
-	{
-		this.delegate().unregister(listener);
-	}
+  public <L extends Listener> void register(L listener) {
+    this.delegate().register(listener);
+  }
 
-	public <L extends Listener> void unregisterAll(Class<L> type)
-	{
-		this.delegate().unregisterAll(type);
-	}
+  public <L extends Listener> void unregister(L listener) {
+    this.delegate().unregister(listener);
+  }
 
-	public <L extends Listener> Collection<L> registered(Class<L> type)
-	{
-		return this.delegate().registered(type);
-	}
+  public <L extends Listener> void unregisterAll(Class<L> type) {
+    this.delegate().unregisterAll(type);
+  }
 
-	public SetMultimap<Resource<?>, Listener> registrations()
-	{
-		return this.delegate().registrations();
-	}
+  public <L extends Listener> Collection<L> registered(Class<L> type) {
+    return this.delegate().registered(type);
+  }
+
+  public SetMultimap<Resource<?>, Listener> registrations() {
+    return this.delegate().registrations();
+  }
 }

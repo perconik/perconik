@@ -2,6 +2,5 @@ package sk.stuba.fiit.perconik.core.debug;
 
 import sk.stuba.fiit.perconik.core.Nameable;
 
-public interface DebugNameable extends DebugObject, Nameable
-{
+public interface DebugNameable extends DebugObject, Nameable {
 }

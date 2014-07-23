@@ -11,17 +11,16 @@ import sk.stuba.fiit.perconik.core.services.ManagerFactory;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface ResourceManagerFactory extends ManagerFactory
-{
-	/**
-	 * Creayes a resource manager.
-	 */
-	@Override
-	public ResourceManager create();
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(@Nullable Object o);
+public interface ResourceManagerFactory extends ManagerFactory {
+  /**
+   * Creayes a resource manager.
+   */
+  @Override
+  public ResourceManager create();
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean equals(@Nullable Object o);
 }

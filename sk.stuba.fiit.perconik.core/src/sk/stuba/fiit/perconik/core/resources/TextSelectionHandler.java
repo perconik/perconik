@@ -8,33 +8,26 @@ import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
 
-enum TextSelectionHandler implements Handler<TextSelectionListener>
-{
-	INSTANCE;
-	
-	private static final class SelectionFilter extends InternalFilter<TextSelectionListener> implements SelectionListener
-	{
-		public SelectionFilter(final TextSelectionListener listener)
-		{
-			super(listener);
-		}
+enum TextSelectionHandler implements Handler<TextSelectionListener> {
+  INSTANCE;
 
-		public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
-		{
-			if (selection instanceof TextSelection)
-			{
-				this.listener.selectionChanged(part, (ITextSelection) selection);
-			}
-		}
-	}
-	
-	public final void register(final TextSelectionListener listener)
-	{
-		SelectionHandler.INSTANCE.register(new SelectionFilter(listener));
-	}
+  private static final class SelectionFilter extends InternalFilter<TextSelectionListener> implements SelectionListener {
+    public SelectionFilter(final TextSelectionListener listener) {
+      super(listener);
+    }
 
-	public final void unregister(final TextSelectionListener listener)
-	{
-		SelectionHandler.INSTANCE.unregister(new SelectionFilter(listener));
-	}
+    public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+      if (selection instanceof TextSelection) {
+        this.listener.selectionChanged(part, (ITextSelection) selection);
+      }
+    }
+  }
+
+  public final void register(final TextSelectionListener listener) {
+    SelectionHandler.INSTANCE.register(new SelectionFilter(listener));
+  }
+
+  public final void unregister(final TextSelectionListener listener) {
+    SelectionHandler.INSTANCE.unregister(new SelectionFilter(listener));
+  }
 }

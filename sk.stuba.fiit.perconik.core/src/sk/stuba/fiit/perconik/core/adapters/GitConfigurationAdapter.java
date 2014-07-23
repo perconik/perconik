@@ -19,16 +19,11 @@ import sk.stuba.fiit.perconik.core.listeners.GitConfigurationListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class GitConfigurationAdapter extends Adapter implements GitConfigurationListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected GitConfigurationAdapter()
-	{
-	}
-	
-	public void onConfigChanged(ConfigChangedEvent event)
-	{
-	}
+public class GitConfigurationAdapter extends Adapter implements GitConfigurationListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected GitConfigurationAdapter() {}
+
+  public void onConfigChanged(ConfigChangedEvent event) {}
 }

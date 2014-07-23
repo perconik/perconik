@@ -10,36 +10,30 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
-public final class IdeActivityMessageDialogs
-{
-	private IdeActivityMessageDialogs()
-	{
-		throw new AssertionError();
-	}
+public final class IdeActivityMessageDialogs {
+  private IdeActivityMessageDialogs() {
+    throw new AssertionError();
+  }
 
-	public static void openError(final String key, final String message)
-	{
-		openError(key, message, "Always display warning on service failure");
-	}
-	
-	public static void openError(final String key, final String message, final String toggle)
-	{
-		final Runnable dialog = new Runnable()
-		{
-			public final void run()
-			{
-				IWorkbenchWindow window = Workbenches.getActiveWindow();
-				
-				Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell(); 
+  public static void openError(final String key, final String message) {
+    openError(key, message, "Always display warning on service failure");
+  }
 
-				String title = "UACA proxy error";
+  public static void openError(final String key, final String message, final String toggle) {
+    final Runnable dialog = new Runnable() {
+      public final void run() {
+        IWorkbenchWindow window = Workbenches.getActiveWindow();
 
-				Preference preference = Preference.usingToggleState(IdeActivityPreferences.getPreferenceStore(), key);  
-		
-				MessageDialogWithPreference.openError(shell, title, message, toggle, preference).setBlockOnOpen(true);
-			}
-		};
-		
-		Display.getDefault().asyncExec(dialog);
-	}
+        Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell();
+
+        String title = "UACA proxy error";
+
+        Preference preference = Preference.usingToggleState(IdeActivityPreferences.getPreferenceStore(), key);
+
+        MessageDialogWithPreference.openError(shell, title, message, toggle, preference).setBlockOnOpen(true);
+      }
+    };
+
+    Display.getDefault().asyncExec(dialog);
+  }
 }

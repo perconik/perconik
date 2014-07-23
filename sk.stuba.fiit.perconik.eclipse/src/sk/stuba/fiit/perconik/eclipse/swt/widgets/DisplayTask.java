@@ -7,52 +7,39 @@ import com.google.common.base.Supplier;
 
 import sk.stuba.fiit.perconik.utilities.concurrent.Executables;
 
-public abstract class DisplayTask<V> implements Callable<V>
-{
-	protected DisplayTask()
-	{
-	}
+public abstract class DisplayTask<V> implements Callable<V> {
+  protected DisplayTask() {}
 
-	public static final <V> DisplayTask<V> of(final Callable<V> callable)
-	{
-		return new DisplayTask<V>()
-		{
-			@Override
-			public final V call() throws Exception
-			{
-				return callable.call();
-			}
-		};
-	}
+  public static final <V> DisplayTask<V> of(final Callable<V> callable) {
+    return new DisplayTask<V>() {
+      @Override
+      public final V call() throws Exception {
+        return callable.call();
+      }
+    };
+  }
 
-	public static final <V> DisplayTask<V> of(final Runnable runnable, final V result)
-	{
-		return new DisplayTask<V>()
-		{
-			@Override
-			public final V call()
-			{
-				runnable.run();
-				
-				return result;
-			}
-		};
-	}
+  public static final <V> DisplayTask<V> of(final Runnable runnable, final V result) {
+    return new DisplayTask<V>() {
+      @Override
+      public final V call() {
+        runnable.run();
 
-	public static final <V> DisplayTask<V> of(final Supplier<V> supplier)
-	{
-		return new DisplayTask<V>()
-		{
-			@Override
-			public final V call()
-			{
-				return supplier.get();
-			}
-		};
-	}
-	
-	public final V get(final Executor executor)
-	{
-		return Executables.call(executor, this);
-	}
+        return result;
+      }
+    };
+  }
+
+  public static final <V> DisplayTask<V> of(final Supplier<V> supplier) {
+    return new DisplayTask<V>() {
+      @Override
+      public final V call() {
+        return supplier.get();
+      }
+    };
+  }
+
+  public final V get(final Executor executor) {
+    return Executables.call(executor, this);
+  }
 }

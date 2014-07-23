@@ -33,135 +33,126 @@ import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum JavaElementType implements IntegralConstant, TypeConstant<IJavaElement>
-{
-	/**
-	 * @see IJavaElement#JAVA_MODEL
-	 */
-	JAVA_MODEL(IJavaElement.JAVA_MODEL, IJavaModel.class),
-	
-	/**
-	 * @see IJavaElement#JAVA_PROJECT
-	 */
-	JAVA_PROJECT(IJavaElement.JAVA_PROJECT, IJavaProject.class),
-	
-	/**
-	 * @see IJavaElement#PACKAGE_FRAGMENT_ROOT
-	 */
-	PACKAGE_FRAGMENT_ROOT(IJavaElement.PACKAGE_FRAGMENT_ROOT, IPackageFragmentRoot.class),
-	
-	/**
-	 * @see IJavaElement#PACKAGE_FRAGMENT
-	 */
-	PACKAGE_FRAGMENT(IJavaElement.PACKAGE_FRAGMENT, IPackageFragment.class),
-	
-	/**
-	 * @see IJavaElement#COMPILATION_UNIT
-	 */
-	COMPILATION_UNIT(IJavaElement.COMPILATION_UNIT, ICompilationUnit.class),
-	
-	/**
-	 * @see IJavaElement#CLASS_FILE
-	 */
-	CLASS_FILE(IJavaElement.CLASS_FILE, IClassFile.class),
-	
-	/**
-	 * @see IJavaElement#TYPE
-	 */
-	TYPE(IJavaElement.TYPE, IType.class),
-	
-	/**
-	 * @see IJavaElement#FIELD
-	 */
-	FIELD(IJavaElement.FIELD, IField.class),
-	/**
-	 * @see IJavaElement#METHOD
-	 */
-	METHOD(IJavaElement.METHOD, IMethod.class),
-	
-	/**
-	 * @see IJavaElement#INITIALIZER
-	 */
-	INITIALIZER(IJavaElement.INITIALIZER, IInitializer.class),
-	
-	/**
-	 * @see IJavaElement#PACKAGE_DECLARATION
-	 */
-	PACKAGE_DECLARATION(IJavaElement.PACKAGE_DECLARATION, IPackageDeclaration.class),
-	
-	/**
-	 * @see IJavaElement#IMPORT_CONTAINER
-	 */
-	IMPORT_CONTAINER(IJavaElement.IMPORT_CONTAINER, IImportContainer.class),
-	
-	/**
-	 * @see IJavaElement#IMPORT_DECLARATION
-	 */
-	IMPORT_DECLARATION(IJavaElement.IMPORT_DECLARATION, IImportDeclaration.class),
-	
-	/**
-	 * @see IJavaElement#LOCAL_VARIABLE
-	 */
-	LOCAL_VARIABLE(IJavaElement.LOCAL_VARIABLE, ILocalVariable.class),
-	
-	/**
-	 * @see IJavaElement#TYPE_PARAMETER
-	 */
-	TYPE_PARAMETER(IJavaElement.TYPE_PARAMETER, ITypeParameter.class),
-	
-	/**
-	 * @see IJavaElement#ANNOTATION
-	 */
-	ANNOTATION(IJavaElement.ANNOTATION, IAnnotation.class);
+public enum JavaElementType implements IntegralConstant, TypeConstant<IJavaElement> {
+  /**
+   * @see IJavaElement#JAVA_MODEL
+   */
+  JAVA_MODEL(IJavaElement.JAVA_MODEL, IJavaModel.class),
 
-	private static final IntegralConstantSupport<JavaElementType> integers = IntegralConstantSupport.of(JavaElementType.class);
-	
-	private static final TypeConstantSupport<JavaElementType, IJavaElement> types = TypeConstantSupport.of(JavaElementType.class);
+  /**
+   * @see IJavaElement#JAVA_PROJECT
+   */
+  JAVA_PROJECT(IJavaElement.JAVA_PROJECT, IJavaProject.class),
 
-	private final int value;
-	
-	private final Class<? extends IJavaElement> type;
-	
-	private JavaElementType(final int value, final Class<? extends IJavaElement> type)
-	{
-		assert type != null;
-		
-		this.value = value;
-		this.type  = type;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final Set<Class<? extends IJavaElement>> valuesAsTypes()
-	{
-		return types.getTypes();
-	}
-	
-	public static final JavaElementType valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  /**
+   * @see IJavaElement#PACKAGE_FRAGMENT_ROOT
+   */
+  PACKAGE_FRAGMENT_ROOT(IJavaElement.PACKAGE_FRAGMENT_ROOT, IPackageFragmentRoot.class),
 
-	public static final JavaElementType valueOf(final Class<? extends IJavaElement> type)
-	{
-		return types.getConstant(type);
-	}
+  /**
+   * @see IJavaElement#PACKAGE_FRAGMENT
+   */
+  PACKAGE_FRAGMENT(IJavaElement.PACKAGE_FRAGMENT, IPackageFragment.class),
 
-	public static final JavaElementType valueOf(final IJavaElement element)
-	{
-		return valueOf(element.getElementType());
-	}
-	
-	public final int getValue()
-	{
-		return this.value;
-	}
+  /**
+   * @see IJavaElement#COMPILATION_UNIT
+   */
+  COMPILATION_UNIT(IJavaElement.COMPILATION_UNIT, ICompilationUnit.class),
 
-	public final Class<? extends IJavaElement> getType()
-	{
-		return this.type;
-	}
+  /**
+   * @see IJavaElement#CLASS_FILE
+   */
+  CLASS_FILE(IJavaElement.CLASS_FILE, IClassFile.class),
+
+  /**
+   * @see IJavaElement#TYPE
+   */
+  TYPE(IJavaElement.TYPE, IType.class),
+
+  /**
+   * @see IJavaElement#FIELD
+   */
+  FIELD(IJavaElement.FIELD, IField.class),
+  /**
+   * @see IJavaElement#METHOD
+   */
+  METHOD(IJavaElement.METHOD, IMethod.class),
+
+  /**
+   * @see IJavaElement#INITIALIZER
+   */
+  INITIALIZER(IJavaElement.INITIALIZER, IInitializer.class),
+
+  /**
+   * @see IJavaElement#PACKAGE_DECLARATION
+   */
+  PACKAGE_DECLARATION(IJavaElement.PACKAGE_DECLARATION, IPackageDeclaration.class),
+
+  /**
+   * @see IJavaElement#IMPORT_CONTAINER
+   */
+  IMPORT_CONTAINER(IJavaElement.IMPORT_CONTAINER, IImportContainer.class),
+
+  /**
+   * @see IJavaElement#IMPORT_DECLARATION
+   */
+  IMPORT_DECLARATION(IJavaElement.IMPORT_DECLARATION, IImportDeclaration.class),
+
+  /**
+   * @see IJavaElement#LOCAL_VARIABLE
+   */
+  LOCAL_VARIABLE(IJavaElement.LOCAL_VARIABLE, ILocalVariable.class),
+
+  /**
+   * @see IJavaElement#TYPE_PARAMETER
+   */
+  TYPE_PARAMETER(IJavaElement.TYPE_PARAMETER, ITypeParameter.class),
+
+  /**
+   * @see IJavaElement#ANNOTATION
+   */
+  ANNOTATION(IJavaElement.ANNOTATION, IAnnotation.class);
+
+  private static final IntegralConstantSupport<JavaElementType> integers = IntegralConstantSupport.of(JavaElementType.class);
+
+  private static final TypeConstantSupport<JavaElementType, IJavaElement> types = TypeConstantSupport.of(JavaElementType.class);
+
+  private final int value;
+
+  private final Class<? extends IJavaElement> type;
+
+  private JavaElementType(final int value, final Class<? extends IJavaElement> type) {
+    assert type != null;
+
+    this.value = value;
+    this.type = type;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final Set<Class<? extends IJavaElement>> valuesAsTypes() {
+    return types.getTypes();
+  }
+
+  public static final JavaElementType valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public static final JavaElementType valueOf(final Class<? extends IJavaElement> type) {
+    return types.getConstant(type);
+  }
+
+  public static final JavaElementType valueOf(final IJavaElement element) {
+    return valueOf(element.getElementType());
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
+
+  public final Class<? extends IJavaElement> getType() {
+    return this.type;
+  }
 }

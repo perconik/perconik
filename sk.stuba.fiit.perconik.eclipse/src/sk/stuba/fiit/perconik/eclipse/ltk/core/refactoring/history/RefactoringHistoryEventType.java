@@ -15,49 +15,44 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum RefactoringHistoryEventType implements IntegralConstant
-{
-	/**
-	 * @see RefactoringHistoryEvent#ADDED
-	 */
-	ADDED(RefactoringHistoryEvent.ADDED),
-	
-	/**
-	 * @see RefactoringHistoryEvent#DELETED
-	 */
-	DELETED(RefactoringHistoryEvent.DELETED),
-	
-	/**
-	 * @see RefactoringHistoryEvent#POPPED
-	 */
-	POPPED(RefactoringHistoryEvent.POPPED),
-	
-	/**
-	 * @see RefactoringHistoryEvent#PUSHED
-	 */
-	PUSHED(RefactoringHistoryEvent.PUSHED);
-	
-	private static final IntegralConstantSupport<RefactoringHistoryEventType> integers = IntegralConstantSupport.of(RefactoringHistoryEventType.class);
+public enum RefactoringHistoryEventType implements IntegralConstant {
+  /**
+   * @see RefactoringHistoryEvent#ADDED
+   */
+  ADDED(RefactoringHistoryEvent.ADDED),
 
-	private final int value;
-	
-	private RefactoringHistoryEventType(final int value)
-	{
-		this.value = value;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final RefactoringHistoryEventType valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  /**
+   * @see RefactoringHistoryEvent#DELETED
+   */
+  DELETED(RefactoringHistoryEvent.DELETED),
 
-	public final int getValue()
-	{
-		return this.value;
-	}
+  /**
+   * @see RefactoringHistoryEvent#POPPED
+   */
+  POPPED(RefactoringHistoryEvent.POPPED),
+
+  /**
+   * @see RefactoringHistoryEvent#PUSHED
+   */
+  PUSHED(RefactoringHistoryEvent.PUSHED);
+
+  private static final IntegralConstantSupport<RefactoringHistoryEventType> integers = IntegralConstantSupport.of(RefactoringHistoryEventType.class);
+
+  private final int value;
+
+  private RefactoringHistoryEventType(final int value) {
+    this.value = value;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final RefactoringHistoryEventType valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

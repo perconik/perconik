@@ -14,6 +14,5 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @since 1.0
  */
 @SuppressWarnings("restriction")
-public interface GitRepositoryListener extends Listener, RepositoryChangeListener
-{
+public interface GitRepositoryListener extends Listener, RepositoryChangeListener {
 }

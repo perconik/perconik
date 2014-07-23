@@ -18,10 +18,9 @@ import sk.stuba.fiit.perconik.core.Registrable;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Experimental
-{
-	/**
-	 * Optional description of the experimental feature.
-	 */
-	String value() default "";
+public @interface Experimental {
+  /**
+   * Optional description of the experimental feature.
+   */
+  String value() default "";
 }

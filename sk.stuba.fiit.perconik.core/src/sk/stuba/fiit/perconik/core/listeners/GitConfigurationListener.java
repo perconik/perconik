@@ -13,6 +13,5 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface GitConfigurationListener extends Listener, ConfigChangedListener
-{
+public interface GitConfigurationListener extends Listener, ConfigChangedListener {
 }

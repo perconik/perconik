@@ -16,69 +16,61 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum StatusSeverity implements IntegralConstant
-{
-	/**
-	 * @see IStatus#OK
-	 */
-	OK(IStatus.OK),
+public enum StatusSeverity implements IntegralConstant {
+  /**
+   * @see IStatus#OK
+   */
+  OK(IStatus.OK),
 
-	/**
-	 * @see IStatus#INFO
-	 */
-	INFO(IStatus.INFO),
+  /**
+   * @see IStatus#INFO
+   */
+  INFO(IStatus.INFO),
 
-	/**
-	 * @see IStatus#WARNING
-	 */
-	WARNING(IStatus.WARNING),
+  /**
+   * @see IStatus#WARNING
+   */
+  WARNING(IStatus.WARNING),
 
-	/**
-	 * @see IStatus#ERROR
-	 */
-	ERROR(IStatus.ERROR),
+  /**
+   * @see IStatus#ERROR
+   */
+  ERROR(IStatus.ERROR),
 
-	/**
-	 * @see IStatus#CANCEL
-	 */
-	CANCEL(IStatus.CANCEL);
-	
-	private static final IntegralConstantSupport<StatusSeverity> integers = IntegralConstantSupport.of(StatusSeverity.class);
+  /**
+   * @see IStatus#CANCEL
+   */
+  CANCEL(IStatus.CANCEL);
 
-	private final int value;
-	
-	private StatusSeverity(final int value)
-	{
-		this.value = value;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final int valuesAsInteger()
-	{
-		return integers.getConstantsAsInteger();
-	}
+  private static final IntegralConstantSupport<StatusSeverity> integers = IntegralConstantSupport.of(StatusSeverity.class);
 
-	public static final int valuesAsInteger(Set<JavaElementDeltaFlag> values)
-	{
-		return IntegralConstantSupport.constantsAsInteger(values);
-	}
+  private final int value;
 
-	public static final StatusSeverity valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
-	
-	public static final Set<StatusSeverity> setOf(final int values)
-	{
-		return integers.getConstants(values);
-	}
+  private StatusSeverity(final int value) {
+    this.value = value;
+  }
 
-	public final int getValue()
-	{
-		return this.value;
-	}
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final int valuesAsInteger() {
+    return integers.getConstantsAsInteger();
+  }
+
+  public static final int valuesAsInteger(Set<JavaElementDeltaFlag> values) {
+    return IntegralConstantSupport.constantsAsInteger(values);
+  }
+
+  public static final StatusSeverity valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public static final Set<StatusSeverity> setOf(final int values) {
+    return integers.getConstants(values);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

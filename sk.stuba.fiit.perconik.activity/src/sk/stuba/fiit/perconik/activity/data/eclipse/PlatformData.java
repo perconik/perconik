@@ -5,201 +5,166 @@ import java.util.List;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class PlatformData extends AnyStructuredData
-{
-	protected ProductData product;
-	
-	protected List<String> applicationArguments;
+public class PlatformData extends AnyStructuredData {
+  protected ProductData product;
 
-	protected List<String> commandLineArguments;
+  protected List<String> applicationArguments;
 
-	protected URL configurationLocation;
-	
-	protected URL installLocation;
-	
-	protected URL instanceLocation;
-	
-	protected URL userLocation;
-	
-	protected URL workingLocation;
-	
-	protected String nationalLanguage;
-	
-	protected String operatingSystem;
-	
-	protected String operatingSystemArchitecture;
-	
-	protected String windowSystem;
-	
-	protected long stateStamp;
+  protected List<String> commandLineArguments;
 
-	protected boolean running;
+  protected URL configurationLocation;
 
-	protected boolean debugMode;
-	
-	protected boolean developmentMode;
+  protected URL installLocation;
 
-	public PlatformData()
-	{
-	}
+  protected URL instanceLocation;
 
-	public void setProduct(ProductData product)
-	{
-		this.product = product;
-	}
+  protected URL userLocation;
 
-	public void setApplicationArguments(List<String> applicationArguments)
-	{
-		this.applicationArguments = applicationArguments;
-	}
+  protected URL workingLocation;
 
-	public void setCommandLineArguments(List<String> commandLineArguments)
-	{
-		this.commandLineArguments = commandLineArguments;
-	}
+  protected String nationalLanguage;
 
-	public void setConfigurationLocation(URL configurationLocation)
-	{
-		this.configurationLocation = configurationLocation;
-	}
+  protected String operatingSystem;
 
-	public void setInstallLocation(URL installLocation)
-	{
-		this.installLocation = installLocation;
-	}
+  protected String operatingSystemArchitecture;
 
-	public void setInstanceLocation(URL instanceLocation)
-	{
-		this.instanceLocation = instanceLocation;
-	}
+  protected String windowSystem;
 
-	public void setUserLocation(URL userLocation)
-	{
-		this.userLocation = userLocation;
-	}
+  protected long stateStamp;
 
-	public void setWorkingLocation(URL workingLocation)
-	{
-		this.workingLocation = workingLocation;
-	}
+  protected boolean running;
 
-	public void setNationalLanguage(String nationalLanguage)
-	{
-		this.nationalLanguage = nationalLanguage;
-	}
+  protected boolean debugMode;
 
-	public void setOperatingSystem(String operatingSystem)
-	{
-		this.operatingSystem = operatingSystem;
-	}
+  protected boolean developmentMode;
 
-	public void setOperatingSystemArchitecture(String operatingSystemArchitecture)
-	{
-		this.operatingSystemArchitecture = operatingSystemArchitecture;
-	}
+  public PlatformData() {}
 
-	public void setWindowSystem(String windowSystem)
-	{
-		this.windowSystem = windowSystem;
-	}
+  public void setProduct(ProductData product) {
+    this.product = product;
+  }
 
-	public void setStateStamp(long stateStamp)
-	{
-		this.stateStamp = stateStamp;
-	}
+  public void setApplicationArguments(List<String> applicationArguments) {
+    this.applicationArguments = applicationArguments;
+  }
 
-	public void setRunning(boolean running)
-	{
-		this.running = running;
-	}
+  public void setCommandLineArguments(List<String> commandLineArguments) {
+    this.commandLineArguments = commandLineArguments;
+  }
 
-	public void setDebugMode(boolean debugMode)
-	{
-		this.debugMode = debugMode;
-	}
+  public void setConfigurationLocation(URL configurationLocation) {
+    this.configurationLocation = configurationLocation;
+  }
 
-	public void setDevelopmentMode(boolean developmentMode)
-	{
-		this.developmentMode = developmentMode;
-	}
+  public void setInstallLocation(URL installLocation) {
+    this.installLocation = installLocation;
+  }
 
-	public ProductData getProduct()
-	{
-		return this.product;
-	}
+  public void setInstanceLocation(URL instanceLocation) {
+    this.instanceLocation = instanceLocation;
+  }
 
-	public List<String> getApplicationArguments()
-	{
-		return this.applicationArguments;
-	}
+  public void setUserLocation(URL userLocation) {
+    this.userLocation = userLocation;
+  }
 
-	public List<String> getCommandLineArguments()
-	{
-		return this.commandLineArguments;
-	}
+  public void setWorkingLocation(URL workingLocation) {
+    this.workingLocation = workingLocation;
+  }
 
-	public URL getConfigurationLocation()
-	{
-		return this.configurationLocation;
-	}
+  public void setNationalLanguage(String nationalLanguage) {
+    this.nationalLanguage = nationalLanguage;
+  }
 
-	public URL getInstallLocation()
-	{
-		return this.installLocation;
-	}
+  public void setOperatingSystem(String operatingSystem) {
+    this.operatingSystem = operatingSystem;
+  }
 
-	public URL getInstanceLocation()
-	{
-		return this.instanceLocation;
-	}
+  public void setOperatingSystemArchitecture(String operatingSystemArchitecture) {
+    this.operatingSystemArchitecture = operatingSystemArchitecture;
+  }
 
-	public URL getUserLocation()
-	{
-		return this.userLocation;
-	}
+  public void setWindowSystem(String windowSystem) {
+    this.windowSystem = windowSystem;
+  }
 
-	public URL getWorkingLocation()
-	{
-		return this.workingLocation;
-	}
+  public void setStateStamp(long stateStamp) {
+    this.stateStamp = stateStamp;
+  }
 
-	public String getNationalLanguage()
-	{
-		return this.nationalLanguage;
-	}
+  public void setRunning(boolean running) {
+    this.running = running;
+  }
 
-	public String getOperatingSystem()
-	{
-		return this.operatingSystem;
-	}
+  public void setDebugMode(boolean debugMode) {
+    this.debugMode = debugMode;
+  }
 
-	public String getOperatingSystemArchitecture()
-	{
-		return this.operatingSystemArchitecture;
-	}
+  public void setDevelopmentMode(boolean developmentMode) {
+    this.developmentMode = developmentMode;
+  }
 
-	public String getWindowSystem()
-	{
-		return this.windowSystem;
-	}
+  public ProductData getProduct() {
+    return this.product;
+  }
 
-	public long getStateStamp()
-	{
-		return this.stateStamp;
-	}
+  public List<String> getApplicationArguments() {
+    return this.applicationArguments;
+  }
 
-	public boolean isRunning()
-	{
-		return this.running;
-	}
+  public List<String> getCommandLineArguments() {
+    return this.commandLineArguments;
+  }
 
-	public boolean isDebugMode()
-	{
-		return this.debugMode;
-	}
+  public URL getConfigurationLocation() {
+    return this.configurationLocation;
+  }
 
-	public boolean isDevelopmentMode()
-	{
-		return this.developmentMode;
-	}
+  public URL getInstallLocation() {
+    return this.installLocation;
+  }
+
+  public URL getInstanceLocation() {
+    return this.instanceLocation;
+  }
+
+  public URL getUserLocation() {
+    return this.userLocation;
+  }
+
+  public URL getWorkingLocation() {
+    return this.workingLocation;
+  }
+
+  public String getNationalLanguage() {
+    return this.nationalLanguage;
+  }
+
+  public String getOperatingSystem() {
+    return this.operatingSystem;
+  }
+
+  public String getOperatingSystemArchitecture() {
+    return this.operatingSystemArchitecture;
+  }
+
+  public String getWindowSystem() {
+    return this.windowSystem;
+  }
+
+  public long getStateStamp() {
+    return this.stateStamp;
+  }
+
+  public boolean isRunning() {
+    return this.running;
+  }
+
+  public boolean isDebugMode() {
+    return this.debugMode;
+  }
+
+  public boolean isDevelopmentMode() {
+    return this.developmentMode;
+  }
 }

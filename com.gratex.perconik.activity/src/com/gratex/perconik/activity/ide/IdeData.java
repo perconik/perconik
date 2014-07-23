@@ -20,98 +20,84 @@ import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
-public final class IdeData
-{
-	private IdeData()
-	{
-		throw new AssertionError();
-	}
+public final class IdeData {
+  private IdeData() {
+    throw new AssertionError();
+  }
 
-	public static final IdeDocumentDto newDocumentData(final IFile file)
-	{
-		return newDocumentRepositoryData(file.getFullPath(), IdeGitProjects.getRepository(file));
-	}
+  public static final IdeDocumentDto newDocumentData(final IFile file) {
+    return newDocumentRepositoryData(file.getFullPath(), IdeGitProjects.getRepository(file));
+  }
 
-	public static final IdeDocumentDto newDocumentData(final IClassFile file)
-	{
-		return newDocumentPathData(ClassFiles.path(file));
-	}
+  public static final IdeDocumentDto newDocumentData(final IClassFile file) {
+    return newDocumentPathData(ClassFiles.path(file));
+  }
 
-	private static final IdeDocumentDto newDocumentPathData(final IPath path)
-	{
-		IdeDocumentDto data = new IdeDocumentDto();
+  private static final IdeDocumentDto newDocumentPathData(final IPath path) {
+    IdeDocumentDto data = new IdeDocumentDto();
 
-		data.setLocalPath(path.toString());
+    data.setLocalPath(path.toString());
 
-		return data;
-	}
+    return data;
+  }
 
-	private static final IdeDocumentDto newDocumentRepositoryData(final IPath path, @Nullable final Repository repository)
-	{
-		IdeDocumentDto data = newDocumentPathData(path.makeRelative());
+  private static final IdeDocumentDto newDocumentRepositoryData(final IPath path, @Nullable final Repository repository) {
+    IdeDocumentDto data = newDocumentPathData(path.makeRelative());
 
-		if (repository != null)
-		{
-			data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
-			data.setBranch(GitRepositories.getBranch(repository));
-			data.setServerPath(data.getLocalPath());
+    if (repository != null) {
+      data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
+      data.setBranch(GitRepositories.getBranch(repository));
+      data.setServerPath(data.getLocalPath());
 
-			RevCommit commit = GitRepositories.getMostRecentCommit(repository, path.makeRelative().toString());
+      RevCommit commit = GitRepositories.getMostRecentCommit(repository, path.makeRelative().toString());
 
-			if (commit != null)
-			{
-				data.setChangesetIdInRcs(commit.getName());
-			}
-		}
+      if (commit != null) {
+        data.setChangesetIdInRcs(commit.getName());
+      }
+    }
 
-		return data;
-	}
+    return data;
+  }
 
-	public static final RcsServerDto newGitServerData(final String url)
-	{
-		RcsServerDto data = new RcsServerDto();
+  public static final RcsServerDto newGitServerData(final String url) {
+    RcsServerDto data = new RcsServerDto();
 
-		data.setUrl(url);
-		data.setTypeUri(UacaUriHelper.forRcsServerType("git"));
+    data.setUrl(url);
+    data.setTypeUri(UacaUriHelper.forRcsServerType("git"));
 
-		return data;
-	}
+    return data;
+  }
 
-	public static final void setApplicationData(final BaseIdeEventRequest data)
-	{
-		IdeApplication application = IdeApplication.getInstance();
+  public static final void setApplicationData(final BaseIdeEventRequest data) {
+    IdeApplication application = IdeApplication.getInstance();
 
-		data.setSessionId(Integer.toString(application.getPid()));
-		data.setAppName(application.getName());
-		data.setAppVersion(application.getVersion());
-	}
+    data.setSessionId(Integer.toString(application.getPid()));
+    data.setAppName(application.getName());
+    data.setAppVersion(application.getVersion());
+  }
 
-	public static final void setEventData(final BaseIdeEventRequest data, final long time)
-	{
-		data.setTimestamp(Internals.timeSupplier.from(time));
-	}
+  public static final void setEventData(final BaseIdeEventRequest data, final long time) {
+    data.setTimestamp(Internals.timeSupplier.from(time));
+  }
 
-	public static final void setProjectData(final BaseIdeEventRequest data, final IFile file)
-	{
-		setProjectData(data, file.getProject());
-	}
-	public static final void setProjectData(final BaseIdeEventRequest data, final IClassFile file)
-	{
-		IJavaElement root = file.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
+  public static final void setProjectData(final BaseIdeEventRequest data, final IFile file) {
+    setProjectData(data, file.getProject());
+  }
 
-		Preconditions.checkState(root != null, "Package fragment root not found");
+  public static final void setProjectData(final BaseIdeEventRequest data, final IClassFile file) {
+    IJavaElement root = file.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 
-		setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
-	}
+    Preconditions.checkState(root != null, "Package fragment root not found");
 
-	public static final void setProjectData(final BaseIdeEventRequest data, final IProject project)
-	{
-		setProjectData(data, Workspaces.getName(project.getWorkspace()), project.getName());
-	}
+    setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
+  }
 
-	private static final void setProjectData(final BaseIdeEventRequest data, final String workspace, final String project)
-	{
-		data.setSolutionName(workspace);
-		data.setProjectName(project);
-	}
+  public static final void setProjectData(final BaseIdeEventRequest data, final IProject project) {
+    setProjectData(data, Workspaces.getName(project.getWorkspace()), project.getName());
+  }
+
+  private static final void setProjectData(final BaseIdeEventRequest data, final String workspace, final String project) {
+    data.setSolutionName(workspace);
+    data.setProjectName(project);
+  }
 }

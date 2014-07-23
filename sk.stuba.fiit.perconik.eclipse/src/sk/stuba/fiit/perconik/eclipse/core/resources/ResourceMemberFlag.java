@@ -15,69 +15,61 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum ResourceMemberFlag implements IntegralConstant
-{
-	/**
-	 * @see IContainer#INCLUDE_HIDDEN
-	 */
-	INCLUDE_HIDDEN(IContainer.INCLUDE_HIDDEN),
+public enum ResourceMemberFlag implements IntegralConstant {
+  /**
+   * @see IContainer#INCLUDE_HIDDEN
+   */
+  INCLUDE_HIDDEN(IContainer.INCLUDE_HIDDEN),
 
-	/**
-	 * @see IContainer#INCLUDE_PHANTOMS
-	 */
-	INCLUDE_PHANTOMS(IContainer.INCLUDE_PHANTOMS),
-	
-	/**
-	 * @see IContainer#INCLUDE_TEAM_PRIVATE_MEMBERS
-	 */
-	INCLUDE_TEAM_PRIVATE_MEMBERS(IContainer.INCLUDE_TEAM_PRIVATE_MEMBERS),
+  /**
+   * @see IContainer#INCLUDE_PHANTOMS
+   */
+  INCLUDE_PHANTOMS(IContainer.INCLUDE_PHANTOMS),
 
-	/**
-	 * @see IContainer#EXCLUDE_DERIVED
-	 */
-	EXCLUDE_DERIVED(IContainer.EXCLUDE_DERIVED),
+  /**
+   * @see IContainer#INCLUDE_TEAM_PRIVATE_MEMBERS
+   */
+  INCLUDE_TEAM_PRIVATE_MEMBERS(IContainer.INCLUDE_TEAM_PRIVATE_MEMBERS),
 
-	/**
-	 * @see IContainer#DO_NOT_CHECK_EXISTENCE
-	 */
-	DO_NOT_CHECK_EXISTENCE(IContainer.DO_NOT_CHECK_EXISTENCE);
+  /**
+   * @see IContainer#EXCLUDE_DERIVED
+   */
+  EXCLUDE_DERIVED(IContainer.EXCLUDE_DERIVED),
 
-	private static final IntegralConstantSupport<ResourceMemberFlag> integers = IntegralConstantSupport.of(ResourceMemberFlag.class);
+  /**
+   * @see IContainer#DO_NOT_CHECK_EXISTENCE
+   */
+  DO_NOT_CHECK_EXISTENCE(IContainer.DO_NOT_CHECK_EXISTENCE);
 
-	private final int value;
-	
-	private ResourceMemberFlag(final int value)
-	{
-		this.value = value;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final int valuesAsInteger()
-	{
-		return integers.getConstantsAsInteger();
-	}
+  private static final IntegralConstantSupport<ResourceMemberFlag> integers = IntegralConstantSupport.of(ResourceMemberFlag.class);
 
-	public static final int valuesAsInteger(final Set<ResourceMemberFlag> values)
-	{
-		return IntegralConstantSupport.constantsAsInteger(values);
-	}
+  private final int value;
 
-	public static final ResourceMemberFlag valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  private ResourceMemberFlag(final int value) {
+    this.value = value;
+  }
 
-	public static final Set<ResourceMemberFlag> setOf(final int values)
-	{
-		return integers.getConstants(values);
-	}
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
 
-	public final int getValue()
-	{
-		return this.value;
-	}
+  public static final int valuesAsInteger() {
+    return integers.getConstantsAsInteger();
+  }
+
+  public static final int valuesAsInteger(final Set<ResourceMemberFlag> values) {
+    return IntegralConstantSupport.constantsAsInteger(values);
+  }
+
+  public static final ResourceMemberFlag valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public static final Set<ResourceMemberFlag> setOf(final int values) {
+    return integers.getConstants(values);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

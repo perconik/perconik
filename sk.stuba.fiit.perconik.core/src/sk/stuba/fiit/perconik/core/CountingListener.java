@@ -9,28 +9,26 @@ import java.util.Map;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface CountingListener extends Listener
-{
-	/**
-	 * Gets all event counts in a key to count map.
-	 * @return key to event count map
-	 */
-	public Map<Key, Long> getCounts();
+public interface CountingListener extends Listener {
+  /**
+   * Gets all event counts in a key to count map.
+   * @return key to event count map
+   */
+  public Map<Key, Long> getCounts();
 
-	/**
-	 * Gets event count for given key.
-	 * @param key event key
-	 * @return event count
-	 */
-	public long getCount(Key key);
-	
-	/**
-	 * Marker interface for event identification.
-	 * 
-	 * @author Pavol Zbell
-	 * @since 1.0
-	 */
-	public static interface Key
-	{
-	}
+  /**
+   * Gets event count for given key.
+   * @param key event key
+   * @return event count
+   */
+  public long getCount(Key key);
+
+  /**
+   * Marker interface for event identification.
+   * 
+   * @author Pavol Zbell
+   * @since 1.0
+   */
+  public static interface Key {
+  }
 }

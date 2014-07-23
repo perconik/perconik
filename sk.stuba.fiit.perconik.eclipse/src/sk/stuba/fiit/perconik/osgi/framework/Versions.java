@@ -7,76 +7,61 @@ import com.google.common.collect.Lists;
 
 import org.osgi.framework.Version;
 
-public final class Versions
-{
-	private static final String	separator = ".";
-	
-	private Versions()
-	{
-		throw new AssertionError();
-	}
-	
-	public static enum Component
-	{
-		MAJOR
-		{
-			@Override
-			public final Integer get(final Version version)
-			{
-				return version.getMajor();
-			}
-		},
-		
-		MINOR
-		{
-			@Override
-			public final Integer get(final Version version)
-			{
-				return version.getMinor();
-			}
-		},
-		
-		MICRO
-		{
-			@Override
-			public final Integer get(final Version version)
-			{
-				return version.getMicro();
-			}
-		},
-		
-		QUALIFIER
-		{
-			@Override
-			public final String get(final Version version)
-			{
-				return version.getQualifier();
-			}
-		};
+public final class Versions {
+  private static final String separator = ".";
 
-		public abstract Object get(final Version version);
-		
-		@Override
-		public final String toString()
-		{
-			return this.name().toLowerCase();
-		}
-	}
-	
-	public static final String toString(final Version version, final Component ... components)
-	{
-		List<Object> values = Lists.newArrayListWithCapacity(components.length); 
-		
-		for (Component component: components)
-		{
-			values.add(component.get(version));
-		}
-		
-		return Joiner.on(separator).join(values);
-	}
+  private Versions() {
+    throw new AssertionError();
+  }
 
-	public static final String getSeparator()
-	{
-		return separator;
-	}
+  public static enum Component {
+    MAJOR {
+      @Override
+      public final Integer get(final Version version) {
+        return version.getMajor();
+      }
+    },
+
+    MINOR {
+      @Override
+      public final Integer get(final Version version) {
+        return version.getMinor();
+      }
+    },
+
+    MICRO {
+      @Override
+      public final Integer get(final Version version) {
+        return version.getMicro();
+      }
+    },
+
+    QUALIFIER {
+      @Override
+      public final String get(final Version version) {
+        return version.getQualifier();
+      }
+    };
+
+    public abstract Object get(final Version version);
+
+    @Override
+    public final String toString() {
+      return this.name().toLowerCase();
+    }
+  }
+
+  public static final String toString(final Version version, final Component ... components) {
+    List<Object> values = Lists.newArrayListWithCapacity(components.length);
+
+    for (Component component: components) {
+      values.add(component.get(version));
+    }
+
+    return Joiner.on(separator).join(values);
+  }
+
+  public static final String getSeparator() {
+    return separator;
+  }
 }

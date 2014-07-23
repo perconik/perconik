@@ -19,16 +19,11 @@ import sk.stuba.fiit.perconik.core.listeners.GitIndexListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class GitIndexAdapter extends Adapter implements GitIndexListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected GitIndexAdapter()
-	{
-	}
-	
-	public void onIndexChanged(IndexChangedEvent event)
-	{
-	}
+public class GitIndexAdapter extends Adapter implements GitIndexListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected GitIndexAdapter() {}
+
+  public void onIndexChanged(IndexChangedEvent event) {}
 }

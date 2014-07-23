@@ -20,31 +20,30 @@ import sk.stuba.fiit.perconik.core.Nameable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface Provider extends Nameable
-{
-	/**
-	 * Returns the provider's parent or {@code null} if there is no parent.
-	 */
-	public Provider parent();
-	
-	/**
-	 * Compares the specified object with this provider for equality.
-	 * Returns {@code true} if the specified object is also provider
-	 * and the two providers have the same name. This definition ensures
-	 * that this method works properly across different implementations
-	 * of the provider interface.
-	 * @param o an object to be compared for equality with this provider
-	 * @return {@code true} if the specified object is equal to
-	 *         this provider, {@code false} otherwise
-	 */
-	@Override
-	public boolean equals(@Nullable Object o);
-	
-    /**
-     * Returns the hash code value for this provider. The hash code of a
-     * provider should be equivalent to the hash code of the provider's name.
-     * @return the hash code value for this provider
-     */
-	@Override
-	public int hashCode();
+public interface Provider extends Nameable {
+  /**
+   * Returns the provider's parent or {@code null} if there is no parent.
+   */
+  public Provider parent();
+
+  /**
+   * Compares the specified object with this provider for equality.
+   * Returns {@code true} if the specified object is also provider
+   * and the two providers have the same name. This definition ensures
+   * that this method works properly across different implementations
+   * of the provider interface.
+   * @param o an object to be compared for equality with this provider
+   * @return {@code true} if the specified object is equal to
+   *         this provider, {@code false} otherwise
+   */
+  @Override
+  public boolean equals(@Nullable Object o);
+
+  /**
+   * Returns the hash code value for this provider. The hash code of a
+   * provider should be equivalent to the hash code of the provider's name.
+   * @return the hash code value for this provider
+   */
+  @Override
+  public int hashCode();
 }

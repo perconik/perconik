@@ -6,11 +6,10 @@ package sk.stuba.fiit.perconik.core;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface Nameable
-{
-    /**
-     * Gets the fully qualified name.
-     * @return the fully qualified name
-     */
-	public String getName();
+public interface Nameable {
+  /**
+   * Gets the fully qualified name.
+   * @return the fully qualified name
+   */
+  public String getName();
 }

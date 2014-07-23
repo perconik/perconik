@@ -15,59 +15,54 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum ResourceEventType implements IntegralConstant
-{
-	/**
-	 * @see IResourceChangeEvent#POST_CHANGE
-	 */
-	POST_CHANGE(IResourceChangeEvent.POST_CHANGE),
-	
-	/**
-	 * @see IResourceChangeEvent#PRE_CLOSE
-	 */
-	PRE_CLOSE(IResourceChangeEvent.PRE_CLOSE),
+public enum ResourceEventType implements IntegralConstant {
+  /**
+   * @see IResourceChangeEvent#POST_CHANGE
+   */
+  POST_CHANGE(IResourceChangeEvent.POST_CHANGE),
 
-	/**
-	 * @see IResourceChangeEvent#PRE_DELETE
-	 */
-	PRE_DELETE(IResourceChangeEvent.PRE_DELETE),
-	
-	/**
-	 * @see IResourceChangeEvent#PRE_BUILD
-	 */
-	PRE_BUILD(IResourceChangeEvent.PRE_BUILD),
-	
-	/**
-	 * @see IResourceChangeEvent#POST_BUILD
-	 */
-	POST_BUILD(IResourceChangeEvent.POST_BUILD),
-	
-	/**
-	 * @see IResourceChangeEvent#PRE_REFRESH
-	 */
-	PRE_REFRESH(IResourceChangeEvent.PRE_REFRESH);
+  /**
+   * @see IResourceChangeEvent#PRE_CLOSE
+   */
+  PRE_CLOSE(IResourceChangeEvent.PRE_CLOSE),
 
-	private static final IntegralConstantSupport<ResourceEventType> integers = IntegralConstantSupport.of(ResourceEventType.class);
+  /**
+   * @see IResourceChangeEvent#PRE_DELETE
+   */
+  PRE_DELETE(IResourceChangeEvent.PRE_DELETE),
 
-	private final int value;
-	
-	private ResourceEventType(final int value)
-	{
-		this.value = value;
-	}
-		
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
+  /**
+   * @see IResourceChangeEvent#PRE_BUILD
+   */
+  PRE_BUILD(IResourceChangeEvent.PRE_BUILD),
 
-	public static final ResourceEventType valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  /**
+   * @see IResourceChangeEvent#POST_BUILD
+   */
+  POST_BUILD(IResourceChangeEvent.POST_BUILD),
 
-	public final int getValue()
-	{
-		return this.value;
-	}
+  /**
+   * @see IResourceChangeEvent#PRE_REFRESH
+   */
+  PRE_REFRESH(IResourceChangeEvent.PRE_REFRESH);
+
+  private static final IntegralConstantSupport<ResourceEventType> integers = IntegralConstantSupport.of(ResourceEventType.class);
+
+  private final int value;
+
+  private ResourceEventType(final int value) {
+    this.value = value;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final ResourceEventType valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

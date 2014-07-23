@@ -9,68 +9,55 @@ import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.StaticAccessor;
 
-final class SystemListenerProvider extends AbstractListenerProvider
-{
-	private static final ListenerProvider instance = new SystemListenerProvider();
-	
-	private final BiMap<String, Class<? extends Listener>> map;
-	
-	private SystemListenerProvider()
-	{
-		this.map = HashBiMap.create();
-	}
-	
-	static final ListenerProvider getInstance()
-	{
-		return instance;
-	}
+final class SystemListenerProvider extends AbstractListenerProvider {
+  private static final ListenerProvider instance = new SystemListenerProvider();
 
-	@Override
-	protected final ClassLoader loader()
-	{
-		return ClassLoader.getSystemClassLoader();
-	}
+  private final BiMap<String, Class<? extends Listener>> map;
 
-	public final <L extends Listener> L forClass(final Class<L> implementation)
-	{
-		if (!this.map.containsValue(implementation))
-		{
-			cast(implementation);
-		}
-		
-		try
-		{
-			return StaticAccessor.ofEnumConstant(implementation, "INSTANCE").get();
-		}
-		catch (Exception e)
-		{
-			throw new IllegalListenerClassException(e);
-		}
-	}
+  private SystemListenerProvider() {
+    this.map = HashBiMap.create();
+  }
 
-	public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException
-	{
-		Class<? extends Listener> type = this.map.get(name);
+  static final ListenerProvider getInstance() {
+    return instance;
+  }
 
-		if (type != null)
-		{
-			return type;
-		}
+  @Override
+  protected final ClassLoader loader() {
+    return ClassLoader.getSystemClassLoader();
+  }
 
-		type = cast(this.load(name));
-		
-		this.map.put(name, type);
-		
-		return type;
-	}
+  public final <L extends Listener> L forClass(final Class<L> implementation) {
+    if (!this.map.containsValue(implementation)) {
+      cast(implementation);
+    }
 
-	public final Set<Class<? extends Listener>> classes()
-	{
-		return this.map.values();
-	}
+    try {
+      return StaticAccessor.ofEnumConstant(implementation, "INSTANCE").get();
+    } catch (Exception e) {
+      throw new IllegalListenerClassException(e);
+    }
+  }
 
-	public final ListenerProvider parent()
-	{
-		return null;
-	}
+  public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
+    Class<? extends Listener> type = this.map.get(name);
+
+    if (type != null) {
+      return type;
+    }
+
+    type = cast(this.load(name));
+
+    this.map.put(name, type);
+
+    return type;
+  }
+
+  public final Set<Class<? extends Listener>> classes() {
+    return this.map.values();
+  }
+
+  public final ListenerProvider parent() {
+    return null;
+  }
 }

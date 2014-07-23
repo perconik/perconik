@@ -19,20 +19,13 @@ import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class DocumentAdapter extends Adapter implements DocumentListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected DocumentAdapter()
-	{
-	}
+public class DocumentAdapter extends Adapter implements DocumentListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected DocumentAdapter() {}
 
-	public void documentAboutToBeChanged(DocumentEvent event)
-	{
-	}
+  public void documentAboutToBeChanged(DocumentEvent event) {}
 
-	public void documentChanged(DocumentEvent event)
-	{
-	}
+  public void documentChanged(DocumentEvent event) {}
 }

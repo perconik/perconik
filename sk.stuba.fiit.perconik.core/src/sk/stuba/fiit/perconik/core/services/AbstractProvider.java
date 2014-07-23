@@ -9,59 +9,50 @@ import javax.annotation.Nullable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractProvider implements Provider
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractProvider()
-	{
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		
-		if (!(o instanceof Provider))
-		{
-			return false;
-		}
+public abstract class AbstractProvider implements Provider {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractProvider() {}
 
-		Provider other = (Provider) o;
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(@Nullable final Object o) {
+    if (this == o) {
+      return true;
+    }
 
-		return this.getName().equals(other.getName());
-	}
+    if (!(o instanceof Provider)) {
+      return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final int hashCode()
-	{
-		return this.getName().hashCode();
-	}
-	
-	/**
-	 * Converts provider to string consisting of its name.
-	 */
-	@Override
-	public final String toString()
-	{
-		return this.getName();
-	}
+    Provider other = (Provider) o;
 
-	/**
-	 * Returns provider name.
-	 */
-	public final String getName()
-	{
-		return this.getClass().getName();
-	}
+    return this.getName().equals(other.getName());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return this.getName().hashCode();
+  }
+
+  /**
+   * Converts provider to string consisting of its name.
+   */
+  @Override
+  public final String toString() {
+    return this.getName();
+  }
+
+  /**
+   * Returns provider name.
+   */
+  public final String getName() {
+    return this.getClass().getName();
+  }
 }

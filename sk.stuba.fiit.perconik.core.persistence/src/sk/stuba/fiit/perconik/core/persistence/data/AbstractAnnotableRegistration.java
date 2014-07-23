@@ -14,51 +14,41 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractAnnotableRegistration implements AnnotableRegistration
-{
-	private transient volatile Annotable annotable;
-	
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractAnnotableRegistration()
-	{
-	}
+abstract class AbstractAnnotableRegistration implements AnnotableRegistration {
+  private transient volatile Annotable annotable;
 
-	abstract Registrable source();
-	
-	private final Annotable annotable()
-	{
-		Annotable annotable = this.annotable;
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractAnnotableRegistration() {}
 
-		if (annotable == null)
-		{
-			synchronized (this)
-			{
-				annotable = this.annotable;
+  abstract Registrable source();
 
-				if (annotable == null)
-				{
-					annotable = this.annotable = Registrables.toAnnotable(this.source().getClass());
-				}
-			}
-		}
+  private final Annotable annotable() {
+    Annotable annotable = this.annotable;
 
-		return annotable;
-	}
-	
-	public final boolean hasAnnotation(final Class<? extends Annotation> type)
-	{
-		return this.annotable().hasAnnotation(type);
-	}
+    if (annotable == null) {
+      synchronized (this) {
+        annotable = this.annotable;
 
-	public final <A extends Annotation> A getAnnotation(final Class<A> type)
-	{
-		return this.annotable().getAnnotation(type);
-	}
+        if (annotable == null) {
+          annotable = this.annotable = Registrables.toAnnotable(this.source().getClass());
+        }
+      }
+    }
 
-	public final List<Annotation> getAnnotations()
-	{
-		return this.annotable().getAnnotations();
-	}
+    return annotable;
+  }
+
+  public final boolean hasAnnotation(final Class<? extends Annotation> type) {
+    return this.annotable().hasAnnotation(type);
+  }
+
+  public final <A extends Annotation> A getAnnotation(final Class<A> type) {
+    return this.annotable().getAnnotation(type);
+  }
+
+  public final List<Annotation> getAnnotations() {
+    return this.annotable().getAnnotations();
+  }
 }

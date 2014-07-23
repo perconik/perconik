@@ -5,141 +5,116 @@ import java.nio.file.Path;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class JavaData extends AnyStructuredData
-{
-	protected String vendor;
-	
-	protected URL vendorUrl;
-	
-	protected String version;
-	
-	protected SpecificationData specification;
+public class JavaData extends AnyStructuredData {
+  protected String vendor;
 
-	protected VirtualMachineData virtualMachine;
-	
-	protected Path home;
+  protected URL vendorUrl;
 
-	protected String compiler;
+  protected String version;
 
-	protected Path classPath;
-	
-	protected Path libraryPath;
-	
-	protected Path extensionDirectories;
-	
-	protected Path temporaryDirectory;
-	
-	public JavaData()
-	{
-	}
+  protected SpecificationData specification;
 
-	public void setVendor(String vendor)
-	{
-		this.vendor = vendor;
-	}
+  protected VirtualMachineData virtualMachine;
 
-	public void setVendorUrl(URL vendorUrl)
-	{
-		this.vendorUrl = vendorUrl;
-	}
+  protected Path home;
 
-	public void setVersion(String version)
-	{
-		this.version = version;
-	}
+  protected String compiler;
 
-	public void setSpecification(SpecificationData specification)
-	{
-		this.specification = specification;
-	}
+  protected Path classPath;
 
-	public void setVirtualMachine(VirtualMachineData virtualMachine)
-	{
-		this.virtualMachine = virtualMachine;
-	}
+  protected Path libraryPath;
 
-	public void setHome(Path home)
-	{
-		this.home = home;
-	}
+  protected Path extensionDirectories;
 
-	public void setCompiler(String compiler)
-	{
-		this.compiler = compiler;
-	}
+  protected Path temporaryDirectory;
 
-	public void setClassPath(Path classPath)
-	{
-		this.classPath = classPath;
-	}
+  public JavaData() {}
 
-	public void setLibraryPath(Path libraryPath)
-	{
-		this.libraryPath = libraryPath;
-	}
+  public void setVendor(String vendor) {
+    this.vendor = vendor;
+  }
 
-	public void setExtensionDirectories(Path extensionDirectories)
-	{
-		this.extensionDirectories = extensionDirectories;
-	}
+  public void setVendorUrl(URL vendorUrl) {
+    this.vendorUrl = vendorUrl;
+  }
 
-	public void setTemporaryDirectory(Path temporaryDirectory)
-	{
-		this.temporaryDirectory = temporaryDirectory;
-	}
+  public void setVersion(String version) {
+    this.version = version;
+  }
 
-	public String getVendor()
-	{
-		return this.vendor;
-	}
+  public void setSpecification(SpecificationData specification) {
+    this.specification = specification;
+  }
 
-	public URL getVendorUrl()
-	{
-		return this.vendorUrl;
-	}
+  public void setVirtualMachine(VirtualMachineData virtualMachine) {
+    this.virtualMachine = virtualMachine;
+  }
 
-	public String getVersion()
-	{
-		return this.version;
-	}
+  public void setHome(Path home) {
+    this.home = home;
+  }
 
-	public SpecificationData getSpecification()
-	{
-		return this.specification;
-	}
+  public void setCompiler(String compiler) {
+    this.compiler = compiler;
+  }
 
-	public VirtualMachineData getVirtualMachine()
-	{
-		return this.virtualMachine;
-	}
+  public void setClassPath(Path classPath) {
+    this.classPath = classPath;
+  }
 
-	public Path getHome()
-	{
-		return this.home;
-	}
+  public void setLibraryPath(Path libraryPath) {
+    this.libraryPath = libraryPath;
+  }
 
-	public String getCompiler()
-	{
-		return this.compiler;
-	}
+  public void setExtensionDirectories(Path extensionDirectories) {
+    this.extensionDirectories = extensionDirectories;
+  }
 
-	public Path getClassPath()
-	{
-		return this.classPath;
-	}
+  public void setTemporaryDirectory(Path temporaryDirectory) {
+    this.temporaryDirectory = temporaryDirectory;
+  }
 
-	public Path getLibraryPath()
-	{
-		return this.libraryPath;
-	}
+  public String getVendor() {
+    return this.vendor;
+  }
 
-	public Path getExtensionDirectories()
-	{
-		return this.extensionDirectories;
-	}
+  public URL getVendorUrl() {
+    return this.vendorUrl;
+  }
 
-	public Path getTemporaryDirectory()
-	{
-		return this.temporaryDirectory;
-	}
+  public String getVersion() {
+    return this.version;
+  }
+
+  public SpecificationData getSpecification() {
+    return this.specification;
+  }
+
+  public VirtualMachineData getVirtualMachine() {
+    return this.virtualMachine;
+  }
+
+  public Path getHome() {
+    return this.home;
+  }
+
+  public String getCompiler() {
+    return this.compiler;
+  }
+
+  public Path getClassPath() {
+    return this.classPath;
+  }
+
+  public Path getLibraryPath() {
+    return this.libraryPath;
+  }
+
+  public Path getExtensionDirectories() {
+    return this.extensionDirectories;
+  }
+
+  public Path getTemporaryDirectory() {
+    return this.temporaryDirectory;
+  }
 }

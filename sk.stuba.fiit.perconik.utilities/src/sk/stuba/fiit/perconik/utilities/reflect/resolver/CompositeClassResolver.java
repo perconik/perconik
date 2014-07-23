@@ -9,45 +9,37 @@ import com.google.common.collect.Lists;
 
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
-final class CompositeClassResolver implements ClassResolver
-{
-	private final List<ClassResolver> resolvers;
-	
-	CompositeClassResolver(Iterable<ClassResolver> resolvers)
-	{
-		this.resolvers = ImmutableList.copyOf(resolvers);
-		
-		Preconditions.checkArgument(!this.resolvers.isEmpty());
-	}
-	
-	public final Class<?> forName(String name) throws ClassNotFoundException
-	{
-		List<Throwable> suppressions = Lists.newLinkedList();
-		
-		for (ClassResolver resolver: this.resolvers)
-		{
-			try
-			{
-				return resolver.forName(name);
-			}
-			catch (Exception e)
-			{
-				suppressions.add(e);
-			}
-		}
+final class CompositeClassResolver implements ClassResolver {
+  private final List<ClassResolver> resolvers;
 
-		ClassNotFoundException failure = new ClassNotFoundException(name + " not found");
-		
-		throw MoreThrowables.initializeSuppressor(failure, Lists.reverse(suppressions));
-	}
-	
-	@Override
-	public final String toString()
-	{
-		StringBuilder builder = new StringBuilder("CompositeClassResolver(");
-		
-		Joiner.on(",").appendTo(builder, this.resolvers);
-		
-		return builder.append(")").toString();
-	}
+  CompositeClassResolver(Iterable<ClassResolver> resolvers) {
+    this.resolvers = ImmutableList.copyOf(resolvers);
+
+    Preconditions.checkArgument(!this.resolvers.isEmpty());
+  }
+
+  public final Class<?> forName(String name) throws ClassNotFoundException {
+    List<Throwable> suppressions = Lists.newLinkedList();
+
+    for (ClassResolver resolver: this.resolvers) {
+      try {
+        return resolver.forName(name);
+      } catch (Exception e) {
+        suppressions.add(e);
+      }
+    }
+
+    ClassNotFoundException failure = new ClassNotFoundException(name + " not found");
+
+    throw MoreThrowables.initializeSuppressor(failure, Lists.reverse(suppressions));
+  }
+
+  @Override
+  public final String toString() {
+    StringBuilder builder = new StringBuilder("CompositeClassResolver(");
+
+    Joiner.on(",").appendTo(builder, this.resolvers);
+
+    return builder.append(")").toString();
+  }
 }

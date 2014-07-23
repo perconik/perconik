@@ -11,43 +11,38 @@ import javax.annotation.Nullable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class InvalidListenerException extends InvalidObjectException
-{
-	private static final long serialVersionUID = 0;
+public class InvalidListenerException extends InvalidObjectException {
+  private static final long serialVersionUID = 0;
 
-	/**
-	 * Creates a new instance with no detail message.
-	 */
-	public InvalidListenerException()
-	{
-		super(null);
-		
-		this.fillInStackTrace();
-	}
+  /**
+   * Creates a new instance with no detail message.
+   */
+  public InvalidListenerException() {
+    super(null);
 
-	/**
-	 * Creates a new instance with the given detail message.
-	 */
-	public InvalidListenerException(@Nullable String message)
-	{
-		super(message);
-	}
+    this.fillInStackTrace();
+  }
 
-	/**
-	 * Creates a new instance with the given detail message and cause.
-	 */
-	public InvalidListenerException(@Nullable String message, @Nullable Throwable cause)
-	{
-		super(message);
-		
-		this.initCause(cause);
-	}
+  /**
+   * Creates a new instance with the given detail message.
+   */
+  public InvalidListenerException(@Nullable String message) {
+    super(message);
+  }
 
-	/**
-	 * Creates a new instance with the given cause.
-	 */
-	public InvalidListenerException(@Nullable Throwable cause)
-	{
-		this(null, cause);
-	}
+  /**
+   * Creates a new instance with the given detail message and cause.
+   */
+  public InvalidListenerException(@Nullable String message, @Nullable Throwable cause) {
+    super(message);
+
+    this.initCause(cause);
+  }
+
+  /**
+   * Creates a new instance with the given cause.
+   */
+  public InvalidListenerException(@Nullable Throwable cause) {
+    this(null, cause);
+  }
 }

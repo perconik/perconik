@@ -13,25 +13,14 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
  */
 @Unsupported
 @Version("0.0.1")
-public final class LaunchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.LaunchesListener
-{
-	public LaunchListener()
-	{
-	}
-	
-	public void launchesAdded(ILaunch[] launches)
-	{
-	}
+public final class LaunchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.LaunchesListener {
+  public LaunchListener() {}
 
-	public void launchesRemoved(ILaunch[] launches)
-	{
-	}
+  public void launchesAdded(ILaunch[] launches) {}
 
-	public void launchesChanged(ILaunch[] launches)
-	{
-	}
+  public void launchesRemoved(ILaunch[] launches) {}
 
-	public void launchesTerminated(ILaunch[] launches)
-	{
-	}
+  public void launchesChanged(ILaunch[] launches) {}
+
+  public void launchesTerminated(ILaunch[] launches) {}
 }

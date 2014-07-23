@@ -13,6 +13,5 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface PartListener extends Listener, IPartListener2
-{
+public interface PartListener extends Listener, IPartListener2 {
 }

@@ -8,11 +8,10 @@ package sk.stuba.fiit.perconik.core.persistence;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface MarkableRegistration extends Registration
-{
-	/**
-	 * Returns {@code true} if the underlying registrable
-	 * object is marked as registered, {@code false} otherwise.
-	 */
-	public boolean hasRegistredMark();
+public interface MarkableRegistration extends Registration {
+  /**
+   * Returns {@code true} if the underlying registrable
+   * object is marked as registered, {@code false} otherwise.
+   */
+  public boolean hasRegistredMark();
 }

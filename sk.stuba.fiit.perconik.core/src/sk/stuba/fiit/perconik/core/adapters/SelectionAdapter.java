@@ -20,16 +20,11 @@ import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class SelectionAdapter extends Adapter implements SelectionListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected SelectionAdapter()
-	{
-	}
-	
-	public void selectionChanged(IWorkbenchPart part, ISelection selection)
-	{
-	}
+public class SelectionAdapter extends Adapter implements SelectionListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected SelectionAdapter() {}
+
+  public void selectionChanged(IWorkbenchPart part, ISelection selection) {}
 }

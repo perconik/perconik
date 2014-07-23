@@ -19,16 +19,11 @@ import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class OperationHistoryAdapter extends Adapter implements OperationHistoryListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected OperationHistoryAdapter()
-	{
-	}
+public class OperationHistoryAdapter extends Adapter implements OperationHistoryListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected OperationHistoryAdapter() {}
 
-	public void historyNotification(OperationHistoryEvent event)
-	{
-	}
+  public void historyNotification(OperationHistoryEvent event) {}
 }

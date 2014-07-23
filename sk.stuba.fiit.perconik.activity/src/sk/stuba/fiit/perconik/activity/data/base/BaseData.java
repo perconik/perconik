@@ -2,36 +2,28 @@ package sk.stuba.fiit.perconik.activity.data.base;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class BaseData extends AnyStructuredData
-{
-	protected ClassData implementation;
-	
-	public BaseData()
-	{
-	}
+public class BaseData extends AnyStructuredData {
+  protected ClassData implementation;
 
-	protected BaseData(Class<?> implementation)
-	{
-		if (implementation == null)
-		{
-			return;
-		}
-		
-		this.setImplementation(ClassData.of(implementation));
-	}
+  public BaseData() {}
 
-	public static BaseData of(Class<?> type)
-	{
-		return new BaseData(type);
-	}
+  protected BaseData(Class<?> implementation) {
+    if (implementation == null) {
+      return;
+    }
 
-	public void setImplementation(ClassData implementation)
-	{
-		this.implementation = implementation;
-	}
+    this.setImplementation(ClassData.of(implementation));
+  }
 
-	public ClassData getImplementation()
-	{
-		return this.implementation;
-	}
+  public static BaseData of(Class<?> type) {
+    return new BaseData(type);
+  }
+
+  public void setImplementation(ClassData implementation) {
+    this.implementation = implementation;
+  }
+
+  public ClassData getImplementation() {
+    return this.implementation;
+  }
 }

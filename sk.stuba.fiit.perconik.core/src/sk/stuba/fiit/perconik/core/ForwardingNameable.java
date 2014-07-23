@@ -14,20 +14,16 @@ import com.google.common.collect.ForwardingObject;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingNameable extends ForwardingObject implements Nameable
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingNameable()
-	{
-	}
+public abstract class ForwardingNameable extends ForwardingObject implements Nameable {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingNameable() {}
 
-	@Override
-	protected abstract Nameable delegate();
+  @Override
+  protected abstract Nameable delegate();
 
-	public String getName()
-	{
-		return this.delegate().getName();
-	}
+  public String getName() {
+    return this.delegate().getName();
+  }
 }

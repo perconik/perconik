@@ -19,21 +19,15 @@ import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class WorkbenchAdapter extends Adapter implements WorkbenchListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected WorkbenchAdapter()
-	{
-	}
+public class WorkbenchAdapter extends Adapter implements WorkbenchListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected WorkbenchAdapter() {}
 
-	public boolean preShutdown(IWorkbench workbench, boolean forced)
-	{
-		return true;
-	}
+  public boolean preShutdown(IWorkbench workbench, boolean forced) {
+    return true;
+  }
 
-	public void postShutdown(IWorkbench workbench)
-	{
-	}
+  public void postShutdown(IWorkbench workbench) {}
 }

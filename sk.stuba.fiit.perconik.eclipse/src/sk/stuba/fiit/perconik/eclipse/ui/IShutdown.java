@@ -15,10 +15,9 @@ import com.google.common.annotations.Beta;
  * @since 1.0
  */
 @Beta
-public interface IShutdown
-{
-	/**
+public interface IShutdown {
+  /**
      * Will be called in a separate thread before the workbench shuts down.
-	 */
-	public void earlyShutdown();
+   */
+  public void earlyShutdown();
 }

@@ -19,36 +19,29 @@ import sk.stuba.fiit.perconik.core.services.ForwardingProvider;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingListenerProvider extends ForwardingProvider implements ListenerProvider
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingListenerProvider()
-	{
-	}
+public abstract class ForwardingListenerProvider extends ForwardingProvider implements ListenerProvider {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingListenerProvider() {}
 
-	@Override
-	protected abstract ListenerProvider delegate();
+  @Override
+  protected abstract ListenerProvider delegate();
 
-	public <L extends Listener> L forClass(Class<L> type)
-	{
-		return this.delegate().forClass(type);
-	}
+  public <L extends Listener> L forClass(Class<L> type) {
+    return this.delegate().forClass(type);
+  }
 
-	public Class<? extends Listener> loadClass(String name) throws ClassNotFoundException
-	{
-		return this.delegate().loadClass(name);
-	}
+  public Class<? extends Listener> loadClass(String name) throws ClassNotFoundException {
+    return this.delegate().loadClass(name);
+  }
 
-	public Set<Class<? extends Listener>> classes()
-	{
-		return this.delegate().classes();
-	}
-	
-	@Override
-	public ListenerProvider parent()
-	{
-		return this.delegate().parent();
-	}
+  public Set<Class<? extends Listener>> classes() {
+    return this.delegate().classes();
+  }
+
+  @Override
+  public ListenerProvider parent() {
+    return this.delegate().parent();
+  }
 }

@@ -8,10 +8,9 @@ import org.eclipse.core.runtime.Plugin;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface PluginConsoleFactory
-{
-	/**
-	 * Creates a plug-in console for given plug-in.
-	 */
-	public PluginConsole create(Plugin plugin);
+public interface PluginConsoleFactory {
+  /**
+   * Creates a plug-in console for given plug-in.
+   */
+  public PluginConsole create(Plugin plugin);
 }

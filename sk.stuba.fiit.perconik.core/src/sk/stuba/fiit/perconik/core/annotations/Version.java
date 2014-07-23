@@ -21,10 +21,9 @@ import sk.stuba.fiit.perconik.core.Registrable;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Version
-{
-	/**
-	 * Version identifier as string.
-	 */
-	String value();
+public @interface Version {
+  /**
+   * Version identifier as string.
+   */
+  String value();
 }

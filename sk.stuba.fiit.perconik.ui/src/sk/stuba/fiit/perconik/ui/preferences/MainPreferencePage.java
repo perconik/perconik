@@ -14,35 +14,28 @@ import sk.stuba.fiit.perconik.preferences.MainPreferences;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class MainPreferencePage extends AbstractWorkbenchPreferencePage
-{
-	private MainPreferences preferences;
-	
-	public MainPreferencePage()
-	{
-	}
-	
-	@Override
-	public final void init(final IWorkbench workbench)
-	{
-		this.noDefaultAndApplyButton();
+public final class MainPreferencePage extends AbstractWorkbenchPreferencePage {
+  private MainPreferences preferences;
 
-		this.setDescription("Expand the tree to edit preferences for a specific feature.");
-	}
+  public MainPreferencePage() {}
 
-	@Override
-	protected final Control createContents(final Composite parent)
-	{
-		return parent;
-	}
+  @Override
+  public final void init(final IWorkbench workbench) {
+    this.noDefaultAndApplyButton();
 
-	public final void setMainPreferences(final MainPreferences preferences)
-	{
-		this.preferences = Preconditions.checkNotNull(preferences);
-	}
+    this.setDescription("Expand the tree to edit preferences for a specific feature.");
+  }
 
-	public final MainPreferences getMainPreferences()
-	{
-		return this.preferences;
-	}
+  @Override
+  protected final Control createContents(final Composite parent) {
+    return parent;
+  }
+
+  public final void setMainPreferences(final MainPreferences preferences) {
+    this.preferences = Preconditions.checkNotNull(preferences);
+  }
+
+  public final MainPreferences getMainPreferences() {
+    return this.preferences;
+  }
 }

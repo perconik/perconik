@@ -18,6 +18,5 @@ import sk.stuba.fiit.perconik.core.Registrable;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface DebugImplementation
-{
+public @interface DebugImplementation {
 }

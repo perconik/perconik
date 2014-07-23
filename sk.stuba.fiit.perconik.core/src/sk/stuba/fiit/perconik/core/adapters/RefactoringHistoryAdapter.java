@@ -19,16 +19,11 @@ import sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class RefactoringHistoryAdapter extends Adapter implements RefactoringHistoryListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected RefactoringHistoryAdapter()
-	{
-	}
+public class RefactoringHistoryAdapter extends Adapter implements RefactoringHistoryListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected RefactoringHistoryAdapter() {}
 
-	public void historyNotification(RefactoringHistoryEvent event)
-	{
-	}
+  public void historyNotification(RefactoringHistoryEvent event) {}
 }

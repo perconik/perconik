@@ -11,20 +11,16 @@ import org.eclipse.core.resources.ResourcesPlugin;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Workspaces
-{
-	private Workspaces()
-	{
-		throw new AssertionError();
-	}
-	
-	public static final IWorkspace getWorkspace()
-	{
-		return ResourcesPlugin.getWorkspace();
-	}
-	
-	public static final String getName(final IWorkspace workspace)
-	{
-		return Paths.get(workspace.getRoot().getLocationURI()).getFileName().toString();
-	}
+public final class Workspaces {
+  private Workspaces() {
+    throw new AssertionError();
+  }
+
+  public static final IWorkspace getWorkspace() {
+    return ResourcesPlugin.getWorkspace();
+  }
+
+  public static final String getName(final IWorkspace workspace) {
+    return Paths.get(workspace.getRoot().getLocationURI()).getFileName().toString();
+  }
 }

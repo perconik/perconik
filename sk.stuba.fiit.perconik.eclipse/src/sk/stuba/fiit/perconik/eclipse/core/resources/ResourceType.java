@@ -21,71 +21,63 @@ import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum ResourceType implements IntegralConstant, TypeConstant<IResource>
-{
-	/**
-	 * @see IResource#FILE
-	 */
-	FILE(IResource.FILE, IFile.class),
-	
-	/**
-	 * @see IResource#FOLDER
-	 */
-	FOLDER(IResource.FOLDER, IFolder.class),
-	
-	/**
-	 * @see IResource#PROJECT
-	 */
-	PROJECT(IResource.PROJECT, IProject.class),
-	
-	/**
-	 * @see IResource#ROOT
-	 */
-	ROOT(IResource.ROOT, IWorkspaceRoot.class);
-	
-	private static final IntegralConstantSupport<ResourceType> integers = IntegralConstantSupport.of(ResourceType.class);
+public enum ResourceType implements IntegralConstant, TypeConstant<IResource> {
+  /**
+   * @see IResource#FILE
+   */
+  FILE(IResource.FILE, IFile.class),
 
-	private static final TypeConstantSupport<ResourceType, IResource> types = TypeConstantSupport.of(ResourceType.class);
-	
-	private final int value;
-	
-	private final Class<? extends IResource> type;
-	
-	private ResourceType(final int value, final Class<? extends IResource> type)
-	{
-		assert type != null;
-		
-		this.value = value;
-		this.type  = type;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final Set<Class<? extends IResource>> valuesAsTypes()
-	{
-		return types.getTypes();
-	}
-	
-	public static final ResourceType valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
-	
-	public static final ResourceType valueOf(final Class<? extends IResource> type)
-	{
-		return types.getConstant(type);
-	}
+  /**
+   * @see IResource#FOLDER
+   */
+  FOLDER(IResource.FOLDER, IFolder.class),
 
-	public final int getValue()
-	{
-		return this.value;
-	}
-	
-	public final Class<? extends IResource> getType()
-	{
-		return this.type;
-	}
+  /**
+   * @see IResource#PROJECT
+   */
+  PROJECT(IResource.PROJECT, IProject.class),
+
+  /**
+   * @see IResource#ROOT
+   */
+  ROOT(IResource.ROOT, IWorkspaceRoot.class);
+
+  private static final IntegralConstantSupport<ResourceType> integers = IntegralConstantSupport.of(ResourceType.class);
+
+  private static final TypeConstantSupport<ResourceType, IResource> types = TypeConstantSupport.of(ResourceType.class);
+
+  private final int value;
+
+  private final Class<? extends IResource> type;
+
+  private ResourceType(final int value, final Class<? extends IResource> type) {
+    assert type != null;
+
+    this.value = value;
+    this.type = type;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final Set<Class<? extends IResource>> valuesAsTypes() {
+    return types.getTypes();
+  }
+
+  public static final ResourceType valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public static final ResourceType valueOf(final Class<? extends IResource> type) {
+    return types.getConstant(type);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
+
+  public final Class<? extends IResource> getType() {
+    return this.type;
+  }
 }

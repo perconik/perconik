@@ -19,28 +19,17 @@ import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class SearchQueryAdapter extends Adapter implements SearchQueryListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected SearchQueryAdapter()
-	{
-	}
+public class SearchQueryAdapter extends Adapter implements SearchQueryListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected SearchQueryAdapter() {}
 
-	public void queryAdded(ISearchQuery query)
-	{
-	}
+  public void queryAdded(ISearchQuery query) {}
 
-	public void queryRemoved(ISearchQuery query)
-	{
-	}
+  public void queryRemoved(ISearchQuery query) {}
 
-	public void queryStarting(ISearchQuery query)
-	{
-	}
+  public void queryStarting(ISearchQuery query) {}
 
-	public void queryFinished(ISearchQuery query)
-	{
-	}
+  public void queryFinished(ISearchQuery query) {}
 }

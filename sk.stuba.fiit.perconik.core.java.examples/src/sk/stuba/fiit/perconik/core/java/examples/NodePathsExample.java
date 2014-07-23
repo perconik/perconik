@@ -20,39 +20,33 @@ import sk.stuba.fiit.perconik.core.java.dom.TreeParsers;
 
 import static java.lang.System.out;
 
-public class NodePathsExample
-{
-	public static void main(String[] args) throws IOException
-	{
-		CompilationUnit u = (CompilationUnit) TreeParsers.parse(Paths.get("fixtures/NodeClassFilter.java"));
-		
-		List<MethodDeclaration>   m = NodeCollectors.ofClass(MethodDeclaration.class).apply(u);
-		List<VariableDeclaration> v = NodeCollectors.ofClass(VariableDeclaration.class).apply(u);
-		
-		final NodePathExtractor<ASTNode> pn = NodePaths.namePathExtractor();
-		final NodePathExtractor<ASTNode> pt = NodePaths.typePathExtractor();
-		final NodePathExtractor<ASTNode> pc = NodePathExtractor.using(new Function<ASTNode, String>()
-		{
-			public String apply(ASTNode n)
-			{
-				return "(" + pt.getTransformer().apply(n) + ") " + pn.getTransformer().apply(n);
-			}
-		});
-		
-		out.println((Nodes.isProblematicTree(u) ? "" : "not") + " problematic compilation unit");
-		out.println(m.size() + " methods");
-		out.println();
-		
-		for (ASTNode n: m)
-		{
-			out.println(pn.apply(n));
-		}
+public class NodePathsExample {
+  public static void main(String[] args) throws IOException {
+    CompilationUnit u = (CompilationUnit) TreeParsers.parse(Paths.get("fixtures/NodeClassFilter.java"));
 
-		out.println();
-		
-		for (ASTNode n: v)
-		{
-			out.println(Joiner.on(" -> ").join(pc.apply(n)));
-		}
-	}
+    List<MethodDeclaration> m = NodeCollectors.ofClass(MethodDeclaration.class).apply(u);
+    List<VariableDeclaration> v = NodeCollectors.ofClass(VariableDeclaration.class).apply(u);
+
+    final NodePathExtractor<ASTNode> pn = NodePaths.namePathExtractor();
+    final NodePathExtractor<ASTNode> pt = NodePaths.typePathExtractor();
+    final NodePathExtractor<ASTNode> pc = NodePathExtractor.using(new Function<ASTNode, String>() {
+      public String apply(ASTNode n) {
+        return "(" + pt.getTransformer().apply(n) + ") " + pn.getTransformer().apply(n);
+      }
+    });
+
+    out.println((Nodes.isProblematicTree(u) ? "" : "not") + " problematic compilation unit");
+    out.println(m.size() + " methods");
+    out.println();
+
+    for (ASTNode n: m) {
+      out.println(pn.apply(n));
+    }
+
+    out.println();
+
+    for (ASTNode n: v) {
+      out.println(Joiner.on(" -> ").join(pc.apply(n)));
+    }
+  }
 }

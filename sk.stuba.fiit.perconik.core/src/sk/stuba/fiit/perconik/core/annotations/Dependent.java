@@ -21,10 +21,9 @@ import sk.stuba.fiit.perconik.core.Registrable;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Dependent
-{
-	/**
-	 * Class dependencies.
-	 */
-	Class<?>[] value();	
+public @interface Dependent {
+  /**
+   * Class dependencies.
+   */
+  Class<?>[] value();
 }

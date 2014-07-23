@@ -15,15 +15,12 @@ package sk.stuba.fiit.perconik.core;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingListener extends ForwardingRegistrable implements Listener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingListener()
-	{
-	}
-	
-	@Override
-	protected abstract Listener delegate();
+public abstract class ForwardingListener extends ForwardingRegistrable implements Listener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingListener() {}
+
+  @Override
+  protected abstract Listener delegate();
 }

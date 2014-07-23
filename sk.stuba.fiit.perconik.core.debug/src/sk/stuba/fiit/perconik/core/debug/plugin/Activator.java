@@ -18,93 +18,85 @@ import sk.stuba.fiit.perconik.environment.Environment;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Activator extends ExtendedPlugin
-{
-	/**
-	 * The plug-in identifier.
-	 */
-	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.core.debug";
+public final class Activator extends ExtendedPlugin {
+  /**
+   * The plug-in identifier.
+   */
+  public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.core.debug";
 
-	/**
-	 * The shared instance.
-	 */
-	private static Activator plugin;
-	
-	/**
-	 * The constructor.
-	 */
-	public Activator()
-	{
-	}
+  /**
+   * The shared instance.
+   */
+  private static Activator plugin;
 
-	/**
-	 * Gets the shared instance.
-	 * @return the shared instance
-	 */
-	public static final Activator getDefault()
-	{
-		return plugin;
-	}
-	
-	/**
-	 * Plug-in early startup.
-	 * 
-	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-	 * 
-	 * @author Pavol Zbell
-	 * @since 1.0
-	 */
-	public static final class Startup implements IStartup
-	{
-		/**
-		 * The constructor.
-		 */
-		public Startup()
-		{
-		}
+  /**
+   * The constructor.
+   */
+  public Activator() {}
 
-		/**
-		 * Waits until core processes all extensions and
-		 * then prints registration maps on the debug console.
-		 */
-		public final void earlyStartup()
-		{
-			final Runnable wait = new Runnable()
-			{
-				public final void run()
-				{
-					sk.stuba.fiit.perconik.core.plugin.Activator.waitForExtensions();
-					
-					DebugResources.printRegistrations();
-					DebugListeners.printRegistrations();
-				}
-			};
-			
-			Display.getDefault().asyncExec(wait);
-		}
-	}
-	
-	@Override
-	public final void start(final BundleContext context) throws Exception
-	{
-		if (Environment.debug) this.console.put("Starting %s ... ", PLUGIN_ID);
-		
-		super.start(context);
+  /**
+   * Gets the shared instance.
+   * @return the shared instance
+   */
+  public static final Activator getDefault() {
+    return plugin;
+  }
 
-		plugin = this;
-		
-		if (Environment.debug) this.console.print("done");
-	}
+  /**
+   * Plug-in early startup.
+   * 
+   * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+   * 
+   * @author Pavol Zbell
+   * @since 1.0
+   */
+  public static final class Startup implements IStartup {
+    /**
+     * The constructor.
+     */
+    public Startup() {}
 
-	@Override
-	public final void stop(final BundleContext context) throws Exception
-	{
-		if (Environment.debug) this.console.put("Stopping %s ... ", PLUGIN_ID);
-		
-		plugin = null;
+    /**
+     * Waits until core processes all extensions and
+     * then prints registration maps on the debug console.
+     */
+    public final void earlyStartup() {
+      final Runnable wait = new Runnable() {
+        public final void run() {
+          sk.stuba.fiit.perconik.core.plugin.Activator.waitForExtensions();
 
-		super.stop(context);
-		
-		if (Environment.debug) this.console.print("done");
-	}
+          DebugResources.printRegistrations();
+          DebugListeners.printRegistrations();
+        }
+      };
+
+      Display.getDefault().asyncExec(wait);
+    }
+  }
+
+  @Override
+  public final void start(final BundleContext context) throws Exception {
+    if (Environment.debug)
+      this.console.put("Starting %s ... ", PLUGIN_ID);
+
+    super.start(context);
+
+    plugin = this;
+
+    if (Environment.debug)
+      this.console.print("done");
+  }
+
+  @Override
+  public final void stop(final BundleContext context) throws Exception {
+    if (Environment.debug)
+      this.console.put("Stopping %s ... ", PLUGIN_ID);
+
+    plugin = null;
+
+    super.stop(context);
+
+    if (Environment.debug)
+      this.console.print("done");
+  }
 }

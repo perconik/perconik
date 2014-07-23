@@ -19,16 +19,11 @@ import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class RefactoringExecutionAdapter extends Adapter implements RefactoringExecutionListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected RefactoringExecutionAdapter()
-	{
-	}
+public class RefactoringExecutionAdapter extends Adapter implements RefactoringExecutionListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected RefactoringExecutionAdapter() {}
 
-	public void executionNotification(RefactoringExecutionEvent event)
-	{
-	}
+  public void executionNotification(RefactoringExecutionEvent event) {}
 }

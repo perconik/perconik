@@ -14,50 +14,41 @@ import sk.stuba.fiit.perconik.activity.data.bind.Deserializer;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class AnyData extends Data
-{
-	protected final Map<String, Object> other;
-	
-	public AnyData()
-	{
-		this.other = Maps.newLinkedHashMap();
-	}
-	
-	protected AnyData(Map<String, Object> other)
-	{
-		this.other = checkNotNull(other);
-	}
-	
-	public static AnyData fromMap(Map<String, Object> data)
-	{
-		return fromMap(AnyData.class, data);
-	}
+public class AnyData extends Data {
+  protected final Map<String, Object> other;
 
-	public static AnyData fromString(String data)
-	{
-		return fromString(AnyData.class, data);
-	}
-	
-	public static AnyData of(Map<String, Object> other)
-	{
-		return new AnyData(other);
-	}
+  public AnyData() {
+    this.other = Maps.newLinkedHashMap();
+  }
 
-	@JsonAnyGetter
-	public Map<String, Object> any()
-	{
-		return this.other;
-	}
+  protected AnyData(Map<String, Object> other) {
+    this.other = checkNotNull(other);
+  }
 
-	@JsonAnySetter
-	@JsonDeserialize(using = Deserializer.class)
-	public void set(String key, @Nullable Object value)
-	{
-		this.other.put(key, value);
-	}
+  public static AnyData fromMap(Map<String, Object> data) {
+    return fromMap(AnyData.class, data);
+  }
 
-	public Object get(String key)
-	{
-		return this.other.get(key);
-	}
+  public static AnyData fromString(String data) {
+    return fromString(AnyData.class, data);
+  }
+
+  public static AnyData of(Map<String, Object> other) {
+    return new AnyData(other);
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> any() {
+    return this.other;
+  }
+
+  @JsonAnySetter
+  @JsonDeserialize(using = Deserializer.class)
+  public void set(String key, @Nullable Object value) {
+    this.other.put(key, value);
+  }
+
+  public Object get(String key) {
+    return this.other.get(key);
+  }
 }

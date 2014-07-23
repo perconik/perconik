@@ -11,43 +11,38 @@ import javax.annotation.Nullable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class InvalidResourceException extends InvalidObjectException
-{
-	private static final long serialVersionUID = 0;
+public class InvalidResourceException extends InvalidObjectException {
+  private static final long serialVersionUID = 0;
 
-	/**
-	 * Creates a new instance with no message.
-	 */
-	public InvalidResourceException()
-	{
-		super(null);
-		
-		this.fillInStackTrace();
-	}
+  /**
+   * Creates a new instance with no message.
+   */
+  public InvalidResourceException() {
+    super(null);
 
-	/**
-	 * Creates a new instance with the given detail message.
-	 */
-	public InvalidResourceException(@Nullable String message)
-	{
-		super(message);
-	}
+    this.fillInStackTrace();
+  }
 
-	/**
-	 * Creates a new instance with the given detail message and cause.
-	 */
-	public InvalidResourceException(@Nullable String message, @Nullable Throwable cause)
-	{
-		super(message);
-		
-		this.initCause(cause);
-	}
+  /**
+   * Creates a new instance with the given detail message.
+   */
+  public InvalidResourceException(@Nullable String message) {
+    super(message);
+  }
 
-	/**
-	 * Creates a new instance with the given cause.
-	 */
-	public InvalidResourceException(@Nullable Throwable cause)
-	{
-		this(null, cause);
-	}
+  /**
+   * Creates a new instance with the given detail message and cause.
+   */
+  public InvalidResourceException(@Nullable String message, @Nullable Throwable cause) {
+    super(message);
+
+    this.initCause(cause);
+  }
+
+  /**
+   * Creates a new instance with the given cause.
+   */
+  public InvalidResourceException(@Nullable Throwable cause) {
+    this(null, cause);
+  }
 }

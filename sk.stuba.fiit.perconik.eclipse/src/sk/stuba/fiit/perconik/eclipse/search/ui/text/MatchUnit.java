@@ -15,39 +15,34 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum MatchUnit implements IntegralConstant
-{
-	/**
-	 * @see Match#UNIT_CHARACTER
-	 */
-	CHARACTER(Match.UNIT_CHARACTER),
+public enum MatchUnit implements IntegralConstant {
+  /**
+   * @see Match#UNIT_CHARACTER
+   */
+  CHARACTER(Match.UNIT_CHARACTER),
 
-	/**
-	 * @see Match#UNIT_LINE
-	 */
-	LINE(Match.UNIT_LINE);
+  /**
+   * @see Match#UNIT_LINE
+   */
+  LINE(Match.UNIT_LINE);
 
-	private static final IntegralConstantSupport<MatchUnit> integers = IntegralConstantSupport.of(MatchUnit.class);
+  private static final IntegralConstantSupport<MatchUnit> integers = IntegralConstantSupport.of(MatchUnit.class);
 
-	private final int value;
-	
-	private MatchUnit(final int value)
-	{
-		this.value = value;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
-	
-	public static final MatchUnit valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  private final int value;
 
-	public final int getValue()
-	{
-		return this.value;
-	}
+  private MatchUnit(final int value) {
+    this.value = value;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final MatchUnit valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

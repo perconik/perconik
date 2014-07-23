@@ -20,123 +20,106 @@ import static sk.stuba.fiit.perconik.osgi.framework.Versions.Component.MINOR;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
- * 
+ *
  * <p><b>Warning:</b> Users should not explicitly instantiate this class.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Activator extends UserInterfacePlugin
-{
-	/**
-	 * The plug-in identifier.
-	 */
-	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.ui";
+public final class Activator extends UserInterfacePlugin {
+  /**
+   * The plug-in identifier.
+   */
+  public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.ui";
 
-	/**
-	 * The shared instance.
-	 */
-	private static Activator plugin;
+  /**
+   * The shared instance.
+   */
+  private static Activator plugin;
 
-	private static final AtomicBoolean verified = new AtomicBoolean(false);
-	
-	/**
-	 * The constructor.
-	 */
-	public Activator()
-	{
-	}
+  private static final AtomicBoolean verified = new AtomicBoolean(false);
 
-	/**
-	 * Gets the shared instance.
-	 * @return the shared instance
-	 */
-	public static final Activator getDefault()
-	{
-		return plugin;
-	}
-	
-	/**
-	 * Plug-in early startup. 
-	 * 
-	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-	 * 
-	 * @author Pavol Zbell
-	 * @since 1.0
-	 */
-	public static final class Startup implements IStartup
-	{
-		/**
-		 * The constructor.
-		 */
-		public Startup()
-		{
-		}
+  /**
+   * The constructor.
+   */
+  public Activator() {}
 
-		/**
-		 * Processes supplied extensions and starts core services.
-		 */
-		public final void earlyStartup()
-		{
-			verifyJava();
-		}
-	}
+  /**
+   * Gets the shared instance.
+   * @return the shared instance
+   */
+  public static final Activator getDefault() {
+    return plugin;
+  }
 
-	static final void verifyJava()
-	{
-		if (!verified.compareAndSet(false, true))
-		{
-			return;
-		}
-		
-		try
-		{
-			sk.stuba.fiit.perconik.environment.plugin.Activator.getDefault().verifyJava();
-		}
-		catch (final JavaVerificationException e)
-		{
-			final Runnable dialog = new Runnable()
-			{
-				public final void run()
-				{
-					IWorkbenchWindow window = Workbenches.getActiveWindow();
-					
-					Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell(); 
+  /**
+   * Plug-in early startup.
+   *
+   * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+   *
+   * @author Pavol Zbell
+   * @since 1.0
+   */
+  public static final class Startup implements IStartup {
+    /**
+     * The constructor.
+     */
+    public Startup() {}
 
-					String title   = "PerConIK Core for Eclipse Platform";
-					String message = "PerConIK Extension requires Java ";
-					
-					message += Versions.toString(e.getRequiredJavaVersion(), MAJOR, MINOR);
-					message += " or greater but Java ";
-					message += Versions.toString(e.getDetectedJavaVersion(), MAJOR, MINOR);
-					message += " was detected.";
-					message += " Extension is not active, please launch Eclipse on Java ";
-					message += Versions.toString(e.getRequiredJavaVersion(), MAJOR, MINOR);
-					message += " again.";
+    /**
+     * Processes supplied extensions and starts core services.
+     */
+    public final void earlyStartup() {
+      verifyJava();
+    }
+  }
 
-					MessageDialog.openWarning(shell, title, message);
-				}
-			};
-			
-			Display.getDefault().syncExec(dialog);
-		}
-	}
-	
-	@Override
-	public final void start(final BundleContext context) throws Exception
-	{
-		super.start(context);
+  static final void verifyJava() {
+    if (!verified.compareAndSet(false, true)) {
+      return;
+    }
 
-		plugin = this;
-		
-		verifyJava();
-	}
+    try {
+      sk.stuba.fiit.perconik.environment.plugin.Activator.getDefault().verifyJava();
+    } catch (final JavaVerificationException e) {
+      final Runnable dialog = new Runnable() {
+        public final void run() {
+          IWorkbenchWindow window = Workbenches.getActiveWindow();
 
-	@Override
-	public final void stop(final BundleContext context) throws Exception
-	{
-		plugin = null;
+          Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell();
 
-		super.stop(context);
-	}
+          String title = "PerConIK Core for Eclipse Platform";
+          String message = "PerConIK Extension requires Java ";
+
+          message += Versions.toString(e.getRequiredJavaVersion(), MAJOR, MINOR);
+          message += " or greater but Java ";
+          message += Versions.toString(e.getDetectedJavaVersion(), MAJOR, MINOR);
+          message += " was detected.";
+          message += " Extension is not active, please launch Eclipse on Java ";
+          message += Versions.toString(e.getRequiredJavaVersion(), MAJOR, MINOR);
+          message += " again.";
+
+          MessageDialog.openWarning(shell, title, message);
+        }
+      };
+
+      Display.getDefault().syncExec(dialog);
+    }
+  }
+
+  @Override
+  public final void start(final BundleContext context) throws Exception {
+    super.start(context);
+
+    plugin = this;
+
+    verifyJava();
+  }
+
+  @Override
+  public final void stop(final BundleContext context) throws Exception {
+    plugin = null;
+
+    super.stop(context);
+  }
 }

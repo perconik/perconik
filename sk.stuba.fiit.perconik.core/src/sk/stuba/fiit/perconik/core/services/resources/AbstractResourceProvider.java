@@ -19,50 +19,37 @@ import sk.stuba.fiit.perconik.utilities.MoreThrowables;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractResourceProvider extends AbstractProvider implements ResourceProvider
-{
-	// TODO add javadocs
-	
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractResourceProvider()
-	{
-	}
+public abstract class AbstractResourceProvider extends AbstractProvider implements ResourceProvider {
+  // TODO add javadocs
 
-	protected final ResourceProvider parentOrFailure()
-	{
-		ResourceProvider parent = this.parent();
-		
-		if (parent == null)
-		{
-			throw new IllegalStateException("Provider hierarchy root reached");
-		}
-		
-		return parent;
-	}
-	
-	protected final Resource<?> parentForName(final String name, @Nullable final Exception cause)
-	{
-		try
-		{
-			return this.parentOrFailure().forName(name);
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
-		}
-	}
-	
-	protected final <L extends Listener> Set<Resource<L>> parentForType(final Class<L> type, @Nullable final Exception cause)
-	{
-		try
-		{
-			return this.parentOrFailure().forType(type);
-		}
-		catch (Exception e)
-		{
-			throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
-		}
-	}
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractResourceProvider() {}
+
+  protected final ResourceProvider parentOrFailure() {
+    ResourceProvider parent = this.parent();
+
+    if (parent == null) {
+      throw new IllegalStateException("Provider hierarchy root reached");
+    }
+
+    return parent;
+  }
+
+  protected final Resource<?> parentForName(final String name, @Nullable final Exception cause) {
+    try {
+      return this.parentOrFailure().forName(name);
+    } catch (Exception e) {
+      throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
+    }
+  }
+
+  protected final <L extends Listener> Set<Resource<L>> parentForType(final Class<L> type, @Nullable final Exception cause) {
+    try {
+      return this.parentOrFailure().forType(type);
+    } catch (Exception e) {
+      throw Throwables.propagate(MoreThrowables.initializeSuppressor(e, cause));
+    }
+  }
 }

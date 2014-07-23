@@ -19,61 +19,50 @@ import sk.stuba.fiit.perconik.core.plugin.Activator;
  */
 @Unsupported
 @Version("0.0.1")
-public final class WorkbenchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener
-{
-	public WorkbenchListener()
-	{
-	}
+public final class WorkbenchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
+  public WorkbenchListener() {}
 
-	public enum Action
-	{
-		STARTUP,
-		
-		SHUTDOWN;
+  public enum Action {
+    STARTUP,
 
-		@Override
-		public final String toString()
-		{
-			return this.name().toLowerCase();
-		}
-	}
-	
-	final void process(EventData data)
-	{
-		System.out.println(data.toString(true));
-		System.out.println(data.toMap(true));
-	}
-	
-	final WorkbenchData build(final Action action)
-	{
-		WorkbenchData data = new WorkbenchData();
-	
-		data.setTime(currentTime());
-		data.setAction(action.toString());
+    SHUTDOWN;
 
-		data.set("core", new StandardCoreProbe().core());
-		data.set("platform", new StandardPlatformProbe().platform());
-		data.set("system", new StandardSystemProbe().system());
-		
-		return data;
-	}
-	
-	@Override
-	public final void postRegister()
-	{
-		Activator.waitForExtensions();
-		
-		process(build(Action.STARTUP));
-	}
+    @Override
+    public final String toString() {
+      return this.name().toLowerCase();
+    }
+  }
 
-	public final boolean preShutdown(final IWorkbench workbench, boolean forced)
-	{
-		process(build(Action.SHUTDOWN));
-		
-		return true;
-	}
+  final void process(EventData data) {
+    System.out.println(data.toString(true));
+    System.out.println(data.toMap(true));
+  }
 
-	public final void postShutdown(final IWorkbench workbench)
-	{
-	}
+  final WorkbenchData build(final Action action) {
+    WorkbenchData data = new WorkbenchData();
+
+    data.setTime(currentTime());
+    data.setAction(action.toString());
+
+    data.set("core", new StandardCoreProbe().core());
+    data.set("platform", new StandardPlatformProbe().platform());
+    data.set("system", new StandardSystemProbe().system());
+
+    return data;
+  }
+
+  @Override
+  public final void postRegister() {
+    Activator.waitForExtensions();
+
+    process(build(Action.STARTUP));
+  }
+
+  public final boolean preShutdown(final IWorkbench workbench, boolean forced) {
+    process(build(Action.SHUTDOWN));
+
+    return true;
+  }
+
+  public final void postShutdown(final IWorkbench workbench) {}
 }

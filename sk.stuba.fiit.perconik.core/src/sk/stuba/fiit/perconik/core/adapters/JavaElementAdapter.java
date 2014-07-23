@@ -20,16 +20,11 @@ import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class JavaElementAdapter extends AbstractJavaElementListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected JavaElementAdapter()
-	{
-	}
+public class JavaElementAdapter extends AbstractJavaElementListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected JavaElementAdapter() {}
 
-	public void elementChanged(ElementChangedEvent event)
-	{
-	}
+  public void elementChanged(ElementChangedEvent event) {}
 }

@@ -20,16 +20,11 @@ import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class ResourceAdapter extends AbstractResourceListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ResourceAdapter()
-	{
-	}
+public class ResourceAdapter extends AbstractResourceListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ResourceAdapter() {}
 
-	public void resourceChanged(IResourceChangeEvent event)
-	{
-	}
+  public void resourceChanged(IResourceChangeEvent event) {}
 }

@@ -21,44 +21,25 @@ import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class PerspectiveAdapter extends Adapter implements PerspectiveListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected PerspectiveAdapter()
-	{
-	}
+public class PerspectiveAdapter extends Adapter implements PerspectiveListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected PerspectiveAdapter() {}
 
-	public void perspectiveOpened(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
-	{
-	}
+  public void perspectiveOpened(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
 
-	public void perspectiveClosed(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
-	{
-	}
+  public void perspectiveClosed(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
 
-	public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
-	{
-	}
+  public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
 
-	public void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
-	{
-	}
+  public void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
 
-	public void perspectivePreDeactivate(IWorkbenchPage page, IPerspectiveDescriptor descriptor)
-	{
-	}
+  public void perspectivePreDeactivate(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
 
-	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, String change)
-	{
-	}
+  public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, String change) {}
 
-	public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, IWorkbenchPartReference reference, String change)
-	{
-	}
+  public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, IWorkbenchPartReference reference, String change) {}
 
-	public void perspectiveSavedAs(IWorkbenchPage page, IPerspectiveDescriptor before, IPerspectiveDescriptor after)
-	{
-	}
+  public void perspectiveSavedAs(IWorkbenchPage page, IPerspectiveDescriptor before, IPerspectiveDescriptor after) {}
 }

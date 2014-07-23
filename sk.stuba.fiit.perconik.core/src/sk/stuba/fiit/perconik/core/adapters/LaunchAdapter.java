@@ -19,24 +19,15 @@ import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class LaunchAdapter extends Adapter implements LaunchListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected LaunchAdapter()
-	{
-	}
+public class LaunchAdapter extends Adapter implements LaunchListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected LaunchAdapter() {}
 
-	public void launchAdded(ILaunch launch)
-	{
-	}
+  public void launchAdded(ILaunch launch) {}
 
-	public void launchRemoved(ILaunch launch)
-	{
-	}
+  public void launchRemoved(ILaunch launch) {}
 
-	public void launchChanged(ILaunch launch)
-	{
-	}
+  public void launchChanged(ILaunch launch) {}
 }

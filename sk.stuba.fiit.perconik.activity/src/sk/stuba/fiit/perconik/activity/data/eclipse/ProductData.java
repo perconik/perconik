@@ -4,88 +4,72 @@ import org.eclipse.core.runtime.IProduct;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class ProductData extends AnyStructuredData
-{
-	protected String application;
+public class ProductData extends AnyStructuredData {
+  protected String application;
 
-	protected String identifier;
-	
-	protected String name;
-	
-	protected String description;
-	
-	protected BundleData bundle;
-	
-	public ProductData()
-	{
-	}
+  protected String identifier;
 
-	protected ProductData(IProduct product)
-	{
-		if (product == null)
-		{
-			return;
-		}
-		
-		this.setApplication(product.getApplication());
-		this.setIdentifier(product.getId());
-		this.setName(product.getName());
-		this.setDescription(product.getDescription());
-		this.setBundle(BundleData.of(product.getDefiningBundle()));
-	}
+  protected String name;
 
-	public static ProductData of(IProduct product)
-	{
-		return new ProductData(product);
-	}
+  protected String description;
 
-	public void setApplication(String application)
-	{
-		this.application = application;
-	}
+  protected BundleData bundle;
 
-	public void setIdentifier(String identifier)
-	{
-		this.identifier = identifier;
-	}
+  public ProductData() {}
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+  protected ProductData(IProduct product) {
+    if (product == null) {
+      return;
+    }
 
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
+    this.setApplication(product.getApplication());
+    this.setIdentifier(product.getId());
+    this.setName(product.getName());
+    this.setDescription(product.getDescription());
+    this.setBundle(BundleData.of(product.getDefiningBundle()));
+  }
 
-	public void setBundle(BundleData bundle)
-	{
-		this.bundle = bundle;
-	}
+  public static ProductData of(IProduct product) {
+    return new ProductData(product);
+  }
 
-	public String getApplication()
-	{
-		return this.application;
-	}
+  public void setApplication(String application) {
+    this.application = application;
+  }
 
-	public String getIdentifier()
-	{
-		return this.identifier;
-	}
+  public void setIdentifier(String identifier) {
+    this.identifier = identifier;
+  }
 
-	public String getName()
-	{
-		return this.name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public String getDescription()
-	{
-		return this.description;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public BundleData getBundle()
-	{
-		return this.bundle;
-	}
+  public void setBundle(BundleData bundle) {
+    this.bundle = bundle;
+  }
+
+  public String getApplication() {
+    return this.application;
+  }
+
+  public String getIdentifier() {
+    return this.identifier;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public BundleData getBundle() {
+    return this.bundle;
+  }
 }

@@ -14,6 +14,5 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface ResourceListener extends FilteringListener<ResourceEventType>, IResourceChangeListener
-{
+public interface ResourceListener extends FilteringListener<ResourceEventType>, IResourceChangeListener {
 }

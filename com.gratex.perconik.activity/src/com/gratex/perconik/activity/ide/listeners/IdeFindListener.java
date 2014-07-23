@@ -111,184 +111,154 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * @since 1.0
  */
 @Dependent({FileSearchQuery.class, FileSearchResult.class})
-public final class IdeFindListener extends IdeListener implements SearchQueryListener
-{
-	public IdeFindListener()
-	{
-	}
-	
-	static final IdeFindEventRequest build(final long time, final IProject project, final FileSearchQuery query)
-	{
-		final IdeFindEventRequest data = new IdeFindEventRequest();
+public final class IdeFindListener extends IdeListener implements SearchQueryListener {
+  public IdeFindListener() {}
 
-		data.setQueryText(query.getSearchString());
-		data.setMatchCase(query.isCaseSensitive());
-		data.setMatchWholeWord(null);
-		data.setSearchSubfolders(null);
-		data.setTotalFilesSearched(null);
-		
-		FileTextSearchScope scope = query.getSearchScope();
-		
-		String[]      patterns = scope.getFileNamePatterns();
-		IWorkingSet[] sets     = scope.getWorkingSets();
-		IResource[]   roots    = scope.getRoots();
+  static final IdeFindEventRequest build(final long time, final IProject project, final FileSearchQuery query) {
+    final IdeFindEventRequest data = new IdeFindEventRequest();
 
-		data.setDerivedResources(scope.includeDerived());
-		data.setFileTypes(patterns == null ? "*" : Joiner.on(",").join(patterns));
-		data.setLookinTypeUri(UacaUriHelper.forLookinType(sets == null ? toString(roots) : toString(sets)));
-		data.setPatternSyntaxTypeUri(UacaUriHelper.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
+    data.setQueryText(query.getSearchString());
+    data.setMatchCase(query.isCaseSensitive());
+    data.setMatchWholeWord(null);
+    data.setSearchSubfolders(null);
+    data.setTotalFilesSearched(null);
 
-		FileSearchResult result = (FileSearchResult) query.getSearchResult();
-		
-		data.setResultsPerFiles(buildResults(result));
+    FileTextSearchScope scope = query.getSearchScope();
 
-		setProjectData(data, project);
-		setApplicationData(data);
-		setEventData(data, time);
-		
-		return data;
-	}
+    String[] patterns = scope.getFileNamePatterns();
+    IWorkingSet[] sets = scope.getWorkingSets();
+    IResource[] roots = scope.getRoots();
 
-	private static final List<IdeFindFileResultDto> buildResults(FileSearchResult result)
-	{
-		Object[] elements = result.getElements();
-		
-		List<IdeFindFileResultDto> list = Lists.newArrayListWithCapacity(elements.length);
-		
-		for (Object element: elements)
-		{
-			IFile   file    = result.getFile(element);
-			Match[] matches = result.getMatches(element);
+    data.setDerivedResources(scope.includeDerived());
+    data.setFileTypes(patterns == null ? "*" : Joiner.on(",").join(patterns));
+    data.setLookinTypeUri(UacaUriHelper.forLookinType(sets == null ? toString(roots) : toString(sets)));
+    data.setPatternSyntaxTypeUri(UacaUriHelper.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
 
-			list.add(buildResult(file, matches));
-		}
-		
-		return list;
-	}
-	
-	private static final IdeFindFileResultDto buildResult(IFile file, Match[] matches)
-	{
-		IdeFindFileResultDto data = new IdeFindFileResultDto();
+    FileSearchResult result = (FileSearchResult) query.getSearchResult();
 
-		data.setFile(IdeData.newDocumentData(file));
-		data.setRows(buildMatches(Documents.fromFile(file), matches));
-		
-		return data;
-	}
-	
-	private static final List<IdeFindResultRowDto> buildMatches(IDocument document, Match[] matches)
-	{
-		List<IdeFindResultRowDto> list = Lists.newArrayListWithCapacity(matches.length);
-		
-		for (Match match: matches)
-		{
-			list.add(buildMatch(document, match));
-		}
-		
-		return list;
-	}
-	
-	private static final IdeFindResultRowDto buildMatch(IDocument document, Match match)
-	{
-		IdeFindResultRowDto data = new IdeFindResultRowDto();
-		
-		int offset = match.getOffset();
-		int length = match.getLength();
-		
-		try
-		{
-			switch (MatchUnit.valueOf(match.getBaseUnit()))
-			{
-				case CHARACTER:
-					data.setRow(document.getLineOfOffset(offset));
-					data.setColumn(offset - document.getLineOffset(data.getRow()));
-					data.setText(document.get(offset, length));
-					break;
-					
-				case LINE:
-					data.setRow(offset);
-					data.setColumn(null);
-					data.setText(document.get(document.getLineOffset(offset), length));
-					break;
-					
-				default:
-					throw new IllegalStateException();
-			}
-		}
-		catch (BadLocationException e)
-		{
-			Throwables.propagate(e);
-		}
-		
-		return data;
-	}
+    data.setResultsPerFiles(buildResults(result));
 
-	private static final String toString(IResource[] resources)
-	{
-		if (resources.length == 1 && resources[0] instanceof IWorkspaceRoot)
-		{
-			return "workspace";
-		}
-		
-		List<String> parts = Lists.newArrayListWithCapacity(resources.length);
-		
-		for (IResource resource: resources)
-		{
-			parts.add(resource.getFullPath().toString());
-		}
-		
-		return Joiner.on(",").join(parts);
-	}
+    setProjectData(data, project);
+    setApplicationData(data);
+    setEventData(data, time);
 
-	private static final String toString(IWorkingSet[] sets)
-	{
-		List<String> parts = Lists.newArrayListWithCapacity(sets.length);
-		
-		for (IWorkingSet set: sets)
-		{
-			parts.add(set.getLabel());
-		}
-		
-		return "working sets " + Joiner.on(",").join(parts);
-	}
+    return data;
+  }
 
-	static final void process(final long time, final ISearchQuery query)
-	{
-		IWorkbenchPage page = execute(DisplayTask.of(Workbenches.activePageSupplier()));
-		
-		IProject project = Projects.fromPage(page);
+  private static final List<IdeFindFileResultDto> buildResults(FileSearchResult result) {
+    Object[] elements = result.getElements();
 
-		// TODO project can not be always determined: when IClassFile is in editor, or when nothing is selected
-		// TODO handle other query types such as JavaSearchQuery
+    List<IdeFindFileResultDto> list = Lists.newArrayListWithCapacity(elements.length);
 
-		if (query instanceof FileSearchQuery) 
-		{
-			UacaProxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
-		}
-	}
-	
-	public final void queryAdded(final ISearchQuery query)
-	{
-	}
+    for (Object element: elements) {
+      IFile file = result.getFile(element);
+      Match[] matches = result.getMatches(element);
 
-	public final void queryRemoved(final ISearchQuery query)
-	{
-	}
+      list.add(buildResult(file, matches));
+    }
 
-	public final void queryStarting(final ISearchQuery query)
-	{
-	}
+    return list;
+  }
 
-	public final void queryFinished(final ISearchQuery query)
-	{
-		final long time = currentTime();
+  private static final IdeFindFileResultDto buildResult(IFile file, Match[] matches) {
+    IdeFindFileResultDto data = new IdeFindFileResultDto();
 
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				process(time, query);
-			}
-		});
-	}
+    data.setFile(IdeData.newDocumentData(file));
+    data.setRows(buildMatches(Documents.fromFile(file), matches));
+
+    return data;
+  }
+
+  private static final List<IdeFindResultRowDto> buildMatches(IDocument document, Match[] matches) {
+    List<IdeFindResultRowDto> list = Lists.newArrayListWithCapacity(matches.length);
+
+    for (Match match: matches) {
+      list.add(buildMatch(document, match));
+    }
+
+    return list;
+  }
+
+  private static final IdeFindResultRowDto buildMatch(IDocument document, Match match) {
+    IdeFindResultRowDto data = new IdeFindResultRowDto();
+
+    int offset = match.getOffset();
+    int length = match.getLength();
+
+    try {
+      switch (MatchUnit.valueOf(match.getBaseUnit())) {
+        case CHARACTER:
+          data.setRow(document.getLineOfOffset(offset));
+          data.setColumn(offset - document.getLineOffset(data.getRow()));
+          data.setText(document.get(offset, length));
+          break;
+
+        case LINE:
+          data.setRow(offset);
+          data.setColumn(null);
+          data.setText(document.get(document.getLineOffset(offset), length));
+          break;
+
+        default:
+          throw new IllegalStateException();
+      }
+    } catch (BadLocationException e) {
+      Throwables.propagate(e);
+    }
+
+    return data;
+  }
+
+  private static final String toString(IResource[] resources) {
+    if (resources.length == 1 && resources[0] instanceof IWorkspaceRoot) {
+      return "workspace";
+    }
+
+    List<String> parts = Lists.newArrayListWithCapacity(resources.length);
+
+    for (IResource resource: resources) {
+      parts.add(resource.getFullPath().toString());
+    }
+
+    return Joiner.on(",").join(parts);
+  }
+
+  private static final String toString(IWorkingSet[] sets) {
+    List<String> parts = Lists.newArrayListWithCapacity(sets.length);
+
+    for (IWorkingSet set: sets) {
+      parts.add(set.getLabel());
+    }
+
+    return "working sets " + Joiner.on(",").join(parts);
+  }
+
+  static final void process(final long time, final ISearchQuery query) {
+    IWorkbenchPage page = execute(DisplayTask.of(Workbenches.activePageSupplier()));
+
+    IProject project = Projects.fromPage(page);
+
+    // TODO project can not be always determined: when IClassFile is in editor, or when nothing is selected
+    // TODO handle other query types such as JavaSearchQuery
+
+    if (query instanceof FileSearchQuery) {
+      UacaProxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
+    }
+  }
+
+  public final void queryAdded(final ISearchQuery query) {}
+
+  public final void queryRemoved(final ISearchQuery query) {}
+
+  public final void queryStarting(final ISearchQuery query) {}
+
+  public final void queryFinished(final ISearchQuery query) {
+    final long time = currentTime();
+
+    execute(new Runnable() {
+      public final void run() {
+        process(time, query);
+      }
+    });
+  }
 }

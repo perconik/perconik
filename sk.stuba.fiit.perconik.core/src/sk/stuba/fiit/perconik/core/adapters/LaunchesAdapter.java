@@ -19,28 +19,17 @@ import sk.stuba.fiit.perconik.core.listeners.LaunchesListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class LaunchesAdapter extends Adapter implements LaunchesListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected LaunchesAdapter()
-	{
-	}
+public class LaunchesAdapter extends Adapter implements LaunchesListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected LaunchesAdapter() {}
 
-	public void launchesAdded(ILaunch[] launches)
-	{
-	}
+  public void launchesAdded(ILaunch[] launches) {}
 
-	public void launchesRemoved(ILaunch[] launches)
-	{
-	}
+  public void launchesRemoved(ILaunch[] launches) {}
 
-	public void launchesChanged(ILaunch[] launches)
-	{
-	}
+  public void launchesChanged(ILaunch[] launches) {}
 
-	public void launchesTerminated(ILaunch[] launches)
-	{
-	}
+  public void launchesTerminated(ILaunch[] launches) {}
 }

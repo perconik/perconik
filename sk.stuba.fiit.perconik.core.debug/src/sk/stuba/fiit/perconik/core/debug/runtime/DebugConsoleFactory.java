@@ -4,8 +4,7 @@ import org.eclipse.core.runtime.Plugin;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoleFactory;
 
-public interface DebugConsoleFactory extends PluginConsoleFactory
-{
-	@Override
-	public DebugConsole create(Plugin plugin);
+public interface DebugConsoleFactory extends PluginConsoleFactory {
+  @Override
+  public DebugConsole create(Plugin plugin);
 }

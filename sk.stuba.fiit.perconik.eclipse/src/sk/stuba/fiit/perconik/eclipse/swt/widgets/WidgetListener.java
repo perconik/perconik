@@ -9,6 +9,5 @@ import org.eclipse.swt.widgets.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface WidgetListener extends Listener
-{
+public interface WidgetListener extends Listener {
 }

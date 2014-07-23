@@ -4,48 +4,38 @@ import sk.stuba.fiit.perconik.activity.data.base.AnnotableData;
 import sk.stuba.fiit.perconik.activity.data.base.AnnotationData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
-public class EventData extends AnnotableData
-{
-	protected long time;
-	
-	protected String action;
+public class EventData extends AnnotableData {
+  protected long time;
 
-	public EventData()
-	{
-	}
-	
-	protected EventData(String action)
-	{
-		if (action == null)
-		{
-			return;
-		}
-		
-		this.setAnnotations(AnnotationData.of(Annotations.ofClass(this.getClass())));
-	}
-	
-	public static EventData of(String action)
-	{
-		return new EventData(action);
-	}
+  protected String action;
 
-	public void setTime(long time)
-	{
-		this.time = time;
-	}
+  public EventData() {}
 
-	public void setAction(String action)
-	{
-		this.action = action;
-	}
+  protected EventData(String action) {
+    if (action == null) {
+      return;
+    }
 
-	public long getTime()
-	{
-		return this.time;
-	}
+    this.setAnnotations(AnnotationData.of(Annotations.ofClass(this.getClass())));
+  }
 
-	public String getAction()
-	{
-		return this.action;
-	}
+  public static EventData of(String action) {
+    return new EventData(action);
+  }
+
+  public void setTime(long time) {
+    this.time = time;
+  }
+
+  public void setAction(String action) {
+    this.action = action;
+  }
+
+  public long getTime() {
+    return this.time;
+  }
+
+  public String getAction() {
+    return this.action;
+  }
 }

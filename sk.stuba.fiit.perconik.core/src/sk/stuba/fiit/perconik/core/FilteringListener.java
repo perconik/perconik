@@ -10,11 +10,10 @@ import java.util.Set;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface FilteringListener<T> extends Listener
-{
-	/**
-	 * Gets accepted event types.
-	 * @return accepted event types
-	 */
-	public Set<T> getEventTypes();
+public interface FilteringListener<T> extends Listener {
+  /**
+   * Gets accepted event types.
+   * @return accepted event types
+   */
+  public Set<T> getEventTypes();
 }

@@ -20,16 +20,11 @@ import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class TextSelectionAdapter extends Adapter implements TextSelectionListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected TextSelectionAdapter()
-	{
-	}
+public class TextSelectionAdapter extends Adapter implements TextSelectionListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected TextSelectionAdapter() {}
 
-	public void selectionChanged(IWorkbenchPart part, ITextSelection selection)
-	{
-	}
+  public void selectionChanged(IWorkbenchPart part, ITextSelection selection) {}
 }

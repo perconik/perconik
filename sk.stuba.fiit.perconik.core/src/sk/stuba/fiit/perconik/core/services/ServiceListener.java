@@ -7,12 +7,9 @@ package sk.stuba.fiit.perconik.core.services;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class ServiceListener extends Service.Listener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ServiceListener()
-	{
-	}
+public class ServiceListener extends Service.Listener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ServiceListener() {}
 }

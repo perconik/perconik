@@ -15,64 +15,56 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum NodeFlag implements IntegralConstant
-{
-	/**
-	 * @see ASTNode#MALFORMED
-	 */
-	MALFORMED(ASTNode.MALFORMED),
-	
-	/**
-	 * @see ASTNode#ORIGINAL
-	 */
-	ORIGINAL(ASTNode.ORIGINAL),
-	
-	/**
-	 * @see ASTNode#PROTECT
-	 */
-	PROTECT(ASTNode.PROTECT),
-	
-	/**
-	 * @see ASTNode#RECOVERED
-	 */
-	RECOVERED(ASTNode.RECOVERED);
-	
-	private static final IntegralConstantSupport<NodeFlag> integers = IntegralConstantSupport.of(NodeFlag.class);
+public enum NodeFlag implements IntegralConstant {
+  /**
+   * @see ASTNode#MALFORMED
+   */
+  MALFORMED(ASTNode.MALFORMED),
 
-	private final int value;
-	
-	private NodeFlag(int value)
-	{
-		this.value = value;
-	}
-	
-	public static final Set<Integer> valuesAsIntegers()
-	{
-		return integers.getIntegers();
-	}
+  /**
+   * @see ASTNode#ORIGINAL
+   */
+  ORIGINAL(ASTNode.ORIGINAL),
 
-	public static final int valuesAsInteger()
-	{
-		return integers.getConstantsAsInteger();
-	}
+  /**
+   * @see ASTNode#PROTECT
+   */
+  PROTECT(ASTNode.PROTECT),
 
-	public static final int valuesAsInteger(final Set<NodeFlag> values)
-	{
-		return IntegralConstantSupport.constantsAsInteger(values);
-	}
+  /**
+   * @see ASTNode#RECOVERED
+   */
+  RECOVERED(ASTNode.RECOVERED);
 
-	public static final NodeFlag valueOf(final int value)
-	{
-		return integers.getConstant(value);
-	}
+  private static final IntegralConstantSupport<NodeFlag> integers = IntegralConstantSupport.of(NodeFlag.class);
 
-	public static final Set<NodeFlag> setOf(final int values)
-	{
-		return integers.getConstants(values);
-	}
-	
-	public final int getValue()
-	{
-		return this.value;
-	}
+  private final int value;
+
+  private NodeFlag(int value) {
+    this.value = value;
+  }
+
+  public static final Set<Integer> valuesAsIntegers() {
+    return integers.getIntegers();
+  }
+
+  public static final int valuesAsInteger() {
+    return integers.getConstantsAsInteger();
+  }
+
+  public static final int valuesAsInteger(final Set<NodeFlag> values) {
+    return IntegralConstantSupport.constantsAsInteger(values);
+  }
+
+  public static final NodeFlag valueOf(final int value) {
+    return integers.getConstant(value);
+  }
+
+  public static final Set<NodeFlag> setOf(final int values) {
+    return integers.getConstants(values);
+  }
+
+  public final int getValue() {
+    return this.value;
+  }
 }

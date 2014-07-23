@@ -19,10 +19,9 @@ import sk.stuba.fiit.perconik.core.Registrable;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Unsupported
-{
-	/**
-	 * Optional descriptions of unsupported functionality.
-	 */
-	String[] value() default {};
+public @interface Unsupported {
+  /**
+   * Optional descriptions of unsupported functionality.
+   */
+  String[] value() default {};
 }

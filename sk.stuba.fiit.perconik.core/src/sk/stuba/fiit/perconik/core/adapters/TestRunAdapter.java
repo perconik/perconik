@@ -20,32 +20,19 @@ import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class TestRunAdapter extends Adapter implements TestRunListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected TestRunAdapter()
-	{
-	}
+public class TestRunAdapter extends Adapter implements TestRunListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected TestRunAdapter() {}
 
-	public void sessionLaunched(ITestRunSession session)
-	{
-	}
+  public void sessionLaunched(ITestRunSession session) {}
 
-	public void sessionStarted(ITestRunSession session)
-	{
-	}
+  public void sessionStarted(ITestRunSession session) {}
 
-	public void sessionFinished(ITestRunSession session)
-	{
-	}
+  public void sessionFinished(ITestRunSession session) {}
 
-	public void testCaseStarted(ITestCaseElement element)
-	{
-	}
+  public void testCaseStarted(ITestCaseElement element) {}
 
-	public void testCaseFinished(ITestCaseElement element)
-	{
-	}
+  public void testCaseFinished(ITestCaseElement element) {}
 }

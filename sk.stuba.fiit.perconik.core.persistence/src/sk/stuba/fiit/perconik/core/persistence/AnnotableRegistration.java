@@ -10,6 +10,5 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface AnnotableRegistration extends Annotable, Registration
-{
+public interface AnnotableRegistration extends Annotable, Registration {
 }

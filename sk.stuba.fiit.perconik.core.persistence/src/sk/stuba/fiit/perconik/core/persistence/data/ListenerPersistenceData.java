@@ -31,190 +31,156 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ListenerPersistenceData extends AbstractListenerRegistration implements MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData
-{
-	private static final long serialVersionUID = -1672202405264953995L;
+public final class ListenerPersistenceData extends AbstractListenerRegistration implements MarkableRegistration, RegistrationMarker<ListenerPersistenceData>, Serializable, SerializedListenerData {
+  private static final long serialVersionUID = -1672202405264953995L;
 
-	private final transient boolean registered;
-	
-	private final transient Class<? extends Listener> implementation;
-	
-	private final transient Optional<Listener> listener;
+  private final transient boolean registered;
 
-	private ListenerPersistenceData(final boolean registered, final Class<? extends Listener> implementation, final Optional<Listener> listener)
-	{
-		this.registered     = registered;
-		this.implementation = implementation;
-		this.listener       = listener;
-	}
-	
-	static final ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener)
-	{
-		Utilities.checkListenerClass(implementation);
-		Utilities.checkListenerImplementation(implementation, listener);
-		
-		return copy(registered, implementation, listener);
-	}
-	
-	static final ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener)
-	{
-		return new ListenerPersistenceData(registered, implementation, Utilities.serializableOrNullAsOptional(listener));
-	}
-	
-	public static final ListenerPersistenceData of(final Listener listener)
-	{
-		return construct(Listeners.isRegistered(listener), listener.getClass(), listener);
-	}
-	
-	public static final Set<ListenerPersistenceData> defaults()
-	{
-		ListenerProvider provider = Services.getListenerService().getListenerProvider();
-		
-		Set<ListenerPersistenceData> data = Sets.newHashSet();
-		
-		for (Class<? extends Listener> implementation: provider.classes())
-		{
-			data.add(construct(Utilities.registeredByDefault(implementation), implementation, null));
-		}
-		
-		return data;
-	}
+  private final transient Class<? extends Listener> implementation;
 
-	public static final Set<ListenerPersistenceData> snapshot()
-	{
-		ListenerProvider provider = Services.getListenerService().getListenerProvider();
+  private final transient Optional<Listener> listener;
 
-		Set<ListenerPersistenceData> data = Sets.newHashSet();
-		
-		Collection<Listener> listeners = Listeners.registrations().values();
-		
-		for (Class<? extends Listener> implementation: provider.classes())
-		{
-			for (Listener listener: listeners)
-			{
-				data.add(construct(implementation == listener.getClass(), implementation, listener));
-			}
-		}
-		
-		return data;
-	}
-	
-	private static final class SerializationProxy implements Serializable
-	{
-		private static final long serialVersionUID = -6638506142325802066L;
+  private ListenerPersistenceData(final boolean registered, final Class<? extends Listener> implementation, final Optional<Listener> listener) {
+    this.registered = registered;
+    this.implementation = implementation;
+    this.listener = listener;
+  }
 
-		private final boolean registered;
-		
-		private final String implementation;
-		
-		private final Optional<Listener> listener;
-		
-		private SerializationProxy(final ListenerPersistenceData data)
-		{
-			this.registered     = data.hasRegistredMark();
-			this.implementation = data.getListenerClass().getName();
-			this.listener       = data.getSerializedListener();
-		}
-		
-		static final SerializationProxy of(final ListenerPersistenceData data)
-		{
-			return new SerializationProxy(data);
-		}
-		
-		private final Object readResolve() throws InvalidObjectException
-		{
-			try
-			{
-				return construct(this.registered, Utilities.resolveClassAsSubclass(this.implementation, Listener.class), this.listener.orNull());
-			}
-			catch (Exception e)
-			{
-				throw new InvalidListenerException("Unknown deserialization error", e);
-			}
-		}
-	}
+  static final ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener) {
+    Utilities.checkListenerClass(implementation);
+    Utilities.checkListenerImplementation(implementation, listener);
 
-	@SuppressWarnings({"static-method", "unused"})
-	private final void readObject(final ObjectInputStream in) throws InvalidObjectException
-	{
-		throw new InvalidListenerException("Serialization proxy required");
-	}
+    return copy(registered, implementation, listener);
+  }
 
-	private final Object writeReplace()
-	{
-		return SerializationProxy.of(this);
-	}
-	
-	public final ListenerPersistenceData applyRegisteredMark()
-	{
-		Listener listener = this.getListener();
-		
-		if (listener == null)
-		{
-			return this;
-		}
-		
-		boolean status = Listeners.isRegistered(listener);
-		
-		if (this.registered == status)
-		{
-			return this;
-		}
+  static final ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener) {
+    return new ListenerPersistenceData(registered, implementation, Utilities.serializableOrNullAsOptional(listener));
+  }
 
-		if (this.registered)
-		{
-			Listeners.register(listener);
-		}
-		else
-		{
-			Listeners.unregister(listener);
-		}
-		
-		return new ListenerPersistenceData(status, this.implementation, this.listener);
-	}
-	
-	public final ListenerPersistenceData updateRegisteredMark()
-	{
-		return this.markRegistered(this.isRegistered());
-	}
+  public static final ListenerPersistenceData of(final Listener listener) {
+    return construct(Listeners.isRegistered(listener), listener.getClass(), listener);
+  }
 
-	public final ListenerPersistenceData markRegistered(final boolean status)
-	{
-		if (this.registered == status)
-		{
-			return this;
-		}
-		
-		return new ListenerPersistenceData(status, this.implementation, this.listener);
-	}
+  public static final Set<ListenerPersistenceData> defaults() {
+    ListenerProvider provider = Services.getListenerService().getListenerProvider();
 
-	public final boolean hasRegistredMark()
-	{
-		return this.registered;
-	}
-	
-	public final boolean hasSerializedListener()
-	{
-		return this.listener.isPresent();
-	}
-	
-	public final Listener getListener()
-	{
-		if (this.hasSerializedListener())
-		{
-			return this.listener.get();
-		}
-		
-		return Listeners.forClass(this.implementation);
-	}
+    Set<ListenerPersistenceData> data = Sets.newHashSet();
 
-	public final Class<? extends Listener> getListenerClass()
-	{
-		return this.implementation;
-	}
+    for (Class<? extends Listener> implementation: provider.classes()) {
+      data.add(construct(Utilities.registeredByDefault(implementation), implementation, null));
+    }
 
-	public final Optional<Listener> getSerializedListener()
-	{
-		return this.listener;
-	}
+    return data;
+  }
+
+  public static final Set<ListenerPersistenceData> snapshot() {
+    ListenerProvider provider = Services.getListenerService().getListenerProvider();
+
+    Set<ListenerPersistenceData> data = Sets.newHashSet();
+
+    Collection<Listener> listeners = Listeners.registrations().values();
+
+    for (Class<? extends Listener> implementation: provider.classes()) {
+      for (Listener listener: listeners) {
+        data.add(construct(implementation == listener.getClass(), implementation, listener));
+      }
+    }
+
+    return data;
+  }
+
+  private static final class SerializationProxy implements Serializable {
+    private static final long serialVersionUID = -6638506142325802066L;
+
+    private final boolean registered;
+
+    private final String implementation;
+
+    private final Optional<Listener> listener;
+
+    private SerializationProxy(final ListenerPersistenceData data) {
+      this.registered = data.hasRegistredMark();
+      this.implementation = data.getListenerClass().getName();
+      this.listener = data.getSerializedListener();
+    }
+
+    static final SerializationProxy of(final ListenerPersistenceData data) {
+      return new SerializationProxy(data);
+    }
+
+    private final Object readResolve() throws InvalidObjectException {
+      try {
+        return construct(this.registered, Utilities.resolveClassAsSubclass(this.implementation, Listener.class), this.listener.orNull());
+      } catch (Exception e) {
+        throw new InvalidListenerException("Unknown deserialization error", e);
+      }
+    }
+  }
+
+  @SuppressWarnings({"static-method", "unused"})
+  private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+    throw new InvalidListenerException("Serialization proxy required");
+  }
+
+  private final Object writeReplace() {
+    return SerializationProxy.of(this);
+  }
+
+  public final ListenerPersistenceData applyRegisteredMark() {
+    Listener listener = this.getListener();
+
+    if (listener == null) {
+      return this;
+    }
+
+    boolean status = Listeners.isRegistered(listener);
+
+    if (this.registered == status) {
+      return this;
+    }
+
+    if (this.registered) {
+      Listeners.register(listener);
+    } else {
+      Listeners.unregister(listener);
+    }
+
+    return new ListenerPersistenceData(status, this.implementation, this.listener);
+  }
+
+  public final ListenerPersistenceData updateRegisteredMark() {
+    return this.markRegistered(this.isRegistered());
+  }
+
+  public final ListenerPersistenceData markRegistered(final boolean status) {
+    if (this.registered == status) {
+      return this;
+    }
+
+    return new ListenerPersistenceData(status, this.implementation, this.listener);
+  }
+
+  public final boolean hasRegistredMark() {
+    return this.registered;
+  }
+
+  public final boolean hasSerializedListener() {
+    return this.listener.isPresent();
+  }
+
+  public final Listener getListener() {
+    if (this.hasSerializedListener()) {
+      return this.listener.get();
+    }
+
+    return Listeners.forClass(this.implementation);
+  }
+
+  public final Class<? extends Listener> getListenerClass() {
+    return this.implementation;
+  }
+
+  public final Optional<Listener> getSerializedListener() {
+    return this.listener;
+  }
 }

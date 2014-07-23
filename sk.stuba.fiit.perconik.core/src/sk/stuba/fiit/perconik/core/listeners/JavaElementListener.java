@@ -14,6 +14,5 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface JavaElementListener extends FilteringListener<JavaElementEventType>, IElementChangedListener
-{
+public interface JavaElementListener extends FilteringListener<JavaElementEventType>, IElementChangedListener {
 }

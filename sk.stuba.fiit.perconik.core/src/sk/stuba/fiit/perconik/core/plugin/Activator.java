@@ -28,146 +28,122 @@ import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
  * 
  * @author Pavol Zbell
  */
-public final class Activator extends ExtendedPlugin
-{
-	/**
-	 * The plug-in identifier.
-	 */
-	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.core";
+public final class Activator extends ExtendedPlugin {
+  /**
+   * The plug-in identifier.
+   */
+  public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.core";
 
-	/**
-	 * The shared instance.
-	 */
-	private static volatile Activator plugin;
+  /**
+   * The shared instance.
+   */
+  private static volatile Activator plugin;
 
-	volatile boolean processed;
-	
-	/**
-	 * The constructor.
-	 */
-	public Activator()
-	{
-	}
+  volatile boolean processed;
 
-	/**
-	 * Gets the shared instance.
-	 * @return the shared instance
-	 */
-	public static final Activator getDefault()
-	{
-		synchronized (Activator.class)
-		{
-			return plugin;
-		}
-	}
+  /**
+   * The constructor.
+   */
+  public Activator() {}
 
-	public static final Set<String> extensionContributors()
-	{
-		Set<String> contributors = Sets.newHashSet();
-		
-		for (String point: ExtensionPoints.all)
-		{
-			for (IConfigurationElement element: Platform.getExtensionRegistry().getConfigurationElementsFor(point))
-			{
-				contributors.add(element.getContributor().getName());
-			}
-		}
-		
-		return contributors;
-	}
-	
-	public static final List<Bundle> contributingBundles()
-	{
-		try
-		{
-			return Bundles.forNames(extensionContributors());
-		}
-		catch (BundleNotFoundException e)
-		{
-			throw Throwables.propagate(e);
-		}
-	}
-	
-	public static final ClassResolver classResolver()
-	{
-		List<ClassResolver> resolvers = Lists.newArrayList(); 
-		
-		resolvers.add(Bundles.newClassResolver(getDefault().getBundle()));
-		resolvers.addAll(Bundles.newClassResolvers(contributingBundles()));
-		
-		return ClassResolvers.compose(resolvers);
-	}
+  /**
+   * Gets the shared instance.
+   * @return the shared instance
+   */
+  public static final Activator getDefault() {
+    synchronized (Activator.class) {
+      return plugin;
+    }
+  }
 
-	/**
-	 * Waits blocking until all supplied extensions are processed.
-	 * @throws NullPointerException if the shared instance is not constructed
-	 */
-	public static final void waitForExtensions()
-	{
-		Activator plugin;
-		
-		do
-		{
-			plugin = getDefault();
-		}
-		while (plugin == null || !plugin.processed);
-	}
-	
-	/**
-	 * Plug-in early startup. 
-	 * 
-	 * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-	 * 
-	 * @author Pavol Zbell
-	 * @since 1.0
-	 */
-	public static final class Startup implements IStartup
-	{
-		/**
-		 * The constructor.
-		 */
-		public Startup()
-		{
-		}
+  public static final Set<String> extensionContributors() {
+    Set<String> contributors = Sets.newHashSet();
 
-		/**
-		 * Processes supplied extensions and starts core services.
-		 */
-		public final void earlyStartup()
-		{
-			ServicesLoader loader = new ServicesLoader();
-			
-			loader.load();
-			
-			getDefault().processed = true;
-		}
-	}
+    for (String point: ExtensionPoints.all) {
+      for (IConfigurationElement element: Platform.getExtensionRegistry().getConfigurationElementsFor(point)) {
+        contributors.add(element.getContributor().getName());
+      }
+    }
 
-	@Override
-	public final void start(final BundleContext context) throws Exception
-	{
-		this.processed = false;
-		
-		super.start(context);
+    return contributors;
+  }
 
-		synchronized (Activator.class)
-		{
-			plugin = this;
-		}
-	}
+  public static final List<Bundle> contributingBundles() {
+    try {
+      return Bundles.forNames(extensionContributors());
+    } catch (BundleNotFoundException e) {
+      throw Throwables.propagate(e);
+    }
+  }
 
-	@Override
-	public final void stop(final BundleContext context) throws Exception
-	{
-		ServiceSnapshot.take().servicesInStopOrder().stopSynchronously();
-		
-		synchronized (Activator.class)
-		{
-			plugin = null;
-		}
+  public static final ClassResolver classResolver() {
+    List<ClassResolver> resolvers = Lists.newArrayList();
 
-		super.stop(context);
-		
-		this.processed = false;
-	}
+    resolvers.add(Bundles.newClassResolver(getDefault().getBundle()));
+    resolvers.addAll(Bundles.newClassResolvers(contributingBundles()));
+
+    return ClassResolvers.compose(resolvers);
+  }
+
+  /**
+   * Waits blocking until all supplied extensions are processed.
+   * @throws NullPointerException if the shared instance is not constructed
+   */
+  public static final void waitForExtensions() {
+    Activator plugin;
+
+    do {
+      plugin = getDefault();
+    } while (plugin == null || !plugin.processed);
+  }
+
+  /**
+   * Plug-in early startup. 
+   * 
+   * <p><b>Warning:</b> Users should not explicitly instantiate this class.
+   * 
+   * @author Pavol Zbell
+   * @since 1.0
+   */
+  public static final class Startup implements IStartup {
+    /**
+     * The constructor.
+     */
+    public Startup() {}
+
+    /**
+     * Processes supplied extensions and starts core services.
+     */
+    public final void earlyStartup() {
+      ServicesLoader loader = new ServicesLoader();
+
+      loader.load();
+
+      getDefault().processed = true;
+    }
+  }
+
+  @Override
+  public final void start(final BundleContext context) throws Exception {
+    this.processed = false;
+
+    super.start(context);
+
+    synchronized (Activator.class) {
+      plugin = this;
+    }
+  }
+
+  @Override
+  public final void stop(final BundleContext context) throws Exception {
+    ServiceSnapshot.take().servicesInStopOrder().stopSynchronously();
+
+    synchronized (Activator.class) {
+      plugin = null;
+    }
+
+    super.stop(context);
+
+    this.processed = false;
+  }
 }

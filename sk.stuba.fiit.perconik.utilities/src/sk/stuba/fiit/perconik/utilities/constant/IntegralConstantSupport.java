@@ -10,107 +10,88 @@ import javax.annotation.Nonnull;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
-public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> extends AbstractConstantSupport<Integer, E>
-{
-	private static final long serialVersionUID = 6686975853072661262L;
-	
-	IntegralConstantSupport(final Class<E> type)
-	{
-		super(type);
-	}
-	
-	private static enum Transformation implements Function<IntegralConstant, Integer>
-	{
-		INSTANCE;
+public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant> extends AbstractConstantSupport<Integer, E> {
+  private static final long serialVersionUID = 6686975853072661262L;
 
-		public final Integer apply(@Nonnull final IntegralConstant constant)
-		{
-			return constant.getValue();
-		}	
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	final Function<E, Integer> transformation()
-	{
-		return (Function<E, Integer>) Transformation.INSTANCE;
-	}
+  IntegralConstantSupport(final Class<E> type) {
+    super(type);
+  }
 
-	public static final <E extends Enum<E> & IntegralConstant> IntegralConstantSupport<E> of(final Class<E> type)
-	{
-		return new IntegralConstantSupport<>(type);
-	}
+  private static enum Transformation implements Function<IntegralConstant, Integer> {
+    INSTANCE;
 
-	public static final <E extends Enum<E> & IntegralConstant> int constantsAsInteger(final Set<E> constants)
-	{
-		int values = 0;
-		
-		for (E constant: constants)
-		{
-			values |= constant.getValue();
-		}
-		
-		return values;
-	}
+    public final Integer apply(@Nonnull final IntegralConstant constant) {
+      return constant.getValue();
+    }
+  }
 
-	private static final class SerializationProxy<E extends Enum<E> & IntegralConstant> extends AbstractSerializationProxy<Integer, E, IntegralConstantSupport<E>>
-	{
-		private static final long serialVersionUID = -8420579032363855266L;
+  @Override
+  @SuppressWarnings("unchecked")
+  final Function<E, Integer> transformation() {
+    return (Function<E, Integer>) Transformation.INSTANCE;
+  }
 
-		SerializationProxy(final IntegralConstantSupport<E> support)
-		{
-			super(support);
-		}
+  public static final <E extends Enum<E> & IntegralConstant> IntegralConstantSupport<E> of(final Class<E> type) {
+    return new IntegralConstantSupport<>(type);
+  }
 
-		@Override
-		final IntegralConstantSupport<E> resolve(final Class<E> type)
-		{
-			return new IntegralConstantSupport<>(type);
-		}
-	}
-	
-	@SuppressWarnings({"static-method", "unused"})
-	private final void readObject(final ObjectInputStream in) throws InvalidObjectException
-	{
-		throw new InvalidObjectException("Serialization proxy required");
-	}
+  public static final <E extends Enum<E> & IntegralConstant> int constantsAsInteger(final Set<E> constants) {
+    int values = 0;
 
-	private final Object writeReplace()
-	{
-		return new SerializationProxy<>(this);
-	}
+    for (E constant: constants) {
+      values |= constant.getValue();
+    }
 
-	public final Set<Integer> getIntegers()
-	{
-		return this.map.keySet();
-	}
-	
-	public final int getConstantsAsInteger()
-	{
-		return constantsAsInteger(this.map.values());
-	}
+    return values;
+  }
 
-	public final Set<E> getConstants(final int values)
-	{
-		Set<E> flags = EnumSet.noneOf(this.type);
+  private static final class SerializationProxy<E extends Enum<E> & IntegralConstant> extends AbstractSerializationProxy<Integer, E, IntegralConstantSupport<E>> {
+    private static final long serialVersionUID = -8420579032363855266L;
 
-		for (E constant: this.map.values())
-		{
-			if ((values & constant.getValue()) != 0)
-			{
-				flags.add(constant);
-			}
-		}
+    SerializationProxy(final IntegralConstantSupport<E> support) {
+      super(support);
+    }
 
-		return flags;
-	}
-	
-	public final E getConstant(final int value)
-	{
-		E constant = this.map.get(value);
+    @Override
+    final IntegralConstantSupport<E> resolve(final Class<E> type) {
+      return new IntegralConstantSupport<>(type);
+    }
+  }
 
-		Preconditions.checkArgument(constant != null, "Constant for value %s not found", value);
-		
-		return constant;
-	}
+  @SuppressWarnings({"static-method", "unused"})
+  private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+    throw new InvalidObjectException("Serialization proxy required");
+  }
+
+  private final Object writeReplace() {
+    return new SerializationProxy<>(this);
+  }
+
+  public final Set<Integer> getIntegers() {
+    return this.map.keySet();
+  }
+
+  public final int getConstantsAsInteger() {
+    return constantsAsInteger(this.map.values());
+  }
+
+  public final Set<E> getConstants(final int values) {
+    Set<E> flags = EnumSet.noneOf(this.type);
+
+    for (E constant: this.map.values()) {
+      if ((values & constant.getValue()) != 0) {
+        flags.add(constant);
+      }
+    }
+
+    return flags;
+  }
+
+  public final E getConstant(final int value) {
+    E constant = this.map.get(value);
+
+    Preconditions.checkArgument(constant != null, "Constant for value %s not found", value);
+
+    return constant;
+  }
 }

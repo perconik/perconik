@@ -14,35 +14,28 @@ import com.google.common.collect.ForwardingObject;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingRegistrable extends ForwardingObject implements Registrable
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingRegistrable()
-	{
-	}
-	
-	@Override
-	protected abstract Registrable delegate();
+public abstract class ForwardingRegistrable extends ForwardingObject implements Registrable {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingRegistrable() {}
 
-	public void preRegister()
-	{
-		this.delegate().preRegister();
-	}
+  @Override
+  protected abstract Registrable delegate();
 
-	public void postRegister()
-	{
-		this.delegate().postRegister();
-	}
+  public void preRegister() {
+    this.delegate().preRegister();
+  }
 
-	public void preUnregister()
-	{
-		this.delegate().preUnregister();
-	}
+  public void postRegister() {
+    this.delegate().postRegister();
+  }
 
-	public void postUnregister()
-	{
-		this.delegate().postUnregister();
-	}
+  public void preUnregister() {
+    this.delegate().preUnregister();
+  }
+
+  public void postUnregister() {
+    this.delegate().postUnregister();
+  }
 }

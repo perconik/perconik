@@ -2,45 +2,36 @@ package sk.stuba.fiit.perconik.activity.data.system;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class OperatingSystemData extends AnyStructuredData
-{
-	protected String architecture;
+public class OperatingSystemData extends AnyStructuredData {
+  protected String architecture;
 
-	protected String name;
+  protected String name;
 
-	protected String version;
-	
-	public OperatingSystemData()
-	{
-	}
+  protected String version;
 
-	public void setArchitecture(String architecture)
-	{
-		this.architecture = architecture;
-	}
+  public OperatingSystemData() {}
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+  public void setArchitecture(String architecture) {
+    this.architecture = architecture;
+  }
 
-	public void setVersion(String version)
-	{
-		this.version = version;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public String getArchitecture()
-	{
-		return this.architecture;
-	}
+  public void setVersion(String version) {
+    this.version = version;
+  }
 
-	public String getName()
-	{
-		return this.name;
-	}
+  public String getArchitecture() {
+    return this.architecture;
+  }
 
-	public String getVersion()
-	{
-		return this.version;
-	}
+  public String getName() {
+    return this.name;
+  }
+
+  public String getVersion() {
+    return this.version;
+  }
 }

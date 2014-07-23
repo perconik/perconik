@@ -22,141 +22,114 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ListenersPreferencePage extends AbstractRegistrationPreferencePage<ListenerPreferences, ListenerPersistenceData>
-{
-	public ListenersPreferencePage()
-	{
-	}
+public final class ListenersPreferencePage extends AbstractRegistrationPreferencePage<ListenerPreferences, ListenerPersistenceData> {
+  public ListenersPreferencePage() {}
 
-	@Override
-	final Class<ListenerPersistenceData> type()
-	{
-		return ListenerPersistenceData.class;
-	}
+  @Override
+  final Class<ListenerPersistenceData> type() {
+    return ListenerPersistenceData.class;
+  }
 
-	@Override
-	protected final ListenerLabelProvider createContentProvider()
-	{
-		return new ListenerLabelProvider();
-	}
+  @Override
+  protected final ListenerLabelProvider createContentProvider() {
+    return new ListenerLabelProvider();
+  }
 
-	@Override
-	protected final ListenerViewerComparator createViewerComparator()
-	{
-		return new ListenerViewerComparator();
-	}
+  @Override
+  protected final ListenerViewerComparator createViewerComparator() {
+    return new ListenerViewerComparator();
+  }
 
-	@Override
-	protected final void makeTableColumns(Table table, TableColumnLayout layout, GC gc)
-	{
-		Tables.createColumn(table, layout, "Listener implementation", gc, 4);
-		Tables.createColumn(table, layout, "Version",                 gc, 1);
-		Tables.createColumn(table, layout, "Notes",                   gc, 1);
-	}
+  @Override
+  protected final void makeTableColumns(Table table, TableColumnLayout layout, GC gc) {
+    Tables.createColumn(table, layout, "Listener implementation", gc, 4);
+    Tables.createColumn(table, layout, "Version", gc, 1);
+    Tables.createColumn(table, layout, "Notes", gc, 1);
+  }
 
-	private static final class ListenerLabelProvider extends AbstractLabelProvider<ListenerPersistenceData>
-	{
-		ListenerLabelProvider()
-		{
-		}
+  private static final class ListenerLabelProvider extends AbstractLabelProvider<ListenerPersistenceData> {
+    ListenerLabelProvider() {}
 
-		public final String getColumnText(final Object element, final int column)
-		{
-			ListenerPersistenceData data = (ListenerPersistenceData) element;
+    public final String getColumnText(final Object element, final int column) {
+      ListenerPersistenceData data = (ListenerPersistenceData) element;
 
-			switch (column)
-			{
-			case 0:
-				return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
+      switch (column) {
+        case 0:
+          return data.getListenerClass().getName() + (data.isProvided() ? "" : " (unknown)");
 
-			case 1:
-				return this.getVersion(data);
+        case 1:
+          return this.getVersion(data);
 
-			case 2:
-				return this.getAnnotations(data);
+        case 2:
+          return this.getAnnotations(data);
 
-			default:
-				throw new IllegalStateException();
-			}
-		}
-	}
+        default:
+          throw new IllegalStateException();
+      }
+    }
+  }
 
-	private static final class ListenerViewerComparator extends AbstractViewerComparator
-	{
-		ListenerViewerComparator()
-		{
-		}
+  private static final class ListenerViewerComparator extends AbstractViewerComparator {
+    ListenerViewerComparator() {}
 
-		@Override
-		public final int compare(final Viewer viewer, final Object a, final Object b)
-		{
-			if ((a instanceof ListenerPersistenceData) && (b instanceof ListenerPersistenceData))
-			{
-				ListenerPersistenceData data  = (ListenerPersistenceData) a;
-				ListenerPersistenceData other = (ListenerPersistenceData) b;
+    @Override
+    public final int compare(final Viewer viewer, final Object a, final Object b) {
+      if ((a instanceof ListenerPersistenceData) && (b instanceof ListenerPersistenceData)) {
+        ListenerPersistenceData data = (ListenerPersistenceData) a;
+        ListenerPersistenceData other = (ListenerPersistenceData) b;
 
-				return Collator.getInstance().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
-			}
+        return Collator.getInstance().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
+      }
 
-			return super.compare(viewer, a, b);
-		}
-	}
+      return super.compare(viewer, a, b);
+    }
+  }
 
-	@Override
-	final Set<ListenerPersistenceData> defaults()
-	{
-		return ListenerPersistenceData.defaults();
-	}
+  @Override
+  final Set<ListenerPersistenceData> defaults() {
+    return ListenerPersistenceData.defaults();
+  }
 
-	@Override
-	final ListenerPreferences preferences()
-	{
-		return ListenerPreferences.getConfiguration();
-	}
+  @Override
+  final ListenerPreferences preferences() {
+    return ListenerPreferences.getConfiguration();
+  }
 
-	@Override
-	final void apply()
-	{
-		try
-		{
-			Set<ListenerPersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
+  @Override
+  final void apply() {
+    try {
+      Set<ListenerPersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
 
-			this.getPreferences().setListenerPersistenceData(data);
-		}
-		catch (ResourceNotRegistredException e)
-		{
-			StringBuilder message = new StringBuilder();
+      this.getPreferences().setListenerPersistenceData(data);
+    } catch (ResourceNotRegistredException e) {
+      StringBuilder message = new StringBuilder();
 
-			message.append("Listener registration failed due to one or more unregistered but required resources. ");
-			message.append("Select only listeners with registered resources.\n\n");
-			message.append(e.getMessage() + ".");
+      message.append("Listener registration failed due to one or more unregistered but required resources. ");
+      message.append("Select only listeners with registered resources.\n\n");
+      message.append(e.getMessage() + ".");
 
-			this.displayError("Listener registration", message.toString());
-			this.performRefresh();
-		}
-	}
+      this.displayError("Listener registration", message.toString());
+      this.performRefresh();
+    }
+  }
 
-	@Override
-	final void load(final ListenerPreferences preferences)
-	{
-		this.setListenerPreferences(preferences);
-	}
+  @Override
+  final void load(final ListenerPreferences preferences) {
+    this.setListenerPreferences(preferences);
+  }
 
-	@Override
-	final void save() throws BackingStoreException
-	{
-		this.getPreferences().flush();
-	}
+  @Override
+  final void save() throws BackingStoreException {
+    this.getPreferences().flush();
+  }
 
-	public final void setListenerPreferences(final ListenerPreferences preferences)
-	{
-		this.setPreferences(preferences);
+  public final void setListenerPreferences(final ListenerPreferences preferences) {
+    this.setPreferences(preferences);
 
-		this.registrations = preferences.getListenerPersistenceData();
-	}
+    this.registrations = preferences.getListenerPersistenceData();
+  }
 
-	public final ListenerPreferences getListenerPreferences()
-	{
-		return this.getPreferences();
-	}
+  public final ListenerPreferences getListenerPreferences() {
+    return this.getPreferences();
+  }
 }

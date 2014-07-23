@@ -12,37 +12,36 @@ package sk.stuba.fiit.perconik.core;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface Registrable
-{
-	/**
-	 * Pre-register block. Called by the registration manager
-	 * right before it internally registers this object.
-	 * 
-	 * @throws RuntimeException if pre-registration fails 
-	 */
-	public void preRegister();
+public interface Registrable {
+  /**
+   * Pre-register block. Called by the registration manager
+   * right before it internally registers this object.
+   * 
+   * @throws RuntimeException if pre-registration fails 
+   */
+  public void preRegister();
 
-	/**
-	 * Post-register block. Called by the registration manager
-	 * right after it internally registers this object.
-	 * 
-	 * @throws RuntimeException if post-registration fails 
-	 */
-	public void postRegister();
+  /**
+   * Post-register block. Called by the registration manager
+   * right after it internally registers this object.
+   * 
+   * @throws RuntimeException if post-registration fails 
+   */
+  public void postRegister();
 
-	/**
-	 * Pre-unregister block. Called by the registration manager
-	 * right before it internally unregisters this object.
-	 * 
-	 * @throws RuntimeException if pre-unregistration fails 
-	 */
-	public void preUnregister();
+  /**
+   * Pre-unregister block. Called by the registration manager
+   * right before it internally unregisters this object.
+   * 
+   * @throws RuntimeException if pre-unregistration fails 
+   */
+  public void preUnregister();
 
-	/**
-	 * Post-unregister block. Called by the registration manager
-	 * after before it internally unregisters this object.
-	 * 
-	 * @throws RuntimeException if post-unregistration fails 
-	 */
-	public void postUnregister();
+  /**
+   * Post-unregister block. Called by the registration manager
+   * after before it internally unregisters this object.
+   * 
+   * @throws RuntimeException if post-unregistration fails 
+   */
+  public void postUnregister();
 }

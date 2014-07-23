@@ -7,31 +7,26 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-public enum WorkbenchReferencePolicy
-{
-	DEFAULT(false),
+public enum WorkbenchReferencePolicy {
+  DEFAULT(false),
 
-	RESTORE(true);
+  RESTORE(true);
 
-	private final boolean restore;
+  private final boolean restore;
 
-	private WorkbenchReferencePolicy(final boolean restore)
-	{
-		this.restore = restore;
-	}
+  private WorkbenchReferencePolicy(final boolean restore) {
+    this.restore = restore;
+  }
 
-	public final IEditorPart getEditor(final IEditorReference reference)
-	{
-		return reference.getEditor(this.restore);
-	}
+  public final IEditorPart getEditor(final IEditorReference reference) {
+    return reference.getEditor(this.restore);
+  }
 
-	public final IWorkbenchPart getPart(final IWorkbenchPartReference reference)
-	{
-		return reference.getPart(this.restore);
-	}
+  public final IWorkbenchPart getPart(final IWorkbenchPartReference reference) {
+    return reference.getPart(this.restore);
+  }
 
-	public final IViewPart getView(final IViewReference reference)
-	{
-		return reference.getView(this.restore);
-	}
+  public final IViewPart getView(final IViewReference reference) {
+    return reference.getView(this.restore);
+  }
 }

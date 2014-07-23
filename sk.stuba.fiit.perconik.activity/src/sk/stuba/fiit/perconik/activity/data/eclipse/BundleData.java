@@ -13,195 +13,163 @@ import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.osgi.framework.BundleState;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 
-public class BundleData extends AnyStructuredData
-{
-	protected long identifier;
-	
-	protected String category;
+public class BundleData extends AnyStructuredData {
+  protected long identifier;
 
-	protected String name;
-	
-	protected String symbolicName;
+  protected String category;
 
-	protected String vendor;
+  protected String name;
 
-	protected Version version;
+  protected String symbolicName;
 
-	protected String description;
+  protected String vendor;
 
-	protected String copyright;
+  protected Version version;
 
-	protected String activator;
+  protected String description;
 
-	protected String classPath;
-	
-	protected String nativeCode;
-	
-	protected BundleState state;
+  protected String copyright;
 
-	public BundleData()
-	{
-	}
+  protected String activator;
 
-	protected BundleData(Bundle bundle)
-	{
-		if (bundle == null)
-		{
-			return;
-		}
-		
-		Map<String, String> headers = MoreMaps.fromDictionary(bundle.getHeaders());
-		
-		this.setIdentifier(bundle.getBundleId());
-		this.setCategory(headers.get(Constants.BUNDLE_CATEGORY));
-		this.setName(headers.get(Constants.BUNDLE_NAME));
-		this.setSymbolicName(bundle.getSymbolicName());
-		this.setVendor(headers.get(Constants.BUNDLE_VENDOR));
-		this.setVersion(bundle.getVersion());
-		this.setDescription(headers.get(Constants.BUNDLE_DESCRIPTION));
-		this.setCopyright(headers.get(Constants.BUNDLE_COPYRIGHT));
+  protected String classPath;
 
-		this.setActivator(headers.get(Constants.BUNDLE_ACTIVATOR));
-		this.setClassPath(headers.get(Constants.BUNDLE_CLASSPATH));
-		this.setNativeCode(headers.get(Constants.BUNDLE_NATIVECODE));
-				
-		this.setState(BundleState.valueOf(bundle.getState()));
-	}
+  protected String nativeCode;
 
-	public static BundleData of(Bundle bundle)
-	{
-		return new BundleData(bundle);
-	}
-	
-	public static List<BundleData> of(Iterable<Bundle> bundles)
-	{
-		List<BundleData>  data = Lists.newArrayList();
-		
-		for (Bundle bundle: bundles)
-		{
-			data.add(new BundleData(bundle));
-		}
-		
-		return data;
-	}
+  protected BundleState state;
 
-	public void setIdentifier(long identifier)
-	{
-		this.identifier = identifier;
-	}
+  public BundleData() {}
 
-	public void setCategory(String category)
-	{
-		this.category = category;
-	}
+  protected BundleData(Bundle bundle) {
+    if (bundle == null) {
+      return;
+    }
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+    Map<String, String> headers = MoreMaps.fromDictionary(bundle.getHeaders());
 
-	public void setSymbolicName(String symbolicName)
-	{
-		this.symbolicName = symbolicName;
-	}
+    this.setIdentifier(bundle.getBundleId());
+    this.setCategory(headers.get(Constants.BUNDLE_CATEGORY));
+    this.setName(headers.get(Constants.BUNDLE_NAME));
+    this.setSymbolicName(bundle.getSymbolicName());
+    this.setVendor(headers.get(Constants.BUNDLE_VENDOR));
+    this.setVersion(bundle.getVersion());
+    this.setDescription(headers.get(Constants.BUNDLE_DESCRIPTION));
+    this.setCopyright(headers.get(Constants.BUNDLE_COPYRIGHT));
 
-	public void setVendor(String vendor)
-	{
-		this.vendor = vendor;
-	}
+    this.setActivator(headers.get(Constants.BUNDLE_ACTIVATOR));
+    this.setClassPath(headers.get(Constants.BUNDLE_CLASSPATH));
+    this.setNativeCode(headers.get(Constants.BUNDLE_NATIVECODE));
 
-	public void setVersion(Version version)
-	{
-		this.version = version;
-	}
+    this.setState(BundleState.valueOf(bundle.getState()));
+  }
 
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
+  public static BundleData of(Bundle bundle) {
+    return new BundleData(bundle);
+  }
 
-	public void setCopyright(String copyright)
-	{
-		this.copyright = copyright;
-	}
+  public static List<BundleData> of(Iterable<Bundle> bundles) {
+    List<BundleData> data = Lists.newArrayList();
 
-	public void setActivator(String activator)
-	{
-		this.activator = activator;
-	}
+    for (Bundle bundle: bundles) {
+      data.add(new BundleData(bundle));
+    }
 
-	public void setClassPath(String classPath)
-	{
-		this.classPath = classPath;
-	}
+    return data;
+  }
 
-	public void setNativeCode(String nativeCode)
-	{
-		this.nativeCode = nativeCode;
-	}
+  public void setIdentifier(long identifier) {
+    this.identifier = identifier;
+  }
 
-	public void setState(BundleState state)
-	{
-		this.state = state;
-	}
+  public void setCategory(String category) {
+    this.category = category;
+  }
 
-	public long getIdentifier()
-	{
-		return this.identifier;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public BundleState getState()
-	{
-		return this.state;
-	}
+  public void setSymbolicName(String symbolicName) {
+    this.symbolicName = symbolicName;
+  }
 
-	public String getCategory()
-	{
-		return this.category;
-	}
+  public void setVendor(String vendor) {
+    this.vendor = vendor;
+  }
 
-	public String getName()
-	{
-		return this.name;
-	}
+  public void setVersion(Version version) {
+    this.version = version;
+  }
 
-	public String getSymbolicName()
-	{
-		return this.symbolicName;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public String getVendor()
-	{
-		return this.vendor;
-	}
+  public void setCopyright(String copyright) {
+    this.copyright = copyright;
+  }
 
-	public Version getVersion()
-	{
-		return this.version;
-	}
+  public void setActivator(String activator) {
+    this.activator = activator;
+  }
 
-	public String getDescription()
-	{
-		return this.description;
-	}
+  public void setClassPath(String classPath) {
+    this.classPath = classPath;
+  }
 
-	public String getCopyright()
-	{
-		return this.copyright;
-	}
+  public void setNativeCode(String nativeCode) {
+    this.nativeCode = nativeCode;
+  }
 
-	public String getActivator()
-	{
-		return this.activator;
-	}
+  public void setState(BundleState state) {
+    this.state = state;
+  }
 
-	public String getClassPath()
-	{
-		return this.classPath;
-	}
+  public long getIdentifier() {
+    return this.identifier;
+  }
 
-	public String getNativeCode()
-	{
-		return this.nativeCode;
-	}
+  public BundleState getState() {
+    return this.state;
+  }
+
+  public String getCategory() {
+    return this.category;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public String getSymbolicName() {
+    return this.symbolicName;
+  }
+
+  public String getVendor() {
+    return this.vendor;
+  }
+
+  public Version getVersion() {
+    return this.version;
+  }
+
+  public String getDescription() {
+    return this.description;
+  }
+
+  public String getCopyright() {
+    return this.copyright;
+  }
+
+  public String getActivator() {
+    return this.activator;
+  }
+
+  public String getClassPath() {
+    return this.classPath;
+  }
+
+  public String getNativeCode() {
+    return this.nativeCode;
+  }
 }

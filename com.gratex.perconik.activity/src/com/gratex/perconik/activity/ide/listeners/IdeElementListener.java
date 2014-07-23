@@ -20,6 +20,5 @@ import sk.stuba.fiit.perconik.core.annotations.Unsupported;
  */
 @Experimental
 @Unsupported
-public final class IdeElementListener extends IdeListener
-{
+public final class IdeElementListener extends IdeListener {
 }

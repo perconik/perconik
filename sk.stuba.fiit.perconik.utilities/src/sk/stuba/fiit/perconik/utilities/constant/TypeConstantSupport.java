@@ -9,75 +9,62 @@ import javax.annotation.Nonnull;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
-public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> extends AbstractConstantSupport<Class<? extends T>, E>
-{
-	private static final long serialVersionUID = -2957728433673208288L;
+public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> extends AbstractConstantSupport<Class<? extends T>, E> {
+  private static final long serialVersionUID = -2957728433673208288L;
 
-	TypeConstantSupport(final Class<E> type)
-	{
-		super(type);
-	}
-	
-	private static enum Transformation implements Function<TypeConstant<?>, Class<?>>
-	{
-		INSTANCE;
-	
-		public final Class<?> apply(@Nonnull final TypeConstant<?> constant)
-		{
-			return constant.getType();
-		}
-	}
+  TypeConstantSupport(final Class<E> type) {
+    super(type);
+  }
 
-	@Override
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	final Function<E, Class<? extends T>> transformation()
-	{
-		return (Function) Transformation.INSTANCE;
-	}
+  private static enum Transformation implements Function<TypeConstant<?>, Class<?>> {
+    INSTANCE;
 
-	public static final <E extends Enum<E> & TypeConstant<T>, T> TypeConstantSupport<E, T> of(final Class<E> type)
-	{
-		return new TypeConstantSupport<>(type);
-	}
-	
-	private static final class SerializationProxy<E extends Enum<E> & TypeConstant<T>, T> extends AbstractSerializationProxy<Class<? extends T>, E, TypeConstantSupport<E, T>>
-	{
-		private static final long serialVersionUID = -8420579032363855266L;
+    public final Class<?> apply(@Nonnull final TypeConstant<?> constant) {
+      return constant.getType();
+    }
+  }
 
-		SerializationProxy(final TypeConstantSupport<E, T> support)
-		{
-			super(support);
-		}
+  @Override
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  final Function<E, Class<? extends T>> transformation() {
+    return (Function) Transformation.INSTANCE;
+  }
 
-		@Override
-		final TypeConstantSupport<E, T> resolve(final Class<E> type)
-		{
-			return new TypeConstantSupport<>(type);
-		}
-	}
-	
-	@SuppressWarnings({"static-method", "unused"})
-	private final void readObject(final ObjectInputStream in) throws InvalidObjectException
-	{
-		throw new InvalidObjectException("Serialization proxy required");
-	}
+  public static final <E extends Enum<E> & TypeConstant<T>, T> TypeConstantSupport<E, T> of(final Class<E> type) {
+    return new TypeConstantSupport<>(type);
+  }
 
-	private final Object writeReplace()
-	{
-		return new SerializationProxy<>(this);
-	}
+  private static final class SerializationProxy<E extends Enum<E> & TypeConstant<T>, T> extends AbstractSerializationProxy<Class<? extends T>, E, TypeConstantSupport<E, T>> {
+    private static final long serialVersionUID = -8420579032363855266L;
 
-	public final Set<Class<? extends T>> getTypes()
-	{
-		return this.map.keySet();
-	}
+    SerializationProxy(final TypeConstantSupport<E, T> support) {
+      super(support);
+    }
 
-	public final E getConstant(final Class<? extends T> type)
-	{
-		E constant = this.map.get(type);
+    @Override
+    final TypeConstantSupport<E, T> resolve(final Class<E> type) {
+      return new TypeConstantSupport<>(type);
+    }
+  }
 
-		Preconditions.checkArgument(constant != null, "Constant for type %s not found", type.getName());
-		
-		return constant;
-	}
+  @SuppressWarnings({"static-method", "unused"})
+  private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+    throw new InvalidObjectException("Serialization proxy required");
+  }
+
+  private final Object writeReplace() {
+    return new SerializationProxy<>(this);
+  }
+
+  public final Set<Class<? extends T>> getTypes() {
+    return this.map.keySet();
+  }
+
+  public final E getConstant(final Class<? extends T> type) {
+    E constant = this.map.get(type);
+
+    Preconditions.checkArgument(constant != null, "Constant for type %s not found", type.getName());
+
+    return constant;
+  }
 }

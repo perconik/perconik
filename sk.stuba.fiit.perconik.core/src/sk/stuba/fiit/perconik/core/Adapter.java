@@ -13,12 +13,9 @@ package sk.stuba.fiit.perconik.core;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class Adapter extends AbstractRegistrable implements Listener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected Adapter()
-	{
-	}
+public abstract class Adapter extends AbstractRegistrable implements Listener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected Adapter() {}
 }

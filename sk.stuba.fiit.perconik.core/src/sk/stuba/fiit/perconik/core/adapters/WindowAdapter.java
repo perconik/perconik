@@ -19,28 +19,17 @@ import sk.stuba.fiit.perconik.core.listeners.WindowListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class WindowAdapter extends Adapter implements WindowListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected WindowAdapter()
-	{
-	}
+public class WindowAdapter extends Adapter implements WindowListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected WindowAdapter() {}
 
-	public void windowOpened(IWorkbenchWindow window)
-	{
-	}
+  public void windowOpened(IWorkbenchWindow window) {}
 
-	public void windowClosed(IWorkbenchWindow window)
-	{
-	}
+  public void windowClosed(IWorkbenchWindow window) {}
 
-	public void windowActivated(IWorkbenchWindow window)
-	{
-	}
+  public void windowActivated(IWorkbenchWindow window) {}
 
-	public void windowDeactivated(IWorkbenchWindow window)
-	{
-	}
+  public void windowDeactivated(IWorkbenchWindow window) {}
 }

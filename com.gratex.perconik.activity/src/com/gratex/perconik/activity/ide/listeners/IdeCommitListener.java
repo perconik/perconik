@@ -56,91 +56,79 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCommitListener extends IdeListener implements GitReferenceListener
-{
-	private final Object lock = new Object();
-	
-	@GuardedBy("lock")
-	private final Map<File, Map<String, String>> cache;
-	
-	public IdeCommitListener()
-	{
-		this.cache = Maps.newHashMap();
-	}
-	
-	private final boolean updateLastCommit(final File directory, final String branch, final String id)
-	{
-		Map<String, String> cache;
-		
-		synchronized (this.lock)
-		{
-			cache = this.cache.get(directory);
-			
-			if (cache == null)
-			{
-				this.cache.put(directory, cache = Maps.newHashMap());
-			}
-		}
-		
-		synchronized (cache)
-		{
-			String last = cache.get(branch);
-			
-			if (!id.equals(last))
-			{
-				cache.put(branch, id);
-				
-				return last != null;
-			}
-		}
-		
-		return false;
-	}
+public final class IdeCommitListener extends IdeListener implements GitReferenceListener {
+  private final Object lock = new Object();
 
-	static final IdeCheckinEventRequest build(final long time, final String url, final String id)
-	{
-		final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
+  @GuardedBy("lock")
+  private final Map<File, Map<String, String>> cache;
 
-		data.setChangesetIdInRcs(id);
-		data.setRcsServer(IdeData.newGitServerData(url));
+  public IdeCommitListener() {
+    this.cache = Maps.newHashMap();
+  }
 
-		setApplicationData(data);
-		setEventData(data, time);
-		
-		if (Log.enabled()) Log.message().appendln("commit: " + id + " url: " + url).appendTo(console);
-		
-		return data;
-	}
-	
-	final void process(final long time, final RefsChangedEvent event)
-	{
-		Repository repository = event.getRepository();
-		File       directory  = repository.getDirectory();
-		String     url        = GitRepositories.getRemoteOriginUrl(repository);
-		
-		checkArgument(url != null, "Unable to get remote origin url from %s", directory);
-		
-		String    branch = GitRepositories.getBranch(repository);
-		RevCommit commit = GitRepositories.getMostRecentCommit(repository);
-		
-		String id = commit.getName();
-		
-		if (this.updateLastCommit(directory, branch, id))
-		{
-			UacaProxy.sendCheckinEvent(build(time, url, id));
-		}
-	}
+  private final boolean updateLastCommit(final File directory, final String branch, final String id) {
+    Map<String, String> cache;
 
-	public final void onRefsChanged(final RefsChangedEvent event)
-	{
-		final long time = currentTime();
-		
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				process(time, event);
-			}
-		});
-	}
+    synchronized (this.lock) {
+      cache = this.cache.get(directory);
+
+      if (cache == null) {
+        this.cache.put(directory, cache = Maps.newHashMap());
+      }
+    }
+
+    synchronized (cache) {
+      String last = cache.get(branch);
+
+      if (!id.equals(last)) {
+        cache.put(branch, id);
+
+        return last != null;
+      }
+    }
+
+    return false;
+  }
+
+  static final IdeCheckinEventRequest build(final long time, final String url, final String id) {
+    final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
+
+    data.setChangesetIdInRcs(id);
+    data.setRcsServer(IdeData.newGitServerData(url));
+
+    setApplicationData(data);
+    setEventData(data, time);
+
+    if (Log.enabled())
+      Log.message().appendln("commit: " + id + " url: " + url).appendTo(console);
+
+    return data;
+  }
+
+  final void process(final long time, final RefsChangedEvent event) {
+    Repository repository = event.getRepository();
+    File directory = repository.getDirectory();
+    String url = GitRepositories.getRemoteOriginUrl(repository);
+
+    checkArgument(url != null, "Unable to get remote origin url from %s", directory);
+
+    String branch = GitRepositories.getBranch(repository);
+    RevCommit commit = GitRepositories.getMostRecentCommit(repository);
+
+    String id = commit.getName();
+
+    if (this.updateLastCommit(directory, branch, id)) {
+      UacaProxy.sendCheckinEvent(build(time, url, id));
+    }
+  }
+
+  public final void onRefsChanged(final RefsChangedEvent event) {
+    final long time = currentTime();
+
+    execute(new Runnable() {
+      public final void run() {
+        process(time, event);
+      }
+    });
+  }
 }

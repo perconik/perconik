@@ -26,94 +26,78 @@ import sk.stuba.fiit.perconik.environment.Environment;
 
 import static java.lang.String.valueOf;
 
-final class Internals
-{
-	static final PluginConsole console = IdeConsole.getInstance();
-	
-	static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+final class Internals {
+  static final PluginConsole console = IdeConsole.getInstance();
 
-	static final boolean debug = Environment.debug;
-	
-	static final TimeZone timeZone = TimeZone.getTimeZone("UTC"); 
-	
-	static final int unknonwnPid = -1;
-	
-	static final String optionsSequence;
-	
-	static final Map<String, String> options;
-	
-	static
-	{
-		optionsSequence = Strings.nullToEmpty(Environment.getVariable("UACA")).toLowerCase();
-		
-		Splitter entries = Splitter.on(CharMatcher.anyOf(";,")).trimResults();
-		Splitter keys    = Splitter.on(CharMatcher.anyOf(":=")).trimResults().limit(2);
-		
-		ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-		
-		for (String option: entries.split(optionsSequence))
-		{
-			Iterator<String> parts = keys.split(option).iterator();
-			
-			builder.put(parts.next(), parts.hasNext() ? parts.next() : "true");
-		}
-		
-		options = builder.build();
-		
-		if (debug)
-		{
-			MapJoiner joiner = Joiner.on("; ").withKeyValueSeparator(": ");
-			
-			console.print("UACA environment variable: %s", valueOf(optionsSequence));
-			console.print("UACA extracted flags: %s", options.isEmpty() ? "none" : joiner.join(options));
-		}
-	}
-	
-	static final DatatypeFactory datatypeFactory;
-	
-	static
-	{
-		try
-		{
-			datatypeFactory = DatatypeFactory.newInstance();
-		}
-		catch (DatatypeConfigurationException e)
-		{
-			throw Throwables.propagate(e);
-		}
-	}
+  static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-	static final TimeSupplier timeSupplier;
-	
-	static
-	{
-		timeSupplier = new TimeSupplier()
-		{
-			public final XMLGregorianCalendar from(final long time)
-			{
-				GregorianCalendar calendar = new GregorianCalendar(timeZone);
-				
-				calendar.setTimeInMillis(time);
-				
-				return datatypeFactory.newXMLGregorianCalendar(calendar);
-			}
-		};
-	}
-	
-	private Internals()
-	{
-		throw new AssertionError();
-	}
-	
-	static final int pid()
-	{
-		try
-		{
-			return Environment.getProcessIdentifier();
-		}
-		catch (RuntimeException e)
-		{
-			return unknonwnPid;
-		}
-	}
+  static final boolean debug = Environment.debug;
+
+  static final TimeZone timeZone = TimeZone.getTimeZone("UTC");
+
+  static final int unknonwnPid = -1;
+
+  static final String optionsSequence;
+
+  static final Map<String, String> options;
+
+  static {
+    optionsSequence = Strings.nullToEmpty(Environment.getVariable("UACA")).toLowerCase();
+
+    Splitter entries = Splitter.on(CharMatcher.anyOf(";,")).trimResults();
+    Splitter keys = Splitter.on(CharMatcher.anyOf(":=")).trimResults().limit(2);
+
+    ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
+
+    for (String option: entries.split(optionsSequence)) {
+      Iterator<String> parts = keys.split(option).iterator();
+
+      builder.put(parts.next(), parts.hasNext() ? parts.next() : "true");
+    }
+
+    options = builder.build();
+
+    if (debug) {
+      MapJoiner joiner = Joiner.on("; ").withKeyValueSeparator(": ");
+
+      console.print("UACA environment variable: %s", valueOf(optionsSequence));
+      console.print("UACA extracted flags: %s", options.isEmpty() ? "none" : joiner.join(options));
+    }
+  }
+
+  static final DatatypeFactory datatypeFactory;
+
+  static {
+    try {
+      datatypeFactory = DatatypeFactory.newInstance();
+    } catch (DatatypeConfigurationException e) {
+      throw Throwables.propagate(e);
+    }
+  }
+
+  static final TimeSupplier timeSupplier;
+
+  static {
+    timeSupplier = new TimeSupplier() {
+      public final XMLGregorianCalendar from(final long time) {
+        GregorianCalendar calendar = new GregorianCalendar(timeZone);
+
+        calendar.setTimeInMillis(time);
+
+        return datatypeFactory.newXMLGregorianCalendar(calendar);
+      }
+    };
+  }
+
+  private Internals() {
+    throw new AssertionError();
+  }
+
+  static final int pid() {
+    try {
+      return Environment.getProcessIdentifier();
+    } catch (RuntimeException e) {
+      return unknonwnPid;
+    }
+  }
 }

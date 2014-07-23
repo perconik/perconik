@@ -12,130 +12,107 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-public final class Reflections
-{
-	private Reflections()
-	{
-		throw new AssertionError();
-	}
-	
-	private static enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>>
-	{
-		INSTANCE;
+public final class Reflections {
+  private Reflections() {
+    throw new AssertionError();
+  }
 
-		public final Class<? extends Annotation> apply(@Nullable Annotation annotation)
-		{
-			return annotation != null ? annotation.annotationType() : null;
-		}
+  private static enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>> {
+    INSTANCE;
 
-		@Override
-		public final String toString()
-		{
-			return Classes.toMethodName(this.getClass());
-		}
-	}
-	
-	private static enum ToClassFunction implements Function<Object, Class<? extends Object>>
-	{
-		INSTANCE;
+    public final Class<? extends Annotation> apply(@Nullable Annotation annotation) {
+      return annotation != null ? annotation.annotationType() : null;
+    }
 
-		public final Class<? extends Object> apply(@Nullable Object object)
-		{
-			return object != null ? object.getClass() : null;
-		}
+    @Override
+    public final String toString() {
+      return Classes.toMethodName(this.getClass());
+    }
+  }
 
-		@Override
-		public final String toString()
-		{
-			return Classes.toMethodName(this.getClass());
-		}
-	}
-	
-	private static enum ToEnumTypeFunction implements Function<Enum<?>, Class<?>>
-	{
-		INSTANCE;
+  private static enum ToClassFunction implements Function<Object, Class<? extends Object>> {
+    INSTANCE;
 
-		public final Class<?> apply(@Nullable Enum<?> constant)
-		{
-			return constant != null ? constant.getDeclaringClass() : null;
-		}
+    public final Class<? extends Object> apply(@Nullable Object object) {
+      return object != null ? object.getClass() : null;
+    }
 
-		@Override
-		public final String toString()
-		{
-			return Classes.toMethodName(this.getClass());
-		}
-	}
-	
-	private static final <F, T> Function<F, T> cast(final Function<?, ?> function)
-	{
-		// only for stateless internal singletons shared across all types
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		Function<F, T> result = (Function) function;
-		
-		return result;
-	}
-	
-	public static final <A extends Annotation> Function<A, Class<? extends A>> toAnnotationTypeFunction()
-	{
-		return cast(ToAnnotationTypeFunction.INSTANCE);
-	}
+    @Override
+    public final String toString() {
+      return Classes.toMethodName(this.getClass());
+    }
+  }
 
-	public static final <T> Function<T, Class<? extends T>> toClassFunction()
-	{
-		return cast(ToClassFunction.INSTANCE);
-	}
-	
-	public static final <E extends Enum<E>> Function<E, Class<E>> toEnumTypeFunction()
-	{
-		return cast(ToEnumTypeFunction.INSTANCE);
-	}
-	
-	public static final <T> LinkedList<Class<? super T>> collectSuperclasses(Class<T> type)
-	{
-		LinkedList<Class<? super T>> superclasses = Lists.newLinkedList();
-		
-		Class<? super T> supertype = type;
-		
-		while ((supertype = supertype.getSuperclass()) != null)
-		{
-			superclasses.add(supertype);
-		}
-			
-		return superclasses;
-	}
-	
-	public static final LinkedHashSet<Class<?>> collectInterfaces(Class<?> type)
-	{
-		Set<Class<?>> resolved = Sets.newHashSet();
-		
-		LinkedHashSet<Class<?>> interfaces = Sets.newLinkedHashSet();
-		
-		interfaces.addAll(Arrays.asList(type.getInterfaces()));
+  private static enum ToEnumTypeFunction implements Function<Enum<?>, Class<?>> {
+    INSTANCE;
 
-		resolved.add(type);
-		
-		for (Class<?> supertype: collectSuperclasses(type))
-		{
-			groupInterfaces(supertype, resolved, interfaces);
-		}
-		
-		return interfaces;
-	}
-	
-	private static final void groupInterfaces(Class<?> type, Set<Class<?>> resolved, Set<Class<?>> result)
-	{
-		if (resolved.add(type))
-		{
-			for (Class<?> supertype: type.getInterfaces())
-			{
-				groupInterfaces(supertype, resolved, result);
-			}
-		}
-		
-		if (type.isInterface())
-		{
-			result.add(type);
-		}
-	}
+    public final Class<?> apply(@Nullable Enum<?> constant) {
+      return constant != null ? constant.getDeclaringClass() : null;
+    }
+
+    @Override
+    public final String toString() {
+      return Classes.toMethodName(this.getClass());
+    }
+  }
+
+  private static final <F, T> Function<F, T> cast(final Function<?, ?> function) {
+    // only for stateless internal singletons shared across all types
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    Function<F, T> result = (Function) function;
+
+    return result;
+  }
+
+  public static final <A extends Annotation> Function<A, Class<? extends A>> toAnnotationTypeFunction() {
+    return cast(ToAnnotationTypeFunction.INSTANCE);
+  }
+
+  public static final <T> Function<T, Class<? extends T>> toClassFunction() {
+    return cast(ToClassFunction.INSTANCE);
+  }
+
+  public static final <E extends Enum<E>> Function<E, Class<E>> toEnumTypeFunction() {
+    return cast(ToEnumTypeFunction.INSTANCE);
+  }
+
+  public static final <T> LinkedList<Class<? super T>> collectSuperclasses(Class<T> type) {
+    LinkedList<Class<? super T>> superclasses = Lists.newLinkedList();
+
+    Class<? super T> supertype = type;
+
+    while ((supertype = supertype.getSuperclass()) != null) {
+      superclasses.add(supertype);
+    }
+
+    return superclasses;
+  }
+
+  public static final LinkedHashSet<Class<?>> collectInterfaces(Class<?> type) {
+    Set<Class<?>> resolved = Sets.newHashSet();
+
+    LinkedHashSet<Class<?>> interfaces = Sets.newLinkedHashSet();
+
+    interfaces.addAll(Arrays.asList(type.getInterfaces()));
+
+    resolved.add(type);
+
+    for (Class<?> supertype: collectSuperclasses(type)) {
+      groupInterfaces(supertype, resolved, interfaces);
+    }
+
+    return interfaces;
+  }
+
+  private static final void groupInterfaces(Class<?> type, Set<Class<?>> resolved, Set<Class<?>> result) {
+    if (resolved.add(type)) {
+      for (Class<?> supertype: type.getInterfaces()) {
+        groupInterfaces(supertype, resolved, result);
+      }
+    }
+
+    if (type.isInterface()) {
+      result.add(type);
+    }
+  }
 }

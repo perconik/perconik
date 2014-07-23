@@ -4,17 +4,14 @@ import com.google.common.base.Throwables;
 
 import org.eclipse.core.runtime.CoreException;
 
-public final class CoreExceptions
-{
-	private CoreExceptions()
-	{
-		throw new AssertionError();
-	}
-	
-	public static final RuntimeCoreException propagate(final CoreException failure)
-	{
-		Throwables.propagateIfPossible(failure);
-		
-		throw new RuntimeCoreException(failure);
-	}
+public final class CoreExceptions {
+  private CoreExceptions() {
+    throw new AssertionError();
+  }
+
+  public static final RuntimeCoreException propagate(final CoreException failure) {
+    Throwables.propagateIfPossible(failure);
+
+    throw new RuntimeCoreException(failure);
+  }
 }

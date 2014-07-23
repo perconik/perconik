@@ -14,7 +14,6 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface StructuredSelectionListener extends Listener
-{
-	public void selectionChanged(IWorkbenchPart part, IStructuredSelection selection);
+public interface StructuredSelectionListener extends Listener {
+  public void selectionChanged(IWorkbenchPart part, IStructuredSelection selection);
 }

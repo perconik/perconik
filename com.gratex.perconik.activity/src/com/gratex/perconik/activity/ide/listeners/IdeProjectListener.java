@@ -73,8 +73,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeProjectListener extends IdeListener implements ResourceListener, SelectionListener
-{
+public final class IdeProjectListener extends IdeListener implements ResourceListener, SelectionListener {
   // TODO rename not implemented
   // TODO switch to --> explorer/a editor/b/file explorer/b --> generates switch-to(a,b,a,b)
 
@@ -87,18 +86,12 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
   @GuardedBy("lock")
   private IProject project;
 
-  public IdeProjectListener()
-  {
-  }
+  public IdeProjectListener() {}
 
-  private final boolean updateProject(final IProject project)
-  {
-    if (project != null)
-    {
-      synchronized (this.lock)
-      {
-        if (!project.equals(this.project))
-        {
+  private final boolean updateProject(final IProject project) {
+    if (project != null) {
+      synchronized (this.lock) {
+        if (!project.equals(this.project)) {
           this.project = project;
 
           return true;
@@ -109,8 +102,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     return false;
   }
 
-  static final IdeProjectEventRequest build(final long time, final IProject project)
-  {
+  static final IdeProjectEventRequest build(final long time, final IProject project) {
     final IdeProjectEventRequest data = new IdeProjectEventRequest();
 
     setProjectData(data, project);
@@ -120,14 +112,12 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     return data;
   }
 
-  private static final class ResourceDeltaVisitor extends ResourceDeltaResolver
-  {
+  private static final class ResourceDeltaVisitor extends ResourceDeltaResolver {
     private final long time;
 
     private final ResourceEventType type;
 
-    ResourceDeltaVisitor(final long time, final ResourceEventType type)
-    {
+    ResourceDeltaVisitor(final long time, final ResourceEventType type) {
       assert time >= 0 && type != null;
 
       this.time = time;
@@ -135,8 +125,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
 
     @Override
-    protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource)
-    {
+    protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource) {
       //			// TODO rm
       //			if (IdeApplication.getInstance().isDebug()) { console.put("resource: "+ resource);
       //			console.put("  type: "+ this.type);console.put("  kind: "+ ResourceDeltaKind.valueOf(delta.getKind()).toString());
@@ -144,25 +133,21 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
       assert delta != null && resource != null;
 
-      if (ResourceType.valueOf(resource.getType()) != PROJECT)
-      {
+      if (ResourceType.valueOf(resource.getType()) != PROJECT) {
         return true;
       }
 
-      if (this.type == POST_CHANGE)
-      {
+      if (this.type == POST_CHANGE) {
         IProject project = (IProject) resource;
 
-        ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
+        ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
         Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 
-        if (kind == ADDED)
-        {
+        if (kind == ADDED) {
           UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
         }
 
-        if (flags.contains(OPEN) && project.isOpen())
-        {
+        if (flags.contains(OPEN) && project.isOpen()) {
           UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.OPEN);
         }
 
@@ -173,22 +158,20 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
 
     @Override
-    protected final boolean resolveResource(final IResource resource)
-    {
+    protected final boolean resolveResource(final IResource resource) {
       assert ResourceType.valueOf(resource.getType()) == PROJECT;
 
-      switch (this.type)
-      {
+      switch (this.type) {
         case PRE_CLOSE:
-          UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.CLOSE);
+          UacaProxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.CLOSE);
           break;
 
         case PRE_DELETE:
-          UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REMOVE);
+          UacaProxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REMOVE);
           break;
 
         case PRE_REFRESH:
-          UacaProxy.sendProjectEvent(build(this.time, (IProject)resource), IdeProjectEventType.REFRESH);
+          UacaProxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REFRESH);
           break;
 
         default:
@@ -198,70 +181,56 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
   }
 
-  static final void processResource(final long time, final IResourceChangeEvent event)
-  {
-    ResourceEventType type  = ResourceEventType.valueOf(event.getType());
-    IResourceDelta    delta = event.getDelta();
+  static final void processResource(final long time, final IResourceChangeEvent event) {
+    ResourceEventType type = ResourceEventType.valueOf(event.getType());
+    IResourceDelta delta = event.getDelta();
 
     new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
   }
 
-  final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection)
-  {
+  final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection) {
     IProject project = null;
 
-    if (processStructuredSelections)
-    {
-      if (selection instanceof IStructuredSelection)
-      {
+    if (processStructuredSelections) {
+      if (selection instanceof IStructuredSelection) {
         project = Projects.fromSelection((IStructuredSelection) selection);
       }
     }
 
-    if (isNull(project) && part instanceof IEditorPart)
-    {
+    if (isNull(project) && part instanceof IEditorPart) {
       project = Projects.fromEditor((IEditorPart) part);
     }
 
-    if (isNull(project))
-    {
+    if (isNull(project)) {
       project = Projects.fromPage(part.getSite().getPage());
     }
 
-    if (this.updateProject(project))
-    {
+    if (this.updateProject(project)) {
       UacaProxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
     }
   }
 
-  public final void resourceChanged(final IResourceChangeEvent event)
-  {
+  public final void resourceChanged(final IResourceChangeEvent event) {
     final long time = currentTime();
 
-    execute(new Runnable()
-    {
-      public final void run()
-      {
+    execute(new Runnable() {
+      public final void run() {
         processResource(time, event);
       }
     });
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final ISelection selection)
-  {
+  public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
     final long time = currentTime();
 
-    execute(new Runnable()
-    {
-      public final void run()
-      {
+    execute(new Runnable() {
+      public final void run() {
         processSelection(time, part, selection);
       }
     });
   }
 
-  public final Set<ResourceEventType> getEventTypes()
-  {
+  public final Set<ResourceEventType> getEventTypes() {
     return resourceEventTypes;
   }
 }

@@ -35,161 +35,127 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Projects
-{
-	private Projects()
-	{
-		throw new AssertionError();
-	}
+public final class Projects {
+  private Projects() {
+    throw new AssertionError();
+  }
 
-	public static final IProject fromPage(final IWorkbenchPage page)
-	{
-		IEditorPart editor = page.getActiveEditor();
+  public static final IProject fromPage(final IWorkbenchPage page) {
+    IEditorPart editor = page.getActiveEditor();
 
-		if (editor != null)
-		{
-			return fromEditor(editor);
-		}
+    if (editor != null) {
+      return fromEditor(editor);
+    }
 
-		for (IViewReference reference: page.getViewReferences())
-		{
-			IViewPart view = reference.getView(false);
+    for (IViewReference reference: page.getViewReferences()) {
+      IViewPart view = reference.getView(false);
 
-			ISelection selection = null;
+      ISelection selection = null;
 
-			if (view instanceof IPackagesViewPart)
-			{
-				selection = ((IPackagesViewPart) view).getTreeViewer().getSelection();
-			}
-			else if (view instanceof CommonNavigator)
-			{
-				selection = ((CommonNavigator) view).getCommonViewer().getSelection();
-			}
+      if (view instanceof IPackagesViewPart) {
+        selection = ((IPackagesViewPart) view).getTreeViewer().getSelection();
+      } else if (view instanceof CommonNavigator) {
+        selection = ((CommonNavigator) view).getCommonViewer().getSelection();
+      }
 
-			if (selection instanceof IStructuredSelection)
-			{
-				IProject project = fromSelection((IStructuredSelection) selection);
+      if (selection instanceof IStructuredSelection) {
+        IProject project = fromSelection((IStructuredSelection) selection);
 
-				if (project != null)
-				{
-					return project;
-				}
-			}
-		}
+        if (project != null) {
+          return project;
+        }
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public static final IProject fromSelection(final IStructuredSelection selection)
-	{
-		Object element = selection.getFirstElement();
+  public static final IProject fromSelection(final IStructuredSelection selection) {
+    Object element = selection.getFirstElement();
 
-		if (element instanceof IResource)
-		{
-			return ((IResource) element).getProject();
-		}
-		else if (element instanceof IJavaElement)
-		{
-			return ((IJavaElement) element).getJavaProject().getProject();
-		}
-		else if (element instanceof IAdaptable)
-		{
-			IAdaptable adaptable = (IAdaptable) element;
+    if (element instanceof IResource) {
+      return ((IResource) element).getProject();
+    } else if (element instanceof IJavaElement) {
+      return ((IJavaElement) element).getJavaProject().getProject();
+    } else if (element instanceof IAdaptable) {
+      IAdaptable adaptable = (IAdaptable) element;
 
-			IWorkbenchAdapter adapter = (IWorkbenchAdapter) adaptable.getAdapter(IWorkbenchAdapter.class);
+      IWorkbenchAdapter adapter = (IWorkbenchAdapter) adaptable.getAdapter(IWorkbenchAdapter.class);
 
-			if (adapter != null)
-			{
-				Object parent = adapter.getParent(adaptable);
+      if (adapter != null) {
+        Object parent = adapter.getParent(adaptable);
 
-				if (parent instanceof IJavaProject)
-				{
-					return ((IJavaElement) parent).getJavaProject().getProject();
-				}
-			}
-		}
+        if (parent instanceof IJavaProject) {
+          return ((IJavaElement) parent).getJavaProject().getProject();
+        }
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public static final IProject fromEditor(final IEditorPart editor)
-	{
-		IEditorInput input = editor.getEditorInput();
+  public static final IProject fromEditor(final IEditorPart editor) {
+    IEditorInput input = editor.getEditorInput();
 
-		if (input instanceof IFileEditorInput)
-		{
-			IFile file = ((IFileEditorInput) input).getFile();
+    if (input instanceof IFileEditorInput) {
+      IFile file = ((IFileEditorInput) input).getFile();
 
-			if (file != null)
-			{
-				return file.getProject();
-			}
-		}
+      if (file != null) {
+        return file.getProject();
+      }
+    }
 
-		IResource resource = (IResource) input.getAdapter(IResource.class);
+    IResource resource = (IResource) input.getAdapter(IResource.class);
 
-		return resource != null ? resource.getProject() : null;
-	}
+    return resource != null ? resource.getProject() : null;
+  }
 
-	public static final Set<IProject> fromLaunch(final ILaunch launch)
-	{
-		return fromLaunchConfiguration(launch.getLaunchConfiguration());
-	}
+  public static final Set<IProject> fromLaunch(final ILaunch launch) {
+    return fromLaunchConfiguration(launch.getLaunchConfiguration());
+  }
 
-	public static final Set<IProject> fromLaunchConfiguration(final ILaunchConfiguration configuration)
-	{
-		Set<IProject> projects = Sets.newHashSet();
+  public static final Set<IProject> fromLaunchConfiguration(final ILaunchConfiguration configuration) {
+    Set<IProject> projects = Sets.newHashSet();
 
-		projects.addAll(tryJavaRuntime(configuration));
-		projects.addAll(tryMappedResources(configuration));
+    projects.addAll(tryJavaRuntime(configuration));
+    projects.addAll(tryMappedResources(configuration));
 
-		return projects;
-	}
+    return projects;
+  }
 
-	private static final Set<IProject> tryJavaRuntime(final ILaunchConfiguration configuration)
-	{
-		try
-		{
-			IJavaProject project = JavaRuntime.getJavaProject(configuration);
+  private static final Set<IProject> tryJavaRuntime(final ILaunchConfiguration configuration) {
+    try {
+      IJavaProject project = JavaRuntime.getJavaProject(configuration);
 
-			if (project == null)
-			{
-				return Collections.emptySet();
-			}
+      if (project == null) {
+        return Collections.emptySet();
+      }
 
-			return Collections.singleton(project.getProject());
-		}
-		catch (CoreException e)
-		{
-			throw CoreExceptions.propagate(e);
-		}
-	}
+      return Collections.singleton(project.getProject());
+    } catch (CoreException e) {
+      throw CoreExceptions.propagate(e);
+    }
+  }
 
-	private static final Set<IProject> tryMappedResources(final ILaunchConfiguration configuration)
-	{
-		IResource[] resources;
+  private static final Set<IProject> tryMappedResources(final ILaunchConfiguration configuration) {
+    IResource[] resources;
 
-		try
-		{
-			resources = configuration.getMappedResources();
-		}
-		catch (CoreException e)
-		{
-			throw CoreExceptions.propagate(e);
-		}
+    try {
+      resources = configuration.getMappedResources();
+    } catch (CoreException e) {
+      throw CoreExceptions.propagate(e);
+    }
 
-		if (resources == null)
-		{
-			return Collections.emptySet();
-		}
+    if (resources == null) {
+      return Collections.emptySet();
+    }
 
-		Set<IProject> projects = Sets.newHashSetWithExpectedSize(resources.length);
+    Set<IProject> projects = Sets.newHashSetWithExpectedSize(resources.length);
 
-		for (IResource resource: resources)
-		{
-			projects.add(resource.getProject());
-		}
+    for (IResource resource: resources) {
+      projects.add(resource.getProject());
+    }
 
-		return projects;
-	}
+    return projects;
+  }
 }

@@ -27,151 +27,129 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import sk.stuba.fiit.perconik.utilities.function.Collector;
 
 @Beta
-final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
-{
-	public RelevantNodeCollector()
-	{
-	}
-	
-	public final List<ASTNode> apply(@Nullable final CompilationUnit unit)
-	{
-		return new Processor().apply(unit);
-	}
+final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode> {
+  public RelevantNodeCollector() {}
 
-	private static final class Processor extends ASTVisitor implements Collector<CompilationUnit, ASTNode>
-	{
-		private final Set<ASTNode> result;
-		
-		Processor()
-		{
-			this.result = Sets.newLinkedHashSet();
-		}
-		
-		public final List<ASTNode> apply(@Nullable final CompilationUnit unit)
-		{
-			if (unit == null)
-			{
-				return null;
-			}
-			
-			unit.accept(this);
+  public final List<ASTNode> apply(@Nullable final CompilationUnit unit) {
+    return new Processor().apply(unit);
+  }
 
-			return Lists.newArrayList(this.result);
-		}
-		
-		private final void addNode(final ASTNode node)
-		{
-			if (node != null)
-			{
-				this.result.add(node);
-			}
-		}
-		
-		private final void addNodes(final Collection<? extends ASTNode> nodes)
-		{
-			this.result.addAll(nodes);
-		}
+  private static final class Processor extends ASTVisitor implements Collector<CompilationUnit, ASTNode> {
+    private final Set<ASTNode> result;
 
-		// compilation unit
-		
-		@Override
-		public final boolean visit(CompilationUnit node)
-		{
-			return true;
-		}
+    Processor() {
+      this.result = Sets.newLinkedHashSet();
+    }
 
-		@Override
-		public final boolean visit(PackageDeclaration node)
-		{
-			this.addNode(node);
-			
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(ImportDeclaration node)
-		{
-			this.addNode(node);
-			
-			return true;
-		}
-	
-		// abstract type declarations
-		
-		@Override
-		public final boolean visit(AnnotationTypeDeclaration node)
-		{
-			this.addNode(node.getJavadoc());
-			this.addNodes(node.modifiers());
-			this.addNode(node.getName());
-			
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(EnumDeclaration node)
-		{
-			this.addNode(node.getJavadoc());
-			this.addNodes(node.modifiers());
-			this.addNode(node.getName());
-			this.addNodes(node.superInterfaceTypes());
+    public final List<ASTNode> apply(@Nullable final CompilationUnit unit) {
+      if (unit == null) {
+        return null;
+      }
 
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(TypeDeclaration node)
-		{
-			this.addNode(node.getJavadoc());
-			this.addNodes(node.modifiers());
-			this.addNode(node.getName());
-			this.addNodes(node.typeParameters());
-			this.addNode(node.getSuperclassType());
-			this.addNodes(node.superInterfaceTypes());
-			
-			return true;
-		}
-	
-		// abstract type body declarations
-		
-		@Override
-		public final boolean visit(AnnotationTypeMemberDeclaration node)
-		{
-			this.addNode(node);
-			
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(EnumConstantDeclaration node)
-		{
-			this.addNode(node);
+      unit.accept(this);
 
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(FieldDeclaration node)
-		{
-			this.addNode(node);
+      return Lists.newArrayList(this.result);
+    }
 
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(Initializer node)
-		{
-			this.addNode(node);
+    private final void addNode(final ASTNode node) {
+      if (node != null) {
+        this.result.add(node);
+      }
+    }
 
-			return true;
-		}
-	
-		@Override
-		public final boolean visit(MethodDeclaration node)
-		{
-			this.addNode(node);
+    private final void addNodes(final Collection<? extends ASTNode> nodes) {
+      this.result.addAll(nodes);
+    }
 
-			return true;
-		}
-	}
+    // compilation unit
+
+    @Override
+    public final boolean visit(CompilationUnit node) {
+      return true;
+    }
+
+    @Override
+    public final boolean visit(PackageDeclaration node) {
+      this.addNode(node);
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(ImportDeclaration node) {
+      this.addNode(node);
+
+      return true;
+    }
+
+    // abstract type declarations
+
+    @Override
+    public final boolean visit(AnnotationTypeDeclaration node) {
+      this.addNode(node.getJavadoc());
+      this.addNodes(node.modifiers());
+      this.addNode(node.getName());
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(EnumDeclaration node) {
+      this.addNode(node.getJavadoc());
+      this.addNodes(node.modifiers());
+      this.addNode(node.getName());
+      this.addNodes(node.superInterfaceTypes());
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(TypeDeclaration node) {
+      this.addNode(node.getJavadoc());
+      this.addNodes(node.modifiers());
+      this.addNode(node.getName());
+      this.addNodes(node.typeParameters());
+      this.addNode(node.getSuperclassType());
+      this.addNodes(node.superInterfaceTypes());
+
+      return true;
+    }
+
+    // abstract type body declarations
+
+    @Override
+    public final boolean visit(AnnotationTypeMemberDeclaration node) {
+      this.addNode(node);
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(EnumConstantDeclaration node) {
+      this.addNode(node);
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(FieldDeclaration node) {
+      this.addNode(node);
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(Initializer node) {
+      this.addNode(node);
+
+      return true;
+    }
+
+    @Override
+    public final boolean visit(MethodDeclaration node) {
+      this.addNode(node);
+
+      return true;
+    }
+  }
 }

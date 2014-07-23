@@ -4,45 +4,36 @@ import java.nio.file.Path;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class UserData extends AnyStructuredData
-{
-	protected String name;
-	
-	protected Path home;
-	
-	protected Path directory;
-	
-	public UserData()
-	{
-	}
+public class UserData extends AnyStructuredData {
+  protected String name;
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+  protected Path home;
 
-	public void setHome(Path home)
-	{
-		this.home = home;
-	}
+  protected Path directory;
 
-	public void setDirectory(Path directory)
-	{
-		this.directory = directory;
-	}
+  public UserData() {}
 
-	public String getName()
-	{
-		return this.name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public Path getHome()
-	{
-		return this.home;
-	}
+  public void setHome(Path home) {
+    this.home = home;
+  }
 
-	public Path getDirectory()
-	{
-		return this.directory;
-	}
+  public void setDirectory(Path directory) {
+    this.directory = directory;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public Path getHome() {
+    return this.home;
+  }
+
+  public Path getDirectory() {
+    return this.directory;
+  }
 }

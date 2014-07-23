@@ -17,82 +17,67 @@ import sk.stuba.fiit.perconik.environment.JavaVerifier;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Activator extends Plugin
-{
-	/**
-	 * The plug-in identifier.
-	 */
-	public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.environment";
+public final class Activator extends Plugin {
+  /**
+   * The plug-in identifier.
+   */
+  public static final String PLUGIN_ID = "sk.stuba.fiit.perconik.environment";
 
-	/**
-	 * The shared instance.
-	 */
-	private static Activator plugin;
+  /**
+   * The shared instance.
+   */
+  private static Activator plugin;
 
-	/**
-	 * The constructor.
-	 */
-	public Activator()
-	{
-	}
+  /**
+   * The constructor.
+   */
+  public Activator() {}
 
-	/**
-	 * Gets the shared instance.
-	 * @return the shared instance
-	 */
-	public static final Activator getDefault()
-	{
-		return plugin;
-	}
-	
-	public static final JavaVerifier getJavaVerifier()
-	{
-		return JavaVerifier.JAVA_7;
-	}
-	
-	public final void verifyJava() throws JavaVerificationException
-	{
-		try
-		{
-			getJavaVerifier().verify();
-		}
-		catch (RuntimeException e)
-		{
-			String message = "Unable to verify Java version";
-			
-			this.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message));
-		}
-	}
-	
-	private final void verifyJavaInternal()
-	{
-		try
-		{
-			this.verifyJava();
-		}
-		catch (Exception e)
-		{
-			String message = e.getMessage();
-			
-			this.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message));
-		}
-	}
+  /**
+   * Gets the shared instance.
+   * @return the shared instance
+   */
+  public static final Activator getDefault() {
+    return plugin;
+  }
 
-	@Override
-	public final void start(final BundleContext context) throws Exception
-	{
-		super.start(context);
+  public static final JavaVerifier getJavaVerifier() {
+    return JavaVerifier.JAVA_7;
+  }
 
-		plugin = this;
-		
-		this.verifyJavaInternal();
-	}
+  public final void verifyJava() throws JavaVerificationException {
+    try {
+      getJavaVerifier().verify();
+    } catch (RuntimeException e) {
+      String message = "Unable to verify Java version";
 
-	@Override
-	public final void stop(final BundleContext context) throws Exception
-	{
-		plugin = null;
+      this.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message));
+    }
+  }
 
-		super.stop(context);
-	}
+  private final void verifyJavaInternal() {
+    try {
+      this.verifyJava();
+    } catch (Exception e) {
+      String message = e.getMessage();
+
+      this.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, message));
+    }
+  }
+
+  @Override
+  public final void start(final BundleContext context) throws Exception {
+    super.start(context);
+
+    plugin = this;
+
+    this.verifyJavaInternal();
+  }
+
+  @Override
+  public final void stop(final BundleContext context) throws Exception {
+    plugin = null;
+
+    super.stop(context);
+  }
 }

@@ -11,23 +11,20 @@ import com.google.common.collect.ImmutableSet;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractFilteringListener<T> extends Adapter implements FilteringListener<T>
-{
-	/**
-	 * Set of acceptable event types.
-	 */
-	protected Set<T> types;
-	
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractFilteringListener(final Set<T> types)
-	{
-		this.types = ImmutableSet.copyOf(types);
-	}
-	
-	public final Set<T> getEventTypes()
-	{
-		return this.types;
-	}
+public abstract class AbstractFilteringListener<T> extends Adapter implements FilteringListener<T> {
+  /**
+   * Set of acceptable event types.
+   */
+  protected Set<T> types;
+
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractFilteringListener(final Set<T> types) {
+    this.types = ImmutableSet.copyOf(types);
+  }
+
+  public final Set<T> getEventTypes() {
+    return this.types;
+  }
 }

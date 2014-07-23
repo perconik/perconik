@@ -14,6 +14,5 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface ResourceNamesSupplier extends Supplier<SetMultimap<Class<? extends Listener>, String>>
-{
+public interface ResourceNamesSupplier extends Supplier<SetMultimap<Class<? extends Listener>, String>> {
 }

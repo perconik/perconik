@@ -5,27 +5,21 @@ import java.util.List;
 
 import com.google.common.collect.ForwardingObject;
 
-public abstract class ForwardingAnnotable extends ForwardingObject implements Annotable
-{
-	protected ForwardingAnnotable()
-	{
-	}
-	
-	@Override
-	protected abstract Annotable delegate();
+public abstract class ForwardingAnnotable extends ForwardingObject implements Annotable {
+  protected ForwardingAnnotable() {}
 
-	public boolean hasAnnotation(Class<? extends Annotation> type)
-	{
-		return this.delegate().hasAnnotation(type);
-	}
+  @Override
+  protected abstract Annotable delegate();
 
-	public <A extends Annotation> A getAnnotation(Class<A> type)
-	{
-		return this.delegate().getAnnotation(type);
-	}
+  public boolean hasAnnotation(Class<? extends Annotation> type) {
+    return this.delegate().hasAnnotation(type);
+  }
 
-	public List<Annotation> getAnnotations()
-	{
-		return this.delegate().getAnnotations();
-	}
+  public <A extends Annotation> A getAnnotation(Class<A> type) {
+    return this.delegate().getAnnotation(type);
+  }
+
+  public List<Annotation> getAnnotations() {
+    return this.delegate().getAnnotations();
+  }
 }

@@ -42,22 +42,21 @@ import sk.stuba.fiit.perconik.core.listeners.DefaultListeners;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface Listener extends Registrable
-{
-	/**
-	 * Compares the specified object with this listener for equality.
-	 * Returns {@code true} if the specified object is also listener
-	 * and the two listeners have the same implementation classes.
-	 * This definition ensures that this method works properly across
-	 * different implementations of the listener interface.
-	 * 
-	 * <p><b>Note:</b> See the documentation of this class for more
-	 * information regarding listener implementation classes.
-	 * 
-	 * @param o an object to be compared for equality with this listener
-	 * @return {@code true} if the specified object is equal to
-	 *         this listener, {@code false} otherwise
-	 */
-	@Override
-	public boolean equals(@Nullable Object o);
+public interface Listener extends Registrable {
+  /**
+   * Compares the specified object with this listener for equality.
+   * Returns {@code true} if the specified object is also listener
+   * and the two listeners have the same implementation classes.
+   * This definition ensures that this method works properly across
+   * different implementations of the listener interface.
+   * 
+   * <p><b>Note:</b> See the documentation of this class for more
+   * information regarding listener implementation classes.
+   * 
+   * @param o an object to be compared for equality with this listener
+   * @return {@code true} if the specified object is equal to
+   *         this listener, {@code false} otherwise
+   */
+  @Override
+  public boolean equals(@Nullable Object o);
 }

@@ -1,4 +1,3 @@
-
 package com.gratex.perconik.activity.ide;
 
 import java.net.URL;
@@ -33,132 +32,105 @@ import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 
 import static com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.isEventLoggerEnabled;
 
-public final class UacaProxy
-{
-	private static final URL url = UniformResources.newUrl("http://localhost:16375");
-	
-	private static final Client client = ClientBuilder.newClient();
-	
-	private static final Executor executor = PlatformExecutors.newLimitedThreadPool();
+public final class UacaProxy {
+  private static final URL url = UniformResources.newUrl("http://localhost:16375");
 
-	private UacaProxy()
-	{
-		throw new AssertionError();
-	}
-	
-	static final WebTarget newTarget()
-	{
-		return client.target(getActiveUrl().toString()).path("ide");
-	}
+  private static final Client client = ClientBuilder.newClient();
 
-	static <T> void postRequest(final String path, final T request)
-	{
-		final Runnable command = new Runnable()
-		{
-			public final void run()
-			{
-				Response response = null;
-				
-				try
-				{
-					WebTarget target = newTarget().path(path);
+  private static final Executor executor = PlatformExecutors.newLimitedThreadPool();
 
-					if (isEventLoggerEnabled())
-					{
-						logRequest(target, request);
-					}
-					
-					response = target.request().post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
-	
-					StatusType status = response.getStatusInfo();
-					
-					if (status.getFamily() == Family.CLIENT_ERROR || status.getFamily() == Family.SERVER_ERROR)
-					{
-						String message = String.format("POST %s returned %d %s", target.getUri(), status.getStatusCode(), status.getReasonPhrase());
-						
-						throw new IllegalStateException(message);
-					}
-				}
-				catch (IllegalStateException | ProcessingException e)
-				{
-					reportFailure("Request to UACA failed", e);
-				}
-				finally
-				{
-					if (response != null)
-					{
-						response.close();
-					}
-				}
-			}
-		};
-	
-		executor.execute(command);
-	}
-	
-	static final <T> void logRequest(final WebTarget target, final T request)
-	{
-		UacaReporter.logRequest(target, request);
-	}
-	
-	static final void reportFailure(final String message, @Nullable final Exception failure)
-	{
-		UacaReporter.logError(message, failure);
-		UacaReporter.displayError(message);
-	}
+  private UacaProxy() {
+    throw new AssertionError();
+  }
 
-	public static final void checkConnection(final String url)
-	{
-		client.target(url).path("ide/checkin").request().options().close();
-	}
+  static final WebTarget newTarget() {
+    return client.target(getActiveUrl().toString()).path("ide");
+  }
 
-	public static final void checkConnection(final URL url)
-	{
-		checkConnection(url.toString());
-	}
+  static <T> void postRequest(final String path, final T request) {
+    final Runnable command = new Runnable() {
+      public final void run() {
+        Response response = null;
 
-	public static final void sendCheckinEvent(final IdeCheckinEventRequest request)
-	{
-		postRequest("checkin", request);
-	}
+        try {
+          WebTarget target = newTarget().path(path);
 
-	public static final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type)
-	{
-		postRequest("codeelement/" + type.urlPath(), request);
-	}
+          if (isEventLoggerEnabled()) {
+            logRequest(target, request);
+          }
 
-	public static final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type)
-	{
-		postRequest("code/" + type.urlPath(), request);
-	}
+          response = target.request().post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
 
-	public static final void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type)
-	{
-		postRequest("document/" + type.urlPath(), request);
-	}
+          StatusType status = response.getStatusInfo();
 
-	public static final void sendFindEvent(final IdeFindEventRequest request)
-	{
-		postRequest("find", request);
-	}
+          if (status.getFamily() == Family.CLIENT_ERROR || status.getFamily() == Family.SERVER_ERROR) {
+            String message = String.format("POST %s returned %d %s", target.getUri(), status.getStatusCode(), status.getReasonPhrase());
 
-	public static final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type)
-	{
-		postRequest("project/" + type.urlPath(), request);
-	}
+            throw new IllegalStateException(message);
+          }
+        } catch (IllegalStateException | ProcessingException e) {
+          reportFailure("Request to UACA failed", e);
+        } finally {
+          if (response != null) {
+            response.close();
+          }
+        }
+      }
+    };
 
-	public static final void sendStateChangeEvent(final IdeStateChangeEventRequest request)
-	{
-		postRequest("idestatechange", request);
-	}
+    executor.execute(command);
+  }
 
-	public static final URL getActiveUrl()
-	{
-		return IdeActivityPreferences.getUacaUrl();
-	}
+  static final <T> void logRequest(final WebTarget target, final T request) {
+    UacaReporter.logRequest(target, request);
+  }
 
-	public static final URL getDefaultUrl()
-	{
-		return url;
-	}
+  static final void reportFailure(final String message, @Nullable final Exception failure) {
+    UacaReporter.logError(message, failure);
+    UacaReporter.displayError(message);
+  }
+
+  public static final void checkConnection(final String url) {
+    client.target(url).path("ide/checkin").request().options().close();
+  }
+
+  public static final void checkConnection(final URL url) {
+    checkConnection(url.toString());
+  }
+
+  public static final void sendCheckinEvent(final IdeCheckinEventRequest request) {
+    postRequest("checkin", request);
+  }
+
+  public static final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type) {
+    postRequest("codeelement/" + type.urlPath(), request);
+  }
+
+  public static final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type) {
+    postRequest("code/" + type.urlPath(), request);
+  }
+
+  public static final void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type) {
+    postRequest("document/" + type.urlPath(), request);
+  }
+
+  public static final void sendFindEvent(final IdeFindEventRequest request) {
+    postRequest("find", request);
+  }
+
+  public static final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type) {
+    postRequest("project/" + type.urlPath(), request);
+  }
+
+  public static final void sendStateChangeEvent(final IdeStateChangeEventRequest request) {
+    postRequest("idestatechange", request);
+  }
+
+  public static final URL getActiveUrl() {
+    return IdeActivityPreferences.getUacaUrl();
+  }
+
+  public static final URL getDefaultUrl() {
+    return url;
+  }
 }

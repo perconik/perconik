@@ -11,92 +11,72 @@ import org.osgi.service.prefs.BackingStoreException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public abstract class AbstractPreferences
-{
-	final Scope scope;
+public abstract class AbstractPreferences {
+  final Scope scope;
 
-	final IEclipsePreferences data;
+  final IEclipsePreferences data;
 
-	public AbstractPreferences(final Scope scope, final String qualifier)
-	{
-		this.scope = checkNotNull(scope);
-		this.data  = checkNotNull(scope.preferences(qualifier));
-	}
+  public AbstractPreferences(final Scope scope, final String qualifier) {
+    this.scope = checkNotNull(scope);
+    this.data = checkNotNull(scope.preferences(qualifier));
+  }
 
-	public static enum Scope
-	{
-		DEFAULT
-		{
-			@Override
-			final IScopeContext context()
-			{
-				return DefaultScope.INSTANCE;
-			}
-		},
+  public static enum Scope {
+    DEFAULT {
+      @Override
+      final IScopeContext context() {
+        return DefaultScope.INSTANCE;
+      }
+    },
 
-		CONFIGURATION
-		{
-			@Override
-			final IScopeContext context()
-			{
-				return ConfigurationScope.INSTANCE;
-			}
-		},
+    CONFIGURATION {
+      @Override
+      final IScopeContext context() {
+        return ConfigurationScope.INSTANCE;
+      }
+    },
 
-		INSTANCE
-		{
-			@Override
-			final IScopeContext context()
-			{
-				return InstanceScope.INSTANCE;
-			}
-		};
+    INSTANCE {
+      @Override
+      final IScopeContext context() {
+        return InstanceScope.INSTANCE;
+      }
+    };
 
-		abstract IScopeContext context();
+    abstract IScopeContext context();
 
-		final IEclipsePreferences preferences(final String qualifier)
-		{
-			return context().getNode(qualifier);
-		}
-	}
+    final IEclipsePreferences preferences(final String qualifier) {
+      return context().getNode(qualifier);
+    }
+  }
 
-	public static abstract class Initializer extends AbstractPreferenceInitializer
-	{
-		protected Initializer()
-		{
-		}
-	}
+  public static abstract class Initializer extends AbstractPreferenceInitializer {
+    protected Initializer() {}
+  }
 
-	public static abstract class Keys
-	{
-		protected Keys()
-		{
-			throw new AssertionError();
-		}
-	}
+  public static abstract class Keys {
+    protected Keys() {
+      throw new AssertionError();
+    }
+  }
 
-	protected final Scope scope()
-	{
-		return this.scope;
-	}
+  protected final Scope scope() {
+    return this.scope;
+  }
 
-	protected final IEclipsePreferences data()
-	{
-		return this.data;
-	}
+  protected final IEclipsePreferences data() {
+    return this.data;
+  }
 
-	public final void clear() throws BackingStoreException
-	{
-		this.data.clear();
-	}
+  public final void clear() throws BackingStoreException {
+    this.data.clear();
+  }
 
-	public final void flush() throws BackingStoreException
-	{
-		this.data.flush();
-	}
+  public final void flush() throws BackingStoreException {
+    this.data.flush();
+  }
 
-	public final void synchronize() throws BackingStoreException
-	{
-		this.data.sync();
-	}
+  public final void synchronize() throws BackingStoreException {
+    this.data.sync();
+  }
 }

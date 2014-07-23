@@ -20,41 +20,33 @@ import sk.stuba.fiit.perconik.core.services.ForwardingProvider;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingResourceProvider extends ForwardingProvider implements ResourceProvider
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingResourceProvider()
-	{
-	}
+public abstract class ForwardingResourceProvider extends ForwardingProvider implements ResourceProvider {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingResourceProvider() {}
 
-	@Override
-	protected abstract ResourceProvider delegate();
+  @Override
+  protected abstract ResourceProvider delegate();
 
-	public Resource<?> forName(String name)
-	{
-		return this.delegate().forName(name);
-	}
+  public Resource<?> forName(String name) {
+    return this.delegate().forName(name);
+  }
 
-	public <L extends Listener> Set<Resource<L>> forType(Class<L> type)
-	{
-		return this.delegate().forType(type);
-	}
+  public <L extends Listener> Set<Resource<L>> forType(Class<L> type) {
+    return this.delegate().forType(type);
+  }
 
-	public Set<String> names()
-	{
-		return this.delegate().names();
-	}
+  public Set<String> names() {
+    return this.delegate().names();
+  }
 
-	public Set<Class<? extends Listener>> types()
-	{
-		return this.delegate().types();
-	}
+  public Set<Class<? extends Listener>> types() {
+    return this.delegate().types();
+  }
 
-	@Override
-	public ResourceProvider parent()
-	{
-		return this.delegate().parent();
-	}
+  @Override
+  public ResourceProvider parent() {
+    return this.delegate().parent();
+  }
 }

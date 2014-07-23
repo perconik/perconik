@@ -11,25 +11,22 @@ import sk.stuba.fiit.perconik.core.ListenerNotRegistredException;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ListenerManagers
-{
-	private ListenerManagers()
-	{
-		throw new AssertionError();
-	}
-	
-	/**
-	 * Creates a standard listener manager.
-	 * 
-	 * <p>Standard listener manager is a reference implementation
-	 * of {@link ListenerManager} interface.
-	 * 
-	 * <p>The returned manager never panics. In other words it does
-	 * not propagate {@link ListenerAlreadyRegistredException}
-	 * or {@link ListenerNotRegistredException}.
-	 */
-	public static final ListenerManager create()
-	{
-		return new StandardListenerManager();
-	}
+public final class ListenerManagers {
+  private ListenerManagers() {
+    throw new AssertionError();
+  }
+
+  /**
+   * Creates a standard listener manager.
+   * 
+   * <p>Standard listener manager is a reference implementation
+   * of {@link ListenerManager} interface.
+   * 
+   * <p>The returned manager never panics. In other words it does
+   * not propagate {@link ListenerAlreadyRegistredException}
+   * or {@link ListenerNotRegistredException}.
+   */
+  public static final ListenerManager create() {
+    return new StandardListenerManager();
+  }
 }

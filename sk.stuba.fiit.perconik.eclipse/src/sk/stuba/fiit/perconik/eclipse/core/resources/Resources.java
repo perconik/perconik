@@ -15,39 +15,28 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Resources
-{
-	private Resources()
-	{
-		throw new AssertionError();
-	}
-	
-	public static final void accept(final IResource resource, final IResourceVisitor visitor)
-	{
-		try
-		{
-			resource.accept(visitor);
-		}
-		catch (CoreException e)
-		{
-			CoreExceptions.propagate(e);
-		}
-	}
+public final class Resources {
+  private Resources() {
+    throw new AssertionError();
+  }
 
-	public static final void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth)
-	{
-		accept(resource, visitor, depth, EnumSet.allOf(ResourceMemberFlag.class));
-	}
-	
-	public static final void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth, final Set<ResourceMemberFlag> flags)
-	{
-		try
-		{
-			resource.accept(visitor, depth.getValue(), ResourceMemberFlag.valuesAsInteger(flags));
-		}
-		catch (CoreException e)
-		{
-			CoreExceptions.propagate(e);
-		}
-	}
+  public static final void accept(final IResource resource, final IResourceVisitor visitor) {
+    try {
+      resource.accept(visitor);
+    } catch (CoreException e) {
+      CoreExceptions.propagate(e);
+    }
+  }
+
+  public static final void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth) {
+    accept(resource, visitor, depth, EnumSet.allOf(ResourceMemberFlag.class));
+  }
+
+  public static final void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth, final Set<ResourceMemberFlag> flags) {
+    try {
+      resource.accept(visitor, depth.getValue(), ResourceMemberFlag.valuesAsInteger(flags));
+    } catch (CoreException e) {
+      CoreExceptions.propagate(e);
+    }
+  }
 }

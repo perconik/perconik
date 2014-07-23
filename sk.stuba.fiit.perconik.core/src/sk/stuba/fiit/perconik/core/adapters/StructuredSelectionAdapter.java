@@ -20,16 +20,11 @@ import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class StructuredSelectionAdapter extends Adapter implements StructuredSelectionListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected StructuredSelectionAdapter()
-	{
-	}
+public class StructuredSelectionAdapter extends Adapter implements StructuredSelectionListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected StructuredSelectionAdapter() {}
 
-	public void selectionChanged(IWorkbenchPart part, IStructuredSelection selection)
-	{
-	}
+  public void selectionChanged(IWorkbenchPart part, IStructuredSelection selection) {}
 }

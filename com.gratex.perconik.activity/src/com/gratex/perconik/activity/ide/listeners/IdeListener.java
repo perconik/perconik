@@ -40,25 +40,20 @@ import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class IdeListener extends Adapter
-{
-	static final PluginConsole console = IdeConsole.getInstance();
-	
-	private static final Executor displayExecutor = DisplayExecutor.defaultSynchronous();
+public abstract class IdeListener extends Adapter {
+  static final PluginConsole console = IdeConsole.getInstance();
 
-	private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
+  private static final Executor displayExecutor = DisplayExecutor.defaultSynchronous();
 
-	IdeListener()
-	{
-	}
-	
-	static final void execute(final Runnable command)
-	{
-		sharedExecutor.execute(command);
-	}
+  private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
-	static final <V> V execute(final DisplayTask<V> task)
-	{
-		return task.get(displayExecutor);
-	}
+  IdeListener() {}
+
+  static final void execute(final Runnable command) {
+    sharedExecutor.execute(command);
+  }
+
+  static final <V> V execute(final DisplayTask<V> task) {
+    return task.get(displayExecutor);
+  }
 }

@@ -14,15 +14,12 @@ import sk.stuba.fiit.perconik.core.ForwardingNameable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingManager extends ForwardingNameable implements Manager
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingManager()
-	{
-	}
+public abstract class ForwardingManager extends ForwardingNameable implements Manager {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingManager() {}
 
-	@Override
-	protected abstract Manager delegate();
+  @Override
+  protected abstract Manager delegate();
 }

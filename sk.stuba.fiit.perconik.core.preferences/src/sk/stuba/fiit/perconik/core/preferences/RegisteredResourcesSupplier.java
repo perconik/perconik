@@ -13,25 +13,21 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class RegisteredResourcesSupplier implements ResourceNamesSupplier
-{
-	/**
-	 * The constructor.
-	 */
-	public RegisteredResourcesSupplier()
-	{
-	}
+public class RegisteredResourcesSupplier implements ResourceNamesSupplier {
+  /**
+   * The constructor.
+   */
+  public RegisteredResourcesSupplier() {}
 
-	/**
-	 * Gets names of registered resources grouped under listener
-	 * types according to the current state of <i>instance</i> scope
-	 * of {@code ResourcePreferences}.
-	 * @return names of registered resources grouped under listener types
-	 */
-	public final SetMultimap<Class<? extends Listener>, String> get()
-	{
-		ResourcePreferences preferences = ResourcePreferences.getConfiguration();
+  /**
+   * Gets names of registered resources grouped under listener
+   * types according to the current state of <i>instance</i> scope
+   * of {@code ResourcePreferences}.
+   * @return names of registered resources grouped under listener types
+   */
+  public final SetMultimap<Class<? extends Listener>, String> get() {
+    ResourcePreferences preferences = ResourcePreferences.getConfiguration();
 
-		return Registrations.toResourceNames(Registrations.marked(preferences.getResourcePersistenceData()));
-	}
+    return Registrations.toResourceNames(Registrations.marked(preferences.getResourcePersistenceData()));
+  }
 }

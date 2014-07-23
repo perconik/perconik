@@ -13,61 +13,53 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 import sk.stuba.fiit.perconik.activity.store.Store;
 
-public final class Elasticsearch implements Store
-{
-	private final Settings settings;
-	
-	private final Client client;
-	
-	private final Admin admin;
-	
-	public Elasticsearch(final Settings settings)
-	{
-		this.settings = ImmutableSettings.builder().put(settings).build();
+public final class Elasticsearch implements Store {
+  private final Settings settings;
 
-		String host = this.settings.get("client.transport.host", Defaults.transportHost);
-		int    port = this.settings.getAsInt("client.transport.port", Defaults.transportPort);
-		
-		InetSocketTransportAddress address = new InetSocketTransportAddress(host, port);
-		
-		Client client = new TransportClient(settings).addTransportAddress(address);
+  private final Client client;
 
-		this.client = client;
-		this.admin = new Admin(client.admin());
-	}
-	
-	static final class Defaults
-	{
-		static final String transportHost = "localhost";
-		
-		static final int transportPort = 9300;
-	}
-	
-	static final class Admin
-	{
-		final ClusterAdminClient cluster;
-		
-		final IndicesAdminClient indices;
-		
-		Admin(final AdminClient admin)
-		{
-			this.cluster = admin.cluster();
-			this.indices = admin.indices();
-		}
-	}
+  private final Admin admin;
 
-	public final void close()
-	{
-		this.client.close();
-	}
+  public Elasticsearch(final Settings settings) {
+    this.settings = ImmutableSettings.builder().put(settings).build();
 
-	public final ClusterStateResponse state()
-	{
-		return this.admin.cluster.prepareState().execute().actionGet();
-	}
-	
-	public final ClusterStatsResponse stats()
-	{
-		return this.admin.cluster.prepareClusterStats().execute().actionGet();
-	}
+    String host = this.settings.get("client.transport.host", Defaults.transportHost);
+    int port = this.settings.getAsInt("client.transport.port", Defaults.transportPort);
+
+    InetSocketTransportAddress address = new InetSocketTransportAddress(host, port);
+
+    Client client = new TransportClient(settings).addTransportAddress(address);
+
+    this.client = client;
+    this.admin = new Admin(client.admin());
+  }
+
+  static final class Defaults {
+    static final String transportHost = "localhost";
+
+    static final int transportPort = 9300;
+  }
+
+  static final class Admin {
+    final ClusterAdminClient cluster;
+
+    final IndicesAdminClient indices;
+
+    Admin(final AdminClient admin) {
+      this.cluster = admin.cluster();
+      this.indices = admin.indices();
+    }
+  }
+
+  public final void close() {
+    this.client.close();
+  }
+
+  public final ClusterStateResponse state() {
+    return this.admin.cluster.prepareState().execute().actionGet();
+  }
+
+  public final ClusterStatsResponse stats() {
+    return this.admin.cluster.prepareClusterStats().execute().actionGet();
+  }
 }

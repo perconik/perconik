@@ -14,20 +14,16 @@ import sk.stuba.fiit.perconik.core.ForwardingNameable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingProvider extends ForwardingNameable implements Provider
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingProvider()
-	{
-	}
+public abstract class ForwardingProvider extends ForwardingNameable implements Provider {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingProvider() {}
 
-	@Override
-	protected abstract Provider delegate();
-	
-	public Provider parent()
-	{
-		return this.delegate().parent();
-	}
+  @Override
+  protected abstract Provider delegate();
+
+  public Provider parent() {
+    return this.delegate().parent();
+  }
 }

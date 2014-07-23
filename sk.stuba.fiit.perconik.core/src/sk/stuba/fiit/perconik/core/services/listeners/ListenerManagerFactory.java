@@ -11,17 +11,16 @@ import sk.stuba.fiit.perconik.core.services.ManagerFactory;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface ListenerManagerFactory extends ManagerFactory
-{
-	/**
-	 * Creates a listener manager.
-	 */
-	@Override
-	public ListenerManager create();
+public interface ListenerManagerFactory extends ManagerFactory {
+  /**
+   * Creates a listener manager.
+   */
+  @Override
+  public ListenerManager create();
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean equals(@Nullable Object o);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean equals(@Nullable Object o);
 }

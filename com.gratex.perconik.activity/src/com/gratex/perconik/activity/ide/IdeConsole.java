@@ -13,83 +13,68 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 
-public final class IdeConsole extends ForwardingPluginConsole
-{
-	private static final IdeConsole instance = new IdeConsole();
+public final class IdeConsole extends ForwardingPluginConsole {
+  private static final IdeConsole instance = new IdeConsole();
 
-	private static final AtomicReference<PluginConsole> console = new AtomicReference<>();
-	
-	private IdeConsole()
-	{
-	}
-	
-	public static final IdeConsole getInstance()
-	{
-		return instance;
-	}
-	
-	@Override
-	protected final PluginConsole delegate()
-	{
-		Activator activator = Activator.getDefault();
-		
-		if (activator != null)
-		{
-			console.set(activator.getConsole());
-		}
-		
-		return console.get();
-	}
-	
-	private final String hook(final String message)
-	{
-		if (IdeActivityPreferences.isEventLoggerEnabled())
-		{
-			this.notice(message);
-		}
-		
-		return builder().format(Internals.dateFormat, new Date()).appendln().lines(message).toString(); 
-	}
+  private static final AtomicReference<PluginConsole> console = new AtomicReference<>();
 
-	@Override
-	public final PluginConsole append(@Nullable final CharSequence s)
-	{
-		return super.append(this.hook(String.valueOf(s)));
-	}
+  private IdeConsole() {}
 
-	@Override
-	public final PluginConsole append(@Nullable final CharSequence s, final int from, final int to)
-	{
-		return super.append(this.hook(String.valueOf(s).substring(from, to)));
-	}
+  public static final IdeConsole getInstance() {
+    return instance;
+  }
 
-	@Override
-	public final PluginConsole append(final char c)
-	{
-		return super.append(this.hook(String.valueOf(c)));
-	}
+  @Override
+  protected final PluginConsole delegate() {
+    Activator activator = Activator.getDefault();
 
-	@Override
-	public final void put(final String message)
-	{
-		super.put(this.hook(message));
-	}
+    if (activator != null) {
+      console.set(activator.getConsole());
+    }
 
-	@Override
-	public final void put(final String format, final Object ... args)
-	{
-		super.put(this.hook(String.format(format, args)));
-	}
+    return console.get();
+  }
 
-	@Override
-	public final void print(final String message)
-	{
-		super.print(this.hook(message));
-	}
+  private final String hook(final String message) {
+    if (IdeActivityPreferences.isEventLoggerEnabled()) {
+      this.notice(message);
+    }
 
-	@Override
-	public final void print(final String format, final Object ... args)
-	{
-		super.print(this.hook(String.format(format, args)));
-	}
+    return builder().format(Internals.dateFormat, new Date()).appendln().lines(message).toString();
+  }
+
+  @Override
+  public final PluginConsole append(@Nullable final CharSequence s) {
+    return super.append(this.hook(String.valueOf(s)));
+  }
+
+  @Override
+  public final PluginConsole append(@Nullable final CharSequence s, final int from, final int to) {
+    return super.append(this.hook(String.valueOf(s).substring(from, to)));
+  }
+
+  @Override
+  public final PluginConsole append(final char c) {
+    return super.append(this.hook(String.valueOf(c)));
+  }
+
+  @Override
+  public final void put(final String message) {
+    super.put(this.hook(message));
+  }
+
+  @Override
+  public final void put(final String format, final Object ... args) {
+    super.put(this.hook(String.format(format, args)));
+  }
+
+  @Override
+  public final void print(final String message) {
+    super.print(this.hook(message));
+  }
+
+  @Override
+  public final void print(final String format, final Object ... args) {
+    super.print(this.hook(String.format(format, args)));
+  }
 }

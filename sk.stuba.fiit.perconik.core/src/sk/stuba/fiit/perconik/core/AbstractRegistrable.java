@@ -6,28 +6,17 @@ package sk.stuba.fiit.perconik.core;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractRegistrable implements Registrable
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractRegistrable()
-	{
-	}
-	
-	public void preRegister()
-	{
-	}
+public abstract class AbstractRegistrable implements Registrable {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractRegistrable() {}
 
-	public void postRegister()
-	{
-	}
+  public void preRegister() {}
 
-	public void preUnregister()
-	{
-	}
+  public void postRegister() {}
 
-	public void postUnregister()
-	{
-	}
+  public void preUnregister() {}
+
+  public void postUnregister() {}
 }

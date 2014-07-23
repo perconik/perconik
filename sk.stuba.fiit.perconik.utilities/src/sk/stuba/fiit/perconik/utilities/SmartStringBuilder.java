@@ -1431,7 +1431,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, String format, Object... args) {
+  public final SmartStringBuilder repeat(int n, String format, Object ... args) {
     this.repeat(n, String.format(format, args));
 
     return this;
@@ -1439,7 +1439,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
   private static final FieldPosition insignificantPosition = new FieldPosition(0);
 
-  public final SmartStringBuilder format(String format, Object... args) {
+  public final SmartStringBuilder format(String format, Object ... args) {
     this.ensureIndent();
     this.builder.append(String.format(format, args));
 
@@ -1541,7 +1541,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   @SafeVarargs
-  private static final <T> T[] asArray(@Nullable T first, @Nullable T second, T... rest) {
+  private static final <T> T[] asArray(@Nullable T first, @Nullable T second, T ... rest) {
     T[] values = ObjectArrays.newArray(rest, rest.length + 2);
 
     values[0] = first;
@@ -1552,7 +1552,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return values;
   }
 
-  public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object... rest) {
+  public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest) {
     return this.list(Lists.asList(first, second, rest));
   }
 
@@ -1592,7 +1592,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder list(Joiner joiner, @Nullable Object first, @Nullable Object second, Object... rest) {
+  public final SmartStringBuilder list(Joiner joiner, @Nullable Object first, @Nullable Object second, Object ... rest) {
     return this.append(joiner.join(first, second, rest));
   }
 
@@ -1663,75 +1663,75 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   // TODO rename
-  public final SmartStringBuilder listValues(boolean... values) {
+  public final SmartStringBuilder listValues(boolean ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(char... values) {
+  public final SmartStringBuilder listValues(char ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(int... values) {
+  public final SmartStringBuilder listValues(int ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(long... values) {
+  public final SmartStringBuilder listValues(long ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(float... values) {
+  public final SmartStringBuilder listValues(float ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(double... values) {
+  public final SmartStringBuilder listValues(double ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(String separator, boolean... values) {
+  public final SmartStringBuilder listValues(String separator, boolean ... values) {
     return this.list(Booleans.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, char... values) {
+  public final SmartStringBuilder listValues(String separator, char ... values) {
     return this.list(Chars.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, int... values) {
+  public final SmartStringBuilder listValues(String separator, int ... values) {
     return this.list(Ints.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, long... values) {
+  public final SmartStringBuilder listValues(String separator, long ... values) {
     return this.list(Longs.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, float... values) {
+  public final SmartStringBuilder listValues(String separator, float ... values) {
     return this.list(Floats.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, double... values) {
+  public final SmartStringBuilder listValues(String separator, double ... values) {
     return this.list(Doubles.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, boolean... values) {
+  public final SmartStringBuilder listValues(Joiner joiner, boolean ... values) {
     return this.append(joiner.join(Booleans.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, char... values) {
+  public final SmartStringBuilder listValues(Joiner joiner, char ... values) {
     return this.append(joiner.join(Chars.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, int... values) {
+  public final SmartStringBuilder listValues(Joiner joiner, int ... values) {
     return this.append(joiner.join(Ints.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, long... values) {
+  public final SmartStringBuilder listValues(Joiner joiner, long ... values) {
     return this.append(joiner.join(Longs.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, float... values) {
+  public final SmartStringBuilder listValues(Joiner joiner, float ... values) {
     return this.append(joiner.join(Floats.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, double... values) {
+  public final SmartStringBuilder listValues(Joiner joiner, double ... values) {
     return this.append(joiner.join(Doubles.asList(values)));
   }
 
@@ -1750,7 +1750,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   //  public final SmartStringBuilder list(Iterable<?> values)
   //  public final SmartStringBuilder list(Iterator<?> values)
 
-  public final SmartStringBuilder listNonNull(Object first, Object second, Object... rest) {
+  public final SmartStringBuilder listNonNull(Object first, Object second, Object ... rest) {
     return this.listNonNull(Lists.asList(first, second, rest));
   }
 
@@ -1766,7 +1766,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.filteredList(values, Predicates.notNull());
   }
 
-  public final SmartStringBuilder listNonEmpty(@Nullable CharSequence first, @Nullable CharSequence second, CharSequence... rest) {
+  public final SmartStringBuilder listNonEmpty(@Nullable CharSequence first, @Nullable CharSequence second, CharSequence ... rest) {
     return this.listNonEmpty(Lists.asList(first, second, rest));
   }
 
@@ -1783,7 +1783,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   @SafeVarargs
-  public final <T> SmartStringBuilder filteredList(Predicate<? super T> filter, @Nullable T first, @Nullable T second, T... rest) {
+  public final <T> SmartStringBuilder filteredList(Predicate<? super T> filter, @Nullable T first, @Nullable T second, T ... rest) {
     return this.filteredList(Lists.asList(first, second, rest), filter);
   }
 
@@ -1808,7 +1808,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   @SafeVarargs
-  public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(@Nullable T first, @Nullable T second, T... rest) {
+  public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(@Nullable T first, @Nullable T second, T ... rest) {
     return this.sortedList(asArray(first, second, rest));
   }
 
@@ -1825,7 +1825,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   @SafeVarargs
-  public final <T> SmartStringBuilder sortedList(Comparator<? super T> comparator, @Nullable T first, @Nullable T second, T... rest) {
+  public final <T> SmartStringBuilder sortedList(Comparator<? super T> comparator, @Nullable T first, @Nullable T second, T ... rest) {
     return this.list(asArray(first, second, rest), comparator);
   }
 
@@ -1985,7 +1985,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder value(long value, int base, Object... units) {
+  public final SmartStringBuilder value(long value, int base, Object ... units) {
     return this.appendValue(this.options.valueFormat, value, base, units, -1);
   }
 
@@ -2031,7 +2031,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final ValueOptions units(Object... values) {
+    public final ValueOptions units(Object ... values) {
       checkArgument(values.length > 0);
 
       this.units = Lists.newArrayList(values);
@@ -2062,7 +2062,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
   }
 
-  public static final ValueOptions units(Object... units) {
+  public static final ValueOptions units(Object ... units) {
     return new ValueOptions().units(units);
   }
 
@@ -2128,19 +2128,19 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder bin(byte... bytes) {
+  public final SmartStringBuilder bin(byte ... bytes) {
     return this.bin(this.options.sizeSeparator, bytes);
   }
 
-  public final SmartStringBuilder bin(String separator, byte... bytes) {
+  public final SmartStringBuilder bin(String separator, byte ... bytes) {
     return this.appendBytes(bytes, 8, 1, separator);
   }
 
-  public final SmartStringBuilder hex(byte... bytes) {
+  public final SmartStringBuilder hex(byte ... bytes) {
     return this.hex(this.options.sizeSeparator, bytes);
   }
 
-  public final SmartStringBuilder hex(String separator, byte... bytes) {
+  public final SmartStringBuilder hex(String separator, byte ... bytes) {
     return this.appendBytes(bytes, 2, 4, separator);
   }
 

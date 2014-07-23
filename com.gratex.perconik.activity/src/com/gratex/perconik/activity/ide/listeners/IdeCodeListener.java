@@ -103,594 +103,492 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, EditorListener, TextSelectionListener, WorkbenchListener
-{
-	static final long selectionEventWindow = 500;
+public final class IdeCodeListener extends IdeListener implements CommandExecutionListener, DocumentListener, EditorListener, TextSelectionListener, WorkbenchListener {
+  static final long selectionEventWindow = 500;
 
-	private final CommandExecutionStateHandler paste;
+  private final CommandExecutionStateHandler paste;
 
-	private final Object lock = new Object();
+  private final Object lock = new Object();
 
-	@GuardedBy("lock")
-	private final Stopwatch watch;
+  @GuardedBy("lock")
+  private final Stopwatch watch;
 
-	@GuardedBy("lock")
-	private LinkedList<SelectionEvent> continuousSelections;
+  @GuardedBy("lock")
+  private LinkedList<SelectionEvent> continuousSelections;
 
-	@GuardedBy("lock")
-	private SelectionEvent lastSentSelection;
+  @GuardedBy("lock")
+  private SelectionEvent lastSentSelection;
 
-	public IdeCodeListener()
-	{
-		this.paste = CommandExecutionStateHandler.of(PASTE.getIdentifier());
-		this.watch = Stopwatch.createUnstarted();
-	}
+  public IdeCodeListener() {
+    this.paste = CommandExecutionStateHandler.of(PASTE.getIdentifier());
+    this.watch = Stopwatch.createUnstarted();
+  }
 
-	static enum Operation
-	{
-		COPY("org.eclipse.ui.edit.copy", IdeCodeEventType.COPY),
+  static enum Operation {
+    COPY("org.eclipse.ui.edit.copy", IdeCodeEventType.COPY),
 
-		CUT("org.eclipse.ui.edit.cut", IdeCodeEventType.CUT),
+    CUT("org.eclipse.ui.edit.cut", IdeCodeEventType.CUT),
 
-		PASTE("org.eclipse.ui.edit.paste", IdeCodeEventType.PASTE);
+    PASTE("org.eclipse.ui.edit.paste", IdeCodeEventType.PASTE);
 
-		private final String id;
+    private final String id;
 
-		private final IdeCodeEventType type;
+    private final IdeCodeEventType type;
 
-		private Operation(String id, IdeCodeEventType type)
-		{
-			assert !id.isEmpty() && type != null;
+    private Operation(String id, IdeCodeEventType type) {
+      assert !id.isEmpty() && type != null;
 
-			this.id   = id;
-			this.type = type;
-		}
+      this.id = id;
+      this.type = type;
+    }
 
-		public static final Operation resolve(String id)
-		{
-			checkArgument(!id.isEmpty());
+    public static final Operation resolve(String id) {
+      checkArgument(!id.isEmpty());
 
-			for (Operation operation: values())
-			{
-				if (operation.id.equals(id))
-				{
-					return operation;
-				}
-			}
+      for (Operation operation: values()) {
+        if (operation.id.equals(id)) {
+          return operation;
+        }
+      }
 
-			return null;
-		}
+      return null;
+    }
 
-		public final String getIdentifier()
-		{
-			return this.id;
-		}
+    public final String getIdentifier() {
+      return this.id;
+    }
 
-		public final IdeCodeEventType getEventType()
-		{
-			return this.type;
-		}
-	}
+    public final IdeCodeEventType getEventType() {
+      return this.type;
+    }
+  }
 
-	static final class Region
-	{
-		final Position start = new Position();
+  static final class Region {
+    final Position start = new Position();
 
-		final Position end = new Position();
+    final Position end = new Position();
 
-		String text;
+    String text;
 
-		Region()
-		{
-		}
+    Region() {}
 
-		static final class Position
-		{
-			int line, offset;
-		}
+    static final class Position {
+      int line, offset;
+    }
 
-		static final Region of(final IDocument document, int offset, int length, final String text)
-		{
-			checkArgument(offset >= 0);
-			checkArgument(length >= 0);
-			checkArgument(text != null);
+    static final Region of(final IDocument document, int offset, int length, final String text) {
+      checkArgument(offset >= 0);
+      checkArgument(length >= 0);
+      checkArgument(text != null);
 
-			Region data = new Region();
+      Region data = new Region();
 
-			try
-			{
-				data.start.line = document.getLineOfOffset(offset);
-				data.end.line   = document.getLineOfOffset(offset + length);
+      try {
+        data.start.line = document.getLineOfOffset(offset);
+        data.end.line = document.getLineOfOffset(offset + length);
 
-				data.start.offset = offset - document.getLineOffset(data.start.line);
-				data.end.offset   = offset + length - document.getLineOffset(data.end.line);
+        data.start.offset = offset - document.getLineOffset(data.start.line);
+        data.end.offset = offset + length - document.getLineOffset(data.end.line);
 
-				String delimeter = document.getLineDelimiter(data.end.line);
+        String delimeter = document.getLineDelimiter(data.end.line);
 
-				if (delimeter != null && text.endsWith(delimeter))
-				{
-					data.end.line ++;
-					data.end.offset = 0;
-				}
-			}
-			catch (BadLocationException e)
-			{
-				throw Throwables.propagate(e);
-			}
+        if (delimeter != null && text.endsWith(delimeter)) {
+          data.end.line++;
+          data.end.offset = 0;
+        }
+      } catch (BadLocationException e) {
+        throw Throwables.propagate(e);
+      }
 
-			data.text = text;
+      data.text = text;
 
-			return data;
-		}
-	}
+      return data;
+    }
+  }
 
-	static final IdeCodeEventRequest build(final long time, final UnderlyingResource<?> resource, final Region region)
-	{
-		final IdeCodeEventRequest data = new IdeCodeEventRequest();
+  static final IdeCodeEventRequest build(final long time, final UnderlyingResource<?> resource, final Region region) {
+    final IdeCodeEventRequest data = new IdeCodeEventRequest();
 
-		data.setText(region.text);
+    data.setText(region.text);
 
-		data.setStartColumnIndex(region.start.offset);
-		data.setStartRowIndex(region.start.line);
+    data.setStartColumnIndex(region.start.offset);
+    data.setStartRowIndex(region.start.line);
 
-		data.setEndColumnIndex(region.end.offset);
-		data.setEndRowIndex(region.end.line);
+    data.setEndColumnIndex(region.end.offset);
+    data.setEndRowIndex(region.end.line);
 
-		resource.setDocumentData(data);
-		resource.setProjectData(data);
+    resource.setDocumentData(data);
+    resource.setProjectData(data);
 
-		setApplicationData(data);
-		setEventData(data, time);
+    setApplicationData(data);
+    setEventData(data, time);
 
-		return data;
-	}
+    return data;
+  }
 
-	private static final class ClipboardReader extends DisplayTask<String>
-	{
-		static final ClipboardReader instance = new ClipboardReader();
+  private static final class ClipboardReader extends DisplayTask<String> {
+    static final ClipboardReader instance = new ClipboardReader();
 
-		private static final Set<String> supportedTypeNames = ImmutableSet.of("Rich Text Format", "CF_UNICODETEXT", "CF_TEXT");
+    private static final Set<String> supportedTypeNames = ImmutableSet.of("Rich Text Format", "CF_UNICODETEXT", "CF_TEXT");
 
-		private ClipboardReader()
-		{
-		}
+    private ClipboardReader() {}
 
-		@Override
-		public final String call()
-		{
-			Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
+    @Override
+    public final String call() {
+      Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 
-			if (Collections.disjoint(supportedTypeNames, Arrays.asList(clipboard.getAvailableTypeNames())))
-			{
-				if (Log.enabled()) Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
+      if (Collections.disjoint(supportedTypeNames, Arrays.asList(clipboard.getAvailableTypeNames()))) {
+        if (Log.enabled())
+          Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
 
-				return null;
-			}
+        return null;
+      }
 
-			String text = clipboard.getContents(TextTransfer.getInstance()).toString();
+      String text = clipboard.getContents(TextTransfer.getInstance()).toString();
 
-			clipboard.dispose();
+      clipboard.dispose();
 
-			return text;
-		}
-	}
+      return text;
+    }
+  }
 
-	private static final class SelectionRangeData
-	{
-		final IEditorPart editor;
+  private static final class SelectionRangeData {
+    final IEditorPart editor;
 
-		final ISourceViewer viewer;
+    final ISourceViewer viewer;
 
-		final Point range;
+    final Point range;
 
-		SelectionRangeData(final IEditorPart editor, final ISourceViewer viewer, final Point range)
-		{
-			assert editor != null && viewer != null && range != null;
+    SelectionRangeData(final IEditorPart editor, final ISourceViewer viewer, final Point range) {
+      assert editor != null && viewer != null && range != null;
 
-			this.editor = editor;
-			this.viewer = viewer;
-			this.range  = range;
-		}
-	}
+      this.editor = editor;
+      this.viewer = viewer;
+      this.range = range;
+    }
+  }
 
-	private static final class SelectionRangeReader extends DisplayTask<SelectionRangeData>
-	{
-		static final SelectionRangeReader instance = new SelectionRangeReader();
+  private static final class SelectionRangeReader extends DisplayTask<SelectionRangeData> {
+    static final SelectionRangeReader instance = new SelectionRangeReader();
 
-		private SelectionRangeReader()
-		{
-		}
+    private SelectionRangeReader() {}
 
-		@Override
-		public final SelectionRangeData call()
-		{
-			IEditorPart editor = Editors.getActiveEditor();
+    @Override
+    public final SelectionRangeData call() {
+      IEditorPart editor = Editors.getActiveEditor();
 
-			if (editor == null)
-			{
-				if (Log.enabled()) Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
+      if (editor == null) {
+        if (Log.enabled())
+          Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
 
-				return null;
-			}
+        return null;
+      }
 
-			ISourceViewer viewer = Editors.getSourceViewer(editor);
+      ISourceViewer viewer = Editors.getSourceViewer(editor);
 
-			return new SelectionRangeData(editor, viewer, viewer.getSelectedRange());
-		}
-	}
+      return new SelectionRangeData(editor, viewer, viewer.getSelectedRange());
+    }
+  }
 
-	private static final class SelectionEvent
-	{
-		final long time;
+  private static final class SelectionEvent {
+    final long time;
 
-		final IWorkbenchPart part;
+    final IWorkbenchPart part;
 
-		final ITextSelection selection;
+    final ITextSelection selection;
 
-		SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection)
-		{
-			assert part != null && selection != null;
+    SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+      assert part != null && selection != null;
 
-			this.time      = time;
-			this.part      = part;
-			this.selection = selection;
-		}
+      this.time = time;
+      this.part = part;
+      this.selection = selection;
+    }
 
-		final boolean contentEquals(final SelectionEvent other)
-		{
-			return this.part == other.part && this.selection.equals(other.selection);
-		}
+    final boolean contentEquals(final SelectionEvent other) {
+      return this.part == other.part && this.selection.equals(other.selection);
+    }
 
-		final boolean isContinuousWith(final SelectionEvent other)
-		{
-			if (this.part != other.part)
-			{
-				return false;
-			}
+    final boolean isContinuousWith(final SelectionEvent other) {
+      if (this.part != other.part) {
+        return false;
+      }
 
-			int a = this.selection.getOffset();
-			int b = other.selection.getOffset();
+      int a = this.selection.getOffset();
+      int b = other.selection.getOffset();
 
-			return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength());
-		}
+      return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength());
+    }
 
-		final boolean isSelectionEmpty()
-		{
-			return this.selection.isEmpty();
-		}
+    final boolean isSelectionEmpty() {
+      return this.selection.isEmpty();
+    }
 
-		final boolean isSelectionTextEmpty()
-		{
-			return isNullOrEmpty(this.selection.getText());
-		}
-	}
+    final boolean isSelectionTextEmpty() {
+      return isNullOrEmpty(this.selection.getText());
+    }
+  }
 
-	static final void processCopyOrCut(final long time, final Operation operation)
-	{
-		String text = execute(ClipboardReader.instance);
+  static final void processCopyOrCut(final long time, final Operation operation) {
+    String text = execute(ClipboardReader.instance);
 
-		SelectionRangeData data = execute(SelectionRangeReader.instance);
+    SelectionRangeData data = execute(SelectionRangeReader.instance);
 
-		IEditorPart   editor   = data.editor;
-		ISourceViewer viewer   = data.viewer;
-		IDocument     document = viewer.getDocument();
+    IEditorPart editor = data.editor;
+    ISourceViewer viewer = data.viewer;
+    IDocument document = viewer.getDocument();
 
-		UnderlyingResource<?> resource = UnderlyingResource.from(editor);
+    UnderlyingResource<?> resource = UnderlyingResource.from(editor);
 
-		Point range = data.range;
+    Point range = data.range;
 
-		int offset = range.x;
-		int length = range.y;
+    int offset = range.x;
+    int length = range.y;
 
-		Region region = Region.of(document, offset, length, text);
+    Region region = Region.of(document, offset, length, text);
 
-		String selection;
+    String selection;
 
-		try
-		{
-			selection = document.get(offset, length);
-		}
-		catch (BadLocationException e)
-		{
-			throw Throwables.propagate(e);
-		}
+    try {
+      selection = document.get(offset, length);
+    } catch (BadLocationException e) {
+      throw Throwables.propagate(e);
+    }
 
-		if (operation == COPY && region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection)))
-		{
-			if (Log.enabled())
-			{
-				Log.message().append("copy: clipboard content not equal to editor selection")
-				.append(" '").append(region.text).append("' != '").append(selection).appendln("'")
-				.appendTo(console);
-			}
+    if (operation == COPY && region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection))) {
+      if (Log.enabled()) {
+        Log.message().append("copy: clipboard content not equal to editor selection").append(" '").append(region.text).append("' != '").append(selection).appendln("'").appendTo(console);
+      }
 
-			return;
-		}
-		else if (operation == CUT && !selection.isEmpty())
-		{
-			if (Log.enabled())
-			{
-				Log.message().append("cut: editor selection not empty")
-				.append(" '").append(selection).appendln("'")
-				.appendTo(console);
-			}
+      return;
+    } else if (operation == CUT && !selection.isEmpty()) {
+      if (Log.enabled()) {
+        Log.message().append("cut: editor selection not empty").append(" '").append(selection).appendln("'").appendTo(console);
+      }
 
-			return;
-		}
+      return;
+    }
 
-		UacaProxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
-	}
+    UacaProxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
+  }
 
-	static final void processPaste(final long time, final DocumentEvent event)
-	{
-		IDocument   document = event.getDocument();
-		IEditorPart editor   = Editors.forDocument(document);
+  static final void processPaste(final long time, final DocumentEvent event) {
+    IDocument document = event.getDocument();
+    IEditorPart editor = Editors.forDocument(document);
 
-		if (editor == null)
-		{
-			if (Log.enabled()) Log.message().appendln("paste: editor not found / documents not equal").appendTo(console);
+    if (editor == null) {
+      if (Log.enabled())
+        Log.message().appendln("paste: editor not found / documents not equal").appendTo(console);
 
-			return;
-		}
+      return;
+    }
 
-		UnderlyingResource<?> resource = UnderlyingResource.from(editor);
+    UnderlyingResource<?> resource = UnderlyingResource.from(editor);
 
-		Region region = Region.of(document, event.getOffset(), event.getLength(), event.getText());
+    Region region = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 
-		UacaProxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
-	}
+    UacaProxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
+  }
 
-	static final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection)
-	{
-		if (!(part instanceof IEditorPart))
-		{
-			return;
-		}
+  static final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+    if (!(part instanceof IEditorPart)) {
+      return;
+    }
 
-		UnderlyingContent<?> content = UnderlyingContent.from((IEditorPart) part);
+    UnderlyingContent<?> content = UnderlyingContent.from((IEditorPart) part);
 
-		if (content == null)
-		{
-			return;
-		}
+    if (content == null) {
+      return;
+    }
 
-		processSelection(time, content, selection);
-	}
+    processSelection(time, content, selection);
+  }
 
-	static final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection)
-	{
-		Region region = Region.of(content.document, selection.getOffset(), selection.getLength(), selection.getText());
+  static final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection) {
+    Region region = Region.of(content.document, selection.getOffset(), selection.getLength(), selection.getText());
 
-		UacaProxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
-	}
+    UacaProxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
+  }
 
-	private final void preClose()
-	{
-		synchronized (this.lock)
-		{
-			if (this.watch.isRunning())
-			{
-				this.stopWatchAndProcessLastSelectionEvent();
-			}
-		}
-	}
+  private final void preClose() {
+    synchronized (this.lock) {
+      if (this.watch.isRunning()) {
+        this.stopWatchAndProcessLastSelectionEvent();
+      }
+    }
+  }
 
-	@Override
-	public final void preUnregister()
-	{
-		this.preClose();
-	}
+  @Override
+  public final void preUnregister() {
+    this.preClose();
+  }
 
-	public final boolean preShutdown(final IWorkbench workbench, final boolean forced)
-	{
-		this.preUnregister();
+  public final boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+    this.preUnregister();
 
-		return true;
-	}
+    return true;
+  }
 
-	public final void postShutdown(final IWorkbench workbench)
-	{
-	}
+  public final void postShutdown(final IWorkbench workbench) {}
 
-	public final void documentAboutToBeChanged(final DocumentEvent event)
-	{
-	}
+  public final void documentAboutToBeChanged(final DocumentEvent event) {}
 
-	public final void documentChanged(final DocumentEvent event)
-	{
-		if (Log.enabled()) Log.message().appendln("paste: " + this.paste.getState()).appendTo(console);
+  public final void documentChanged(final DocumentEvent event) {
+    if (Log.enabled())
+      Log.message().appendln("paste: " + this.paste.getState()).appendTo(console);
 
-		if (this.paste.getState() != EXECUTING)
-		{
-			if (Log.enabled()) Log.message().appendln("paste: comparison failed -> not executing").appendTo(console);
+    if (this.paste.getState() != EXECUTING) {
+      if (Log.enabled())
+        Log.message().appendln("paste: comparison failed -> not executing").appendTo(console);
 
-			return;
-		}
+      return;
+    }
 
-		final long time = Utilities.currentTime();
+    final long time = Utilities.currentTime();
 
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				processPaste(time, event);
-			}
-		});
-	}
+    execute(new Runnable() {
+      public final void run() {
+        processPaste(time, event);
+      }
+    });
+  }
 
-	@GuardedBy("lock")
-	private final void startWatchAndClearSelectionEvents()
-	{
-		assert !this.watch.isRunning() && this.continuousSelections == null;
+  @GuardedBy("lock")
+  private final void startWatchAndClearSelectionEvents() {
+    assert !this.watch.isRunning() && this.continuousSelections == null;
 
-		this.continuousSelections = Lists.newLinkedList();
+    this.continuousSelections = Lists.newLinkedList();
 
-		this.watch.reset().start();
-	}
+    this.watch.reset().start();
+  }
 
-	@GuardedBy("lock")
-	private final void stopWatchAndProcessLastSelectionEvent()
-	{
-		assert this.watch.isRunning() && this.continuousSelections != null;
+  @GuardedBy("lock")
+  private final void stopWatchAndProcessLastSelectionEvent() {
+    assert this.watch.isRunning() && this.continuousSelections != null;
 
-		this.lastSentSelection = this.continuousSelections.getLast();
+    this.lastSentSelection = this.continuousSelections.getLast();
 
-		selectionChanged(this.lastSentSelection);
+    selectionChanged(this.lastSentSelection);
 
-		this.continuousSelections = null;
+    this.continuousSelections = null;
 
-		this.watch.stop();
-	}
+    this.watch.stop();
+  }
 
-	public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection)
-	{
-		final long time = Utilities.currentTime();
+  public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
+    final long time = Utilities.currentTime();
 
-		if (selection.isEmpty())
-		{
-			return;
-		}
+    if (selection.isEmpty()) {
+      return;
+    }
 
-		synchronized (this.lock)
-		{
-			SelectionEvent event = new SelectionEvent(time, part, selection);
+    synchronized (this.lock) {
+      SelectionEvent event = new SelectionEvent(time, part, selection);
 
-			boolean empty = event.isSelectionTextEmpty();
+      boolean empty = event.isSelectionTextEmpty();
 
-			if (empty && (this.lastSentSelection == null || this.lastSentSelection.part != part))
-			{
-				return;
-			}
+      if (empty && (this.lastSentSelection == null || this.lastSentSelection.part != part)) {
+        return;
+      }
 
-			if (this.lastSentSelection != null && this.lastSentSelection.contentEquals(event))
-			{
-				return;
-			}
+      if (this.lastSentSelection != null && this.lastSentSelection.contentEquals(event)) {
+        return;
+      }
 
-			if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event))
-			{
-				if (Log.enabled()) Log.message().format("selection: watch running but not continuous").appendTo(console);
+      if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event)) {
+        if (Log.enabled())
+          Log.message().format("selection: watch running but not continuous").appendTo(console);
 
-				this.stopWatchAndProcessLastSelectionEvent();
-			}
-
-			if (!this.watch.isRunning())
-			{
-				if (Log.enabled()) Log.message().format("selection: watch not running").appendTo(console);
-
-				this.startWatchAndClearSelectionEvents();
-			}
-
-			long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
-
-			this.continuousSelections.add(event);
-
-			if (!empty && delta < selectionEventWindow)
-			{
-				if (Log.enabled()) Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
-
-				this.watch.reset().start();
-
-				return;
-			}
-
-			this.stopWatchAndProcessLastSelectionEvent();
-		}
-	}
-
-	private static final void selectionChanged(final SelectionEvent event)
-	{
-		selectionChanged(event.time, event.part, event.selection);
-	}
-
-	private static final void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection)
-	{
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				processSelection(time, part, selection);
-			}
-		});
-	}
-
-	public final void editorOpened(final IEditorReference reference)
-	{
-	}
-
-	public final void editorClosed(final IEditorReference reference)
-	{
-		this.preClose();
-	}
-
-	public final void editorActivated(final IEditorReference reference)
-	{
-	}
-
-	public final void editorDeactivated(final IEditorReference reference)
-	{
-	}
-
-	public final void editorVisible(final IEditorReference reference)
-	{
-	}
-
-	public final void editorHidden(final IEditorReference reference)
-	{
-	}
-
-	public final void editorBroughtToTop(final IEditorReference reference)
-	{
-	}
-
-	public final void editorInputChanged(final IEditorReference reference)
-	{
-	}
-
-	public final void preExecute(final String id, final ExecutionEvent event)
-	{
-		this.paste.transitOnMatch(id, EXECUTING);
-	}
-
-	public final void postExecuteSuccess(final String id, final Object result)
-	{
-		final Operation operation = Operation.resolve(id);
-
-		if (operation == COPY || operation == CUT)
-		{
-			final long time = Utilities.currentTime();
-
-			execute(new Runnable()
-			{
-				public final void run()
-				{
-					processCopyOrCut(time, operation);
-				}
-			});
-		}
-		else if (operation == PASTE)
-		{
-			this.paste.transit(SUCCEEDED);
-		}
-	}
-
-	public final void postExecuteFailure(final String id, final ExecutionException exception)
-	{
-		this.paste.transitOnMatch(id, FAILED);
-	}
-
-	public final void notDefined(final String id, final NotDefinedException exception)
-	{
-		this.paste.transitOnMatch(id, UNDEFINED);
-	}
-
-	public final void notEnabled(final String id, final NotEnabledException exception)
-	{
-		this.paste.transitOnMatch(id, DISABLED);
-	}
-
-	public final void notHandled(final String id, final NotHandledException exception)
-	{
-		this.paste.transitOnMatch(id, UNHANDLED);
-	}
+        this.stopWatchAndProcessLastSelectionEvent();
+      }
+
+      if (!this.watch.isRunning()) {
+        if (Log.enabled())
+          Log.message().format("selection: watch not running").appendTo(console);
+
+        this.startWatchAndClearSelectionEvents();
+      }
+
+      long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
+
+      this.continuousSelections.add(event);
+
+      if (!empty && delta < selectionEventWindow) {
+        if (Log.enabled())
+          Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
+
+        this.watch.reset().start();
+
+        return;
+      }
+
+      this.stopWatchAndProcessLastSelectionEvent();
+    }
+  }
+
+  private static final void selectionChanged(final SelectionEvent event) {
+    selectionChanged(event.time, event.part, event.selection);
+  }
+
+  private static final void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+    execute(new Runnable() {
+      public final void run() {
+        processSelection(time, part, selection);
+      }
+    });
+  }
+
+  public final void editorOpened(final IEditorReference reference) {}
+
+  public final void editorClosed(final IEditorReference reference) {
+    this.preClose();
+  }
+
+  public final void editorActivated(final IEditorReference reference) {}
+
+  public final void editorDeactivated(final IEditorReference reference) {}
+
+  public final void editorVisible(final IEditorReference reference) {}
+
+  public final void editorHidden(final IEditorReference reference) {}
+
+  public final void editorBroughtToTop(final IEditorReference reference) {}
+
+  public final void editorInputChanged(final IEditorReference reference) {}
+
+  public final void preExecute(final String id, final ExecutionEvent event) {
+    this.paste.transitOnMatch(id, EXECUTING);
+  }
+
+  public final void postExecuteSuccess(final String id, final Object result) {
+    final Operation operation = Operation.resolve(id);
+
+    if (operation == COPY || operation == CUT) {
+      final long time = Utilities.currentTime();
+
+      execute(new Runnable() {
+        public final void run() {
+          processCopyOrCut(time, operation);
+        }
+      });
+    } else if (operation == PASTE) {
+      this.paste.transit(SUCCEEDED);
+    }
+  }
+
+  public final void postExecuteFailure(final String id, final ExecutionException exception) {
+    this.paste.transitOnMatch(id, FAILED);
+  }
+
+  public final void notDefined(final String id, final NotDefinedException exception) {
+    this.paste.transitOnMatch(id, UNDEFINED);
+  }
+
+  public final void notEnabled(final String id, final NotEnabledException exception) {
+    this.paste.transitOnMatch(id, DISABLED);
+  }
+
+  public final void notHandled(final String id, final NotHandledException exception) {
+    this.paste.transitOnMatch(id, UNHANDLED);
+  }
 }

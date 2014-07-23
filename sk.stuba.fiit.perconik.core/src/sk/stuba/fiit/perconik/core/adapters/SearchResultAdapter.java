@@ -19,16 +19,11 @@ import sk.stuba.fiit.perconik.core.listeners.SearchResultListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class SearchResultAdapter extends Adapter implements SearchResultListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected SearchResultAdapter()
-	{
-	}
+public class SearchResultAdapter extends Adapter implements SearchResultListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected SearchResultAdapter() {}
 
-	public void searchResultChanged(SearchResultEvent event)
-	{
-	}
+  public void searchResultChanged(SearchResultEvent event) {}
 }

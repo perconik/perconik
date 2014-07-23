@@ -45,107 +45,77 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class IdeStateListener extends IdeListener implements LaunchListener, PerspectiveListener
-{
-	public IdeStateListener()
-	{
-	}
+public final class IdeStateListener extends IdeListener implements LaunchListener, PerspectiveListener {
+  public IdeStateListener() {}
 
-	static final IdeStateChangeEventRequest build(final long time, final IProject project, final String state)
-	{
-		final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
+  static final IdeStateChangeEventRequest build(final long time, final IProject project, final String state) {
+    final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
 
-		data.setStateTypeUri(UacaUriHelper.forIdeStateChangeType(state));
+    data.setStateTypeUri(UacaUriHelper.forIdeStateChangeType(state));
 
-		setProjectData(data, project);
-		setApplicationData(data);
-		setEventData(data, time);
+    setProjectData(data, project);
+    setApplicationData(data);
+    setEventData(data, time);
 
-		if (Log.enabled()) Log.message().appendln("state: " + state).appendTo(console);
+    if (Log.enabled())
+      Log.message().appendln("state: " + state).appendTo(console);
 
-		return data;
-	}
+    return data;
+  }
 
-	static final void processLaunch(final long time, final ILaunch launch)
-	{
-		Iterable<IProject> projects = Projects.fromLaunch(launch);
+  static final void processLaunch(final long time, final ILaunch launch) {
+    Iterable<IProject> projects = Projects.fromLaunch(launch);
 
-		String state = launch.getLaunchMode() + " (launch)";
+    String state = launch.getLaunchMode() + " (launch)";
 
-		for (IProject project: projects)
-		{
-			UacaProxy.sendStateChangeEvent(build(time, project, state));
-		}
-	}
+    for (IProject project: projects) {
+      UacaProxy.sendStateChangeEvent(build(time, project, state));
+    }
+  }
 
-	static final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
-	{
-		IProject project = Projects.fromPage(page);
+  static final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
+    IProject project = Projects.fromPage(page);
 
-		String state = descriptor.getLabel().toLowerCase() + " (perspective)";
+    String state = descriptor.getLabel().toLowerCase() + " (perspective)";
 
-		UacaProxy.sendStateChangeEvent(build(time, project, state));
-	}
+    UacaProxy.sendStateChangeEvent(build(time, project, state));
+  }
 
-	public final void launchAdded(final ILaunch launch)
-	{
-		final long time = currentTime();
+  public final void launchAdded(final ILaunch launch) {
+    final long time = currentTime();
 
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				processLaunch(time, launch);
-			}
-		});
-	}
+    execute(new Runnable() {
+      public final void run() {
+        processLaunch(time, launch);
+      }
+    });
+  }
 
-	public final void launchRemoved(final ILaunch launch)
-	{
-	}
+  public final void launchRemoved(final ILaunch launch) {}
 
-	public final void launchChanged(final ILaunch launch)
-	{
-	}
+  public final void launchChanged(final ILaunch launch) {}
 
-	public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
-	{
-	}
+  public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-	public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
-	{
-	}
+  public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-	public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
-	{
-		final long time = currentTime();
+  public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
+    final long time = currentTime();
 
-		execute(new Runnable()
-		{
-			public final void run()
-			{
-				processPerspective(time, page, descriptor);
-			}
-		});
-	}
+    execute(new Runnable() {
+      public final void run() {
+        processPerspective(time, page, descriptor);
+      }
+    });
+  }
 
-	public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
-	{
-	}
+  public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-	public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor)
-	{
-	}
+  public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change)
-	{
-	}
+  public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change) {}
 
-	public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change)
-	{
-	}
+  public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change) {}
 
-	public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after)
-	{
-	}
+  public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {}
 }

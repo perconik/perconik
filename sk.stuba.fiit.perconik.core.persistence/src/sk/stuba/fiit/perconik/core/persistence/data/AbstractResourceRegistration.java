@@ -15,70 +15,59 @@ import sk.stuba.fiit.perconik.core.services.Services;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractResourceRegistration extends AbstractAnnotableRegistration implements ResourceRegistration
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractResourceRegistration()
-	{
-	}
+public abstract class AbstractResourceRegistration extends AbstractAnnotableRegistration implements ResourceRegistration {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractResourceRegistration() {}
 
-	@Override
-	final Registrable source()
-	{
-		return this.getResource();
-	}
+  @Override
+  final Registrable source() {
+    return this.getResource();
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(@Nullable final Object o) {
+    if (this == o) {
+      return true;
+    }
 
-		if (!(o instanceof ResourceRegistration))
-		{
-			return false;
-		}
+    if (!(o instanceof ResourceRegistration)) {
+      return false;
+    }
 
-		ResourceRegistration other = (ResourceRegistration) o;
+    ResourceRegistration other = (ResourceRegistration) o;
 
-		return this.getListenerType() == other.getListenerType() && this.getResourceName().equals(other.getResourceName());
-	}
+    return this.getListenerType() == other.getListenerType() && this.getResourceName().equals(other.getResourceName());
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final int hashCode()
-	{
-		return 31 * (31 + this.getListenerType().hashCode()) + this.getResourceName().hashCode();
-	}
-	
-	@Override
-	public final String toString()
-	{
-		return Utilities.toString(this);
-	}
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return 31 * (31 + this.getListenerType().hashCode()) + this.getResourceName().hashCode();
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean isRegistered()
-	{
-		return Resources.isRegistered(this.getListenerType(), this.getResource());
-	}
+  @Override
+  public final String toString() {
+    return Utilities.toString(this);
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final boolean isProvided()
-	{
-		return Services.getResourceService().getResourceProvider().names().contains(this.getResourceName());
-	}
+  /**
+   * {@inheritDoc}
+   */
+  public final boolean isRegistered() {
+    return Resources.isRegistered(this.getListenerType(), this.getResource());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public final boolean isProvided() {
+    return Services.getResourceService().getResourceProvider().names().contains(this.getResourceName());
+  }
 }

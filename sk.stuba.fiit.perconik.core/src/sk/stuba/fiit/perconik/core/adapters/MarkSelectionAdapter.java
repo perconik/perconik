@@ -20,16 +20,11 @@ import sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class MarkSelectionAdapter extends Adapter implements MarkSelectionListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected MarkSelectionAdapter()
-	{
-	}
+public class MarkSelectionAdapter extends Adapter implements MarkSelectionListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected MarkSelectionAdapter() {}
 
-	public void selectionChanged(IWorkbenchPart part, IMarkSelection selection)
-	{
-	}
+  public void selectionChanged(IWorkbenchPart part, IMarkSelection selection) {}
 }

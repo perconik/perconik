@@ -7,74 +7,60 @@ import sk.stuba.fiit.perconik.activity.data.eclipse.BundleData;
 import sk.stuba.fiit.perconik.activity.data.eclipse.PluginData;
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 
-public class CoreData extends PluginData
-{
-	protected String classResolver;
-	
-	protected Set<String> extensionContributors;
-	
-	protected List<BundleData> contributingBundles;
-	
-	protected ResourceServiceData resourceService;
-	
-	protected ListenerServiceData listenerService;
-	
-	public CoreData()
-	{
-	}
+public class CoreData extends PluginData {
+  protected String classResolver;
 
-	protected CoreData(Activator activator)
-	{
-		super(activator);
-	}
+  protected Set<String> extensionContributors;
 
-	public void setClassResolver(String classResolver)
-	{
-		this.classResolver = classResolver;
-	}
+  protected List<BundleData> contributingBundles;
 
-	public void setExtensionContributors(Set<String> extensionContributors)
-	{
-		this.extensionContributors = extensionContributors;
-	}
+  protected ResourceServiceData resourceService;
 
-	public void setContributingBundles(List<BundleData> contributingBundles)
-	{
-		this.contributingBundles = contributingBundles;
-	}
+  protected ListenerServiceData listenerService;
 
-	public void setResourceService(ResourceServiceData resourceService)
-	{
-		this.resourceService = resourceService;
-	}
+  public CoreData() {}
 
-	public void setListenerService(ListenerServiceData listenerService)
-	{
-		this.listenerService = listenerService;
-	}
+  protected CoreData(Activator activator) {
+    super(activator);
+  }
 
-	public String getClassResolver()
-	{
-		return this.classResolver;
-	}
+  public void setClassResolver(String classResolver) {
+    this.classResolver = classResolver;
+  }
 
-	public Set<String> getExtensionContributors()
-	{
-		return this.extensionContributors;
-	}
+  public void setExtensionContributors(Set<String> extensionContributors) {
+    this.extensionContributors = extensionContributors;
+  }
 
-	public List<BundleData> getContributingBundles()
-	{
-		return this.contributingBundles;
-	}
+  public void setContributingBundles(List<BundleData> contributingBundles) {
+    this.contributingBundles = contributingBundles;
+  }
 
-	public ResourceServiceData getResourceService()
-	{
-		return this.resourceService;
-	}
+  public void setResourceService(ResourceServiceData resourceService) {
+    this.resourceService = resourceService;
+  }
 
-	public ListenerServiceData getListenerService()
-	{
-		return this.listenerService;
-	}
+  public void setListenerService(ListenerServiceData listenerService) {
+    this.listenerService = listenerService;
+  }
+
+  public String getClassResolver() {
+    return this.classResolver;
+  }
+
+  public Set<String> getExtensionContributors() {
+    return this.extensionContributors;
+  }
+
+  public List<BundleData> getContributingBundles() {
+    return this.contributingBundles;
+  }
+
+  public ResourceServiceData getResourceService() {
+    return this.resourceService;
+  }
+
+  public ListenerServiceData getListenerService() {
+    return this.listenerService;
+  }
 }

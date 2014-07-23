@@ -21,10 +21,9 @@ import sk.stuba.fiit.perconik.core.Registrable;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Unsafe
-{
-	/**
-	 * Optional description of the unsafe feature.
-	 */
-	String value() default "";
+public @interface Unsafe {
+  /**
+   * Optional description of the unsafe feature.
+   */
+  String value() default "";
 }

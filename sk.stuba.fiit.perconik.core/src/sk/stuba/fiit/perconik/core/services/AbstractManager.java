@@ -9,59 +9,50 @@ import javax.annotation.Nullable;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractManager implements Manager
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected AbstractManager()
-	{
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final boolean equals(@Nullable final Object o)
-	{
-		if (this == o)
-		{
-			return true;
-		}
-		
-		if (!(o instanceof Manager))
-		{
-			return false;
-		}
+public abstract class AbstractManager implements Manager {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractManager() {}
 
-		Manager other = (Manager) o;
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final boolean equals(@Nullable final Object o) {
+    if (this == o) {
+      return true;
+    }
 
-		return this.getName().equals(other.getName());
-	}
+    if (!(o instanceof Manager)) {
+      return false;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final int hashCode()
-	{
-		return this.getName().hashCode();
-	}
-	
-	/**
-	 * Converts provider to manager consisting of its name.
-	 */
-	@Override
-	public final String toString()
-	{
-		return this.getName();
-	}
+    Manager other = (Manager) o;
 
-	/**
-	 * Returns manager name.
-	 */
-	public final String getName()
-	{
-		return this.getClass().getName();
-	}
+    return this.getName().equals(other.getName());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final int hashCode() {
+    return this.getName().hashCode();
+  }
+
+  /**
+   * Converts provider to manager consisting of its name.
+   */
+  @Override
+  public final String toString() {
+    return this.getName();
+  }
+
+  /**
+   * Returns manager name.
+   */
+  public final String getName() {
+    return this.getClass().getName();
+  }
 }

@@ -19,24 +19,15 @@ import sk.stuba.fiit.perconik.core.listeners.PageListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class PageAdapter extends Adapter implements PageListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected PageAdapter()
-	{
-	}
+public class PageAdapter extends Adapter implements PageListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected PageAdapter() {}
 
-	public void pageOpened(IWorkbenchPage page)
-	{
-	}
+  public void pageOpened(IWorkbenchPage page) {}
 
-	public void pageClosed(IWorkbenchPage page)
-	{
-	}
+  public void pageClosed(IWorkbenchPage page) {}
 
-	public void pageActivated(IWorkbenchPage page)
-	{
-	}
+  public void pageActivated(IWorkbenchPage page) {}
 }

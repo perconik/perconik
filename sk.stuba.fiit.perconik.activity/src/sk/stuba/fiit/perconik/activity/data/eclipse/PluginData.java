@@ -4,49 +4,39 @@ import org.eclipse.core.runtime.Plugin;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
 
-public class PluginData extends AnyStructuredData
-{
-	protected BundleData bundle;
-	
-	protected boolean debugMode;
-	
-	public PluginData()
-	{
-	}
+public class PluginData extends AnyStructuredData {
+  protected BundleData bundle;
 
-	protected PluginData(Plugin plugin)
-	{
-		if (plugin == null)
-		{
-			return;
-		}
-		
-		this.setBundle(BundleData.of(plugin.getBundle()));
-		this.setDebugMode(plugin.isDebugging());
-	}
+  protected boolean debugMode;
 
-	public static PluginData of(Plugin plugin)
-	{
-		return new PluginData(plugin);
-	}
+  public PluginData() {}
 
-	public void setBundle(BundleData bundle)
-	{
-		this.bundle = bundle;
-	}
+  protected PluginData(Plugin plugin) {
+    if (plugin == null) {
+      return;
+    }
 
-	public void setDebugMode(boolean debugMode)
-	{
-		this.debugMode = debugMode;
-	}
+    this.setBundle(BundleData.of(plugin.getBundle()));
+    this.setDebugMode(plugin.isDebugging());
+  }
 
-	public BundleData getBundle()
-	{
-		return this.bundle;
-	}
+  public static PluginData of(Plugin plugin) {
+    return new PluginData(plugin);
+  }
 
-	public boolean isDebugMode()
-	{
-		return this.debugMode;
-	}
+  public void setBundle(BundleData bundle) {
+    this.bundle = bundle;
+  }
+
+  public void setDebugMode(boolean debugMode) {
+    this.debugMode = debugMode;
+  }
+
+  public BundleData getBundle() {
+    return this.bundle;
+  }
+
+  public boolean isDebugMode() {
+    return this.debugMode;
+  }
 }

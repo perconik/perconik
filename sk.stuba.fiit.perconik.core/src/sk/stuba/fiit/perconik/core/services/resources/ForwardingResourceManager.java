@@ -22,45 +22,36 @@ import sk.stuba.fiit.perconik.core.services.ForwardingManager;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ForwardingResourceManager extends ForwardingManager implements ResourceManager
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected ForwardingResourceManager()
-	{
-	}
+public abstract class ForwardingResourceManager extends ForwardingManager implements ResourceManager {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected ForwardingResourceManager() {}
 
-	@Override
-	protected abstract ResourceManager delegate(); 
+  @Override
+  protected abstract ResourceManager delegate();
 
-	public <L extends Listener> void register(Class<L> type, Resource<? super L> resource)
-	{
-		this.delegate().register(type, resource);
-	}
+  public <L extends Listener> void register(Class<L> type, Resource<? super L> resource) {
+    this.delegate().register(type, resource);
+  }
 
-	public <L extends Listener> void unregister(Class<L> type, Resource<? super L> resource)
-	{
-		this.delegate().unregister(type, resource);
-	}
+  public <L extends Listener> void unregister(Class<L> type, Resource<? super L> resource) {
+    this.delegate().unregister(type, resource);
+  }
 
-	public <L extends Listener> void unregisterAll(Class<L> type)
-	{
-		this.delegate().unregisterAll(type);
-	}
+  public <L extends Listener> void unregisterAll(Class<L> type) {
+    this.delegate().unregisterAll(type);
+  }
 
-	public <L extends Listener> Set<Resource<? extends L>> assignables(Class<L> type)
-	{
-		return this.delegate().assignables(type);
-	}
+  public <L extends Listener> Set<Resource<? extends L>> assignables(Class<L> type) {
+    return this.delegate().assignables(type);
+  }
 
-	public <L extends Listener> Set<Resource<? super L>> registrables(Class<L> type)
-	{
-		return this.delegate().registrables(type);
-	}
+  public <L extends Listener> Set<Resource<? super L>> registrables(Class<L> type) {
+    return this.delegate().registrables(type);
+  }
 
-	public SetMultimap<Class<? extends Listener>, Resource<?>> registrations()
-	{
-		return this.delegate().registrations();
-	}
+  public SetMultimap<Class<? extends Listener>, Resource<?>> registrations() {
+    return this.delegate().registrations();
+  }
 }

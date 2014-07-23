@@ -14,7 +14,6 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface MarkSelectionListener extends Listener
-{
-	public void selectionChanged(IWorkbenchPart part, IMarkSelection selection);
+public interface MarkSelectionListener extends Listener {
+  public void selectionChanged(IWorkbenchPart part, IMarkSelection selection);
 }

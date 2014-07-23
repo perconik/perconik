@@ -98,1384 +98,1243 @@ import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHi
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 @SuppressWarnings("restriction")
-public final class Debug
-{
-	private Debug()
-	{
-		throw new AssertionError();
-	}
-
-	private static final class ConsoleHolder
-	{
-		static final DebugConsole console = DebugConsole.of(Activator.getDefault().getConsole());
-
-		private ConsoleHolder()
-		{
-			throw new AssertionError();
-		}
-	}
-
-	public static final DebugConsole getDefaultConsole()
-	{
-		return ConsoleHolder.console;
-	}
-
-	private static final DebugConsole console()
-	{
-		return getDefaultConsole();
-	}
-
-	public static final void tab()
-	{
-		console().tab();
-	}
-
-	public static final void untab()
-	{
-		console().untab();
-	}
-
-	public static final void put(@Nullable final String message)
-	{
-		console().put(message);
-	}
-
-	public static final void put(final String format, final Object ... args)
-	{
-		console().put(format, args);
-	}
-
-	public static final void print(@Nullable final String message)
-	{
-		console().print(message);
-	}
-
-	public static final void print(final String format, final Object ... args)
-	{
-		console().print(format, args);
-	}
-
-	public static final void notice(final String message)
-	{
-		console().notice(message);
-	}
-
-	public static final void notice(final String format, Object ... args)
-	{
-		console().notice(format, args);
-	}
-
-	public static final void warning(final String message)
-	{
-		console().warning(message);
-	}
-
-	public static final void warning(final String format, Object ... args)
-	{
-		console().warning(format, args);
-	}
-
-	public static final void error(final String message, final Throwable failure)
-	{
-		console().error(failure, message);
-	}
-
-	private static final SmartStringBuilder builder()
-	{
-		return new SmartStringBuilder().tab();
-	}
-
-	private static final String missing()
-	{
-		return builder().appendln("missing").toString();
-	}
-
-	public static final String dumpHeader(final String title)
-	{
-		SmartStringBuilder builder = new SmartStringBuilder();
-
-		builder.appendln().appendln(dumpTime()).appendln();
-		builder.format("%s:", title).appendln();
-
-		return builder.toString();
-	}
+public final class Debug {
+  private Debug() {
+    throw new AssertionError();
+  }
 
-	public static final String dumpClass(final Class<?> type)
-	{
-		String name = type.getCanonicalName();
+  private static final class ConsoleHolder {
+    static final DebugConsole console = DebugConsole.of(Activator.getDefault().getConsole());
 
-		if (name != null)
-		{
-			return name;
-		}
+    private ConsoleHolder() {
+      throw new AssertionError();
+    }
+  }
 
-		return type.getName();
-	}
+  public static final DebugConsole getDefaultConsole() {
+    return ConsoleHolder.console;
+  }
 
-	public static final String dumpBlock(final Object key, @Nullable final Object value)
-	{
-		SmartStringBuilder builder = builder();
+  private static final DebugConsole console() {
+    return getDefaultConsole();
+  }
 
-		return builder.append(key).appendln(':').lines(value).toString();
-	}
+  public static final void tab() {
+    console().tab();
+  }
 
-	public static final String dumpLine(final Object key, @Nullable final Object value)
-	{
-		SmartStringBuilder builder = builder();
+  public static final void untab() {
+    console().untab();
+  }
 
-		return builder.append(key).append(": ").appendln(value).toString();
-	}
+  public static final void put(@Nullable final String message) {
+    console().put(message);
+  }
 
-	public static final String dumpTime()
-	{
-		return dumpTime(new Date());
-	}
+  public static final void put(final String format, final Object ... args) {
+    console().put(format, args);
+  }
 
-	public static final String dumpTime(final Date date)
-	{
-		return TimeUtilities.format(date);
-	}
+  public static final void print(@Nullable final String message) {
+    console().print(message);
+  }
 
-	private static final class TimeUtilities
-	{
-		private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  public static final void print(final String format, final Object ... args) {
+    console().print(format, args);
+  }
 
-		static synchronized final String format(final Date date)
-		{
-			return formatter.format(date);
-		}
-	}
+  public static final void notice(final String message) {
+    console().notice(message);
+  }
 
-	public static final String dumpCategory(final Category category) throws NotDefinedException
-	{
-		SmartStringBuilder builder = builder();
+  public static final void notice(final String format, Object ... args) {
+    console().notice(format, args);
+  }
 
-		Class<?> type = category.getClass();
-		String   id   = category.getId();
+  public static final void warning(final String message) {
+    console().warning(message);
+  }
 
-		String   name        = null;
-		String   description = null;
+  public static final void warning(final String format, Object ... args) {
+    console().warning(format, args);
+  }
 
-		boolean defined = category.isDefined();
+  public static final void error(final String message, final Throwable failure) {
+    console().error(failure, message);
+  }
 
-		if (defined)
-		{
-			name        = category.getName();
-			description = category.getDescription();
-		}
+  private static final SmartStringBuilder builder() {
+    return new SmartStringBuilder().tab();
+  }
 
-		builder.append("class: ").appendln(type);
-		builder.append("identifier: ").appendln(id);
+  private static final String missing() {
+    return builder().appendln("missing").toString();
+  }
 
-		builder.append("name: ").appendln(name);
-		builder.append("description: ").appendln(description);
+  public static final String dumpHeader(final String title) {
+    SmartStringBuilder builder = new SmartStringBuilder();
 
-		builder.append("defined: ").appendln(defined);
+    builder.appendln().appendln(dumpTime()).appendln();
+    builder.format("%s:", title).appendln();
 
-		return builder.toString();
-	}
+    return builder.toString();
+  }
 
-	public static final String dumpCommand(final Command command) throws NotDefinedException, ParameterValuesException
-	{
-		SmartStringBuilder builder = builder();
+  public static final String dumpClass(final Class<?> type) {
+    String name = type.getCanonicalName();
 
-		Class<?> type = command.getClass();
-		String   id   = command.getId();
+    if (name != null) {
+      return name;
+    }
 
-		String name        = null;
-		String description = null;
+    return type.getName();
+  }
 
-		Category category = null;
+  public static final String dumpBlock(final Object key, @Nullable final Object value) {
+    SmartStringBuilder builder = builder();
 
-		IParameter[]  parameters = null;
-		ParameterType returnType = null;
+    return builder.append(key).appendln(':').lines(value).toString();
+  }
 
-		String[] stateIds = command.getStateIds();
+  public static final String dumpLine(final Object key, @Nullable final Object value) {
+    SmartStringBuilder builder = builder();
 
-		boolean defined = command.isDefined();
-		boolean enabled = command.isEnabled();
-		boolean handled = command.isHandled();
+    return builder.append(key).append(": ").appendln(value).toString();
+  }
 
-		if (defined)
-		{
-			name        = command.getName();
-			description = command.getDescription();
+  public static final String dumpTime() {
+    return dumpTime(new Date());
+  }
 
-			category = command.getCategory();
+  public static final String dumpTime(final Date date) {
+    return TimeUtilities.format(date);
+  }
 
-			parameters = command.getParameters();
-			returnType = command.getReturnType();
-		}
+  private static final class TimeUtilities {
+    private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("identifier: ").appendln(id);
+    static synchronized final String format(final Date date) {
+      return formatter.format(date);
+    }
+  }
 
-		builder.append("name: ").appendln(name);
-		builder.append("description: ").appendln(description);
+  public static final String dumpCategory(final Category category) throws NotDefinedException {
+    SmartStringBuilder builder = builder();
 
-		builder.appendln("category:").lines(category == null ? missing() : dumpCategory(category));
+    Class<?> type = category.getClass();
+    String id = category.getId();
 
-		if (parameters == null)
-		{
-			parameters = new IParameter[0];
-		}
+    String name = null;
+    String description = null;
 
-		builder.appendln("parameters:").lines(dumpParameters(parameters));
-		builder.append("return type: ").appendln(returnType);
+    boolean defined = category.isDefined();
 
-		builder.appendln("states:").tab();
+    if (defined) {
+      name = category.getName();
+      description = category.getDescription();
+    }
 
-		if (stateIds.length != 0)
-		{
-			for (String stateId: stateIds)
-			{
-				State state = command.getState(stateId);
+    builder.append("class: ").appendln(type);
+    builder.append("identifier: ").appendln(id);
 
-				builder.append(state.getId()).append(": ").appendln(state.getValue());
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+    builder.append("name: ").appendln(name);
+    builder.append("description: ").appendln(description);
 
-		builder.untab();
+    builder.append("defined: ").appendln(defined);
 
-		builder.append("defined: ").appendln(defined);
-		builder.append("enabled: ").appendln(enabled);
-		builder.append("handled: ").appendln(handled);
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpCommand(final Command command) throws NotDefinedException, ParameterValuesException {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpCommandEvent(final CommandEvent event) throws NotDefinedException, ParameterValuesException
-	{
-		SmartStringBuilder builder = builder();
+    Class<?> type = command.getClass();
+    String id = command.getId();
 
-		Command command = event.getCommand();
+    String name = null;
+    String description = null;
 
-		boolean nameChanged        = event.isNameChanged();
-		boolean categoryChanged    = event.isCategoryChanged();
-		boolean descriptionChanged = event.isDescriptionChanged();
+    Category category = null;
 
-		boolean definedChanged = event.isDefinedChanged();
-		boolean enabledChanged = event.isEnabledChanged();
-		boolean handledChanged = event.isHandledChanged();
+    IParameter[] parameters = null;
+    ParameterType returnType = null;
 
-		boolean parametersChanged = event.isParametersChanged();
-		boolean returnTypeChanged = event.isReturnTypeChanged();
+    String[] stateIds = command.getStateIds();
 
-		boolean helpContextIdChanged = event.isHelpContextIdChanged();
+    boolean defined = command.isDefined();
+    boolean enabled = command.isEnabled();
+    boolean handled = command.isHandled();
 
-		builder.appendln("command:").lines(dumpCommand(command));
+    if (defined) {
+      name = command.getName();
+      description = command.getDescription();
 
-		builder.append("name changed: ").appendln(nameChanged);
-		builder.append("category changed: ").appendln(categoryChanged);
-		builder.append("description changed: ").appendln(descriptionChanged);
+      category = command.getCategory();
 
-		builder.append("defined changed: ").appendln(definedChanged);
-		builder.append("enabled changed: ").appendln(enabledChanged);
-		builder.append("handled changed: ").appendln(handledChanged);
+      parameters = command.getParameters();
+      returnType = command.getReturnType();
+    }
 
-		builder.append("parameters changed: ").appendln(parametersChanged);
-		builder.append("return type changed: ").appendln(returnTypeChanged);
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("identifier: ").appendln(id);
 
-		builder.append("help context identifier changed: ").appendln(helpContextIdChanged);
+    builder.append("name: ").appendln(name);
+    builder.append("description: ").appendln(description);
 
-		return builder.toString();
-	}
+    builder.appendln("category:").lines(category == null ? missing() : dumpCategory(category));
 
-	public static final String dumpCommandManagerEvent(final CommandManagerEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    if (parameters == null) {
+      parameters = new IParameter[0];
+    }
 
-		String  commandId      = event.getCommandId();
-		boolean commandDefined = event.isCommandDefined();
-		boolean commandChanged = event.isCommandChanged();
+    builder.appendln("parameters:").lines(dumpParameters(parameters));
+    builder.append("return type: ").appendln(returnType);
 
-		String  categoryId      = event.getCategoryId();
-		boolean categoryDefined = event.isCategoryDefined();
-		boolean categoryChanged = event.isCategoryChanged();
+    builder.appendln("states:").tab();
 
-		String  parameterTypeId      = event.getParameterTypeId();
-		boolean parameterTypeDefined = event.isParameterTypeDefined();
-		boolean parameterTypeChanged = event.isParameterTypeChanged();
+    if (stateIds.length != 0) {
+      for (String stateId: stateIds) {
+        State state = command.getState(stateId);
 
-		builder.appendln("command:").tab();
+        builder.append(state.getId()).append(": ").appendln(state.getValue());
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		builder.append("identifier: ").appendln(commandId);
-		builder.append("defined: ").appendln(commandDefined);
-		builder.append("changed: ").appendln(commandChanged);
+    builder.untab();
 
-		builder.untab().appendln("category:").tab();
+    builder.append("defined: ").appendln(defined);
+    builder.append("enabled: ").appendln(enabled);
+    builder.append("handled: ").appendln(handled);
 
-		builder.append("identifier: ").appendln(categoryId);
-		builder.append("defined: ").appendln(categoryDefined);
-		builder.append("changed: ").appendln(categoryChanged);
+    return builder.toString();
+  }
 
-		builder.untab().appendln("parameter type:").tab();
+  public static final String dumpCommandEvent(final CommandEvent event) throws NotDefinedException, ParameterValuesException {
+    SmartStringBuilder builder = builder();
 
-		builder.append("identifier: ").appendln(parameterTypeId);
-		builder.append("defined: ").appendln(parameterTypeDefined);
-		builder.append("changed: ").appendln(parameterTypeChanged);
+    Command command = event.getCommand();
 
-		return builder.toString();
-	}
+    boolean nameChanged = event.isNameChanged();
+    boolean categoryChanged = event.isCategoryChanged();
+    boolean descriptionChanged = event.isDescriptionChanged();
 
-	public static final String dumpCompliationUnit(final CompilationUnit unit)
-	{
-		SmartStringBuilder builder = builder();
+    boolean definedChanged = event.isDefinedChanged();
+    boolean enabledChanged = event.isEnabledChanged();
+    boolean handledChanged = event.isHandledChanged();
 
-		NodeType type = NodeType.valueOf(unit.getNodeType());
+    boolean parametersChanged = event.isParametersChanged();
+    boolean returnTypeChanged = event.isReturnTypeChanged();
 
-		Set<NodeFlag> flags = NodeFlag.setOf(unit.getFlags());
+    boolean helpContextIdChanged = event.isHelpContextIdChanged();
 
-		int startPosition = unit.getStartPosition();
-		int length        = unit.getLength();
+    builder.appendln("command:").lines(dumpCommand(command));
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    builder.append("name changed: ").appendln(nameChanged);
+    builder.append("category changed: ").appendln(categoryChanged);
+    builder.append("description changed: ").appendln(descriptionChanged);
 
-		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+    builder.append("defined changed: ").appendln(definedChanged);
+    builder.append("enabled changed: ").appendln(enabledChanged);
+    builder.append("handled changed: ").appendln(handledChanged);
 
-		builder.append("start position: ").appendln(startPosition);
-		builder.append("length: ").appendln(length);
+    builder.append("parameters changed: ").appendln(parametersChanged);
+    builder.append("return type changed: ").appendln(returnTypeChanged);
 
-		return builder.toString();
-	}
+    builder.append("help context identifier changed: ").appendln(helpContextIdChanged);
 
-	public static final String dumpCompletionProposal(final ICompletionProposal proposal)
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		String displayString  = proposal.getDisplayString();
-		String additionalInfo = proposal.getAdditionalProposalInfo();
+  public static final String dumpCommandManagerEvent(final CommandManagerEvent event) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("display string: ").appendln(displayString);
-		builder.append("additional info: ").append(additionalInfo.length()).appendln(" characters");
+    String commandId = event.getCommandId();
+    boolean commandDefined = event.isCommandDefined();
+    boolean commandChanged = event.isCommandChanged();
 
-		return builder.toString();
-	}
+    String categoryId = event.getCategoryId();
+    boolean categoryDefined = event.isCategoryDefined();
+    boolean categoryChanged = event.isCategoryChanged();
 
-	public static final String dumpContentAssistEvent(final ContentAssistEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    String parameterTypeId = event.getParameterTypeId();
+    boolean parameterTypeDefined = event.isParameterTypeDefined();
+    boolean parameterTypeChanged = event.isParameterTypeChanged();
 
-		boolean autoActivated = event.isAutoActivated;
+    builder.appendln("command:").tab();
 
-		builder.append("auto activated: ").appendln(autoActivated);
+    builder.append("identifier: ").appendln(commandId);
+    builder.append("defined: ").appendln(commandDefined);
+    builder.append("changed: ").appendln(commandChanged);
 
-		return builder.toString();
-	}
+    builder.untab().appendln("category:").tab();
 
-	public static final String dumpDebugEvent(final DebugEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("identifier: ").appendln(categoryId);
+    builder.append("defined: ").appendln(categoryDefined);
+    builder.append("changed: ").appendln(categoryChanged);
 
-		Object data = event.getData();
+    builder.untab().appendln("parameter type:").tab();
 
-		Set<DebugEventKind>   kinds   = DebugEventKind.setOf(event.getKind());
-		Set<DebugEventDetail> details = DebugEventDetail.setOf(event.getDetail());
+    builder.append("identifier: ").appendln(parameterTypeId);
+    builder.append("defined: ").appendln(parameterTypeDefined);
+    builder.append("changed: ").appendln(parameterTypeChanged);
 
-		boolean evaluation = event.isEvaluation();
-		boolean stepStart  = event.isStepStart();
+    return builder.toString();
+  }
 
-		builder.append("data: ").appendln(data);
+  public static final String dumpCompliationUnit(final CompilationUnit unit) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("kinds: ").list(kinds.isEmpty() ? Arrays.asList("none") : kinds).appendln();
-		builder.append("details: ").list(details.isEmpty() ? Arrays.asList("none") : details).appendln();
+    NodeType type = NodeType.valueOf(unit.getNodeType());
 
-		builder.append("evaluation: ").appendln(evaluation);
-		builder.append("step start: ").appendln(stepStart);
+    Set<NodeFlag> flags = NodeFlag.setOf(unit.getFlags());
 
-		return builder.toString();
-	}
+    int startPosition = unit.getStartPosition();
+    int length = unit.getLength();
 
-	public static final String dumpDebugEvents(final DebugEvent[] events)
-	{
-		SmartStringBuilder builder = builder();
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-		if (events.length != 0)
-		{
-			for (int i = 0; i < events.length; i ++)
-			{
-				builder.format("event %d:", i);
-				builder.lines(dumpDebugEvent(events[i]));
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+    builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
 
-		return builder.toString();
-	}
+    builder.append("start position: ").appendln(startPosition);
+    builder.append("length: ").appendln(length);
 
-	public static final String dumpDocument(final IDocument document)
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		int length = document.getLength();
-		int lines  = document.getNumberOfLines();
+  public static final String dumpCompletionProposal(final ICompletionProposal proposal) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("length: ").appendln(length);
-		builder.append("lines: ").appendln(lines);
+    String displayString = proposal.getDisplayString();
+    String additionalInfo = proposal.getAdditionalProposalInfo();
 
-		return builder.toString();
-	}
+    builder.append("display string: ").appendln(displayString);
+    builder.append("additional info: ").append(additionalInfo.length()).appendln(" characters");
 
-	public static final String dumpDocumentEvent(final DocumentEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		IDocument document = event.getDocument();
+  public static final String dumpContentAssistEvent(final ContentAssistEvent event) {
+    SmartStringBuilder builder = builder();
 
-		int offset = event.getOffset();
-		int length = event.getLength();
+    boolean autoActivated = event.isAutoActivated;
 
-		String text = event.getText();
+    builder.append("auto activated: ").appendln(autoActivated);
 
-		long modificationStamp = event.getModificationStamp();
+    return builder.toString();
+  }
 
-		builder.appendln("document:").lines(dumpDocument(document));
+  public static final String dumpDebugEvent(final DebugEvent event) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("offset: ").appendln(offset);
-		builder.append("length: ").appendln(length);
+    Object data = event.getData();
 
-		builder.append("text: \"").append(text).appendln("\"");
+    Set<DebugEventKind> kinds = DebugEventKind.setOf(event.getKind());
+    Set<DebugEventDetail> details = DebugEventDetail.setOf(event.getDetail());
 
-		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
+    boolean evaluation = event.isEvaluation();
+    boolean stepStart = event.isStepStart();
 
-		return builder.toString();
-	}
+    builder.append("data: ").appendln(data);
 
-	public static final String dumpEditor(final IEditorPart part)
-	{
-		return dumpPart(part);
-	}
+    builder.append("kinds: ").list(kinds.isEmpty() ? Arrays.asList("none") : kinds).appendln();
+    builder.append("details: ").list(details.isEmpty() ? Arrays.asList("none") : details).appendln();
 
-	public static final String dumpEditorReference(final IEditorReference reference)
-	{
-		return dumpPartReference(reference);
-	}
+    builder.append("evaluation: ").appendln(evaluation);
+    builder.append("step start: ").appendln(stepStart);
 
-	public static final String dumpExecutionEvent(final ExecutionEvent event) throws NotDefinedException, ParameterValuesException
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		Command command = event.getCommand();
+  public static final String dumpDebugEvents(final DebugEvent[] events) {
+    SmartStringBuilder builder = builder();
 
-		Map<?, ?> parameters = event.getParameters();
+    if (events.length != 0) {
+      for (int i = 0; i < events.length; i++) {
+        builder.format("event %d:", i);
+        builder.lines(dumpDebugEvent(events[i]));
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		builder.appendln("command:").lines(dumpCommand(command));
-		builder.appendln("parameters:").tab();
+    return builder.toString();
+  }
 
-		if (!parameters.isEmpty())
-		{
-			for (Entry<?, ?> entry: parameters.entrySet())
-			{
-				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+  public static final String dumpDocument(final IDocument document) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    int length = document.getLength();
+    int lines = document.getNumberOfLines();
 
-	public static final String dumpFileBuffer(final IFileBuffer buffer)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("length: ").appendln(length);
+    builder.append("lines: ").appendln(lines);
 
-		IPath   location = buffer.getLocation();
-		IStatus status   = buffer.getStatus();
+    return builder.toString();
+  }
 
-		long modificationStamp = buffer.getModificationStamp();
+  public static final String dumpDocumentEvent(final DocumentEvent event) {
+    SmartStringBuilder builder = builder();
 
-		boolean commitable     = buffer.isCommitable();
-		boolean dirty          = buffer.isDirty();
-		boolean shared         = buffer.isShared();
-		boolean stateValidated = buffer.isStateValidated();
+    IDocument document = event.getDocument();
 
-		boolean synchronizationContextRequested = buffer.isSynchronizationContextRequested();
-		boolean synchronizedWithFileSystem      = buffer.isSynchronized();
+    int offset = event.getOffset();
+    int length = event.getLength();
 
-		builder.append("location: ").appendln(location);
+    String text = event.getText();
 
-		if (status != null)
-		{
-			builder.appendln("status:").lines(dumpStatus(status));
-		}
+    long modificationStamp = event.getModificationStamp();
 
-		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
+    builder.appendln("document:").lines(dumpDocument(document));
 
-		builder.append("commitable: ").appendln(commitable);
-		builder.append("dirty: ").appendln(dirty);
-		builder.append("shared: ").appendln(shared);
-		builder.append("state validated: ").appendln(stateValidated);
+    builder.append("offset: ").appendln(offset);
+    builder.append("length: ").appendln(length);
 
-		builder.append("synchronization context requested: ").appendln(synchronizationContextRequested);
-		builder.append("synchronized with file system: ").appendln(synchronizedWithFileSystem);
+    builder.append("text: \"").append(text).appendln("\"");
 
-		return builder.toString();
-	}
+    builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
 
-	public static final String dumpGitConfigurationEvent(final ConfigChangedEvent event)
-	{
-		return dumpGitRepositoryEvent(event);
-	}
+    return builder.toString();
+  }
 
-	public static final String dumpGitIndexEvent(final IndexChangedEvent event)
-	{
-		return dumpGitRepositoryEvent(event);
-	}
+  public static final String dumpEditor(final IEditorPart part) {
+    return dumpPart(part);
+  }
 
-	public static final String dumpGitReferenceEvent(final RefsChangedEvent event)
-	{
-		return dumpGitRepositoryEvent(event);
-	}
+  public static final String dumpEditorReference(final IEditorReference reference) {
+    return dumpPartReference(reference);
+  }
 
-	public static final String dumpGitRepository(final Repository repository)
-	{
-		SmartStringBuilder builder = builder();
+  public static final String dumpExecutionEvent(final ExecutionEvent event) throws NotDefinedException, ParameterValuesException {
+    SmartStringBuilder builder = builder();
 
-		File directory = repository.getDirectory();
-		File indexFile = repository.getIndexFile();
-		File workTree  = repository.getWorkTree();
+    Command command = event.getCommand();
 
-		String branch     = null;
-		String fullBranch = null;
+    Map<?, ?> parameters = event.getParameters();
 
-		RepositoryState state = repository.getRepositoryState();
+    builder.appendln("command:").lines(dumpCommand(command));
+    builder.appendln("parameters:").tab();
 
-		boolean bare = repository.isBare();
+    if (!parameters.isEmpty()) {
+      for (Entry<?, ?> entry: parameters.entrySet()) {
+        builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		try
-		{
-			branch = repository.getBranch();
-		}
-		catch (IOException e)
-		{
-			branch = "?";
-		}
+    return builder.toString();
+  }
 
-		try
-		{
-			fullBranch = repository.getFullBranch();
-		}
-		catch (IOException e)
-		{
-			fullBranch = "?";
-		}
+  public static final String dumpFileBuffer(final IFileBuffer buffer) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("directory: ").appendln(directory);
-		builder.append("index file: ").appendln(indexFile);
-		builder.append("work tree: ").appendln(workTree);
+    IPath location = buffer.getLocation();
+    IStatus status = buffer.getStatus();
 
-		builder.append("branch: ").append(branch).append(" (full ").append(fullBranch).appendln(")");
+    long modificationStamp = buffer.getModificationStamp();
 
-		builder.appendln("state:").lines(dumpGitRepositoryState(state));
+    boolean commitable = buffer.isCommitable();
+    boolean dirty = buffer.isDirty();
+    boolean shared = buffer.isShared();
+    boolean stateValidated = buffer.isStateValidated();
 
-		builder.append("bare: ").appendln(bare);
+    boolean synchronizationContextRequested = buffer.isSynchronizationContextRequested();
+    boolean synchronizedWithFileSystem = buffer.isSynchronized();
 
-		return builder.toString();
-	}
+    builder.append("location: ").appendln(location);
 
-	public static final String dumpGitRepositoryEvent(final RepositoryEvent<?> event)
-	{
-		SmartStringBuilder builder = builder();
+    if (status != null) {
+      builder.appendln("status:").lines(dumpStatus(status));
+    }
 
-		Class<? extends RepositoryListener> type = event.getListenerType();
+    builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
 
-		Repository repository = event.getRepository();
+    builder.append("commitable: ").appendln(commitable);
+    builder.append("dirty: ").appendln(dirty);
+    builder.append("shared: ").appendln(shared);
+    builder.append("state validated: ").appendln(stateValidated);
 
-		builder.append("listener type: ").appendln(dumpClass(type));
-		builder.appendln("repository:").lines(dumpGitRepository(repository));
+    builder.append("synchronization context requested: ").appendln(synchronizationContextRequested);
+    builder.append("synchronized with file system: ").appendln(synchronizedWithFileSystem);
 
-		return builder.toString();
-	}
+    return builder.toString();
+  }
 
-	public static final String dumpGitRepositoryMapping(final RepositoryMapping mapping)
-	{
-		SmartStringBuilder builder = builder();
+  public static final String dumpGitConfigurationEvent(final ConfigChangedEvent event) {
+    return dumpGitRepositoryEvent(event);
+  }
 
-		Repository repository = mapping.getRepository();
+  public static final String dumpGitIndexEvent(final IndexChangedEvent event) {
+    return dumpGitRepositoryEvent(event);
+  }
 
-		builder.appendln("repository:").lines(dumpGitRepository(repository));
+  public static final String dumpGitReferenceEvent(final RefsChangedEvent event) {
+    return dumpGitRepositoryEvent(event);
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpGitRepository(final Repository repository) {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpGitRepositoryState(final RepositoryState state)
-	{
-		SmartStringBuilder builder = builder();
+    File directory = repository.getDirectory();
+    File indexFile = repository.getIndexFile();
+    File workTree = repository.getWorkTree();
 
-		String value       = state.toString();
-		String description = state.getDescription();
+    String branch = null;
+    String fullBranch = null;
 
-		boolean amend     = state.canAmend();
-		boolean checkout  = state.canCheckout();
-		boolean commit    = state.canCommit();
-		boolean resetHead = state.canResetHead();
+    RepositoryState state = repository.getRepositoryState();
 
-		builder.append("value: ").appendln(value);
-		builder.append("description: ").appendln(description);
+    boolean bare = repository.isBare();
 
-		builder.append("can amend: ").appendln(amend);
-		builder.append("can checkout: ").appendln(checkout);
-		builder.append("can commit: ").appendln(commit);
-		builder.append("can reset head: ").appendln(resetHead);
+    try {
+      branch = repository.getBranch();
+    } catch (IOException e) {
+      branch = "?";
+    }
 
-		return builder.toString();
-	}
+    try {
+      fullBranch = repository.getFullBranch();
+    } catch (IOException e) {
+      fullBranch = "?";
+    }
 
-	public static final String dumpJavaElement(final IJavaElement element)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("directory: ").appendln(directory);
+    builder.append("index file: ").appendln(indexFile);
+    builder.append("work tree: ").appendln(workTree);
 
-		JavaElementType type = JavaElementType.valueOf(element.getElementType());
+    builder.append("branch: ").append(branch).append(" (full ").append(fullBranch).appendln(")");
 
-		String name = element.getElementName();
-		IPath  path = element.getPath();
+    builder.appendln("state:").lines(dumpGitRepositoryState(state));
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    builder.append("bare: ").appendln(bare);
 
-		builder.append("name: ").appendln(name);
-		builder.append("path: ").appendln(path);
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpGitRepositoryEvent(final RepositoryEvent<?> event) {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpJavaElementChangeEvent(final ElementChangedEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    Class<? extends RepositoryListener> type = event.getListenerType();
 
-		JavaElementEventType type = JavaElementEventType.valueOf(event.getType());
+    Repository repository = event.getRepository();
 
-		IJavaElementDelta delta = event.getDelta();
+    builder.append("listener type: ").appendln(dumpClass(type));
+    builder.appendln("repository:").lines(dumpGitRepository(repository));
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    return builder.toString();
+  }
 
-		builder.appendln("delta:").lines(delta == null ? missing() : dumpJavaElementDelta(delta));
+  public static final String dumpGitRepositoryMapping(final RepositoryMapping mapping) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    Repository repository = mapping.getRepository();
 
-	public static final String dumpJavaElementDelta(final IJavaElementDelta delta)
-	{
-		SmartStringBuilder builder = builder();
+    builder.appendln("repository:").lines(dumpGitRepository(repository));
 
-		JavaElementDeltaKind      kind  = JavaElementDeltaKind.valueOf(delta.getKind());
-		Set<JavaElementDeltaFlag> flags = JavaElementDeltaFlag.setOf(delta.getFlags());
+    return builder.toString();
+  }
 
-		CompilationUnit unit    = delta.getCompilationUnitAST();
-		IJavaElement    element = delta.getElement();
+  public static final String dumpGitRepositoryState(final RepositoryState state) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("kind: ").appendln(kind);
-		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+    String value = state.toString();
+    String description = state.getDescription();
 
-		builder.appendln("unit:").lines(unit == null ? missing() : dumpCompliationUnit(unit));
-		builder.appendln("element:").lines(element == null ? missing() : dumpJavaElement(element));
+    boolean amend = state.canAmend();
+    boolean checkout = state.canCheckout();
+    boolean commit = state.canCommit();
+    boolean resetHead = state.canResetHead();
 
-		return builder.toString();
-	}
+    builder.append("value: ").appendln(value);
+    builder.append("description: ").appendln(description);
 
-	public static final String dumpJavaProject(final IJavaProject project)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("can amend: ").appendln(amend);
+    builder.append("can checkout: ").appendln(checkout);
+    builder.append("can commit: ").appendln(commit);
+    builder.append("can reset head: ").appendln(resetHead);
 
-		String name = project.getElementName();
+    return builder.toString();
+  }
 
-		IPath path = project.getPath();
+  public static final String dumpJavaElement(final IJavaElement element) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("name: ").appendln(name);
-		builder.append("path: ").appendln(path);
+    JavaElementType type = JavaElementType.valueOf(element.getElementType());
 
-		return builder.toString();
-	}
+    String name = element.getElementName();
+    IPath path = element.getPath();
 
-	public static final String dumpLaunch(final ILaunch launch) throws CoreException
-	{
-		SmartStringBuilder builder = builder();
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-		ILaunchConfiguration configuration = launch.getLaunchConfiguration();
+    builder.append("name: ").appendln(name);
+    builder.append("path: ").appendln(path);
 
-		String  mode = launch.getLaunchMode();
+    return builder.toString();
+  }
 
-		builder.append("mode: ").appendln(mode);
-		builder.appendln("configuration:").lines(dumpLaunchConfiguration(configuration));
+  public static final String dumpJavaElementChangeEvent(final ElementChangedEvent event) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    JavaElementEventType type = JavaElementEventType.valueOf(event.getType());
 
-	public static final String dumpLaunches(final ILaunch[] launches) throws CoreException
-	{
-		SmartStringBuilder builder = builder();
+    IJavaElementDelta delta = event.getDelta();
 
-		if (launches.length != 0)
-		{
-			for (int i = 0; i < launches.length; i ++)
-			{
-				builder.format("launch %d:", i);
-				builder.lines(dumpLaunch(launches[i]));
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-		return builder.toString();
-	}
+    builder.appendln("delta:").lines(delta == null ? missing() : dumpJavaElementDelta(delta));
 
-	public static final String dumpLaunchConfiguration(final ILaunchConfiguration configuration) throws CoreException
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		ILaunchConfigurationType type = configuration.getType();
-		IFile file = configuration.getFile();
+  public static final String dumpJavaElementDelta(final IJavaElementDelta delta) {
+    SmartStringBuilder builder = builder();
 
-		String      name     = configuration.getName();
-		String      category = configuration.getCategory();
-		Set<String> modes    = configuration.getModes();
+    JavaElementDeltaKind kind = JavaElementDeltaKind.valueOf(delta.getKind());
+    Set<JavaElementDeltaFlag> flags = JavaElementDeltaFlag.setOf(delta.getFlags());
 
-		Map<String, Object> attributes = configuration.getAttributes();
+    CompilationUnit unit = delta.getCompilationUnitAST();
+    IJavaElement element = delta.getElement();
 
-		builder.append("name: ").appendln(name);
-		builder.append("category: ").appendln(category);
-		builder.appendln("type:").lines(dumpLaunchConfigurationType(type));
-		builder.append("modes: ").list(modes.isEmpty() ? Arrays.asList("none") : modes).appendln();
+    builder.append("kind: ").appendln(kind);
+    builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
 
-		if (file != null)
-		{
-			builder.append("full path: ").appendln(file.getFullPath());
-			builder.append("location: ").appendln(file.getLocation());
-		}
+    builder.appendln("unit:").lines(unit == null ? missing() : dumpCompliationUnit(unit));
+    builder.appendln("element:").lines(element == null ? missing() : dumpJavaElement(element));
 
-		builder.appendln("attributes:").tab();
+    return builder.toString();
+  }
 
-		if (!attributes.isEmpty())
-		{
-			for (Entry<String, Object> entry: attributes.entrySet())
-			{
-				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+  public static final String dumpJavaProject(final IJavaProject project) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    String name = project.getElementName();
 
-	public static final String dumpLaunchConfigurationType(final ILaunchConfigurationType type)
-	{
-		SmartStringBuilder builder = builder();
+    IPath path = project.getPath();
 
-		String name             = type.getName();
-		String category         = type.getCategory();
-		String identifier       = type.getIdentifier();
-		String pluginIdentifier = type.getPluginIdentifier();
-		String contributorName  = type.getContributorName();
+    builder.append("name: ").appendln(name);
+    builder.append("path: ").appendln(path);
 
-		builder.append("name: ").appendln(name);
-		builder.append("category: ").appendln(category);
-		builder.append("identifier: ").appendln(identifier);
-		builder.append("plugin identifier: ").appendln(pluginIdentifier);
-		builder.append("contributor name: ").appendln(contributorName);
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpLaunch(final ILaunch launch) throws CoreException {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpMarkSelection(final IMarkSelection selection)
-	{
-		SmartStringBuilder builder = builder();
+    ILaunchConfiguration configuration = launch.getLaunchConfiguration();
 
-		boolean empty = selection.isEmpty();
+    String mode = launch.getLaunchMode();
 
-		int offset = selection.getOffset();
-		int length = selection.getLength();
+    builder.append("mode: ").appendln(mode);
+    builder.appendln("configuration:").lines(dumpLaunchConfiguration(configuration));
 
-		builder.appendln("category: mark");
+    return builder.toString();
+  }
 
-		builder.append("empty: ").appendln(empty);
+  public static final String dumpLaunches(final ILaunch[] launches) throws CoreException {
+    SmartStringBuilder builder = builder();
 
-		builder.append("offset: ").appendln(offset);
-		builder.append("length: ").appendln(length);
+    if (launches.length != 0) {
+      for (int i = 0; i < launches.length; i++) {
+        builder.format("launch %d:", i);
+        builder.lines(dumpLaunch(launches[i]));
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		return builder.toString();
-	}
+    return builder.toString();
+  }
 
-	public static final String dumpOperationHistoryEvent(final OperationHistoryEvent event)
-	{
-		SmartStringBuilder builder = builder();
+  public static final String dumpLaunchConfiguration(final ILaunchConfiguration configuration) throws CoreException {
+    SmartStringBuilder builder = builder();
 
-		IUndoableOperation operation = event.getOperation();
-		IStatus            status    = event.getStatus();
+    ILaunchConfigurationType type = configuration.getType();
+    IFile file = configuration.getFile();
 
-		OperationHistoryEventType type = OperationHistoryEventType.valueOf(event.getEventType());
+    String name = configuration.getName();
+    String category = configuration.getCategory();
+    Set<String> modes = configuration.getModes();
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    Map<String, Object> attributes = configuration.getAttributes();
 
-		builder.appendln("operation:").lines(dumpUndoableOperation(operation));
+    builder.append("name: ").appendln(name);
+    builder.append("category: ").appendln(category);
+    builder.appendln("type:").lines(dumpLaunchConfigurationType(type));
+    builder.append("modes: ").list(modes.isEmpty() ? Arrays.asList("none") : modes).appendln();
 
-		if (status != null)
-		{
-			builder.appendln("status:").lines(dumpStatus(status));
-		}
+    if (file != null) {
+      builder.append("full path: ").appendln(file.getFullPath());
+      builder.append("location: ").appendln(file.getLocation());
+    }
 
-		return builder.toString();
-	}
+    builder.appendln("attributes:").tab();
 
-	public static final String dumpPage(final IWorkbenchPage page)
-	{
-		SmartStringBuilder builder = builder();
+    if (!attributes.isEmpty()) {
+      for (Entry<String, Object> entry: attributes.entrySet()) {
+        builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		Class<?> type  = page.getClass();
-		String   label = page.getLabel();
+    return builder.toString();
+  }
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("label: ").appendln(label);
+  public static final String dumpLaunchConfigurationType(final ILaunchConfigurationType type) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    String name = type.getName();
+    String category = type.getCategory();
+    String identifier = type.getIdentifier();
+    String pluginIdentifier = type.getPluginIdentifier();
+    String contributorName = type.getContributorName();
 
-	public static final String dumpParameter(final IParameter parameter) throws ParameterValuesException
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("name: ").appendln(name);
+    builder.append("category: ").appendln(category);
+    builder.append("identifier: ").appendln(identifier);
+    builder.append("plugin identifier: ").appendln(pluginIdentifier);
+    builder.append("contributor name: ").appendln(contributorName);
 
-		String id   = parameter.getId();
-		String name = parameter.getName();
+    return builder.toString();
+  }
 
-		boolean optional = parameter.isOptional();
+  public static final String dumpMarkSelection(final IMarkSelection selection) {
+    SmartStringBuilder builder = builder();
 
-		Map<?, ?> values = parameter.getValues().getParameterValues();
+    boolean empty = selection.isEmpty();
 
-		builder.append("identifier: ").appendln(id);
-		builder.append("name: ").appendln(name);
+    int offset = selection.getOffset();
+    int length = selection.getLength();
 
-		builder.append("optional: ").appendln(optional);
+    builder.appendln("category: mark");
 
-		builder.appendln("values:").tab();
+    builder.append("empty: ").appendln(empty);
 
-		if (!values.isEmpty())
-		{
-			for (Entry<?, ?> entry: values.entrySet())
-			{
-				builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+    builder.append("offset: ").appendln(offset);
+    builder.append("length: ").appendln(length);
 
-		return builder.toString();
-	}
+    return builder.toString();
+  }
 
-	public static final String dumpParameters(final IParameter[] parameters) throws ParameterValuesException
-	{
-		SmartStringBuilder builder = builder();
+  public static final String dumpOperationHistoryEvent(final OperationHistoryEvent event) {
+    SmartStringBuilder builder = builder();
 
-		if (parameters.length != 0)
-		{
-			for (int i = 0; i < parameters.length; i ++)
-			{
-				builder.format("parameter %d:", i);
-				builder.lines(dumpParameter(parameters[i]));
-			}
-		}
-		else
-		{
-			builder.appendln("none");
-		}
+    IUndoableOperation operation = event.getOperation();
+    IStatus status = event.getStatus();
 
-		return builder.toString();
-	}
+    OperationHistoryEventType type = OperationHistoryEventType.valueOf(event.getEventType());
 
-	public static final String dumpPart(final IWorkbenchPart part)
-	{
-		SmartStringBuilder builder = builder();
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-		Class<?> type    = part.getClass();
-		String   title   = part.getTitle();
-		String   tooltip = part.getTitleToolTip();
+    builder.appendln("operation:").lines(dumpUndoableOperation(operation));
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("title: ").appendln(title);
-		builder.append("tooltip: ").appendln(tooltip);
+    if (status != null) {
+      builder.appendln("status:").lines(dumpStatus(status));
+    }
 
-		return builder.toString();
-	}
+    return builder.toString();
+  }
 
-	public static final String dumpPartReference(final IWorkbenchPartReference reference)
-	{
-		SmartStringBuilder builder = builder();
+  public static final String dumpPage(final IWorkbenchPage page) {
+    SmartStringBuilder builder = builder();
 
-		Class<?> type = reference.getClass();
-		String   id   = reference.getId();
+    Class<?> type = page.getClass();
+    String label = page.getLabel();
 
-		String   name    = reference.getPartName();
-		String   title   = reference.getTitle();
-		String   tooltip = reference.getTitleToolTip();
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("label: ").appendln(label);
 
-		boolean dirty = reference.isDirty();
+    return builder.toString();
+  }
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("identifier: ").appendln(id);
+  public static final String dumpParameter(final IParameter parameter) throws ParameterValuesException {
+    SmartStringBuilder builder = builder();
 
-		builder.append("name: ").appendln(name);
-		builder.append("title: ").appendln(title);
-		builder.append("tooltip: ").appendln(tooltip);
+    String id = parameter.getId();
+    String name = parameter.getName();
 
-		builder.append("dirty: ").appendln(dirty);
+    boolean optional = parameter.isOptional();
 
-		return builder.toString();
-	}
+    Map<?, ?> values = parameter.getValues().getParameterValues();
 
-	public static final String dumpPerspectiveDescriptor(final IPerspectiveDescriptor descriptor)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("identifier: ").appendln(id);
+    builder.append("name: ").appendln(name);
 
-		Class<?> type = descriptor.getClass();
-		String   id   = descriptor.getId();
+    builder.append("optional: ").appendln(optional);
 
-		String   label       = descriptor.getLabel();
-		String   description = descriptor.getDescription();
+    builder.appendln("values:").tab();
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("identifier: ").appendln(id);
+    if (!values.isEmpty()) {
+      for (Entry<?, ?> entry: values.entrySet()) {
+        builder.append(entry.getKey()).append(": ").appendln(entry.getValue());
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		builder.append("label: ").appendln(label);
-		builder.append("description: ").appendln(description);
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpParameters(final IParameter[] parameters) throws ParameterValuesException {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpRefactoringDescriptorProxy(final RefactoringDescriptorProxy proxy)
-	{
-		SmartStringBuilder builder = builder();
+    if (parameters.length != 0) {
+      for (int i = 0; i < parameters.length; i++) {
+        builder.format("parameter %d:", i);
+        builder.lines(dumpParameter(parameters[i]));
+      }
+    } else {
+      builder.appendln("none");
+    }
 
-		String project     = proxy.getProject();
-		String description = proxy.getDescription();
+    return builder.toString();
+  }
 
-		long timestamp = proxy.getTimeStamp();
+  public static final String dumpPart(final IWorkbenchPart part) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("project: ").appendln(project);
-		builder.append("description: ").appendln(description);
-		builder.append("timestamp: ").appendln(timestamp);
+    Class<?> type = part.getClass();
+    String title = part.getTitle();
+    String tooltip = part.getTitleToolTip();
 
-		return builder.toString();
-	}
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("title: ").appendln(title);
+    builder.append("tooltip: ").appendln(tooltip);
 
-	public static final String dumpRefactoringExecutionEvent(final RefactoringExecutionEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		RefactoringExecutionEventType type = RefactoringExecutionEventType.valueOf(event.getEventType());
+  public static final String dumpPartReference(final IWorkbenchPartReference reference) {
+    SmartStringBuilder builder = builder();
 
-		RefactoringDescriptorProxy descriptor = event.getDescriptor();
+    Class<?> type = reference.getClass();
+    String id = reference.getId();
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
+    String name = reference.getPartName();
+    String title = reference.getTitle();
+    String tooltip = reference.getTitleToolTip();
 
-		return builder.toString();
-	}
+    boolean dirty = reference.isDirty();
 
-	public static final String dumpRefactoringHistoryEvent(final RefactoringHistoryEvent event)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("identifier: ").appendln(id);
 
-		RefactoringHistoryEventType type = RefactoringHistoryEventType.valueOf(event.getEventType());
+    builder.append("name: ").appendln(name);
+    builder.append("title: ").appendln(title);
+    builder.append("tooltip: ").appendln(tooltip);
 
-		RefactoringDescriptorProxy descriptor = event.getDescriptor();
+    builder.append("dirty: ").appendln(dirty);
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
-		builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpPerspectiveDescriptor(final IPerspectiveDescriptor descriptor) {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpResource(final IResource resource)
-	{
-		SmartStringBuilder builder = builder();
+    Class<?> type = descriptor.getClass();
+    String id = descriptor.getId();
 
-		ResourceType type = ResourceType.valueOf(resource.getType());
+    String label = descriptor.getLabel();
+    String description = descriptor.getDescription();
 
-		String name     = resource.getName();
-		IPath  location = resource.getLocation();
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("identifier: ").appendln(id);
 
-		long localStamp        = resource.getLocalTimeStamp();
-		long modificationStamp = resource.getModificationStamp();
+    builder.append("label: ").appendln(label);
+    builder.append("description: ").appendln(description);
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    return builder.toString();
+  }
 
-		builder.append("name: ").appendln(name);
-		builder.append("location: ").appendln(location);
+  public static final String dumpRefactoringDescriptorProxy(final RefactoringDescriptorProxy proxy) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("local stamp: ").appendln(localStamp < 0 ? "unknown" : localStamp);
-		builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
+    String project = proxy.getProject();
+    String description = proxy.getDescription();
 
-		return builder.toString();
-	}
+    long timestamp = proxy.getTimeStamp();
 
-	public static final String dumpResourceChangeEvent(final IResourceChangeEvent event)
-	{
-		final SmartStringBuilder builder = builder();
+    builder.append("project: ").appendln(project);
+    builder.append("description: ").appendln(description);
+    builder.append("timestamp: ").appendln(timestamp);
 
-		ResourceEventType type = ResourceEventType.valueOf(event.getType());
+    return builder.toString();
+  }
 
-		int buildKind = event.getBuildKind();
+  public static final String dumpRefactoringExecutionEvent(final RefactoringExecutionEvent event) {
+    SmartStringBuilder builder = builder();
 
-		IResource      resource = event.getResource();
-		IResourceDelta delta    = event.getDelta();
+    RefactoringExecutionEventType type = RefactoringExecutionEventType.valueOf(event.getEventType());
 
-		builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    RefactoringDescriptorProxy descriptor = event.getDescriptor();
 
-		builder.append("build kind: ").appendln(buildKind == 0 ? "not applicable" : ProjectBuildKind.valueOf(buildKind));
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
 
-		builder.appendln("resource:").lines(resource == null ? missing() : dumpResource(resource));
+    return builder.toString();
+  }
 
-		if (delta == null)
-		{
-			builder.appendln("delta: ").lines(missing());
-		}
-		else
-		{
-			IResourceDeltaVisitor visitor = new IResourceDeltaVisitor()
-			{
-				public final boolean visit(final IResourceDelta delta)
-				{
-					builder.appendln("delta:").lines(dumpResourceDelta(delta));
+  public static final String dumpRefactoringHistoryEvent(final RefactoringHistoryEvent event) {
+    SmartStringBuilder builder = builder();
 
-					return true;
-				}
-			};
+    RefactoringHistoryEventType type = RefactoringHistoryEventType.valueOf(event.getEventType());
 
-			builder.appendln("delta tree:").tab();
+    RefactoringDescriptorProxy descriptor = event.getDescriptor();
 
-			try
-			{
-				delta.accept(visitor);
-			}
-			catch (CoreException e)
-			{
-				builder.appendln("failed");
-			}
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
+    builder.appendln("descriptor:").lines(dumpRefactoringDescriptorProxy(descriptor));
 
-			builder.untab();
-		}
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpResource(final IResource resource) {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpResourceDelta(final IResourceDelta delta)
-	{
-		SmartStringBuilder builder = builder();
+    ResourceType type = ResourceType.valueOf(resource.getType());
 
-		ResourceDeltaKind      kind  = ResourceDeltaKind.valueOf(delta.getKind());
-		Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
+    String name = resource.getName();
+    IPath location = resource.getLocation();
 
-		IResource resource = delta.getResource();
+    long localStamp = resource.getLocalTimeStamp();
+    long modificationStamp = resource.getModificationStamp();
 
-		builder.append("kind: ").appendln(kind);
-		builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-		builder.appendln("resource:").lines(dumpResource(resource));
+    builder.append("name: ").appendln(name);
+    builder.append("location: ").appendln(location);
 
-		return builder.toString();
-	}
+    builder.append("local stamp: ").appendln(localStamp < 0 ? "unknown" : localStamp);
+    builder.append("modification stamp: ").appendln(modificationStamp < 0 ? "unknown" : modificationStamp);
 
-	public static final String dumpSearchQuery(final ISearchQuery query)
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		Class<?> type  = query.getClass();
-		String   label = query.getLabel();
+  public static final String dumpResourceChangeEvent(final IResourceChangeEvent event) {
+    final SmartStringBuilder builder = builder();
 
-		ISearchResult result = query.getSearchResult();
+    ResourceEventType type = ResourceEventType.valueOf(event.getType());
 
-		boolean runInBackground = query.canRunInBackground();
-		boolean rerun           = query.canRerun();
+    int buildKind = event.getBuildKind();
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("label: ").appendln(label);
+    IResource resource = event.getResource();
+    IResourceDelta delta = event.getDelta();
 
-		builder.appendln("result: ").lines(dumpSearchResult(result));
+    builder.format("type: %s (%d)", type, type.getValue()).appendln();
 
-		builder.append("can run in background: ").appendln(runInBackground);
-		builder.append("can rerun: ").appendln(rerun);
+    builder.append("build kind: ").appendln(buildKind == 0 ? "not applicable" : ProjectBuildKind.valueOf(buildKind));
 
-		return builder.toString();
-	}
+    builder.appendln("resource:").lines(resource == null ? missing() : dumpResource(resource));
 
-	public static final String dumpSearchResult(final ISearchResult result)
-	{
-		SmartStringBuilder builder = builder();
+    if (delta == null) {
+      builder.appendln("delta: ").lines(missing());
+    } else {
+      IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
+        public final boolean visit(final IResourceDelta delta) {
+          builder.appendln("delta:").lines(dumpResourceDelta(delta));
 
-		String label = result.getLabel();
-		String tooltip = result.getTooltip();
+          return true;
+        }
+      };
 
-		builder.append("label: ").appendln(label);
-		builder.append("tooltip: ").appendln(tooltip);
+      builder.appendln("delta tree:").tab();
 
-		return builder.toString();
-	}
+      try {
+        delta.accept(visitor);
+      } catch (CoreException e) {
+        builder.appendln("failed");
+      }
 
-	public static final String dumpSearchResultEvent(final SearchResultEvent event)
-	{
-		SmartStringBuilder builder = builder();
+      builder.untab();
+    }
 
-		Class<?> type = event.getClass();
+    return builder.toString();
+  }
 
-		ISearchResult result = event.getSearchResult();
+  public static final String dumpResourceDelta(final IResourceDelta delta) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("class: ").appendln(dumpClass(type));
+    ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
+    Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 
-		builder.appendln("result: ").lines(dumpSearchResult(result));
+    IResource resource = delta.getResource();
 
-		return builder.toString();
-	}
+    builder.append("kind: ").appendln(kind);
+    builder.append("flags: ").list(flags.isEmpty() ? Arrays.asList("none") : flags).appendln();
 
-	public static final String dumpSelection(final ISelection selection)
-	{
-		if (selection instanceof IMarkSelection)
-		{
-			return dumpMarkSelection((IMarkSelection) selection);
-		}
-		else if (selection instanceof IStructuredSelection)
-		{
-			return dumpStructuredSelection((IStructuredSelection) selection);
-		}
-		else if (selection instanceof ITextSelection)
-		{
-			return dumpTextSelection((ITextSelection) selection);
-		}
-		else
-		{
-			SmartStringBuilder builder = builder();
+    builder.appendln("resource:").lines(dumpResource(resource));
 
-			Class<?> type = selection.getClass();
+    return builder.toString();
+  }
 
-			boolean empty = selection.isEmpty();
+  public static final String dumpSearchQuery(final ISearchQuery query) {
+    SmartStringBuilder builder = builder();
 
-			builder.append("class: ").appendln(dumpClass(type));
-			builder.append("empty: ").appendln(empty);
+    Class<?> type = query.getClass();
+    String label = query.getLabel();
 
-			return builder.toString();
-		}
-	}
+    ISearchResult result = query.getSearchResult();
 
-	public static final String dumpStatus(final IStatus status)
-	{
-		SmartStringBuilder builder = builder();
+    boolean runInBackground = query.canRunInBackground();
+    boolean rerun = query.canRerun();
 
-		int code = status.getCode();
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("label: ").appendln(label);
 
-		Set<StatusSeverity> severity = StatusSeverity.setOf(status.getSeverity());
+    builder.appendln("result: ").lines(dumpSearchResult(result));
 
-		String plugin  = status.getPlugin();
-		String message = status.getMessage();
+    builder.append("can run in background: ").appendln(runInBackground);
+    builder.append("can rerun: ").appendln(rerun);
 
-		boolean ok    = status.isOK();
-		boolean multi = status.isMultiStatus();
+    return builder.toString();
+  }
 
-		Throwable throwable = status.getException();
+  public static final String dumpSearchResult(final ISearchResult result) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("code: ").appendln(code);
-		builder.append("severity: ").list(severity.isEmpty() ? Arrays.asList("unknown") : severity).appendln();
+    String label = result.getLabel();
+    String tooltip = result.getTooltip();
 
-		builder.append("plugin: ").appendln(plugin);
-		builder.append("message: ").appendln(message);
+    builder.append("label: ").appendln(label);
+    builder.append("tooltip: ").appendln(tooltip);
 
-		builder.append("ok: ").appendln(ok);
-		builder.append("multi: ").appendln(multi);
+    return builder.toString();
+  }
 
-		if (throwable != null)
-		{
-			builder.appendln("exception:").lines(dumpThrowable(throwable));
-		}
+  public static final String dumpSearchResultEvent(final SearchResultEvent event) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    Class<?> type = event.getClass();
 
-	public static final String dumpStructuredSelection(final IStructuredSelection selection)
-	{
-		SmartStringBuilder builder = builder();
+    ISearchResult result = event.getSearchResult();
 
-		boolean empty = selection.isEmpty();
+    builder.append("class: ").appendln(dumpClass(type));
 
-		int size = selection.size();
+    builder.appendln("result: ").lines(dumpSearchResult(result));
 
-		builder.appendln("category: structured");
+    return builder.toString();
+  }
 
-		builder.append("empty: ").appendln(empty);
+  public static final String dumpSelection(final ISelection selection) {
+    if (selection instanceof IMarkSelection) {
+      return dumpMarkSelection((IMarkSelection) selection);
+    } else if (selection instanceof IStructuredSelection) {
+      return dumpStructuredSelection((IStructuredSelection) selection);
+    } else if (selection instanceof ITextSelection) {
+      return dumpTextSelection((ITextSelection) selection);
+    } else {
+      SmartStringBuilder builder = builder();
 
-		builder.append("size: ").appendln(size);
+      Class<?> type = selection.getClass();
 
-		return builder.toString();
-	}
+      boolean empty = selection.isEmpty();
 
-	public static final String dumpTestCaseElement(final ITestCaseElement element)
-	{
-		SmartStringBuilder builder = builder();
+      builder.append("class: ").appendln(dumpClass(type));
+      builder.append("empty: ").appendln(empty);
 
-		ITestRunSession session = element.getTestRunSession();
+      return builder.toString();
+    }
+  }
 
-		String className  = element.getTestClassName();
-		String methodName = element.getTestMethodName();
+  public static final String dumpStatus(final IStatus status) {
+    SmartStringBuilder builder = builder();
 
-		double elapsedTime = element.getElapsedTimeInSeconds();
+    int code = status.getCode();
 
-		ITestElement.ProgressState progressState = element.getProgressState();
+    Set<StatusSeverity> severity = StatusSeverity.setOf(status.getSeverity());
 
-		ITestElement.Result resultExcludingChildren = element.getTestResult(false);
-		ITestElement.Result resultIncludingChildren = element.getTestResult(true);
+    String plugin = status.getPlugin();
+    String message = status.getMessage();
 
-		builder.appendln("session:").lines(dumpTestRunSession(session));
+    boolean ok = status.isOK();
+    boolean multi = status.isMultiStatus();
 
-		builder.append("class name: ").appendln(className);
-		builder.append("method name: ").appendln(methodName);
+    Throwable throwable = status.getException();
 
-		builder.append("elapsed time: ").append(elapsedTime).appendln(" (in seconds)");
+    builder.append("code: ").appendln(code);
+    builder.append("severity: ").list(severity.isEmpty() ? Arrays.asList("unknown") : severity).appendln();
 
-		builder.append("progress state: ").appendln(progressState);
+    builder.append("plugin: ").appendln(plugin);
+    builder.append("message: ").appendln(message);
 
-		builder.append("result excluding children: ").appendln(resultExcludingChildren);
-		builder.append("result including children: ").appendln(resultIncludingChildren);
+    builder.append("ok: ").appendln(ok);
+    builder.append("multi: ").appendln(multi);
 
-		return builder.toString();
-	}
+    if (throwable != null) {
+      builder.appendln("exception:").lines(dumpThrowable(throwable));
+    }
 
-	public static final String dumpTestRunSession(final ITestRunSession session)
-	{
-		SmartStringBuilder builder = builder();
+    return builder.toString();
+  }
 
-		IJavaProject project = session.getLaunchedProject();
+  public static final String dumpStructuredSelection(final IStructuredSelection selection) {
+    SmartStringBuilder builder = builder();
 
-		String name = session.getTestRunName();
+    boolean empty = selection.isEmpty();
 
-		double elapsedTime = session.getElapsedTimeInSeconds();
+    int size = selection.size();
 
-		ITestElement.ProgressState progressState = session.getProgressState();
+    builder.appendln("category: structured");
 
-		ITestElement.Result resultExcludingChildren = session.getTestResult(false);
-		ITestElement.Result resultIncludingChildren = session.getTestResult(true);
+    builder.append("empty: ").appendln(empty);
 
-		ITestElement[] children = session.getChildren();
+    builder.append("size: ").appendln(size);
 
-		builder.append("run name: ").appendln(name);
+    return builder.toString();
+  }
 
-		builder.appendln("project:").lines(dumpJavaProject(project));
+  public static final String dumpTestCaseElement(final ITestCaseElement element) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("elapsed time: ").append(elapsedTime).appendln(" (in seconds)");
+    ITestRunSession session = element.getTestRunSession();
 
-		builder.append("progress state: ").appendln(progressState);
+    String className = element.getTestClassName();
+    String methodName = element.getTestMethodName();
 
-		builder.append("result excluding children: ").appendln(resultExcludingChildren);
-		builder.append("result including children: ").appendln(resultIncludingChildren);
+    double elapsedTime = element.getElapsedTimeInSeconds();
 
-		builder.append("children: ").appendln(children.length);
+    ITestElement.ProgressState progressState = element.getProgressState();
 
-		return builder.toString();
-	}
+    ITestElement.Result resultExcludingChildren = element.getTestResult(false);
+    ITestElement.Result resultIncludingChildren = element.getTestResult(true);
 
-	public static final String dumpTextSelection(final ITextSelection selection)
-	{
-		SmartStringBuilder builder = builder();
+    builder.appendln("session:").lines(dumpTestRunSession(session));
 
-		boolean empty = selection.isEmpty();
+    builder.append("class name: ").appendln(className);
+    builder.append("method name: ").appendln(methodName);
 
-		int start = selection.getStartLine();
-		int end   = selection.getEndLine();
+    builder.append("elapsed time: ").append(elapsedTime).appendln(" (in seconds)");
 
-		int offset = selection.getOffset();
-		int length = selection.getLength();
+    builder.append("progress state: ").appendln(progressState);
 
-		String text = selection.getText();
+    builder.append("result excluding children: ").appendln(resultExcludingChildren);
+    builder.append("result including children: ").appendln(resultIncludingChildren);
 
-		builder.appendln("category: text");
+    return builder.toString();
+  }
 
-		builder.append("empty: ").appendln(empty);
+  public static final String dumpTestRunSession(final ITestRunSession session) {
+    SmartStringBuilder builder = builder();
 
-		builder.append("start line: ").appendln(start);
-		builder.append("end line: ").appendln(end);
+    IJavaProject project = session.getLaunchedProject();
 
-		builder.append("offset: ").appendln(offset);
-		builder.append("length: ").appendln(length);
+    String name = session.getTestRunName();
 
-		builder.append("text: \"").append(text).appendln("\"");
+    double elapsedTime = session.getElapsedTimeInSeconds();
 
-		return builder.toString();
-	}
+    ITestElement.ProgressState progressState = session.getProgressState();
 
-	public static final String dumpThrowable(final Throwable throwable)
-	{
-		SmartStringBuilder builder = builder();
+    ITestElement.Result resultExcludingChildren = session.getTestResult(false);
+    ITestElement.Result resultIncludingChildren = session.getTestResult(true);
 
-		Class<?> type    = throwable.getClass();
-		String   message = throwable.getMessage();
+    ITestElement[] children = session.getChildren();
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("message: ").appendln(message);
+    builder.append("run name: ").appendln(name);
 
-		return builder.toString();
-	}
+    builder.appendln("project:").lines(dumpJavaProject(project));
 
-	public static final String dumpUndoableOperation(final IUndoableOperation operation)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("elapsed time: ").append(elapsedTime).appendln(" (in seconds)");
 
-		String label = operation.getLabel();
+    builder.append("progress state: ").appendln(progressState);
 
-		boolean execute = operation.canExecute();
-		boolean redo    = operation.canRedo();
-		boolean undo    = operation.canUndo();
+    builder.append("result excluding children: ").appendln(resultExcludingChildren);
+    builder.append("result including children: ").appendln(resultIncludingChildren);
 
-		builder.append("label: ").appendln(label);
+    builder.append("children: ").appendln(children.length);
 
-		builder.append("can execute: ").appendln(execute);
-		builder.append("can redo: ").appendln(redo);
-		builder.append("can undo: ").appendln(undo);
+    return builder.toString();
+  }
 
-		return builder.toString();
-	}
+  public static final String dumpTextSelection(final ITextSelection selection) {
+    SmartStringBuilder builder = builder();
 
-	public static final String dumpWindow(final IWorkbenchWindow window)
-	{
-		SmartStringBuilder builder = builder();
+    boolean empty = selection.isEmpty();
 
-		Class<?> type       = window.getClass();
-		int      pagesCount = window.getPages().length;
+    int start = selection.getStartLine();
+    int end = selection.getEndLine();
 
-		IWorkbenchPage activePage = window.getActivePage();
+    int offset = selection.getOffset();
+    int length = selection.getLength();
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("pages: ").appendln(pagesCount);
+    String text = selection.getText();
 
-		builder.appendln("active page:").lines(dumpPage(activePage));
+    builder.appendln("category: text");
 
-		return builder.toString();
-	}
+    builder.append("empty: ").appendln(empty);
 
-	public static final String dumpWorkbench(final IWorkbench workbench)
-	{
-		SmartStringBuilder builder = builder();
+    builder.append("start line: ").appendln(start);
+    builder.append("end line: ").appendln(end);
 
-		Class<?> type        = workbench.getClass();
-		int      windowCount = workbench.getWorkbenchWindowCount();
+    builder.append("offset: ").appendln(offset);
+    builder.append("length: ").appendln(length);
 
-		boolean starting = workbench.isStarting();
-		boolean closing  = workbench.isClosing();
+    builder.append("text: \"").append(text).appendln("\"");
 
-		builder.append("class: ").appendln(dumpClass(type));
-		builder.append("windows: ").appendln(windowCount);
+    return builder.toString();
+  }
 
-		builder.append("starting: ").appendln(starting);
-		builder.append("closing: ").appendln(closing);
+  public static final String dumpThrowable(final Throwable throwable) {
+    SmartStringBuilder builder = builder();
 
-		return builder.toString();
-	}
+    Class<?> type = throwable.getClass();
+    String message = throwable.getMessage();
+
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("message: ").appendln(message);
+
+    return builder.toString();
+  }
+
+  public static final String dumpUndoableOperation(final IUndoableOperation operation) {
+    SmartStringBuilder builder = builder();
+
+    String label = operation.getLabel();
+
+    boolean execute = operation.canExecute();
+    boolean redo = operation.canRedo();
+    boolean undo = operation.canUndo();
+
+    builder.append("label: ").appendln(label);
+
+    builder.append("can execute: ").appendln(execute);
+    builder.append("can redo: ").appendln(redo);
+    builder.append("can undo: ").appendln(undo);
+
+    return builder.toString();
+  }
+
+  public static final String dumpWindow(final IWorkbenchWindow window) {
+    SmartStringBuilder builder = builder();
+
+    Class<?> type = window.getClass();
+    int pagesCount = window.getPages().length;
+
+    IWorkbenchPage activePage = window.getActivePage();
+
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("pages: ").appendln(pagesCount);
+
+    builder.appendln("active page:").lines(dumpPage(activePage));
+
+    return builder.toString();
+  }
+
+  public static final String dumpWorkbench(final IWorkbench workbench) {
+    SmartStringBuilder builder = builder();
+
+    Class<?> type = workbench.getClass();
+    int windowCount = workbench.getWorkbenchWindowCount();
+
+    boolean starting = workbench.isStarting();
+    boolean closing = workbench.isClosing();
+
+    builder.append("class: ").appendln(dumpClass(type));
+    builder.append("windows: ").appendln(windowCount);
+
+    builder.append("starting: ").appendln(starting);
+    builder.append("closing: ").appendln(closing);
+
+    return builder.toString();
+  }
 }

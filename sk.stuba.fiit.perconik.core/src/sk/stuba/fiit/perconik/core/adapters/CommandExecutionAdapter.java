@@ -23,36 +23,21 @@ import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class CommandExecutionAdapter extends Adapter implements CommandExecutionListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected CommandExecutionAdapter()
-	{
-	}
+public class CommandExecutionAdapter extends Adapter implements CommandExecutionListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected CommandExecutionAdapter() {}
 
-	public void preExecute(String id, ExecutionEvent event)
-	{
-	}
+  public void preExecute(String id, ExecutionEvent event) {}
 
-	public void postExecuteSuccess(String id, Object result)
-	{
-	}
+  public void postExecuteSuccess(String id, Object result) {}
 
-	public void postExecuteFailure(String id, ExecutionException exception)
-	{
-	}
+  public void postExecuteFailure(String id, ExecutionException exception) {}
 
-	public void notDefined(String id, NotDefinedException exception)
-	{
-	}
+  public void notDefined(String id, NotDefinedException exception) {}
 
-	public void notEnabled(String id, NotEnabledException exception)
-	{
-	}
+  public void notEnabled(String id, NotEnabledException exception) {}
 
-	public void notHandled(String id, NotHandledException exception)
-	{
-	}
+  public void notHandled(String id, NotHandledException exception) {}
 }

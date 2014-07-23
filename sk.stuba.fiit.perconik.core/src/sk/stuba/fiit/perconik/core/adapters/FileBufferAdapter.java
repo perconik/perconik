@@ -20,52 +20,29 @@ import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class FileBufferAdapter extends Adapter implements FileBufferListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected FileBufferAdapter()
-	{
-	}
+public class FileBufferAdapter extends Adapter implements FileBufferListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected FileBufferAdapter() {}
 
-	public void bufferCreated(IFileBuffer buffer)
-	{
-	}
+  public void bufferCreated(IFileBuffer buffer) {}
 
-	public void bufferDisposed(IFileBuffer buffer)
-	{
-	}
+  public void bufferDisposed(IFileBuffer buffer) {}
 
-	public void bufferContentAboutToBeReplaced(IFileBuffer buffer)
-	{
-	}
+  public void bufferContentAboutToBeReplaced(IFileBuffer buffer) {}
 
-	public void bufferContentReplaced(IFileBuffer buffer)
-	{
-	}
+  public void bufferContentReplaced(IFileBuffer buffer) {}
 
-	public void stateChanging(IFileBuffer buffer)
-	{
-	}
+  public void stateChanging(IFileBuffer buffer) {}
 
-	public void stateChangeFailed(IFileBuffer buffer)
-	{
-	}
+  public void stateChangeFailed(IFileBuffer buffer) {}
 
-	public void stateValidationChanged(IFileBuffer buffer, boolean stateValidated)
-	{
-	}
+  public void stateValidationChanged(IFileBuffer buffer, boolean stateValidated) {}
 
-	public void dirtyStateChanged(IFileBuffer buffer, boolean dirty)
-	{
-	}
+  public void dirtyStateChanged(IFileBuffer buffer, boolean dirty) {}
 
-	public void underlyingFileMoved(IFileBuffer buffer, IPath path)
-	{
-	}
+  public void underlyingFileMoved(IFileBuffer buffer, IPath path) {}
 
-	public void underlyingFileDeleted(IFileBuffer buffer)
-	{
-	}
+  public void underlyingFileDeleted(IFileBuffer buffer) {}
 }

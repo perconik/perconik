@@ -19,19 +19,18 @@ import sk.stuba.fiit.perconik.core.persistence.ResourceRegistration;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface SerializedResourceData extends ResourceRegistration
-{
-	/**
-	 * Returns {@code true} if this object holds
-	 * a serialized resource, {@code false} otherwise.
-	 * 
-	 * <p>More formally, this method returns {@code true} if and
-	 * only if {@code getSerializedResource().isPresent() == true}. 
-	 */
-	public boolean hasSerializedResource();
+public interface SerializedResourceData extends ResourceRegistration {
+  /**
+   * Returns {@code true} if this object holds
+   * a serialized resource, {@code false} otherwise.
+   * 
+   * <p>More formally, this method returns {@code true} if and
+   * only if {@code getSerializedResource().isPresent() == true}. 
+   */
+  public boolean hasSerializedResource();
 
-	/**
-	 * Gets the serialized resource if available.
-	 */
-	public Optional<Resource<?>> getSerializedResource();
+  /**
+   * Gets the serialized resource if available.
+   */
+  public Optional<Resource<?>> getSerializedResource();
 }

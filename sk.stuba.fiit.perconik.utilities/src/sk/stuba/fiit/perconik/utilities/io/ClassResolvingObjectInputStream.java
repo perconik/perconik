@@ -9,27 +9,21 @@ import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class ClassResolvingObjectInputStream extends ObjectInputStream
-{
-	private final ClassResolver resolver;
+public class ClassResolvingObjectInputStream extends ObjectInputStream {
+  private final ClassResolver resolver;
 
-	public ClassResolvingObjectInputStream(ClassResolver resolver, InputStream in) throws IOException
-	{
-		super(in);
-		
-		this.resolver = checkNotNull(resolver);
-	}
+  public ClassResolvingObjectInputStream(ClassResolver resolver, InputStream in) throws IOException {
+    super(in);
 
-	@Override
-	protected Class<?> resolveClass(final ObjectStreamClass type) throws ClassNotFoundException, IOException
-	{
-		try
-		{
-			return this.resolver.forName(type.getName());
-		}
-		catch (ClassNotFoundException cnfe)
-		{
-			return super.resolveClass(type);
-		}
-	}
+    this.resolver = checkNotNull(resolver);
+  }
+
+  @Override
+  protected Class<?> resolveClass(final ObjectStreamClass type) throws ClassNotFoundException, IOException {
+    try {
+      return this.resolver.forName(type.getName());
+    } catch (ClassNotFoundException cnfe) {
+      return super.resolveClass(type);
+    }
+  }
 }

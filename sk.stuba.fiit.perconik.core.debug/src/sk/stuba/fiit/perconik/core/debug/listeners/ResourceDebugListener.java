@@ -11,30 +11,23 @@ import sk.stuba.fiit.perconik.core.debug.runtime.DebugConsole;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 
-public final class ResourceDebugListener extends AbstractDebugListener implements ResourceListener
-{
-	public ResourceDebugListener()
-	{
-	}
-	
-	public ResourceDebugListener(final DebugConsole console)
-	{
-		super(console);
-	}
-	
-	public final void resourceChanged(final IResourceChangeEvent event)
-	{
-		this.printHeader("Resource changed");
-		this.printResourceChangeEvent(event);
-	}
+public final class ResourceDebugListener extends AbstractDebugListener implements ResourceListener {
+  public ResourceDebugListener() {}
 
-	public final Set<ResourceEventType> getEventTypes()
-	{
-		return EnumSet.allOf(ResourceEventType.class);
-	}
-	
-	private final void printResourceChangeEvent(final IResourceChangeEvent event)
-	{
-		this.put(Debug.dumpResourceChangeEvent(event));
-	}
+  public ResourceDebugListener(final DebugConsole console) {
+    super(console);
+  }
+
+  public final void resourceChanged(final IResourceChangeEvent event) {
+    this.printHeader("Resource changed");
+    this.printResourceChangeEvent(event);
+  }
+
+  public final Set<ResourceEventType> getEventTypes() {
+    return EnumSet.allOf(ResourceEventType.class);
+  }
+
+  private final void printResourceChangeEvent(final IResourceChangeEvent event) {
+    this.put(Debug.dumpResourceChangeEvent(event));
+  }
 }

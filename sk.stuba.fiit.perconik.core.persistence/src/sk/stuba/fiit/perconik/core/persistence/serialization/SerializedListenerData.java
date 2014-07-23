@@ -19,19 +19,18 @@ import sk.stuba.fiit.perconik.core.persistence.ListenerRegistration;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface SerializedListenerData extends ListenerRegistration
-{
-	/**
-	 * Returns {@code true} if this object holds
-	 * a serialized listener, {@code false} otherwise.
-	 * 
-	 * <p>More formally, this method returns {@code true} if and
-	 * only if {@code getSerializedListener().isPresent() == true}. 
-	 */
-	public boolean hasSerializedListener();
-	
-	/**
-	 * Gets the serialized listener if available.
-	 */
-	public Optional<Listener> getSerializedListener();
+public interface SerializedListenerData extends ListenerRegistration {
+  /**
+   * Returns {@code true} if this object holds
+   * a serialized listener, {@code false} otherwise.
+   * 
+   * <p>More formally, this method returns {@code true} if and
+   * only if {@code getSerializedListener().isPresent() == true}. 
+   */
+  public boolean hasSerializedListener();
+
+  /**
+   * Gets the serialized listener if available.
+   */
+  public Optional<Listener> getSerializedListener();
 }

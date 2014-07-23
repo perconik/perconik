@@ -19,24 +19,15 @@ import sk.stuba.fiit.perconik.core.listeners.LaunchConfigurationListener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class LaunchConfigurationAdapter extends Adapter implements LaunchConfigurationListener
-{
-	/**
-	 * Constructor for use by subclasses.
-	 */
-	protected LaunchConfigurationAdapter()
-	{
-	}
+public class LaunchConfigurationAdapter extends Adapter implements LaunchConfigurationListener {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected LaunchConfigurationAdapter() {}
 
-	public void launchConfigurationAdded(ILaunchConfiguration configuration)
-	{
-	}
+  public void launchConfigurationAdded(ILaunchConfiguration configuration) {}
 
-	public void launchConfigurationRemoved(ILaunchConfiguration configuration)
-	{
-	}
+  public void launchConfigurationRemoved(ILaunchConfiguration configuration) {}
 
-	public void launchConfigurationChanged(ILaunchConfiguration configuration)
-	{
-	}
+  public void launchConfigurationChanged(ILaunchConfiguration configuration) {}
 }
