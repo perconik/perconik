@@ -27,7 +27,15 @@ public final class MorePaths {
     protected final T computeNext(T previous) {
       int count = previous.getNameCount();
 
-      return this.count < count ? (T) previous.getParent() : null;
+      if (this.count < count) {
+        // safe cast as T overrides getParent() properly
+        @SuppressWarnings("unchecked")
+        T result = (T) previous.getParent();
+
+        return result;
+      }
+
+      return null;
     }
   }
 
@@ -38,7 +46,11 @@ public final class MorePaths {
 
     @Override
     protected final T computeNext(T previous) {
-      return (T) previous.getParent();
+      // safe cast as T overrides getParent() properly
+      @SuppressWarnings("unchecked")
+      T result = (T) previous.getParent();
+
+      return result;
     }
   }
 

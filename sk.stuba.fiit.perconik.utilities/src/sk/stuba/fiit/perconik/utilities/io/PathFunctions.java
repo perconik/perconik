@@ -44,15 +44,15 @@ public final class PathFunctions {
   }
 
   public static final <T extends Path> Function<T, T> relativize(T path) {
-    return new RelativizeFunction<>(path);
+    return castWhole(new RelativizeFunction(path));
   }
 
   public static final <T extends Path> Function<T, T> resolve(T path) {
-    return new ResolveFunction<>(path);
+    return castWhole(new ResolveFunction(path));
   }
 
   public static final <T extends Path> Function<T, T> resolveSibling(T path) {
-    return new ResolveSiblingFunction<>(path);
+    return castWhole(new ResolveSiblingFunction(path));
   }
 
   static enum NormalizeFunction implements Function<Path, Path> {
@@ -65,63 +65,63 @@ public final class PathFunctions {
     // TODO add toString
   }
 
-  static final class RelativizeFunction<T extends Path> implements Function<T, T>, Serializable {
+  static final class RelativizeFunction implements Function<Path, Path>, Serializable {
     private static final long serialVersionUID = 0;
 
-    final T path;
+    final Path path;
 
-    public RelativizeFunction(T path) {
+    public RelativizeFunction(Path path) {
       this.path = checkNotNull(path);
     }
 
-    public final T apply(@Nullable T path) {
-      return (T) (path != null ? path.relativize(this.path) : null);
+    public final Path apply(@Nullable Path path) {
+      return path != null ? path.relativize(this.path) : null;
     }
 
     // TODO add equals, hashCode, toString
   }
 
-  static final class ResolveFunction<T extends Path> implements Function<T, T>, Serializable {
+  static final class ResolveFunction implements Function<Path, Path>, Serializable {
     private static final long serialVersionUID = 0;
 
-    final T path;
+    final Path path;
 
-    public ResolveFunction(T path) {
+    public ResolveFunction(Path path) {
       this.path = checkNotNull(path);
     }
 
-    public final T apply(@Nullable T path) {
-      return (T) (path != null ? path.resolve(this.path) : null);
+    public final Path apply(@Nullable Path path) {
+      return path != null ? path.resolve(this.path) : null;
     }
 
     // TODO add equals, hashCode, toString
   }
 
-  static final class ResolveSiblingFunction<T extends Path> implements Function<T, T>, Serializable {
+  static final class ResolveSiblingFunction implements Function<Path, Path>, Serializable {
     private static final long serialVersionUID = 0;
 
-    final T path;
+    final Path path;
 
-    public ResolveSiblingFunction(T path) {
+    public ResolveSiblingFunction(Path path) {
       this.path = checkNotNull(path);
     }
 
-    public final T apply(@Nullable T path) {
-      return (T) (path != null ? path.resolveSibling(this.path) : null);
+    public final Path apply(@Nullable Path path) {
+      return path != null ? path.resolveSibling(this.path) : null;
     }
 
     // TODO add equals, hashCode, toString
   }
 
   public static final <T extends Path> Function<T, T> name(int index) {
-    return new NameFunction<>(index);
+    return castWhole(new NameFunction(index));
   }
 
   public static final <T extends Path> Function<T, Integer> nameCount() {
     return castInput(NameCountFunction.INSTANCE);
   }
 
-  static final class NameFunction<T extends Path> implements Function<T, T>, Serializable {
+  static final class NameFunction implements Function<Path, Path>, Serializable {
     private static final long serialVersionUID = 0;
 
     private final int index;
@@ -132,8 +132,8 @@ public final class PathFunctions {
       this.index = index;
     }
 
-    public final T apply(@Nullable T path) {
-      return (T) (path != null ? path.getName(this.index) : null);
+    public final Path apply(@Nullable Path path) {
+      return path != null ? path.getName(this.index) : null;
     }
 
     // TODO add equals, hashCode, toString
@@ -214,7 +214,7 @@ public final class PathFunctions {
   }
 
   public static final <T extends Path> Function<T, T> toRealPath(LinkOption ... options) {
-    return new ToRealPathFunction<>(options);
+    return castWhole(new ToRealPathFunction(options));
   }
 
   public static final <T extends Path> Function<T, File> toFile() {
@@ -235,7 +235,7 @@ public final class PathFunctions {
     // TODO add toString
   }
 
-  static final class ToRealPathFunction<T extends Path> implements Function<T, T>, Serializable {
+  static final class ToRealPathFunction implements Function<Path, Path>, Serializable {
     private static final long serialVersionUID = 0;
 
     private final LinkOption[] options;
@@ -244,9 +244,9 @@ public final class PathFunctions {
       this.options = Arrays.copyOf(options, options.length);
     }
 
-    public final T apply(@Nonnull T path) {
+    public final Path apply(@Nonnull Path path) {
       try {
-        return (T) path.toRealPath(this.options);
+        return path.toRealPath(this.options);
       } catch (IOException e) {
         throw propagate(e);
       }
