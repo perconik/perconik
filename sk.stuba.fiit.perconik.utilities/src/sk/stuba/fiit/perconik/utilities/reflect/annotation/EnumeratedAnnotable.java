@@ -27,7 +27,7 @@ final class EnumeratedAnnotable implements Annotable {
   }
 
   public final <A extends Annotation> A getAnnotation(Class<A> type) {
-    return (A) this.map.get(type);
+    return type.cast(this.map.get(type));
   }
 
   public final List<Annotation> getAnnotations() {

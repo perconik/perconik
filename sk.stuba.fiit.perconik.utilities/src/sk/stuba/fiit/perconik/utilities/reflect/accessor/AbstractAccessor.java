@@ -28,7 +28,7 @@ abstract class AbstractAccessor<T> implements Accessor<T> {
     }
 
     @Override
-    public final T getFailing() {
+    final T getFailing() {
       return this.constant;
     }
   }
@@ -47,7 +47,7 @@ abstract class AbstractAccessor<T> implements Accessor<T> {
     }
 
     @Override
-    public final T getFailing() throws IllegalAccessException {
+    final T getFailing() throws IllegalAccessException {
       return (T) this.token.getRawType().cast(this.field.get(this.receiver));
     }
   }
@@ -69,7 +69,7 @@ abstract class AbstractAccessor<T> implements Accessor<T> {
     }
 
     @Override
-    public final T getFailing() throws IllegalAccessException, InvocationTargetException {
+    final T getFailing() throws IllegalAccessException, InvocationTargetException {
       return this.invokable.invoke(this.receiver, this.arguments);
     }
   }

@@ -141,7 +141,10 @@ public final class MoreStrings {
   }
 
   public static final <T> Function<T, String> toStringFunction() {
-    return (Function<T, String>) Functions.toStringFunction();
+    @SuppressWarnings("unchecked")
+    Function<T, String> result = (Function<T, String>) Functions.toStringFunction();
+
+    return result;
   }
 
   public static final String toLowerCaseFirst(String s) {

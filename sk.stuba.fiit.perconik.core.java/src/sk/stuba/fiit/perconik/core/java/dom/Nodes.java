@@ -69,7 +69,7 @@ public final class Nodes {
     return parser.createAST(null);
   }
 
-  // TODO consider	
+  // TODO consider
   //	public static final ASTNode create(final ASTParser parser, final IClassFile source)
   //	{
   //		return create(parser, source.toString().toCharArray());
@@ -88,7 +88,10 @@ public final class Nodes {
   }
 
   public static final <N extends ASTNode> N copyOf(final N node, final AST tree) {
-    return (N) ASTNode.copySubtree(tree, node);
+    @SuppressWarnings("unchecked")
+    N result = (N) ASTNode.copySubtree(tree, node);
+
+    return result;
   }
 
   public static final ASTNode root(@Nullable final ASTNode node) {

@@ -17,6 +17,6 @@ public final class Deserializer extends UntypedObjectDeserializer {
 
   @Override
   protected Object mapObject(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
-    return AnyStructuredData.of((Map<String, Object>) super.mapObject(parser, context));
+    return AnyStructuredData.of(Map.class.cast(super.mapObject(parser, context)));
   }
 }

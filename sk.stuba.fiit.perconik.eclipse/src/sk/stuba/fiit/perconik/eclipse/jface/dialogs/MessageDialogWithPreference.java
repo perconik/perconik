@@ -164,6 +164,8 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
       case IDialogConstants.CLOSE_ID:
       case IDialogConstants.BACK_ID:
         return null;
+
+      default:
     }
 
     throw new IllegalStateException();

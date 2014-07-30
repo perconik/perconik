@@ -205,7 +205,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     private final void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
       in.defaultReadObject();
 
-      this.from((Map<String, ?>) in.readObject());
+      this.from(Map.class.cast(in.readObject()));
     }
 
     private final void writeObject(ObjectOutputStream out) throws java.io.IOException {
@@ -1802,7 +1802,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.list(Iterators.filter(values, filter));
   }
 
-  private final SmartStringBuilder sortedList(Object[] values) {
+  private final SmartStringBuilder sortAndList(Object[] values) {
     sort(values);
 
     this.list(values);
@@ -1816,15 +1816,15 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(T[] values) {
-    return this.sortedList((Object[]) values);
+    return this.sortAndList(values);
   }
 
   public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(Iterable<T> values) {
-    return this.sortedList(Iterables.toArray(values, Object.class));
+    return this.sortAndList(Iterables.toArray(values, Object.class));
   }
 
   public final <T extends Comparable<? super T>> SmartStringBuilder sortedList(Iterator<T> values) {
-    return this.sortedList(Iterators.toArray(values, Object.class));
+    return this.sortAndList(Iterators.toArray(values, Object.class));
   }
 
   @SafeVarargs
@@ -1832,20 +1832,25 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.list(asArray(first, second, rest), comparator);
   }
 
-  public final <T> SmartStringBuilder sortedList(T[] values, Comparator<? super T> comparator) {
-    sort(values, comparator);
+  @SuppressWarnings("unchecked")
+  public final <T> SmartStringBuilder sortAndList(Object[] values, Comparator<?> comparator) {
+    sort(values, (Comparator<Object>) comparator);
 
     this.list(values);
 
     return this;
   }
 
+  public final <T> SmartStringBuilder sortedList(T[] values, Comparator<? super T> comparator) {
+    return this.sortAndList((Object[]) values, comparator);
+  }
+
   public final <T> SmartStringBuilder sortedList(Iterable<T> values, Comparator<? super T> comparator) {
-    return this.sortedList((T[]) Iterables.toArray(values, Object.class), comparator);
+    return this.sortAndList(Iterables.toArray(values, Object.class), comparator);
   }
 
   public final <T> SmartStringBuilder sortedList(Iterator<T> values, Comparator<? super T> comparator) {
-    return this.sortedList((T[]) Iterators.toArray(values, Object.class), comparator);
+    return this.sortAndList(Iterators.toArray(values, Object.class), comparator);
   }
 
   // TODO review
