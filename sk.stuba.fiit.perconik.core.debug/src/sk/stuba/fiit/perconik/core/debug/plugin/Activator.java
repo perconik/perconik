@@ -12,9 +12,9 @@ import sk.stuba.fiit.perconik.environment.Environment;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
- * 
+ *
  * <p><b>Warning:</b> Users should not explicitly instantiate this class.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -44,9 +44,9 @@ public final class Activator extends ExtendedPlugin {
 
   /**
    * Plug-in early startup.
-   * 
+   *
    * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */
@@ -76,27 +76,31 @@ public final class Activator extends ExtendedPlugin {
 
   @Override
   public final void start(final BundleContext context) throws Exception {
-    if (Environment.debug)
+    if (Environment.debug) {
       this.console.put("Starting %s ... ", PLUGIN_ID);
+    }
 
     super.start(context);
 
     plugin = this;
 
-    if (Environment.debug)
+    if (Environment.debug) {
       this.console.print("done");
+    }
   }
 
   @Override
   public final void stop(final BundleContext context) throws Exception {
-    if (Environment.debug)
+    if (Environment.debug) {
       this.console.put("Stopping %s ... ", PLUGIN_ID);
+    }
 
     plugin = null;
 
     super.stop(context);
 
-    if (Environment.debug)
+    if (Environment.debug) {
       this.console.print("done");
+    }
   }
 }
