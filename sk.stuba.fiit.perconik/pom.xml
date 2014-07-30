@@ -23,7 +23,6 @@
     <module>../sk.stuba.fiit.perconik.core</module>
     <module>../sk.stuba.fiit.perconik.core.debug</module>
     <module>../sk.stuba.fiit.perconik.core.java</module>
-    <module>../sk.stuba.fiit.perconik.core.java.examples</module>
     <module>../sk.stuba.fiit.perconik.core.persistence</module>
     <module>../sk.stuba.fiit.perconik.core.preferences</module>
     <module>../sk.stuba.fiit.perconik.core.ui</module>
