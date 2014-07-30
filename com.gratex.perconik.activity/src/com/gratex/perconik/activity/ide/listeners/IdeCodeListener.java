@@ -194,7 +194,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
         String delimeter = document.getLineDelimiter(data.end.line);
 
         if (delimeter != null && text.endsWith(delimeter)) {
-          data.end.line++;
+          data.end.line ++;
           data.end.offset = 0;
         }
       } catch (BadLocationException e) {
@@ -303,8 +303,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection) {
       assert part != null && selection != null;
 
-      this.time      = time;
-      this.part      = part;
+      this.time = time;
+      this.part = part;
       this.selection = selection;
     }
 
@@ -376,8 +376,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   }
 
   static final void processPaste(final long time, final DocumentEvent event) {
-    IDocument   document = event.getDocument();
-    IEditorPart editor   = Editors.forDocument(document);
+    IDocument document = event.getDocument();
+    IEditorPart editor = Editors.forDocument(document);
 
     if (editor == null) {
       if (Log.enabled()) {

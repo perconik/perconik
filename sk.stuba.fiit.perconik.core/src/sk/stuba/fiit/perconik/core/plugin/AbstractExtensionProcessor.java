@@ -90,7 +90,7 @@ abstract class AbstractExtensionProcessor<T> {
         this.contributors.put(type, contributor);
         this.extensions.put(type, type.cast(object));
 
-        matches++;
+        matches ++;
       }
     }
 

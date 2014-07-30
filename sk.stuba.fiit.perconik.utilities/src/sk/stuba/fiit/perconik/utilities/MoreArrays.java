@@ -23,7 +23,7 @@ public final class MoreArrays {
   public static final int search(Object[] a, @Nullable Object key) {
     int length = a.length;
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i ++) {
       Object o = a[i];
 
       if (key == null ? o == null : key.equals(o)) {

@@ -107,8 +107,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   SmartStringBuilder(StringBuilder builder, Options options) {
     this.builder = checkNotNull(builder);
     this.options = checkNotNull(options);
-    this.indent  = 0;
-    this.line    = true;
+    this.indent = 0;
+    this.line = true;
   }
 
   public static final SmartStringBuilder builder() {
@@ -158,8 +158,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
     String valueFormat = "%.2f %s";
 
-    Options() {
-    }
+    Options() {}
 
     final StringBuilder builder() {
       return new StringBuilder(this.initialCapacity).append(this.initialValue);
@@ -223,7 +222,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       value = Objects.toString(value, this.nullValue);
 
       this.initialCapacity = max(this.initialCapacity, value.length());
-      this.initialValue    = value;
+      this.initialValue = value;
 
       return this;
     }
@@ -350,7 +349,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     private static final Map<String, Method> writers;
 
     static {
-      Class<?>    type  = Options.class;
+      Class<?> type = Options.class;
       Set<String> names = resolveNames(type);
 
       readers = resolveReaders(type, names);
@@ -520,7 +519,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
   private final void ensureIndent() {
     if (this.line) {
-      for (int i = 0; i < this.indent; i++) {
+      for (int i = 0; i < this.indent; i ++) {
         this.builder.append(this.options.tab);
       }
 
@@ -716,8 +715,8 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     SerializationProxy(SmartStringBuilder builder) {
       this.content = builder.toString();
       this.options = builder.options();
-      this.indent  = builder.indent();
-      this.line    = builder.isNewLine();
+      this.indent = builder.indent();
+      this.line = builder.isNewLine();
     }
 
     private final Object readResolve() throws InvalidObjectException {
@@ -1283,7 +1282,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(this.toString(o));
     }
 
@@ -1299,7 +1298,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(this.toString(s));
     }
 
@@ -1315,7 +1314,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(this.toString(s));
     }
 
@@ -1331,7 +1330,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(this.toString(s), from, to);
     }
 
@@ -1347,7 +1346,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(b);
     }
 
@@ -1363,7 +1362,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(c);
     }
 
@@ -1379,7 +1378,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(i);
     }
 
@@ -1395,7 +1394,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(l);
     }
 
@@ -1411,7 +1410,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(f);
     }
 
@@ -1427,7 +1426,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.ensureIndent();
     }
 
-    while ((n--) > 0) {
+    while ((n --) > 0) {
       this.builder.append(d);
     }
 
@@ -1883,12 +1882,12 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   public final SmartStringBuilder lines(@Nullable String s) {
-    String   content = this.toString(s);
-    String[] lines   = content.split(this.options.lineRegex);
+    String content = this.toString(s);
+    String[] lines = content.split(this.options.lineRegex);
 
     int last = lines.length - 1;
 
-    for (int i = 0; i < last; i++) {
+    for (int i = 0; i < last; i ++) {
       this.appendln(lines[i]);
     }
 
@@ -2018,9 +2017,9 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
     public ValueOptions() {
       this.format = "%.2f %s";
-      this.base   = 0;
-      this.unit   = -1;
-      this.units  = null;
+      this.base = 0;
+      this.unit = -1;
+      this.units = null;
     }
 
     public final ValueOptions format(String value) {
@@ -2043,7 +2042,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       checkArgument(values.length > 0);
 
       this.units = newArrayList(values);
-      this.unit  = -1;
+      this.unit = -1;
 
       return this;
     }
@@ -2110,7 +2109,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     this.ensureIndent();
     this.appendByte(values[0], size, shift);
 
-    for (int i = 1; i < length; i++) {
+    for (int i = 1; i < length; i ++) {
       this.builder.append(separator);
       this.appendByte(values[i], size, shift);
     }
@@ -2123,10 +2122,10 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
     int index = size;
     int radix = 1 << shift;
-    int mask  = radix - 1;
+    int mask = radix - 1;
 
     while (index != 0) {
-      buffer[--index] = digits[value & mask];
+      buffer[-- index] = digits[value & mask];
 
       value >>>= shift;
     }

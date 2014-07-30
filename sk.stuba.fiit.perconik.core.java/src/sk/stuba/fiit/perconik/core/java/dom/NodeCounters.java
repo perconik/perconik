@@ -21,7 +21,7 @@ public final class NodeCounters {
       AbstractCountingVisitor<ASTNode> visitor = new AbstractCountingVisitor<ASTNode>() {
         @Override
         public final void preVisit(final ASTNode node) {
-          this.count++;
+          this.count ++;
         }
       };
 

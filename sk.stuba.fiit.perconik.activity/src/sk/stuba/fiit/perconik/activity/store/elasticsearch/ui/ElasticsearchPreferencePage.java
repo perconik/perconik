@@ -76,7 +76,7 @@ public final class ElasticsearchPreferencePage extends ActivityPreferencePage {
       }
     });
 
-    ((GridLayout) parent.getLayout()).numColumns++;
+    ((GridLayout) parent.getLayout()).numColumns ++;
   }
 
   @Override

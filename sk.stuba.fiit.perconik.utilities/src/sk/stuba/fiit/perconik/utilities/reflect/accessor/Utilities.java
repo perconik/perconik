@@ -10,7 +10,7 @@ final class Utilities {
   }
 
   static final String format(String format, Object ... args) {
-    for (int i = 0; i < args.length; i++) {
+    for (int i = 0; i < args.length; i ++) {
       if (args[i] instanceof Class) {
         args[i] = ((Class<?>) args[i]).getName();
       }

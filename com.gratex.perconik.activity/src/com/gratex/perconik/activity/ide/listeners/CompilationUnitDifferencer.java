@@ -83,7 +83,7 @@ class CompilationUnitDifferencer {
           main: for (ASTNode originalNode: originalNodes) {
             int revisedNodesSize = revisedNodes.size();
 
-            for (int k = 0; k < revisedNodesSize; k++) {
+            for (int k = 0; k < revisedNodesSize; k ++) {
               ASTNode revisedNode = revisedNodes.get(k);
 
               if (isSimilar(originalNode, revisedNode)) {

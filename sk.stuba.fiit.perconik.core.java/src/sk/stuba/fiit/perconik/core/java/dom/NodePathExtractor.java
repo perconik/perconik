@@ -44,7 +44,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
     String first = this.transformer.apply(iterator.next());
     String[] rest = new String[branch.size() - 1];
 
-    for (int i = 0; i < rest.length; i++) {
+    for (int i = 0; i < rest.length; i ++) {
       ASTNode other = iterator.next();
 
       if (other instanceof FieldDeclaration) {

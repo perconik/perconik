@@ -31,7 +31,7 @@ public final class NodeFilteringCounter<N extends ASTNode> implements Numerate<N
     @Override
     public final void preVisit(final ASTNode node) {
       if (NodeFilteringCounter.this.filter.apply(node)) {
-        this.count++;
+        this.count ++;
       }
     }
   }

@@ -48,7 +48,7 @@ public class TreeTraverserExample {
 
     out.printf("%-120s %-120s %-120s%n%n", "PRE-ORDER", "POST-ORDER", "BREADTH-FIRST");
 
-    for (int i = 0; i < br.size(); i++) {
+    for (int i = 0; i < br.size(); i ++) {
       String pre = e.apply(pr.get(i)).toString().replace(r, "");
       String poe = e.apply(po.get(i)).toString().replace(r, "");
       String bre = e.apply(br.get(i)).toString().replace(r, "");

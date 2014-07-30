@@ -452,7 +452,7 @@ public final class Debug {
     SmartStringBuilder builder = builder();
 
     if (events.length != 0) {
-      for (int i = 0; i < events.length; i++) {
+      for (int i = 0; i < events.length; i ++) {
         builder.format("event %d:", i);
         builder.lines(dumpDebugEvent(events[i]));
       }
@@ -737,7 +737,7 @@ public final class Debug {
     SmartStringBuilder builder = builder();
 
     if (launches.length != 0) {
-      for (int i = 0; i < launches.length; i++) {
+      for (int i = 0; i < launches.length; i ++) {
         builder.format("launch %d:", i);
         builder.lines(dumpLaunch(launches[i]));
       }
@@ -882,7 +882,7 @@ public final class Debug {
     SmartStringBuilder builder = builder();
 
     if (parameters.length != 0) {
-      for (int i = 0; i < parameters.length; i++) {
+      for (int i = 0; i < parameters.length; i ++) {
         builder.format("parameter %d:", i);
         builder.lines(dumpParameter(parameters[i]));
       }

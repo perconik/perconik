@@ -13,7 +13,6 @@ import static com.google.common.base.Throwables.propagateIfInstanceOf;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static com.google.common.collect.Lists.newLinkedList;
 
-
 abstract class AbstractLookup<T> implements Lookup<T> {
   final List<Accessor<? extends T>> accessors;
 

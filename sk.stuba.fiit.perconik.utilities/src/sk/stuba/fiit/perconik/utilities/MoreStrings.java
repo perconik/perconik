@@ -42,14 +42,14 @@ public final class MoreStrings {
       int j = 0;
 
       while (i < m) {
-        char c = v[i++];
+        char c = v[i ++];
 
         if (c == '\n' || c == '\r') {
           continue;
         }
 
         while (j < n) {
-          char d = u[j++];
+          char d = u[j ++];
 
           if (d == '\n' || d == '\r') {
             continue;
@@ -64,7 +64,7 @@ public final class MoreStrings {
       }
 
       while (j < n) {
-        char c = u[j++];
+        char c = u[j ++];
 
         if (c != '\n' && c != '\r') {
           return false;
