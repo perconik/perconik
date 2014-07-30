@@ -14,7 +14,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
  * An abstract implementation of {@link ListenerManager}. This class
  * implements the listener registration mechanism based on the underlying
  * {@link ResourceManager}.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -29,7 +29,11 @@ public abstract class AbstractListenerManager extends AbstractManager implements
   protected abstract ResourceManager manager();
 
   private final <L extends Listener> Set<Resource<? super L>> registrables(final L listener) {
-    Set<Resource<? super L>> resources = this.manager().registrables((Class<L>) listener.getClass());
+    // safe cast as registrables always fetch resources with listener supertypes
+    @SuppressWarnings("unchecked")
+    Class<L> supertype = (Class<L>) listener.getClass();
+
+    Set<Resource<? super L>> resources = this.manager().registrables(supertype);
 
     for (Class<? extends Listener> type: Listeners.resolveTypes(listener)) {
       if (this.manager().registrables(type).isEmpty()) {

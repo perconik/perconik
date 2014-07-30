@@ -27,7 +27,7 @@ abstract class AbstractRegistrationPreferences<R extends Registration> extends A
 
   final Set<R> getRegistrations(final String key) {
     try {
-      return (Set<R>) checkNotNull(this.getObject(key));
+      return Set.class.cast(checkNotNull(this.getObject(key)));
     } catch (RuntimeException e) {
       PluginConsoles.create(Activator.getDefault()).error(e, "Unable to read registrations under key %s", key);
 

@@ -55,7 +55,15 @@ final class StandardResourceManager extends AbstractResourceManager {
 
     for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries()) {
       if (type.isAssignableFrom(entry.getKey())) {
-        result.put((Class<? extends L>) entry.getKey(), (Resource<? extends L>) entry.getValue());
+        // safe cast as key type is a subtype of specified type
+        @SuppressWarnings("unchecked")
+        Class<? extends L> subtype = (Class<? extends L>) entry.getKey();
+
+        // safe cast as value resource is always corresponding to key type
+        @SuppressWarnings("unchecked")
+        Resource<? extends L> resource = (Resource<? extends L>) entry.getValue();
+
+        result.put(subtype, resource);
       }
     }
 
@@ -79,7 +87,11 @@ final class StandardResourceManager extends AbstractResourceManager {
       }
 
       if (matched) {
-        result.add((Resource<? super L>) entry.getValue());
+        // safe cast as L was matched before
+        @SuppressWarnings("unchecked")
+        Resource<? super L> resource = (Resource<? super L>) entry.getValue();
+
+        result.add(resource);
       }
     }
 

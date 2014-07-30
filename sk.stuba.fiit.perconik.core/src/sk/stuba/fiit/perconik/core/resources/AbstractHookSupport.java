@@ -14,10 +14,12 @@ abstract class AbstractHookSupport<H extends Hook<T, L>, T, L extends Listener> 
     this.hooks = newHashMap();
   }
 
+  @SuppressWarnings("unchecked")
   final void hook(final Resource<? super H> resource, final L listener) {
     H hook = this.hooks.get(listener);
 
     if (hook == null) {
+      // safe cast as internal support always creates correct hooks
       hook = (H) this.create(listener);
 
       this.hooks.put(listener, hook);

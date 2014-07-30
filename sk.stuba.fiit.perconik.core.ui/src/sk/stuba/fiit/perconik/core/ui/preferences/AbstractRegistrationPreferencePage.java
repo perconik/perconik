@@ -136,6 +136,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
     this.tableViewer.addCheckStateListener(new ICheckStateListener() {
       public final void checkStateChanged(final CheckStateChangedEvent e) {
+        @SuppressWarnings("unchecked")
         R data = (R) e.getElement();
 
         if (data.isProvided()) {
