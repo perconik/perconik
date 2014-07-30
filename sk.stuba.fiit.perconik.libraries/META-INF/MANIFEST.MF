@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK External Libraries
 Bundle-SymbolicName: sk.stuba.fiit.perconik.libraries;singleton:=true
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.4.1.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: lib/antlr4-runtime-4.1.jar,
  lib/aopalliance-repackaged-2.2.0.jar,
