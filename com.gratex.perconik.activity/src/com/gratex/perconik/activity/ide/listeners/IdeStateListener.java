@@ -57,8 +57,9 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
     setApplicationData(data);
     setEventData(data, time);
 
-    if (Log.enabled())
+    if (Log.enabled()) {
       Log.message().appendln("state: " + state).appendTo(console);
+    }
 
     return data;
   }

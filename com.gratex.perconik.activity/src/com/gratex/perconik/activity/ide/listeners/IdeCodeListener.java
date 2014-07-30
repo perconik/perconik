@@ -239,8 +239,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 
       if (Collections.disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
-        if (Log.enabled())
+        if (Log.enabled()) {
           Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
+        }
 
         return null;
       }
@@ -279,8 +280,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       IEditorPart editor = Editors.getActiveEditor();
 
       if (editor == null) {
-        if (Log.enabled())
+        if (Log.enabled()) {
           Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
+        }
 
         return null;
       }
@@ -301,8 +303,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     SelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection) {
       assert part != null && selection != null;
 
-      this.time = time;
-      this.part = part;
+      this.time      = time;
+      this.part      = part;
       this.selection = selection;
     }
 
@@ -374,12 +376,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   }
 
   static final void processPaste(final long time, final DocumentEvent event) {
-    IDocument document = event.getDocument();
-    IEditorPart editor = Editors.forDocument(document);
+    IDocument   document = event.getDocument();
+    IEditorPart editor   = Editors.forDocument(document);
 
     if (editor == null) {
-      if (Log.enabled())
+      if (Log.enabled()) {
         Log.message().appendln("paste: editor not found / documents not equal").appendTo(console);
+      }
 
       return;
     }
@@ -435,12 +438,14 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   public final void documentAboutToBeChanged(final DocumentEvent event) {}
 
   public final void documentChanged(final DocumentEvent event) {
-    if (Log.enabled())
+    if (Log.enabled()) {
       Log.message().appendln("paste: " + this.paste.getState()).appendTo(console);
+    }
 
     if (this.paste.getState() != EXECUTING) {
-      if (Log.enabled())
+      if (Log.enabled()) {
         Log.message().appendln("paste: comparison failed -> not executing").appendTo(console);
+      }
 
       return;
     }
@@ -497,15 +502,17 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       }
 
       if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event)) {
-        if (Log.enabled())
+        if (Log.enabled()) {
           Log.message().format("selection: watch running but not continuous").appendTo(console);
+        }
 
         this.stopWatchAndProcessLastSelectionEvent();
       }
 
       if (!this.watch.isRunning()) {
-        if (Log.enabled())
+        if (Log.enabled()) {
           Log.message().format("selection: watch not running").appendTo(console);
+        }
 
         this.startWatchAndClearSelectionEvents();
       }
@@ -515,8 +522,9 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       this.continuousSelections.add(event);
 
       if (!empty && delta < selectionEventWindow) {
-        if (Log.enabled())
+        if (Log.enabled()) {
           Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
+        }
 
         this.watch.reset().start();
 

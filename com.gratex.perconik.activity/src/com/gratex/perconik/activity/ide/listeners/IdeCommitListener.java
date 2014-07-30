@@ -29,11 +29,11 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * of type {@link IdeCheckinEventRequest} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
- * 
+ *
  * <p>Commit listener listens to Git commit events only.
- * 
+ *
  * <p>Data available in an {@code IdeCheckinEventRequest}:
- * 
+ *
  * <ul>
  *   <li>{@code changesetIdInRcs} - current Git commit
  *   identifier (40 hexadecimal characters),
@@ -41,9 +41,9 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  *   <li>{@code rcsServer} - see {@code RcsServerDto} below.
  *   <li>See {@link IdeListener} for documentation of inherited data.
  * </ul>
- * 
+ *
  * <p>Data available in an {@code RcsServerDto}:
- * 
+ *
  * <ul>
  *   <li>{@code url} - remote origin URL from the nearest Git repository,
  *   for example {@code https://github.com/perconik/perconik.git}. The nearest
@@ -51,7 +51,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  *   going through workspace root down to the file system root.
  *   <li>{@code typeUri} - always {@code "git"}.
  * </ul>
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -98,8 +98,9 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     setApplicationData(data);
     setEventData(data, time);
 
-    if (Log.enabled())
+    if (Log.enabled()) {
       Log.message().appendln("commit: " + id + " url: " + url).appendTo(console);
+    }
 
     return data;
   }
