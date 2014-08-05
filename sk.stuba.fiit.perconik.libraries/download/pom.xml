@@ -15,10 +15,6 @@
 
     <jackson.version>2.2.4</jackson.version>
 
-    <elasticsearch.version>1.2.1</elasticsearch.version>
-
-    <antlr4-runtime.version>4.1</antlr4-runtime.version>
-
     <javax.annotation-api.version>1.2</javax.annotation-api.version>
     <javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
 
@@ -68,18 +64,6 @@
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-guava</artifactId>
       <version>${jackson.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.elasticsearch</groupId>
-      <artifactId>elasticsearch</artifactId>
-      <version>${elasticsearch.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>antlr4-runtime</artifactId>
-      <version>${antlr4-runtime.version}</version>
     </dependency>
 
     <dependency>
