@@ -29,7 +29,7 @@ public final class UacaMessageDialogs {
 
         String title = "UACA proxy error";
 
-        IPreferenceStore store = UacaPreferences.getShared().asPreferenceStore();
+        IPreferenceStore store = UacaPreferences.getShared().getPreferenceStore();
 
         Preference preference = Preference.usingToggleState(store, key);
 
@@ -37,6 +37,6 @@ public final class UacaMessageDialogs {
       }
     };
 
-    Display.getDefault().asyncExec(dialog);
+    Display.getDefault().syncExec(dialog);
   }
 }

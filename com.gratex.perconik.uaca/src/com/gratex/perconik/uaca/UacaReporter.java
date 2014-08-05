@@ -93,7 +93,7 @@ final class UacaReporter {
   }
 
   static final void displayError(final String message) {
-    if (UacaPreferences.getShared().asPreferenceStore().getBoolean(Keys.displayErrors)) {
+    if (UacaPreferences.getShared().getPreferenceStore().getBoolean(Keys.displayErrors)) {
       UacaMessageDialogs.openError(Keys.displayErrors, message);
     }
   }

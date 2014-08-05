@@ -69,7 +69,7 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
 
   @Override
   protected final IPreferenceStore doGetPreferenceStore() {
-    return UacaPreferences.getShared().asPreferenceStore();
+    return UacaPreferences.getShared().getPreferenceStore();
   }
 
   @Override

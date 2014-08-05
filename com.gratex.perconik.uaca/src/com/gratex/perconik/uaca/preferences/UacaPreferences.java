@@ -2,9 +2,8 @@ package com.gratex.perconik.uaca.preferences;
 
 import java.net.URL;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import com.gratex.perconik.uaca.plugin.Activator;
 
@@ -17,52 +16,31 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logError
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvents;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.uacaUrl;
 
-public final class UacaPreferences extends AbstractPreferences {
-  private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
-
+public final class UacaPreferences {
   static final String qualifier = Activator.PLUGIN_ID + ".preferences";
+
+  static final UacaPreferences shared = new UacaPreferences();
 
   private final IPreferenceStore store;
 
-  private UacaPreferences(final Scope scope) {
-    super(scope, qualifier);
-
-    this.store = new ScopedPreferenceStore(scope.context(), qualifier);
+  private UacaPreferences() {
+    this.store = Activator.getDefault().getPreferenceStore();
   }
 
-  /**
-   * Used to aid in default UACA preferences initialization.
-   *
-   * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-   *
-   * @author Pavol Zbell
-   * @since 1.0
-   */
-  public static final class Initializer extends AbstractPreferences.Initializer {
-    /**
-     * The constructor.
-     */
+  public static final class Initializer extends AbstractPreferenceInitializer {
     public Initializer() {}
 
-    /**
-     * Called by the preference initializer to
-     * initialize default main preferences.
-     *
-     * <p><b>Warning:</b> Clients should not call this method.
-     * It will be called automatically by the preference initializer
-     * when the appropriate default preference node is accessed.
-     */
     @Override
     public final void initializeDefaultPreferences() {
-      IEclipsePreferences preferences = UacaPreferences.getDefault().asEclipsePreferences();
+      IPreferenceStore store = shared.getPreferenceStore();
 
-      preferences.putBoolean(checkConnection, true);
-      preferences.putBoolean(displayErrors, true);
+      store.setDefault(checkConnection, true);
+      store.setDefault(displayErrors, true);
 
-      preferences.putBoolean(logErrors, true);
-      preferences.putBoolean(logEvents, false);
+      store.setDefault(logErrors, true);
+      store.setDefault(logEvents, false);
 
-      preferences.put(uacaUrl, "http://localhost:16375");
+      store.setDefault(uacaUrl, "http://localhost:16375");
     }
   }
 
@@ -78,37 +56,25 @@ public final class UacaPreferences extends AbstractPreferences {
     public static final String uacaUrl = qualifier + ".uacaUrl";
   }
 
-  /**
-   * Gets default scoped core preferences.
-   */
-  public static final UacaPreferences getDefault() {
-    return new UacaPreferences(Scope.DEFAULT);
-  }
-
-  /**
-   * Gets configuration scoped core preferences.
-   */
   public static final UacaPreferences getShared() {
     return shared;
   }
 
-  public final IEclipsePreferences asEclipsePreferences() {
-    return this.data();
-  }
-
-  public final IPreferenceStore asPreferenceStore() {
+  public final IPreferenceStore getPreferenceStore() {
     return this.store;
   }
 
   public final URL getUacaUrl() {
-    return UniformResources.newUrl(this.store.getString(uacaUrl));
+    IPreferenceStore store = getPreferenceStore();
+
+    return UniformResources.newUrl(store.getString(uacaUrl));
   }
 
   public final boolean isErrorLoggerEnabled() {
-    return this.store.getBoolean(logErrors);
+    return getPreferenceStore().getBoolean(logErrors);
   }
 
   public final boolean isEventLoggerEnabled() {
-    return this.store.getBoolean(logEvents);
+    return getPreferenceStore().getBoolean(logEvents);
   }
 }
