@@ -1,46 +1,45 @@
-package com.gratex.perconik.activity.ide;
+package com.gratex.perconik.uaca;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
 
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
-import com.gratex.perconik.activity.plugin.Activator;
+import com.gratex.perconik.uaca.plugin.Activator;
+import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 
-public final class IdeConsole extends ForwardingPluginConsole {
-  private static final IdeConsole instance = new IdeConsole();
+public final class UacaConsole extends ForwardingPluginConsole {
+  private static final UacaConsole instance = new UacaConsole();
 
-  private static final AtomicReference<PluginConsole> console = new AtomicReference<>();
+  private final PluginConsole delegate;
 
-  private IdeConsole() {}
+  private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-  public static final IdeConsole getInstance() {
+  private UacaConsole() {
+    this.delegate = Activator.getDefault().getConsole();
+  }
+
+  public static final UacaConsole getInstance() {
     return instance;
   }
 
   @Override
   protected final PluginConsole delegate() {
-    Activator activator = Activator.getDefault();
-
-    if (activator != null) {
-      console.set(activator.getConsole());
-    }
-
-    return console.get();
+    return this.delegate;
   }
 
   private final String hook(final String message) {
-    if (IdeActivityPreferences.isEventLoggerEnabled()) {
+    if (UacaPreferences.getShared().isEventLoggerEnabled()) {
       this.notice(message);
     }
 
-    return builder().format(Internals.dateFormat, new Date()).appendln().lines(message).toString();
+    return builder().format(format, new Date()).appendln().lines(message).toString();
   }
 
   @Override

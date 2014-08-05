@@ -26,7 +26,7 @@ public class RegisteredResourcesSupplier implements ResourceNamesSupplier {
    * @return names of registered resources grouped under listener types
    */
   public final SetMultimap<Class<? extends Listener>, String> get() {
-    ResourcePreferences preferences = ResourcePreferences.getConfiguration();
+    ResourcePreferences preferences = ResourcePreferences.getShared();
 
     return Registrations.toResourceNames(Registrations.marked(preferences.getResourcePersistenceData()));
   }

@@ -1,15 +1,15 @@
-package com.gratex.perconik.activity.ide;
+package com.gratex.perconik.activity.uaca;
 
 import javax.ws.rs.core.UriBuilder;
 
-public final class UacaUriHelper {
+public final class IdeUacaUris {
   private static final String application = "eclipse";
 
   private final static String base = "http://perconik.gratex.com/useractivity/enum";
 
   private final static UriBuilder codeElementTypeUri = UriBuilder.fromPath(base).path("idecodeelementevent/codeelementtype").fragment("{type}");
 
-  private final static UriBuilder ideStateChangeTypeUri = UriBuilder.fromPath(base).path("idestatechangeevent/statetype/{idename}").fragment("{type}");
+  private final static UriBuilder stateChangeTypeUri = UriBuilder.fromPath(base).path("idestatechangeevent/statetype/{idename}").fragment("{type}");
 
   private final static UriBuilder lookinTypeUri = UriBuilder.fromPath(base).path("idefindevent/lookintype/{idename}").fragment("{type}");
 
@@ -17,7 +17,7 @@ public final class UacaUriHelper {
 
   private final static UriBuilder rcsServerTypeUri = UriBuilder.fromPath(base).path("rcsserver/type").fragment("{type}");
 
-  private UacaUriHelper() {
+  private IdeUacaUris() {
     throw new AssertionError();
   }
 
@@ -25,8 +25,8 @@ public final class UacaUriHelper {
     return codeElementTypeUri.build(type).toString();
   }
 
-  public static final String forIdeStateChangeType(final String type) {
-    return ideStateChangeTypeUri.build(application, type).toString();
+  public static final String forStateChangeType(final String type) {
+    return stateChangeTypeUri.build(application, type).toString();
   }
 
   public static final String forLookinType(final String type) {

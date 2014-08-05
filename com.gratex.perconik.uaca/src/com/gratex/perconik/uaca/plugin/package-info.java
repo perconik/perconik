@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package com.gratex.perconik.activity.ide.preferences;
+package com.gratex.perconik.uaca.plugin;
 
 import javax.annotation.ParametersAreNonnullByDefault;

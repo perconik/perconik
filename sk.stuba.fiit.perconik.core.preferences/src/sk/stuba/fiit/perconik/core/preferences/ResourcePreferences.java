@@ -66,7 +66,7 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
   /**
    * Gets configuration scoped core preferences.
    */
-  public static final ResourcePreferences getConfiguration() {
+  public static final ResourcePreferences getShared() {
     return new ResourcePreferences(Scope.CONFIGURATION);
   }
 

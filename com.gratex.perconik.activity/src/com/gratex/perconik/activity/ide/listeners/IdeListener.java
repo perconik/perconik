@@ -2,11 +2,11 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.concurrent.Executor;
 
-import com.gratex.perconik.activity.ide.IdeConsole;
+import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeEventData;
+import com.gratex.perconik.uaca.UacaConsole;
 
 import sk.stuba.fiit.perconik.core.Adapter;
-import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
@@ -15,9 +15,9 @@ import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
  * A base class for all IDE listeners. This listener documents available
  * data in data transfer objects of type {@link IdeEventData} being
  * a common base for all other data transfer object types.
- * 
+ *
  * <p>Data available in a {@code BaseIdeEventRequest}:
- * 
+ *
  * <ul>
  *   <li>{@code appName} - IDE application name,
  *   for example {@code Eclipse Platform}.
@@ -36,16 +36,18 @@ import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
  *   <li>{@code timestamp} - time when the event occurred, UTC time zone,
  *   precision set to hundredth seconds.
  * </ul>
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public abstract class IdeListener extends Adapter {
-  static final PluginConsole console = IdeConsole.getInstance();
-
   private static final Executor displayExecutor = DisplayExecutor.defaultSynchronous();
 
   private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
+
+  static final UacaConsole console = UacaConsole.getInstance();
+
+  static final IdeUacaProxy proxy = new IdeUacaProxy();
 
   IdeListener() {}
 

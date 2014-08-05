@@ -24,26 +24,26 @@ public abstract class AbstractPreferences {
   public static enum Scope {
     DEFAULT {
       @Override
-      final IScopeContext context() {
+      public final IScopeContext context() {
         return DefaultScope.INSTANCE;
       }
     },
 
     CONFIGURATION {
       @Override
-      final IScopeContext context() {
+      public final IScopeContext context() {
         return ConfigurationScope.INSTANCE;
       }
     },
 
     INSTANCE {
       @Override
-      final IScopeContext context() {
+      public final IScopeContext context() {
         return InstanceScope.INSTANCE;
       }
     };
 
-    abstract IScopeContext context();
+    public abstract IScopeContext context();
 
     final IEclipsePreferences preferences(final String qualifier) {
       return context().getNode(qualifier);

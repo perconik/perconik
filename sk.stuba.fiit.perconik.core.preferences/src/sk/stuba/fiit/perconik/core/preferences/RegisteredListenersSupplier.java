@@ -25,7 +25,7 @@ public class RegisteredListenersSupplier implements ListenerClassesSupplier {
    * @return classes of registered listeners
    */
   public final Set<Class<? extends Listener>> get() {
-    ListenerPreferences preferences = ListenerPreferences.getConfiguration();
+    ListenerPreferences preferences = ListenerPreferences.getShared();
 
     return Registrations.toListenerClasses(Registrations.marked(preferences.getListenerPersistenceData()));
   }

@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.ide.ui;
+package com.gratex.perconik.uaca.ui;
 
 import com.google.common.base.Preconditions;
 
@@ -9,10 +9,10 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences.Keys;
-import com.gratex.perconik.activity.plugin.Activator;
+import com.gratex.perconik.uaca.SharedUacaProxy;
+import com.gratex.perconik.uaca.plugin.Activator;
+import com.gratex.perconik.uaca.preferences.UacaPreferences;
+import com.gratex.perconik.uaca.preferences.UacaPreferences.Keys;
 
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
@@ -20,7 +20,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEdito
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 
-public final class IdeActivityPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public final class UacaPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
   private BooleanFieldEditor logErrors;
 
   private BooleanFieldEditor logEvents;
@@ -31,7 +31,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 
   private ExtendedBooleanFieldEditor displayErrors;
 
-  public IdeActivityPreferencePage() {
+  public UacaPreferencePage() {
     super(GRID);
   }
 
@@ -69,7 +69,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
 
   @Override
   protected final IPreferenceStore doGetPreferenceStore() {
-    return IdeActivityPreferences.getPreferenceStore();
+    return UacaPreferences.getShared().asPreferenceStore();
   }
 
   @Override
@@ -84,7 +84,7 @@ public final class IdeActivityPreferencePage extends FieldEditorPreferencePage i
     Preconditions.checkState(this.uacaUrl != null);
 
     try {
-      UacaProxy.checkConnection(this.uacaUrl.getUrlValue());
+      SharedUacaProxy.checkConnection(this.uacaUrl.getUrlValue());
 
       return true;
     } catch (Exception failure) {

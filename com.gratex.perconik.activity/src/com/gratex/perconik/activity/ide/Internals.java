@@ -1,7 +1,5 @@
 package com.gratex.perconik.activity.ide;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,8 +16,10 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 
 import com.gratex.perconik.activity.TimeSupplier;
+import com.gratex.perconik.activity.plugin.Activator;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.Environment;
 
 import static java.lang.String.valueOf;
@@ -28,10 +28,6 @@ import static com.google.common.base.Strings.nullToEmpty;
 import static com.google.common.base.Throwables.propagate;
 
 final class Internals {
-  static final PluginConsole console = IdeConsole.getInstance();
-
-  static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-
   static final boolean debug = Environment.debug;
 
   static final TimeZone timeZone = TimeZone.getTimeZone("UTC");
@@ -59,6 +55,8 @@ final class Internals {
     options = builder.build();
 
     if (debug) {
+      PluginConsole console = PluginConsoles.create(Activator.getDefault());
+
       MapJoiner joiner = Joiner.on("; ").withKeyValueSeparator(": ");
 
       console.print("UACA environment variable: %s", valueOf(optionsSequence));

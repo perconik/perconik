@@ -19,8 +19,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkingSet;
 
 import com.gratex.perconik.activity.ide.IdeData;
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.ide.UacaUriHelper;
+import com.gratex.perconik.activity.uaca.IdeUacaProxy;
+import com.gratex.perconik.activity.uaca.IdeUacaUris;
 import com.gratex.perconik.services.uaca.ide.IdeFindEventData;
 import com.gratex.perconik.services.uaca.ide.IdeFindFileResultData;
 import com.gratex.perconik.services.uaca.ide.IdeFindResultRowData;
@@ -45,7 +45,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * A listener of IDE find events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
  * of type {@link IdeFindEventData} and passes them to the
- * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
  * <p>Find operations are logged when a file search is performed.
@@ -132,8 +132,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
 
     data.setDerivedResources(scope.includeDerived());
     data.setFileTypes(patterns == null ? "*" : Joiner.on(",").join(patterns));
-    data.setLookinTypeUri(UacaUriHelper.forLookinType(sets == null ? toString(roots) : toString(sets)));
-    data.setPatternSyntaxTypeUri(UacaUriHelper.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
+    data.setLookinTypeUri(IdeUacaUris.forLookinType(sets == null ? toString(roots) : toString(sets)));
+    data.setPatternSyntaxTypeUri(IdeUacaUris.forPatternSyntaxType(query.isRegexSearch() ? "regex" : "wildcard"));
 
     FileSearchResult result = (FileSearchResult) query.getSearchResult();
 
@@ -243,7 +243,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     // TODO handle other query types such as JavaSearchQuery
 
     if (query instanceof FileSearchQuery) {
-      UacaProxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
+      proxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
     }
   }
 

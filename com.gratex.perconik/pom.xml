@@ -16,8 +16,10 @@
   <modules>
     <module>../com.gratex.perconik.activity.feature</module>
     <module>../com.gratex.perconik.services.feature</module>
+    <module>../com.gratex.perconik.uaca.feature</module>
 
     <module>../com.gratex.perconik.activity</module>
     <module>../com.gratex.perconik.services</module>
+    <module>../com.gratex.perconik.uaca</module>
   </modules>
 </project>

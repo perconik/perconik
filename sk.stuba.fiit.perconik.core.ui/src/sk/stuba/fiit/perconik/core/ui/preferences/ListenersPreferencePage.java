@@ -92,7 +92,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
 
   @Override
   final ListenerPreferences preferences() {
-    return ListenerPreferences.getConfiguration();
+    return ListenerPreferences.getShared();
   }
 
   @Override

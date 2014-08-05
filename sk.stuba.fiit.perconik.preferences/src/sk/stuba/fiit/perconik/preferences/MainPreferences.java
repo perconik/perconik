@@ -55,7 +55,7 @@ public final class MainPreferences extends AbstractPreferences {
   /**
    * Gets configuration scoped core preferences.
    */
-  public static final MainPreferences getConfiguration() {
+  public static final MainPreferences getShared() {
     return new MainPreferences(Scope.CONFIGURATION);
   }
 }

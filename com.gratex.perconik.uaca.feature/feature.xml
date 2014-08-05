@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.gratex.perconik.activity.feature"
+      id="com.gratex.perconik.uaca.feature"
       label="PerConIK Gratex Activity Watcher"
-      version="0.10.2.qualifier"
+      version="0.1.1.qualifier"
       provider-name="Gratex International">
 
    <description>
@@ -33,23 +33,11 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
    </url>
 
    <includes
-         id="com.gratex.perconik.services.feature"
-         version="0.0.0"/>
-
-   <includes
          id="sk.stuba.fiit.perconik.feature"
          version="0.0.0"/>
 
-   <includes
-         id="sk.stuba.fiit.perconik.core.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="com.gratex.perconik.uaca.feature"
-         version="0.0.0"/>
-
    <plugin
-         id="com.gratex.perconik.activity"
+         id="com.gratex.perconik.uaca"
          download-size="0"
          install-size="0"
          version="0.0.0"

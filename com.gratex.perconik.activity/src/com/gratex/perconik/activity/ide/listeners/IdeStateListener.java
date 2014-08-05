@@ -6,8 +6,8 @@ import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.activity.ide.UacaUriHelper;
+import com.gratex.perconik.activity.uaca.IdeUacaProxy;
+import com.gratex.perconik.activity.uaca.IdeUacaUris;
 import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventData;
 
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
@@ -23,7 +23,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * A listener of IDE state change events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
  * of type {@link IdeStateChangeEventData} and passes them to the
- * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
  * <p>State changes are logged when an application launches from Eclipse,
@@ -51,7 +51,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
   static final IdeStateChangeEventData build(final long time, final IProject project, final String state) {
     final IdeStateChangeEventData data = new IdeStateChangeEventData();
 
-    data.setStateTypeUri(UacaUriHelper.forIdeStateChangeType(state));
+    data.setStateTypeUri(IdeUacaUris.forStateChangeType(state));
 
     setProjectData(data, project);
     setApplicationData(data);
@@ -70,7 +70,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
     String state = launch.getLaunchMode() + " (launch)";
 
     for (IProject project: projects) {
-      UacaProxy.sendStateChangeEvent(build(time, project, state));
+      proxy.sendStateChangeEvent(build(time, project, state));
     }
   }
 
@@ -79,7 +79,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
 
     String state = descriptor.getLabel().toLowerCase() + " (perspective)";
 
-    UacaProxy.sendStateChangeEvent(build(time, project, state));
+    proxy.sendStateChangeEvent(build(time, project, state));
   }
 
   public final void launchAdded(final ILaunch launch) {

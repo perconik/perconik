@@ -1,17 +1,18 @@
-package com.gratex.perconik.activity.ide.ui;
+package com.gratex.perconik.uaca.ui;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
-public final class IdeActivityMessageDialogs {
-  private IdeActivityMessageDialogs() {
+public final class UacaMessageDialogs {
+  private UacaMessageDialogs() {
     throw new AssertionError();
   }
 
@@ -28,7 +29,9 @@ public final class IdeActivityMessageDialogs {
 
         String title = "UACA proxy error";
 
-        Preference preference = Preference.usingToggleState(IdeActivityPreferences.getPreferenceStore(), key);
+        IPreferenceStore store = UacaPreferences.getShared().asPreferenceStore();
+
+        Preference preference = Preference.usingToggleState(store, key);
 
         MessageDialogWithPreference.openError(shell, title, message, toggle, preference).setBlockOnOpen(true);
       }

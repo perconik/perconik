@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.gratex.perconik.uaca.preferences.UacaPreferences$Initializer">
+      </initializer>
+   </extension>
+   <extension
+         id="com.gratex.perconik.uaca"
+         name="UACA Preferences UI"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            class="com.gratex.perconik.uaca.ui.UacaPreferencePage"
+            id="com.gratex.perconik.activity.ui.preferences.client"
+            name="UACA">
+      </page>
+   </extension>
+
+</plugin>

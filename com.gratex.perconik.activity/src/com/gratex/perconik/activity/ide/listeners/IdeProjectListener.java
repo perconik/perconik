@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeProjectEventData;
 import com.gratex.perconik.services.uaca.ide.IdeProjectEventType;
 
@@ -46,7 +46,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT
  * A listener of IDE project events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
  * of type {@link IdeProjectEventData} and passes them to the
- * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
  * <p>Project operation types that this listener is interested in are
@@ -144,11 +144,11 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
         Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 
         if (kind == ADDED) {
-          UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
+          proxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
         }
 
         if (flags.contains(OPEN) && project.isOpen()) {
-          UacaProxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.OPEN);
+          proxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.OPEN);
         }
 
         return false;
@@ -163,15 +163,15 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
       switch (this.type) {
         case PRE_CLOSE:
-          UacaProxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.CLOSE);
+          proxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.CLOSE);
           break;
 
         case PRE_DELETE:
-          UacaProxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REMOVE);
+          proxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REMOVE);
           break;
 
         case PRE_REFRESH:
-          UacaProxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REFRESH);
+          proxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REFRESH);
           break;
 
         default:
@@ -206,7 +206,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
 
     if (this.updateProject(project)) {
-      UacaProxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
+      proxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
     }
   }
 

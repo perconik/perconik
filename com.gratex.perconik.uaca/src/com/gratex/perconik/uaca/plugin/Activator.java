@@ -1,8 +1,8 @@
-package com.gratex.perconik.activity.plugin;
-
-import org.eclipse.core.runtime.Plugin;
+package com.gratex.perconik.uaca.plugin;
 
 import org.osgi.framework.BundleContext;
+
+import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -12,11 +12,11 @@ import org.osgi.framework.BundleContext;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class Activator extends Plugin {
+public class Activator extends UserInterfacePlugin {
   /**
    * The plug-in identifier.
    */
-  public static final String PLUGIN_ID = "com.gratex.perconik.activity";
+  public static final String PLUGIN_ID = "com.gratex.perconik.uaca";
 
   /**
    * The shared instance.

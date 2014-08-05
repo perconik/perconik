@@ -30,7 +30,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.ide.IdeGitProjects;
-import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventData;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventType;
 
@@ -72,7 +72,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.ROOT;
  * A listener of IDE document events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
  * of type {@link IdeDocumentEventData} and passes them to the
- * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
  * <p>Document operation types that this listener is interested in are
@@ -244,7 +244,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
       }
 
       for (Entry<IdeDocumentEventType, IFile> entry: this.operations.entries()) {
-        UacaProxy.sendDocumentEvent(build(this.time, entry.getValue()), entry.getKey());
+        proxy.sendDocumentEvent(build(this.time, entry.getValue()), entry.getKey());
       }
     }
   }
@@ -333,7 +333,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
 
     if (resource != null) {
-      UacaProxy.sendDocumentEvent(build(time, resource), type);
+      proxy.sendDocumentEvent(build(time, resource), type);
     }
   }
 
@@ -361,7 +361,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
 
     if (this.updateResource(resource)) {
-      UacaProxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
+      proxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
     }
   }
 
@@ -378,7 +378,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
           return;
         }
 
-        UacaProxy.sendDocumentEvent(build(currentTime(), resource), IdeDocumentEventType.OPEN);
+        proxy.sendDocumentEvent(build(currentTime(), resource), IdeDocumentEventType.OPEN);
       }
     });
   }
@@ -458,7 +458,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
         if (!dirty) {
           IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
 
-          UacaProxy.sendDocumentEvent(build(time, file), IdeDocumentEventType.SAVE);
+          proxy.sendDocumentEvent(build(time, file), IdeDocumentEventType.SAVE);
         }
       }
     });

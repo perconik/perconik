@@ -66,7 +66,7 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
   /**
    * Gets configuration scoped core preferences.
    */
-  public static final ListenerPreferences getConfiguration() {
+  public static final ListenerPreferences getShared() {
     return new ListenerPreferences(Scope.CONFIGURATION);
   }
 

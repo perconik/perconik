@@ -102,7 +102,7 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
 
   @Override
   final ResourcePreferences preferences() {
-    return ResourcePreferences.getConfiguration();
+    return ResourcePreferences.getShared();
   }
 
   @Override

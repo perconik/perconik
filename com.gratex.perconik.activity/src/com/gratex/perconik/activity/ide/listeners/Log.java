@@ -1,6 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
+import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
@@ -10,7 +10,7 @@ final class Log {
   }
 
   static final boolean enabled() {
-    return IdeActivityPreferences.isEventLoggerEnabled();
+    return UacaPreferences.getDefault().isErrorLoggerEnabled();
   }
 
   static final SmartStringBuilder message() {

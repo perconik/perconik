@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
+import com.gratex.perconik.activity.uaca.IdeUacaUris;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentData;
 import com.gratex.perconik.services.uaca.ide.IdeEventData;
 import com.gratex.perconik.services.uaca.ide.IdeRcsServerData;
@@ -63,7 +64,7 @@ public final class IdeData {
     IdeRcsServerData data = new IdeRcsServerData();
 
     data.setUrl(url);
-    data.setTypeUri(UacaUriHelper.forRcsServerType("git"));
+    data.setTypeUri(IdeUacaUris.forRcsServerType("git"));
 
     return data;
   }

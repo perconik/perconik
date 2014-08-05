@@ -28,7 +28,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 
-import com.gratex.perconik.activity.ide.UacaProxy;
+import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventData;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
 
@@ -54,6 +54,7 @@ import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.CUT;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.PASTE;
+import static com.gratex.perconik.activity.ide.listeners.IdeListener.proxy;
 
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
@@ -67,7 +68,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * A listener of IDE code events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
  * of type {@link IdeCodeEventData} and passes them to the
- * {@link UacaProxy} to be transferred into the <i>User Activity Central
+ * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
  * <p>Code operation types that this listener is interested in are
@@ -372,7 +373,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       return;
     }
 
-    UacaProxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
+    proxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
   }
 
   static final void processPaste(final long time, final DocumentEvent event) {
@@ -391,7 +392,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
     Region region = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 
-    UacaProxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
+    proxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
   }
 
   static final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection) {
@@ -411,7 +412,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   static final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection) {
     Region region = Region.of(content.document, selection.getOffset(), selection.getLength(), selection.getText());
 
-    UacaProxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
+    proxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
   }
 
   private final void preClose() {
