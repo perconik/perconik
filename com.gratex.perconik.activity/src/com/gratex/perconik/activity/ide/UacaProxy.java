@@ -15,17 +15,17 @@ import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 
 import com.gratex.perconik.activity.ide.preferences.IdeActivityPreferences;
-import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeCodeElementEventType;
-import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
-import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
-import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
+import com.gratex.perconik.services.uaca.ide.IdeCheckinEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventType;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventData;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventType;
+import com.gratex.perconik.services.uaca.ide.IdeFindEventData;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventData;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventType;
+import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventData;
 
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 import sk.stuba.fiit.perconik.utilities.net.UniformResources;
@@ -98,31 +98,31 @@ public final class UacaProxy {
     checkConnection(url.toString());
   }
 
-  public static final void sendCheckinEvent(final IdeCheckinEventRequest request) {
+  public static final void sendCheckinEvent(final IdeCheckinEventData request) {
     postRequest("checkin", request);
   }
 
-  public static final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type) {
+  public static final void sendCodeElementEvent(final IdeCodeElementEventData request, final IdeCodeElementEventType type) {
     postRequest("codeelement/" + type.urlPath(), request);
   }
 
-  public static final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type) {
+  public static final void sendCodeEvent(final IdeCodeEventData request, final IdeCodeEventType type) {
     postRequest("code/" + type.urlPath(), request);
   }
 
-  public static final void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type) {
+  public static final void sendDocumentEvent(final IdeDocumentEventData request, final IdeDocumentEventType type) {
     postRequest("document/" + type.urlPath(), request);
   }
 
-  public static final void sendFindEvent(final IdeFindEventRequest request) {
+  public static final void sendFindEvent(final IdeFindEventData request) {
     postRequest("find", request);
   }
 
-  public static final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type) {
+  public static final void sendProjectEvent(final IdeProjectEventData request, final IdeProjectEventType type) {
     postRequest("project/" + type.urlPath(), request);
   }
 
-  public static final void sendStateChangeEvent(final IdeStateChangeEventRequest request) {
+  public static final void sendStateChangeEvent(final IdeStateChangeEventData request) {
     postRequest("idestatechange", request);
   }
 

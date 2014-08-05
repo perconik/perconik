@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 
 import com.gratex.perconik.activity.ide.UacaProxy;
 import com.gratex.perconik.activity.ide.UacaUriHelper;
-import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventData;
 
 import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 import sk.stuba.fiit.perconik.core.listeners.PerspectiveListener;
@@ -22,7 +22,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 /**
  * A listener of IDE state change events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeStateChangeEventRequest} and passes them to the
+ * of type {@link IdeStateChangeEventData} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
@@ -48,8 +48,8 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 public final class IdeStateListener extends IdeListener implements LaunchListener, PerspectiveListener {
   public IdeStateListener() {}
 
-  static final IdeStateChangeEventRequest build(final long time, final IProject project, final String state) {
-    final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
+  static final IdeStateChangeEventData build(final long time, final IProject project, final String state) {
+    final IdeStateChangeEventData data = new IdeStateChangeEventData();
 
     data.setStateTypeUri(UacaUriHelper.forIdeStateChangeType(state));
 

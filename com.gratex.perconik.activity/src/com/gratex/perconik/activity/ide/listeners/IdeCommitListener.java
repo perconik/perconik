@@ -11,7 +11,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeCheckinEventData;
 
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
@@ -26,7 +26,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 /**
  * A listener of IDE commit events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeCheckinEventRequest} and passes them to the
+ * of type {@link IdeCheckinEventData} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
@@ -89,8 +89,8 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     return false;
   }
 
-  static final IdeCheckinEventRequest build(final long time, final String url, final String id) {
-    final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
+  static final IdeCheckinEventData build(final long time, final String url, final String id) {
+    final IdeCheckinEventData data = new IdeCheckinEventData();
 
     data.setChangesetIdInRcs(id);
     data.setRcsServer(IdeData.newGitServerData(url));

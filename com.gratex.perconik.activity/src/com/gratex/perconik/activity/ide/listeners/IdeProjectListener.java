@@ -16,8 +16,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventData;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventType;
 
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
@@ -45,7 +45,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.PROJECT
 /**
  * A listener of IDE project events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeProjectEventRequest} and passes them to the
+ * of type {@link IdeProjectEventData} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
@@ -102,8 +102,8 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     return false;
   }
 
-  static final IdeProjectEventRequest build(final long time, final IProject project) {
-    final IdeProjectEventRequest data = new IdeProjectEventRequest();
+  static final IdeProjectEventData build(final long time, final IProject project) {
+    final IdeProjectEventData data = new IdeProjectEventData();
 
     setProjectData(data, project);
     setApplicationData(data);

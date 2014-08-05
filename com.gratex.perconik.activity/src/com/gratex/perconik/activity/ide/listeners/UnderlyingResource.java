@@ -11,9 +11,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
 
 import com.gratex.perconik.activity.ide.IdeData;
-import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventData;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventData;
 
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
@@ -97,17 +97,17 @@ abstract class UnderlyingResource<R> {
     }
 
     @Override
-    final void setDocumentData(final IdeCodeEventRequest data) {
+    final void setDocumentData(final IdeCodeEventData data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setDocumentData(final IdeDocumentEventRequest data) {
+    final void setDocumentData(final IdeDocumentEventData data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setProjectData(final BaseIdeEventRequest data) {
+    final void setProjectData(final IdeEventData data) {
       IdeData.setProjectData(data, this.raw);
     }
 
@@ -137,17 +137,17 @@ abstract class UnderlyingResource<R> {
     }
 
     @Override
-    final void setDocumentData(final IdeCodeEventRequest data) {
+    final void setDocumentData(final IdeCodeEventData data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setDocumentData(final IdeDocumentEventRequest data) {
+    final void setDocumentData(final IdeDocumentEventData data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setProjectData(final BaseIdeEventRequest data) {
+    final void setProjectData(final IdeEventData data) {
       IdeData.setProjectData(data, this.raw);
     }
 
@@ -185,11 +185,11 @@ abstract class UnderlyingResource<R> {
     return this.id.hashCode();
   }
 
-  abstract void setDocumentData(IdeCodeEventRequest data);
+  abstract void setDocumentData(IdeCodeEventData data);
 
-  abstract void setDocumentData(IdeDocumentEventRequest data);
+  abstract void setDocumentData(IdeDocumentEventData data);
 
-  abstract void setProjectData(BaseIdeEventRequest data);
+  abstract void setProjectData(IdeEventData data);
 
   public abstract R getRaw();
 

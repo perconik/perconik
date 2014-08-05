@@ -29,8 +29,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.ide.UacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
 
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
@@ -66,7 +66,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
 /**
  * A listener of IDE code events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeCodeEventRequest} and passes them to the
+ * of type {@link IdeCodeEventData} and passes them to the
  * {@link UacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
@@ -207,8 +207,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
-  static final IdeCodeEventRequest build(final long time, final UnderlyingResource<?> resource, final Region region) {
-    final IdeCodeEventRequest data = new IdeCodeEventRequest();
+  static final IdeCodeEventData build(final long time, final UnderlyingResource<?> resource, final Region region) {
+    final IdeCodeEventData data = new IdeCodeEventData();
 
     data.setText(region.text);
 
