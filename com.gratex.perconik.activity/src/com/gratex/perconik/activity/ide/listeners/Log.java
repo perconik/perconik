@@ -10,7 +10,7 @@ final class Log {
   }
 
   static final boolean enabled() {
-    return UacaPreferences.getDefault().isErrorLoggerEnabled();
+    return UacaPreferences.getShared().isErrorLoggerEnabled();
   }
 
   static final SmartStringBuilder message() {
