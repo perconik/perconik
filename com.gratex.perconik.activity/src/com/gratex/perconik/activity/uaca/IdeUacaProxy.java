@@ -20,35 +20,35 @@ public final class IdeUacaProxy extends SharedUacaProxy {
   }
 
   @Override
-  protected final WebTarget target() {
-    return super.target().path("ide");
+  protected final WebTarget createTarget() {
+    return super.createTarget().path("ide");
   }
 
   public final void sendCheckinEvent(final IdeCheckinEventData request) {
-    this.postRequest("checkin", request);
+    this.send("checkin", request);
   }
 
   public final void sendCodeElementEvent(final IdeCodeElementEventData request, final IdeCodeElementEventType type) {
-    this.postRequest("codeelement/" + type.urlPath(), request);
+    this.send("codeelement/" + type.urlPath(), request);
   }
 
   public final void sendCodeEvent(final IdeCodeEventData request, final IdeCodeEventType type) {
-    this.postRequest("code/" + type.urlPath(), request);
+    this.send("code/" + type.urlPath(), request);
   }
 
   public final void sendDocumentEvent(final IdeDocumentEventData request, final IdeDocumentEventType type) {
-    this.postRequest("document/" + type.urlPath(), request);
+    this.send("document/" + type.urlPath(), request);
   }
 
   public final void sendFindEvent(final IdeFindEventData request) {
-    this.postRequest("find", request);
+    this.send("find", request);
   }
 
   public final void sendProjectEvent(final IdeProjectEventData request, final IdeProjectEventType type) {
-    this.postRequest("project/" + type.urlPath(), request);
+    this.send("project/" + type.urlPath(), request);
   }
 
   public final void sendStateChangeEvent(final IdeStateChangeEventData request) {
-    this.postRequest("idestatechange", request);
+    this.send("idestatechange", request);
   }
 }

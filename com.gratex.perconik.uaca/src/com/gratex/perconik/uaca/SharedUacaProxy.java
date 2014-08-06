@@ -24,12 +24,17 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   }
 
   @Override
-  protected void beforeRequest(WebTarget target, @Nullable Object request) {
+  protected URL url() {
+    return UacaPreferences.getShared().getUacaUrl();
+  }
+
+  @Override
+  protected void filterRequest(WebTarget target, @Nullable Object request) {
     UacaReporter.logRequest(target, request);
   }
 
   @Override
-  protected void afterRequest(WebTarget target, @Nullable Object request, Response response) {
+  protected void processResponse(WebTarget target, @Nullable Object request, Response response) {
     StatusType status = response.getStatusInfo();
 
     if (status.getFamily() == Family.CLIENT_ERROR || status.getFamily() == Family.SERVER_ERROR) {
@@ -37,16 +42,13 @@ public class SharedUacaProxy extends AbstractUacaProxy {
 
       throw new IllegalStateException(message);
     }
+    
+    throw new UnsupportedOperationException("lala");
   }
 
   @Override
   protected void reportFailure(String message, Exception failure) {
     UacaReporter.logError(message, failure);
-    UacaReporter.displayError(message);
-  }
-
-  @Override
-  protected URL url() {
-    return UacaPreferences.getShared().getUacaUrl();
+    UacaReporter.displayError(message, failure);
   }
 }

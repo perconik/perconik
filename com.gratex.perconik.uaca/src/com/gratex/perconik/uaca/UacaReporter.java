@@ -16,6 +16,8 @@ import com.gratex.perconik.uaca.preferences.UacaPreferences;
 import com.gratex.perconik.uaca.preferences.UacaPreferences.Keys;
 import com.gratex.perconik.uaca.ui.UacaMessageDialogs;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 final class UacaReporter {
   private UacaReporter() {
     throw new AssertionError();
@@ -92,9 +94,9 @@ final class UacaReporter {
     UacaConsole.getInstance().error(failure, message);
   }
 
-  static final void displayError(final String message) {
+  static final void displayError(final String message, @Nullable final Exception failure) {
     if (UacaPreferences.getShared().getPreferenceStore().getBoolean(Keys.displayErrors)) {
-      UacaMessageDialogs.openError(Keys.displayErrors, message);
+      UacaMessageDialogs.openError(Keys.displayErrors, isNullOrEmpty(message) ? failure.getMessage() : message);
     }
   }
 }
