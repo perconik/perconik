@@ -10,8 +10,8 @@
 	<classpathentry exported="true" kind="lib" path="lib/hk2-utils-2.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/intt.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.2.4.jar" sourcepath=".sources/jackson-core-2.2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.2.4.jar" sourcepath=".sources/jackson-databind-2.2.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-datatype-guava-2.2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
