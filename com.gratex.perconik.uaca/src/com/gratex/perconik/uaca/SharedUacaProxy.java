@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response.StatusType;
 
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
+import static java.lang.String.format;
+
 public class SharedUacaProxy extends AbstractUacaProxy {
   public SharedUacaProxy() {
   }
@@ -38,7 +40,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     StatusType status = response.getStatusInfo();
 
     if (status.getFamily() == Family.CLIENT_ERROR || status.getFamily() == Family.SERVER_ERROR) {
-      String message = String.format("POST %s returned %d %s", target.getUri(), status.getStatusCode(), status.getReasonPhrase());
+      String message = format("UacaProxy: POST %s -> %d %s", target.getUri(), status.getStatusCode(), status.getReasonPhrase());
 
       throw new IllegalStateException(message);
     }

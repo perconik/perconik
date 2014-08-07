@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response;
 
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
+import static java.lang.String.format;
+
 import static javax.ws.rs.client.Entity.entity;
 
 @SuppressWarnings({"static-method", "unused"})
@@ -32,9 +34,10 @@ public abstract class AbstractUacaProxy implements Closeable {
     final Runnable command = new Runnable() {
       public final void run() {
         Response response = null;
+        WebTarget target = null;
 
         try {
-          WebTarget target = createTarget().path(path);
+          target = createTarget().path(path);
 
           filterRequest(target, request);
 
@@ -42,7 +45,9 @@ public abstract class AbstractUacaProxy implements Closeable {
 
           processResponse(target, request, response);
         } catch (Exception failure) {
-          reportFailure("POST request to UACA failed", failure);
+          String uri = target != null ? target.getUri().toString() : "unknown";
+
+          reportFailure(format("UacaProxy: POST %s -> Unexpected failure", uri), failure);
         } finally {
           if (response != null) {
             try {
