@@ -97,7 +97,7 @@ final class UacaReporter {
     }
 
     public static final String toString(@Nullable final Object object) throws Exception {
-      return writer.with(new Printer()).writeValueAsString(mapper.convertValue(object, type));
+      return writer.writeValueAsString(mapper.convertValue(object, type));
     }
   }
 
