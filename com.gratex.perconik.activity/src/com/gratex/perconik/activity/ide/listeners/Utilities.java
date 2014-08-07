@@ -22,7 +22,7 @@ final class Utilities {
    * or {@code null} if the editor was not instantiated.
    */
   static final IEditorPart dereferenceEditor(final IEditorReference reference) {
-    return reference.getEditor(true);
+    return reference.getEditor(false);
   }
 
   /**

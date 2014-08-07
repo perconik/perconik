@@ -121,6 +121,6 @@ final class Hooks {
   }
 
   static final IEditorPart dereferenceEditor(final IEditorReference reference) {
-    return reference.getEditor(true);
+    return reference.getEditor(false);
   }
 }
