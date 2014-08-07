@@ -2,12 +2,12 @@ package sk.stuba.fiit.perconik.activity.data.base;
 
 import sk.stuba.fiit.perconik.core.Nameable;
 
-public class NameableBaseData extends BaseData {
+public class NameableTypeData extends TypeData {
   protected String name;
 
-  public NameableBaseData() {}
+  public NameableTypeData() {}
 
-  protected NameableBaseData(Nameable nameable) {
+  protected NameableTypeData(Nameable nameable) {
     if (nameable == null) {
       return;
     }
@@ -16,7 +16,7 @@ public class NameableBaseData extends BaseData {
     this.setImplementation(ClassData.of(nameable.getClass()));
   }
 
-  protected NameableBaseData(String name, Class<?> implementation) {
+  protected NameableTypeData(String name, Class<?> implementation) {
     super(implementation);
 
     if (name == null) {
@@ -26,12 +26,12 @@ public class NameableBaseData extends BaseData {
     this.setName(name);
   }
 
-  public static NameableBaseData of(Nameable nameable) {
-    return new NameableBaseData(nameable);
+  public static NameableTypeData of(Nameable nameable) {
+    return new NameableTypeData(nameable);
   }
 
-  public static NameableBaseData of(String name, Class<?> implementation) {
-    return new NameableBaseData(name, implementation);
+  public static NameableTypeData of(String name, Class<?> implementation) {
+    return new NameableTypeData(name, implementation);
   }
 
   public void setName(String name) {

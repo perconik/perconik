@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 
 /**
  * TODO
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -18,19 +18,19 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 public final class PerspectiveListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   public PerspectiveListener() {}
 
-  public void perspectiveOpened(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
+  public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public void perspectiveClosed(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
+  public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
+  public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public void perspectiveDeactivated(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
+  public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public void perspectivePreDeactivate(IWorkbenchPage page, IPerspectiveDescriptor descriptor) {}
+  public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, String change) {}
+  public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change) {}
 
-  public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor descriptor, IWorkbenchPartReference reference, String change) {}
+  public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change) {}
 
-  public void perspectiveSavedAs(IWorkbenchPage page, IPerspectiveDescriptor before, IPerspectiveDescriptor after) {}
+  public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {}
 }

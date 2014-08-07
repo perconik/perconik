@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 
 /**
  * TODO
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -17,5 +17,5 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 public final class SelectionListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.SelectionListener {
   public SelectionListener() {}
 
-  public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {}
+  public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {}
 }

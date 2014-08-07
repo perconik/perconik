@@ -1,13 +1,17 @@
 package sk.stuba.fiit.perconik.activity.data.events;
 
+import java.util.Set;
+
 import sk.stuba.fiit.perconik.activity.data.base.AnnotableData;
 import sk.stuba.fiit.perconik.activity.data.base.AnnotationData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 public class EventData extends AnnotableData {
-  protected long time;
+  protected long timestamp;
 
   protected String action;
+
+  protected Set<String> tags;
 
   public EventData() {}
 
@@ -23,19 +27,27 @@ public class EventData extends AnnotableData {
     return new EventData(action);
   }
 
-  public void setTime(long time) {
-    this.time = time;
+  public void setTimestamp(long timestamp) {
+    this.timestamp = timestamp;
   }
 
   public void setAction(String action) {
     this.action = action;
   }
 
-  public long getTime() {
-    return this.time;
+  public void setTags(Set<String> tags) {
+    this.tags = tags;
+  }
+
+  public long getTimestamp() {
+    return this.timestamp;
   }
 
   public String getAction() {
     return this.action;
+  }
+
+  public Set<String> getTags() {
+    return this.tags;
   }
 }

@@ -6,15 +6,15 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
-import sk.stuba.fiit.perconik.activity.data.base.NameableBaseData;
+import sk.stuba.fiit.perconik.activity.data.base.NameableTypeData;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 
-public class ResourceServiceData extends NameableBaseData {
-  protected NameableBaseData provider;
+public class ResourceServiceData extends NameableTypeData {
+  protected NameableTypeData provider;
 
-  protected NameableBaseData manager;
+  protected NameableTypeData manager;
 
   protected Set<String> names;
 
@@ -29,8 +29,8 @@ public class ResourceServiceData extends NameableBaseData {
       return;
     }
 
-    this.setProvider(NameableBaseData.of(service.getResourceProvider()));
-    this.setManager(NameableBaseData.of(service.getResourceManager()));
+    this.setProvider(NameableTypeData.of(service.getResourceProvider()));
+    this.setManager(NameableTypeData.of(service.getResourceManager()));
     this.setNames(service.getResourceProvider().names());
 
     SetMultimap<String, ResourceData> registrations = HashMultimap.create();
@@ -46,11 +46,11 @@ public class ResourceServiceData extends NameableBaseData {
     return new ResourceServiceData(service);
   }
 
-  public void setProvider(NameableBaseData provider) {
+  public void setProvider(NameableTypeData provider) {
     this.provider = provider;
   }
 
-  public void setManager(NameableBaseData manager) {
+  public void setManager(NameableTypeData manager) {
     this.manager = manager;
   }
 
@@ -62,11 +62,11 @@ public class ResourceServiceData extends NameableBaseData {
     this.registrations = registrations;
   }
 
-  public NameableBaseData getProvider() {
+  public NameableTypeData getProvider() {
     return this.provider;
   }
 
-  public NameableBaseData getManager() {
+  public NameableTypeData getManager() {
     return this.manager;
   }
 

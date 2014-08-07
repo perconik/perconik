@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 public final class BaseModule extends SimpleModule {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 0L;
 
   public BaseModule() {
     super(PackageVersion.VERSION);

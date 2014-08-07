@@ -2,18 +2,15 @@ package sk.stuba.fiit.perconik.activity.listeners;
 
 import org.eclipse.ui.IWorkbench;
 
-import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
-import sk.stuba.fiit.perconik.activity.data.eclipse.StandardPlatformProbe;
 import sk.stuba.fiit.perconik.activity.data.events.EventData;
-import sk.stuba.fiit.perconik.activity.data.events.WorkbenchData;
-import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
-import sk.stuba.fiit.perconik.core.plugin.Activator;
+
+import static sk.stuba.fiit.perconik.activity.listeners.Utilities.currentTime;
 
 /**
  * TODO
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -27,39 +24,47 @@ public final class WorkbenchListener extends Listener implements sk.stuba.fiit.p
 
     SHUTDOWN;
 
-    @Override
-    public final String toString() {
-      return this.name().toLowerCase();
+    final String identifier;
+
+    private Action() {
+      this.identifier = "eclipse.workbench." + this.name().toLowerCase();
     }
   }
 
-  final void process(EventData data) {
-    System.out.println(data.toString(true));
-    System.out.println(data.toMap(true));
-  }
+  final EventData build(final long time, final Action action) {
+    EventData data = new EventData();
 
-  final WorkbenchData build(final Action action) {
-    WorkbenchData data = new WorkbenchData();
+    data.setAction(action.identifier);
 
-    data.setTime(currentTime());
-    data.setAction(action.toString());
-
-    data.set("core", new StandardCoreProbe().core());
-    data.set("platform", new StandardPlatformProbe().platform());
-    data.set("system", new StandardSystemProbe().system());
+    // TODO
+    //    data.put("core", new StandardCoreProbe().core());
+    //    data.put("platform", new StandardPlatformProbe().platform());
+    //    data.put("system", new StandardSystemProbe().system());
 
     return data;
   }
 
   @Override
   public final void postRegister() {
-    Activator.waitForExtensions();
+    final long time = currentTime();
 
-    process(build(Action.STARTUP));
+    //Activator.waitForExtensions(); // TODO causes deadlock
+
+    execute(new Runnable() {
+      public final void run() {
+        persist("eclipse/workbench/startup", build(time, Action.STARTUP));
+      }
+    });
   }
 
-  public final boolean preShutdown(final IWorkbench workbench, boolean forced) {
-    process(build(Action.SHUTDOWN));
+  public final boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+    final long time = currentTime();
+
+    execute(new Runnable() {
+      public final void run() {
+        persist("workbench/shutdown", build(time, Action.SHUTDOWN));
+      }
+    });
 
     return true;
   }

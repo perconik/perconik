@@ -10,11 +10,11 @@ public interface StructuredContent extends Content {
 
   public Map<String, Object> flatten();
 
-  public void set(String key, @Nullable Object value);
+  public void put(String key, @Nullable Object value);
 
-  public void set(Iterable<String> key, @Nullable Object value);
+  public void put(Iterable<String> key, @Nullable Object value);
 
-  public void set(Iterator<String> key, @Nullable Object value);
+  public void put(Iterator<String> key, @Nullable Object value);
 
   public Object get(String key);
 

@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.activity.uaca;
 
-import java.nio.file.Path;
-
 import javax.annotation.Nullable;
 
 import com.gratex.perconik.uaca.SharedUacaProxy;
@@ -13,11 +11,11 @@ public final class UacaProxy extends SharedUacaProxy implements Store {
   public UacaProxy() {
   }
 
-  public final Content load(final Path path, @Nullable final Content request) {
+  public final Content load(final String path, @Nullable final Content request) {
     throw new UnsupportedOperationException();
   }
 
-  public final void save(final Path path, @Nullable final Content data) {
-    this.send("generic/event", UacaData.of(path, data));
+  public final void save(final String path, @Nullable final Content data) {
+    this.send("generic/event", UacaContentWrapper.of(path, data));
   }
 }

@@ -230,15 +230,15 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   @JsonAnySetter
   @JsonDeserialize(using = Deserializer.class)
   @Override
-  public void set(String key, @Nullable Object value) {
+  public void put(String key, @Nullable Object value) {
     this.other.put(key, value);
   }
 
-  public void set(Iterable<String> key, Object value) {
-    this.set(key.iterator(), value);
+  public void put(Iterable<String> key, Object value) {
+    this.put(key.iterator(), value);
   }
 
-  public void set(Iterator<String> key, Object value) {
+  public void put(Iterator<String> key, Object value) {
     this.structure().put(key, value);
   }
 

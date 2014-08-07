@@ -43,7 +43,7 @@ public class AnyData extends Data {
 
   @JsonAnySetter
   @JsonDeserialize(using = Deserializer.class)
-  public void set(String key, @Nullable Object value) {
+  public void put(String key, @Nullable Object value) {
     this.other.put(key, value);
   }
 

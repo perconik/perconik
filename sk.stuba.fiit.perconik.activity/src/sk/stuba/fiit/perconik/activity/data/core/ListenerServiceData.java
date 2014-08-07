@@ -7,15 +7,15 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 import sk.stuba.fiit.perconik.activity.data.base.ClassData;
-import sk.stuba.fiit.perconik.activity.data.base.NameableBaseData;
+import sk.stuba.fiit.perconik.activity.data.base.NameableTypeData;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 
-public class ListenerServiceData extends NameableBaseData {
-  protected NameableBaseData provider;
+public class ListenerServiceData extends NameableTypeData {
+  protected NameableTypeData provider;
 
-  protected NameableBaseData manager;
+  protected NameableTypeData manager;
 
   protected Set<Class<? extends Listener>> classes;
 
@@ -31,8 +31,8 @@ public class ListenerServiceData extends NameableBaseData {
     }
 
     this.setImplementation(ClassData.of(service.getClass()));
-    this.setProvider(NameableBaseData.of(service.getListenerProvider()));
-    this.setManager(NameableBaseData.of(service.getListenerManager()));
+    this.setProvider(NameableTypeData.of(service.getListenerProvider()));
+    this.setManager(NameableTypeData.of(service.getListenerManager()));
     this.setClasses(service.getListenerProvider().classes());
 
     SetMultimap<String, ListenerData> registrations = HashMultimap.create();
@@ -48,11 +48,11 @@ public class ListenerServiceData extends NameableBaseData {
     return new ListenerServiceData(service);
   }
 
-  public void setProvider(NameableBaseData provider) {
+  public void setProvider(NameableTypeData provider) {
     this.provider = provider;
   }
 
-  public void setManager(NameableBaseData manager) {
+  public void setManager(NameableTypeData manager) {
     this.manager = manager;
   }
 
@@ -64,11 +64,11 @@ public class ListenerServiceData extends NameableBaseData {
     this.registrations = registrations;
   }
 
-  public NameableBaseData getProvider() {
+  public NameableTypeData getProvider() {
     return this.provider;
   }
 
-  public NameableBaseData getManager() {
+  public NameableTypeData getManager() {
     return this.manager;
   }
 

@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 
 /**
  * TODO
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -16,11 +16,11 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 public final class WindowListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
   public WindowListener() {}
 
-  public void windowOpened(IWorkbenchWindow window) {}
+  public final void windowOpened(final IWorkbenchWindow window) {}
 
-  public void windowClosed(IWorkbenchWindow window) {}
+  public final void windowClosed(final IWorkbenchWindow window) {}
 
-  public void windowActivated(IWorkbenchWindow window) {}
+  public final void windowActivated(final IWorkbenchWindow window) {}
 
-  public void windowDeactivated(IWorkbenchWindow window) {}
+  public final void windowDeactivated(final IWorkbenchWindow window) {}
 }

@@ -5,22 +5,16 @@ import org.eclipse.debug.core.ILaunch;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
-/**
- * TODO
- * 
- * @author Pavol Zbell
- * @since 1.0
- */
 @Unsupported
 @Version("0.0.1")
 public final class LaunchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.LaunchesListener {
   public LaunchListener() {}
 
-  public void launchesAdded(ILaunch[] launches) {}
+  public final void launchesAdded(final ILaunch[] launches) {}
 
-  public void launchesRemoved(ILaunch[] launches) {}
+  public final void launchesRemoved(final ILaunch[] launches) {}
 
-  public void launchesChanged(ILaunch[] launches) {}
+  public final void launchesChanged(final ILaunch[] launches) {}
 
-  public void launchesTerminated(ILaunch[] launches) {}
+  public final void launchesTerminated(final ILaunch[] launches) {}
 }
