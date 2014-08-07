@@ -29,8 +29,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventData;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
 
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
@@ -54,7 +54,6 @@ import static com.gratex.perconik.activity.ide.IdeData.setEventData;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.COPY;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.CUT;
 import static com.gratex.perconik.activity.ide.listeners.IdeCodeListener.Operation.PASTE;
-import static com.gratex.perconik.activity.ide.listeners.IdeListener.proxy;
 
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
@@ -67,7 +66,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
 /**
  * A listener of IDE code events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeCodeEventData} and passes them to the
+ * of type {@link IdeCodeEventRequest} and passes them to the
  * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
@@ -208,8 +207,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
-  static final IdeCodeEventData build(final long time, final UnderlyingResource<?> resource, final Region region) {
-    final IdeCodeEventData data = new IdeCodeEventData();
+  static final IdeCodeEventRequest build(final long time, final UnderlyingResource<?> resource, final Region region) {
+    final IdeCodeEventRequest data = new IdeCodeEventRequest();
 
     data.setText(region.text);
 

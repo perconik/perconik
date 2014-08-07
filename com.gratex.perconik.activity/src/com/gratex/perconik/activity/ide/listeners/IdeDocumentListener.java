@@ -31,8 +31,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.ide.IdeGitProjects;
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventData;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventType;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
 
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;
@@ -71,7 +71,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType.ROOT;
 /**
  * A listener of IDE document events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeDocumentEventData} and passes them to the
+ * of type {@link IdeDocumentEventRequest} and passes them to the
  * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *
@@ -149,12 +149,12 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     return false;
   }
 
-  static final IdeDocumentEventData build(final long time, final IFile file) {
+  static final IdeDocumentEventRequest build(final long time, final IFile file) {
     return build(time, UnderlyingResource.of(file));
   }
 
-  static final IdeDocumentEventData build(final long time, final UnderlyingResource<?> resource) {
-    final IdeDocumentEventData data = new IdeDocumentEventData();
+  static final IdeDocumentEventRequest build(final long time, final UnderlyingResource<?> resource) {
+    final IdeDocumentEventRequest data = new IdeDocumentEventRequest();
 
     resource.setDocumentData(data);
     resource.setProjectData(data);

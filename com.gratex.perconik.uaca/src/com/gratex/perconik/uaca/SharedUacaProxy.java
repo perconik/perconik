@@ -42,8 +42,6 @@ public class SharedUacaProxy extends AbstractUacaProxy {
 
       throw new IllegalStateException(message);
     }
-    
-    throw new UnsupportedOperationException("lala");
   }
 
   @Override

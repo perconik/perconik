@@ -2,17 +2,17 @@ package com.gratex.perconik.activity.uaca;
 
 import javax.ws.rs.client.WebTarget;
 
-import com.gratex.perconik.services.uaca.ide.IdeCheckinEventData;
-import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventData;
-import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventType;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventData;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventData;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventType;
-import com.gratex.perconik.services.uaca.ide.IdeFindEventData;
-import com.gratex.perconik.services.uaca.ide.IdeProjectEventData;
-import com.gratex.perconik.services.uaca.ide.IdeProjectEventType;
-import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeCodeElementEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
+import com.gratex.perconik.services.uaca.ide.type.IdeCodeElementEventType;
+import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
+import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
+import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
 import com.gratex.perconik.uaca.SharedUacaProxy;
 
 public final class IdeUacaProxy extends SharedUacaProxy {
@@ -24,31 +24,31 @@ public final class IdeUacaProxy extends SharedUacaProxy {
     return super.createTarget().path("ide");
   }
 
-  public final void sendCheckinEvent(final IdeCheckinEventData request) {
+  public final void sendCheckinEvent(final IdeCheckinEventRequest request) {
     this.send("checkin", request);
   }
 
-  public final void sendCodeElementEvent(final IdeCodeElementEventData request, final IdeCodeElementEventType type) {
+  public final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type) {
     this.send("codeelement/" + type.urlPath(), request);
   }
 
-  public final void sendCodeEvent(final IdeCodeEventData request, final IdeCodeEventType type) {
+  public final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type) {
     this.send("code/" + type.urlPath(), request);
   }
 
-  public final void sendDocumentEvent(final IdeDocumentEventData request, final IdeDocumentEventType type) {
+  public final void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type) {
     this.send("document/" + type.urlPath(), request);
   }
 
-  public final void sendFindEvent(final IdeFindEventData request) {
+  public final void sendFindEvent(final IdeFindEventRequest request) {
     this.send("find", request);
   }
 
-  public final void sendProjectEvent(final IdeProjectEventData request, final IdeProjectEventType type) {
+  public final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type) {
     this.send("project/" + type.urlPath(), request);
   }
 
-  public final void sendStateChangeEvent(final IdeStateChangeEventData request) {
+  public final void sendStateChangeEvent(final IdeStateChangeEventRequest request) {
     this.send("idestatechange", request);
   }
 }

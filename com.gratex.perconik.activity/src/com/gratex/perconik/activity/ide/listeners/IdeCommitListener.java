@@ -11,7 +11,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeCheckinEventData;
+import com.gratex.perconik.services.uaca.ide.IdeCheckinEventRequest;
 
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
@@ -89,8 +89,8 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     return false;
   }
 
-  static final IdeCheckinEventData build(final long time, final String url, final String id) {
-    final IdeCheckinEventData data = new IdeCheckinEventData();
+  static final IdeCheckinEventRequest build(final long time, final String url, final String id) {
+    final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
 
     data.setChangesetIdInRcs(id);
     data.setRcsServer(IdeData.newGitServerData(url));

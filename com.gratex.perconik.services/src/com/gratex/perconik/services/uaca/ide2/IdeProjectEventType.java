@@ -1,4 +1,4 @@
-package com.gratex.perconik.services.uaca.ide;
+package com.gratex.perconik.services.uaca.ide2;
 
 public enum IdeProjectEventType {
   SWITCH_TO("switchto"),

@@ -1,4 +1,4 @@
-package com.gratex.perconik.services.uaca.ide;
+package com.gratex.perconik.services.uaca.ide2;
 
 /**
  * Common request used for events: PasteFromWeb, SelectionChanged, Paste, Copy, Cut

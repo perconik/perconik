@@ -3,7 +3,6 @@ package com.gratex.perconik.activity.ide.listeners;
 import java.util.concurrent.Executor;
 
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
-import com.gratex.perconik.services.uaca.ide.IdeEventData;
 import com.gratex.perconik.uaca.UacaConsole;
 
 import sk.stuba.fiit.perconik.core.Adapter;
@@ -13,7 +12,7 @@ import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
 /**
  * A base class for all IDE listeners. This listener documents available
- * data in data transfer objects of type {@link IdeEventData} being
+ * data in data transfer objects of type {@link IdeEventRequest} being
  * a common base for all other data transfer object types.
  *
  * <p>Data available in a {@code BaseIdeEventRequest}:
