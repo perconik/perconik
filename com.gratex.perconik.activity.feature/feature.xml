@@ -2,7 +2,7 @@
 <feature
       id="com.gratex.perconik.activity.feature"
       label="PerConIK Gratex Activity Watcher"
-      version="0.12.2.qualifier"
+      version="0.12.3.qualifier"
       provider-name="Gratex International">
 
    <description>
