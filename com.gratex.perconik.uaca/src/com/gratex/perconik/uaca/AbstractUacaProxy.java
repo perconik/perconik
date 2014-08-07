@@ -1,6 +1,7 @@
 package com.gratex.perconik.uaca;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Executor;
 
@@ -71,7 +72,10 @@ public abstract class AbstractUacaProxy implements Closeable {
 
   protected void reportFailure(String message, @Nullable Exception failure) {}
 
-  public final void close() {
+  public final void close() throws IOException {
     this.client.close();
+    this.closeHook();
   }
+
+  protected void closeHook() throws IOException {}
 }
