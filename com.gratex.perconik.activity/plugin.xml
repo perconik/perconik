@@ -4,7 +4,7 @@
    <extension
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
-            class="com.gratex.perconik.activity.ide.IdeListenerProviderFactory"></provider>
+            class="com.gratex.perconik.activity.ide.listeners.IdeListenerProviderFactory"></provider>
    </extension>
 
 </plugin>
