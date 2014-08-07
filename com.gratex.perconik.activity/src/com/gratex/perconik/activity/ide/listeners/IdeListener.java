@@ -71,6 +71,9 @@ public abstract class IdeListener extends Adapter {
   }
 
   @Override
+  public final void preRegister() {}
+
+  @Override
   public final void postUnregister() {
     try {
       this.proxy.close();
