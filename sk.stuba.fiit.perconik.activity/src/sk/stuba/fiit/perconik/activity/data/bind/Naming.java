@@ -10,15 +10,17 @@ public final class Naming extends PropertyNamingStrategyBase {
   public Naming() {}
 
   @Override
-  public final String translate(String input) {
+  public final String translate(final String input) {
     if (input == null) {
       return null;
     }
 
+    String result = input;
+
     if (input.charAt(0) == '_') {
-      input = "_" + input;
+      result = "_" + result;
     }
 
-    return strategy.translate(input);
+    return strategy.translate(result);
   }
 }

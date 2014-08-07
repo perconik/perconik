@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import sk.stuba.fiit.perconik.activity.data.bind.Mapper;
+import sk.stuba.fiit.perconik.activity.data.bind.Writer;
 
 import static com.google.common.collect.Maps.newTreeMap;
 
@@ -19,7 +20,7 @@ public class Data implements Content {
 
   public static final <T extends Data> T fromMap(final Class<T> type, final Map<String, Object> data) {
     try {
-      return Mapper.getInstance().convertValue(data, type);
+      return Mapper.getShared().convertValue(data, type);
     } catch (Exception e) {
       throw new DataException(e);
     }
@@ -27,7 +28,7 @@ public class Data implements Content {
 
   public static final <T extends Data> T fromString(final Class<T> type, final String data) {
     try {
-      return Mapper.getInstance().readValue(data, type);
+      return Mapper.getShared().readValue(data, type);
     } catch (Exception e) {
       throw new DataException(e);
     }
@@ -45,7 +46,7 @@ public class Data implements Content {
 
   public Map<String, Object> toMap() {
     try {
-      return Mapper.getInstance().convertValue(this, type);
+      return Mapper.getShared().convertValue(this, type);
     } catch (Exception e) {
       throw new DataException(e);
     }
@@ -66,7 +67,7 @@ public class Data implements Content {
   @Override
   public String toString() {
     try {
-      return Mapper.getInstance().writeValueAsString(this);
+      return Mapper.getShared().writeValueAsString(this);
     } catch (Exception e) {
       throw new DataException(e);
     }
@@ -78,7 +79,7 @@ public class Data implements Content {
     }
 
     try {
-      return Mapper.getInstance().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+      return Writer.getPretty().writeValueAsString(this);
     } catch (Exception e) {
       throw new DataException(e);
     }

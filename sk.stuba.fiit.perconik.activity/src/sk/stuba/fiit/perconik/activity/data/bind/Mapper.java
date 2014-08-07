@@ -1,33 +1,34 @@
 package sk.stuba.fiit.perconik.activity.data.bind;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 
 import sk.stuba.fiit.perconik.activity.data.type.BaseModule;
 
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
+import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
+import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
+
 public final class Mapper {
-  private static final ObjectMapper instance;
+  private static final ObjectMapper shared;
 
   static {
-    instance = new ObjectMapper();
+    shared = new ObjectMapper();
 
-    instance.registerModule(new BaseModule());
-    instance.registerModule(new GuavaModule());
+    shared.registerModule(new BaseModule());
+    shared.registerModule(new GuavaModule());
 
-    instance.setPropertyNamingStrategy(new Naming());
-    instance.setVisibility(PropertyAccessor.FIELD, Visibility.NONE);
+    shared.setPropertyNamingStrategy(new Naming());
+    shared.setVisibility(FIELD, NONE);
 
-    instance.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    shared.disable(FAIL_ON_EMPTY_BEANS);
   }
 
   private Mapper() {
     throw new AssertionError();
   }
 
-  public static final ObjectMapper getInstance() {
-    return instance;
+  public static final ObjectMapper getShared() {
+    return shared;
   }
 }

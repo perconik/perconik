@@ -28,8 +28,6 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 
 public class AnyStructuredData extends AnyData implements AnyStructuredContent {
-  public static final String separator = ".";
-
   public AnyStructuredData() {
     super(new Structure());
   }
