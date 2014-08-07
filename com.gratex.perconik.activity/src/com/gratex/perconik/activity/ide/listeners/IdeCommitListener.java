@@ -98,10 +98,6 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     setApplicationData(data);
     setEventData(data, time);
 
-    if (Log.enabled()) {
-      Log.message().appendln("commit: " + id + " url: " + url).appendTo(console);
-    }
-
     return data;
   }
 
@@ -118,7 +114,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     String id = commit.getName();
 
     if (this.updateLastCommit(directory, branch, id)) {
-      proxy.sendCheckinEvent(build(time, url, id));
+      this.proxy.sendCheckinEvent(build(time, url, id));
     }
   }
 

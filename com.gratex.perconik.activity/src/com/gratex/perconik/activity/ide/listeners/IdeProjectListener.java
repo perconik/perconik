@@ -112,7 +112,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     return data;
   }
 
-  private static final class ResourceDeltaVisitor extends ResourceDeltaResolver {
+  private final class ResourceDeltaVisitor extends ResourceDeltaResolver {
     private final long time;
 
     private final ResourceEventType type;
@@ -143,6 +143,8 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
         ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
         Set<ResourceDeltaFlag> flags = ResourceDeltaFlag.setOf(delta.getFlags());
 
+        IdeUacaProxy proxy = IdeProjectListener.this.proxy;
+
         if (kind == ADDED) {
           proxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.ADD);
         }
@@ -161,17 +163,21 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     protected final boolean resolveResource(final IResource resource) {
       assert ResourceType.valueOf(resource.getType()) == PROJECT;
 
+      IProject project = (IProject) resource;
+
+      IdeUacaProxy proxy = IdeProjectListener.this.proxy;
+
       switch (this.type) {
         case PRE_CLOSE:
-          proxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.CLOSE);
+          proxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.CLOSE);
           break;
 
         case PRE_DELETE:
-          proxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REMOVE);
+          proxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.REMOVE);
           break;
 
         case PRE_REFRESH:
-          proxy.sendProjectEvent(build(this.time, (IProject) resource), IdeProjectEventType.REFRESH);
+          proxy.sendProjectEvent(build(this.time, project), IdeProjectEventType.REFRESH);
           break;
 
         default:
@@ -181,7 +187,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
   }
 
-  static final void processResource(final long time, final IResourceChangeEvent event) {
+  final void processResource(final long time, final IResourceChangeEvent event) {
     ResourceEventType type = ResourceEventType.valueOf(event.getType());
     IResourceDelta delta = event.getDelta();
 
@@ -206,7 +212,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
 
     if (this.updateProject(project)) {
-      proxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
+      this.proxy.sendProjectEvent(build(time, project), IdeProjectEventType.SWITCH_TO);
     }
   }
 

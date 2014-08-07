@@ -165,7 +165,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     return data;
   }
 
-  private static final class ResourceDeltaVisitor extends ResourceDeltaResolver {
+  private final class ResourceDeltaVisitor extends ResourceDeltaResolver {
     private final long time;
 
     private final ResourceEventType type;
@@ -242,6 +242,8 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
       if (this.operations.containsKey(IdeDocumentEventType.RENAME)) {
         this.operations.removeAll(IdeDocumentEventType.ADD);
       }
+
+      IdeUacaProxy proxy = IdeDocumentListener.this.proxy;
 
       for (Entry<IdeDocumentEventType, IFile> entry: this.operations.entries()) {
         proxy.sendDocumentEvent(build(this.time, entry.getValue()), entry.getKey());
@@ -322,18 +324,18 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
   }
 
-  static final void processResource(final long time, final IResourceChangeEvent event) {
+  final void processResource(final long time, final IResourceChangeEvent event) {
     ResourceEventType type = ResourceEventType.valueOf(event.getType());
     IResourceDelta delta = event.getDelta();
 
     new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
   }
 
-  static final void processResource(final long time, final IEditorReference reference, final IdeDocumentEventType type) {
+  final void processResource(final long time, final IEditorReference reference, final IdeDocumentEventType type) {
     UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
 
     if (resource != null) {
-      proxy.sendDocumentEvent(build(time, resource), type);
+      this.proxy.sendDocumentEvent(build(time, resource), type);
     }
   }
 
@@ -361,7 +363,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
 
     if (this.updateResource(resource)) {
-      proxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
+      this.proxy.sendDocumentEvent(build(time, resource), IdeDocumentEventType.SWITCH_TO);
     }
   }
 
@@ -378,7 +380,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
           return;
         }
 
-        proxy.sendDocumentEvent(build(currentTime(), resource), IdeDocumentEventType.OPEN);
+        IdeDocumentListener.this.proxy.sendDocumentEvent(build(currentTime(), resource), IdeDocumentEventType.OPEN);
       }
     });
   }
@@ -458,7 +460,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
         if (!dirty) {
           IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
 
-          proxy.sendDocumentEvent(build(time, file), IdeDocumentEventType.SAVE);
+          IdeDocumentListener.this.proxy.sendDocumentEvent(build(time, file), IdeDocumentEventType.SAVE);
         }
       }
     });

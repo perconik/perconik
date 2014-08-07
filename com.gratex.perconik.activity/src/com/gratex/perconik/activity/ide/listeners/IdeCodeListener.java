@@ -31,6 +31,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
+import com.gratex.perconik.uaca.UacaConsole;
 
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
@@ -240,7 +241,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (Collections.disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
         if (Log.enabled()) {
-          Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(console);
+          Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(UacaConsole.getInstance());
         }
 
         return null;
@@ -281,7 +282,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (editor == null) {
         if (Log.enabled()) {
-          Log.message().appendln("copy / cut: no active editor not found").appendTo(console);
+          Log.message().appendln("copy / cut: no active editor not found").appendTo(UacaConsole.getInstance());
         }
 
         return null;
@@ -332,7 +333,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
-  static final void processCopyOrCut(final long time, final Operation operation) {
+  final void processCopyOrCut(final long time, final Operation operation) {
     String text = execute(ClipboardReader.instance);
 
     SelectionRangeData data = execute(SelectionRangeReader.instance);
@@ -360,28 +361,28 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
     if (operation == COPY && region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection))) {
       if (Log.enabled()) {
-        Log.message().append("copy: clipboard content not equal to editor selection").append(" '").append(region.text).append("' != '").append(selection).appendln("'").appendTo(console);
+        Log.message().append("copy: clipboard content not equal to editor selection").append(" '").append(region.text).append("' != '").append(selection).appendln("'").appendTo(this.console);
       }
 
       return;
     } else if (operation == CUT && !selection.isEmpty()) {
       if (Log.enabled()) {
-        Log.message().append("cut: editor selection not empty").append(" '").append(selection).appendln("'").appendTo(console);
+        Log.message().append("cut: editor selection not empty").append(" '").append(selection).appendln("'").appendTo(this.console);
       }
 
       return;
     }
 
-    proxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
+    this.proxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
   }
 
-  static final void processPaste(final long time, final DocumentEvent event) {
+  final void processPaste(final long time, final DocumentEvent event) {
     IDocument document = event.getDocument();
     IEditorPart editor = Editors.forDocument(document);
 
     if (editor == null) {
       if (Log.enabled()) {
-        Log.message().appendln("paste: editor not found / documents not equal").appendTo(console);
+        Log.message().appendln("paste: editor not found / documents not equal").appendTo(this.console);
       }
 
       return;
@@ -391,10 +392,10 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
     Region region = Region.of(document, event.getOffset(), event.getLength(), event.getText());
 
-    proxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
+    this.proxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
   }
 
-  static final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+  final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection) {
     if (!(part instanceof IEditorPart)) {
       return;
     }
@@ -405,13 +406,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       return;
     }
 
-    processSelection(time, content, selection);
+    this.processSelection(time, content, selection);
   }
 
-  static final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection) {
+  final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection) {
     Region region = Region.of(content.document, selection.getOffset(), selection.getLength(), selection.getText());
 
-    proxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
+    this.proxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
   }
 
   private final void preClose() {
@@ -439,12 +440,12 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
   public final void documentChanged(final DocumentEvent event) {
     if (Log.enabled()) {
-      Log.message().appendln("paste: " + this.paste.getState()).appendTo(console);
+      Log.message().appendln("paste: " + this.paste.getState()).appendTo(this.console);
     }
 
     if (this.paste.getState() != EXECUTING) {
       if (Log.enabled()) {
-        Log.message().appendln("paste: comparison failed -> not executing").appendTo(console);
+        Log.message().appendln("paste: comparison failed -> not executing").appendTo(this.console);
       }
 
       return;
@@ -503,7 +504,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event)) {
         if (Log.enabled()) {
-          Log.message().format("selection: watch running but not continuous").appendTo(console);
+          Log.message().format("selection: watch running but not continuous").appendTo(this.console);
         }
 
         this.stopWatchAndProcessLastSelectionEvent();
@@ -511,7 +512,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (!this.watch.isRunning()) {
         if (Log.enabled()) {
-          Log.message().format("selection: watch not running").appendTo(console);
+          Log.message().format("selection: watch not running").appendTo(this.console);
         }
 
         this.startWatchAndClearSelectionEvents();
@@ -523,7 +524,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (!empty && delta < selectionEventWindow) {
         if (Log.enabled()) {
-          Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(console);
+          Log.message().format("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(this.console);
         }
 
         this.watch.reset().start();
@@ -535,11 +536,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
-  private static final void selectionChanged(final SelectionEvent event) {
-    selectionChanged(event.time, event.part, event.selection);
+  private final void selectionChanged(final SelectionEvent event) {
+    this.selectionChanged(event.time, event.part, event.selection);
   }
 
-  private static final void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+  private final void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection) {
     execute(new Runnable() {
       public final void run() {
         processSelection(time, part, selection);

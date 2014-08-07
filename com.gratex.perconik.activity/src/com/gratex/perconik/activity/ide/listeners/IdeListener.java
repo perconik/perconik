@@ -10,6 +10,8 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
+import static com.google.common.base.Throwables.propagate;
+
 /**
  * A base class for all IDE listeners. This listener documents available
  * data in data transfer objects of type {@link IdeEventRequest} being
@@ -44,11 +46,21 @@ public abstract class IdeListener extends Adapter {
 
   private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
-  static final UacaConsole console = UacaConsole.getInstance();
+  final UacaConsole console;
 
-  static final IdeUacaProxy proxy = new IdeUacaProxy();
+  final IdeUacaProxy proxy;
 
-  IdeListener() {}
+  IdeListener() {
+    this.console = UacaConsole.getInstance();
+
+    try {
+      this.proxy = new IdeUacaProxy();
+    } catch (Exception failure) {
+      this.console.error(failure, "Unable to open UACA proxy");
+
+      throw propagate(failure);
+    }
+  }
 
   static final void execute(final Runnable command) {
     sharedExecutor.execute(command);
@@ -56,5 +68,14 @@ public abstract class IdeListener extends Adapter {
 
   static final <V> V execute(final DisplayTask<V> task) {
     return task.get(displayExecutor);
+  }
+
+  @Override
+  public final void postUnregister() {
+    try {
+      this.proxy.close();
+    } catch (Exception failure) {
+      this.console.error(failure, "Unable to close UACA proxy");
+    }
   }
 }

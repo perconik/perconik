@@ -234,7 +234,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return "working sets " + Joiner.on(",").join(parts);
   }
 
-  static final void process(final long time, final ISearchQuery query) {
+  final void process(final long time, final ISearchQuery query) {
     IWorkbenchPage page = execute(DisplayTask.of(Workbenches.activePageSupplier()));
 
     IProject project = Projects.fromPage(page);
@@ -243,7 +243,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     // TODO handle other query types such as JavaSearchQuery
 
     if (query instanceof FileSearchQuery) {
-      proxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
+      this.proxy.sendFindEvent(build(time, project, (FileSearchQuery) query));
     }
   }
 

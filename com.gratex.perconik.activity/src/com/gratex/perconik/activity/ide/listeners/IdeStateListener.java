@@ -57,29 +57,25 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
     setApplicationData(data);
     setEventData(data, time);
 
-    if (Log.enabled()) {
-      Log.message().appendln("state: " + state).appendTo(console);
-    }
-
     return data;
   }
 
-  static final void processLaunch(final long time, final ILaunch launch) {
+  final void processLaunch(final long time, final ILaunch launch) {
     Iterable<IProject> projects = Projects.fromLaunch(launch);
 
     String state = launch.getLaunchMode() + " (launch)";
 
     for (IProject project: projects) {
-      proxy.sendStateChangeEvent(build(time, project, state));
+      this.proxy.sendStateChangeEvent(build(time, project, state));
     }
   }
 
-  static final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
+  final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
     IProject project = Projects.fromPage(page);
 
     String state = descriptor.getLabel().toLowerCase() + " (perspective)";
 
-    proxy.sendStateChangeEvent(build(time, project, state));
+    this.proxy.sendStateChangeEvent(build(time, project, state));
   }
 
   public final void launchAdded(final ILaunch launch) {
