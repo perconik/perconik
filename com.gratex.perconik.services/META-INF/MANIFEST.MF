@@ -14,5 +14,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Activator: com.gratex.perconik.services.plugin.Activator
 Export-Package: com.gratex.perconik.services,
  com.gratex.perconik.services.plugin,
- com.gratex.perconik.services.uaca.ide,
- com.gratex.perconik.services.uaca.ide.type
+ com.gratex.perconik.services.uaca.ide

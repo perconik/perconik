@@ -26,7 +26,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 /**
  * A listener of IDE commit events. This listener handles desired
  * events and eventually builds corresponding data transfer objects
- * of type {@link IdeCheckinEventData} and passes them to the
+ * of type {@link IdeCheckinEventRequest} and passes them to the
  * {@link IdeUacaProxy} to be transferred into the <i>User Activity Central
  * Application</i> for further processing.
  *

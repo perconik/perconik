@@ -22,8 +22,8 @@ import com.gratex.perconik.activity.ide.IdeData;
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.activity.uaca.IdeUacaUris;
 import com.gratex.perconik.services.uaca.ide.IdeFindEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeFindFileResultDto;
-import com.gratex.perconik.services.uaca.ide.IdeFindResultRowDto;
+import com.gratex.perconik.services.uaca.ide.IdeFindFileResultData;
+import com.gratex.perconik.services.uaca.ide.IdeFindResultRowData;
 
 import sk.stuba.fiit.perconik.core.annotations.Dependent;
 import sk.stuba.fiit.perconik.core.listeners.SearchQueryListener;
@@ -146,10 +146,10 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return data;
   }
 
-  private static final List<IdeFindFileResultDto> buildResults(FileSearchResult result) {
+  private static final List<IdeFindFileResultData> buildResults(FileSearchResult result) {
     Object[] elements = result.getElements();
 
-    List<IdeFindFileResultDto> list = newArrayListWithCapacity(elements.length);
+    List<IdeFindFileResultData> list = newArrayListWithCapacity(elements.length);
 
     for (Object element: elements) {
       IFile file = result.getFile(element);
@@ -161,8 +161,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return list;
   }
 
-  private static final IdeFindFileResultDto buildResult(IFile file, Match[] matches) {
-    IdeFindFileResultDto data = new IdeFindFileResultDto();
+  private static final IdeFindFileResultData buildResult(IFile file, Match[] matches) {
+    IdeFindFileResultData data = new IdeFindFileResultData();
 
     data.setFile(IdeData.newDocumentData(file));
     data.setRows(buildMatches(Documents.fromFile(file), matches));
@@ -170,8 +170,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return data;
   }
 
-  private static final List<IdeFindResultRowDto> buildMatches(IDocument document, Match[] matches) {
-    List<IdeFindResultRowDto> list = newArrayListWithCapacity(matches.length);
+  private static final List<IdeFindResultRowData> buildMatches(IDocument document, Match[] matches) {
+    List<IdeFindResultRowData> list = newArrayListWithCapacity(matches.length);
 
     for (Match match: matches) {
       list.add(buildMatch(document, match));
@@ -180,8 +180,8 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return list;
   }
 
-  private static final IdeFindResultRowDto buildMatch(IDocument document, Match match) {
-    IdeFindResultRowDto data = new IdeFindResultRowDto();
+  private static final IdeFindResultRowData buildMatch(IDocument document, Match match) {
+    IdeFindResultRowData data = new IdeFindResultRowData();
 
     int offset = match.getOffset();
     int length = match.getLength();

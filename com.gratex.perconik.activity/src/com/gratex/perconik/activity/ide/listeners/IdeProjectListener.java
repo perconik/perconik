@@ -17,7 +17,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeProjectEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeProjectEventType;
+import com.gratex.perconik.services.uaca.ide.IdeProjectEventType;
 
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;

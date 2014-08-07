@@ -11,9 +11,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
 
 import com.gratex.perconik.activity.ide.IdeData;
-import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
+import com.gratex.perconik.services.uaca.ide.IdeEventData;
 
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
@@ -107,7 +107,7 @@ abstract class UnderlyingResource<R> {
     }
 
     @Override
-    final void setProjectData(final BaseIdeEventRequest data) {
+    final void setProjectData(final IdeEventData data) {
       IdeData.setProjectData(data, this.raw);
     }
 
@@ -147,7 +147,7 @@ abstract class UnderlyingResource<R> {
     }
 
     @Override
-    final void setProjectData(final BaseIdeEventRequest data) {
+    final void setProjectData(final IdeEventData data) {
       IdeData.setProjectData(data, this.raw);
     }
 
@@ -189,7 +189,7 @@ abstract class UnderlyingResource<R> {
 
   abstract void setDocumentData(IdeDocumentEventRequest data);
 
-  abstract void setProjectData(BaseIdeEventRequest data);
+  abstract void setProjectData(IdeEventData data);
 
   public abstract R getRaw();
 

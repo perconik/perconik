@@ -1,13 +1,10 @@
-package com.gratex.perconik.services.uaca.ide2;
+package com.gratex.perconik.services.uaca.ide;
 
-/**
- * Common request used for events: PasteFromWeb, SelectionChanged, Paste, Copy, Cut
- */
+
 public class IdeCodeEventData extends IdeEventData {
   /**
    * Text that was subject of a given event. For instance text that was pasted from the web.
    */
-
   private String text;
 
   /**

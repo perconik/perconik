@@ -32,7 +32,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import com.gratex.perconik.activity.ide.IdeGitProjects;
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeDocumentEventType;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentEventType;
 
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.JavaProjects;

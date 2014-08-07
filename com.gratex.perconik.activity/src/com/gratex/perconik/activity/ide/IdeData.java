@@ -11,9 +11,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import com.gratex.perconik.activity.uaca.IdeUacaUris;
-import com.gratex.perconik.services.uaca.ide.BaseIdeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentDto;
-import com.gratex.perconik.services.uaca.ide.RcsServerDto;
+import com.gratex.perconik.services.uaca.ide.IdeDocumentData;
+import com.gratex.perconik.services.uaca.ide.IdeEventData;
+import com.gratex.perconik.services.uaca.ide.IdeRcsServerData;
 
 import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
@@ -26,24 +26,24 @@ public final class IdeData {
     throw new AssertionError();
   }
 
-  public static final IdeDocumentDto newDocumentData(final IFile file) {
+  public static final IdeDocumentData newDocumentData(final IFile file) {
     return newDocumentRepositoryData(file.getFullPath(), IdeGitProjects.getRepository(file));
   }
 
-  public static final IdeDocumentDto newDocumentData(final IClassFile file) {
+  public static final IdeDocumentData newDocumentData(final IClassFile file) {
     return newDocumentPathData(ClassFiles.path(file));
   }
 
-  private static final IdeDocumentDto newDocumentPathData(final IPath path) {
-    IdeDocumentDto data = new IdeDocumentDto();
+  private static final IdeDocumentData newDocumentPathData(final IPath path) {
+    IdeDocumentData data = new IdeDocumentData();
 
     data.setLocalPath(path.toString());
 
     return data;
   }
 
-  private static final IdeDocumentDto newDocumentRepositoryData(final IPath path, @Nullable final Repository repository) {
-    IdeDocumentDto data = newDocumentPathData(path.makeRelative());
+  private static final IdeDocumentData newDocumentRepositoryData(final IPath path, @Nullable final Repository repository) {
+    IdeDocumentData data = newDocumentPathData(path.makeRelative());
 
     if (repository != null) {
       data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
@@ -60,8 +60,8 @@ public final class IdeData {
     return data;
   }
 
-  public static final RcsServerDto newGitServerData(final String url) {
-    RcsServerDto data = new RcsServerDto();
+  public static final IdeRcsServerData newGitServerData(final String url) {
+    IdeRcsServerData data = new IdeRcsServerData();
 
     data.setUrl(url);
     data.setTypeUri(IdeUacaUris.forRcsServerType("git"));
@@ -69,7 +69,7 @@ public final class IdeData {
     return data;
   }
 
-  public static final void setApplicationData(final BaseIdeEventRequest data) {
+  public static final void setApplicationData(final IdeEventData data) {
     IdeApplication application = IdeApplication.getInstance();
 
     data.setSessionId(Integer.toString(application.getPid()));
@@ -77,15 +77,15 @@ public final class IdeData {
     data.setAppVersion(application.getVersion());
   }
 
-  public static final void setEventData(final BaseIdeEventRequest data, final long time) {
+  public static final void setEventData(final IdeEventData data, final long time) {
     data.setTimestamp(Internals.timeSupplier.from(time));
   }
 
-  public static final void setProjectData(final BaseIdeEventRequest data, final IFile file) {
+  public static final void setProjectData(final IdeEventData data, final IFile file) {
     setProjectData(data, file.getProject());
   }
 
-  public static final void setProjectData(final BaseIdeEventRequest data, final IClassFile file) {
+  public static final void setProjectData(final IdeEventData data, final IClassFile file) {
     IJavaElement root = file.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 
     checkState(root != null, "Package fragment root not found");
@@ -93,11 +93,11 @@ public final class IdeData {
     setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
   }
 
-  public static final void setProjectData(final BaseIdeEventRequest data, final IProject project) {
+  public static final void setProjectData(final IdeEventData data, final IProject project) {
     setProjectData(data, Workspaces.getName(project.getWorkspace()), project.getName());
   }
 
-  private static final void setProjectData(final BaseIdeEventRequest data, final String workspace, final String project) {
+  private static final void setProjectData(final IdeEventData data, final String workspace, final String project) {
     data.setSolutionName(workspace);
     data.setProjectName(project);
   }

@@ -1,4 +1,4 @@
-package com.gratex.perconik.services.uaca.ide2;
+package com.gratex.perconik.services.uaca.ide;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -29,6 +29,8 @@ public class IdeEventData {
    * Name of the current solution/workspace
    */
   private String solutionName;
+
+  public IdeEventData() {}
 
   public String getSessionId() {
     return this.sessionId;

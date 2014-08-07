@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.type.IdeCodeEventType;
+import com.gratex.perconik.services.uaca.ide.IdeCodeEventType;
 
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
