@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.200",
  sk.stuba.fiit.perconik.core.java;bundle-version="0.5.2",
  sk.stuba.fiit.perconik.eclipse;bundle-version="0.7.2",
  sk.stuba.fiit.perconik.environment;bundle-version="0.4.2",
- sk.stuba.fiit.perconik.libraries;bundle-version="0.6.0",
+ sk.stuba.fiit.perconik.libraries;bundle-version="0.6.1",
  sk.stuba.fiit.perconik.ui;bundle-version="0.7.1",
  sk.stuba.fiit.perconik.utilities;bundle-version="0.4.3"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
