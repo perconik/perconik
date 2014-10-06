@@ -6,12 +6,14 @@ import javax.annotation.Nullable;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import static java.lang.String.format;
+
+import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
+import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
 public class SharedUacaProxy extends AbstractUacaProxy {
   public SharedUacaProxy() {
@@ -39,7 +41,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   protected void processResponse(WebTarget target, @Nullable Object request, Response response) {
     StatusType status = response.getStatusInfo();
 
-    if (status.getFamily() == Family.CLIENT_ERROR || status.getFamily() == Family.SERVER_ERROR) {
+    if (status.getFamily() == CLIENT_ERROR || status.getFamily() == SERVER_ERROR) {
       String message = format("UacaProxy: POST %s -> %d %s", target.getUri(), status.getStatusCode(), status.getReasonPhrase());
 
       throw new IllegalStateException(message);

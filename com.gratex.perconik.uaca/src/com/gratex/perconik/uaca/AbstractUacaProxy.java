@@ -78,9 +78,12 @@ public abstract class AbstractUacaProxy implements Closeable {
   protected void reportFailure(String message, @Nullable Exception failure) {}
 
   public final void close() throws IOException {
+    this.preClose();
     this.client.close();
-    this.closeHook();
+    this.postClose();
   }
 
-  protected void closeHook() throws IOException {}
+  protected void preClose() throws IOException {}
+
+  protected void postClose() throws IOException {}
 }
