@@ -3,33 +3,32 @@ package sk.stuba.fiit.perconik.activity.uaca;
 import java.net.URI;
 
 import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
-import sk.stuba.fiit.perconik.activity.data.Content;
 
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 
-public class UacaContentWrapper extends AnyStructuredData {
+public class UacaDataWrapper extends AnyStructuredData {
   public static final URI eventTypeUriPrefix = newUri("http://perconik.gratex.com/useractivity/event");
 
   protected URI eventTypeUri;
 
-  protected Content data;
+  protected Object data;
 
-  public UacaContentWrapper() {}
+  public UacaDataWrapper() {}
 
-  public static UacaContentWrapper of(String path, Content content) {
-    UacaContentWrapper data = new UacaContentWrapper();
+  public static UacaDataWrapper of(String path, Object data) {
+    UacaDataWrapper wrapper = new UacaDataWrapper();
 
-    data.eventTypeUri = newUri(eventTypeUriPrefix + "/" + path);
-    data.data = content;
+    wrapper.eventTypeUri = newUri(eventTypeUriPrefix + "/" + path);
+    wrapper.data = data;
 
-    return data;
+    return wrapper;
   }
 
   public void setEventTypeUri(URI eventTypeUri) {
     this.eventTypeUri = eventTypeUri;
   }
 
-  public void setData(Content data) {
+  public void setData(Object data) {
     this.data = data;
   }
 
@@ -37,9 +36,7 @@ public class UacaContentWrapper extends AnyStructuredData {
     return this.eventTypeUri;
   }
 
-  public Content getData() {
-    // TODO ws.rs ignores any data in data?? not available in uaca
-
+  public Object getData() {
     return this.data;
   }
 }

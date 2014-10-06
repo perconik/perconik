@@ -11,8 +11,8 @@
 	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-datatype-guava-2.2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-base-2.2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-json-provider-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-base-2.2.4.jar" sourcepath=".sources/jackson-jaxrs-base-2.2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-json-provider-2.2.4.jar" sourcepath=".sources/jackson-jaxrs-json-provider-2.2.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-module-jaxb-annotations-2.2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
