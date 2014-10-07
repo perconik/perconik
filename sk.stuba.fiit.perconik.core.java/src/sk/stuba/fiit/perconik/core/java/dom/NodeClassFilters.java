@@ -32,7 +32,7 @@ public final class NodeClassFilters {
     return result;
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Comment> annotations() {
+  public static final <N extends ASTNode> NodeClassFilter<N, Annotation> annotations() {
     return cast(annotations);
   }
 
@@ -40,15 +40,15 @@ public final class NodeClassFilters {
     return cast(comments);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Comment> expressions() {
+  public static final <N extends ASTNode> NodeClassFilter<N, Expression> expressions() {
     return cast(expressions);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Comment> names() {
+  public static final <N extends ASTNode> NodeClassFilter<N, Name> names() {
     return cast(names);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Comment> statements() {
+  public static final <N extends ASTNode> NodeClassFilter<N, Statement> statements() {
     return cast(statements);
   }
 }

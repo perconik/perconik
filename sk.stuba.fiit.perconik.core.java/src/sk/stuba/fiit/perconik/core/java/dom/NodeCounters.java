@@ -6,6 +6,7 @@ import com.google.common.base.Predicate;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 
+import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.function.Numerate;
 
@@ -124,5 +125,22 @@ public final class NodeCounters {
 
   public static final <N extends ASTNode> Numerate<N> usingFilter(final Predicate<ASTNode> filter) {
     return NodeFilteringCounter.using(filter);
+  }
+
+  @SafeVarargs
+  public static final <N extends ASTNode> Numerate<N> ofClass(final Class<? extends N> implementation, final Class<? extends N> ... rest) {
+    return usingFilter(NodeClassFilter.of(implementation, rest));
+  }
+
+  public static final <N extends ASTNode> Numerate<N> ofClass(final Iterable<Class<? extends N>> implementations) {
+    return usingFilter(NodeClassFilter.of(implementations));
+  }
+
+  public static final <N extends ASTNode> Numerate<N> ofType(final NodeType type, final NodeType ... rest) {
+    return usingFilter(NodeFilters.isMatching(type, rest));
+  }
+
+  public static final <N extends ASTNode> Numerate<N> ofType(final Iterable<NodeType> types) {
+    return usingFilter(NodeFilters.isMatching(types));
   }
 }

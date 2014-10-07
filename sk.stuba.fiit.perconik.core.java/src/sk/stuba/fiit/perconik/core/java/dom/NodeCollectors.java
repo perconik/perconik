@@ -88,8 +88,8 @@ public final class NodeCollectors {
     return usingFilter(NodeClassFilter.<N, R>of(implementation, rest));
   }
 
-  public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Iterable<Class<? extends R>> types) {
-    return usingFilter(NodeClassFilter.<N, R>of(types));
+  public static final <N extends ASTNode, R extends ASTNode> ListCollector<N, R> ofClass(final Iterable<Class<? extends R>> implementations) {
+    return usingFilter(NodeClassFilter.<N, R>of(implementations));
   }
 
   public static final <N extends R, R extends ASTNode> ListCollector<N, R> ofType(final NodeType type, final NodeType ... rest) {
