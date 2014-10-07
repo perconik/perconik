@@ -8,7 +8,11 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
+import jersey.repackaged.com.google.common.collect.Lists;
+
 import static java.util.Arrays.asList;
+
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -81,8 +85,54 @@ public final class MoreStrings {
     return lineSeparatorRegex;
   }
 
+  public static final List<Integer> lineNumbers(String s, int offset, int length) {
+    int limit = offset + length;
+
+    checkState(offset >= 0 && length >= 0 && limit <= s.length());
+
+    List<Integer> lines = Lists.newArrayList();
+
+    int line = 0;
+
+    for (int i = 0; i < limit; i ++) {
+      char c = s.charAt(i);
+
+      if (i >= offset) {
+        lines.add(line);
+      }
+
+      if (c == '\n') {
+        line ++;
+      } else if (c == '\r') {
+        line ++;
+
+        int k = i + 1;
+
+        if (k < limit && s.charAt(k) == '\n') {
+          i = k;
+        }
+
+        lines.add(line);
+      }
+    }
+
+    return lines;
+  }
+
   public static final List<String> lines(String s) {
     return asList(s.split(lineSeparatorRegex));
+  }
+
+  public static final boolean isWhitespace(String s) {
+    int length = s.length();
+
+    for (int i = 0; i < length; i ++) {
+      if (!Character.isWhitespace(s.charAt(i))) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   public static final String toDefaultString(Object o) {
