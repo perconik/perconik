@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.json.PackageVersion;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
@@ -35,6 +34,8 @@ import com.gratex.perconik.uaca.ui.UacaMessageDialogs;
 import static java.lang.String.format;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+
+import static com.fasterxml.jackson.core.util.VersionUtil.parseVersion;
 
 final class UacaReporter {
   private UacaReporter() {
@@ -74,7 +75,7 @@ final class UacaReporter {
       private static final long serialVersionUID = 0L;
 
       public Module() {
-        super(PackageVersion.VERSION);
+        super(parseVersion("1.0.0", Module.class.getPackage().getName(), "uaca-shared-proxy"));
 
         this.addSerializer(Path.class, ToStringSerializer.instance);
         this.addSerializer(Version.class, ToStringSerializer.instance);
