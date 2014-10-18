@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry exported="true" kind="lib" path="lib/aopalliance-repackaged-2.2.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/diffutils-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/aopalliance-repackaged-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/diffutils-1.2.1.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/guava-17.0.jar" sourcepath=".sources/guava-17.0-sources.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/hk2-api-2.2.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/hk2-locator-2.2.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/hk2-utils-2.2.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/intt.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hk2-api-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hk2-locator-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hk2-utils-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/intt.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.2.4.jar" sourcepath=".sources/jackson-annotations-2.2.4-sources.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jackson-core-2.2.4.jar" sourcepath=".sources/jackson-core-2.2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-asl-1.9.13.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.2.4.jar" sourcepath=".sources/jackson-databind-2.2.4-sources.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jackson-datatype-guava-2.2.4.jar" sourcepath=".sources/jackson-datatype-guava-2.2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-1.9.13.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-base-2.2.4.jar" sourcepath=".sources/jackson-jaxrs-base-2.2.4-sources.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jackson-jaxrs-json-provider-2.2.4.jar" sourcepath=".sources/jackson-jaxrs-json-provider-2.2.4-sources.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/jackson-module-jaxb-annotations-2.2.4.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/javax.inject-1.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/javax.inject-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-module-jaxb-annotations-2.2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-xc-1.9.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javassist-3.18.1-GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.annotation-api-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.inject-2.2.0.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/javax.ws.rs-api-2.0.jar" sourcepath=".sources/javax.ws.rs-api-2.0-sources.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jersey-client-2.7.jar" sourcepath=".sources/jersey-client-2.7-sources.jar"/>
   <classpathentry exported="true" kind="lib" path="lib/jersey-common-2.7.jar" sourcepath=".sources/jersey-common-2.7-sources.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/jersey-entity-filtering-2.7.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/jersey-guava-2.7.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/jersey-media-moxy-2.7.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/jsr305-2.0.3.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.antlr-2.5.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.asm-2.5.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.core-2.5.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/org.eclipse.persistence.moxy-2.5.0.jar"/>
-  <classpathentry exported="true" kind="lib" path="lib/osgi-resource-locator-1.0.1.jar"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-  <classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-  <classpathentry kind="output" path="bin"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-guava-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jersey-media-json-jackson-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsr305-2.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
