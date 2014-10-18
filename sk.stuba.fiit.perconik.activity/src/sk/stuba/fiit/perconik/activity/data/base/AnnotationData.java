@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 import static com.google.common.collect.Lists.newArrayList;

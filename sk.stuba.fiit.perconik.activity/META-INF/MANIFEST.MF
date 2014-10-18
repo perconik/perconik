@@ -18,6 +18,7 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.200",
  com.gratex.perconik.uaca;bundle-version="0.4.2",
  sk.stuba.fiit.perconik.core;bundle-version="0.7.0",
  sk.stuba.fiit.perconik.core.java;bundle-version="0.5.2",
+ sk.stuba.fiit.perconik.data;bundle-version="0.0.1",
  sk.stuba.fiit.perconik.eclipse;bundle-version="0.7.2",
  sk.stuba.fiit.perconik.environment;bundle-version="0.4.2",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.6.1",
@@ -27,13 +28,11 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Export-Package: sk.stuba.fiit.perconik.activity,
- sk.stuba.fiit.perconik.activity.data,
  sk.stuba.fiit.perconik.activity.data.base,
- sk.stuba.fiit.perconik.activity.data.bind,
  sk.stuba.fiit.perconik.activity.data.core,
  sk.stuba.fiit.perconik.activity.data.eclipse,
  sk.stuba.fiit.perconik.activity.data.events,
  sk.stuba.fiit.perconik.activity.data.system,
- sk.stuba.fiit.perconik.activity.data.type,
  sk.stuba.fiit.perconik.activity.listeners,
- sk.stuba.fiit.perconik.activity.plugin
+ sk.stuba.fiit.perconik.activity.plugin,
+ sk.stuba.fiit.perconik.activity.uaca

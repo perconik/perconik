@@ -1,7 +1,5 @@
 package com.gratex.perconik.uaca;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.Executor;
 
@@ -12,6 +10,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import sk.stuba.fiit.perconik.data.bind.Mapper;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
 import static java.lang.String.format;
@@ -19,13 +18,13 @@ import static java.lang.String.format;
 import static javax.ws.rs.client.Entity.entity;
 
 @SuppressWarnings({"static-method", "unused"})
-public abstract class AbstractUacaProxy implements Closeable {
+public abstract class AbstractUacaProxy implements AutoCloseable {
   private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
   private final Client client;
 
   protected AbstractUacaProxy() {
-    this.client = ClientBuilder.newClient();
+    this.client = ClientBuilder.newClient().register(Mapper.getShared());
   }
 
   protected abstract URL url();
@@ -77,13 +76,13 @@ public abstract class AbstractUacaProxy implements Closeable {
 
   protected void reportFailure(String message, @Nullable Exception failure) {}
 
-  public final void close() throws IOException {
+  public final void close() throws Exception {
     this.preClose();
     this.client.close();
     this.postClose();
   }
 
-  protected void preClose() throws IOException {}
+  protected void preClose() throws Exception {}
 
-  protected void postClose() throws IOException {}
+  protected void postClose() throws Exception {}
 }

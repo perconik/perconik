@@ -7,7 +7,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.osgi.framework.Version;
 
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.osgi.framework.BundleState;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 

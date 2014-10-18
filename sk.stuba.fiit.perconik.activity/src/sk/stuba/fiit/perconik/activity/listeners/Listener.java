@@ -4,15 +4,16 @@ import java.util.concurrent.Executor;
 
 import com.gratex.perconik.uaca.UacaConsole;
 
-import sk.stuba.fiit.perconik.activity.data.Content;
 import sk.stuba.fiit.perconik.activity.data.core.ListenerData;
 import sk.stuba.fiit.perconik.activity.data.events.EventData;
 import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
 import sk.stuba.fiit.perconik.core.Adapter;
+import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Throwables.propagate;
 
 /**
@@ -63,11 +64,9 @@ public abstract class Listener extends Adapter {
   }
 
   final void persist(final String path, final EventData data) {
-    assert !path.startsWith(".");
-
-    // TODO
-    //    assert data.getTimestamp() > 0L;
-    //    assert !isNullOrEmpty(data.getAction());
+    assert !isNullOrEmpty(path);
+    assert data.getTimestamp() > 0L;
+    assert !isNullOrEmpty(data.getAction());
 
     data.put("meta.listener", ListenerData.of(this));
 

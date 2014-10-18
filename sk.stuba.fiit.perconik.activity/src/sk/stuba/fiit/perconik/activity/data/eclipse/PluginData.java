@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.eclipse;
 
 import org.eclipse.core.runtime.Plugin;
 
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
 public class PluginData extends AnyStructuredData {
   protected BundleData bundle;

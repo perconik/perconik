@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import com.gratex.perconik.uaca.SharedUacaProxy;
 
-import sk.stuba.fiit.perconik.activity.data.Content;
-import sk.stuba.fiit.perconik.activity.data.Store;
+import sk.stuba.fiit.perconik.data.content.Content;
+import sk.stuba.fiit.perconik.data.store.Store;
 
 public final class UacaProxy extends SharedUacaProxy implements Store {
   public UacaProxy() {

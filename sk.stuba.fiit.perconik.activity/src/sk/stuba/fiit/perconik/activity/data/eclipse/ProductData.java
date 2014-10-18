@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.activity.data.eclipse;
 
 import org.eclipse.core.runtime.IProduct;
 
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
 public class ProductData extends AnyStructuredData {
   protected String application;

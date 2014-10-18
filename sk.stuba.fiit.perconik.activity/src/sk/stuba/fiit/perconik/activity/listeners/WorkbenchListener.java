@@ -34,6 +34,7 @@ public final class WorkbenchListener extends Listener implements sk.stuba.fiit.p
   final EventData build(final long time, final Action action) {
     EventData data = new EventData();
 
+    data.setTimestamp(time);
     data.setAction(action.identifier);
 
     // TODO

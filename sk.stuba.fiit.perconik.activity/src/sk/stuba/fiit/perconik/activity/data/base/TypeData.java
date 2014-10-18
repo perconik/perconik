@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.activity.data.base;
 
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
 public class TypeData extends AnyStructuredData {
   protected ClassData implementation;

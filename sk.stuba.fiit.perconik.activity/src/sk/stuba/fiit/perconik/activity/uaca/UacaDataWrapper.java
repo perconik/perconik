@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.activity.uaca;
 
 import java.net.URI;
 
-import sk.stuba.fiit.perconik.activity.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 
