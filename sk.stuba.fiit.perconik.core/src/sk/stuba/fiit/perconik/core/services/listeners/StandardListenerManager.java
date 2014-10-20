@@ -22,7 +22,7 @@ final class StandardListenerManager extends AbstractListenerManager {
   StandardListenerManager() {}
 
   @Override
-  protected ResourceManager manager() {
+  protected ResourceManager underlyingResourceManager() {
     return Services.getResourceService().getResourceManager();
   }
 
@@ -31,7 +31,7 @@ final class StandardListenerManager extends AbstractListenerManager {
 
     Set<L> processed = newIdentityHashSet();
 
-    for (Resource<? extends L> resource: this.manager().assignables(type)) {
+    for (Resource<? extends L> resource: this.underlyingResourceManager().assignables(type)) {
       for (L listener: resource.registered(type)) {
         try {
           if (processed.add(listener)) {
@@ -53,7 +53,7 @@ final class StandardListenerManager extends AbstractListenerManager {
   public SetMultimap<Resource<?>, Listener> registrations() {
     SetMultimap<Resource<?>, Listener> registrations = HashMultimap.create();
 
-    for (Resource<?> resource: this.manager().assignables(Listener.class)) {
+    for (Resource<?> resource: this.underlyingResourceManager().assignables(Listener.class)) {
       registrations.putAll(resource, resource.registered(Listener.class));
     }
 
@@ -63,7 +63,7 @@ final class StandardListenerManager extends AbstractListenerManager {
   public <L extends Listener> Collection<L> registered(final Class<L> type) {
     List<L> listeners = newArrayList();
 
-    for (Resource<? extends L> resource: this.manager().assignables(type)) {
+    for (Resource<? extends L> resource: this.underlyingResourceManager().assignables(type)) {
       listeners.addAll(resource.registered(type));
     }
 

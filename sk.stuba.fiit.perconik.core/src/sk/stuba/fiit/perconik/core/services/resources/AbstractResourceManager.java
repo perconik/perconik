@@ -28,7 +28,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
    */
   protected AbstractResourceManager() {}
 
-  protected abstract SetMultimap<Class<? extends Listener>, Resource<?>> multimap();
+  protected abstract SetMultimap<Class<? extends Listener>, Resource<?>> typeToResourceCache();
 
   protected static final <L extends Listener> void check(final Class<L> type, final Resource<? super L> resource) {
     if (!Listener.class.isAssignableFrom(type)) {
@@ -44,7 +44,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
     try {
       resource.preRegister();
 
-      this.multimap().put(type, resource);
+      this.typeToResourceCache().put(type, resource);
 
       resource.postRegister();
     } catch (Exception failure) {
@@ -64,7 +64,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
       //				resource.unregister(listener);
       //			}
 
-      this.multimap().remove(type, resource);
+      this.typeToResourceCache().remove(type, resource);
 
       resource.postUnregister();
     } catch (Exception failure) {

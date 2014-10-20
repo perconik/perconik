@@ -21,13 +21,13 @@ import static com.google.common.collect.Maps.newConcurrentMap;
 final class StandardListenerProvider extends AbstractListenerProvider {
   private final BiMap<String, Class<? extends Listener>> nameToImplementation;
 
-  private final Map<Class<? extends Listener>, Listener> implementationToListener;
+  private final Map<Class<? extends Listener>, Listener> implementationToListenerCache;
 
   private final ListenerProvider parent;
 
   StandardListenerProvider(final Builder builder) {
     this.nameToImplementation = HashBiMap.create(builder.nameToImplementation);
-    this.implementationToListener = newConcurrentMap();
+    this.implementationToListenerCache = newConcurrentMap();
     this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
   }
 
@@ -80,7 +80,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
   }
 
   public <L extends Listener> L forClass(final Class<L> implementation) {
-    Listener listener = this.implementationToListener.get(cast(implementation));
+    Listener listener = this.implementationToListenerCache.get(cast(implementation));
 
     if (listener != null) {
       return implementation.cast(listener);
@@ -108,7 +108,9 @@ final class StandardListenerProvider extends AbstractListenerProvider {
       this.nameToImplementation.put(implementation.getName(), implementation);
     }
 
-    this.implementationToListener.put(implementation, instance);
+    this.implementationToListenerCache.put(implementation, instance);
+
+    assert this.nameToImplementation.size() >= this.implementationToListenerCache.size();
 
     return instance;
   }

@@ -130,16 +130,20 @@ public final class Listeners {
   }
 
   public static Set<Class<? extends Listener>> resolveTypes(final Listener listener) {
-    Set<Class<?>> raw = Reflections.collectInterfaces(listener.getClass());
+    return resolveTypes(listener.getClass());
+  }
+
+  public static Set<Class<? extends Listener>> resolveTypes(final Class<? extends Listener> type) {
+    Set<Class<?>> raw = Reflections.collectInterfaces(type);
 
     raw.remove(Registrable.class);
     raw.remove(Listener.class);
 
     Set<Class<? extends Listener>> types = newHashSetWithExpectedSize(raw.size());
 
-    for (Class<?> type: raw) {
-      if (Listener.class.isAssignableFrom(type) && !type.isAnnotationPresent(Internal.class)) {
-        types.add(type.asSubclass(Listener.class));
+    for (Class<?> supertype: raw) {
+      if (Listener.class.isAssignableFrom(supertype) && !supertype.isAnnotationPresent(Internal.class)) {
+        types.add(supertype.asSubclass(Listener.class));
       }
     }
 

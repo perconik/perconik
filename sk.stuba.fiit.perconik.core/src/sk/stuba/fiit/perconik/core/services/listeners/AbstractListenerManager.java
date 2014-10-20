@@ -2,6 +2,9 @@ package sk.stuba.fiit.perconik.core.services.listeners;
 
 import java.util.Set;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.Resource;
@@ -9,6 +12,8 @@ import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.resources.DefaultResources;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
+
+import static com.google.common.cache.CacheBuilder.newBuilder;
 
 /**
  * An abstract implementation of {@link ListenerManager}. This class
@@ -21,22 +26,35 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 public abstract class AbstractListenerManager extends AbstractManager implements ListenerManager {
   // TODO add javadocs
 
+  private static final int resolvedTypesCacheMaximumSize = 128;
+
+  private final LoadingCache<Class<? extends Listener>, Set<Class<? extends Listener>>> resolvedTypes;
+
   /**
    * Constructor for use by subclasses.
    */
-  protected AbstractListenerManager() {}
+  protected AbstractListenerManager() {
+    this.resolvedTypes = newBuilder().maximumSize(resolvedTypesCacheMaximumSize).build(new CacheLoader<Class<? extends Listener>, Set<Class<? extends Listener>>>() {
+      @Override
+      public Set<Class<? extends Listener>> load(final Class<? extends Listener> supertype) throws Exception {
+        return Listeners.resolveTypes(supertype);
+      }
+    });
+  }
 
-  protected abstract ResourceManager manager();
+  protected abstract ResourceManager underlyingResourceManager();
 
   private <L extends Listener> Set<Resource<? super L>> registrables(final L listener) {
     // safe cast as registrables always fetch resources with listener supertypes
     @SuppressWarnings("unchecked")
     Class<L> supertype = (Class<L>) listener.getClass();
 
-    Set<Resource<? super L>> resources = this.manager().registrables(supertype);
+    ResourceManager manager = this.underlyingResourceManager();
 
-    for (Class<? extends Listener> type: Listeners.resolveTypes(listener)) {
-      if (this.manager().registrables(type).isEmpty()) {
+    Set<Resource<? super L>> resources = manager.registrables(supertype);
+
+    for (Class<? extends Listener> type: this.resolvedTypes.getUnchecked(supertype)) {
+      if (manager.registrables(type).isEmpty()) {
         throw new ResourceNotRegistredException("No registred resources for listener implementation " + listener.getClass().getName() + " as " + type.getName());
       }
     }

@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
@@ -13,19 +17,34 @@ import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
+import static com.google.common.cache.CacheBuilder.newBuilder;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newHashSet;
 
 final class StandardResourceManager extends AbstractResourceManager {
-  private final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
+  static final int typeMatchCacheCacheMaximumSize = 4 * 128;
+
+  private final SetMultimap<Class<? extends Listener>, Resource<?>> typeToResourceCache;
+
+  private final LoadingCache<TypeMatch, Boolean> typeMatchCache;
 
   StandardResourceManager() {
-    this.multimap = HashMultimap.create();
+    this.typeToResourceCache = HashMultimap.create();
+
+    this.typeMatchCache = newBuilder().maximumSize(typeMatchCacheCacheMaximumSize).build(new CacheLoader<TypeMatch, Boolean>() {
+      @Override
+      public Boolean load(final TypeMatch match) throws Exception {
+        return match.compute();
+      }
+    });
   }
 
   @Override
-  protected SetMultimap<Class<? extends Listener>, Resource<?>> multimap() {
-    return this.multimap;
+  protected SetMultimap<Class<? extends Listener>, Resource<?>> typeToResourceCache() {
+    return this.typeToResourceCache;
   }
 
   public <L extends Listener> void unregisterAll(final Class<L> type) {
@@ -53,7 +72,7 @@ final class StandardResourceManager extends AbstractResourceManager {
   private <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignablesAsSetMultimap(final Class<L> type) {
     SetMultimap<Class<? extends L>, Resource<? extends L>> result = HashMultimap.create();
 
-    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries()) {
+    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.typeToResourceCache.entries()) {
       if (type.isAssignableFrom(entry.getKey())) {
         // safe cast as key type is a subtype of specified type
         @SuppressWarnings("unchecked")
@@ -70,24 +89,49 @@ final class StandardResourceManager extends AbstractResourceManager {
     return result;
   }
 
-  public <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type) {
-    Set<Resource<? super L>> result = newHashSet();
+  private static final class TypeMatch {
+    final Class<? extends Listener> type;
 
-    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries()) {
-      boolean matched = type == entry.getKey();
+    final Class<? extends Listener> supertype;
 
-      if (!matched) {
-        for (Class<?> supertype: Reflections.collectInterfaces(type)) {
-          if (supertype == entry.getKey()) {
-            matched = true;
+    TypeMatch(final Class<? extends Listener> type, final Class<? extends Listener> supertype) {
+      this.type = type;
+      this.supertype = supertype;
+    }
 
-            break;
-          }
+    @Override
+    public boolean equals(@Nullable final Object object) {
+      if (object instanceof TypeMatch) {
+        TypeMatch other = (TypeMatch) object;
+
+        return this.type == other.type && this.supertype == other.supertype;
+      }
+
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return this.type.hashCode() ^ this.supertype.hashCode();
+    }
+
+    Boolean compute() {
+      for (Class<?> supertype: Reflections.collectInterfaces(this.type)) {
+        if (supertype == this.supertype) {
+          return TRUE;
         }
       }
 
-      if (matched) {
-        // safe cast as L was matched before
+      return FALSE;
+    }
+  }
+
+  public <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type) {
+    Set<Resource<? super L>> result = newHashSet();
+
+    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.typeToResourceCache.entries()) {
+      if (type == entry.getKey() || this.typeMatchCache.getUnchecked(new TypeMatch(type, entry.getKey()))) {
+        // safe cast as L was matched with actual type
         @SuppressWarnings("unchecked")
         Resource<? super L> resource = (Resource<? super L>) entry.getValue();
 
@@ -99,10 +143,10 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   public SetMultimap<Class<? extends Listener>, Resource<?>> registrations() {
-    return HashMultimap.create(this.multimap);
+    return HashMultimap.create(this.typeToResourceCache);
   }
 
   public boolean registered(final Class<? extends Listener> type, final Resource<?> resource) {
-    return this.multimap.containsEntry(type, resource);
+    return this.typeToResourceCache.containsEntry(type, resource);
   }
 }
