@@ -66,15 +66,15 @@ public abstract class AbstractUacaProxy implements AutoCloseable {
     return this.client.target(this.url().toString());
   }
 
-  protected void filterRequest(WebTarget target, @Nullable Object request) {}
+  protected void filterRequest(final WebTarget target, @Nullable final Object request) {}
 
-  protected Response sendRequest(WebTarget target, @Nullable Object request) {
+  protected Response sendRequest(final WebTarget target, @Nullable final Object request) {
     return target.request().post(entity(request, MediaType.APPLICATION_JSON_TYPE));
   }
 
-  protected void processResponse(WebTarget target, @Nullable Object request, Response response) {}
+  protected void processResponse(final WebTarget target, @Nullable final Object request, final Response response) {}
 
-  protected void reportFailure(String message, @Nullable Exception failure) {}
+  protected void reportFailure(final String message, @Nullable final Exception failure) {}
 
   public final void close() throws Exception {
     this.preClose();

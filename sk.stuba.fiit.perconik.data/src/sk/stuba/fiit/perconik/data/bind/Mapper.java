@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 
+import sk.stuba.fiit.perconik.data.bind.NamingStrategy.LowerUnderscore;
 import sk.stuba.fiit.perconik.data.type.common.CommonModule;
 import sk.stuba.fiit.perconik.data.type.content.ContentModule;
 
@@ -30,7 +31,7 @@ public final class Mapper {
     sharedInstance.registerModule(new ContentModule());
     sharedInstance.registerModule(new GuavaModule());
 
-    sharedInstance.setPropertyNamingStrategy(new NamingStrategy());
+    sharedInstance.setPropertyNamingStrategy(new LowerUnderscore());
     sharedInstance.setVisibility(FIELD, NONE);
 
     sharedInstance.disable(FAIL_ON_EMPTY_BEANS);

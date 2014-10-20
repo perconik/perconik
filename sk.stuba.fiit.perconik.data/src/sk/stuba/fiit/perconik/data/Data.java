@@ -4,12 +4,16 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import sk.stuba.fiit.perconik.data.bind.Mapper;
+import sk.stuba.fiit.perconik.data.bind.NamingStrategy.LowerUnderscore;
 import sk.stuba.fiit.perconik.data.bind.Writer;
 import sk.stuba.fiit.perconik.data.content.Content;
 
 import static com.google.common.collect.Maps.newTreeMap;
 
+@JsonNaming(LowerUnderscore.class)
 public class Data implements Content {
   public Data() {}
 

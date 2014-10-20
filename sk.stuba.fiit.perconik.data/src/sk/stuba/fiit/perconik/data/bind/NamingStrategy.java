@@ -2,25 +2,43 @@ package sk.stuba.fiit.perconik.data.bind;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.PropertyNamingStrategyBase;
 
-public final class NamingStrategy extends PropertyNamingStrategyBase {
+public abstract class NamingStrategy extends PropertyNamingStrategyBase {
   private static final long serialVersionUID = 0L;
 
-  private static final LowerCaseWithUnderscoresStrategy strategy = new LowerCaseWithUnderscoresStrategy();
+  NamingStrategy() {
+  }
 
-  public NamingStrategy() {}
+  public static final class Default extends NamingStrategy {
+    private static final long serialVersionUID = 0L;
 
-  @Override
-  public String translate(final String input) {
-    if (input == null) {
-      return null;
+    public Default() {}
+
+    @Override
+    public String translate(final String input) {
+      return input;
     }
+  }
 
-    String result = input;
+  public static final class LowerUnderscore extends NamingStrategy {
+    private static final long serialVersionUID = 0L;
 
-    if (input.charAt(0) == '_') {
-      result = "_" + result;
+    private static final LowerCaseWithUnderscoresStrategy strategy = new LowerCaseWithUnderscoresStrategy();
+
+    public LowerUnderscore() {}
+
+    @Override
+    public String translate(final String input) {
+      if (input == null) {
+        return null;
+      }
+
+      String result = input;
+
+      if (input.charAt(0) == '_') {
+        result = "_" + result;
+      }
+
+      return strategy.translate(result);
     }
-
-    return strategy.translate(result);
   }
 }

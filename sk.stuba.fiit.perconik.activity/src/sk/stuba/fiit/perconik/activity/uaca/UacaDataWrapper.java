@@ -2,10 +2,14 @@ package sk.stuba.fiit.perconik.activity.uaca;
 
 import java.net.URI;
 
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.bind.NamingStrategy.Default;
 
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 
+@JsonNaming(Default.class)
 public class UacaDataWrapper extends AnyStructuredData {
   public static final URI eventTypeUriPrefix = newUri("http://perconik.gratex.com/useractivity/event");
 
@@ -15,7 +19,7 @@ public class UacaDataWrapper extends AnyStructuredData {
 
   public UacaDataWrapper() {}
 
-  public static UacaDataWrapper of(String path, Object data) {
+  public static UacaDataWrapper of(final String path, final Object data) {
     UacaDataWrapper wrapper = new UacaDataWrapper();
 
     wrapper.eventTypeUri = newUri(eventTypeUriPrefix + "/" + path);
@@ -24,11 +28,11 @@ public class UacaDataWrapper extends AnyStructuredData {
     return wrapper;
   }
 
-  public void setEventTypeUri(URI eventTypeUri) {
+  public void setEventTypeUri(final URI eventTypeUri) {
     this.eventTypeUri = eventTypeUri;
   }
 
-  public void setData(Object data) {
+  public void setData(final Object data) {
     this.data = data;
   }
 
