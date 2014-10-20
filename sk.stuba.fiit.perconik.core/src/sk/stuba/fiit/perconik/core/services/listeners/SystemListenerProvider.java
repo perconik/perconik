@@ -12,10 +12,10 @@ import sk.stuba.fiit.perconik.utilities.reflect.accessor.StaticAccessor;
 final class SystemListenerProvider extends AbstractListenerProvider {
   private static final ListenerProvider instance = new SystemListenerProvider();
 
-  private final BiMap<String, Class<? extends Listener>> map;
+  private final BiMap<String, Class<? extends Listener>> nameToImplementation;
 
   private SystemListenerProvider() {
-    this.map = HashBiMap.create();
+    this.nameToImplementation = HashBiMap.create();
   }
 
   static ListenerProvider getInstance() {
@@ -28,7 +28,7 @@ final class SystemListenerProvider extends AbstractListenerProvider {
   }
 
   public <L extends Listener> L forClass(final Class<L> implementation) {
-    if (!this.map.containsValue(implementation)) {
+    if (!this.nameToImplementation.containsValue(implementation)) {
       cast(implementation);
     }
 
@@ -40,7 +40,7 @@ final class SystemListenerProvider extends AbstractListenerProvider {
   }
 
   public Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
-    Class<? extends Listener> type = this.map.get(name);
+    Class<? extends Listener> type = this.nameToImplementation.get(name);
 
     if (type != null) {
       return type;
@@ -48,13 +48,13 @@ final class SystemListenerProvider extends AbstractListenerProvider {
 
     type = cast(this.load(name));
 
-    this.map.put(name, type);
+    this.nameToImplementation.put(name, type);
 
     return type;
   }
 
   public Set<Class<? extends Listener>> classes() {
-    return this.map.values();
+    return this.nameToImplementation.values();
   }
 
   public ListenerProvider parent() {

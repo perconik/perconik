@@ -19,36 +19,36 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Sets.newHashSet;
 
 final class StandardResourceProvider extends AbstractResourceProvider {
-  private final BiMap<String, Resource<?>> map;
+  private final BiMap<String, Resource<?>> nameToResource;
 
-  private final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
+  private final SetMultimap<Class<? extends Listener>, Resource<?>> typeToResources;
 
   private final ResourceProvider parent;
 
   StandardResourceProvider(final Builder builder) {
-    this.map = ImmutableBiMap.copyOf(builder.map);
-    this.multimap = ImmutableSetMultimap.copyOf(builder.multimap);
+    this.nameToResource = ImmutableBiMap.copyOf(builder.nameToResource);
+    this.typeToResources = ImmutableSetMultimap.copyOf(builder.typeToResources);
     this.parent = builder.parent.or(ResourceProviders.getSystemProvider());
   }
 
   public static final class Builder implements ResourceProvider.Builder {
-    final BiMap<String, Resource<?>> map;
+    final BiMap<String, Resource<?>> nameToResource;
 
-    final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
+    final SetMultimap<Class<? extends Listener>, Resource<?>> typeToResources;
 
     Optional<ResourceProvider> parent;
 
     public Builder() {
-      this.map = HashBiMap.create();
-      this.multimap = HashMultimap.create();
+      this.nameToResource = HashBiMap.create();
+      this.typeToResources = HashMultimap.create();
       this.parent = Optional.absent();
     }
 
     public <L extends Listener> Builder add(final Class<L> type, final Resource<? super L> resource) {
       checkNotNull(type);
 
-      this.map.put(resource.getName(), resource);
-      this.multimap.put(type, resource);
+      this.nameToResource.put(resource.getName(), resource);
+      this.typeToResources.put(type, resource);
 
       return this;
     }
@@ -71,7 +71,7 @@ final class StandardResourceProvider extends AbstractResourceProvider {
   }
 
   public Resource<?> forName(final String name) {
-    Resource<?> resource = this.map.get(name);
+    Resource<?> resource = this.nameToResource.get(name);
 
     if (resource != null) {
       return resource;
@@ -83,7 +83,7 @@ final class StandardResourceProvider extends AbstractResourceProvider {
   public <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
     Set<Resource<L>> resources = newHashSet();
 
-    for (Resource<?> resource: this.multimap.get(type)) {
+    for (Resource<?> resource: this.typeToResources.get(type)) {
       resources.add(Unsafe.cast(type, resource));
     }
 
@@ -91,11 +91,11 @@ final class StandardResourceProvider extends AbstractResourceProvider {
   }
 
   public Set<String> names() {
-    return MoreSets.newHashSet(this.map.keySet(), this.parent.names());
+    return MoreSets.newHashSet(this.nameToResource.keySet(), this.parent.names());
   }
 
   public Set<Class<? extends Listener>> types() {
-    return MoreSets.newHashSet(this.multimap.keySet(), this.parent.types());
+    return MoreSets.newHashSet(this.typeToResources.keySet(), this.parent.types());
   }
 
   public ResourceProvider parent() {

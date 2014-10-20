@@ -19,32 +19,32 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Maps.newConcurrentMap;
 
 final class StandardListenerProvider extends AbstractListenerProvider {
-  private final BiMap<String, Class<? extends Listener>> map;
+  private final BiMap<String, Class<? extends Listener>> nameToImplementation;
 
-  private final Map<Class<? extends Listener>, Listener> cache;
+  private final Map<Class<? extends Listener>, Listener> implementationToListener;
 
   private final ListenerProvider parent;
 
   StandardListenerProvider(final Builder builder) {
-    this.map = HashBiMap.create(builder.map);
-    this.cache = newConcurrentMap();
+    this.nameToImplementation = HashBiMap.create(builder.nameToImplementation);
+    this.implementationToListener = newConcurrentMap();
     this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
   }
 
   public static class Builder implements ListenerProvider.Builder {
-    final BiMap<String, Class<? extends Listener>> map;
+    final BiMap<String, Class<? extends Listener>> nameToImplementation;
 
     Optional<ListenerProvider> parent;
 
     public Builder() {
-      this.map = HashBiMap.create();
+      this.nameToImplementation = HashBiMap.create();
       this.parent = Optional.absent();
     }
 
     public Builder add(final Class<? extends Listener> implementation) {
       checkNotNull(implementation);
 
-      this.map.put(implementation.getName(), implementation.asSubclass(Listener.class));
+      this.nameToImplementation.put(implementation.getName(), implementation.asSubclass(Listener.class));
 
       return this;
     }
@@ -79,17 +79,17 @@ final class StandardListenerProvider extends AbstractListenerProvider {
     return this.getClass().getClassLoader();
   }
 
-  public <L extends Listener> L forClass(final Class<L> type) {
-    Listener listener = this.cache.get(cast(type));
+  public <L extends Listener> L forClass(final Class<L> implementation) {
+    Listener listener = this.implementationToListener.get(cast(implementation));
 
     if (listener != null) {
-      return type.cast(listener);
+      return implementation.cast(listener);
     }
 
     L instance;
 
     try {
-      instance = StaticListenerLookup.forClass(type).get();
+      instance = StaticListenerLookup.forClass(implementation).get();
     } catch (ReflectionException e) {
       Throwable[] suppressions = e.getSuppressed();
 
@@ -101,20 +101,20 @@ final class StandardListenerProvider extends AbstractListenerProvider {
         cause = new ListenerInstantiationException(e);
       }
 
-      return this.parentForClass(type, cause);
+      return this.parentForClass(implementation, cause);
     }
 
-    if (!this.map.containsValue(type)) {
-      this.map.put(type.getName(), type);
+    if (!this.nameToImplementation.containsValue(implementation)) {
+      this.nameToImplementation.put(implementation.getName(), implementation);
     }
 
-    this.cache.put(type, instance);
+    this.implementationToListener.put(implementation, instance);
 
     return instance;
   }
 
   public Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
-    Class<? extends Listener> type = this.map.get(name);
+    Class<? extends Listener> type = this.nameToImplementation.get(name);
 
     if (type != null) {
       return type;
@@ -128,7 +128,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
   }
 
   public Set<Class<? extends Listener>> classes() {
-    return MoreSets.newHashSet(this.map.values(), this.parent.classes());
+    return MoreSets.newHashSet(this.nameToImplementation.values(), this.parent.classes());
   }
 
   public ListenerProvider parent() {

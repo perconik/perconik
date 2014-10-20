@@ -7,9 +7,10 @@ import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
 import sk.stuba.fiit.perconik.core.ResourceUnregistrationException;
 import sk.stuba.fiit.perconik.core.services.AbstractManager;
-import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 
 /**
  * An abstract implementation of {@link ResourceManager}. This class
@@ -47,7 +48,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
 
       resource.postRegister();
     } catch (Exception failure) {
-      throw MoreThrowables.initializeCause(new ResourceRegistrationException(), failure);
+      throw initializeCause(new ResourceRegistrationException(), failure);
     }
   }
 
@@ -67,7 +68,7 @@ public abstract class AbstractResourceManager extends AbstractManager implements
 
       resource.postUnregister();
     } catch (Exception failure) {
-      throw MoreThrowables.initializeCause(new ResourceUnregistrationException(), failure);
+      throw initializeCause(new ResourceUnregistrationException(), failure);
     }
   }
 }
