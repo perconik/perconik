@@ -14,12 +14,12 @@ public final class SearchResultDebugListener extends AbstractDebugListener imple
     super(console);
   }
 
-  public final void searchResultChanged(final SearchResultEvent event) {
+  public void searchResultChanged(final SearchResultEvent event) {
     this.printHeader("Search result changed");
     this.printSearchResultEvent(event);
   }
 
-  private final void printSearchResultEvent(final SearchResultEvent event) {
+  private void printSearchResultEvent(final SearchResultEvent event) {
     this.put(Debug.dumpSearchResultEvent(event));
   }
 }

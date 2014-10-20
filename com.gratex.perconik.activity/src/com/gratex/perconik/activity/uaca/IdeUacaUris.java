@@ -17,27 +17,25 @@ public final class IdeUacaUris {
 
   private final static UriBuilder rcsServerTypeUri = UriBuilder.fromPath(base).path("rcsserver/type").fragment("{type}");
 
-  private IdeUacaUris() {
-    throw new AssertionError();
-  }
+  private IdeUacaUris() {}
 
-  public static final String forCodeElementType(final String type) {
+  public static String forCodeElementType(final String type) {
     return codeElementTypeUri.build(type).toString();
   }
 
-  public static final String forStateChangeType(final String type) {
+  public static String forStateChangeType(final String type) {
     return stateChangeTypeUri.build(application, type).toString();
   }
 
-  public static final String forLookinType(final String type) {
+  public static String forLookinType(final String type) {
     return lookinTypeUri.build(application, type).toString();
   }
 
-  public static final String forPatternSyntaxType(final String type) {
+  public static String forPatternSyntaxType(final String type) {
     return patternSyntaxTypeUri.build(application, type).toString();
   }
 
-  public static final String forRcsServerType(final String type) {
+  public static String forRcsServerType(final String type) {
     return rcsServerTypeUri.build(type).toString();
   }
 }

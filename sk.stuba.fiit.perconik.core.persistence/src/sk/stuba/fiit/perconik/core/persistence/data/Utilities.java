@@ -30,11 +30,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 final class Utilities {
   private static final ClassResolver resolver = Activator.classResolver();
 
-  private Utilities() {
-    throw new AssertionError();
-  }
+  private Utilities() {}
 
-  static final Class<? extends Listener> checkListenerClass(final Class<? extends Listener> type) {
+  static Class<? extends Listener> checkListenerClass(final Class<? extends Listener> type) {
     try {
       return Services.getListenerService().getListenerProvider().loadClass(type.getName());
     } catch (Exception e) {
@@ -42,7 +40,7 @@ final class Utilities {
     }
   }
 
-  static final Listener checkListenerImplementation(final Class<? extends Listener> type, @Nullable final Listener listener) {
+  static Listener checkListenerImplementation(final Class<? extends Listener> type, @Nullable final Listener listener) {
     if (listener != null && type != listener.getClass()) {
       throw new IllegalArgumentException("Listener " + listener + " is not implemented by " + type.getName());
     }
@@ -50,19 +48,19 @@ final class Utilities {
     return listener;
   }
 
-  static final Class<? extends Listener> checkListenerType(final Class<? extends Listener> type) {
+  static Class<? extends Listener> checkListenerType(final Class<? extends Listener> type) {
     checkArgument(Listener.class.isAssignableFrom(type), "Class " + type.getName() + " is not assignable to " + Listener.class.getName());
 
     return type;
   }
 
-  static final String checkResourceName(final String name) {
+  static String checkResourceName(final String name) {
     checkArgument(!name.isEmpty(), "Resource name can not be empty");
 
     return name;
   }
 
-  static final Resource<?> checkResourceImplementation(final String name, @Nullable final Resource<?> resource) {
+  static Resource<?> checkResourceImplementation(final String name, @Nullable final Resource<?> resource) {
     if (resource != null && !name.equals(resource.getName())) {
       throw new IllegalArgumentException("Resource " + resource + " has not name " + name);
     }
@@ -70,29 +68,29 @@ final class Utilities {
     return resource;
   }
 
-  static final boolean registeredByDefault(final Class<? extends Registrable> type) {
+  static boolean registeredByDefault(final Class<? extends Registrable> type) {
     Annotable annotable = Registrables.toAnnotable(type);
 
     return !annotable.hasAnnotation(Experimental.class) && !annotable.hasAnnotation(Unsupported.class);
   }
 
-  static final Class<?> resolveClass(final String name) throws ClassNotFoundException {
+  static Class<?> resolveClass(final String name) throws ClassNotFoundException {
     return resolver.forName(name);
   }
 
-  static final <T> Class<? extends T> resolveClassAsSubclass(final String name, final Class<T> subclass) throws ClassNotFoundException {
+  static <T> Class<? extends T> resolveClassAsSubclass(final String name, final Class<T> subclass) throws ClassNotFoundException {
     return resolveClass(name).asSubclass(subclass);
   }
 
-  static final <T> T serializableOrNull(@Nullable final T object) {
+  static <T> T serializableOrNull(@Nullable final T object) {
     return object instanceof Serializable ? object : null;
   }
 
-  static final <T> Optional<T> serializableOrNullAsOptional(@Nullable final T object) {
+  static <T> Optional<T> serializableOrNullAsOptional(@Nullable final T object) {
     return Optional.fromNullable(serializableOrNull(object));
   }
 
-  private static final ToStringHelper toStringHelperFor(final Registration registration) {
+  private static ToStringHelper toStringHelperFor(final Registration registration) {
     ToStringHelper helper = Objects.toStringHelper(registration);
 
     helper.add("registered", registration.isRegistered());
@@ -106,7 +104,7 @@ final class Utilities {
     return helper;
   }
 
-  static final String toString(final ListenerRegistration registration) {
+  static String toString(final ListenerRegistration registration) {
     ToStringHelper helper = toStringHelperFor(registration);
 
     helper.add("listener-class", registration.getListenerClass().getName());
@@ -119,7 +117,7 @@ final class Utilities {
     return helper.toString();
   }
 
-  static final String toString(final ResourceRegistration registration) {
+  static String toString(final ResourceRegistration registration) {
     ToStringHelper helper = toStringHelperFor(registration);
 
     helper.add("listener-type", registration.getListenerType().getName());

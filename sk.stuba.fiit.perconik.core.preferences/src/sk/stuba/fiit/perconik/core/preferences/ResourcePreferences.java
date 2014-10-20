@@ -45,7 +45,7 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
      * when the appropriate default preference node is accessed.
      */
     @Override
-    public final void initializeDefaultPreferences() {
+    public void initializeDefaultPreferences() {
       Set<ResourcePersistenceData> data = ResourcePersistenceData.defaults();
 
       ResourcePreferences.getDefault().setResourcePersistenceData(data);
@@ -59,14 +59,14 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
   /**
    * Gets default scoped core preferences.
    */
-  public static final ResourcePreferences getDefault() {
+  public static ResourcePreferences getDefault() {
     return new ResourcePreferences(Scope.DEFAULT);
   }
 
   /**
    * Gets configuration scoped core preferences.
    */
-  public static final ResourcePreferences getShared() {
+  public static ResourcePreferences getShared() {
     return new ResourcePreferences(Scope.CONFIGURATION);
   }
 
@@ -75,19 +75,19 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
    * @param data resource persistence data
    * @throws NullPointerException if {@code data} is {@code null}
    */
-  public final void setResourcePersistenceData(final Set<ResourcePersistenceData> data) {
+  public void setResourcePersistenceData(final Set<ResourcePersistenceData> data) {
     this.setRegistrations(persistence, data);
   }
 
   /**
    * Gets resource persistence data.
    */
-  public final Set<ResourcePersistenceData> getResourcePersistenceData() {
+  public Set<ResourcePersistenceData> getResourcePersistenceData() {
     return this.getRegistrations(persistence);
   }
 
   @Override
-  final Set<ResourcePersistenceData> getDefaultRegistrations() {
+  Set<ResourcePersistenceData> getDefaultRegistrations() {
     return ResourcePersistenceData.defaults();
   }
 }

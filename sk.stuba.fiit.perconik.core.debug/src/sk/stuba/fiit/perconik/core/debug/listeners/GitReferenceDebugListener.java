@@ -14,12 +14,12 @@ public final class GitReferenceDebugListener extends AbstractDebugListener imple
     super(console);
   }
 
-  public final void onRefsChanged(final RefsChangedEvent event) {
+  public void onRefsChanged(final RefsChangedEvent event) {
     this.printHeader("Git reference changed");
     this.printGitReferenceEvent(event);
   }
 
-  private final void printGitReferenceEvent(final RefsChangedEvent event) {
+  private void printGitReferenceEvent(final RefsChangedEvent event) {
     this.put(Debug.dumpGitReferenceEvent(event));
   }
 }

@@ -11,10 +11,10 @@ import sk.stuba.fiit.perconik.core.Registrable;
 /**
  * Indicates that a {@link Registrable} is unsafe and should be treated
  * accordingly by the core service implementations.
- * 
+ *
  * <p>In general all not thread safe implementations should be marked as
  * unsafe.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

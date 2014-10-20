@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 /**
  * Indicates that one or more deserialized listeners failed validation
  * tests. The argument should provide the reason for the failure.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -26,14 +26,14 @@ public class InvalidListenerException extends InvalidObjectException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public InvalidListenerException(@Nullable String message) {
+  public InvalidListenerException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public InvalidListenerException(@Nullable String message, @Nullable Throwable cause) {
+  public InvalidListenerException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message);
 
     this.initCause(cause);
@@ -42,7 +42,7 @@ public class InvalidListenerException extends InvalidObjectException {
   /**
    * Creates a new instance with the given cause.
    */
-  public InvalidListenerException(@Nullable Throwable cause) {
+  public InvalidListenerException(@Nullable final Throwable cause) {
     this(null, cause);
   }
 }

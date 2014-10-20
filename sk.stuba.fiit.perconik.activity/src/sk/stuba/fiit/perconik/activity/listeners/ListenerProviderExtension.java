@@ -27,7 +27,7 @@ public final class ListenerProviderExtension implements ListenerProviderFactory 
 
   public ListenerProviderExtension() {}
 
-  public final ListenerProvider create(final ListenerProvider parent) {
+  public ListenerProvider create(final ListenerProvider parent) {
     return ListenerProviders.builder(parent).addAll(classes).build();
   }
 }

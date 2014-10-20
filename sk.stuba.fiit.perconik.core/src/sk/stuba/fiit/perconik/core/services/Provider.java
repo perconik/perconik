@@ -6,17 +6,17 @@ import sk.stuba.fiit.perconik.core.Nameable;
 
 /**
  * An object providing other objects, usually {@code Registrable} instances.
- * 
+ *
  * <p>Uniqueness of a provider is determined by its qualified name.
  * Two {@code Provider} instances with the same qualified name should
  * be implemented by the same class, provide the same functionality
  * and behave the same way.
- * 
+ *
  * <p>All providers should fall back to their parent ask it to provide
  * requested objects if they are themselves unable to provide these objects,
  * with exception for the providers at the top of the provider hierarchy which
- * have no parent. 
- * 
+ * have no parent.
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

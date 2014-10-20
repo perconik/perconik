@@ -15,22 +15,22 @@ public final class LaunchDebugListener extends AbstractDebugListener implements 
     super(console);
   }
 
-  public final void launchAdded(final ILaunch launch) {
+  public void launchAdded(final ILaunch launch) {
     this.printHeader("Launch added");
     this.printLaunch(launch);
   }
 
-  public final void launchRemoved(final ILaunch launch) {
+  public void launchRemoved(final ILaunch launch) {
     this.printHeader("Launch removed");
     this.printLaunch(launch);
   }
 
-  public final void launchChanged(final ILaunch launch) {
+  public void launchChanged(final ILaunch launch) {
     this.printHeader("Launch changed");
     this.printLaunch(launch);
   }
 
-  private final void printLaunch(final ILaunch launch) {
+  private void printLaunch(final ILaunch launch) {
     try {
       this.put(Debug.dumpLaunch(launch));
     } catch (CoreException e) {

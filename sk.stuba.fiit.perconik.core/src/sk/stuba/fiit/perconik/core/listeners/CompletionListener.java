@@ -8,12 +8,12 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A completion listener.
- * 
+ *
  * @see Listener
  * @see ICompletionListener
  * @see ICompletionListenerExtension
  * @see ICompletionListenerExtension2
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

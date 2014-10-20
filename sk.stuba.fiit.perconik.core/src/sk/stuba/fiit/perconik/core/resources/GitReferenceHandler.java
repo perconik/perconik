@@ -9,11 +9,11 @@ enum GitReferenceHandler implements Handler<GitReferenceListener> {
 
   private final GitHandlerSupport<RefsChangedListener> support = new GitHandlerSupport<>(RefsChangedListener.class);
 
-  public final void register(final GitReferenceListener listener) {
+  public void register(final GitReferenceListener listener) {
     this.support.register(listener);
   }
 
-  public final void unregister(final GitReferenceListener listener) {
+  public void unregister(final GitReferenceListener listener) {
     this.support.unregister(listener);
   }
 }

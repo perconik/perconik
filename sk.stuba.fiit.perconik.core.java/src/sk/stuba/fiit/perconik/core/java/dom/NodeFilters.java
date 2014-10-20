@@ -14,9 +14,7 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import static com.google.common.collect.Sets.immutableEnumSet;
 
 public final class NodeFilters {
-  private NodeFilters() {
-    throw new AssertionError();
-  }
+  private NodeFilters() {}
 
   private static abstract class AbstractNodeTypePredicate<N extends ASTNode> implements Predicate<N> {
     final Set<NodeType> types;
@@ -48,7 +46,7 @@ public final class NodeFilters {
       super(types);
     }
 
-    public final boolean apply(final N node) {
+    public boolean apply(final N node) {
       for (NodeType type: this.types) {
         if (type.isInstance(node)) {
           return true;
@@ -59,7 +57,7 @@ public final class NodeFilters {
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o instanceof IsInstancePredicate) {
         IsInstancePredicate<?> other = (IsInstancePredicate<?>) o;
 
@@ -70,7 +68,7 @@ public final class NodeFilters {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "isInstance(" + Joiner.on(',').join(this.getNodeTypes()) + ")";
     }
   }
@@ -84,7 +82,7 @@ public final class NodeFilters {
       super(types);
     }
 
-    public final boolean apply(final N node) {
+    public boolean apply(final N node) {
       for (NodeType type: this.types) {
         if (type.isMatching(node)) {
           return true;
@@ -95,7 +93,7 @@ public final class NodeFilters {
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o instanceof IsMatchingPredicate) {
         IsMatchingPredicate<?> other = (IsMatchingPredicate<?>) o;
 
@@ -106,24 +104,24 @@ public final class NodeFilters {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "isMatching(" + Joiner.on(',').join(this.getNodeTypes()) + ")";
     }
   }
 
-  public static final <N extends ASTNode> Predicate<N> isInstance(final NodeType type, final NodeType ... rest) {
+  public static <N extends ASTNode> Predicate<N> isInstance(final NodeType type, final NodeType ... rest) {
     return new IsInstancePredicate<>(type, rest);
   }
 
-  public static final <N extends ASTNode> Predicate<N> isInstance(final Iterable<NodeType> types) {
+  public static <N extends ASTNode> Predicate<N> isInstance(final Iterable<NodeType> types) {
     return new IsInstancePredicate<>(types);
   }
 
-  public static final <N extends ASTNode> Predicate<N> isMatching(final NodeType type, final NodeType ... rest) {
+  public static <N extends ASTNode> Predicate<N> isMatching(final NodeType type, final NodeType ... rest) {
     return new IsMatchingPredicate<>(type, rest);
   }
 
-  public static final <N extends ASTNode> Predicate<N> isMatching(final Iterable<NodeType> types) {
+  public static <N extends ASTNode> Predicate<N> isMatching(final Iterable<NodeType> types) {
     return new IsMatchingPredicate<>(types);
   }
 }

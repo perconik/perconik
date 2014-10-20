@@ -13,11 +13,11 @@ public abstract class Exceptional<T> implements Serializable {
 
   Exceptional() {}
 
-  public static final <T> Exceptional<T> of(T reference) {
+  public static final <T> Exceptional<T> of(final T reference) {
     return new Success<>(reference);
   }
 
-  public static final <T> Exceptional<T> failure(Throwable reference) {
+  public static final <T> Exceptional<T> failure(final Throwable reference) {
     return new Failure<>(reference);
   }
 
@@ -26,31 +26,31 @@ public abstract class Exceptional<T> implements Serializable {
 
     private final T reference;
 
-    Success(T reference) {
+    Success(final T reference) {
       this.reference = reference;
     }
 
     @Override
-    public final T or(T other) {
+    public T or(final T other) {
       checkNotNull(other);
 
       return this.reference;
     }
 
     @Override
-    public final Exceptional<T> or(Exceptional<T> other) {
+    public Exceptional<T> or(final Exceptional<T> other) {
       checkNotNull(other);
 
       return this;
     }
 
     @Override
-    public final T orNull() {
+    public T orNull() {
       return this.reference;
     }
 
     @Override
-    public final boolean equals(@Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o == this) {
         return true;
       }
@@ -65,37 +65,37 @@ public abstract class Exceptional<T> implements Serializable {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       return 0x598df91c + this.reference.hashCode();
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "Exceptional.of(" + this.reference + ")";
     }
 
     @Override
-    public final Optional<T> toOptional() {
+    public Optional<T> toOptional() {
       return Optional.of(this.reference);
     }
 
     @Override
-    public final T get() {
+    public T get() {
       return this.reference;
     }
 
     @Override
-    public final Throwable failure() {
+    public Throwable failure() {
       throw new IllegalStateException();
     }
 
     @Override
-    public final boolean isSuccess() {
+    public boolean isSuccess() {
       return true;
     }
 
     @Override
-    public final boolean isFailure() {
+    public boolean isFailure() {
       return false;
     }
   }
@@ -105,27 +105,27 @@ public abstract class Exceptional<T> implements Serializable {
 
     private final Throwable reference;
 
-    Failure(Throwable reference) {
+    Failure(final Throwable reference) {
       this.reference = reference;
     }
 
     @Override
-    public final T or(T other) {
+    public T or(final T other) {
       return checkNotNull(other);
     }
 
     @Override
-    public final Exceptional<T> or(Exceptional<T> other) {
+    public Exceptional<T> or(final Exceptional<T> other) {
       return checkNotNull(other);
     }
 
     @Override
-    public final T orNull() {
+    public T orNull() {
       return null;
     }
 
     @Override
-    public final boolean equals(@Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o == this) {
         return true;
       }
@@ -140,37 +140,37 @@ public abstract class Exceptional<T> implements Serializable {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       return 0x598df91c + this.reference.hashCode();
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "Exceptional.of(" + this.reference + ")";
     }
 
     @Override
-    public final Optional<T> toOptional() {
+    public Optional<T> toOptional() {
       return Optional.absent();
     }
 
     @Override
-    public final T get() {
+    public T get() {
       throw new IllegalStateException();
     }
 
     @Override
-    public final Throwable failure() {
+    public Throwable failure() {
       return this.reference;
     }
 
     @Override
-    public final boolean isSuccess() {
+    public boolean isSuccess() {
       return false;
     }
 
     @Override
-    public final boolean isFailure() {
+    public boolean isFailure() {
       return true;
     }
   }

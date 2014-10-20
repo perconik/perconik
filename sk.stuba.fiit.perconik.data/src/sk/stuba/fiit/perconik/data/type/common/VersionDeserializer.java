@@ -17,7 +17,7 @@ public class VersionDeserializer extends StdScalarDeserializer<Version> {
   }
 
   @Override
-  public Version deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+  public Version deserialize(final JsonParser parser, final DeserializationContext context) throws IOException, JsonProcessingException {
     return Version.parseVersion(parser.getValueAsString());
   }
 }

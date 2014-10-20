@@ -11,15 +11,13 @@ import org.eclipse.jdt.core.JavaModelException;
 import static com.google.common.collect.Lists.newLinkedList;
 
 public final class JavaElements {
-  private JavaElements() {
-    throw new AssertionError();
-  }
+  private JavaElements() {}
 
-  public static final IJavaElement parent(@Nullable final IJavaElement element) {
+  public static IJavaElement parent(@Nullable final IJavaElement element) {
     return element != null ? element.getParent() : null;
   }
 
-  public static final LinkedList<IJavaElement> ancestors(@Nullable IJavaElement element) {
+  public static LinkedList<IJavaElement> ancestors(@Nullable IJavaElement element) {
     final LinkedList<IJavaElement> ancestors = newLinkedList();
 
     while (element != null) {
@@ -29,7 +27,7 @@ public final class JavaElements {
     return ancestors;
   }
 
-  public static final LinkedList<IJavaElement> downToRoot(@Nullable IJavaElement element) {
+  public static LinkedList<IJavaElement> downToRoot(@Nullable IJavaElement element) {
     LinkedList<IJavaElement> branch = newLinkedList();
 
     if (element != null) {
@@ -41,11 +39,11 @@ public final class JavaElements {
     return branch;
   }
 
-  public static final IResource resource(@Nullable final IJavaElement element) {
+  public static IResource resource(@Nullable final IJavaElement element) {
     return element != null ? element.getResource() : null;
   }
 
-  public static final IResource correspondingResource(@Nullable final IJavaElement element) {
+  public static IResource correspondingResource(@Nullable final IJavaElement element) {
     try {
       return element != null ? element.getCorrespondingResource() : null;
     } catch (JavaModelException e) {
@@ -53,7 +51,7 @@ public final class JavaElements {
     }
   }
 
-  public static final IResource underlyingResource(@Nullable final IJavaElement element) {
+  public static IResource underlyingResource(@Nullable final IJavaElement element) {
     try {
       return element != null ? element.getUnderlyingResource() : null;
     } catch (JavaModelException e) {

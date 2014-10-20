@@ -100,79 +100,75 @@ import static java.util.Arrays.asList;
 
 @SuppressWarnings("restriction")
 public final class Debug {
-  private Debug() {
-    throw new AssertionError();
-  }
+  private Debug() {}
 
   private static final class ConsoleHolder {
-    static final DebugConsole console = DebugConsole.of(Activator.getDefault().getConsole());
+    static final DebugConsole console = DebugConsole.of(Activator.defaultInstance().getConsole());
 
-    private ConsoleHolder() {
-      throw new AssertionError();
-    }
+    private ConsoleHolder() {}
   }
 
-  public static final DebugConsole getDefaultConsole() {
+  public static DebugConsole getDefaultConsole() {
     return ConsoleHolder.console;
   }
 
-  private static final DebugConsole console() {
+  private static DebugConsole console() {
     return getDefaultConsole();
   }
 
-  public static final void tab() {
+  public static void tab() {
     console().tab();
   }
 
-  public static final void untab() {
+  public static void untab() {
     console().untab();
   }
 
-  public static final void put(@Nullable final String message) {
+  public static void put(@Nullable final String message) {
     console().put(message);
   }
 
-  public static final void put(final String format, final Object ... args) {
+  public static void put(final String format, final Object ... args) {
     console().put(format, args);
   }
 
-  public static final void print(@Nullable final String message) {
+  public static void print(@Nullable final String message) {
     console().print(message);
   }
 
-  public static final void print(final String format, final Object ... args) {
+  public static void print(final String format, final Object ... args) {
     console().print(format, args);
   }
 
-  public static final void notice(final String message) {
+  public static void notice(final String message) {
     console().notice(message);
   }
 
-  public static final void notice(final String format, Object ... args) {
+  public static void notice(final String format, final Object ... args) {
     console().notice(format, args);
   }
 
-  public static final void warning(final String message) {
+  public static void warning(final String message) {
     console().warning(message);
   }
 
-  public static final void warning(final String format, Object ... args) {
+  public static void warning(final String format, final Object ... args) {
     console().warning(format, args);
   }
 
-  public static final void error(final String message, final Throwable failure) {
+  public static void error(final String message, final Throwable failure) {
     console().error(failure, message);
   }
 
-  private static final SmartStringBuilder builder() {
+  private static SmartStringBuilder builder() {
     return new SmartStringBuilder().tab();
   }
 
-  private static final String missing() {
+  private static String missing() {
     return builder().appendln("missing").toString();
   }
 
-  public static final String dumpHeader(final String title) {
+  public static String dumpHeader(final String title) {
     SmartStringBuilder builder = new SmartStringBuilder();
 
     builder.appendln().appendln(dumpTime()).appendln();
@@ -181,7 +177,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpClass(final Class<?> type) {
+  public static String dumpClass(final Class<?> type) {
     String name = type.getCanonicalName();
 
     if (name != null) {
@@ -191,35 +187,35 @@ public final class Debug {
     return type.getName();
   }
 
-  public static final String dumpBlock(final Object key, @Nullable final Object value) {
+  public static String dumpBlock(final Object key, @Nullable final Object value) {
     SmartStringBuilder builder = builder();
 
     return builder.append(key).appendln(':').lines(value).toString();
   }
 
-  public static final String dumpLine(final Object key, @Nullable final Object value) {
+  public static String dumpLine(final Object key, @Nullable final Object value) {
     SmartStringBuilder builder = builder();
 
     return builder.append(key).append(": ").appendln(value).toString();
   }
 
-  public static final String dumpTime() {
+  public static String dumpTime() {
     return dumpTime(new Date());
   }
 
-  public static final String dumpTime(final Date date) {
+  public static String dumpTime(final Date date) {
     return TimeUtilities.format(date);
   }
 
   private static final class TimeUtilities {
     private static final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    static synchronized final String format(final Date date) {
+    static synchronized String format(final Date date) {
       return formatter.format(date);
     }
   }
 
-  public static final String dumpCategory(final Category category) throws NotDefinedException {
+  public static String dumpCategory(final Category category) throws NotDefinedException {
     SmartStringBuilder builder = builder();
 
     Class<?> type = category.getClass();
@@ -246,7 +242,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpCommand(final Command command) throws NotDefinedException, ParameterValuesException {
+  public static String dumpCommand(final Command command) throws NotDefinedException, ParameterValuesException {
     SmartStringBuilder builder = builder();
 
     Class<?> type = command.getClass();
@@ -312,7 +308,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpCommandEvent(final CommandEvent event) throws NotDefinedException, ParameterValuesException {
+  public static String dumpCommandEvent(final CommandEvent event) throws NotDefinedException, ParameterValuesException {
     SmartStringBuilder builder = builder();
 
     Command command = event.getCommand();
@@ -348,7 +344,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpCommandManagerEvent(final CommandManagerEvent event) {
+  public static String dumpCommandManagerEvent(final CommandManagerEvent event) {
     SmartStringBuilder builder = builder();
 
     String commandId = event.getCommandId();
@@ -384,7 +380,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpCompliationUnit(final CompilationUnit unit) {
+  public static String dumpCompliationUnit(final CompilationUnit unit) {
     SmartStringBuilder builder = builder();
 
     NodeType type = NodeType.valueOf(unit.getNodeType());
@@ -404,7 +400,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpCompletionProposal(final ICompletionProposal proposal) {
+  public static String dumpCompletionProposal(final ICompletionProposal proposal) {
     SmartStringBuilder builder = builder();
 
     String displayString = proposal.getDisplayString();
@@ -416,7 +412,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpContentAssistEvent(final ContentAssistEvent event) {
+  public static String dumpContentAssistEvent(final ContentAssistEvent event) {
     SmartStringBuilder builder = builder();
 
     boolean autoActivated = event.isAutoActivated;
@@ -426,7 +422,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpDebugEvent(final DebugEvent event) {
+  public static String dumpDebugEvent(final DebugEvent event) {
     SmartStringBuilder builder = builder();
 
     Object data = event.getData();
@@ -448,7 +444,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpDebugEvents(final DebugEvent[] events) {
+  public static String dumpDebugEvents(final DebugEvent[] events) {
     SmartStringBuilder builder = builder();
 
     if (events.length != 0) {
@@ -463,7 +459,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpDocument(final IDocument document) {
+  public static String dumpDocument(final IDocument document) {
     SmartStringBuilder builder = builder();
 
     int length = document.getLength();
@@ -475,7 +471,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpDocumentEvent(final DocumentEvent event) {
+  public static String dumpDocumentEvent(final DocumentEvent event) {
     SmartStringBuilder builder = builder();
 
     IDocument document = event.getDocument();
@@ -499,15 +495,15 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpEditor(final IEditorPart part) {
+  public static String dumpEditor(final IEditorPart part) {
     return dumpPart(part);
   }
 
-  public static final String dumpEditorReference(final IEditorReference reference) {
+  public static String dumpEditorReference(final IEditorReference reference) {
     return dumpPartReference(reference);
   }
 
-  public static final String dumpExecutionEvent(final ExecutionEvent event) throws NotDefinedException, ParameterValuesException {
+  public static String dumpExecutionEvent(final ExecutionEvent event) throws NotDefinedException, ParameterValuesException {
     SmartStringBuilder builder = builder();
 
     Command command = event.getCommand();
@@ -528,7 +524,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpFileBuffer(final IFileBuffer buffer) {
+  public static String dumpFileBuffer(final IFileBuffer buffer) {
     SmartStringBuilder builder = builder();
 
     IPath location = buffer.getLocation();
@@ -563,19 +559,19 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpGitConfigurationEvent(final ConfigChangedEvent event) {
+  public static String dumpGitConfigurationEvent(final ConfigChangedEvent event) {
     return dumpGitRepositoryEvent(event);
   }
 
-  public static final String dumpGitIndexEvent(final IndexChangedEvent event) {
+  public static String dumpGitIndexEvent(final IndexChangedEvent event) {
     return dumpGitRepositoryEvent(event);
   }
 
-  public static final String dumpGitReferenceEvent(final RefsChangedEvent event) {
+  public static String dumpGitReferenceEvent(final RefsChangedEvent event) {
     return dumpGitRepositoryEvent(event);
   }
 
-  public static final String dumpGitRepository(final Repository repository) {
+  public static String dumpGitRepository(final Repository repository) {
     SmartStringBuilder builder = builder();
 
     File directory = repository.getDirectory();
@@ -614,7 +610,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpGitRepositoryEvent(final RepositoryEvent<?> event) {
+  public static String dumpGitRepositoryEvent(final RepositoryEvent<?> event) {
     SmartStringBuilder builder = builder();
 
     Class<? extends RepositoryListener> type = event.getListenerType();
@@ -627,7 +623,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpGitRepositoryMapping(final RepositoryMapping mapping) {
+  public static String dumpGitRepositoryMapping(final RepositoryMapping mapping) {
     SmartStringBuilder builder = builder();
 
     Repository repository = mapping.getRepository();
@@ -637,7 +633,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpGitRepositoryState(final RepositoryState state) {
+  public static String dumpGitRepositoryState(final RepositoryState state) {
     SmartStringBuilder builder = builder();
 
     String value = state.toString();
@@ -659,7 +655,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpJavaElement(final IJavaElement element) {
+  public static String dumpJavaElement(final IJavaElement element) {
     SmartStringBuilder builder = builder();
 
     JavaElementType type = JavaElementType.valueOf(element.getElementType());
@@ -675,7 +671,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpJavaElementChangeEvent(final ElementChangedEvent event) {
+  public static String dumpJavaElementChangeEvent(final ElementChangedEvent event) {
     SmartStringBuilder builder = builder();
 
     JavaElementEventType type = JavaElementEventType.valueOf(event.getType());
@@ -689,7 +685,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpJavaElementDelta(final IJavaElementDelta delta) {
+  public static String dumpJavaElementDelta(final IJavaElementDelta delta) {
     SmartStringBuilder builder = builder();
 
     JavaElementDeltaKind kind = JavaElementDeltaKind.valueOf(delta.getKind());
@@ -707,7 +703,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpJavaProject(final IJavaProject project) {
+  public static String dumpJavaProject(final IJavaProject project) {
     SmartStringBuilder builder = builder();
 
     String name = project.getElementName();
@@ -720,7 +716,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpLaunch(final ILaunch launch) throws CoreException {
+  public static String dumpLaunch(final ILaunch launch) throws CoreException {
     SmartStringBuilder builder = builder();
 
     ILaunchConfiguration configuration = launch.getLaunchConfiguration();
@@ -733,7 +729,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpLaunches(final ILaunch[] launches) throws CoreException {
+  public static String dumpLaunches(final ILaunch[] launches) throws CoreException {
     SmartStringBuilder builder = builder();
 
     if (launches.length != 0) {
@@ -748,7 +744,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpLaunchConfiguration(final ILaunchConfiguration configuration) throws CoreException {
+  public static String dumpLaunchConfiguration(final ILaunchConfiguration configuration) throws CoreException {
     SmartStringBuilder builder = builder();
 
     ILaunchConfigurationType type = configuration.getType();
@@ -783,7 +779,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpLaunchConfigurationType(final ILaunchConfigurationType type) {
+  public static String dumpLaunchConfigurationType(final ILaunchConfigurationType type) {
     SmartStringBuilder builder = builder();
 
     String name = type.getName();
@@ -801,7 +797,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpMarkSelection(final IMarkSelection selection) {
+  public static String dumpMarkSelection(final IMarkSelection selection) {
     SmartStringBuilder builder = builder();
 
     boolean empty = selection.isEmpty();
@@ -819,7 +815,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpOperationHistoryEvent(final OperationHistoryEvent event) {
+  public static String dumpOperationHistoryEvent(final OperationHistoryEvent event) {
     SmartStringBuilder builder = builder();
 
     IUndoableOperation operation = event.getOperation();
@@ -838,7 +834,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpPage(final IWorkbenchPage page) {
+  public static String dumpPage(final IWorkbenchPage page) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = page.getClass();
@@ -850,7 +846,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpParameter(final IParameter parameter) throws ParameterValuesException {
+  public static String dumpParameter(final IParameter parameter) throws ParameterValuesException {
     SmartStringBuilder builder = builder();
 
     String id = parameter.getId();
@@ -878,7 +874,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpParameters(final IParameter[] parameters) throws ParameterValuesException {
+  public static String dumpParameters(final IParameter[] parameters) throws ParameterValuesException {
     SmartStringBuilder builder = builder();
 
     if (parameters.length != 0) {
@@ -893,7 +889,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpPart(final IWorkbenchPart part) {
+  public static String dumpPart(final IWorkbenchPart part) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = part.getClass();
@@ -907,7 +903,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpPartReference(final IWorkbenchPartReference reference) {
+  public static String dumpPartReference(final IWorkbenchPartReference reference) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = reference.getClass();
@@ -931,7 +927,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpPerspectiveDescriptor(final IPerspectiveDescriptor descriptor) {
+  public static String dumpPerspectiveDescriptor(final IPerspectiveDescriptor descriptor) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = descriptor.getClass();
@@ -949,7 +945,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpRefactoringDescriptorProxy(final RefactoringDescriptorProxy proxy) {
+  public static String dumpRefactoringDescriptorProxy(final RefactoringDescriptorProxy proxy) {
     SmartStringBuilder builder = builder();
 
     String project = proxy.getProject();
@@ -964,7 +960,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpRefactoringExecutionEvent(final RefactoringExecutionEvent event) {
+  public static String dumpRefactoringExecutionEvent(final RefactoringExecutionEvent event) {
     SmartStringBuilder builder = builder();
 
     RefactoringExecutionEventType type = RefactoringExecutionEventType.valueOf(event.getEventType());
@@ -977,7 +973,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpRefactoringHistoryEvent(final RefactoringHistoryEvent event) {
+  public static String dumpRefactoringHistoryEvent(final RefactoringHistoryEvent event) {
     SmartStringBuilder builder = builder();
 
     RefactoringHistoryEventType type = RefactoringHistoryEventType.valueOf(event.getEventType());
@@ -990,7 +986,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpResource(final IResource resource) {
+  public static String dumpResource(final IResource resource) {
     SmartStringBuilder builder = builder();
 
     ResourceType type = ResourceType.valueOf(resource.getType());
@@ -1012,7 +1008,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpResourceChangeEvent(final IResourceChangeEvent event) {
+  public static String dumpResourceChangeEvent(final IResourceChangeEvent event) {
     final SmartStringBuilder builder = builder();
 
     ResourceEventType type = ResourceEventType.valueOf(event.getType());
@@ -1032,7 +1028,7 @@ public final class Debug {
       builder.appendln("delta: ").lines(missing());
     } else {
       IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() {
-        public final boolean visit(final IResourceDelta delta) {
+        public boolean visit(final IResourceDelta delta) {
           builder.appendln("delta:").lines(dumpResourceDelta(delta));
 
           return true;
@@ -1053,7 +1049,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpResourceDelta(final IResourceDelta delta) {
+  public static String dumpResourceDelta(final IResourceDelta delta) {
     SmartStringBuilder builder = builder();
 
     ResourceDeltaKind kind = ResourceDeltaKind.valueOf(delta.getKind());
@@ -1069,7 +1065,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpSearchQuery(final ISearchQuery query) {
+  public static String dumpSearchQuery(final ISearchQuery query) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = query.getClass();
@@ -1091,7 +1087,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpSearchResult(final ISearchResult result) {
+  public static String dumpSearchResult(final ISearchResult result) {
     SmartStringBuilder builder = builder();
 
     String label = result.getLabel();
@@ -1103,7 +1099,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpSearchResultEvent(final SearchResultEvent event) {
+  public static String dumpSearchResultEvent(final SearchResultEvent event) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = event.getClass();
@@ -1117,7 +1113,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpSelection(final ISelection selection) {
+  public static String dumpSelection(final ISelection selection) {
     if (selection instanceof IMarkSelection) {
       return dumpMarkSelection((IMarkSelection) selection);
     } else if (selection instanceof IStructuredSelection) {
@@ -1138,7 +1134,7 @@ public final class Debug {
     }
   }
 
-  public static final String dumpStatus(final IStatus status) {
+  public static String dumpStatus(final IStatus status) {
     SmartStringBuilder builder = builder();
 
     int code = status.getCode();
@@ -1169,7 +1165,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpStructuredSelection(final IStructuredSelection selection) {
+  public static String dumpStructuredSelection(final IStructuredSelection selection) {
     SmartStringBuilder builder = builder();
 
     boolean empty = selection.isEmpty();
@@ -1185,7 +1181,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpTestCaseElement(final ITestCaseElement element) {
+  public static String dumpTestCaseElement(final ITestCaseElement element) {
     SmartStringBuilder builder = builder();
 
     ITestRunSession session = element.getTestRunSession();
@@ -1215,7 +1211,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpTestRunSession(final ITestRunSession session) {
+  public static String dumpTestRunSession(final ITestRunSession session) {
     SmartStringBuilder builder = builder();
 
     IJavaProject project = session.getLaunchedProject();
@@ -1247,7 +1243,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpTextSelection(final ITextSelection selection) {
+  public static String dumpTextSelection(final ITextSelection selection) {
     SmartStringBuilder builder = builder();
 
     boolean empty = selection.isEmpty();
@@ -1275,7 +1271,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpThrowable(final Throwable throwable) {
+  public static String dumpThrowable(final Throwable throwable) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = throwable.getClass();
@@ -1287,7 +1283,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpUndoableOperation(final IUndoableOperation operation) {
+  public static String dumpUndoableOperation(final IUndoableOperation operation) {
     SmartStringBuilder builder = builder();
 
     String label = operation.getLabel();
@@ -1305,7 +1301,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpWindow(final IWorkbenchWindow window) {
+  public static String dumpWindow(final IWorkbenchWindow window) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = window.getClass();
@@ -1321,7 +1317,7 @@ public final class Debug {
     return builder.toString();
   }
 
-  public static final String dumpWorkbench(final IWorkbench workbench) {
+  public static String dumpWorkbench(final IWorkbench workbench) {
     SmartStringBuilder builder = builder();
 
     Class<?> type = workbench.getClass();

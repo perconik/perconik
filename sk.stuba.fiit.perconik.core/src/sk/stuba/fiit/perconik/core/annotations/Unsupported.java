@@ -12,7 +12,7 @@ import sk.stuba.fiit.perconik.core.Registrable;
  * Indicates that a {@link Registrable} functionality is not yet fully
  * supported and such implementations should be treated accordingly by
  * the core services.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

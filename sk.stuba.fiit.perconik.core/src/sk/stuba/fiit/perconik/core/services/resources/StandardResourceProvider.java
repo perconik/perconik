@@ -32,9 +32,9 @@ final class StandardResourceProvider extends AbstractResourceProvider {
   }
 
   public static final class Builder implements ResourceProvider.Builder {
-    BiMap<String, Resource<?>> map;
+    final BiMap<String, Resource<?>> map;
 
-    SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
+    final SetMultimap<Class<? extends Listener>, Resource<?>> multimap;
 
     Optional<ResourceProvider> parent;
 
@@ -44,7 +44,7 @@ final class StandardResourceProvider extends AbstractResourceProvider {
       this.parent = Optional.absent();
     }
 
-    public final <L extends Listener> Builder add(final Class<L> type, final Resource<? super L> resource) {
+    public <L extends Listener> Builder add(final Class<L> type, final Resource<? super L> resource) {
       checkNotNull(type);
 
       this.map.put(resource.getName(), resource);
@@ -53,7 +53,7 @@ final class StandardResourceProvider extends AbstractResourceProvider {
       return this;
     }
 
-    public final Builder parent(final ResourceProvider parent) {
+    public Builder parent(final ResourceProvider parent) {
       checkState(!this.parent.isPresent());
 
       this.parent = Optional.of(checkNotNull(parent));
@@ -61,16 +61,16 @@ final class StandardResourceProvider extends AbstractResourceProvider {
       return this;
     }
 
-    public final StandardResourceProvider build() {
+    public StandardResourceProvider build() {
       return new StandardResourceProvider(this);
     }
   }
 
-  public static final Builder builder() {
+  public static Builder builder() {
     return new Builder();
   }
 
-  public final Resource<?> forName(final String name) {
+  public Resource<?> forName(final String name) {
     Resource<?> resource = this.map.get(name);
 
     if (resource != null) {
@@ -80,7 +80,7 @@ final class StandardResourceProvider extends AbstractResourceProvider {
     return this.parentForName(name, null);
   }
 
-  public final <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
+  public <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
     Set<Resource<L>> resources = newHashSet();
 
     for (Resource<?> resource: this.multimap.get(type)) {
@@ -90,15 +90,15 @@ final class StandardResourceProvider extends AbstractResourceProvider {
     return MoreSets.newHashSet(resources, this.parentForType(type, null));
   }
 
-  public final Set<String> names() {
+  public Set<String> names() {
     return MoreSets.newHashSet(this.map.keySet(), this.parent.names());
   }
 
-  public final Set<Class<? extends Listener>> types() {
+  public Set<Class<? extends Listener>> types() {
     return MoreSets.newHashSet(this.multimap.keySet(), this.parent.types());
   }
 
-  public final ResourceProvider parent() {
+  public ResourceProvider parent() {
     return this.parent;
   }
 }

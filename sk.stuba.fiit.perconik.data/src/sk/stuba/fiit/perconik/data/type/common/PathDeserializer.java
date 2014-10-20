@@ -17,7 +17,7 @@ public class PathDeserializer extends StdScalarDeserializer<Path> {
   }
 
   @Override
-  public Path deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+  public Path deserialize(final JsonParser parser, final DeserializationContext context) throws IOException, JsonProcessingException {
     return Paths.get(parser.getValueAsString());
   }
 }

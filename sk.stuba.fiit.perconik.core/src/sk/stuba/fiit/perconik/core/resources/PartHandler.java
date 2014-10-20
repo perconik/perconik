@@ -8,11 +8,11 @@ enum PartHandler implements Handler<PartListener> {
 
   private final Support support = new Support();
 
-  public final void register(final PartListener listener) {
+  public void register(final PartListener listener) {
     this.support.hook(DefaultResources.getWindowResource(), listener);
   }
 
-  public final void unregister(final PartListener listener) {
+  public void unregister(final PartListener listener) {
     this.support.unhook(DefaultResources.getWindowResource(), listener);
   }
 }

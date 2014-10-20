@@ -18,16 +18,16 @@ public final class ResourceDebugListener extends AbstractDebugListener implement
     super(console);
   }
 
-  public final void resourceChanged(final IResourceChangeEvent event) {
+  public void resourceChanged(final IResourceChangeEvent event) {
     this.printHeader("Resource changed");
     this.printResourceChangeEvent(event);
   }
 
-  public final Set<ResourceEventType> getEventTypes() {
+  public Set<ResourceEventType> getEventTypes() {
     return EnumSet.allOf(ResourceEventType.class);
   }
 
-  private final void printResourceChangeEvent(final IResourceChangeEvent event) {
+  private void printResourceChangeEvent(final IResourceChangeEvent event) {
     this.put(Debug.dumpResourceChangeEvent(event));
   }
 }

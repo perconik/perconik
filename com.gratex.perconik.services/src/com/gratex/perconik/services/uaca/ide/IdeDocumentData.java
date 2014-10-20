@@ -1,6 +1,5 @@
 package com.gratex.perconik.services.uaca.ide;
 
-
 public class IdeDocumentData {
   /**
    * Specifies the version of the document
@@ -29,7 +28,7 @@ public class IdeDocumentData {
 
   public IdeDocumentData() {}
 
-  public IdeDocumentData(String changesetIdInRcs, String localPath, String serverPath, IdeRcsServerData rcsServer, String branch) {
+  public IdeDocumentData(final String changesetIdInRcs, final String localPath, final String serverPath, final IdeRcsServerData rcsServer, final String branch) {
     super();
 
     this.changesetIdInRcs = changesetIdInRcs;
@@ -43,7 +42,7 @@ public class IdeDocumentData {
     return this.changesetIdInRcs;
   }
 
-  public void setChangesetIdInRcs(String changesetIdInRcs) {
+  public void setChangesetIdInRcs(final String changesetIdInRcs) {
     this.changesetIdInRcs = changesetIdInRcs;
   }
 
@@ -51,7 +50,7 @@ public class IdeDocumentData {
     return this.localPath;
   }
 
-  public void setLocalPath(String localPath) {
+  public void setLocalPath(final String localPath) {
     this.localPath = localPath;
   }
 
@@ -59,7 +58,7 @@ public class IdeDocumentData {
     return this.serverPath;
   }
 
-  public void setServerPath(String serverPath) {
+  public void setServerPath(final String serverPath) {
     this.serverPath = serverPath;
   }
 
@@ -67,7 +66,7 @@ public class IdeDocumentData {
     return this.rcsServer;
   }
 
-  public void setRcsServer(IdeRcsServerData rcsServer) {
+  public void setRcsServer(final IdeRcsServerData rcsServer) {
     this.rcsServer = rcsServer;
   }
 
@@ -75,7 +74,7 @@ public class IdeDocumentData {
     return this.branch;
   }
 
-  public void setBranch(String branch) {
+  public void setBranch(final String branch) {
     this.branch = branch;
   }
 }

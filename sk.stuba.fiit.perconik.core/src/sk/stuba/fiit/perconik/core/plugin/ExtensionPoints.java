@@ -32,7 +32,5 @@ final class ExtensionPoints {
     listenersTypes = ImmutableSet.of(ListenerProviderFactory.class, ListenerManagerFactory.class, ListenerServiceFactory.class, ListenerClassesSupplier.class);
   }
 
-  private ExtensionPoints() {
-    throw new AssertionError();
-  }
+  private ExtensionPoints() {}
 }

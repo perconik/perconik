@@ -24,11 +24,11 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
     this.resource = checkNotNull(resource);
   }
 
-  public static final <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource) {
+  public static <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource) {
     return wrap(resource, Debug.getDefaultConsole());
   }
 
-  public static final <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource, final DebugConsole console) {
+  public static <L extends Listener> DebugResourceProxy<L> wrap(final Resource<L> resource, final DebugConsole console) {
     if (resource instanceof DebugResourceProxy) {
       return (DebugResourceProxy<L>) resource;
     }
@@ -36,7 +36,7 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
     return new DebugResourceProxy<>(resource, console);
   }
 
-  public static final <L extends Listener> Resource<L> unwrap(final Resource<L> resource) {
+  public static <L extends Listener> Resource<L> unwrap(final Resource<L> resource) {
     if (resource instanceof DebugResourceProxy) {
       return ((DebugResourceProxy<L>) resource).delegate();
     }
@@ -45,11 +45,11 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
   }
 
   @Override
-  public final Resource<L> delegate() {
+  public Resource<L> delegate() {
     return this.resource;
   }
 
-  public final void register(final L listener) {
+  public void register(final L listener) {
     this.print("Registering listener %s to resource %s", DebugListeners.toString(listener), DebugResources.toString(this.delegate()));
     this.tab();
 
@@ -58,7 +58,7 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
     this.untab();
   }
 
-  public final void unregister(final L listener) {
+  public void unregister(final L listener) {
     this.print("Unregistering listener %s from resource %s", DebugListeners.toString(listener), DebugResources.toString(this.delegate()));
     this.tab();
 
@@ -67,15 +67,15 @@ public final class DebugResourceProxy<L extends Listener> extends DebugRegistrab
     this.untab();
   }
 
-  public final <U extends Listener> Collection<U> registered(final Class<U> type) {
+  public <U extends Listener> Collection<U> registered(final Class<U> type) {
     return this.delegate().registered(type);
   }
 
-  public final boolean registered(Listener listener) {
+  public boolean registered(final Listener listener) {
     return this.delegate().registered(listener);
   }
 
-  public final String getName() {
+  public String getName() {
     return this.delegate().getName();
   }
 }

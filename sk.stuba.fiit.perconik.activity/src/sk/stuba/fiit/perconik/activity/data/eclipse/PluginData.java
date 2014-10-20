@@ -11,7 +11,7 @@ public class PluginData extends AnyStructuredData {
 
   public PluginData() {}
 
-  protected PluginData(Plugin plugin) {
+  protected PluginData(final Plugin plugin) {
     if (plugin == null) {
       return;
     }
@@ -20,15 +20,15 @@ public class PluginData extends AnyStructuredData {
     this.setDebugMode(plugin.isDebugging());
   }
 
-  public static PluginData of(Plugin plugin) {
+  public static PluginData of(final Plugin plugin) {
     return new PluginData(plugin);
   }
 
-  public void setBundle(BundleData bundle) {
+  public void setBundle(final BundleData bundle) {
     this.bundle = bundle;
   }
 
-  public void setDebugMode(boolean debugMode) {
+  public void setDebugMode(final boolean debugMode) {
     this.debugMode = debugMode;
   }
 

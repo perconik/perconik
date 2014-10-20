@@ -9,11 +9,11 @@ enum GitIndexHandler implements Handler<GitIndexListener> {
 
   private final GitHandlerSupport<IndexChangedListener> support = new GitHandlerSupport<>(IndexChangedListener.class);
 
-  public final void register(final GitIndexListener listener) {
+  public void register(final GitIndexListener listener) {
     this.support.register(listener);
   }
 
-  public final void unregister(final GitIndexListener listener) {
+  public void unregister(final GitIndexListener listener) {
     this.support.unregister(listener);
   }
 }

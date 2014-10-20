@@ -8,15 +8,13 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.osgi.service.datalocation.Location;
 
 public final class Utilities {
-  private Utilities() {
-    throw new AssertionError();
-  }
+  private Utilities() {}
 
-  public static final URL urlOrNull(@Nullable final Location value) {
+  public static URL urlOrNull(@Nullable final Location value) {
     return value != null ? value.getURL() : null;
   }
 
-  public static final URL urlOrNull(@Nullable final IPath value) {
+  public static URL urlOrNull(@Nullable final IPath value) {
     return sk.stuba.fiit.perconik.activity.data.base.Utilities.urlOrNull(value.toFile());
   }
 }

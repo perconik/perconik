@@ -1,6 +1,5 @@
 package com.gratex.perconik.services.uaca.ide;
 
-
 public class IdeCodeEventData extends IdeEventData {
   /**
    * Text that was subject of a given event. For instance text that was pasted from the web.
@@ -38,7 +37,7 @@ public class IdeCodeEventData extends IdeEventData {
     return this.text;
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.text = text;
   }
 
@@ -46,7 +45,7 @@ public class IdeCodeEventData extends IdeEventData {
     return this.startRowIndex;
   }
 
-  public void setStartRowIndex(Integer startRowIndex) {
+  public void setStartRowIndex(final Integer startRowIndex) {
     this.startRowIndex = startRowIndex;
   }
 
@@ -54,7 +53,7 @@ public class IdeCodeEventData extends IdeEventData {
     return this.endRowIndex;
   }
 
-  public void setEndRowIndex(Integer endRowIndex) {
+  public void setEndRowIndex(final Integer endRowIndex) {
     this.endRowIndex = endRowIndex;
   }
 
@@ -62,7 +61,7 @@ public class IdeCodeEventData extends IdeEventData {
     return this.startColumnIndex;
   }
 
-  public void setStartColumnIndex(Integer startColumnIndex) {
+  public void setStartColumnIndex(final Integer startColumnIndex) {
     this.startColumnIndex = startColumnIndex;
   }
 
@@ -70,7 +69,7 @@ public class IdeCodeEventData extends IdeEventData {
     return this.endColumnIndex;
   }
 
-  public void setEndColumnIndex(Integer endColumnIndex) {
+  public void setEndColumnIndex(final Integer endColumnIndex) {
     this.endColumnIndex = endColumnIndex;
   }
 
@@ -78,7 +77,7 @@ public class IdeCodeEventData extends IdeEventData {
     return this.document;
   }
 
-  public void setDocument(IdeDocumentData document) {
+  public void setDocument(final IdeDocumentData document) {
     this.document = document;
   }
 }

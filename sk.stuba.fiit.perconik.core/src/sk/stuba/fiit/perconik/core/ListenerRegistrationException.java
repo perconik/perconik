@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 /**
  * Thrown when listener registration fails.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -21,21 +21,21 @@ public class ListenerRegistrationException extends IllegalStateException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public ListenerRegistrationException(@Nullable String message) {
+  public ListenerRegistrationException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public ListenerRegistrationException(@Nullable String message, @Nullable Throwable cause) {
+  public ListenerRegistrationException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public ListenerRegistrationException(@Nullable Throwable cause) {
+  public ListenerRegistrationException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

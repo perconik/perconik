@@ -11,11 +11,9 @@ import com.google.common.base.Predicate;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class PathFilters {
-  private PathFilters() {
-    throw new AssertionError();
-  }
+  private PathFilters() {}
 
-  public static final <T> DirectoryStream.Filter<T> using(Predicate<? super T> predicate) {
+  public static <T> DirectoryStream.Filter<T> using(final Predicate<? super T> predicate) {
     return new PredicateFilter<>(predicate);
   }
 
@@ -24,16 +22,16 @@ public final class PathFilters {
 
     private final Predicate<? super T> predicate;
 
-    PredicateFilter(Predicate<? super T> predicate) {
+    PredicateFilter(final Predicate<? super T> predicate) {
       this.predicate = checkNotNull(predicate);
     }
 
-    public final boolean accept(@Nullable T entry) throws IOException {
+    public boolean accept(@Nullable final T entry) throws IOException {
       return this.predicate.apply(entry);
     }
 
     @Override
-    public final boolean equals(@Nullable Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o instanceof PredicateFilter) {
         PredicateFilter<?> other = (PredicateFilter<?>) o;
 
@@ -44,12 +42,12 @@ public final class PathFilters {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       return this.predicate.hashCode();
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "Filters.using(" + this.predicate + ")";
     }
   }

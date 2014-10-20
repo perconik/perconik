@@ -37,11 +37,9 @@ import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
  * @since 1.0
  */
 public final class Projects {
-  private Projects() {
-    throw new AssertionError();
-  }
+  private Projects() {}
 
-  public static final IProject fromPage(final IWorkbenchPage page) {
+  public static IProject fromPage(final IWorkbenchPage page) {
     IEditorPart editor = page.getActiveEditor();
 
     if (editor != null) {
@@ -71,7 +69,7 @@ public final class Projects {
     return null;
   }
 
-  public static final IProject fromSelection(final IStructuredSelection selection) {
+  public static IProject fromSelection(final IStructuredSelection selection) {
     Object element = selection.getFirstElement();
 
     if (element instanceof IResource) {
@@ -95,7 +93,7 @@ public final class Projects {
     return null;
   }
 
-  public static final IProject fromEditor(final IEditorPart editor) {
+  public static IProject fromEditor(final IEditorPart editor) {
     IEditorInput input = editor.getEditorInput();
 
     if (input instanceof IFileEditorInput) {
@@ -111,11 +109,11 @@ public final class Projects {
     return resource != null ? resource.getProject() : null;
   }
 
-  public static final Set<IProject> fromLaunch(final ILaunch launch) {
+  public static Set<IProject> fromLaunch(final ILaunch launch) {
     return fromLaunchConfiguration(launch.getLaunchConfiguration());
   }
 
-  public static final Set<IProject> fromLaunchConfiguration(final ILaunchConfiguration configuration) {
+  public static Set<IProject> fromLaunchConfiguration(final ILaunchConfiguration configuration) {
     Set<IProject> projects = newHashSet();
 
     projects.addAll(tryJavaRuntime(configuration));
@@ -124,7 +122,7 @@ public final class Projects {
     return projects;
   }
 
-  private static final Set<IProject> tryJavaRuntime(final ILaunchConfiguration configuration) {
+  private static Set<IProject> tryJavaRuntime(final ILaunchConfiguration configuration) {
     try {
       IJavaProject project = JavaRuntime.getJavaProject(configuration);
 
@@ -138,7 +136,7 @@ public final class Projects {
     }
   }
 
-  private static final Set<IProject> tryMappedResources(final ILaunchConfiguration configuration) {
+  private static Set<IProject> tryMappedResources(final ILaunchConfiguration configuration) {
     IResource[] resources;
 
     try {

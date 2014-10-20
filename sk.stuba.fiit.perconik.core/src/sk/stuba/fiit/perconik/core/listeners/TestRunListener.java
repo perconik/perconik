@@ -7,10 +7,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A test run listener.
- * 
- * @see Listener 
+ *
+ * @see Listener
  * @see org.eclipse.jdt.junit.TestRunListener TestRunListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

@@ -23,18 +23,18 @@ public final class NodeDeltaSet<N extends ASTNode> extends ForwardingSet<NodeDel
     this.deltas = deltas;
   }
 
-  public static final <N extends ASTNode> NodeDeltaSet<N> of() {
+  public static <N extends ASTNode> NodeDeltaSet<N> of() {
     @SuppressWarnings("unchecked")
     NodeDeltaSet<N> casted = (NodeDeltaSet<N>) none;
 
     return casted;
   }
 
-  public static final <N extends ASTNode> NodeDeltaSet<N> of(final NodeDelta<N> delta) {
+  public static <N extends ASTNode> NodeDeltaSet<N> of(final NodeDelta<N> delta) {
     return new NodeDeltaSet<>(ImmutableSet.of(delta));
   }
 
-  public static final <N extends ASTNode> NodeDeltaSet<N> of(final Iterable<? extends NodeDelta<N>> deltas) {
+  public static <N extends ASTNode> NodeDeltaSet<N> of(final Iterable<? extends NodeDelta<N>> deltas) {
     if (Iterables.isEmpty(deltas)) {
       return of();
     }
@@ -42,7 +42,7 @@ public final class NodeDeltaSet<N extends ASTNode> extends ForwardingSet<NodeDel
     return new NodeDeltaSet<>(ImmutableSet.copyOf(deltas));
   }
 
-  public static final <N extends ASTNode> NodeDeltaSet<N> of(final Iterator<? extends NodeDelta<N>> deltas) {
+  public static <N extends ASTNode> NodeDeltaSet<N> of(final Iterator<? extends NodeDelta<N>> deltas) {
     if (!deltas.hasNext()) {
       return of();
     }
@@ -57,49 +57,49 @@ public final class NodeDeltaSet<N extends ASTNode> extends ForwardingSet<NodeDel
       this.deltas = newArrayList();
     }
 
-    public final Builder<N> add(final N node) {
+    public Builder<N> add(final N node) {
       this.deltas.add(NodeAddition.of(node));
 
       return this;
     }
 
-    public final Builder<N> addAndDelete(final N added, final N deleted) {
+    public Builder<N> addAndDelete(final N added, final N deleted) {
       this.add(added);
       this.delete(deleted);
 
       return this;
     }
 
-    public final Builder<N> delete(final N node) {
+    public Builder<N> delete(final N node) {
       this.deltas.add(NodeDeletion.of(node));
 
       return this;
     }
 
-    public final Builder<N> deleteAndAdd(final N deleted, final N added) {
+    public Builder<N> deleteAndAdd(final N deleted, final N added) {
       this.delete(deleted);
       this.add(added);
 
       return this;
     }
 
-    public final Builder<N> modify(final N original, final N revised) {
+    public Builder<N> modify(final N original, final N revised) {
       this.deltas.add(NodeModification.of(original, revised));
 
       return this;
     }
 
-    public final NodeDeltaSet<N> build() {
+    public NodeDeltaSet<N> build() {
       return NodeDeltaSet.of(this.deltas);
     }
   }
 
-  public static final <N extends ASTNode> Builder<N> builder() {
+  public static <N extends ASTNode> Builder<N> builder() {
     return new Builder<>();
   }
 
   @Override
-  protected final Set<NodeDelta<N>> delegate() {
+  protected Set<NodeDelta<N>> delegate() {
     return this.deltas;
   }
 }

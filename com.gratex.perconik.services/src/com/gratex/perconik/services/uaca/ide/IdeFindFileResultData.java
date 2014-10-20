@@ -10,7 +10,7 @@ public class IdeFindFileResultData {
 
   public IdeFindFileResultData() {}
 
-  public IdeFindFileResultData(IdeDocumentData file, List<IdeFindResultRowData> rows) {
+  public IdeFindFileResultData(final IdeDocumentData file, final List<IdeFindResultRowData> rows) {
     super();
 
     this.file = file;
@@ -21,7 +21,7 @@ public class IdeFindFileResultData {
     return this.file;
   }
 
-  public void setFile(IdeDocumentData file) {
+  public void setFile(final IdeDocumentData file) {
     this.file = file;
   }
 
@@ -33,7 +33,7 @@ public class IdeFindFileResultData {
     return this.rows;
   }
 
-  public void setRows(List<IdeFindResultRowData> rows) {
+  public void setRows(final List<IdeFindResultRowData> rows) {
     this.rows = rows;
   }
 }

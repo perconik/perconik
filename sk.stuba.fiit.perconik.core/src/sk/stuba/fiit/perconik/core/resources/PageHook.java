@@ -11,7 +11,7 @@ final class PageHook extends InternalHook<IWorkbenchWindow, PageListener> implem
   }
 
   static final class Support extends AbstractHookSupport<PageHook, IWorkbenchWindow, PageListener> {
-    public final Hook<IWorkbenchWindow, PageListener> create(final PageListener listener) {
+    public Hook<IWorkbenchWindow, PageListener> create(final PageListener listener) {
       return new PageHook(listener);
     }
   }
@@ -21,29 +21,29 @@ final class PageHook extends InternalHook<IWorkbenchWindow, PageListener> implem
       super(IWorkbenchWindow.class, listener);
     }
 
-    public final void register(final IWorkbenchWindow window) {
+    public void register(final IWorkbenchWindow window) {
       window.addPageListener(this.listener);
     }
 
-    public final void unregister(final IWorkbenchWindow window) {
+    public void unregister(final IWorkbenchWindow window) {
       window.removePageListener(this.listener);
     }
   }
 
   @Override
-  final void preRegisterInternal() {
+  void preRegisterInternal() {
     Hooks.addWindowsAsynchronouslyTo(this);
   }
 
-  public final void windowOpened(final IWorkbenchWindow window) {
+  public void windowOpened(final IWorkbenchWindow window) {
     this.add(window);
   }
 
-  public final void windowClosed(final IWorkbenchWindow window) {
+  public void windowClosed(final IWorkbenchWindow window) {
     this.remove(window);
   }
 
-  public final void windowActivated(final IWorkbenchWindow window) {}
+  public void windowActivated(final IWorkbenchWindow window) {}
 
-  public final void windowDeactivated(final IWorkbenchWindow window) {}
+  public void windowDeactivated(final IWorkbenchWindow window) {}
 }

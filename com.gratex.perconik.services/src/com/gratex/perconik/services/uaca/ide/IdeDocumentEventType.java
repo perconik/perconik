@@ -17,7 +17,7 @@ public enum IdeDocumentEventType {
 
   private final String urlPath;
 
-  private IdeDocumentEventType(String urlPath) {
+  private IdeDocumentEventType(final String urlPath) {
     this.urlPath = urlPath;
   }
 
@@ -25,7 +25,7 @@ public enum IdeDocumentEventType {
     return this.urlPath;
   }
 
-  public static IdeDocumentEventType fromValue(String urlPath) {
+  public static IdeDocumentEventType fromValue(final String urlPath) {
     for (IdeDocumentEventType item: IdeDocumentEventType.values()) {
       if (item.urlPath.equals(urlPath)) {
         return item;

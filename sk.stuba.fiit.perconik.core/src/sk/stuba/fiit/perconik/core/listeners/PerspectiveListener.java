@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A perspective listener.
- * 
+ *
  * @see Listener
  * @see IPerspectiveListener4
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

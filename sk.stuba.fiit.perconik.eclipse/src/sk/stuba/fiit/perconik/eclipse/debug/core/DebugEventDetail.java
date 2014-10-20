@@ -10,9 +10,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Debug event details.
- * 
+ *
  * @see DebugEvent
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -75,27 +75,27 @@ public enum DebugEventDetail implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final int valuesAsInteger() {
+  public static int valuesAsInteger() {
     return integers.getConstantsAsInteger();
   }
 
-  public static final int valuesAsInteger(final Set<JavaElementDeltaFlag> values) {
+  public static int valuesAsInteger(final Set<JavaElementDeltaFlag> values) {
     return IntegralConstantSupport.constantsAsInteger(values);
   }
 
-  public static final DebugEventDetail valueOf(final int value) {
+  public static DebugEventDetail valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final Set<DebugEventDetail> setOf(final int values) {
+  public static Set<DebugEventDetail> setOf(final int values) {
     return integers.getConstants(values);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

@@ -92,852 +92,852 @@ public class GenericNodeMatcher extends NodeMatcher {
   }
 
   @SuppressWarnings("unused")
-  protected void genericPreMatch(ASTNode node, Object other) {}
+  protected void genericPreMatch(final ASTNode node, final Object other) {}
 
   @SuppressWarnings({"static-method", "unused"})
-  protected boolean genericPostMatch(ASTNode node, Object other, boolean result) {
+  protected boolean genericPostMatch(final ASTNode node, final Object other, final boolean result) {
     return result;
   }
 
   @Override
-  public void preMatch(AnnotationTypeDeclaration node, Object other) {
+  public void preMatch(final AnnotationTypeDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(AnnotationTypeMemberDeclaration node, Object other) {
+  public void preMatch(final AnnotationTypeMemberDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(AnonymousClassDeclaration node, Object other) {
+  public void preMatch(final AnonymousClassDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ArrayAccess node, Object other) {
+  public void preMatch(final ArrayAccess node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ArrayCreation node, Object other) {
+  public void preMatch(final ArrayCreation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ArrayInitializer node, Object other) {
+  public void preMatch(final ArrayInitializer node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ArrayType node, Object other) {
+  public void preMatch(final ArrayType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(AssertStatement node, Object other) {
+  public void preMatch(final AssertStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(Assignment node, Object other) {
+  public void preMatch(final Assignment node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(Block node, Object other) {
+  public void preMatch(final Block node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(BlockComment node, Object other) {
+  public void preMatch(final BlockComment node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(BooleanLiteral node, Object other) {
+  public void preMatch(final BooleanLiteral node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(BreakStatement node, Object other) {
+  public void preMatch(final BreakStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(CastExpression node, Object other) {
+  public void preMatch(final CastExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(CatchClause node, Object other) {
+  public void preMatch(final CatchClause node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(CharacterLiteral node, Object other) {
+  public void preMatch(final CharacterLiteral node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ClassInstanceCreation node, Object other) {
+  public void preMatch(final ClassInstanceCreation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(CompilationUnit node, Object other) {
+  public void preMatch(final CompilationUnit node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ConditionalExpression node, Object other) {
+  public void preMatch(final ConditionalExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ConstructorInvocation node, Object other) {
+  public void preMatch(final ConstructorInvocation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ContinueStatement node, Object other) {
+  public void preMatch(final ContinueStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(UnionType node, Object other) {
+  public void preMatch(final UnionType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(DoStatement node, Object other) {
+  public void preMatch(final DoStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(EmptyStatement node, Object other) {
+  public void preMatch(final EmptyStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(EnhancedForStatement node, Object other) {
+  public void preMatch(final EnhancedForStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(EnumConstantDeclaration node, Object other) {
+  public void preMatch(final EnumConstantDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(EnumDeclaration node, Object other) {
+  public void preMatch(final EnumDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ExpressionStatement node, Object other) {
+  public void preMatch(final ExpressionStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(FieldAccess node, Object other) {
+  public void preMatch(final FieldAccess node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(FieldDeclaration node, Object other) {
+  public void preMatch(final FieldDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ForStatement node, Object other) {
+  public void preMatch(final ForStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(IfStatement node, Object other) {
+  public void preMatch(final IfStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ImportDeclaration node, Object other) {
+  public void preMatch(final ImportDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(InfixExpression node, Object other) {
+  public void preMatch(final InfixExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(InstanceofExpression node, Object other) {
+  public void preMatch(final InstanceofExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(Initializer node, Object other) {
+  public void preMatch(final Initializer node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(Javadoc node, Object other) {
+  public void preMatch(final Javadoc node, final Object other) {
     if (this.internals.standardMatch(node, other)) {
       this.genericPreMatch(node, other);
     }
   }
 
   @Override
-  public void preMatch(LabeledStatement node, Object other) {
+  public void preMatch(final LabeledStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(LineComment node, Object other) {
+  public void preMatch(final LineComment node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MarkerAnnotation node, Object other) {
+  public void preMatch(final MarkerAnnotation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MemberRef node, Object other) {
+  public void preMatch(final MemberRef node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MemberValuePair node, Object other) {
+  public void preMatch(final MemberValuePair node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MethodRef node, Object other) {
+  public void preMatch(final MethodRef node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MethodRefParameter node, Object other) {
+  public void preMatch(final MethodRefParameter node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MethodDeclaration node, Object other) {
+  public void preMatch(final MethodDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(MethodInvocation node, Object other) {
+  public void preMatch(final MethodInvocation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(Modifier node, Object other) {
+  public void preMatch(final Modifier node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(NormalAnnotation node, Object other) {
+  public void preMatch(final NormalAnnotation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(NullLiteral node, Object other) {
+  public void preMatch(final NullLiteral node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(NumberLiteral node, Object other) {
+  public void preMatch(final NumberLiteral node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(PackageDeclaration node, Object other) {
+  public void preMatch(final PackageDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ParameterizedType node, Object other) {
+  public void preMatch(final ParameterizedType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ParenthesizedExpression node, Object other) {
+  public void preMatch(final ParenthesizedExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(PostfixExpression node, Object other) {
+  public void preMatch(final PostfixExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(PrefixExpression node, Object other) {
+  public void preMatch(final PrefixExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(PrimitiveType node, Object other) {
+  public void preMatch(final PrimitiveType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(QualifiedName node, Object other) {
+  public void preMatch(final QualifiedName node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(QualifiedType node, Object other) {
+  public void preMatch(final QualifiedType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ReturnStatement node, Object other) {
+  public void preMatch(final ReturnStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SimpleName node, Object other) {
+  public void preMatch(final SimpleName node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SimpleType node, Object other) {
+  public void preMatch(final SimpleType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SingleMemberAnnotation node, Object other) {
+  public void preMatch(final SingleMemberAnnotation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SingleVariableDeclaration node, Object other) {
+  public void preMatch(final SingleVariableDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(StringLiteral node, Object other) {
+  public void preMatch(final StringLiteral node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SuperConstructorInvocation node, Object other) {
+  public void preMatch(final SuperConstructorInvocation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SuperFieldAccess node, Object other) {
+  public void preMatch(final SuperFieldAccess node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SuperMethodInvocation node, Object other) {
+  public void preMatch(final SuperMethodInvocation node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SwitchCase node, Object other) {
+  public void preMatch(final SwitchCase node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SwitchStatement node, Object other) {
+  public void preMatch(final SwitchStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(SynchronizedStatement node, Object other) {
+  public void preMatch(final SynchronizedStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TagElement node, Object other) {
+  public void preMatch(final TagElement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TextElement node, Object other) {
+  public void preMatch(final TextElement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ThisExpression node, Object other) {
+  public void preMatch(final ThisExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(ThrowStatement node, Object other) {
+  public void preMatch(final ThrowStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TryStatement node, Object other) {
+  public void preMatch(final TryStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TypeDeclaration node, Object other) {
+  public void preMatch(final TypeDeclaration node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TypeDeclarationStatement node, Object other) {
+  public void preMatch(final TypeDeclarationStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TypeLiteral node, Object other) {
+  public void preMatch(final TypeLiteral node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(TypeParameter node, Object other) {
+  public void preMatch(final TypeParameter node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(VariableDeclarationExpression node, Object other) {
+  public void preMatch(final VariableDeclarationExpression node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(VariableDeclarationFragment node, Object other) {
+  public void preMatch(final VariableDeclarationFragment node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(VariableDeclarationStatement node, Object other) {
+  public void preMatch(final VariableDeclarationStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(WhileStatement node, Object other) {
+  public void preMatch(final WhileStatement node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public void preMatch(WildcardType node, Object other) {
+  public void preMatch(final WildcardType node, final Object other) {
     this.genericPreMatch(node, other);
   }
 
   @Override
-  public boolean postMatch(AnnotationTypeDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final AnnotationTypeDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(AnnotationTypeMemberDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final AnnotationTypeMemberDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(AnonymousClassDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final AnonymousClassDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ArrayAccess node, Object other, boolean result) {
+  public boolean postMatch(final ArrayAccess node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ArrayCreation node, Object other, boolean result) {
+  public boolean postMatch(final ArrayCreation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ArrayInitializer node, Object other, boolean result) {
+  public boolean postMatch(final ArrayInitializer node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ArrayType node, Object other, boolean result) {
+  public boolean postMatch(final ArrayType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(AssertStatement node, Object other, boolean result) {
+  public boolean postMatch(final AssertStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(Assignment node, Object other, boolean result) {
+  public boolean postMatch(final Assignment node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(Block node, Object other, boolean result) {
+  public boolean postMatch(final Block node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(BlockComment node, Object other, boolean result) {
+  public boolean postMatch(final BlockComment node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(BooleanLiteral node, Object other, boolean result) {
+  public boolean postMatch(final BooleanLiteral node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(BreakStatement node, Object other, boolean result) {
+  public boolean postMatch(final BreakStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(CastExpression node, Object other, boolean result) {
+  public boolean postMatch(final CastExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(CatchClause node, Object other, boolean result) {
+  public boolean postMatch(final CatchClause node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(CharacterLiteral node, Object other, boolean result) {
+  public boolean postMatch(final CharacterLiteral node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ClassInstanceCreation node, Object other, boolean result) {
+  public boolean postMatch(final ClassInstanceCreation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(CompilationUnit node, Object other, boolean result) {
+  public boolean postMatch(final CompilationUnit node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ConditionalExpression node, Object other, boolean result) {
+  public boolean postMatch(final ConditionalExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ConstructorInvocation node, Object other, boolean result) {
+  public boolean postMatch(final ConstructorInvocation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ContinueStatement node, Object other, boolean result) {
+  public boolean postMatch(final ContinueStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(UnionType node, Object other, boolean result) {
+  public boolean postMatch(final UnionType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(DoStatement node, Object other, boolean result) {
+  public boolean postMatch(final DoStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(EmptyStatement node, Object other, boolean result) {
+  public boolean postMatch(final EmptyStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(EnhancedForStatement node, Object other, boolean result) {
+  public boolean postMatch(final EnhancedForStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(EnumConstantDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final EnumConstantDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(EnumDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final EnumDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ExpressionStatement node, Object other, boolean result) {
+  public boolean postMatch(final ExpressionStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(FieldAccess node, Object other, boolean result) {
+  public boolean postMatch(final FieldAccess node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(FieldDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final FieldDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ForStatement node, Object other, boolean result) {
+  public boolean postMatch(final ForStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(IfStatement node, Object other, boolean result) {
+  public boolean postMatch(final IfStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ImportDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final ImportDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(InfixExpression node, Object other, boolean result) {
+  public boolean postMatch(final InfixExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(InstanceofExpression node, Object other, boolean result) {
+  public boolean postMatch(final InstanceofExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(Initializer node, Object other, boolean result) {
+  public boolean postMatch(final Initializer node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(Javadoc node, Object other, boolean result) {
+  public boolean postMatch(final Javadoc node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(LabeledStatement node, Object other, boolean result) {
+  public boolean postMatch(final LabeledStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(LineComment node, Object other, boolean result) {
+  public boolean postMatch(final LineComment node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MarkerAnnotation node, Object other, boolean result) {
+  public boolean postMatch(final MarkerAnnotation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MemberRef node, Object other, boolean result) {
+  public boolean postMatch(final MemberRef node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MemberValuePair node, Object other, boolean result) {
+  public boolean postMatch(final MemberValuePair node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MethodRef node, Object other, boolean result) {
+  public boolean postMatch(final MethodRef node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MethodRefParameter node, Object other, boolean result) {
+  public boolean postMatch(final MethodRefParameter node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MethodDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final MethodDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(MethodInvocation node, Object other, boolean result) {
+  public boolean postMatch(final MethodInvocation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(Modifier node, Object other, boolean result) {
+  public boolean postMatch(final Modifier node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(NormalAnnotation node, Object other, boolean result) {
+  public boolean postMatch(final NormalAnnotation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(NullLiteral node, Object other, boolean result) {
+  public boolean postMatch(final NullLiteral node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(NumberLiteral node, Object other, boolean result) {
+  public boolean postMatch(final NumberLiteral node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(PackageDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final PackageDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ParameterizedType node, Object other, boolean result) {
+  public boolean postMatch(final ParameterizedType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ParenthesizedExpression node, Object other, boolean result) {
+  public boolean postMatch(final ParenthesizedExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(PostfixExpression node, Object other, boolean result) {
+  public boolean postMatch(final PostfixExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(PrefixExpression node, Object other, boolean result) {
+  public boolean postMatch(final PrefixExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(PrimitiveType node, Object other, boolean result) {
+  public boolean postMatch(final PrimitiveType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(QualifiedName node, Object other, boolean result) {
+  public boolean postMatch(final QualifiedName node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(QualifiedType node, Object other, boolean result) {
+  public boolean postMatch(final QualifiedType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ReturnStatement node, Object other, boolean result) {
+  public boolean postMatch(final ReturnStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SimpleName node, Object other, boolean result) {
+  public boolean postMatch(final SimpleName node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SimpleType node, Object other, boolean result) {
+  public boolean postMatch(final SimpleType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SingleMemberAnnotation node, Object other, boolean result) {
+  public boolean postMatch(final SingleMemberAnnotation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SingleVariableDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final SingleVariableDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(StringLiteral node, Object other, boolean result) {
+  public boolean postMatch(final StringLiteral node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SuperConstructorInvocation node, Object other, boolean result) {
+  public boolean postMatch(final SuperConstructorInvocation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SuperFieldAccess node, Object other, boolean result) {
+  public boolean postMatch(final SuperFieldAccess node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SuperMethodInvocation node, Object other, boolean result) {
+  public boolean postMatch(final SuperMethodInvocation node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SwitchCase node, Object other, boolean result) {
+  public boolean postMatch(final SwitchCase node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SwitchStatement node, Object other, boolean result) {
+  public boolean postMatch(final SwitchStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(SynchronizedStatement node, Object other, boolean result) {
+  public boolean postMatch(final SynchronizedStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TagElement node, Object other, boolean result) {
+  public boolean postMatch(final TagElement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TextElement node, Object other, boolean result) {
+  public boolean postMatch(final TextElement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ThisExpression node, Object other, boolean result) {
+  public boolean postMatch(final ThisExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(ThrowStatement node, Object other, boolean result) {
+  public boolean postMatch(final ThrowStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TryStatement node, Object other, boolean result) {
+  public boolean postMatch(final TryStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TypeDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final TypeDeclaration node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TypeDeclarationStatement node, Object other, boolean result) {
+  public boolean postMatch(final TypeDeclarationStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TypeLiteral node, Object other, boolean result) {
+  public boolean postMatch(final TypeLiteral node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(TypeParameter node, Object other, boolean result) {
+  public boolean postMatch(final TypeParameter node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(VariableDeclarationExpression node, Object other, boolean result) {
+  public boolean postMatch(final VariableDeclarationExpression node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(VariableDeclarationFragment node, Object other, boolean result) {
+  public boolean postMatch(final VariableDeclarationFragment node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(VariableDeclarationStatement node, Object other, boolean result) {
+  public boolean postMatch(final VariableDeclarationStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(WhileStatement node, Object other, boolean result) {
+  public boolean postMatch(final WhileStatement node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 
   @Override
-  public boolean postMatch(WildcardType node, Object other, boolean result) {
+  public boolean postMatch(final WildcardType node, final Object other, final boolean result) {
     return this.genericPostMatch(node, other, result);
   }
 }

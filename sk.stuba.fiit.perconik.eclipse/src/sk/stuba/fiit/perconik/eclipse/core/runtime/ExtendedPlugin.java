@@ -4,15 +4,15 @@ import org.eclipse.core.runtime.Plugin;
 
 /**
  * An abstract plug-in with extended basic capabilities.
- * 
+ *
  * @see Plugin
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public abstract class ExtendedPlugin extends Plugin {
   /**
-   * The plug-in console. 
+   * The plug-in console.
    */
   protected final PluginConsole console;
 

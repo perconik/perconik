@@ -33,7 +33,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
     this.tokenizer = firstNonNull(builder.tokenizer, Tokenizers.shared);
   }
 
-  public static final <N extends ASTNode> NodeTokenizer<N> using(final Function<N, ? extends Iterable<ASTNode>> collector) {
+  public static <N extends ASTNode> NodeTokenizer<N> using(final Function<N, ? extends Iterable<ASTNode>> collector) {
     return new Builder<N>().collector(collector).build();
   }
 
@@ -46,7 +46,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
 
     public Builder() {}
 
-    public final Builder<N> collector(final Function<N, ? extends Iterable<ASTNode>> collector) {
+    public Builder<N> collector(final Function<N, ? extends Iterable<ASTNode>> collector) {
       checkState(this.collector == null);
 
       this.collector = checkNotNull(collector);
@@ -54,7 +54,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
       return this;
     }
 
-    public final Builder<N> transformer(final Function<ASTNode, String> transformer) {
+    public Builder<N> transformer(final Function<ASTNode, String> transformer) {
       checkState(this.transformer == null);
 
       this.transformer = checkNotNull(transformer);
@@ -62,7 +62,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
       return this;
     }
 
-    public final Builder<N> tokenizer(final Tokenizer tokenizer) {
+    public Builder<N> tokenizer(final Tokenizer tokenizer) {
       checkState(this.tokenizer == null);
 
       this.tokenizer = checkNotNull(tokenizer);
@@ -70,16 +70,16 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
       return this;
     }
 
-    public final NodeTokenizer<N> build() {
+    public NodeTokenizer<N> build() {
       return new NodeTokenizer<>(this);
     }
   }
 
-  public static final <N extends ASTNode> Builder<N> builder() {
+  public static <N extends ASTNode> Builder<N> builder() {
     return new Builder<>();
   }
 
-  public final List<String> apply(final N node) {
+  public List<String> apply(final N node) {
     if (node == null) {
       return Collections.emptyList();
     }
@@ -97,7 +97,7 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
   }
 
   @Override
-  public final boolean equals(@Nullable final Object o) {
+  public boolean equals(@Nullable final Object o) {
     if (this == o) {
       return true;
     }
@@ -112,24 +112,24 @@ public final class NodeTokenizer<N extends ASTNode> implements ListCollector<N, 
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return Objects.hash(this.collector, this.transformer, this.tokenizer);
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return "tokenizer(" + Joiner.on(",").join(this.collector, this.transformer, this.tokenizer) + ")";
   }
 
-  public final Function<N, ? extends Iterable<ASTNode>> getCollector() {
+  public Function<N, ? extends Iterable<ASTNode>> getCollector() {
     return this.collector;
   }
 
-  public final Function<ASTNode, String> getTransformer() {
+  public Function<ASTNode, String> getTransformer() {
     return this.transformer;
   }
 
-  public final Tokenizer getTokenizer() {
+  public Tokenizer getTokenizer() {
     return this.tokenizer;
   }
 }

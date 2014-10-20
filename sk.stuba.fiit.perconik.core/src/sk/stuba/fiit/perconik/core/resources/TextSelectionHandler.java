@@ -16,18 +16,18 @@ enum TextSelectionHandler implements Handler<TextSelectionListener> {
       super(listener);
     }
 
-    public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+    public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
       if (selection instanceof TextSelection) {
         this.listener.selectionChanged(part, (ITextSelection) selection);
       }
     }
   }
 
-  public final void register(final TextSelectionListener listener) {
+  public void register(final TextSelectionListener listener) {
     SelectionHandler.INSTANCE.register(new SelectionFilter(listener));
   }
 
-  public final void unregister(final TextSelectionListener listener) {
+  public void unregister(final TextSelectionListener listener) {
     SelectionHandler.INSTANCE.unregister(new SelectionFilter(listener));
   }
 }

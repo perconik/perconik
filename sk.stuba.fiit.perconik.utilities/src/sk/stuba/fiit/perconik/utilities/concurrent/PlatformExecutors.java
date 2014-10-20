@@ -14,27 +14,25 @@ public final class PlatformExecutors {
 
   private static final float maximumPoolSizeScalingFactor = 10;
 
-  private PlatformExecutors() {
-    throw new AssertionError();
-  }
+  private PlatformExecutors() {}
 
-  private static final int boundedAvailableProcessors() {
+  private static int boundedAvailableProcessors() {
     return min(Runtime.getRuntime().availableProcessors(), availableProcessorsUpperBound);
   }
 
-  private static final int maximumPoolSize() {
+  private static int maximumPoolSize() {
     return maximumPoolSize(maximumPoolSizeScalingFactor);
   }
 
-  private static final int maximumPoolSize(float factor) {
+  private static int maximumPoolSize(final float factor) {
     return Math.round(factor * boundedAvailableProcessors());
   }
 
-  public static final ExecutorService newLimitedThreadPool() {
+  public static ExecutorService newLimitedThreadPool() {
     return newLimitedThreadPool(Executors.defaultThreadFactory());
   }
 
-  public static final ExecutorService newLimitedThreadPool(ThreadFactory factory) {
+  public static ExecutorService newLimitedThreadPool(final ThreadFactory factory) {
     return new ThreadPoolExecutor(0, maximumPoolSize(), 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), factory);
   }
 }

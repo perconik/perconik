@@ -27,12 +27,12 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
     this.transformer = checkNotNull(transformer);
   }
 
-  public static final <N extends ASTNode> NodePathExtractor<N> using(final Function<ASTNode, String> strategy) {
+  public static <N extends ASTNode> NodePathExtractor<N> using(final Function<ASTNode, String> strategy) {
     return new NodePathExtractor<>(strategy);
   }
 
   @Override
-  public final Path apply(@Nullable final ASTNode node) {
+  public Path apply(@Nullable final ASTNode node) {
     LinkedList<ASTNode> branch = branch(node);
 
     if (branch.isEmpty()) {
@@ -57,7 +57,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
     return Paths.get(first, rest);
   }
 
-  private static final LinkedList<ASTNode> branch(final ASTNode node) {
+  private static LinkedList<ASTNode> branch(final ASTNode node) {
     if (node == null) {
       return empty;
     }
@@ -71,7 +71,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
     return branch;
   }
 
-  private final String fragments(final List<VariableDeclarationFragment> fragments) {
+  private String fragments(final List<VariableDeclarationFragment> fragments) {
     Iterator<VariableDeclarationFragment> iterator = fragments.iterator();
 
     StringBuilder builder = new StringBuilder();
@@ -89,7 +89,7 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
   }
 
   @Override
-  public final boolean equals(@Nullable final Object o) {
+  public boolean equals(@Nullable final Object o) {
     if (o instanceof NodePathExtractor) {
       NodePathExtractor<?> other = (NodePathExtractor<?>) o;
 
@@ -100,16 +100,16 @@ public final class NodePathExtractor<N extends ASTNode> implements Function<N, P
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return this.transformer.hashCode();
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return "path(" + this.transformer + ")";
   }
 
-  public final Function<ASTNode, String> getTransformer() {
+  public Function<ASTNode, String> getTransformer() {
     return this.transformer;
   }
 }

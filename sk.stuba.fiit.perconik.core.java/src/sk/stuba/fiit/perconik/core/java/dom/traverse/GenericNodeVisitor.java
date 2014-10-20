@@ -92,190 +92,190 @@ public abstract class GenericNodeVisitor extends NodeVisitor {
   }
 
   @SuppressWarnings({"unused", "static-method"})
-  protected boolean genericVisit(ASTNode node) {
+  protected boolean genericVisit(final ASTNode node) {
     return true;
   }
 
   @SuppressWarnings("unused")
-  protected void genericEndVisit(ASTNode node) {}
+  protected void genericEndVisit(final ASTNode node) {}
 
   @Override
-  public boolean visit(AnnotationTypeDeclaration node) {
+  public boolean visit(final AnnotationTypeDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(AnnotationTypeMemberDeclaration node) {
+  public boolean visit(final AnnotationTypeMemberDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(AnonymousClassDeclaration node) {
+  public boolean visit(final AnonymousClassDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ArrayAccess node) {
+  public boolean visit(final ArrayAccess node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ArrayCreation node) {
+  public boolean visit(final ArrayCreation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ArrayInitializer node) {
+  public boolean visit(final ArrayInitializer node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ArrayType node) {
+  public boolean visit(final ArrayType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(AssertStatement node) {
+  public boolean visit(final AssertStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(Assignment node) {
+  public boolean visit(final Assignment node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(Block node) {
+  public boolean visit(final Block node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(BlockComment node) {
+  public boolean visit(final BlockComment node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(BooleanLiteral node) {
+  public boolean visit(final BooleanLiteral node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(BreakStatement node) {
+  public boolean visit(final BreakStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(CastExpression node) {
+  public boolean visit(final CastExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(CatchClause node) {
+  public boolean visit(final CatchClause node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(CharacterLiteral node) {
+  public boolean visit(final CharacterLiteral node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ClassInstanceCreation node) {
+  public boolean visit(final ClassInstanceCreation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(CompilationUnit node) {
+  public boolean visit(final CompilationUnit node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ConditionalExpression node) {
+  public boolean visit(final ConditionalExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ConstructorInvocation node) {
+  public boolean visit(final ConstructorInvocation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ContinueStatement node) {
+  public boolean visit(final ContinueStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(DoStatement node) {
+  public boolean visit(final DoStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(EmptyStatement node) {
+  public boolean visit(final EmptyStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(EnhancedForStatement node) {
+  public boolean visit(final EnhancedForStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(EnumConstantDeclaration node) {
+  public boolean visit(final EnumConstantDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(EnumDeclaration node) {
+  public boolean visit(final EnumDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ExpressionStatement node) {
+  public boolean visit(final ExpressionStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(FieldAccess node) {
+  public boolean visit(final FieldAccess node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(FieldDeclaration node) {
+  public boolean visit(final FieldDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ForStatement node) {
+  public boolean visit(final ForStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(IfStatement node) {
+  public boolean visit(final IfStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ImportDeclaration node) {
+  public boolean visit(final ImportDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(InfixExpression node) {
+  public boolean visit(final InfixExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(InstanceofExpression node) {
+  public boolean visit(final InstanceofExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(Initializer node) {
+  public boolean visit(final Initializer node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(Javadoc node) {
+  public boolean visit(final Javadoc node) {
     if (this.internals.standardVisit(node)) {
       return this.genericVisit(node);
     }
@@ -284,662 +284,662 @@ public abstract class GenericNodeVisitor extends NodeVisitor {
   }
 
   @Override
-  public boolean visit(LabeledStatement node) {
+  public boolean visit(final LabeledStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(LineComment node) {
+  public boolean visit(final LineComment node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MarkerAnnotation node) {
+  public boolean visit(final MarkerAnnotation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MemberRef node) {
+  public boolean visit(final MemberRef node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MemberValuePair node) {
+  public boolean visit(final MemberValuePair node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MethodDeclaration node) {
+  public boolean visit(final MethodDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MethodInvocation node) {
+  public boolean visit(final MethodInvocation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MethodRef node) {
+  public boolean visit(final MethodRef node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(MethodRefParameter node) {
+  public boolean visit(final MethodRefParameter node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(Modifier node) {
+  public boolean visit(final Modifier node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(NormalAnnotation node) {
+  public boolean visit(final NormalAnnotation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(NullLiteral node) {
+  public boolean visit(final NullLiteral node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(NumberLiteral node) {
+  public boolean visit(final NumberLiteral node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(PackageDeclaration node) {
+  public boolean visit(final PackageDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ParameterizedType node) {
+  public boolean visit(final ParameterizedType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ParenthesizedExpression node) {
+  public boolean visit(final ParenthesizedExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(PostfixExpression node) {
+  public boolean visit(final PostfixExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(PrefixExpression node) {
+  public boolean visit(final PrefixExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(PrimitiveType node) {
+  public boolean visit(final PrimitiveType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(QualifiedName node) {
+  public boolean visit(final QualifiedName node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(QualifiedType node) {
+  public boolean visit(final QualifiedType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ReturnStatement node) {
+  public boolean visit(final ReturnStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SimpleName node) {
+  public boolean visit(final SimpleName node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SimpleType node) {
+  public boolean visit(final SimpleType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SingleMemberAnnotation node) {
+  public boolean visit(final SingleMemberAnnotation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SingleVariableDeclaration node) {
+  public boolean visit(final SingleVariableDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(StringLiteral node) {
+  public boolean visit(final StringLiteral node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SuperConstructorInvocation node) {
+  public boolean visit(final SuperConstructorInvocation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SuperFieldAccess node) {
+  public boolean visit(final SuperFieldAccess node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SuperMethodInvocation node) {
+  public boolean visit(final SuperMethodInvocation node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SwitchCase node) {
+  public boolean visit(final SwitchCase node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SwitchStatement node) {
+  public boolean visit(final SwitchStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(SynchronizedStatement node) {
+  public boolean visit(final SynchronizedStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TagElement node) {
+  public boolean visit(final TagElement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TextElement node) {
+  public boolean visit(final TextElement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ThisExpression node) {
+  public boolean visit(final ThisExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(ThrowStatement node) {
+  public boolean visit(final ThrowStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TryStatement node) {
+  public boolean visit(final TryStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TypeDeclaration node) {
+  public boolean visit(final TypeDeclaration node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TypeDeclarationStatement node) {
+  public boolean visit(final TypeDeclarationStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TypeLiteral node) {
+  public boolean visit(final TypeLiteral node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(TypeParameter node) {
+  public boolean visit(final TypeParameter node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(UnionType node) {
+  public boolean visit(final UnionType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(VariableDeclarationExpression node) {
+  public boolean visit(final VariableDeclarationExpression node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(VariableDeclarationStatement node) {
+  public boolean visit(final VariableDeclarationStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(VariableDeclarationFragment node) {
+  public boolean visit(final VariableDeclarationFragment node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(WhileStatement node) {
+  public boolean visit(final WhileStatement node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public boolean visit(WildcardType node) {
+  public boolean visit(final WildcardType node) {
     return this.genericVisit(node);
   }
 
   @Override
-  public void endVisit(AnnotationTypeDeclaration node) {
+  public void endVisit(final AnnotationTypeDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(AnnotationTypeMemberDeclaration node) {
+  public void endVisit(final AnnotationTypeMemberDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(AnonymousClassDeclaration node) {
+  public void endVisit(final AnonymousClassDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ArrayAccess node) {
+  public void endVisit(final ArrayAccess node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ArrayCreation node) {
+  public void endVisit(final ArrayCreation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ArrayInitializer node) {
+  public void endVisit(final ArrayInitializer node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ArrayType node) {
+  public void endVisit(final ArrayType node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(AssertStatement node) {
+  public void endVisit(final AssertStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(Assignment node) {
+  public void endVisit(final Assignment node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(Block node) {
+  public void endVisit(final Block node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(BlockComment node) {
+  public void endVisit(final BlockComment node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(BooleanLiteral node) {
+  public void endVisit(final BooleanLiteral node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(BreakStatement node) {
+  public void endVisit(final BreakStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(CastExpression node) {
+  public void endVisit(final CastExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(CatchClause node) {
+  public void endVisit(final CatchClause node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(CharacterLiteral node) {
+  public void endVisit(final CharacterLiteral node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ClassInstanceCreation node) {
+  public void endVisit(final ClassInstanceCreation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(CompilationUnit node) {
+  public void endVisit(final CompilationUnit node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ConditionalExpression node) {
+  public void endVisit(final ConditionalExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ConstructorInvocation node) {
+  public void endVisit(final ConstructorInvocation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ContinueStatement node) {
+  public void endVisit(final ContinueStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(DoStatement node) {
+  public void endVisit(final DoStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(EmptyStatement node) {
+  public void endVisit(final EmptyStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(EnhancedForStatement node) {
+  public void endVisit(final EnhancedForStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(EnumConstantDeclaration node) {
+  public void endVisit(final EnumConstantDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(EnumDeclaration node) {
+  public void endVisit(final EnumDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ExpressionStatement node) {
+  public void endVisit(final ExpressionStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(FieldAccess node) {
+  public void endVisit(final FieldAccess node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(FieldDeclaration node) {
+  public void endVisit(final FieldDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ForStatement node) {
+  public void endVisit(final ForStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(IfStatement node) {
+  public void endVisit(final IfStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ImportDeclaration node) {
+  public void endVisit(final ImportDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(InfixExpression node) {
+  public void endVisit(final InfixExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(InstanceofExpression node) {
+  public void endVisit(final InstanceofExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(Initializer node) {
+  public void endVisit(final Initializer node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(Javadoc node) {
+  public void endVisit(final Javadoc node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(LabeledStatement node) {
+  public void endVisit(final LabeledStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(LineComment node) {
+  public void endVisit(final LineComment node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MarkerAnnotation node) {
+  public void endVisit(final MarkerAnnotation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MemberRef node) {
+  public void endVisit(final MemberRef node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MemberValuePair node) {
+  public void endVisit(final MemberValuePair node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MethodDeclaration node) {
+  public void endVisit(final MethodDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MethodInvocation node) {
+  public void endVisit(final MethodInvocation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MethodRef node) {
+  public void endVisit(final MethodRef node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(MethodRefParameter node) {
+  public void endVisit(final MethodRefParameter node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(Modifier node) {
+  public void endVisit(final Modifier node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(NormalAnnotation node) {
+  public void endVisit(final NormalAnnotation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(NullLiteral node) {
+  public void endVisit(final NullLiteral node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(NumberLiteral node) {
+  public void endVisit(final NumberLiteral node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(PackageDeclaration node) {
+  public void endVisit(final PackageDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ParameterizedType node) {
+  public void endVisit(final ParameterizedType node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ParenthesizedExpression node) {
+  public void endVisit(final ParenthesizedExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(PostfixExpression node) {
+  public void endVisit(final PostfixExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(PrefixExpression node) {
+  public void endVisit(final PrefixExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(PrimitiveType node) {
+  public void endVisit(final PrimitiveType node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(QualifiedName node) {
+  public void endVisit(final QualifiedName node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(QualifiedType node) {
+  public void endVisit(final QualifiedType node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ReturnStatement node) {
+  public void endVisit(final ReturnStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SimpleName node) {
+  public void endVisit(final SimpleName node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SimpleType node) {
+  public void endVisit(final SimpleType node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SingleMemberAnnotation node) {
+  public void endVisit(final SingleMemberAnnotation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SingleVariableDeclaration node) {
+  public void endVisit(final SingleVariableDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(StringLiteral node) {
+  public void endVisit(final StringLiteral node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SuperConstructorInvocation node) {
+  public void endVisit(final SuperConstructorInvocation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SuperFieldAccess node) {
+  public void endVisit(final SuperFieldAccess node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SuperMethodInvocation node) {
+  public void endVisit(final SuperMethodInvocation node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SwitchCase node) {
+  public void endVisit(final SwitchCase node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SwitchStatement node) {
+  public void endVisit(final SwitchStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(SynchronizedStatement node) {
+  public void endVisit(final SynchronizedStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TagElement node) {
+  public void endVisit(final TagElement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TextElement node) {
+  public void endVisit(final TextElement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ThisExpression node) {
+  public void endVisit(final ThisExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(ThrowStatement node) {
+  public void endVisit(final ThrowStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TryStatement node) {
+  public void endVisit(final TryStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TypeDeclaration node) {
+  public void endVisit(final TypeDeclaration node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TypeDeclarationStatement node) {
+  public void endVisit(final TypeDeclarationStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TypeLiteral node) {
+  public void endVisit(final TypeLiteral node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(TypeParameter node) {
+  public void endVisit(final TypeParameter node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(UnionType node) {
+  public void endVisit(final UnionType node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(VariableDeclarationExpression node) {
+  public void endVisit(final VariableDeclarationExpression node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(VariableDeclarationStatement node) {
+  public void endVisit(final VariableDeclarationStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(VariableDeclarationFragment node) {
+  public void endVisit(final VariableDeclarationFragment node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(WhileStatement node) {
+  public void endVisit(final WhileStatement node) {
     this.genericEndVisit(node);
   }
 
   @Override
-  public void endVisit(WildcardType node) {
+  public void endVisit(final WildcardType node) {
     this.genericEndVisit(node);
   }
 }

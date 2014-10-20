@@ -22,23 +22,21 @@ import static com.google.common.collect.Lists.newArrayList;
 public final class Services {
   static {
     Internals.setApi(ResourceService.class, new Supplier<ResourceService>() {
-      public final ResourceService get() {
+      public ResourceService get() {
         return DefaultResources.getDefaultResourceService();
       }
     });
 
     Internals.setApi(ListenerService.class, new Supplier<ListenerService>() {
-      public final ListenerService get() {
+      public ListenerService get() {
         return DefaultListeners.getDefaultListenerService();
       }
     });
   }
 
-  private Services() {
-    throw new AssertionError();
-  }
+  private Services() {}
 
-  static final Set<Service> inStartOrder() {
+  static Set<Service> inStartOrder() {
     synchronized (Internals.class) {
       ImmutableSet.Builder<Service> builder = ImmutableSet.builder();
 
@@ -49,7 +47,7 @@ public final class Services {
     }
   }
 
-  static final Set<Service> inStopOrder() {
+  static Set<Service> inStopOrder() {
     return ImmutableSet.copyOf(Lists.reverse(newArrayList(inStartOrder())));
   }
 
@@ -57,7 +55,7 @@ public final class Services {
    * Sets the resource service.
    * @param service the service, not {@code null}
    */
-  public static final void setResourceService(final ResourceService service) {
+  public static void setResourceService(final ResourceService service) {
     Internals.setApi(ResourceService.class, service);
   }
 
@@ -65,21 +63,21 @@ public final class Services {
    * Sets the listener service.
    * @param service the service, not {@code null}
    */
-  public static final void setListenerService(final ListenerService service) {
+  public static void setListenerService(final ListenerService service) {
     Internals.setApi(ListenerService.class, service);
   }
 
   /**
    * Returns the currently active resource service.
    */
-  public static final ResourceService getResourceService() {
+  public static ResourceService getResourceService() {
     return Internals.getApi(ResourceService.class);
   }
 
   /**
    * Returns the currently active listener service.
    */
-  public static final ListenerService getListenerService() {
+  public static ListenerService getListenerService() {
     return Internals.getApi(ListenerService.class);
   }
 }

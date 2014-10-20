@@ -21,7 +21,7 @@ public final class Activator extends Plugin {
   /**
    * The shared instance.
    */
-  private static Activator plugin;
+  private static volatile Activator plugin;
 
   /**
    * The constructor.
@@ -30,21 +30,21 @@ public final class Activator extends Plugin {
 
   /**
    * Gets the shared instance.
-   * @return the shared instance
+   * @return the shared instance or {@code null}
    */
-  public static final Activator getDefault() {
+  public static Activator defaultInstance() {
     return plugin;
   }
 
   @Override
-  public final void start(final BundleContext context) throws Exception {
+  public void start(final BundleContext context) throws Exception {
     super.start(context);
 
     plugin = this;
   }
 
   @Override
-  public final void stop(final BundleContext context) throws Exception {
+  public void stop(final BundleContext context) throws Exception {
     plugin = null;
 
     super.stop(context);

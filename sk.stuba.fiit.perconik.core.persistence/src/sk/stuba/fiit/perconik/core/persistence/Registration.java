@@ -4,10 +4,10 @@ package sk.stuba.fiit.perconik.core.persistence;
  * Current registration status of a {@code Registrable} instance.
  * The current registration status is obtained from an underlying
  * registrable object.
- * 
+ *
  * @see sk.stuba.fiit.perconik.core.Registrable Registrable
  * @see sk.stuba.fiit.perconik.core.services.Provider Provider
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

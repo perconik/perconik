@@ -15,11 +15,9 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
  * @since 1.0
  */
 public final class ResourceDeltas {
-  private ResourceDeltas() {
-    throw new AssertionError();
-  }
+  private ResourceDeltas() {}
 
-  public static final void accept(final IResourceDelta delta, final IResourceDeltaVisitor visitor) {
+  public static void accept(final IResourceDelta delta, final IResourceDeltaVisitor visitor) {
     try {
       delta.accept(visitor);
     } catch (CoreException e) {
@@ -27,7 +25,7 @@ public final class ResourceDeltas {
     }
   }
 
-  public static final void accept(final IResourceDelta delta, final IResourceDeltaVisitor visitor, final Set<ResourceMemberFlag> flags) {
+  public static void accept(final IResourceDelta delta, final IResourceDeltaVisitor visitor, final Set<ResourceMemberFlag> flags) {
     try {
       delta.accept(visitor, ResourceMemberFlag.valuesAsInteger(flags));
     } catch (CoreException e) {

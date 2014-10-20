@@ -18,15 +18,13 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
  * @since 1.0
  */
 public final class Documents {
-  private Documents() {
-    throw new AssertionError();
-  }
+  private Documents() {}
 
-  public static final IDocument fromFile(IFile file) {
+  public static IDocument fromFile(final IFile file) {
     return fromPath(file.getFullPath(), LocationKind.IFILE);
   }
 
-  public static final IDocument fromPath(IPath path, LocationKind kind) {
+  public static IDocument fromPath(final IPath path, final LocationKind kind) {
     ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
 
     try {

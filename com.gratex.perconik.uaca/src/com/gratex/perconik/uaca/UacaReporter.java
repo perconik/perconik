@@ -17,11 +17,9 @@ import static java.lang.String.format;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 final class UacaReporter {
-  private UacaReporter() {
-    throw new AssertionError();
-  }
+  private UacaReporter() {}
 
-  static final void logRequest(final WebTarget target, @Nullable final Object request) {
+  static void logRequest(final WebTarget target, @Nullable final Object request) {
     if (!UacaPreferences.getShared().isEventLoggerEnabled()) {
       return;
     }
@@ -36,7 +34,7 @@ final class UacaReporter {
     }
   }
 
-  static final void logError(final String message, @Nullable final Exception failure) {
+  static void logError(final String message, @Nullable final Exception failure) {
     if (!UacaPreferences.getShared().isErrorLoggerEnabled()) {
       return;
     }
@@ -44,7 +42,7 @@ final class UacaReporter {
     UacaConsole.getInstance().error(failure, message);
   }
 
-  static final void displayError(final String message, @Nullable final Exception failure) {
+  static void displayError(final String message, @Nullable final Exception failure) {
     if (!UacaPreferences.getShared().getPreferenceStore().getBoolean(Keys.displayErrors)) {
       return;
     }

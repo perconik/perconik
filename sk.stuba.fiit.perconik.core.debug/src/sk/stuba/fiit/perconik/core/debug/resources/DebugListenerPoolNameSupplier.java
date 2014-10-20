@@ -8,7 +8,9 @@ import sk.stuba.fiit.perconik.core.debug.DebugListener;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 
 public final class DebugListenerPoolNameSupplier implements ResourceNamesSupplier {
-  public final SetMultimap<Class<? extends Listener>, String> get() {
+  public DebugListenerPoolNameSupplier() {}
+
+  public SetMultimap<Class<? extends Listener>, String> get() {
     SetMultimap<Class<? extends Listener>, String> map = HashMultimap.create();
 
     map.put(DebugListener.class, DebugListenerPool.getInstance().getName());

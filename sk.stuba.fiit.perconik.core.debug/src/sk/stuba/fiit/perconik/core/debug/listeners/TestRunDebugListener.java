@@ -15,36 +15,36 @@ public final class TestRunDebugListener extends AbstractDebugListener implements
     super(console);
   }
 
-  public final void sessionLaunched(final ITestRunSession session) {
+  public void sessionLaunched(final ITestRunSession session) {
     this.printHeader("Test run session launched");
     this.printTestRunSession(session);
   }
 
-  public final void sessionStarted(final ITestRunSession session) {
+  public void sessionStarted(final ITestRunSession session) {
     this.printHeader("Test run session started");
     this.printTestRunSession(session);
   }
 
-  public final void sessionFinished(final ITestRunSession session) {
+  public void sessionFinished(final ITestRunSession session) {
     this.printHeader("Test run session finished");
     this.printTestRunSession(session);
   }
 
-  public final void testCaseStarted(final ITestCaseElement element) {
+  public void testCaseStarted(final ITestCaseElement element) {
     this.printHeader("Test case started");
     this.printTestCaseElement(element);
   }
 
-  public final void testCaseFinished(final ITestCaseElement element) {
+  public void testCaseFinished(final ITestCaseElement element) {
     this.printHeader("Test case finished");
     this.printTestCaseElement(element);
   }
 
-  private final void printTestCaseElement(final ITestCaseElement element) {
+  private void printTestCaseElement(final ITestCaseElement element) {
     this.put(Debug.dumpTestCaseElement(element));
   }
 
-  private final void printTestRunSession(final ITestRunSession session) {
+  private void printTestRunSession(final ITestRunSession session) {
     this.put(Debug.dumpTestRunSession(session));
   }
 }

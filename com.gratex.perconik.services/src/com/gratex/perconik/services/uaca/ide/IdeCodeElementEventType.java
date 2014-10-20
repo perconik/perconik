@@ -11,7 +11,7 @@ public enum IdeCodeElementEventType {
 
   private final String urlPath;
 
-  private IdeCodeElementEventType(String urlPath) {
+  private IdeCodeElementEventType(final String urlPath) {
     this.urlPath = urlPath;
   }
 
@@ -19,7 +19,7 @@ public enum IdeCodeElementEventType {
     return this.urlPath;
   }
 
-  public static IdeCodeElementEventType fromValue(String urlPath) {
+  public static IdeCodeElementEventType fromValue(final String urlPath) {
     for (IdeCodeElementEventType item: IdeCodeElementEventType.values()) {
       if (item.urlPath.equals(urlPath)) {
         return item;

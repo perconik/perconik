@@ -20,11 +20,9 @@ public final class NodeClassFilters {
 
   private static final NodeClassFilter<?, Statement> statements = of(Statement.class);
 
-  private NodeClassFilters() {
-    throw new AssertionError();
-  }
+  private NodeClassFilters() {}
 
-  private static final <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> cast(final NodeClassFilter<?, ?> filter) {
+  private static <N extends ASTNode, F extends ASTNode> NodeClassFilter<N, F> cast(final NodeClassFilter<?, ?> filter) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings("unchecked")
     NodeClassFilter<N, F> result = (NodeClassFilter<N, F>) filter;
@@ -32,23 +30,23 @@ public final class NodeClassFilters {
     return result;
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Annotation> annotations() {
+  public static <N extends ASTNode> NodeClassFilter<N, Annotation> annotations() {
     return cast(annotations);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Comment> comments() {
+  public static <N extends ASTNode> NodeClassFilter<N, Comment> comments() {
     return cast(comments);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Expression> expressions() {
+  public static <N extends ASTNode> NodeClassFilter<N, Expression> expressions() {
     return cast(expressions);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Name> names() {
+  public static <N extends ASTNode> NodeClassFilter<N, Name> names() {
     return cast(names);
   }
 
-  public static final <N extends ASTNode> NodeClassFilter<N, Statement> statements() {
+  public static <N extends ASTNode> NodeClassFilter<N, Statement> statements() {
     return cast(statements);
   }
 }

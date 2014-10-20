@@ -11,7 +11,7 @@ import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.core.services.Services;
 
-import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.defaultConsole;
 
 final class ServicesLoader {
   private final ResourceExtentionProcessor resources;
@@ -23,7 +23,7 @@ final class ServicesLoader {
     this.listeners = new ListenerExtentionProcessor();
   }
 
-  final List<ResolvedService<?>> load() {
+  List<ResolvedService<?>> load() {
     ResolvedResources resource = this.resources.process();
     ResolvedListeners listener = this.listeners.process();
 
@@ -38,11 +38,11 @@ final class ServicesLoader {
       Resources.registerAll(resource.supplier);
       Listeners.registerAll(listener.supplier);
     } catch (ResourceRegistrationException failure) {
-      log.error(failure, "Unexpected error during initial registration of resources");
+      defaultConsole().error(failure, "Unexpected error during initial registration of resources");
     } catch (ListenerRegistrationException failure) {
-      log.error(failure, "Unexpected error during initial registration of listeners");
+      defaultConsole().error(failure, "Unexpected error during initial registration of listeners");
     } catch (Exception failure) {
-      log.error(failure, "Unexpected error during initial registration of resources and listeners");
+      defaultConsole().error(failure, "Unexpected error during initial registration of resources and listeners");
     }
 
     return data;

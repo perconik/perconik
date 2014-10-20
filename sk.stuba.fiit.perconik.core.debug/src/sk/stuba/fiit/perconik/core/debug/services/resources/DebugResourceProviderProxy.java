@@ -22,11 +22,11 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
     this.provider = checkNotNull(provider);
   }
 
-  public static final DebugResourceProviderProxy wrap(final ResourceProvider provider) {
+  public static DebugResourceProviderProxy wrap(final ResourceProvider provider) {
     return wrap(provider, Debug.getDefaultConsole());
   }
 
-  public static final DebugResourceProviderProxy wrap(final ResourceProvider provider, final DebugConsole console) {
+  public static DebugResourceProviderProxy wrap(final ResourceProvider provider, final DebugConsole console) {
     if (provider instanceof DebugResourceProviderProxy) {
       return (DebugResourceProviderProxy) provider;
     }
@@ -34,7 +34,7 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
     return new DebugResourceProviderProxy(provider, console);
   }
 
-  public static final ResourceProvider unwrap(final ResourceProvider provider) {
+  public static ResourceProvider unwrap(final ResourceProvider provider) {
     if (provider instanceof DebugResourceProviderProxy) {
       return ((DebugResourceProviderProxy) provider).delegate();
     }
@@ -42,7 +42,7 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
     return provider;
   }
 
-  private static final <L extends Listener> Set<Resource<L>> wrap(final Set<Resource<L>> resources) {
+  private static <L extends Listener> Set<Resource<L>> wrap(final Set<Resource<L>> resources) {
     Set<Resource<L>> proxies = newHashSetWithExpectedSize(resources.size());
 
     for (Resource<L> resource: resources) {
@@ -53,11 +53,11 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
   }
 
   @Override
-  public final ResourceProvider delegate() {
+  public ResourceProvider delegate() {
     return this.provider;
   }
 
-  public final Resource<?> forName(final String name) {
+  public Resource<?> forName(final String name) {
     this.put("Requesting resource by name %s ... ", name);
 
     Resource<?> resource = this.delegate().forName(name);
@@ -73,7 +73,7 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
     return null;
   }
 
-  public final <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
+  public <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
     this.put("Requesting resources for listener type %s ... ", type.getName());
 
     Set<Resource<L>> resources = this.delegate().forType(type);
@@ -83,15 +83,15 @@ public final class DebugResourceProviderProxy extends DebugNameableProxy impleme
     return wrap(resources);
   }
 
-  public final Set<String> names() {
+  public Set<String> names() {
     return this.delegate().names();
   }
 
-  public final Set<Class<? extends Listener>> types() {
+  public Set<Class<? extends Listener>> types() {
     return this.delegate().types();
   }
 
-  public final ResourceProvider parent() {
+  public ResourceProvider parent() {
     return this.delegate().parent();
   }
 }

@@ -13,10 +13,8 @@ import sk.stuba.fiit.perconik.core.Resource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class Synchronized {
-  private Synchronized() {
-    throw new AssertionError();
-  }
+final class Synchronized {
+  private Synchronized() {}
 
   private static class SynchronizedObject<T> implements Serializable {
     private static final long serialVersionUID = 0L;
@@ -84,7 +82,7 @@ class Synchronized {
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o == this) {
         return true;
       }
@@ -95,37 +93,37 @@ class Synchronized {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       synchronized (this.mutex) {
         return this.delegate.hashCode();
       }
     }
 
-    public final void register(final L listener) {
+    public void register(final L listener) {
       synchronized (this.mutex) {
         this.delegate.register(listener);
       }
     }
 
-    public final void unregister(final L listener) {
+    public void unregister(final L listener) {
       synchronized (this.mutex) {
         this.delegate.register(listener);
       }
     }
 
-    public final <U extends Listener> Collection<U> registered(final Class<U> type) {
+    public <U extends Listener> Collection<U> registered(final Class<U> type) {
       synchronized (this.mutex) {
         return this.delegate.registered(type);
       }
     }
 
-    public final boolean registered(final Listener listener) {
+    public boolean registered(final Listener listener) {
       synchronized (this.mutex) {
         return this.delegate.registered(listener);
       }
     }
 
-    public final String getName() {
+    public String getName() {
       synchronized (this.mutex) {
         return this.delegate.getName();
       }
@@ -140,7 +138,7 @@ class Synchronized {
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o == this) {
         return true;
       }
@@ -151,31 +149,31 @@ class Synchronized {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       synchronized (this.mutex) {
         return this.delegate.hashCode();
       }
     }
 
-    public final boolean contains(final Object object) {
+    public boolean contains(final Object object) {
       synchronized (this.mutex) {
         return this.delegate.contains(object);
       }
     }
 
-    public final void add(final T object) {
+    public void add(final T object) {
       synchronized (this.mutex) {
         this.delegate.add(object);
       }
     }
 
-    public final void remove(final T object) {
+    public void remove(final T object) {
       synchronized (this.mutex) {
         this.delegate.remove(object);
       }
     }
 
-    public final Collection<T> toCollection() {
+    public Collection<T> toCollection() {
       synchronized (this.mutex) {
         return this.delegate.toCollection();
       }
@@ -190,7 +188,7 @@ class Synchronized {
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o == this) {
         return true;
       }
@@ -201,19 +199,19 @@ class Synchronized {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       synchronized (this.mutex) {
         return this.delegate.hashCode();
       }
     }
 
-    public final void register(final T object) {
+    public void register(final T object) {
       synchronized (this.mutex) {
         this.delegate.register(object);
       }
     }
 
-    public final void unregister(final T object) {
+    public void unregister(final T object) {
       synchronized (this.mutex) {
         this.delegate.unregister(object);
       }
@@ -228,7 +226,7 @@ class Synchronized {
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (o == this) {
         return true;
       }
@@ -239,50 +237,50 @@ class Synchronized {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       synchronized (this.mutex) {
         return this.delegate.hashCode();
       }
     }
 
-    public final void add(final T object) {
+    public void add(final T object) {
       synchronized (this.mutex) {
         this.delegate.add(object);
       }
     }
 
-    public final void remove(final T object) {
+    public void remove(final T object) {
       synchronized (this.mutex) {
         this.delegate.remove(object);
       }
     }
 
-    public final Collection<T> toCollection() {
+    public Collection<T> toCollection() {
       synchronized (this.mutex) {
         return this.delegate.toCollection();
       }
     }
 
-    public final L forListener() {
+    public L forListener() {
       synchronized (this.mutex) {
         return this.delegate.forListener();
       }
     }
   }
 
-  static final <L extends Listener> Resource<L> resource(final Resource<L> resource) {
+  static <L extends Listener> Resource<L> resource(final Resource<L> resource) {
     return new SynchronizedResource<>(resource, new Object());
   }
 
-  static final <T> Pool<T> pool(final Pool<T> pool) {
+  static <T> Pool<T> pool(final Pool<T> pool) {
     return new SynchronizedPool<>(pool, new Object());
   }
 
-  static final <T> Handler<T> handler(final Handler<T> handler) {
+  static <T> Handler<T> handler(final Handler<T> handler) {
     return new SynchronizedHandler<>(handler, new Object());
   }
 
-  static final <T, L extends Listener> Hook<T, L> hook(final Hook<T, L> hook) {
+  static <T, L extends Listener> Hook<T, L> hook(final Hook<T, L> hook) {
     return new SynchronizedHook<>(hook, new Object());
   }
 }

@@ -14,13 +14,13 @@ import static com.google.common.collect.Lists.newLinkedList;
 final class CompositeClassResolver implements ClassResolver {
   private final List<ClassResolver> resolvers;
 
-  CompositeClassResolver(Iterable<ClassResolver> resolvers) {
+  CompositeClassResolver(final Iterable<ClassResolver> resolvers) {
     this.resolvers = ImmutableList.copyOf(resolvers);
 
     checkArgument(!this.resolvers.isEmpty());
   }
 
-  public final Class<?> forName(String name) throws ClassNotFoundException {
+  public Class<?> forName(final String name) throws ClassNotFoundException {
     List<Throwable> suppressions = newLinkedList();
 
     for (ClassResolver resolver: this.resolvers) {
@@ -37,7 +37,7 @@ final class CompositeClassResolver implements ClassResolver {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     StringBuilder builder = new StringBuilder("CompositeClassResolver(");
 
     Joiner.on(",").appendTo(builder, this.resolvers);

@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 /**
  * Indicates that one or more deserialized resources failed validation
  * tests. The argument should provide the reason for the failure.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -26,14 +26,14 @@ public class InvalidResourceException extends InvalidObjectException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public InvalidResourceException(@Nullable String message) {
+  public InvalidResourceException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public InvalidResourceException(@Nullable String message, @Nullable Throwable cause) {
+  public InvalidResourceException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message);
 
     this.initCause(cause);
@@ -42,7 +42,7 @@ public class InvalidResourceException extends InvalidObjectException {
   /**
    * Creates a new instance with the given cause.
    */
-  public InvalidResourceException(@Nullable Throwable cause) {
+  public InvalidResourceException(@Nullable final Throwable cause) {
     this(null, cause);
   }
 }

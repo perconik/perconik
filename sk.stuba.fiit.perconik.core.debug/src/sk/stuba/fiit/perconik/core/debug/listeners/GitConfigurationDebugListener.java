@@ -14,12 +14,12 @@ public final class GitConfigurationDebugListener extends AbstractDebugListener i
     super(console);
   }
 
-  public final void onConfigChanged(final ConfigChangedEvent event) {
+  public void onConfigChanged(final ConfigChangedEvent event) {
     this.printHeader("Git configuration changed");
     this.printGitConfigurationEvent(event);
   }
 
-  private final void printGitConfigurationEvent(final ConfigChangedEvent event) {
+  private void printGitConfigurationEvent(final ConfigChangedEvent event) {
     this.put(Debug.dumpGitConfigurationEvent(event));
   }
 }

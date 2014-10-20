@@ -35,8 +35,11 @@ public final class Activator extends UserInterfacePlugin {
   /**
    * The shared instance.
    */
-  private static Activator plugin;
+  private static volatile Activator plugin;
 
+  /**
+   * Indicates whether UI environment is verified or not.
+   */
   private static final AtomicBoolean verified = new AtomicBoolean(false);
 
   /**
@@ -46,10 +49,12 @@ public final class Activator extends UserInterfacePlugin {
 
   /**
    * Gets the shared instance.
-   * @return the shared instance
+   * @return the shared instance or {@code null}
    */
-  public static final Activator getDefault() {
-    return plugin;
+  public static Activator defaultInstance() {
+    synchronized (Activator.class) {
+      return plugin;
+    }
   }
 
   /**
@@ -69,18 +74,18 @@ public final class Activator extends UserInterfacePlugin {
     /**
      * Processes supplied extensions and starts core services.
      */
-    public final void earlyStartup() {
+    public void earlyStartup() {
       verifyJava();
     }
   }
 
-  static final void verifyJava() {
+  static void verifyJava() {
     if (!verified.compareAndSet(false, true)) {
       return;
     }
 
     try {
-      sk.stuba.fiit.perconik.environment.plugin.Activator.getDefault().verifyJava();
+      sk.stuba.fiit.perconik.environment.plugin.Activator.defaultInstance().verifyJava();
     } catch (final JavaVerificationException e) {
       final Runnable dialog = new Runnable() {
         public final void run() {
@@ -108,7 +113,7 @@ public final class Activator extends UserInterfacePlugin {
   }
 
   @Override
-  public final void start(final BundleContext context) throws Exception {
+  public void start(final BundleContext context) throws Exception {
     super.start(context);
 
     plugin = this;
@@ -117,7 +122,7 @@ public final class Activator extends UserInterfacePlugin {
   }
 
   @Override
-  public final void stop(final BundleContext context) throws Exception {
+  public void stop(final BundleContext context) throws Exception {
     plugin = null;
 
     super.stop(context);

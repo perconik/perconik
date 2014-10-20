@@ -14,12 +14,12 @@ public final class GitIndexDebugListener extends AbstractDebugListener implement
     super(console);
   }
 
-  public final void onIndexChanged(final IndexChangedEvent event) {
+  public void onIndexChanged(final IndexChangedEvent event) {
     this.printHeader("Git index changed");
     this.printGitIndexEvent(event);
   }
 
-  private final void printGitIndexEvent(final IndexChangedEvent event) {
+  private void printGitIndexEvent(final IndexChangedEvent event) {
     this.put(Debug.dumpGitIndexEvent(event));
   }
 }

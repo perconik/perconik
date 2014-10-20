@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A Git index listener.
- * 
+ *
  * @see Listener
  * @see IndexChangedListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

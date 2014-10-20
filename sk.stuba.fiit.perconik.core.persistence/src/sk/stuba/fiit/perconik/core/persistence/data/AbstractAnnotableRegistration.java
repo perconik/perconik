@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 
 /**
  * An abstract implementation of the {@link AnnotableRegistration} interface.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

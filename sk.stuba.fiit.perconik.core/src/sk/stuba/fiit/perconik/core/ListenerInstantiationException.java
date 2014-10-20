@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 /**
  * Thrown when one of the core service classes tries to instantiate
  * a listener through its class but the instantiation process fails.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -22,21 +22,21 @@ public class ListenerInstantiationException extends RuntimeException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public ListenerInstantiationException(@Nullable String message) {
+  public ListenerInstantiationException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public ListenerInstantiationException(@Nullable String message, @Nullable Throwable cause) {
+  public ListenerInstantiationException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public ListenerInstantiationException(@Nullable Throwable cause) {
+  public ListenerInstantiationException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

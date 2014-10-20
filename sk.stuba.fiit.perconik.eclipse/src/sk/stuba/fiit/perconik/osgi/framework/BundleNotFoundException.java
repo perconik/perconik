@@ -23,21 +23,21 @@ public class BundleNotFoundException extends BundleException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public BundleNotFoundException(@Nullable String message) {
+  public BundleNotFoundException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public BundleNotFoundException(@Nullable String message, @Nullable Throwable cause) {
+  public BundleNotFoundException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public BundleNotFoundException(@Nullable Throwable cause) {
+  public BundleNotFoundException(@Nullable final Throwable cause) {
     super(null, cause);
   }
 }

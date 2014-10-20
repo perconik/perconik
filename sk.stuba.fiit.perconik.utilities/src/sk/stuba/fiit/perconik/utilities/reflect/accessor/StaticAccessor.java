@@ -7,20 +7,22 @@ import java.lang.reflect.Modifier;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.AbstractAccessor.ConstantAccessor;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.AbstractAccessor.FieldAccessor;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.AbstractAccessor.InvokableAccessor;
+
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.checkArgument;
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.createArgument;
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.specialize;
 
-public abstract class StaticAccessor<T> extends AbstractAccessor<T> {
-  StaticAccessor(final TypeToken<T> token) {
-    super(token);
-  }
+public final class StaticAccessor<T> {
+  private StaticAccessor() {}
 
-  public static final <T> Accessor<T> ofClassConstant(Class<?> implementation, Class<T> type, String name) throws IllegalAccessException, NoSuchFieldException {
+  public static <T> Accessor<T> ofClassConstant(final Class<?> implementation, final Class<T> type, final String name) throws IllegalAccessException, NoSuchFieldException {
     return ofClassConstant(implementation, TypeToken.of(type), name);
   }
 
-  public static final <T> Accessor<T> ofClassConstant(Class<?> implementation, TypeToken<T> type, String name) throws IllegalAccessException, NoSuchFieldException {
+  public static <T> Accessor<T> ofClassConstant(final Class<?> implementation, final TypeToken<T> type, final String name) throws IllegalAccessException, NoSuchFieldException {
     Field field = implementation.getField(name);
 
     int modifiers = field.getModifiers();
@@ -32,11 +34,11 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T> {
     return new ClassConstant<>(type, (T) type.getRawType().cast(field.get(null)));
   }
 
-  public static final <T> Accessor<T> ofClassField(Class<?> implementation, Class<T> type, String name) throws NoSuchFieldException {
+  public static <T> Accessor<T> ofClassField(final Class<?> implementation, final Class<T> type, final String name) throws NoSuchFieldException {
     return ofClassField(implementation, TypeToken.of(type), name);
   }
 
-  public static final <T> Accessor<T> ofClassField(Class<?> implementation, TypeToken<T> type, String name) throws NoSuchFieldException {
+  public static <T> Accessor<T> ofClassField(final Class<?> implementation, final TypeToken<T> type, final String name) throws NoSuchFieldException {
     Field field = implementation.getField(name);
 
     int modifiers = field.getModifiers();
@@ -47,21 +49,21 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T> {
     return new ClassField<>(type, field);
   }
 
-  public static final <T> Accessor<T> ofClassConstructor(Class<T> type, Object ... arguments) throws NoSuchMethodException {
+  public static <T> Accessor<T> ofClassConstructor(final Class<T> type, final Object ... arguments) throws NoSuchMethodException {
     return ofClassConstructor(TypeToken.of(type), arguments);
   }
 
-  public static final <T> Accessor<T> ofClassConstructor(TypeToken<T> type, Object ... arguments) throws NoSuchMethodException {
+  public static <T> Accessor<T> ofClassConstructor(final TypeToken<T> type, final Object ... arguments) throws NoSuchMethodException {
     Constructor<T> constructor = (Constructor<T>) type.getRawType().getConstructor();
 
     return new ClassConstructor<>(type, (Invokable<Object, T>) Invokable.from(constructor), arguments);
   }
 
-  public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, Class<T> type, String name, Object ... arguments) throws NoSuchMethodException {
+  public static <T> Accessor<T> ofClassMethod(final Class<?> implementation, final Class<T> type, final String name, final Object ... arguments) throws NoSuchMethodException {
     return ofClassMethod(implementation, TypeToken.of(type), name, arguments);
   }
 
-  public static final <T> Accessor<T> ofClassMethod(Class<?> implementation, TypeToken<T> type, String name, Object ... arguments) throws NoSuchMethodException {
+  public static <T> Accessor<T> ofClassMethod(final Class<?> implementation, final TypeToken<T> type, final String name, final Object ... arguments) throws NoSuchMethodException {
     Invokable<Object, Object> method = (Invokable<Object, Object>) Invokable.from(implementation.getMethod(name));
 
     checkArgument(method.isStatic(), "Method %s of %s is not static", name, implementation);
@@ -69,11 +71,11 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T> {
     return new ClassMethod<>(type, specialize(method, type), arguments);
   }
 
-  public static final <T> Accessor<T> ofEnumConstant(Class<T> type, String name) {
+  public static <T> Accessor<T> ofEnumConstant(final Class<T> type, final String name) {
     return ofEnumConstant(TypeToken.of(type), name);
   }
 
-  public static final <T> Accessor<T> ofEnumConstant(TypeToken<T> type, String name) {
+  public static <T> Accessor<T> ofEnumConstant(final TypeToken<T> type, final String name) {
     Class<T> raw = (Class<T>) type.getRawType();
 
     checkArgument(Enum.class.isAssignableFrom(raw), "Class %s is not an enum", type);
@@ -90,31 +92,31 @@ public abstract class StaticAccessor<T> extends AbstractAccessor<T> {
   }
 
   private static final class ClassConstant<T> extends ConstantAccessor<T> {
-    ClassConstant(TypeToken<T> type, T constant) {
+    ClassConstant(final TypeToken<T> type, final T constant) {
       super(type, constant);
     }
   }
 
   private static final class ClassField<T> extends FieldAccessor<T> {
-    ClassField(TypeToken<T> type, Field field) {
+    ClassField(final TypeToken<T> type, final Field field) {
       super(type, field, null);
     }
   }
 
   private static final class ClassConstructor<T> extends InvokableAccessor<T> {
-    ClassConstructor(TypeToken<T> type, Invokable<Object, T> constructor, Object ... arguments) {
+    ClassConstructor(final TypeToken<T> type, final Invokable<Object, T> constructor, final Object ... arguments) {
       super(type, constructor, null, arguments);
     }
   }
 
   private static final class ClassMethod<T> extends InvokableAccessor<T> {
-    ClassMethod(TypeToken<T> type, Invokable<Object, T> method, Object ... arguments) {
+    ClassMethod(final TypeToken<T> type, final Invokable<Object, T> method, final Object ... arguments) {
       super(type, method, arguments);
     }
   }
 
   private static final class EnumConstant<T> extends ConstantAccessor<T> {
-    EnumConstant(TypeToken<T> type, T constant) {
+    EnumConstant(final TypeToken<T> type, final T constant) {
       super(type, constant);
     }
   }

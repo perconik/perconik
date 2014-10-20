@@ -48,7 +48,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 public final class IdeStateListener extends IdeListener implements LaunchListener, PerspectiveListener {
   public IdeStateListener() {}
 
-  static final IdeStateChangeEventRequest build(final long time, final IProject project, final String state) {
+  static IdeStateChangeEventRequest build(final long time, final IProject project, final String state) {
     final IdeStateChangeEventRequest data = new IdeStateChangeEventRequest();
 
     data.setStateTypeUri(IdeUacaUris.forStateChangeType(state));
@@ -60,7 +60,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
     return data;
   }
 
-  final void processLaunch(final long time, final ILaunch launch) {
+  void processLaunch(final long time, final ILaunch launch) {
     Iterable<IProject> projects = Projects.fromLaunch(launch);
 
     String state = launch.getLaunchMode() + " (launch)";
@@ -70,7 +70,7 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
     }
   }
 
-  final void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
+  void processPerspective(final long time, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
     IProject project = Projects.fromPage(page);
 
     String state = descriptor.getLabel().toLowerCase() + " (perspective)";
@@ -78,41 +78,41 @@ public final class IdeStateListener extends IdeListener implements LaunchListene
     this.proxy.sendStateChangeEvent(build(time, project, state));
   }
 
-  public final void launchAdded(final ILaunch launch) {
+  public void launchAdded(final ILaunch launch) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processLaunch(time, launch);
       }
     });
   }
 
-  public final void launchRemoved(final ILaunch launch) {}
+  public void launchRemoved(final ILaunch launch) {}
 
-  public final void launchChanged(final ILaunch launch) {}
+  public void launchChanged(final ILaunch launch) {}
 
-  public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
+  public void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public final void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
+  public void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public final void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
+  public void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processPerspective(time, page, descriptor);
       }
     });
   }
 
-  public final void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
+  public void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public final void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
+  public void perspectivePreDeactivate(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}
 
-  public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change) {}
+  public void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final String change) {}
 
-  public final void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change) {}
+  public void perspectiveChanged(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor, final IWorkbenchPartReference reference, final String change) {}
 
-  public final void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {}
+  public void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {}
 }

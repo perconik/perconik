@@ -19,23 +19,23 @@ public final class IdeApplication {
     this.product = Products.getProduct();
   }
 
-  public static final IdeApplication getInstance() {
+  public static IdeApplication getInstance() {
     return instance;
   }
 
-  public final boolean isDebug() {
+  public boolean isDebug() {
     return this.debug;
   }
 
-  public final int getPid() {
+  public int getPid() {
     return this.pid;
   }
 
-  public final String getName() {
+  public String getName() {
     return Products.getName(this.product);
   }
 
-  public final String getVersion() {
+  public String getVersion() {
     return Products.getVersion(this.product).toString();
   }
 }

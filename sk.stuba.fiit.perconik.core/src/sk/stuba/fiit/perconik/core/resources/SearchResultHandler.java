@@ -8,11 +8,11 @@ enum SearchResultHandler implements Handler<SearchResultListener> {
 
   private final Support support = new Support();
 
-  public final void register(final SearchResultListener listener) {
+  public void register(final SearchResultListener listener) {
     this.support.hook(DefaultResources.getSearchQueryResource(), listener);
   }
 
-  public final void unregister(final SearchResultListener listener) {
+  public void unregister(final SearchResultListener listener) {
     this.support.unhook(DefaultResources.getSearchQueryResource(), listener);
   }
 }

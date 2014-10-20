@@ -9,11 +9,9 @@ import org.eclipse.jgit.lib.Config;
  * @since 1.0
  */
 public final class GitConfigurations {
-  private GitConfigurations() {
-    throw new AssertionError();
-  }
+  private GitConfigurations() {}
 
-  public static final String getRemoteOriginUrl(final Config configuration) {
+  public static String getRemoteOriginUrl(final Config configuration) {
     return configuration.getString("remote", "origin", "url");
   }
 }

@@ -5,11 +5,9 @@ import org.eclipse.core.runtime.CoreException;
 import static com.google.common.base.Throwables.propagateIfPossible;
 
 public final class CoreExceptions {
-  private CoreExceptions() {
-    throw new AssertionError();
-  }
+  private CoreExceptions() {}
 
-  public static final RuntimeCoreException propagate(final CoreException failure) {
+  public static RuntimeCoreException propagate(final CoreException failure) {
     propagateIfPossible(failure);
 
     throw new RuntimeCoreException(failure);

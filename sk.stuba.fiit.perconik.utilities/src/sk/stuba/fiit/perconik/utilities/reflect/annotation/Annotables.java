@@ -3,15 +3,13 @@ package sk.stuba.fiit.perconik.utilities.reflect.annotation;
 import java.lang.reflect.AnnotatedElement;
 
 public final class Annotables {
-  private Annotables() {
-    throw new AssertionError();
-  }
+  private Annotables() {}
 
-  public static final Annotable fromClass(Class<?> type) {
+  public static Annotable fromClass(final Class<?> type) {
     return new DelegatedAnnotable(type);
   }
 
-  public static final Annotable fromElement(AnnotatedElement element) {
+  public static Annotable fromElement(final AnnotatedElement element) {
     return new DelegatedAnnotable(element);
   }
 }

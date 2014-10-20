@@ -20,19 +20,19 @@ public class AnyData extends Data {
     this.other = newLinkedHashMap();
   }
 
-  protected AnyData(Map<String, Object> other) {
+  protected AnyData(final Map<String, Object> other) {
     this.other = checkNotNull(other);
   }
 
-  public static AnyData fromMap(Map<String, Object> data) {
+  public static AnyData fromMap(final Map<String, Object> data) {
     return fromMap(AnyData.class, data);
   }
 
-  public static AnyData fromString(String data) {
+  public static AnyData fromString(final String data) {
     return fromString(AnyData.class, data);
   }
 
-  public static AnyData of(Map<String, Object> other) {
+  public static AnyData of(final Map<String, Object> other) {
     return new AnyData(other);
   }
 
@@ -43,11 +43,11 @@ public class AnyData extends Data {
 
   @JsonAnySetter
   @JsonDeserialize(using = AnyContentDeserializer.class)
-  public void put(String key, @Nullable Object value) {
+  public void put(final String key, @Nullable final Object value) {
     this.other.put(key, value);
   }
 
-  public Object get(String key) {
+  public Object get(final String key) {
     return this.other.get(key);
   }
 }

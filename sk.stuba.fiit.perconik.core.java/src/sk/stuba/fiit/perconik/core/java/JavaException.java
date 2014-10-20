@@ -17,21 +17,21 @@ public final class JavaException extends RuntimeCoreException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public JavaException(@Nullable String message) {
+  public JavaException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public JavaException(@Nullable String message, @Nullable Throwable cause) {
+  public JavaException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public JavaException(@Nullable Throwable cause) {
+  public JavaException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

@@ -8,10 +8,10 @@ import sk.stuba.fiit.perconik.eclipse.core.commands.Commands;
 enum CommandExecutionHandler implements Handler<CommandExecutionListener> {
   INSTANCE;
 
-  public final void register(final CommandExecutionListener listener) {
+  public void register(final CommandExecutionListener listener) {
     final Runnable addListener = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         Commands.waitForCommandService().addExecutionListener(listener);
       }
     };
@@ -19,10 +19,10 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener> {
     Display.getDefault().asyncExec(addListener);
   }
 
-  public final void unregister(final CommandExecutionListener listener) {
+  public void unregister(final CommandExecutionListener listener) {
     final Runnable removeListener = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         Commands.waitForCommandService().removeExecutionListener(listener);
       }
     };

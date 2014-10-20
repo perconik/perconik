@@ -8,9 +8,9 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
 
 /**
  * An abstract implementation of {@code JavaElementListener}.
- * 
+ *
  * @see JavaElementListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

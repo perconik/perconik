@@ -1,15 +1,8 @@
 package com.gratex.perconik.services.uaca.ide;
 
-
 public class IdeCheckinEventData extends IdeEventData {
-  /**
-   * Changeset id as specified in a RCS
-   */
   private String changesetIdInRcs;
 
-  /**
-   * Target rcs server or remote repository
-   */
   private IdeRcsServerData rcsServer;
 
   public IdeCheckinEventData() {}
@@ -18,7 +11,7 @@ public class IdeCheckinEventData extends IdeEventData {
     return this.changesetIdInRcs;
   }
 
-  public void setChangesetIdInRcs(String changesetIdInRcs) {
+  public void setChangesetIdInRcs(final String changesetIdInRcs) {
     this.changesetIdInRcs = changesetIdInRcs;
   }
 
@@ -26,7 +19,7 @@ public class IdeCheckinEventData extends IdeEventData {
     return this.rcsServer;
   }
 
-  public void setRcsServer(IdeRcsServerData rcsServer) {
+  public void setRcsServer(final IdeRcsServerData rcsServer) {
     this.rcsServer = rcsServer;
   }
 }

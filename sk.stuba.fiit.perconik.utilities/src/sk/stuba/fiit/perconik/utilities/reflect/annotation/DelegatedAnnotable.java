@@ -9,19 +9,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
 final class DelegatedAnnotable implements Annotable {
   private final AnnotatedElement element;
 
-  DelegatedAnnotable(AnnotatedElement element) {
+  DelegatedAnnotable(final AnnotatedElement element) {
     this.element = checkNotNull(element);
   }
 
-  public final boolean hasAnnotation(Class<? extends Annotation> type) {
+  public boolean hasAnnotation(final Class<? extends Annotation> type) {
     return this.element.isAnnotationPresent(type);
   }
 
-  public final <A extends Annotation> A getAnnotation(Class<A> type) {
+  public <A extends Annotation> A getAnnotation(final Class<A> type) {
     return this.element.getAnnotation(type);
   }
 
-  public final List<Annotation> getAnnotations() {
+  public List<Annotation> getAnnotations() {
     return Annotations.ofElement(this.element);
   }
 }

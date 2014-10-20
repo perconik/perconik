@@ -8,19 +8,19 @@ import sk.stuba.fiit.perconik.core.Resource;
 /**
  * Current registration status of a {@code Resource} instance.
  * The current registration status is obtained from the underlying resource.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public interface ResourceRegistration extends AnnotableRegistration {
   /**
    * Returns the listener type to which
-   * is the underlying resource registered. 
+   * is the underlying resource registered.
    */
   public Class<? extends Listener> getListenerType();
 
   /**
-   * Returns the underlying resource. 
+   * Returns the underlying resource.
    */
   public Resource<?> getResource();
 

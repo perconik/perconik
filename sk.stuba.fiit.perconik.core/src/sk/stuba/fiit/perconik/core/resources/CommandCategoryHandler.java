@@ -7,11 +7,11 @@ import sk.stuba.fiit.perconik.core.listeners.CommandCategoryListener;
 enum CommandCategoryHandler implements Handler<CommandCategoryListener> {
   INSTANCE;
 
-  public final void register(final CommandCategoryListener listener) {
+  public void register(final CommandCategoryListener listener) {
     throw new UnsupportedResourceException("Not implemented yet");
   }
 
-  public final void unregister(final CommandCategoryListener listener) {
+  public void unregister(final CommandCategoryListener listener) {
     throw new UnsupportedResourceException("Not implemented yet");
   }
 }

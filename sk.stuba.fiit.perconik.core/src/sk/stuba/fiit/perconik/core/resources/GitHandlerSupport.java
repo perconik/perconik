@@ -19,7 +19,7 @@ final class GitHandlerSupport<L extends RepositoryListener> {
     this.map = newHashMap();
   }
 
-  public final void register(final L listener) {
+  public void register(final L listener) {
     if (!this.map.containsKey(listener)) {
       ListenerHandle handle = Repository.getGlobalListenerList().addListener(this.type, listener);
 
@@ -27,7 +27,7 @@ final class GitHandlerSupport<L extends RepositoryListener> {
     }
   }
 
-  public final void unregister(final L listener) {
+  public void unregister(final L listener) {
     ListenerHandle handle = this.map.remove(listener);
 
     if (handle != null) {

@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * An operation history listener.
- * 
+ *
  * @see Listener
  * @see IOperationHistoryListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

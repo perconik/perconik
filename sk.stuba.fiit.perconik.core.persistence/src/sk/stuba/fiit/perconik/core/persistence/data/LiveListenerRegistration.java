@@ -9,11 +9,11 @@ import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Standard listener registration with lively updated registration status.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
-public class LiveListenerRegistration extends AbstractListenerRegistration {
+public final class LiveListenerRegistration extends AbstractListenerRegistration {
   private final Class<? extends Listener> type;
 
   private final Listener listener;
@@ -23,22 +23,22 @@ public class LiveListenerRegistration extends AbstractListenerRegistration {
     this.listener = listener;
   }
 
-  static final LiveListenerRegistration construct(final Class<? extends Listener> type, final Listener listener) {
+  static LiveListenerRegistration construct(final Class<? extends Listener> type, final Listener listener) {
     Utilities.checkListenerClass(type);
     Utilities.checkListenerImplementation(type, listener);
 
     return copy(type, listener);
   }
 
-  static final LiveListenerRegistration copy(final Class<? extends Listener> type, final Listener listener) {
+  static LiveListenerRegistration copy(final Class<? extends Listener> type, final Listener listener) {
     return new LiveListenerRegistration(type, listener);
   }
 
-  public static final LiveListenerRegistration of(final Listener listener) {
+  public static LiveListenerRegistration of(final Listener listener) {
     return construct(listener.getClass(), listener);
   }
 
-  public static final Set<LiveListenerRegistration> snapshot() {
+  public static Set<LiveListenerRegistration> snapshot() {
     Set<LiveListenerRegistration> data = newHashSet();
 
     for (Listener listener: Listeners.registrations().values()) {
@@ -48,15 +48,15 @@ public class LiveListenerRegistration extends AbstractListenerRegistration {
     return data;
   }
 
-  public final ListenerPersistenceData toPersistenceData() {
+  public ListenerPersistenceData toPersistenceData() {
     return ListenerPersistenceData.copy(this.isRegistered(), this.type, Utilities.serializableOrNull(this.listener));
   }
 
-  public final Listener getListener() {
+  public Listener getListener() {
     return this.listener;
   }
 
-  public final Class<? extends Listener> getListenerClass() {
+  public Class<? extends Listener> getListenerClass() {
     return this.type;
   }
 }

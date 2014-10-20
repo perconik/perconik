@@ -25,23 +25,21 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
 import static com.google.common.collect.Sets.newTreeSet;
 
 public final class Annotations {
-  private Annotations() {
-    throw new AssertionError();
-  }
+  private Annotations() {}
 
-  public static final List<Annotation> ofClass(Class<?> type) {
+  public static List<Annotation> ofClass(final Class<?> type) {
     return ofElement(type);
   }
 
-  public static final List<Annotation> ofClasses(Iterable<? extends Class<?>> types) {
+  public static List<Annotation> ofClasses(final Iterable<? extends Class<?>> types) {
     return ofElements(types);
   }
 
-  public static final List<Annotation> ofElement(AnnotatedElement element) {
+  public static List<Annotation> ofElement(final AnnotatedElement element) {
     return ImmutableList.copyOf(element.getAnnotations());
   }
 
-  public static final List<Annotation> ofElements(Iterable<? extends AnnotatedElement> elements) {
+  public static List<Annotation> ofElements(final Iterable<? extends AnnotatedElement> elements) {
     ImmutableList.Builder<Annotation> annotations = ImmutableList.builder();
 
     for (AnnotatedElement element: elements) {
@@ -51,19 +49,19 @@ public final class Annotations {
     return annotations.build();
   }
 
-  public static final Annotable asAnnotable(Collection<Annotation> annotations) {
+  public static Annotable asAnnotable(final Collection<Annotation> annotations) {
     return new EnumeratedAnnotable(annotations.iterator());
   }
 
-  public static final Annotable asAnnotable(Iterable<Annotation> annotations) {
+  public static Annotable asAnnotable(final Iterable<Annotation> annotations) {
     return new EnumeratedAnnotable(annotations.iterator());
   }
 
-  public static final Annotable asAnnotable(Iterator<Annotation> annotations) {
+  public static Annotable asAnnotable(final Iterator<Annotation> annotations) {
     return new EnumeratedAnnotable(annotations);
   }
 
-  public static final Map<String, String> toData(Annotation annotation) {
+  public static Map<String, String> toData(final Annotation annotation) {
     Map<String, String> data = newLinkedHashMap();
 
     for (Entry<String, Object> entry: toElements(annotation).entrySet()) {
@@ -76,7 +74,7 @@ public final class Annotations {
     return data;
   }
 
-  public static final Map<String, Object> toElements(Annotation annotation) {
+  public static Map<String, Object> toElements(final Annotation annotation) {
     Map<String, Object> elements = newLinkedHashMap();
 
     for (Method method: annotation.annotationType().getDeclaredMethods()) {
@@ -90,7 +88,7 @@ public final class Annotations {
     return elements;
   }
 
-  public static final String toString(Annotation annotation) {
+  public static String toString(final Annotation annotation) {
     Class<? extends Annotation> type = annotation.annotationType();
 
     Map<String, String> data = Maps.filterValues(toData(annotation), notNull());
@@ -110,7 +108,7 @@ public final class Annotations {
     return builder.toString();
   }
 
-  public static final String toString(Iterable<Annotation> annotations) {
+  public static String toString(final Iterable<Annotation> annotations) {
     Set<String> values = newTreeSet();
 
     for (Annotation annotation: annotations) {
@@ -120,11 +118,11 @@ public final class Annotations {
     return Joiner.on(", ").join(values);
   }
 
-  private static final String keyToString(Object object) {
+  private static String keyToString(final Object object) {
     return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, object.toString());
   }
 
-  private static final String valueToString(Object object) {
+  private static String valueToString(final Object object) {
     Set<String> elements = newTreeSet();
 
     for (Object element: MoreLists.wrap(object)) {

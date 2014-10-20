@@ -23,12 +23,12 @@ import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Markable resource registration with lively updated registration status.
- * 
+ *
  * <p><b>Note:</b> This implementation is truly serializable if and only
  * if the underlying resource is serializable. Otherwise this implementation
  * serializes resource's data necessary to obtain the resource from the core
  * resource provider after deserialization at runtime.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -50,7 +50,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     this.resource = resource;
   }
 
-  static final ResourcePersistenceData construct(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource) {
+  static ResourcePersistenceData construct(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource) {
     Utilities.checkListenerType(type);
     Utilities.checkResourceName(name);
     Utilities.checkResourceImplementation(name, resource);
@@ -58,19 +58,19 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     return copy(registered, type, name, resource);
   }
 
-  static final ResourcePersistenceData copy(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource) {
+  static ResourcePersistenceData copy(final boolean registered, final Class<? extends Listener> type, final String name, @Nullable final Resource<?> resource) {
     return new ResourcePersistenceData(registered, type, name, Utilities.<Resource<?>>serializableOrNullAsOptional(resource));
   }
 
-  public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final String name) {
+  public static <L extends Listener> ResourcePersistenceData of(final Class<L> type, final String name) {
     return of(type, Unsafe.cast(type, Resources.forName(name)));
   }
 
-  public static final <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource) {
+  public static <L extends Listener> ResourcePersistenceData of(final Class<L> type, final Resource<? super L> resource) {
     return construct(Resources.isRegistered(type, resource), type, resource.getName(), resource);
   }
 
-  public static final Set<ResourcePersistenceData> defaults() {
+  public static Set<ResourcePersistenceData> defaults() {
     ResourceProvider provider = Services.getResourceService().getResourceProvider();
 
     Set<ResourcePersistenceData> data = newHashSet();
@@ -84,7 +84,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     return data;
   }
 
-  public static final Set<ResourcePersistenceData> snapshot() {
+  public static Set<ResourcePersistenceData> snapshot() {
     ResourceProvider provider = Services.getResourceService().getResourceProvider();
 
     Set<ResourcePersistenceData> data = newHashSet();
@@ -117,11 +117,11 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
       this.resource = data.getSerializedResource();
     }
 
-    static final SerializationProxy of(final ResourcePersistenceData data) {
+    static SerializationProxy of(final ResourcePersistenceData data) {
       return new SerializationProxy(data);
     }
 
-    private final Object readResolve() throws InvalidObjectException {
+    private Object readResolve() throws InvalidObjectException {
       try {
         return construct(this.registered, Utilities.resolveClassAsSubclass(this.type, Listener.class), this.name, this.resource.orNull());
       } catch (Exception e) {
@@ -131,15 +131,15 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+  private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidResourceException("Serialization proxy required");
   }
 
-  private final Object writeReplace() {
+  private Object writeReplace() {
     return SerializationProxy.of(this);
   }
 
-  public final ResourcePersistenceData applyRegisteredMark() {
+  public ResourcePersistenceData applyRegisteredMark() {
     Resource<?> resource = this.getResource();
 
     if (resource == null) {
@@ -161,11 +161,11 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     return new ResourcePersistenceData(status, this.type, this.name, this.resource);
   }
 
-  public final ResourcePersistenceData updateRegisteredMark() {
+  public ResourcePersistenceData updateRegisteredMark() {
     return this.markRegistered(this.isRegistered());
   }
 
-  public final ResourcePersistenceData markRegistered(final boolean status) {
+  public ResourcePersistenceData markRegistered(final boolean status) {
     if (this.registered == status) {
       return this;
     }
@@ -173,19 +173,19 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     return new ResourcePersistenceData(status, this.type, this.name, this.resource);
   }
 
-  public final boolean hasRegistredMark() {
+  public boolean hasRegistredMark() {
     return this.registered;
   }
 
-  public final boolean hasSerializedResource() {
+  public boolean hasSerializedResource() {
     return this.resource.isPresent();
   }
 
-  public final Class<? extends Listener> getListenerType() {
+  public Class<? extends Listener> getListenerType() {
     return this.type;
   }
 
-  public final Resource<?> getResource() {
+  public Resource<?> getResource() {
     if (this.hasSerializedResource()) {
       return this.resource.get();
     }
@@ -193,11 +193,11 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     return Resources.forName(this.name);
   }
 
-  public final String getResourceName() {
+  public String getResourceName() {
     return this.name;
   }
 
-  public final Optional<Resource<?>> getSerializedResource() {
+  public Optional<Resource<?>> getSerializedResource() {
     return this.resource;
   }
 }

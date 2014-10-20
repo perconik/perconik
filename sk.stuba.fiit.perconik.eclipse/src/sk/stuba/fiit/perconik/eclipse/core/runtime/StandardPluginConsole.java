@@ -20,85 +20,85 @@ final class StandardPluginConsole implements PluginConsole {
     this.out = checkNotNull(out);
   }
 
-  private final void log(final Status status) {
+  private void log(final Status status) {
     this.plugin.getLog().log(status);
   }
 
-  public final PluginConsole append(@Nullable CharSequence s) {
+  public PluginConsole append(@Nullable final CharSequence s) {
     this.out.append(s);
 
     return this;
   }
 
-  public final PluginConsole append(@Nullable CharSequence s, int from, int to) {
+  public PluginConsole append(@Nullable final CharSequence s, final int from, final int to) {
     this.out.append(s, from, to);
 
     return this;
   }
 
-  public final PluginConsole append(char c) {
+  public PluginConsole append(final char c) {
     this.out.append(c);
 
     return this;
   }
 
-  public final void close() {
+  public void close() {
     this.out.close();
   }
 
-  public final void flush() {
+  public void flush() {
     this.out.flush();
   }
 
-  public final void put(@Nullable final String message) {
+  public void put(@Nullable final String message) {
     this.out.print(message);
   }
 
-  public final void put(final String format, final Object ... args) {
+  public void put(final String format, final Object ... args) {
     put(String.format(format, args));
   }
 
-  public final void print(@Nullable final String message) {
+  public void print(@Nullable final String message) {
     this.out.println(message);
   }
 
-  public final void print(final String format, final Object ... args) {
+  public void print(final String format, final Object ... args) {
     print(String.format(format, args));
   }
 
-  public final void notice(final String message) {
+  public void notice(final String message) {
     log(new Status(IStatus.INFO, this.getPluginId(), message));
   }
 
-  public final void notice(final String format, Object ... args) {
+  public void notice(final String format, final Object ... args) {
     notice(String.format(format, args));
   }
 
-  public final void warning(final String message) {
+  public void warning(final String message) {
     log(new Status(IStatus.WARNING, this.getPluginId(), message));
   }
 
-  public final void warning(final String format, Object ... args) {
+  public void warning(final String format, final Object ... args) {
     warning(String.format(format, args));
   }
 
-  public final void error(final String message) {
+  public void error(final String message) {
     log(new Status(IStatus.ERROR, this.getPluginId(), message));
   }
 
-  public final void error(final String format, Object ... args) {
+  public void error(final String format, final Object ... args) {
     error(String.format(format, args));
   }
 
-  public final void error(final Throwable failure, final String message) {
+  public void error(final Throwable failure, final String message) {
     log(new Status(IStatus.ERROR, this.getPluginId(), message, failure));
   }
 
-  public final void error(final Throwable failure, final String format, Object ... args) {
+  public void error(final Throwable failure, final String format, final Object ... args) {
     error(failure, String.format(format, args));
   }
 
-  private final String getPluginId() {
+  private String getPluginId() {
     return this.plugin.getBundle().getSymbolicName();
   }
 }

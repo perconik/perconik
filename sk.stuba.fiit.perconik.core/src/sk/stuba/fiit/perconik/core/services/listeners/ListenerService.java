@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.core.services.Service;
  * lifecycle methods to transition between states. Listener provider and
  * manager encapsulated by this service are only accessible while the
  * service is running.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -41,10 +41,10 @@ public interface ListenerService extends Service {
 
   /**
    * A builder for creating listener service instances.
-   * 
+   *
    * <p>Builder instances can be reused, it is safe to call {@link #build}
    * multiple times to build multiple listener services in series.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */
@@ -52,7 +52,7 @@ public interface ListenerService extends Service {
     /**
      * Sets the listener provider of the built listener service.
      * @param provider the provider, not {@code null}
-    * @return this {@code Builder} object
+     * @return this {@code Builder} object
      * @throws NullPointerException if the provider is {@code null}
      * @throws IllegalStateException if the provider is already set
      */

@@ -1,6 +1,5 @@
 package com.gratex.perconik.services.uaca.ide;
 
-
 public class IdeCodeElementEventData extends IdeEventData {
   /**
    * Type of code element.
@@ -21,7 +20,7 @@ public class IdeCodeElementEventData extends IdeEventData {
     return this.codeElementTypeUri;
   }
 
-  public void setCodeElementTypeUri(String codeElementTypeUri) {
+  public void setCodeElementTypeUri(final String codeElementTypeUri) {
     this.codeElementTypeUri = codeElementTypeUri;
   }
 
@@ -29,7 +28,7 @@ public class IdeCodeElementEventData extends IdeEventData {
     return this.elementFullName;
   }
 
-  public void setElementFullName(String elementFullName) {
+  public void setElementFullName(final String elementFullName) {
     this.elementFullName = elementFullName;
   }
 }

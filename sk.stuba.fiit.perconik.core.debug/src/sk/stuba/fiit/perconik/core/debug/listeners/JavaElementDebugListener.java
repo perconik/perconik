@@ -18,16 +18,16 @@ public final class JavaElementDebugListener extends AbstractDebugListener implem
     super(console);
   }
 
-  public final void elementChanged(final ElementChangedEvent event) {
+  public void elementChanged(final ElementChangedEvent event) {
     this.printHeader("Java element changed");
     this.printJavaElementChangeEvent(event);
   }
 
-  public final Set<JavaElementEventType> getEventTypes() {
+  public Set<JavaElementEventType> getEventTypes() {
     return EnumSet.allOf(JavaElementEventType.class);
   }
 
-  private final void printJavaElementChangeEvent(final ElementChangedEvent event) {
+  private void printJavaElementChangeEvent(final ElementChangedEvent event) {
     this.put(Debug.dumpJavaElementChangeEvent(event));
   }
 }

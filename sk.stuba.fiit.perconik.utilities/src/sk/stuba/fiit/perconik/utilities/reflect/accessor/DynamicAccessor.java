@@ -6,19 +6,21 @@ import java.lang.reflect.Modifier;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.AbstractAccessor.ConstantAccessor;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.AbstractAccessor.FieldAccessor;
+import sk.stuba.fiit.perconik.utilities.reflect.accessor.AbstractAccessor.InvokableAccessor;
+
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.checkArgument;
 import static sk.stuba.fiit.perconik.utilities.reflect.accessor.Utilities.specialize;
 
-public abstract class DynamicAccessor<T> extends AbstractAccessor<T> {
-  DynamicAccessor(final TypeToken<T> token) {
-    super(token);
-  }
+public final class DynamicAccessor<T> {
+  private DynamicAccessor() {}
 
-  public static final <T> Accessor<T> ofInstanceConstant(Object instance, Class<T> type, String name) throws IllegalAccessException, NoSuchFieldException {
+  public static <T> Accessor<T> ofInstanceConstant(final Object instance, final Class<T> type, final String name) throws IllegalAccessException, NoSuchFieldException {
     return ofInstanceConstant(instance, TypeToken.of(type), name);
   }
 
-  public static final <T> Accessor<T> ofInstanceConstant(Object instance, TypeToken<T> type, String name) throws IllegalAccessException, NoSuchFieldException {
+  public static <T> Accessor<T> ofInstanceConstant(final Object instance, final TypeToken<T> type, final String name) throws IllegalAccessException, NoSuchFieldException {
     Field field = instance.getClass().getField(name);
 
     int modifiers = field.getModifiers();
@@ -30,11 +32,11 @@ public abstract class DynamicAccessor<T> extends AbstractAccessor<T> {
     return new InstanceConstant<>(type, (T) type.getRawType().cast(field.get(null)));
   }
 
-  public static final <T> Accessor<T> ofInstanceField(Object instance, Class<T> type, String name) throws NoSuchFieldException {
+  public static <T> Accessor<T> ofInstanceField(final Object instance, final Class<T> type, final String name) throws NoSuchFieldException {
     return ofInstanceField(instance, TypeToken.of(type), name);
   }
 
-  public static final <T> Accessor<T> ofInstanceField(Object instance, TypeToken<T> type, String name) throws NoSuchFieldException {
+  public static <T> Accessor<T> ofInstanceField(final Object instance, final TypeToken<T> type, final String name) throws NoSuchFieldException {
     Field field = instance.getClass().getField(name);
 
     int modifiers = field.getModifiers();
@@ -45,11 +47,11 @@ public abstract class DynamicAccessor<T> extends AbstractAccessor<T> {
     return new InstanceField<>(type, field, instance);
   }
 
-  public static final <T> Accessor<T> ofInstanceMethod(Object instance, Class<T> type, String name) throws NoSuchMethodException {
+  public static <T> Accessor<T> ofInstanceMethod(final Object instance, final Class<T> type, final String name) throws NoSuchMethodException {
     return ofInstanceMethod(instance, TypeToken.of(type), name);
   }
 
-  public static final <T> Accessor<T> ofInstanceMethod(Object instance, TypeToken<T> type, String name, Object ... arguments) throws NoSuchMethodException {
+  public static <T> Accessor<T> ofInstanceMethod(final Object instance, final TypeToken<T> type, final String name, final Object ... arguments) throws NoSuchMethodException {
     Invokable<Object, Object> method = (Invokable<Object, Object>) Invokable.from(instance.getClass().getMethod(name));
 
     checkArgument(!method.isStatic(), "Method %s of %s is static", name, instance.getClass());
@@ -58,19 +60,19 @@ public abstract class DynamicAccessor<T> extends AbstractAccessor<T> {
   }
 
   private static final class InstanceConstant<T> extends ConstantAccessor<T> {
-    InstanceConstant(TypeToken<T> type, T constant) {
+    InstanceConstant(final TypeToken<T> type, final T constant) {
       super(type, constant);
     }
   }
 
   private static final class InstanceField<T> extends FieldAccessor<T> {
-    InstanceField(TypeToken<T> type, Field field, Object receiver) {
+    InstanceField(final TypeToken<T> type, final Field field, final Object receiver) {
       super(type, field, receiver);
     }
   }
 
   private static final class InstanceMethod<T> extends InvokableAccessor<T> {
-    InstanceMethod(TypeToken<T> type, Invokable<Object, T> method, Object receiver, Object ... arguments) {
+    InstanceMethod(final TypeToken<T> type, final Invokable<Object, T> method, final Object receiver, final Object ... arguments) {
       super(type, method, receiver, arguments);
     }
   }

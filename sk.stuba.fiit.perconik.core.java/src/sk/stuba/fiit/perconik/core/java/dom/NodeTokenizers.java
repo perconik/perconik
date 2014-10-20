@@ -11,11 +11,9 @@ public final class NodeTokenizers {
 
   private static final NodeTokenizer<ASTNode> simpleNames = NodeTokenizer.using(ofType(SIMPLE_NAME));
 
-  private NodeTokenizers() {
-    throw new AssertionError();
-  }
+  private NodeTokenizers() {}
 
-  private static final <N extends ASTNode> NodeTokenizer<N> cast(final NodeTokenizer<?> tokenizer) {
+  private static <N extends ASTNode> NodeTokenizer<N> cast(final NodeTokenizer<?> tokenizer) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings("unchecked")
     NodeTokenizer<N> result = (NodeTokenizer<N>) tokenizer;
@@ -23,11 +21,11 @@ public final class NodeTokenizers {
     return result;
   }
 
-  public static final <N extends ASTNode> NodeTokenizer<N> qualifiedNames() {
+  public static <N extends ASTNode> NodeTokenizer<N> qualifiedNames() {
     return cast(qualifiedNames);
   }
 
-  public static final <N extends ASTNode> NodeTokenizer<N> simpleNames() {
+  public static <N extends ASTNode> NodeTokenizer<N> simpleNames() {
     return cast(simpleNames);
   }
 }

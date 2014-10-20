@@ -4,11 +4,9 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManager;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceManagers;
 
 public final class DebugResourceManagers {
-  private DebugResourceManagers() {
-    throw new AssertionError();
-  }
+  private DebugResourceManagers() {}
 
-  public static final DebugResourceManager create() {
+  public static DebugResourceManager create() {
     ResourceManager manager = ResourceManagers.create();
 
     return DebugResourceManagerProxy.wrap(manager);

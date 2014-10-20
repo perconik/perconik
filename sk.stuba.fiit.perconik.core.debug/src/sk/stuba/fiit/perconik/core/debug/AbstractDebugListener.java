@@ -32,28 +32,28 @@ public abstract class AbstractDebugListener extends AbstractDebugRegistrable imp
   private static enum InternalHook {
     PRE_REGISTER("Pre register") {
       @Override
-      final boolean execute(final AbstractDebugListener listener) {
+      boolean execute(final AbstractDebugListener listener) {
         return listener.preRegisterInternal();
       }
     },
 
     POST_REGISTER("Post register") {
       @Override
-      final boolean execute(final AbstractDebugListener listener) {
+      boolean execute(final AbstractDebugListener listener) {
         return listener.postRegisterInternal();
       }
     },
 
     PRE_UNREGISTER("Pre unregister") {
       @Override
-      final boolean execute(final AbstractDebugListener listener) {
+      boolean execute(final AbstractDebugListener listener) {
         return listener.preUnregisterInternal();
       }
     },
 
     POST_UNREGISTER("Post unregister") {
       @Override
-      final boolean execute(final AbstractDebugListener listener) {
+      boolean execute(final AbstractDebugListener listener) {
         return listener.postUnregisterInternal();
       }
     };

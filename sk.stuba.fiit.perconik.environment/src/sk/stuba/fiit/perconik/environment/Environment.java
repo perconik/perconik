@@ -8,7 +8,7 @@ import org.osgi.framework.Version;
 
 /**
  * Bridge between plug-in environment and the native platform.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -18,11 +18,9 @@ public final class Environment {
    */
   public static final boolean debug = getVariableAsBoolean("DEBUG");
 
-  private Environment() {
-    throw new AssertionError();
-  }
+  private Environment() {}
 
-  public static final Version getJavaVersion() {
+  public static Version getJavaVersion() {
     return JavaVerifier.parseJavaVersion(StandardSystemProperty.JAVA_VERSION.value());
   }
 
@@ -30,7 +28,7 @@ public final class Environment {
    * Returns the current JVM process identifier.
    * @throws RuntimeException if accessing the process identifier fails.
    */
-  public static final int getProcessIdentifier() {
+  public static int getProcessIdentifier() {
     String name = ManagementFactory.getRuntimeMXBean().getName();
 
     try {
@@ -42,13 +40,13 @@ public final class Environment {
 
   /**
    * Returns the value of the specified environment variable.
-   * An environment variable is a system-dependent external named value. 
+   * An environment variable is a system-dependent external named value.
    * @param name the name of the environment variable, not {@code null}
    * @return the string value of the variable or {@code null}
    *         if the variables is not defined in the system environment
    *         or if {@code SecurityException} is thrown
    */
-  public static final String getVariable(final String name) {
+  public static String getVariable(final String name) {
     try {
       return System.getenv(name);
     } catch (SecurityException e) {
@@ -56,7 +54,7 @@ public final class Environment {
     }
   }
 
-  public static final boolean getVariableAsBoolean(final String name) {
+  public static boolean getVariableAsBoolean(final String name) {
     String value = getVariable(name);
 
     return value != null && Boolean.parseBoolean(value);

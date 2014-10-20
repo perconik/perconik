@@ -17,12 +17,12 @@ public final class NodeModification<N extends ASTNode> extends NodeDelta<N> {
     this.revised = revised;
   }
 
-  public static final <N extends ASTNode> NodeModification<N> of(final N original, final N revised) {
+  public static <N extends ASTNode> NodeModification<N> of(final N original, final N revised) {
     return new NodeModification<>(original, revised);
   }
 
   @Override
-  public final String toString(final int indent) {
+  public String toString(final int indent) {
     SmartStringBuilder builder = this.toStringBuilder(indent);
 
     builder.append("original: ").appendln(Nodes.toTypeString(this.original));
@@ -34,17 +34,17 @@ public final class NodeModification<N extends ASTNode> extends NodeDelta<N> {
   }
 
   @Override
-  public final N getOriginalNode() {
+  public N getOriginalNode() {
     return this.original;
   }
 
   @Override
-  public final N getRevisedNode() {
+  public N getRevisedNode() {
     return this.revised;
   }
 
   @Override
-  public final NodeDeltaType getType() {
+  public NodeDeltaType getType() {
     return NodeDeltaType.MODIFICATION;
   }
 }

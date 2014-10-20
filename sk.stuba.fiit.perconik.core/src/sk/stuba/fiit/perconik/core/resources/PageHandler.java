@@ -8,11 +8,11 @@ enum PageHandler implements Handler<PageListener> {
 
   private final Support support = new Support();
 
-  public final void register(final PageListener listener) {
+  public void register(final PageListener listener) {
     this.support.hook(DefaultResources.getWindowResource(), listener);
   }
 
-  public final void unregister(final PageListener listener) {
+  public void unregister(final PageListener listener) {
     this.support.unhook(DefaultResources.getWindowResource(), listener);
   }
 }

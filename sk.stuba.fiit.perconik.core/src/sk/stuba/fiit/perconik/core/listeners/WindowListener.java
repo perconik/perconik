@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A window listener.
- * 
- * @see Listener 
- * @see IWindowListener 
- * 
+ *
+ * @see Listener
+ * @see IWindowListener
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

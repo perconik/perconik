@@ -14,7 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class MessageDialogWithPreference extends MessageDialogWithToggle {
   protected Preference preference;
 
-  public MessageDialogWithPreference(Shell shell, @Nullable String title, @Nullable Image image, String message, int type, String[] labels, int index, String toggle, Preference preference) {
+  public MessageDialogWithPreference(final Shell shell, @Nullable final String title, @Nullable final Image image, final String message, final int type, final String[] labels, final int index, final String toggle, final Preference preference) {
     super(shell, title, image, message, type, labels, index, toggle, preference.getAsState());
 
     this.setPreference(preference);
@@ -33,15 +33,15 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
       this.strategy = checkNotNull(strategy);
     }
 
-    public static final Preference of(final IPreferenceStore store, final String key, final Strategy strategy) {
+    public static Preference of(final IPreferenceStore store, final String key, final Strategy strategy) {
       return new Preference(store, key, strategy);
     }
 
-    public static final Preference usingReturnCode(final IPreferenceStore store, final String key) {
+    public static Preference usingReturnCode(final IPreferenceStore store, final String key) {
       return new Preference(store, key, ReturnCodeStrategy.INSTANCE);
     }
 
-    public static final Preference usingToggleState(final IPreferenceStore store, final String key) {
+    public static Preference usingToggleState(final IPreferenceStore store, final String key) {
       return new Preference(store, key, ToggleStateStrategy.INSTANCE);
     }
 
@@ -56,17 +56,17 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
     enum ReturnCodeStrategy implements Strategy {
       INSTANCE;
 
-      public final void set(IPreferenceStore store, String key, int code, boolean state) {
+      public void set(final IPreferenceStore store, final String key, final int code, final boolean state) {
         try {
           store.setValue(key, buttonCodeToValue(code));
         } catch (IllegalStateException | NullPointerException e) {}
       }
 
-      public final Object get(final IPreferenceStore store, final String key) {
+      public Object get(final IPreferenceStore store, final String key) {
         return store.getString(key);
       }
 
-      public final boolean getAsState(final IPreferenceStore store, final String key) {
+      public boolean getAsState(final IPreferenceStore store, final String key) {
         return this.get(store, key).equals(ALWAYS);
       }
     }
@@ -74,45 +74,45 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
     enum ToggleStateStrategy implements Strategy {
       INSTANCE;
 
-      public final void set(IPreferenceStore store, String key, int code, boolean state) {
+      public void set(final IPreferenceStore store, final String key, final int code, final boolean state) {
         store.setValue(key, state);
       }
 
-      public final Object get(final IPreferenceStore store, final String key) {
+      public Object get(final IPreferenceStore store, final String key) {
         return this.getAsState(store, key);
       }
 
-      public final boolean getAsState(final IPreferenceStore store, final String key) {
+      public boolean getAsState(final IPreferenceStore store, final String key) {
         return store.getBoolean(key);
       }
     }
 
-    public final void set(final int code, final boolean state) {
+    public void set(final int code, final boolean state) {
       this.strategy.set(this.store, this.key, code, state);
     }
 
-    public final Object get() {
+    public Object get() {
       return this.strategy.get(this.store, this.key);
     }
 
-    public final boolean getAsState() {
+    public boolean getAsState() {
       return this.strategy.getAsState(this.store, this.key);
     }
 
-    public final String getKey() {
+    public String getKey() {
       return this.key;
     }
 
-    public final IPreferenceStore getStore() {
+    public IPreferenceStore getStore() {
       return this.store;
     }
 
-    public final Strategy getStrategy() {
+    public Strategy getStrategy() {
       return this.strategy;
     }
   }
 
-  public static MessageDialogWithPreference open(int kind, Shell shell, @Nullable String title, String message, String toggle, Preference preference, int style) {
+  public static MessageDialogWithPreference open(final int kind, final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference, int style) {
     MessageDialogWithPreference dialog = new MessageDialogWithPreference(shell, title, null, message, kind, buttonLabels(kind), 0, toggle, preference);
 
     style &= SWT.SHEET;
@@ -123,27 +123,27 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
     return dialog;
   }
 
-  public static MessageDialogWithPreference openError(Shell shell, @Nullable String title, String message, String toggle, Preference preference) {
+  public static MessageDialogWithPreference openError(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(ERROR, shell, title, message, toggle, preference, SWT.NONE);
   }
 
-  public static MessageDialogWithPreference openInformation(Shell shell, @Nullable String title, String message, String toggle, Preference preference) {
+  public static MessageDialogWithPreference openInformation(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(INFORMATION, shell, title, message, toggle, preference, SWT.NONE);
   }
 
-  public static MessageDialogWithPreference openOkCancelConfirm(Shell shell, @Nullable String title, String message, String toggle, Preference preference) {
+  public static MessageDialogWithPreference openOkCancelConfirm(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(CONFIRM, shell, title, message, toggle, preference, SWT.NONE);
   }
 
-  public static MessageDialogWithPreference openWarning(Shell shell, @Nullable String title, String message, String toggle, Preference preference) {
+  public static MessageDialogWithPreference openWarning(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(WARNING, shell, title, message, toggle, preference, SWT.NONE);
   }
 
-  public static MessageDialogWithPreference openYesNoCancelQuestion(Shell shell, @Nullable String title, String message, String toggle, Preference preference) {
+  public static MessageDialogWithPreference openYesNoCancelQuestion(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(QUESTION_WITH_CANCEL, shell, title, message, toggle, preference, SWT.NONE);
   }
 
-  public static MessageDialogWithPreference openYesNoQuestion(Shell shell, @Nullable String title, String message, String toggle, Preference preference) {
+  public static MessageDialogWithPreference openYesNoQuestion(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(QUESTION, shell, title, message, toggle, preference, SWT.NONE);
   }
 
@@ -171,7 +171,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
     throw new IllegalStateException();
   }
 
-  protected static String[] buttonLabels(int kind) {
+  protected static String[] buttonLabels(final int kind) {
     switch (kind) {
       case ERROR:
       case INFORMATION:
@@ -193,7 +193,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
   }
 
   @Override
-  protected void buttonPressed(int code) {
+  protected void buttonPressed(final int code) {
     this.setReturnCode(code);
     this.close();
   }
@@ -207,7 +207,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
     return code;
   }
 
-  public void setPreference(Preference preference) {
+  public void setPreference(final Preference preference) {
     this.preference = preference;
 
     super.setPrefStore(preference.store);
@@ -223,7 +223,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
    */
   @Deprecated
   @Override
-  public void setPrefStore(IPreferenceStore store) {
+  public void setPrefStore(final IPreferenceStore store) {
     super.setPrefStore(store);
 
     this.setPreference(Preference.of(store, this.preference.key, this.preference.strategy));
@@ -234,7 +234,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
    */
   @Deprecated
   @Override
-  public void setPrefKey(String key) {
+  public void setPrefKey(final String key) {
     super.setPrefKey(key);
 
     this.setPreference(Preference.of(this.preference.store, key, this.preference.strategy));

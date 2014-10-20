@@ -16,39 +16,38 @@ import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
 import com.gratex.perconik.uaca.SharedUacaProxy;
 
 public final class IdeUacaProxy extends SharedUacaProxy {
-  public IdeUacaProxy() {
-  }
+  public IdeUacaProxy() {}
 
   @Override
-  protected final WebTarget createTarget() {
+  protected WebTarget createTarget() {
     return super.createTarget().path("ide");
   }
 
-  public final void sendCheckinEvent(final IdeCheckinEventRequest request) {
+  public void sendCheckinEvent(final IdeCheckinEventRequest request) {
     this.send("checkin", request);
   }
 
-  public final void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type) {
+  public void sendCodeElementEvent(final IdeCodeElementEventRequest request, final IdeCodeElementEventType type) {
     this.send("codeelement/" + type.urlPath(), request);
   }
 
-  public final void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type) {
+  public void sendCodeEvent(final IdeCodeEventRequest request, final IdeCodeEventType type) {
     this.send("code/" + type.urlPath(), request);
   }
 
-  public final void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type) {
+  public void sendDocumentEvent(final IdeDocumentEventRequest request, final IdeDocumentEventType type) {
     this.send("document/" + type.urlPath(), request);
   }
 
-  public final void sendFindEvent(final IdeFindEventRequest request) {
+  public void sendFindEvent(final IdeFindEventRequest request) {
     this.send("find", request);
   }
 
-  public final void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type) {
+  public void sendProjectEvent(final IdeProjectEventRequest request, final IdeProjectEventType type) {
     this.send("project/" + type.urlPath(), request);
   }
 
-  public final void sendStateChangeEvent(final IdeStateChangeEventRequest request) {
+  public void sendStateChangeEvent(final IdeStateChangeEventRequest request) {
     this.send("idestatechange", request);
   }
 }

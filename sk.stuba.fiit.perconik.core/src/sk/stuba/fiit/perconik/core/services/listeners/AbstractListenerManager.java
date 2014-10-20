@@ -28,7 +28,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 
   protected abstract ResourceManager manager();
 
-  private final <L extends Listener> Set<Resource<? super L>> registrables(final L listener) {
+  private <L extends Listener> Set<Resource<? super L>> registrables(final L listener) {
     // safe cast as registrables always fetch resources with listener supertypes
     @SuppressWarnings("unchecked")
     Class<L> supertype = (Class<L>) listener.getClass();

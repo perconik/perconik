@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.services.ManagerFactory;
 /**
  * The {@code ListenerManagerFactory}
  * creates {@link ListenerManager} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

@@ -11,17 +11,15 @@ import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.function.Numerate;
 
 public final class NodeCounters {
-  private NodeCounters() {
-    throw new AssertionError();
-  }
+  private NodeCounters() {}
 
   private static enum NodeCounter implements Numerate<ASTNode> {
     INSTANCE;
 
-    public final int apply(@Nullable final ASTNode node) {
-      AbstractCountingVisitor<ASTNode> visitor = new AbstractCountingVisitor<ASTNode>() {
+    public int apply(@Nullable final ASTNode node) {
+      final AbstractCountingVisitor<ASTNode> visitor = new AbstractCountingVisitor<ASTNode>() {
         @Override
-        public final void preVisit(final ASTNode node) {
+        public void preVisit(final ASTNode node) {
           this.count ++;
         }
       };
@@ -30,7 +28,7 @@ public final class NodeCounters {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "nodes";
     }
   }
@@ -38,7 +36,7 @@ public final class NodeCounters {
   private static enum LineCounter implements Numerate<ASTNode> {
     INSTANCE;
 
-    public final int apply(@Nullable final ASTNode node) {
+    public int apply(@Nullable final ASTNode node) {
       if (node == null || !Nodes.hasSource(node)) {
         return 0;
       }
@@ -49,7 +47,7 @@ public final class NodeCounters {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "lines(?)";
     }
   }
@@ -57,12 +55,12 @@ public final class NodeCounters {
   private static enum CharacterCounter implements Numerate<ASTNode> {
     INSTANCE;
 
-    public final int apply(@Nullable final ASTNode node) {
+    public int apply(@Nullable final ASTNode node) {
       return node != null ? node.getLength() : 0;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "characters";
     }
   }
@@ -70,12 +68,12 @@ public final class NodeCounters {
   private static enum MemoryCounter implements Numerate<ASTNode> {
     INSTANCE;
 
-    public final int apply(@Nullable final ASTNode node) {
+    public int apply(@Nullable final ASTNode node) {
       return node != null ? node.subtreeBytes() : 0;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "memory";
     }
   }
@@ -88,17 +86,17 @@ public final class NodeCounters {
     return result;
   }
 
-  public static final <N extends ASTNode> Numerate<N> nodes() {
+  public static <N extends ASTNode> Numerate<N> nodes() {
     return cast(NodeCounter.INSTANCE);
   }
 
-  public static final <N extends ASTNode> Numerate<N> lines() {
+  public static <N extends ASTNode> Numerate<N> lines() {
     return cast(LineCounter.INSTANCE);
   }
 
-  public static final <N extends ASTNode> Numerate<N> lines(final String source) {
+  public static <N extends ASTNode> Numerate<N> lines(final String source) {
     return new Numerate<N>() {
-      public final int apply(final N node) {
+      public int apply(final N node) {
         int index;
 
         if (node == null || (index = node.getStartPosition()) == -1) {
@@ -109,38 +107,38 @@ public final class NodeCounters {
       }
 
       @Override
-      public final String toString() {
+      public String toString() {
         return "lines(source)";
       }
     };
   }
 
-  public static final <N extends ASTNode> Numerate<N> characters() {
+  public static <N extends ASTNode> Numerate<N> characters() {
     return cast(CharacterCounter.INSTANCE);
   }
 
-  public static final <N extends ASTNode> Numerate<N> memory() {
+  public static <N extends ASTNode> Numerate<N> memory() {
     return cast(MemoryCounter.INSTANCE);
   }
 
-  public static final <N extends ASTNode> Numerate<N> usingFilter(final Predicate<ASTNode> filter) {
+  public static <N extends ASTNode> Numerate<N> usingFilter(final Predicate<ASTNode> filter) {
     return NodeFilteringCounter.using(filter);
   }
 
   @SafeVarargs
-  public static final <N extends ASTNode> Numerate<N> ofClass(final Class<? extends N> implementation, final Class<? extends N> ... rest) {
+  public static <N extends ASTNode> Numerate<N> ofClass(final Class<? extends N> implementation, final Class<? extends N> ... rest) {
     return usingFilter(NodeClassFilter.of(implementation, rest));
   }
 
-  public static final <N extends ASTNode> Numerate<N> ofClass(final Iterable<Class<? extends N>> implementations) {
+  public static <N extends ASTNode> Numerate<N> ofClass(final Iterable<Class<? extends N>> implementations) {
     return usingFilter(NodeClassFilter.of(implementations));
   }
 
-  public static final <N extends ASTNode> Numerate<N> ofType(final NodeType type, final NodeType ... rest) {
+  public static <N extends ASTNode> Numerate<N> ofType(final NodeType type, final NodeType ... rest) {
     return usingFilter(NodeFilters.isMatching(type, rest));
   }
 
-  public static final <N extends ASTNode> Numerate<N> ofType(final Iterable<NodeType> types) {
+  public static <N extends ASTNode> Numerate<N> ofType(final Iterable<NodeType> types) {
     return usingFilter(NodeFilters.isMatching(types));
   }
 }

@@ -11,7 +11,7 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
   }
 
   static final class Support extends AbstractHookSupport<PartHook, IWorkbenchWindow, PartListener> {
-    public final Hook<IWorkbenchWindow, PartListener> create(final PartListener listener) {
+    public Hook<IWorkbenchWindow, PartListener> create(final PartListener listener) {
       return new PartHook(listener);
     }
   }
@@ -21,29 +21,29 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
       super(IWorkbenchWindow.class, listener);
     }
 
-    public final void register(final IWorkbenchWindow window) {
+    public void register(final IWorkbenchWindow window) {
       window.getPartService().addPartListener(this.listener);
     }
 
-    public final void unregister(final IWorkbenchWindow window) {
+    public void unregister(final IWorkbenchWindow window) {
       window.getPartService().removePartListener(this.listener);
     }
   }
 
   @Override
-  final void preRegisterInternal() {
+  void preRegisterInternal() {
     Hooks.addWindowsAsynchronouslyTo(this);
   }
 
-  public final void windowOpened(final IWorkbenchWindow window) {
+  public void windowOpened(final IWorkbenchWindow window) {
     this.add(window);
   }
 
-  public final void windowClosed(final IWorkbenchWindow window) {
+  public void windowClosed(final IWorkbenchWindow window) {
     this.remove(window);
   }
 
-  public final void windowActivated(final IWorkbenchWindow window) {}
+  public void windowActivated(final IWorkbenchWindow window) {}
 
-  public final void windowDeactivated(final IWorkbenchWindow window) {}
+  public void windowDeactivated(final IWorkbenchWindow window) {}
 }

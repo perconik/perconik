@@ -13,27 +13,27 @@ public abstract class DisplayExecutor implements Executor {
     this.display = checkNotNull(display);
   }
 
-  public static final DisplayExecutor defaultAsynchronous() {
+  public static DisplayExecutor defaultAsynchronous() {
     return createAsynchronous(Display.getDefault());
   }
 
-  public static final DisplayExecutor defaultSynchronous() {
+  public static DisplayExecutor defaultSynchronous() {
     return createSynchronous(Display.getDefault());
   }
 
-  public static final DisplayExecutor currentAsynchronous() {
+  public static DisplayExecutor currentAsynchronous() {
     return createAsynchronous(Display.getCurrent());
   }
 
-  public static final DisplayExecutor currentSynchronous() {
+  public static DisplayExecutor currentSynchronous() {
     return createSynchronous(Display.getCurrent());
   }
 
-  public static final DisplayExecutor createAsynchronous(final Display display) {
+  public static DisplayExecutor createAsynchronous(final Display display) {
     return new Asynchronous(display);
   }
 
-  public static final DisplayExecutor createSynchronous(final Display display) {
+  public static DisplayExecutor createSynchronous(final Display display) {
     return new Synchronous(display);
   }
 
@@ -43,7 +43,7 @@ public abstract class DisplayExecutor implements Executor {
     }
 
     @Override
-    public final void execute(Runnable command) {
+    public void execute(final Runnable command) {
       this.display.asyncExec(command);
     }
   }
@@ -54,7 +54,7 @@ public abstract class DisplayExecutor implements Executor {
     }
 
     @Override
-    public final void execute(Runnable command) {
+    public void execute(final Runnable command) {
       this.display.syncExec(command);
     }
   }

@@ -14,7 +14,7 @@ public class IdeRcsServerData {
 
   public IdeRcsServerData() {}
 
-  public IdeRcsServerData(String url, String typeUri) {
+  public IdeRcsServerData(final String url, final String typeUri) {
     super();
     this.url = url;
     this.typeUri = typeUri;
@@ -24,7 +24,7 @@ public class IdeRcsServerData {
     return this.url;
   }
 
-  public void setUrl(String url) {
+  public void setUrl(final String url) {
     this.url = url;
   }
 
@@ -32,7 +32,7 @@ public class IdeRcsServerData {
     return this.typeUri;
   }
 
-  public void setTypeUri(String typeUri) {
+  public void setTypeUri(final String typeUri) {
     this.typeUri = typeUri;
   }
 }

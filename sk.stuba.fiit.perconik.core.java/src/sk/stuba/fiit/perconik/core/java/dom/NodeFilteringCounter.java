@@ -17,11 +17,11 @@ public final class NodeFilteringCounter<N extends ASTNode> implements Numerate<N
     this.filter = checkNotNull(filter);
   }
 
-  public static final <N extends ASTNode> NodeFilteringCounter<N> using(final Predicate<ASTNode> filter) {
+  public static <N extends ASTNode> NodeFilteringCounter<N> using(final Predicate<ASTNode> filter) {
     return new NodeFilteringCounter<>(filter);
   }
 
-  public final int apply(final N node) {
+  public int apply(final N node) {
     return new Processor().perform(node);
   }
 
@@ -29,7 +29,7 @@ public final class NodeFilteringCounter<N extends ASTNode> implements Numerate<N
     Processor() {}
 
     @Override
-    public final void preVisit(final ASTNode node) {
+    public void preVisit(final ASTNode node) {
       if (NodeFilteringCounter.this.filter.apply(node)) {
         this.count ++;
       }
@@ -37,7 +37,7 @@ public final class NodeFilteringCounter<N extends ASTNode> implements Numerate<N
   }
 
   @Override
-  public final boolean equals(@Nullable final Object o) {
+  public boolean equals(@Nullable final Object o) {
     if (o instanceof NodeFilteringCounter) {
       NodeFilteringCounter<?> other = (NodeFilteringCounter<?>) o;
 
@@ -48,12 +48,12 @@ public final class NodeFilteringCounter<N extends ASTNode> implements Numerate<N
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return this.filter.hashCode();
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return "counter(" + this.filter + ")";
   }
 }

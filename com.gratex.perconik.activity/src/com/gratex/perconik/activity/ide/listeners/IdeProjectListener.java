@@ -88,7 +88,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
 
   public IdeProjectListener() {}
 
-  private final boolean updateProject(final IProject project) {
+  private boolean updateProject(final IProject project) {
     if (project != null) {
       synchronized (this.lock) {
         if (!project.equals(this.project)) {
@@ -102,7 +102,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     return false;
   }
 
-  static final IdeProjectEventRequest build(final long time, final IProject project) {
+  static IdeProjectEventRequest build(final long time, final IProject project) {
     final IdeProjectEventRequest data = new IdeProjectEventRequest();
 
     setProjectData(data, project);
@@ -125,7 +125,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
 
     @Override
-    protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource) {
+    protected boolean resolveDelta(final IResourceDelta delta, final IResource resource) {
       //			// TODO rm
       //			if (IdeApplication.getInstance().isDebug()) { console.put("resource: "+ resource);
       //			console.put("  type: "+ this.type);console.put("  kind: "+ ResourceDeltaKind.valueOf(delta.getKind()).toString());
@@ -160,7 +160,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
 
     @Override
-    protected final boolean resolveResource(final IResource resource) {
+    protected boolean resolveResource(final IResource resource) {
       assert ResourceType.valueOf(resource.getType()) == PROJECT;
 
       IProject project = (IProject) resource;
@@ -187,14 +187,14 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
   }
 
-  final void processResource(final long time, final IResourceChangeEvent event) {
+  void processResource(final long time, final IResourceChangeEvent event) {
     ResourceEventType type = ResourceEventType.valueOf(event.getType());
     IResourceDelta delta = event.getDelta();
 
     new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
   }
 
-  final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection) {
+  void processSelection(final long time, final IWorkbenchPart part, final ISelection selection) {
     IProject project = null;
 
     if (processStructuredSelections) {
@@ -216,27 +216,27 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
     }
   }
 
-  public final void resourceChanged(final IResourceChangeEvent event) {
+  public void resourceChanged(final IResourceChangeEvent event) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processResource(time, event);
       }
     });
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+  public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processSelection(time, part, selection);
       }
     });
   }
 
-  public final Set<ResourceEventType> getEventTypes() {
+  public Set<ResourceEventType> getEventTypes() {
     return resourceEventTypes;
   }
 }

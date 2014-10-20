@@ -11,7 +11,7 @@ import sk.stuba.fiit.perconik.core.services.Services;
  * An abstract implementation of the {@link ListenerRegistration} interface.
  * Implemented predicates like the current registration status are obtained
  * directly from the core using the underlying listener or listener's data.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

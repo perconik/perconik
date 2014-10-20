@@ -14,27 +14,27 @@ public final class SearchQueryDebugListener extends AbstractDebugListener implem
     super(console);
   }
 
-  public final void queryAdded(final ISearchQuery query) {
+  public void queryAdded(final ISearchQuery query) {
     this.printHeader("Search query added");
     this.printSearchQuery(query);
   }
 
-  public final void queryRemoved(final ISearchQuery query) {
+  public void queryRemoved(final ISearchQuery query) {
     this.printHeader("Search query removed");
     this.printSearchQuery(query);
   }
 
-  public final void queryStarting(final ISearchQuery query) {
+  public void queryStarting(final ISearchQuery query) {
     this.printHeader("Search query started");
     this.printSearchQuery(query);
   }
 
-  public final void queryFinished(final ISearchQuery query) {
+  public void queryFinished(final ISearchQuery query) {
     this.printHeader("Search query finished");
     this.printSearchQuery(query);
   }
 
-  private final void printSearchQuery(final ISearchQuery query) {
+  private void printSearchQuery(final ISearchQuery query) {
     this.put(Debug.dumpSearchQuery(query));
   }
 }

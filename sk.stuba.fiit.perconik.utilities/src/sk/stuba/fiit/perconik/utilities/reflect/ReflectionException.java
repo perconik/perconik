@@ -21,21 +21,21 @@ public class ReflectionException extends RuntimeException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public ReflectionException(@Nullable String message) {
+  public ReflectionException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public ReflectionException(@Nullable String message, @Nullable Throwable cause) {
+  public ReflectionException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public ReflectionException(@Nullable Throwable cause) {
+  public ReflectionException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

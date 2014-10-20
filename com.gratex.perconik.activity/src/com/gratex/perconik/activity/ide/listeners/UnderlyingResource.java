@@ -36,7 +36,7 @@ abstract class UnderlyingResource<R> {
     this.file = file;
   }
 
-  public static final UnderlyingResource<?> from(@Nullable final IEditorPart editor) {
+  public static UnderlyingResource<?> from(@Nullable final IEditorPart editor) {
     if (editor == null) {
       return null;
     }
@@ -56,7 +56,7 @@ abstract class UnderlyingResource<R> {
     return null;
   }
 
-  public static final UnderlyingResource<?> resolve(@Nullable final Object raw) {
+  public static UnderlyingResource<?> resolve(@Nullable final Object raw) {
     if (raw instanceof IFile) {
       return of((IFile) raw);
     }
@@ -68,11 +68,11 @@ abstract class UnderlyingResource<R> {
     return null;
   }
 
-  public static final UnderlyingResource<IClassFile> of(final IClassFile raw) {
+  public static UnderlyingResource<IClassFile> of(final IClassFile raw) {
     return ClassFile.create(raw);
   }
 
-  public static final UnderlyingResource<IFile> of(final IFile raw) {
+  public static UnderlyingResource<IFile> of(final IFile raw) {
     return DataFile.create(raw);
   }
 
@@ -81,7 +81,7 @@ abstract class UnderlyingResource<R> {
       super(id, raw, path, file);
     }
 
-    static final ClassFile create(final IClassFile raw) {
+    static ClassFile create(final IClassFile raw) {
       IFile file;
       IPath path;
 
@@ -97,32 +97,32 @@ abstract class UnderlyingResource<R> {
     }
 
     @Override
-    final void setDocumentData(final IdeCodeEventRequest data) {
+    void setDocumentData(final IdeCodeEventRequest data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setDocumentData(final IdeDocumentEventRequest data) {
+    void setDocumentData(final IdeDocumentEventRequest data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setProjectData(final IdeEventData data) {
+    void setProjectData(final IdeEventData data) {
       IdeData.setProjectData(data, this.raw);
     }
 
     @Override
-    public final IClassFile getRaw() {
+    public IClassFile getRaw() {
       return this.raw;
     }
 
     @Override
-    public final Optional<IFile> getFile() {
+    public Optional<IFile> getFile() {
       return Optional.fromNullable(this.file);
     }
 
     @Override
-    public final Optional<IPath> getPath() {
+    public Optional<IPath> getPath() {
       return Optional.fromNullable(this.path);
     }
   }
@@ -132,37 +132,37 @@ abstract class UnderlyingResource<R> {
       super(path.toString(), raw, path, raw);
     }
 
-    static final DataFile create(final IFile raw) {
+    static DataFile create(final IFile raw) {
       return new DataFile(raw, raw.getFullPath().makeRelative());
     }
 
     @Override
-    final void setDocumentData(final IdeCodeEventRequest data) {
+    void setDocumentData(final IdeCodeEventRequest data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setDocumentData(final IdeDocumentEventRequest data) {
+    void setDocumentData(final IdeDocumentEventRequest data) {
       data.setDocument(IdeData.newDocumentData(this.raw));
     }
 
     @Override
-    final void setProjectData(final IdeEventData data) {
+    void setProjectData(final IdeEventData data) {
       IdeData.setProjectData(data, this.raw);
     }
 
     @Override
-    public final IFile getRaw() {
+    public IFile getRaw() {
       return this.raw;
     }
 
     @Override
-    public final Optional<IFile> getFile() {
+    public Optional<IFile> getFile() {
       return Optional.of(this.file);
     }
 
     @Override
-    public final Optional<IPath> getPath() {
+    public Optional<IPath> getPath() {
       return Optional.of(this.path);
     }
   }

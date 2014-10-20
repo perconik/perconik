@@ -20,11 +20,9 @@ import static com.google.common.collect.Sets.newTreeSet;
  * @since 1.0
  */
 public final class MoreSets {
-  private MoreSets() {
-    throw new AssertionError();
-  }
+  private MoreSets() {}
 
-  public static final <E> HashSet<E> newHashSet(Iterable<? extends E> a, Iterable<? extends E> b) {
+  public static <E> HashSet<E> newHashSet(final Iterable<? extends E> a, final Iterable<? extends E> b) {
     HashSet<E> set = Sets.newHashSet(a);
 
     Iterators.addAll(set, b.iterator());
@@ -32,7 +30,7 @@ public final class MoreSets {
     return set;
   }
 
-  public static final <E> HashSet<E> newHashSet(Iterator<? extends E> a, Iterator<? extends E> b) {
+  public static <E> HashSet<E> newHashSet(final Iterator<? extends E> a, final Iterator<? extends E> b) {
     HashSet<E> set = Sets.newHashSet();
 
     Iterators.addAll(set, a);
@@ -41,27 +39,27 @@ public final class MoreSets {
     return set;
   }
 
-  public static final <E extends Enum<E>> EnumSet<E> newEnumSet(Iterable<E> elements) {
+  public static <E extends Enum<E>> EnumSet<E> newEnumSet(final Iterable<E> elements) {
     return EnumSet.copyOf(MoreLists.toList(elements));
   }
 
-  public static final <E> Set<E> toSet(Iterable<E> elements) {
+  public static <E> Set<E> toSet(final Iterable<E> elements) {
     return elements instanceof Set ? (Set<E>) elements : Sets.newHashSet(elements);
   }
 
-  public static final <E> HashSet<E> toHashSet(Iterable<E> elements) {
+  public static <E> HashSet<E> toHashSet(final Iterable<E> elements) {
     return elements instanceof HashSet ? (HashSet<E>) elements : Sets.newHashSet(elements);
   }
 
-  public static final <E> LinkedHashSet<E> toLinkedHashSet(Iterable<E> elements) {
+  public static <E> LinkedHashSet<E> toLinkedHashSet(final Iterable<E> elements) {
     return elements instanceof LinkedHashSet ? (LinkedHashSet<E>) elements : newLinkedHashSet(elements);
   }
 
-  public static final <E extends Comparable<E>> TreeSet<E> toTreeSet(Iterable<E> elements) {
+  public static <E extends Comparable<E>> TreeSet<E> toTreeSet(final Iterable<E> elements) {
     return elements instanceof TreeSet ? (TreeSet<E>) elements : newTreeSet(elements);
   }
 
-  public static final <E extends Enum<E>> EnumSet<E> toEnumSet(Iterable<E> elements) {
+  public static <E extends Enum<E>> EnumSet<E> toEnumSet(final Iterable<E> elements) {
     return elements instanceof EnumSet ? (EnumSet<E>) elements : newEnumSet(elements);
   }
 }

@@ -30,5 +30,4 @@ Export-Package: sk.stuba.fiit.perconik.core,
  sk.stuba.fiit.perconik.core.resources,
  sk.stuba.fiit.perconik.core.services,
  sk.stuba.fiit.perconik.core.services.listeners,
- sk.stuba.fiit.perconik.core.services.resources,
- sk.stuba.fiit.perconik.core.utilities
+ sk.stuba.fiit.perconik.core.services.resources

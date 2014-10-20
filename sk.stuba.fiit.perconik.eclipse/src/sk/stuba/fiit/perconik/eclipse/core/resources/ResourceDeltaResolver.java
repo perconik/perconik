@@ -18,10 +18,10 @@ public abstract class ResourceDeltaResolver implements IResourceDeltaVisitor {
    * Resolves supplied resource delta. Invokes
    * {@link #resolveDelta resolveDelta(delta, delta.getResource())}
    * and returns its result.
-   * 
+   *
    * @return {@code true} if the resource delta's children should
    *         be visited, {@code false} if they should be skipped
-   * 
+   *
    * @throws CoreException if the visit fails for some reason
    */
   public final boolean visit(final IResourceDelta delta) throws CoreException {
@@ -32,10 +32,10 @@ public abstract class ResourceDeltaResolver implements IResourceDeltaVisitor {
    * Resolves supplied resource. Invokes
    * {@link #resolveResource resolveResource(resource)}
    * and returns its result.
-   * 
+   *
    * @return {@code true} if the resource delta's children should
    *         be visited, {@code false} if they should be skipped
-   * 
+   *
    * @throws CoreException if the probe fails for some reason
    */
   public final boolean probe(@Nullable final IResource resource) throws CoreException {
@@ -54,12 +54,12 @@ public abstract class ResourceDeltaResolver implements IResourceDeltaVisitor {
    * Resolves supplied resource delta or resource change event.
    * If the resource delta is not {@code null} then this method
    * visits it, otherwise it probes the specified resource.
-   * 
+   *
    * <p>This method always invokes {@link #preVisitOrProbe()} before
    * resolving specified arguments but invokes {@link #postVisitOrProbe()}
    * only after successful resolving (post hook is not invoked in case of
    * an exception).
-   * 
+   *
    * @throws RuntimeCoreException if the visit or probe fail for some reason
    */
   public final void visitOrProbe(@Nullable final IResourceDelta delta, @Nullable final IResource resource) {
@@ -80,10 +80,10 @@ public abstract class ResourceDeltaResolver implements IResourceDeltaVisitor {
 
   /**
    * Resolves supplied resource delta or resource change event.
-   * 
+   *
    * <p>See {@link #visitOrProbe(IResourceDelta, IResource)}
    * for more details.
-   * 
+   *
    * @throws RuntimeCoreException if the visit or probe fail for some reason
    */
   public final void visitOrProbe(@Nullable final IResourceDelta delta, @Nullable final IResourceChangeEvent event) {

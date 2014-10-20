@@ -40,23 +40,23 @@ public enum JavaElementEventType implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final int valuesAsInteger() {
+  public static int valuesAsInteger() {
     return integers.getConstantsAsInteger();
   }
 
-  public static final int valuesAsInteger(final Set<JavaElementEventType> values) {
+  public static int valuesAsInteger(final Set<JavaElementEventType> values) {
     return IntegralConstantSupport.constantsAsInteger(values);
   }
 
-  public static final JavaElementEventType valueOf(final int value) {
+  public static JavaElementEventType valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

@@ -29,7 +29,7 @@ final class StandardTreeFactory implements TreeFactory {
     this.level = checkNotNull(level);
   }
 
-  public final AST newTree() {
+  public AST newTree() {
     return AST.newAST(this.level.getValue());
   }
 }

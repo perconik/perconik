@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap.Builder;
 final class EnumeratedAnnotable implements Annotable {
   private final ImmutableMap<Class<? extends Annotation>, Annotation> map;
 
-  EnumeratedAnnotable(Iterator<Annotation> annotations) {
+  EnumeratedAnnotable(final Iterator<Annotation> annotations) {
     Builder<Class<? extends Annotation>, Annotation> builder = ImmutableMap.builder();
 
     while (annotations.hasNext()) {
@@ -22,15 +22,15 @@ final class EnumeratedAnnotable implements Annotable {
     this.map = builder.build();
   }
 
-  public final boolean hasAnnotation(Class<? extends Annotation> type) {
+  public boolean hasAnnotation(final Class<? extends Annotation> type) {
     return this.map.containsKey(type);
   }
 
-  public final <A extends Annotation> A getAnnotation(Class<A> type) {
+  public <A extends Annotation> A getAnnotation(final Class<A> type) {
     return type.cast(this.map.get(type));
   }
 
-  public final List<Annotation> getAnnotations() {
+  public List<Annotation> getAnnotations() {
     return this.map.values().asList();
   }
 }

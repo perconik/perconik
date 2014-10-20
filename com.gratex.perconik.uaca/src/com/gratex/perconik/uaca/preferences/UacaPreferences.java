@@ -24,14 +24,14 @@ public final class UacaPreferences {
   private final IPreferenceStore store;
 
   private UacaPreferences() {
-    this.store = Activator.getDefault().getPreferenceStore();
+    this.store = Activator.defaultInstance().getPreferenceStore();
   }
 
   public static final class Initializer extends AbstractPreferenceInitializer {
     public Initializer() {}
 
     @Override
-    public final void initializeDefaultPreferences() {
+    public void initializeDefaultPreferences() {
       IPreferenceStore store = shared.getPreferenceStore();
 
       store.setDefault(checkConnection, true);
@@ -56,25 +56,25 @@ public final class UacaPreferences {
     public static final String uacaUrl = qualifier + ".uacaUrl";
   }
 
-  public static final UacaPreferences getShared() {
+  public static UacaPreferences getShared() {
     return shared;
   }
 
-  public final IPreferenceStore getPreferenceStore() {
+  public IPreferenceStore getPreferenceStore() {
     return this.store;
   }
 
-  public final URL getUacaUrl() {
+  public URL getUacaUrl() {
     IPreferenceStore store = getPreferenceStore();
 
     return UniformResources.newUrl(store.getString(uacaUrl));
   }
 
-  public final boolean isErrorLoggerEnabled() {
+  public boolean isErrorLoggerEnabled() {
     return getPreferenceStore().getBoolean(logErrors);
   }
 
-  public final boolean isEventLoggerEnabled() {
+  public boolean isEventLoggerEnabled() {
     return getPreferenceStore().getBoolean(logEvents);
   }
 }

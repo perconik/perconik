@@ -27,7 +27,7 @@ public final class Activator extends ExtendedPlugin {
   /**
    * The shared instance.
    */
-  private static Activator plugin;
+  private static volatile Activator plugin;
 
   /**
    * The constructor.
@@ -36,9 +36,9 @@ public final class Activator extends ExtendedPlugin {
 
   /**
    * Gets the shared instance.
-   * @return the shared instance
+   * @return the shared instance or {@code null}
    */
-  public static final Activator getDefault() {
+  public static Activator defaultInstance() {
     return plugin;
   }
 
@@ -60,7 +60,7 @@ public final class Activator extends ExtendedPlugin {
      * Waits until core processes all extensions and
      * then prints registration maps on the debug console.
      */
-    public final void earlyStartup() {
+    public void earlyStartup() {
       final Runnable wait = new Runnable() {
         public final void run() {
           sk.stuba.fiit.perconik.core.plugin.Activator.waitForExtensions();
@@ -75,7 +75,7 @@ public final class Activator extends ExtendedPlugin {
   }
 
   @Override
-  public final void start(final BundleContext context) throws Exception {
+  public void start(final BundleContext context) throws Exception {
     if (Environment.debug) {
       this.console.put("Starting %s ... ", PLUGIN_ID);
     }
@@ -90,7 +90,7 @@ public final class Activator extends ExtendedPlugin {
   }
 
   @Override
-  public final void stop(final BundleContext context) throws Exception {
+  public void stop(final BundleContext context) throws Exception {
     if (Environment.debug) {
       this.console.put("Stopping %s ... ", PLUGIN_ID);
     }

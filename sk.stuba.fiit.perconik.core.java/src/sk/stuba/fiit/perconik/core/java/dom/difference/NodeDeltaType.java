@@ -22,15 +22,15 @@ public enum NodeDeltaType implements TypeConstant<NodeDelta<?>> {
     this.type = type;
   }
 
-  public static final Set<Class<? extends NodeDelta<?>>> valuesAsTypes() {
+  public static Set<Class<? extends NodeDelta<?>>> valuesAsTypes() {
     return types.getTypes();
   }
 
-  public static final NodeDeltaType valueOf(final Class<? extends NodeDelta<?>> type) {
+  public static NodeDeltaType valueOf(final Class<? extends NodeDelta<?>> type) {
     return types.getConstant(type);
   }
 
-  public final Class<? extends NodeDelta<?>> getType() {
+  public Class<? extends NodeDelta<?>> getType() {
     return this.type;
   }
 }

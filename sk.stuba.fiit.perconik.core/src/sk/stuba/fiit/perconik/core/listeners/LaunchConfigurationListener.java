@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A launch configuration listener.
- * 
+ *
  * @see Listener
  * @see ILaunchConfigurationListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

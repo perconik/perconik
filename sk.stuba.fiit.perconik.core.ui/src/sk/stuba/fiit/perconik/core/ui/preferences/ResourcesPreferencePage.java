@@ -26,22 +26,22 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
   public ResourcesPreferencePage() {}
 
   @Override
-  final Class<ResourcePersistenceData> type() {
+  Class<ResourcePersistenceData> type() {
     return ResourcePersistenceData.class;
   }
 
   @Override
-  protected final ResourceLabelProvider createContentProvider() {
+  protected ResourceLabelProvider createContentProvider() {
     return new ResourceLabelProvider();
   }
 
   @Override
-  protected final ResourceViewerComparator createViewerComparator() {
+  protected ResourceViewerComparator createViewerComparator() {
     return new ResourceViewerComparator();
   }
 
   @Override
-  protected final void makeTableColumns(Table table, TableColumnLayout layout, GC gc) {
+  protected void makeTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
     Tables.createColumn(table, layout, "Resource name", gc, 4);
     Tables.createColumn(table, layout, "Listener type", gc, 4);
     Tables.createColumn(table, layout, "Version", gc, 1);
@@ -51,7 +51,7 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
   private static final class ResourceLabelProvider extends AbstractLabelProvider<ResourcePersistenceData> {
     ResourceLabelProvider() {}
 
-    public final String getColumnText(final Object element, final int column) {
+    public String getColumnText(final Object element, final int column) {
       ResourcePersistenceData data = (ResourcePersistenceData) element;
 
       switch (column) {
@@ -77,7 +77,7 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
     ResourceViewerComparator() {}
 
     @Override
-    public final int compare(final Viewer viewer, final Object a, final Object b) {
+    public int compare(final Viewer viewer, final Object a, final Object b) {
       if ((a instanceof ResourcePersistenceData) && (b instanceof ResourcePersistenceData)) {
         ResourcePersistenceData data = (ResourcePersistenceData) a;
         ResourcePersistenceData other = (ResourcePersistenceData) b;
@@ -96,17 +96,17 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
-  final Set<ResourcePersistenceData> defaults() {
+  Set<ResourcePersistenceData> defaults() {
     return ResourcePersistenceData.defaults();
   }
 
   @Override
-  final ResourcePreferences preferences() {
+  ResourcePreferences preferences() {
     return ResourcePreferences.getShared();
   }
 
   @Override
-  final void apply() {
+  void apply() {
     for (ResourcePersistenceData data: this.registrations) {
       if (data.isRegistered() && !data.hasRegistredMark() && !data.getResource().registered(Listener.class).isEmpty()) {
         StringBuilder message = new StringBuilder();
@@ -132,22 +132,22 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
-  final void load(final ResourcePreferences preferences) {
+  void load(final ResourcePreferences preferences) {
     this.setResourcePreferences(preferences);
   }
 
   @Override
-  final void save() throws BackingStoreException {
+  void save() throws BackingStoreException {
     this.getPreferences().flush();
   }
 
-  public final void setResourcePreferences(final ResourcePreferences preferences) {
+  public void setResourcePreferences(final ResourcePreferences preferences) {
     this.setPreferences(preferences);
 
     this.registrations = preferences.getResourcePersistenceData();
   }
 
-  public final ResourcePreferences getResourcePreferences() {
+  public ResourcePreferences getResourcePreferences() {
     return this.getPreferences();
   }
 }

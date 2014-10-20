@@ -8,7 +8,7 @@ public class StandardCoreProbe implements CoreProbe {
   public StandardCoreProbe() {}
 
   public CoreData core() {
-    CoreData data = new CoreData(Activator.getDefault());
+    CoreData data = new CoreData(Activator.defaultInstance());
 
     data.setClassResolver(Activator.classResolver().toString());
     data.setExtensionContributors(Activator.extensionContributors());

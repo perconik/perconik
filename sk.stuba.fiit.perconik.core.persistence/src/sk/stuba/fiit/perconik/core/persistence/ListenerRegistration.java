@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.Listener;
 /**
  * Current registration status of a {@code Listener} instance.
  * The current registration status is obtained from the underlying listener.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

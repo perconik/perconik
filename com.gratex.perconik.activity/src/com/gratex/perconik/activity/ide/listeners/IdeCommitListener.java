@@ -65,7 +65,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     this.cache = newHashMap();
   }
 
-  private final boolean updateLastCommit(final File directory, final String branch, final String id) {
+  private boolean updateLastCommit(final File directory, final String branch, final String id) {
     Map<String, String> cache;
 
     synchronized (this.lock) {
@@ -89,7 +89,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     return false;
   }
 
-  static final IdeCheckinEventRequest build(final long time, final String url, final String id) {
+  static IdeCheckinEventRequest build(final long time, final String url, final String id) {
     final IdeCheckinEventRequest data = new IdeCheckinEventRequest();
 
     data.setChangesetIdInRcs(id);
@@ -101,7 +101,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     return data;
   }
 
-  final void process(final long time, final RefsChangedEvent event) {
+  void process(final long time, final RefsChangedEvent event) {
     Repository repository = event.getRepository();
     File directory = repository.getDirectory();
     String url = GitRepositories.getRemoteOriginUrl(repository);
@@ -118,11 +118,11 @@ public final class IdeCommitListener extends IdeListener implements GitReference
     }
   }
 
-  public final void onRefsChanged(final RefsChangedEvent event) {
+  public void onRefsChanged(final RefsChangedEvent event) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         process(time, event);
       }
     });

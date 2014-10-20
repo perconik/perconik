@@ -9,9 +9,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Resource delta flags.
- * 
+ *
  * @see IResourceDelta
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -89,27 +89,27 @@ public enum ResourceDeltaFlag implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final int valuesAsInteger() {
+  public static int valuesAsInteger() {
     return integers.getConstantsAsInteger();
   }
 
-  public static final int valuesAsInteger(final Set<ResourceDeltaFlag> values) {
+  public static int valuesAsInteger(final Set<ResourceDeltaFlag> values) {
     return IntegralConstantSupport.constantsAsInteger(values);
   }
 
-  public static final ResourceDeltaFlag valueOf(final int value) {
+  public static ResourceDeltaFlag valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final Set<ResourceDeltaFlag> setOf(final int values) {
+  public static Set<ResourceDeltaFlag> setOf(final int values) {
     return integers.getConstants(values);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

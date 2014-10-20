@@ -4,11 +4,9 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerManager;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagers;
 
 public final class DebugListenerManagers {
-  private DebugListenerManagers() {
-    throw new AssertionError();
-  }
+  private DebugListenerManagers() {}
 
-  public static final DebugListenerManager create() {
+  public static DebugListenerManager create() {
     ListenerManager manager = ListenerManagers.create();
 
     return DebugListenerManagerProxy.wrap(manager);

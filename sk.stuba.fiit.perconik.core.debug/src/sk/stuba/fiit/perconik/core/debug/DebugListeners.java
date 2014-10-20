@@ -17,39 +17,37 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newTreeSet;
 
 public final class DebugListeners {
-  private DebugListeners() {
-    throw new AssertionError();
-  }
+  private DebugListeners() {}
 
-  public static final String toString(final Class<? extends Listener> type) {
+  public static String toString(final Class<? extends Listener> type) {
     return type.getName();
   }
 
-  public static final String toString(final Listener listener) {
+  public static String toString(final Listener listener) {
     return MoreStrings.toStringFallback(listener);
   }
 
-  public static final void printRegistered() {
+  public static void printRegistered() {
     printRegistered(Listener.class);
   }
 
-  public static final void printRegistered(final Class<? extends Listener> type) {
+  public static void printRegistered(final Class<? extends Listener> type) {
     printRegistered(type, Debug.getDefaultConsole());
   }
 
-  public static final void printRegistered(final Class<? extends Listener> type, final DebugConsole console) {
+  public static void printRegistered(final Class<? extends Listener> type, final DebugConsole console) {
     console.put(dumpRegistered(type));
   }
 
-  public static final void printRegistrations() {
+  public static void printRegistrations() {
     printRegisterations(Debug.getDefaultConsole());
   }
 
-  public static final void printRegisterations(final DebugConsole console) {
+  public static void printRegisterations(final DebugConsole console) {
     console.put(dumpRegistrations());
   }
 
-  static final String dumpRegistered(final Class<? extends Listener> type) {
+  static String dumpRegistered(final Class<? extends Listener> type) {
     SmartStringBuilder builder = new SmartStringBuilder();
 
     builder.appendln("Registered listeners:").tab();
@@ -69,7 +67,7 @@ public final class DebugListeners {
     return builder.toString();
   }
 
-  static final String dumpRegistrations() {
+  static String dumpRegistrations() {
     SmartStringBuilder builder = new SmartStringBuilder();
 
     builder.appendln("Registered resource to listeners map:").tab();

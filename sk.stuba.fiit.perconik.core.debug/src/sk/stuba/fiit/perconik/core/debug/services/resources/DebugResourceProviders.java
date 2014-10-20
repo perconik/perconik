@@ -6,15 +6,13 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProvider;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceProviders;
 
 public final class DebugResourceProviders {
-  private DebugResourceProviders() {
-    throw new AssertionError();
-  }
+  private DebugResourceProviders() {}
 
-  public static final DebugResourceProvider create() {
+  public static DebugResourceProvider create() {
     return create(ResourceProviders.getSystemProvider());
   }
 
-  public static final DebugResourceProvider create(final ResourceProvider parent) {
+  public static DebugResourceProvider create(final ResourceProvider parent) {
     ResourceProvider.Builder builder = ResourceProviders.builder().parent(parent);
 
     builder.add(DebugListener.class, DebugListenerPool.getInstance());

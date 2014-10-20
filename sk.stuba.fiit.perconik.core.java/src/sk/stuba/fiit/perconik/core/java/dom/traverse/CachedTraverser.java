@@ -29,10 +29,10 @@ public final class CachedTraverser extends TreeTraverser<ASTNode> {
     }
   }
 
-  private final void load(final ASTNode node) {
-    ASTVisitor visitor = new ASTVisitor(true) {
+  private void load(final ASTNode node) {
+    final ASTVisitor visitor = new ASTVisitor(true) {
       @Override
-      public final void preVisit(final ASTNode node) {
+      public void preVisit(final ASTNode node) {
         CachedTraverser.this.nodes.add(node);
 
         ASTNode parent = node.getParent();
@@ -46,12 +46,12 @@ public final class CachedTraverser extends TreeTraverser<ASTNode> {
     node.accept(visitor);
   }
 
-  public static final CachedTraverser create(@Nullable final ASTNode node) {
+  public static CachedTraverser create(@Nullable final ASTNode node) {
     return new CachedTraverser(node);
   }
 
   @Override
-  public final List<ASTNode> children(@Nullable final ASTNode node) {
+  public List<ASTNode> children(@Nullable final ASTNode node) {
     checkArgument(this.nodes.contains(node));
 
     return this.children.get(node);

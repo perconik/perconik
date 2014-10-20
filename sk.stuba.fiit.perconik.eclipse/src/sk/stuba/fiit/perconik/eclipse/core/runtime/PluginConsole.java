@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 /**
  * Plug-in console capable of printing various kinds of messages.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

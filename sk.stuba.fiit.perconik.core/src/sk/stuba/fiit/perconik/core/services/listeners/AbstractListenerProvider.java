@@ -14,9 +14,9 @@ import static com.google.common.base.Throwables.propagate;
  * An abstract implementation of {@link ListenerProvider}. This class
  * implements the listener providing mechanism based on an underlying
  * {@code ClassLoader} of standard Java classes.
- * 
+ *
  * TODO doc providing process, class loading / instantiation
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

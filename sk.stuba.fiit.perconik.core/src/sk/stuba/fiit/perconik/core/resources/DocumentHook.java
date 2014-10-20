@@ -13,7 +13,7 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
   }
 
   static final class Support extends AbstractHookSupport<DocumentHook, IDocument, DocumentListener> {
-    public final Hook<IDocument, DocumentListener> create(final DocumentListener listener) {
+    public Hook<IDocument, DocumentListener> create(final DocumentListener listener) {
       return new DocumentHook(listener);
     }
   }
@@ -23,37 +23,37 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
       super(IDocument.class, listener);
     }
 
-    public final void register(final IDocument document) {
+    public void register(final IDocument document) {
       document.addDocumentListener(this.listener);
     }
 
-    public final void unregister(final IDocument document) {
+    public void unregister(final IDocument document) {
       document.removeDocumentListener(this.listener);
     }
   }
 
   @Override
-  final void preRegisterInternal() {
+  void preRegisterInternal() {
     Hooks.addDocumentsAsynchronouslyTo(this);
   }
 
-  public final void editorOpened(final IEditorReference reference) {
+  public void editorOpened(final IEditorReference reference) {
     Hooks.addNonNull(this, Editors.getDocument(Hooks.dereferenceEditor(reference)));
   }
 
-  public final void editorClosed(final IEditorReference reference) {
+  public void editorClosed(final IEditorReference reference) {
     Hooks.removeNonNull(this, Editors.getDocument(Hooks.dereferenceEditor(reference)));
   }
 
-  public final void editorActivated(final IEditorReference reference) {}
+  public void editorActivated(final IEditorReference reference) {}
 
-  public final void editorDeactivated(final IEditorReference reference) {}
+  public void editorDeactivated(final IEditorReference reference) {}
 
-  public final void editorVisible(final IEditorReference reference) {}
+  public void editorVisible(final IEditorReference reference) {}
 
-  public final void editorHidden(final IEditorReference reference) {}
+  public void editorHidden(final IEditorReference reference) {}
 
-  public final void editorBroughtToTop(final IEditorReference reference) {}
+  public void editorBroughtToTop(final IEditorReference reference) {}
 
-  public final void editorInputChanged(final IEditorReference reference) {}
+  public void editorInputChanged(final IEditorReference reference) {}
 }

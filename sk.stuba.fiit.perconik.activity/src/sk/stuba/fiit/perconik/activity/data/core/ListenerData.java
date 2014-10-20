@@ -9,7 +9,7 @@ public class ListenerData extends AnyStructuredData {
 
   public ListenerData() {}
 
-  protected ListenerData(Listener listener) {
+  protected ListenerData(final Listener listener) {
     if (listener == null) {
       return;
     }
@@ -17,11 +17,11 @@ public class ListenerData extends AnyStructuredData {
     this.setImplementation(ClassData.of(listener.getClass()));
   }
 
-  public static ListenerData of(Listener listener) {
+  public static ListenerData of(final Listener listener) {
     return new ListenerData(listener);
   }
 
-  public void setImplementation(ClassData implementation) {
+  public void setImplementation(final ClassData implementation) {
     this.implementation = implementation;
   }
 

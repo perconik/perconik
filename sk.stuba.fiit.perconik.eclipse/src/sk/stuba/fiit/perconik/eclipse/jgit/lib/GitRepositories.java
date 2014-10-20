@@ -30,11 +30,9 @@ import static com.google.common.collect.Lists.newLinkedList;
  * @since 1.0
  */
 public final class GitRepositories {
-  private GitRepositories() {
-    throw new AssertionError();
-  }
+  private GitRepositories() {}
 
-  private static final Ref handleCheckoutCommand(final CheckoutCommand command) {
+  private static Ref handleCheckoutCommand(final CheckoutCommand command) {
     try {
       return command.call();
     } catch (Exception e) {
@@ -42,7 +40,7 @@ public final class GitRepositories {
     }
   }
 
-  private static final Iterable<RevCommit> handleLogCommand(final LogCommand command) {
+  private static Iterable<RevCommit> handleLogCommand(final LogCommand command) {
     try {
       return command.all().call();
     } catch (Exception e) {
@@ -50,7 +48,7 @@ public final class GitRepositories {
     }
   }
 
-  private static final RevCommit handleMostRecentCommit(final LogCommand command) {
+  private static RevCommit handleMostRecentCommit(final LogCommand command) {
     try {
       return command.setMaxCount(1).call().iterator().next();
     } catch (NoSuchElementException e) {
@@ -60,27 +58,27 @@ public final class GitRepositories {
     }
   }
 
-  public static final Ref checkoutFile(final Repository repository, final Path path, final RevCommit commit) {
+  public static Ref checkoutFile(final Repository repository, final Path path, final RevCommit commit) {
     return checkoutFile(repository, path.toString(), commit);
   }
 
-  public static final Ref checkoutFile(final Repository repository, final String path, final RevCommit commit) {
+  public static Ref checkoutFile(final Repository repository, final String path, final RevCommit commit) {
     return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(commit).addPath(path));
   }
 
-  public static final Ref checkoutFileToHead(final Repository repository, final Path path) {
+  public static Ref checkoutFileToHead(final Repository repository, final Path path) {
     return checkoutFileToHead(repository, path.toString());
   }
 
-  public static final Ref checkoutFileToHead(final Repository repository, final String path) {
+  public static Ref checkoutFileToHead(final Repository repository, final String path) {
     return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(Constants.HEAD).addPath(path));
   }
 
-  public static final Ref switchBranch(final Repository repository, final String branch) {
+  public static Ref switchBranch(final Repository repository, final String branch) {
     return handleCheckoutCommand(new Git(repository).checkout().setName(branch));
   }
 
-  public static final String getBranch(final Repository repository) {
+  public static String getBranch(final Repository repository) {
     try {
       return repository.getBranch();
     } catch (Exception e) {
@@ -88,15 +86,15 @@ public final class GitRepositories {
     }
   }
 
-  public static final Iterable<RevCommit> getFileLog(final Repository repository, final Path path) {
+  public static Iterable<RevCommit> getFileLog(final Repository repository, final Path path) {
     return getFileLog(repository, path.toString());
   }
 
-  public static final Iterable<RevCommit> getFileLog(final Repository repository, final String path) {
+  public static Iterable<RevCommit> getFileLog(final Repository repository, final String path) {
     return handleLogCommand(new Git(repository).log().addPath(path));
   }
 
-  public static final List<Path> getIgnoreFiles(final Repository repository, final Path path) {
+  public static List<Path> getIgnoreFiles(final Repository repository, final Path path) {
     Path root = repository.getDirectory().toPath().getParent().toAbsolutePath().normalize();
     Path leaf = path.toAbsolutePath().normalize();
 
@@ -119,11 +117,11 @@ public final class GitRepositories {
     return paths;
   }
 
-  public static final List<Path> getIgnoreFiles(final Repository repository, final String path) {
+  public static List<Path> getIgnoreFiles(final Repository repository, final String path) {
     return getIgnoreFiles(repository, Paths.get(path));
   }
 
-  public static final IgnoreNode getIgnoreNode(final Path path) {
+  public static IgnoreNode getIgnoreNode(final Path path) {
     IgnoreNode node = new IgnoreNode();
 
     Path ignore = path.resolve(Constants.DOT_GIT_IGNORE);
@@ -139,11 +137,11 @@ public final class GitRepositories {
     return node;
   }
 
-  public static final IgnoreNode getIgnoreNode(final String path) {
+  public static IgnoreNode getIgnoreNode(final String path) {
     return getIgnoreNode(Paths.get(path));
   }
 
-  public static final List<IgnoreNode> getIgnoreNodes(final Repository repository, final Path path) {
+  public static List<IgnoreNode> getIgnoreNodes(final Repository repository, final Path path) {
     List<IgnoreNode> nodes = newLinkedList();
 
     for (Path ignore: getIgnoreFiles(repository, path)) {
@@ -153,43 +151,43 @@ public final class GitRepositories {
     return nodes;
   }
 
-  public static final List<IgnoreNode> getIgnoreNodes(final Repository repository, final String path) {
+  public static List<IgnoreNode> getIgnoreNodes(final Repository repository, final String path) {
     return getIgnoreNodes(repository, Paths.get(path));
   }
 
-  public static final RevCommit getMostRecentCommit(final Repository repository) {
+  public static RevCommit getMostRecentCommit(final Repository repository) {
     return handleMostRecentCommit(new Git(repository).log());
   }
 
-  public static final RevCommit getMostRecentCommit(final Repository repository, final Path path) {
+  public static RevCommit getMostRecentCommit(final Repository repository, final Path path) {
     return getMostRecentCommit(repository, path.toString());
   }
 
-  public static final RevCommit getMostRecentCommit(final Repository repository, final String path) {
+  public static RevCommit getMostRecentCommit(final Repository repository, final String path) {
     return handleMostRecentCommit(new Git(repository).log().addPath(path));
   }
 
-  public static final String getRemoteOriginUrl(final Repository repository) {
+  public static String getRemoteOriginUrl(final Repository repository) {
     return GitConfigurations.getRemoteOriginUrl(repository.getConfig());
   }
 
-  public static final boolean isIgnored(final Repository repository, final Path path) {
+  public static boolean isIgnored(final Repository repository, final Path path) {
     return isIgnored(getIgnoreNodes(repository, path), path);
   }
 
-  public static final boolean isIgnored(final Repository repository, final String path) {
+  public static boolean isIgnored(final Repository repository, final String path) {
     return isIgnored(repository, Paths.get(path));
   }
 
-  public static final boolean isIgnored(final Iterable<IgnoreNode> nodes, final Path path) {
+  public static boolean isIgnored(final Iterable<IgnoreNode> nodes, final Path path) {
     return isIgnored(nodes, path.toString(), Files.isDirectory(path));
   }
 
-  public static final boolean isIgnored(final Iterable<IgnoreNode> nodes, final String path) {
+  public static boolean isIgnored(final Iterable<IgnoreNode> nodes, final String path) {
     return isIgnored(nodes, path, Files.isDirectory(Paths.get(path)));
   }
 
-  private static final boolean isIgnored(final Iterable<IgnoreNode> nodes, final String path, final boolean directory) {
+  private static boolean isIgnored(final Iterable<IgnoreNode> nodes, final String path, final boolean directory) {
     for (IgnoreNode node: nodes) {
       MatchResult result = node.isIgnored(path, directory);
 

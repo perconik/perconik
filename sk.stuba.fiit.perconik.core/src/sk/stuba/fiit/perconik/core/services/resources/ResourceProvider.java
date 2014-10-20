@@ -13,20 +13,20 @@ import sk.stuba.fiit.perconik.core.services.Provider;
 
 /**
  * An object responsible for providing {@link Resource} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public interface ResourceProvider extends Provider {
   /**
    * Returns a resource with the specified name.
-   * 
+   *
    * <p>This method is guaranteed to return the same resource instance
    * for the specified resource name every time it is invoked.
-   * 
+   *
    * @param name the resource name, not an empty string or {@code null}
    * @return the resulting {@code Resource} object
-   * 
+   *
    * @throws IllegalArgumentException if the specified resource name
    *         is an empty string
    * @throws NullPointerException if the specified resource name
@@ -42,10 +42,10 @@ public interface ResourceProvider extends Provider {
 
   /**
    * Returns a set of resources supporting the specified listener type.
-   * 
+   *
    * @param type the listener type, not {@code null}
    * @return a set of resources supporting the specified listener type
-   * 
+   *
    * @throws NullPointerException if the specified listener type
    *         is {@code null}
    * @throws ResourceNotFoundException if no definition of the resource
@@ -91,16 +91,16 @@ public interface ResourceProvider extends Provider {
 
   /**
    * A builder for creating resource provider instances.
-   * 
+   *
    * <p>Builder instances can be reused, it is safe to call {@link #build}
    * multiple times to build multiple resource providers in series.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */
   public interface Builder {
     /**
-     * Adds resource implementation to the built resource provider. 
+     * Adds resource implementation to the built resource provider.
      * If the resource provider already contains given implementation,
      * then this method has no effect.
      * @param type the listener type with which the given resource

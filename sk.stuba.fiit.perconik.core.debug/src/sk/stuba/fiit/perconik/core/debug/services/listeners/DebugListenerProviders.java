@@ -83,15 +83,13 @@ public final class DebugListenerProviders {
     classes = builder.build();
   }
 
-  private DebugListenerProviders() {
-    throw new AssertionError();
-  }
+  private DebugListenerProviders() {}
 
-  public static final DebugListenerProvider create() {
+  public static DebugListenerProvider create() {
     return create(ListenerProviders.getSystemProvider());
   }
 
-  public static final DebugListenerProvider create(final ListenerProvider parent) {
+  public static DebugListenerProvider create(final ListenerProvider parent) {
     ListenerProvider provider = ListenerProviders.builder().addAll(classes).parent(parent).build();
 
     return DebugListenerProviderProxy.wrap(provider);

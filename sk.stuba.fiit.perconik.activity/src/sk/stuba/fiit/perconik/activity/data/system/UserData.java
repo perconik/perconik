@@ -13,15 +13,15 @@ public class UserData extends AnyStructuredData {
 
   public UserData() {}
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setHome(Path home) {
+  public void setHome(final Path home) {
     this.home = home;
   }
 
-  public void setDirectory(Path directory) {
+  public void setDirectory(final Path directory) {
     this.directory = directory;
   }
 

@@ -17,8 +17,7 @@ import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
 public class SharedUacaProxy extends AbstractUacaProxy {
-  public SharedUacaProxy() {
-  }
+  public SharedUacaProxy() {}
 
   public static final void checkConnection(final String url) {
     ClientBuilder.newClient().target(url).path("ide/checkin").request().options().close();

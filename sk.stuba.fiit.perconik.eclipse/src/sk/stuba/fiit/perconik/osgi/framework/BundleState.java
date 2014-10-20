@@ -9,9 +9,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Bundle states.
- * 
+ *
  * @see Bundle
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -54,15 +54,15 @@ public enum BundleState implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final BundleState valueOf(final int value) {
+  public static BundleState valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

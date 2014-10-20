@@ -5,15 +5,13 @@ import com.gratex.perconik.uaca.preferences.UacaPreferences;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 final class Log {
-  private Log() {
-    throw new AssertionError();
-  }
+  private Log() {}
 
-  static final boolean enabled() {
+  static boolean enabled() {
     return UacaPreferences.getShared().isErrorLoggerEnabled();
   }
 
-  static final SmartStringBuilder message() {
+  static SmartStringBuilder message() {
     return SmartStringBuilder.builder();
   }
 }

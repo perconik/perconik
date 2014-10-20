@@ -14,12 +14,12 @@ public final class OperationHistoryDebugListener extends AbstractDebugListener i
     super(console);
   }
 
-  public final void historyNotification(final OperationHistoryEvent event) {
+  public void historyNotification(final OperationHistoryEvent event) {
     this.printHeader("Operation history");
     this.printOperationHistoryEvent(event);
   }
 
-  private final void printOperationHistoryEvent(final OperationHistoryEvent event) {
+  private void printOperationHistoryEvent(final OperationHistoryEvent event) {
     this.put(Debug.dumpOperationHistoryEvent(event));
   }
 }

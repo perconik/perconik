@@ -33,7 +33,7 @@ import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static com.google.common.collect.Lists.newLinkedList;
 
 @Beta
-class CompilationUnitDifferencer {
+final class CompilationUnitDifferencer {
   static final ASTMatcher matcher = new ASTMatcher(true);
 
   private final RelevantNodeCollector collector;
@@ -44,7 +44,7 @@ class CompilationUnitDifferencer {
     this.collector = new RelevantNodeCollector();
   }
 
-  public final NodeDeltaSet<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised) {
+  public NodeDeltaSet<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised) {
     this.builder = NodeDeltaSet.builder();
 
     if (original != null || revised != null) {
@@ -57,7 +57,7 @@ class CompilationUnitDifferencer {
     return this.builder.build();
   }
 
-  private final void compute(final Collection<?> original, final Collection<?> revised) {
+  private void compute(final Collection<?> original, final Collection<?> revised) {
     final Patch patch = DiffUtils.diff(wrap(original), wrap(revised));
 
     for (final Delta delta: patch.getDeltas()) {
@@ -116,12 +116,12 @@ class CompilationUnitDifferencer {
   private static final class AstNodeEqualsWrapper {
     final ASTNode node;
 
-    AstNodeEqualsWrapper(ASTNode node) {
+    AstNodeEqualsWrapper(final ASTNode node) {
       this.node = node;
     }
 
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(final Object o) {
       if (this == o) {
         return true;
       }
@@ -136,13 +136,13 @@ class CompilationUnitDifferencer {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       // TODO better hash code? now it is inconsistent with equals
       return Objects.hashCode(this.node);
     }
   }
 
-  private final static List<AstNodeEqualsWrapper> wrap(final Collection<?> objects) {
+  private static List<AstNodeEqualsWrapper> wrap(final Collection<?> objects) {
     final List<AstNodeEqualsWrapper> wrapped = newArrayListWithExpectedSize(objects.size());
 
     for (final Object o: objects) {
@@ -152,7 +152,7 @@ class CompilationUnitDifferencer {
     return wrapped;
   }
 
-  private final static List<ASTNode> unwrap(final Collection<?> objects) {
+  private static List<ASTNode> unwrap(final Collection<?> objects) {
     final List<ASTNode> nodes = newArrayListWithExpectedSize(objects.size());
 
     for (final Object o: objects) {
@@ -164,7 +164,7 @@ class CompilationUnitDifferencer {
 
   // body declaration routers
 
-  private static final boolean isSimilar(final ASTNode original, final ASTNode revised) {
+  private static boolean isSimilar(final ASTNode original, final ASTNode revised) {
     if (original instanceof AbstractTypeDeclaration) {
       return isSimilar((AbstractTypeDeclaration) original, revised);
     }
@@ -185,7 +185,7 @@ class CompilationUnitDifferencer {
     }
   }
 
-  private static final boolean isSimilar(final AbstractTypeDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final AbstractTypeDeclaration original, final ASTNode revised) {
     switch (NodeType.valueOf(original)) {
       case ANNOTATION_TYPE_DECLARATION:
         return isSimilar((AnnotationTypeDeclaration) original, revised);
@@ -200,7 +200,7 @@ class CompilationUnitDifferencer {
 
   // abstract type declarations
 
-  private static final boolean isSimilar(final AnnotationTypeDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final AnnotationTypeDeclaration original, final ASTNode revised) {
     if (!(revised instanceof AnnotationTypeDeclaration)) {
       return false;
     }
@@ -218,7 +218,7 @@ class CompilationUnitDifferencer {
     return restMatches;
   }
 
-  private static final boolean isSimilar(final EnumDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final EnumDeclaration original, final ASTNode revised) {
     if (!(revised instanceof EnumDeclaration)) {
       return false;
     }
@@ -236,7 +236,7 @@ class CompilationUnitDifferencer {
     return restMatches;
   }
 
-  private static final boolean isSimilar(final TypeDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final TypeDeclaration original, final ASTNode revised) {
     if (!(revised instanceof TypeDeclaration)) {
       return false;
     }
@@ -269,7 +269,7 @@ class CompilationUnitDifferencer {
 
   // body declarations except abstract type declarations
 
-  private static final boolean isSimilar(final AnnotationTypeMemberDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final AnnotationTypeMemberDeclaration original, final ASTNode revised) {
     if (!(revised instanceof AnnotationTypeMemberDeclaration)) {
       return false;
     }
@@ -287,7 +287,7 @@ class CompilationUnitDifferencer {
     return restMatches;
   }
 
-  private static final boolean isSimilar(final EnumConstantDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final EnumConstantDeclaration original, final ASTNode revised) {
     if (!(revised instanceof EnumConstantDeclaration)) {
       return false;
     }
@@ -305,7 +305,7 @@ class CompilationUnitDifferencer {
     return restMatches;
   }
 
-  private static final boolean isSimilar(final FieldDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final FieldDeclaration original, final ASTNode revised) {
     if (!(revised instanceof FieldDeclaration)) {
       return false;
     }
@@ -360,7 +360,7 @@ class CompilationUnitDifferencer {
   }
 
   @SuppressWarnings("unused")
-  private static final boolean isSimilar(final Initializer original, final ASTNode revised) {
+  private static boolean isSimilar(final Initializer original, final ASTNode revised) {
     if (!(revised instanceof Initializer)) {
       return false;
     }
@@ -369,7 +369,7 @@ class CompilationUnitDifferencer {
   }
 
   @SuppressWarnings("deprecation")
-  private static final boolean isSimilar(final MethodDeclaration original, final ASTNode revised) {
+  private static boolean isSimilar(final MethodDeclaration original, final ASTNode revised) {
     if (!(revised instanceof MethodDeclaration)) {
       return false;
     }
@@ -402,7 +402,7 @@ class CompilationUnitDifferencer {
 
   // body declaration helpers
 
-  private static final boolean isSimilar(final VariableDeclarationFragment original, final ASTNode revised) {
+  private static boolean isSimilar(final VariableDeclarationFragment original, final ASTNode revised) {
     if (!(revised instanceof VariableDeclarationFragment)) {
       return false;
     }
@@ -433,7 +433,7 @@ class CompilationUnitDifferencer {
     return restMatches;
   }
 
-  private static final boolean areSimilar(final List<ASTNode> original, final List<ASTNode> revised) {
+  private static boolean areSimilar(final List<ASTNode> original, final List<ASTNode> revised) {
     if (original.size() != revised.size()) {
       return false;
     }

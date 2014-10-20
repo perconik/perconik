@@ -18,38 +18,36 @@ import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import static java.util.Arrays.asList;
 
 final class Hooks {
-  private Hooks() {
-    throw new AssertionError();
-  }
+  private Hooks() {}
 
-  static final <T> void addAll(final Hook<T, ?> hook, final Iterable<T> objects) {
+  static <T> void addAll(final Hook<T, ?> hook, final Iterable<T> objects) {
     for (T object: objects) {
       hook.add(object);
     }
   }
 
-  static final <T> void addNonNull(final Hook<T, ?> hook, @Nullable final T object) {
+  static <T> void addNonNull(final Hook<T, ?> hook, @Nullable final T object) {
     if (object != null) {
       hook.add(object);
     }
   }
 
-  static final <T> void removeAll(final Hook<T, ?> hook, final Iterable<T> objects) {
+  static <T> void removeAll(final Hook<T, ?> hook, final Iterable<T> objects) {
     for (T object: objects) {
       hook.remove(object);
     }
   }
 
-  static final <T> void removeNonNull(final Hook<T, ?> hook, @Nullable final T object) {
+  static <T> void removeNonNull(final Hook<T, ?> hook, @Nullable final T object) {
     if (object != null) {
       hook.remove(object);
     }
   }
 
-  static final void addWindowsAsynchronouslyTo(final Hook<IWorkbenchWindow, ?> hook) {
+  static void addWindowsAsynchronouslyTo(final Hook<IWorkbenchWindow, ?> hook) {
     final Runnable initializer = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         addAll(hook, asList(Workbenches.waitForWorkbench().getWorkbenchWindows()));
       }
     };
@@ -57,10 +55,10 @@ final class Hooks {
     Display.getDefault().asyncExec(initializer);
   }
 
-  static final void addPagesAsynchronouslyTo(final Hook<IWorkbenchPage, ?> hook) {
+  static void addPagesAsynchronouslyTo(final Hook<IWorkbenchPage, ?> hook) {
     final Runnable initializer = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         addAll(hook, asList(Workbenches.waitForActiveWindow().getPages()));
       }
     };
@@ -68,10 +66,10 @@ final class Hooks {
     Display.getDefault().asyncExec(initializer);
   }
 
-  static final void addPartsAsynchronouslyTo(final Hook<IWorkbenchPart, ?> hook) {
+  static void addPartsAsynchronouslyTo(final Hook<IWorkbenchPart, ?> hook) {
     final Runnable initializer = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         for (IViewReference reference: Workbenches.waitForActivePage().getViewReferences()) {
           addNonNull(hook, reference.getPart(false));
         }
@@ -81,10 +79,10 @@ final class Hooks {
     Display.getDefault().asyncExec(initializer);
   }
 
-  static final void addEditorsAsynchronouslyTo(final Hook<IEditorPart, ?> hook) {
+  static void addEditorsAsynchronouslyTo(final Hook<IEditorPart, ?> hook) {
     final Runnable initializer = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences()) {
           addNonNull(hook, dereferenceEditor(reference));
         }
@@ -94,10 +92,10 @@ final class Hooks {
     Display.getDefault().asyncExec(initializer);
   }
 
-  static final void addSourceViewersAsynchronouslyTo(final Hook<ISourceViewer, ?> hook) {
+  static void addSourceViewersAsynchronouslyTo(final Hook<ISourceViewer, ?> hook) {
     final Runnable initializer = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences()) {
           addNonNull(hook, Editors.getSourceViewer(dereferenceEditor(reference)));
         }
@@ -107,10 +105,10 @@ final class Hooks {
     Display.getDefault().asyncExec(initializer);
   }
 
-  static final void addDocumentsAsynchronouslyTo(final Hook<IDocument, ?> hook) {
+  static void addDocumentsAsynchronouslyTo(final Hook<IDocument, ?> hook) {
     final Runnable initializer = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences()) {
           addNonNull(hook, Editors.getDocument(dereferenceEditor(reference)));
         }
@@ -120,7 +118,7 @@ final class Hooks {
     Display.getDefault().asyncExec(initializer);
   }
 
-  static final IEditorPart dereferenceEditor(final IEditorReference reference) {
+  static IEditorPart dereferenceEditor(final IEditorReference reference) {
     return reference.getEditor(false);
   }
 }

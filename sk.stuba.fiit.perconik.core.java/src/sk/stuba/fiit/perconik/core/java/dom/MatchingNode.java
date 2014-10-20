@@ -19,12 +19,12 @@ public final class MatchingNode<N extends ASTNode> {
     this.node = node;
   }
 
-  public static final <N extends ASTNode> MatchingNode<N> from(@Nullable final N node) {
+  public static <N extends ASTNode> MatchingNode<N> from(@Nullable final N node) {
     return new MatchingNode<>(node);
   }
 
   @Override
-  public final boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o) {
       return true;
     }
@@ -39,7 +39,7 @@ public final class MatchingNode<N extends ASTNode> {
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     int hash = this.hash;
 
     if (hash == 0 && this.node != null) {
@@ -56,23 +56,23 @@ public final class MatchingNode<N extends ASTNode> {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return this.node != null ? this.node.toString() : null;
   }
 
-  public final N asNode() {
+  public N asNode() {
     return this.node;
   }
 
-  public final MatchingNode<?> getRoot() {
+  public MatchingNode<?> getRoot() {
     return from(Nodes.root(this.node));
   }
 
-  public final MatchingNode<?> getParent() {
+  public MatchingNode<?> getParent() {
     return from(Nodes.parent(this.node));
   }
 
-  public final NodeType getType() {
+  public NodeType getType() {
     return Nodes.toType(this.node);
   }
 }

@@ -18,7 +18,7 @@ public class AnnotationData extends AnyStructuredData {
 
   public AnnotationData() {}
 
-  protected AnnotationData(Annotation annotation) {
+  protected AnnotationData(final Annotation annotation) {
     if (annotation == null) {
       return;
     }
@@ -28,11 +28,11 @@ public class AnnotationData extends AnyStructuredData {
     this.setElements(Annotations.toElements(annotation));
   }
 
-  public static AnnotationData of(Annotation annotation) {
+  public static AnnotationData of(final Annotation annotation) {
     return new AnnotationData(annotation);
   }
 
-  public static List<AnnotationData> of(Iterable<Annotation> annotations) {
+  public static List<AnnotationData> of(final Iterable<Annotation> annotations) {
     List<AnnotationData> data = newArrayList();
 
     for (Annotation annotation: annotations) {
@@ -42,15 +42,15 @@ public class AnnotationData extends AnyStructuredData {
     return data;
   }
 
-  public void setType(Class<? extends Annotation> type) {
+  public void setType(final Class<? extends Annotation> type) {
     this.type = type;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setElements(Map<String, Object> elements) {
+  public void setElements(final Map<String, Object> elements) {
     this.elements = elements;
   }
 

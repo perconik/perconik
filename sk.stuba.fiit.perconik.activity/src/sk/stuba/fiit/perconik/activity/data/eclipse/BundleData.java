@@ -40,7 +40,7 @@ public class BundleData extends AnyStructuredData {
 
   public BundleData() {}
 
-  protected BundleData(Bundle bundle) {
+  protected BundleData(final Bundle bundle) {
     if (bundle == null) {
       return;
     }
@@ -63,11 +63,11 @@ public class BundleData extends AnyStructuredData {
     this.setState(BundleState.valueOf(bundle.getState()));
   }
 
-  public static BundleData of(Bundle bundle) {
+  public static BundleData of(final Bundle bundle) {
     return new BundleData(bundle);
   }
 
-  public static List<BundleData> of(Iterable<Bundle> bundles) {
+  public static List<BundleData> of(final Iterable<Bundle> bundles) {
     List<BundleData> data = newArrayList();
 
     for (Bundle bundle: bundles) {
@@ -77,51 +77,51 @@ public class BundleData extends AnyStructuredData {
     return data;
   }
 
-  public void setIdentifier(long identifier) {
+  public void setIdentifier(final long identifier) {
     this.identifier = identifier;
   }
 
-  public void setCategory(String category) {
+  public void setCategory(final String category) {
     this.category = category;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setSymbolicName(String symbolicName) {
+  public void setSymbolicName(final String symbolicName) {
     this.symbolicName = symbolicName;
   }
 
-  public void setVendor(String vendor) {
+  public void setVendor(final String vendor) {
     this.vendor = vendor;
   }
 
-  public void setVersion(Version version) {
+  public void setVersion(final Version version) {
     this.version = version;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(final String description) {
     this.description = description;
   }
 
-  public void setCopyright(String copyright) {
+  public void setCopyright(final String copyright) {
     this.copyright = copyright;
   }
 
-  public void setActivator(String activator) {
+  public void setActivator(final String activator) {
     this.activator = activator;
   }
 
-  public void setClassPath(String classPath) {
+  public void setClassPath(final String classPath) {
     this.classPath = classPath;
   }
 
-  public void setNativeCode(String nativeCode) {
+  public void setNativeCode(final String nativeCode) {
     this.nativeCode = nativeCode;
   }
 
-  public void setState(BundleState state) {
+  public void setState(final BundleState state) {
     this.state = state;
   }
 

@@ -15,22 +15,20 @@ import static com.google.common.collect.Sets.newHashSet;
  * Static utility methods pertaining to {@link ListenerProvider} instances.
  * Also see this class's counterparts {@link ListenerServices}
  * and {@link ListenerManagers}.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public final class ListenerProviders {
   // TODO add javadocs
 
-  private ListenerProviders() {
-    throw new AssertionError();
-  }
+  private ListenerProviders() {}
 
-  public static final Builder builder() {
+  public static Builder builder() {
     return StandardListenerProvider.builder();
   }
 
-  public static final Builder builder(@Nullable final ListenerProvider parent) {
+  public static Builder builder(@Nullable final ListenerProvider parent) {
     Builder builder = builder();
 
     if (parent != null) {
@@ -40,21 +38,21 @@ public final class ListenerProviders {
     return builder;
   }
 
-  public static final ListenerClassesSupplier supplier(final ListenerProvider provider) {
+  public static ListenerClassesSupplier supplier(final ListenerProvider provider) {
     return new ListenerClassesSupplier() {
-      public final Set<Class<? extends Listener>> get() {
+      public Set<Class<? extends Listener>> get() {
         return provider.classes();
       }
     };
   }
 
-  public static final ListenerClassesSupplier merge(final ListenerClassesSupplier ... suppliers) {
+  public static ListenerClassesSupplier merge(final ListenerClassesSupplier ... suppliers) {
     return merge(asList(suppliers));
   }
 
-  public static final ListenerClassesSupplier merge(final Iterable<ListenerClassesSupplier> suppliers) {
+  public static ListenerClassesSupplier merge(final Iterable<ListenerClassesSupplier> suppliers) {
     return new ListenerClassesSupplier() {
-      public final Set<Class<? extends Listener>> get() {
+      public Set<Class<? extends Listener>> get() {
         Set<Class<? extends Listener>> classes = newHashSet();
 
         for (ListenerClassesSupplier supplier: suppliers) {
@@ -66,7 +64,7 @@ public final class ListenerProviders {
     };
   }
 
-  public static final ListenerProvider getSystemProvider() {
+  public static ListenerProvider getSystemProvider() {
     return SystemListenerProvider.getInstance();
   }
 }

@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 /**
  * An abstract implementation of {@link Manager}
  * interface covering manager name and equivalence.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

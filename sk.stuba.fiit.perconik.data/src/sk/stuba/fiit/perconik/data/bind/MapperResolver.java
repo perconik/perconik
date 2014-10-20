@@ -5,8 +5,7 @@ import javax.ws.rs.ext.ContextResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class MapperResolver implements ContextResolver<ObjectMapper> {
-  public MapperResolver() {
-  }
+  public MapperResolver() {}
 
   public ObjectMapper getContext(Class<?> type) {
     return Mapper.getShared();

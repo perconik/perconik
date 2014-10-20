@@ -11,27 +11,27 @@ final class SystemResourceProvider extends AbstractResourceProvider {
 
   private SystemResourceProvider() {}
 
-  static final ResourceProvider getInstance() {
+  static ResourceProvider getInstance() {
     return instance;
   }
 
-  public final Resource<?> forName(final String name) {
+  public Resource<?> forName(final String name) {
     return null;
   }
 
-  public final <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
+  public <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
     return Collections.emptySet();
   }
 
-  public final Set<String> names() {
+  public Set<String> names() {
     return Collections.emptySet();
   }
 
-  public final Set<Class<? extends Listener>> types() {
+  public Set<Class<? extends Listener>> types() {
     return Collections.emptySet();
   }
 
-  public final ResourceProvider parent() {
+  public ResourceProvider parent() {
     return null;
   }
 }

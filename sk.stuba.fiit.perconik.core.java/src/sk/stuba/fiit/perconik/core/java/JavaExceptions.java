@@ -8,11 +8,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 
 public final class JavaExceptions {
-  private JavaExceptions() {
-    throw new AssertionError();
-  }
+  private JavaExceptions() {}
 
-  public static final RuntimeException propagate(final CoreException failure) {
+  public static RuntimeException propagate(final CoreException failure) {
     if (failure instanceof JavaModelException) {
       throw new JavaException(failure);
     }
@@ -20,7 +18,7 @@ public final class JavaExceptions {
     return CoreExceptions.propagate(failure);
   }
 
-  static final <T> T handle(final Exception failure) {
+  static <T> T handle(final Exception failure) {
     if (failure instanceof JavaModelException) {
       throw new JavaException(failure);
     }

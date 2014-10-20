@@ -22,11 +22,11 @@ public abstract class Tokenizer implements ListCollector<String, String> {
     this.tokenizer = checkNotNull(tokenizer);
   }
 
-  public static final Tokenizer create(final IdentifierNameTokeniser tokenizer) {
+  public static Tokenizer create(final IdentifierNameTokeniser tokenizer) {
     return new Unknown(tokenizer);
   }
 
-  public static final Tokenizer create(final IdentifierNameTokeniserFactory factory) {
+  public static Tokenizer create(final IdentifierNameTokeniserFactory factory) {
     return new Known(factory);
   }
 
@@ -46,7 +46,7 @@ public abstract class Tokenizer implements ListCollector<String, String> {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "tokenizer(" + this.settings + ")";
     }
   }
@@ -57,12 +57,12 @@ public abstract class Tokenizer implements ListCollector<String, String> {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return "tokenizer(?)";
     }
   }
 
-  public final List<String> apply(final String input) {
+  public List<String> apply(final String input) {
     return asList(this.tokenizer.tokenise(input));
   }
 

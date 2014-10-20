@@ -7,10 +7,10 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType;
 
 /**
  * A Java element listener.
- * 
+ *
  * @see FilteringListener
  * @see IElementChangedListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

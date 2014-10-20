@@ -17,28 +17,28 @@ public final class ServiceSnapshot {
    * Takes a snapshot of currently active core services.
    * @return new snapshot of currently active core services
    */
-  public static final ServiceSnapshot take() {
+  public static ServiceSnapshot take() {
     return new ServiceSnapshot();
   }
 
   /**
    * Gets snapshotted core services.
    */
-  public final ServiceGroup<Service> services() {
+  public ServiceGroup<Service> services() {
     return this.services;
   }
 
   /**
    * Gets snapshotted core services in start order.
    */
-  public final ServiceGroup<Service> servicesInStartOrder() {
+  public ServiceGroup<Service> servicesInStartOrder() {
     return this.services;
   }
 
   /**
    * Gets snapshotted core services in stop order.
    */
-  public final ServiceGroup<Service> servicesInStopOrder() {
+  public ServiceGroup<Service> servicesInStopOrder() {
     return this.services.reverse();
   }
 }

@@ -7,11 +7,11 @@ import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
 enum OperationHistoryHandler implements Handler<OperationHistoryListener> {
   INSTANCE;
 
-  public final void register(final OperationHistoryListener listener) {
+  public void register(final OperationHistoryListener listener) {
     OperationHistoryFactory.getOperationHistory().addOperationHistoryListener(listener);
   }
 
-  public final void unregister(final OperationHistoryListener listener) {
+  public void unregister(final OperationHistoryListener listener) {
     OperationHistoryFactory.getOperationHistory().removeOperationHistoryListener(listener);
   }
 }

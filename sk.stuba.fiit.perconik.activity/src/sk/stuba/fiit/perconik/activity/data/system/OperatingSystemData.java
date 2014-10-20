@@ -11,15 +11,15 @@ public class OperatingSystemData extends AnyStructuredData {
 
   public OperatingSystemData() {}
 
-  public void setArchitecture(String architecture) {
+  public void setArchitecture(final String architecture) {
     this.architecture = architecture;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setVersion(String version) {
+  public void setVersion(final String version) {
     this.version = version;
   }
 

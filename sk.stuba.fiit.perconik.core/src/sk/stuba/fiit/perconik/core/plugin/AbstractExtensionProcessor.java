@@ -41,7 +41,7 @@ abstract class AbstractExtensionProcessor<T> {
   AbstractExtensionProcessor(final String point, final Set<Class<?>> types) {
     checkArgument(!isNullOrEmpty(point));
 
-    this.plugin = Activator.getDefault();
+    this.plugin = Activator.defaultInstance();
     this.point = point;
 
     this.types = ImmutableSet.copyOf(types);
@@ -64,8 +64,9 @@ abstract class AbstractExtensionProcessor<T> {
       try {
         String contributor = element.getContributor().getName();
 
-        if (!Environment.debug && contributor.endsWith("debug"))
+        if (!Environment.debug && contributor.endsWith("debug")) {
           continue;
+        }
 
         Object object = element.createExecutableExtension("class");
 

@@ -11,9 +11,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.propagate;
 
 public final class Executables {
-  private Executables() {
-    throw new AssertionError();
-  }
+  private Executables() {}
 
   static final class SafeCall<V> implements Runnable {
     private final Callable<V> callable;
@@ -22,11 +20,11 @@ public final class Executables {
 
     private Exception failure;
 
-    SafeCall(Callable<V> callable) {
+    SafeCall(final Callable<V> callable) {
       this.callable = checkNotNull(callable);
     }
 
-    public final void run() {
+    public void run() {
       try {
         this.result = this.callable.call();
       } catch (Exception failure) {
@@ -34,7 +32,7 @@ public final class Executables {
       }
     }
 
-    final V getChecked() throws Exception {
+    V getChecked() throws Exception {
       if (this.failure != null) {
         throw this.failure;
       }
@@ -42,7 +40,7 @@ public final class Executables {
       return this.result;
     }
 
-    final V getUnchecked() {
+    V getUnchecked() {
       if (this.failure != null) {
         throw propagate(this.failure);
       }
@@ -51,29 +49,29 @@ public final class Executables {
     }
   }
 
-  public static final <E extends Runnable> E execute(Executor executor, E executable) {
+  public static <E extends Runnable> E execute(final Executor executor, final E executable) {
     executor.execute(checkNotNull(executable));
 
     return executable;
   }
 
-  public static final <V> V call(Executor executor, Callable<V> callable) {
+  public static <V> V call(final Executor executor, final Callable<V> callable) {
     return execute(executor, new SafeCall<>(callable)).getUnchecked();
   }
 
-  public static final <V> V call(Executor executor, Supplier<V> supplier) {
+  public static <V> V call(final Executor executor, final Supplier<V> supplier) {
     return call(executor, MoreSuppliers.asCallable(supplier));
   }
 
-  public static final <V> V check(Executor executor, Callable<V> callable) throws Exception {
+  public static <V> V check(final Executor executor, final Callable<V> callable) throws Exception {
     return execute(executor, new SafeCall<>(callable)).getChecked();
   }
 
-  public static final <V> V check(Executor executor, Supplier<V> supplier) throws Exception {
+  public static <V> V check(final Executor executor, final Supplier<V> supplier) throws Exception {
     return check(executor, MoreSuppliers.asCallable(supplier));
   }
 
-  public static final void run(Executor executor, Runnable runnable) {
+  public static void run(final Executor executor, final Runnable runnable) {
     execute(executor, runnable);
   }
 }

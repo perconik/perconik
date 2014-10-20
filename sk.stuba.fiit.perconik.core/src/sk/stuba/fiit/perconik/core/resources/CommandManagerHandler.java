@@ -7,9 +7,10 @@ import sk.stuba.fiit.perconik.core.listeners.CommandManagerListener;
 enum CommandManagerHandler implements Handler<CommandManagerListener> {
   INSTANCE;
 
-  public final void register(final CommandManagerListener listener) {
+  public void register(final CommandManagerListener listener) {
     throw new UnsupportedResourceException("Not implemented yet");
 
+    // TODO
     //		final Runnable addListener = new Runnable()
     //		{
     //			@Override
@@ -17,11 +18,11 @@ enum CommandManagerHandler implements Handler<CommandManagerListener> {
     //			{
     //			}
     //		};
-    //	
+    //
     //		Display.getDefault().asyncExec(addListener);
   }
 
-  public final void unregister(final CommandManagerListener listener) {
+  public void unregister(final CommandManagerListener listener) {
     throw new UnsupportedResourceException("Not implemented yet");
   }
 }

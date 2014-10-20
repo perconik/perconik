@@ -115,7 +115,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
 public final class IdeFindListener extends IdeListener implements SearchQueryListener {
   public IdeFindListener() {}
 
-  static final IdeFindEventRequest build(final long time, final IProject project, final FileSearchQuery query) {
+  static IdeFindEventRequest build(final long time, final IProject project, final FileSearchQuery query) {
     final IdeFindEventRequest data = new IdeFindEventRequest();
 
     data.setQueryText(query.getSearchString());
@@ -146,7 +146,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return data;
   }
 
-  private static final List<IdeFindFileResultData> buildResults(FileSearchResult result) {
+  private static List<IdeFindFileResultData> buildResults(final FileSearchResult result) {
     Object[] elements = result.getElements();
 
     List<IdeFindFileResultData> list = newArrayListWithCapacity(elements.length);
@@ -161,7 +161,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return list;
   }
 
-  private static final IdeFindFileResultData buildResult(IFile file, Match[] matches) {
+  private static IdeFindFileResultData buildResult(final IFile file, final Match[] matches) {
     IdeFindFileResultData data = new IdeFindFileResultData();
 
     data.setFile(IdeData.newDocumentData(file));
@@ -170,7 +170,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return data;
   }
 
-  private static final List<IdeFindResultRowData> buildMatches(IDocument document, Match[] matches) {
+  private static List<IdeFindResultRowData> buildMatches(final IDocument document, final Match[] matches) {
     List<IdeFindResultRowData> list = newArrayListWithCapacity(matches.length);
 
     for (Match match: matches) {
@@ -180,7 +180,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return list;
   }
 
-  private static final IdeFindResultRowData buildMatch(IDocument document, Match match) {
+  private static IdeFindResultRowData buildMatch(final IDocument document, final Match match) {
     IdeFindResultRowData data = new IdeFindResultRowData();
 
     int offset = match.getOffset();
@@ -210,7 +210,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return data;
   }
 
-  private static final String toString(IResource[] resources) {
+  private static String toString(final IResource[] resources) {
     if (resources.length == 1 && resources[0] instanceof IWorkspaceRoot) {
       return "workspace";
     }
@@ -224,7 +224,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return Joiner.on(",").join(parts);
   }
 
-  private static final String toString(IWorkingSet[] sets) {
+  private static String toString(final IWorkingSet[] sets) {
     List<String> parts = newArrayListWithCapacity(sets.length);
 
     for (IWorkingSet set: sets) {
@@ -234,7 +234,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     return "working sets " + Joiner.on(",").join(parts);
   }
 
-  final void process(final long time, final ISearchQuery query) {
+  void process(final long time, final ISearchQuery query) {
     IWorkbenchPage page = execute(DisplayTask.of(Workbenches.activePageSupplier()));
 
     IProject project = Projects.fromPage(page);
@@ -247,17 +247,17 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
     }
   }
 
-  public final void queryAdded(final ISearchQuery query) {}
+  public void queryAdded(final ISearchQuery query) {}
 
-  public final void queryRemoved(final ISearchQuery query) {}
+  public void queryRemoved(final ISearchQuery query) {}
 
-  public final void queryStarting(final ISearchQuery query) {}
+  public void queryStarting(final ISearchQuery query) {}
 
-  public final void queryFinished(final ISearchQuery query) {
+  public void queryFinished(final ISearchQuery query) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         process(time, query);
       }
     });

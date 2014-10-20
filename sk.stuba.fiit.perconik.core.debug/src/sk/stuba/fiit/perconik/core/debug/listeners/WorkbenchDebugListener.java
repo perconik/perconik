@@ -14,7 +14,7 @@ public final class WorkbenchDebugListener extends AbstractDebugListener implemen
     super(console);
   }
 
-  public final boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+  public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     this.printHeader("Workbench pre shutdown");
     this.printWorkbench(workbench);
     this.printLine("forced", forced);
@@ -22,13 +22,12 @@ public final class WorkbenchDebugListener extends AbstractDebugListener implemen
     return true;
   }
 
-  public final void postShutdown(final IWorkbench workbench) {
+  public void postShutdown(final IWorkbench workbench) {
     this.printHeader("Workbench post shutdown");
     this.printWorkbench(workbench);
   }
 
-  private final void printWorkbench(final IWorkbench workbench) {
+  private void printWorkbench(final IWorkbench workbench) {
     this.put(Debug.dumpWorkbench(workbench));
   }
-
 }

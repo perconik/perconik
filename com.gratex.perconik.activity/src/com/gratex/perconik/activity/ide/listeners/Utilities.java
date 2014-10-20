@@ -6,14 +6,12 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 
 final class Utilities {
-  private Utilities() {
-    throw new AssertionError();
-  }
+  private Utilities() {}
 
   /**
    * Alias for {@code System.currentTimeMillis()}.
    */
-  static final long currentTime() {
+  static long currentTime() {
     return System.currentTimeMillis();
   }
 
@@ -21,14 +19,14 @@ final class Utilities {
    * Returns the editor referenced by this object
    * or {@code null} if the editor was not instantiated.
    */
-  static final IEditorPart dereferenceEditor(final IEditorReference reference) {
+  static IEditorPart dereferenceEditor(final IEditorReference reference) {
     return reference.getEditor(false);
   }
 
   /**
    * Helper method to avoid compiler {@code null} warnings.
    */
-  static final boolean isNull(@Nullable Object object) {
+  static boolean isNull(@Nullable final Object object) {
     return object == null;
   }
 }

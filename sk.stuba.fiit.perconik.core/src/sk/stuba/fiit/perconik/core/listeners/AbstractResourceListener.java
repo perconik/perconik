@@ -8,9 +8,9 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 
 /**
  * An abstract implementation of {@code ResourceListener}.
- * 
+ *
  * @see ResourceListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

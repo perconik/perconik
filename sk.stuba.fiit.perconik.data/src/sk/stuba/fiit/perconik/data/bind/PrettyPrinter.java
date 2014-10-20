@@ -12,12 +12,12 @@ public final class PrettyPrinter extends DefaultPrettyPrinter {
   public PrettyPrinter() {}
 
   @Override
-  public final PrettyPrinter createInstance() {
+  public PrettyPrinter createInstance() {
     return new PrettyPrinter();
   }
 
   @Override
-  public final void writeObjectFieldValueSeparator(final JsonGenerator generator) throws IOException, JsonGenerationException {
+  public void writeObjectFieldValueSeparator(final JsonGenerator generator) throws IOException, JsonGenerationException {
     generator.writeRaw(": ");
   }
 }

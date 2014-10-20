@@ -6,7 +6,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceManagerFactory;
 public final class DebugResourceManagerFactory implements ResourceManagerFactory {
   public DebugResourceManagerFactory() {}
 
-  public final ResourceManager create() {
+  public ResourceManager create() {
     return DebugResourceManagers.create();
   }
 }

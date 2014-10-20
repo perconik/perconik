@@ -10,11 +10,11 @@ import sk.stuba.fiit.perconik.core.Registrable;
 
 /**
  * Indicates that a {@link Registrable} type is dependent on specific classes.
- * 
+ *
  * <p>In general all registrables that depend on classes from internal
  * packages, or classes from beta or unstable APIs should be also marked
  * as dependent and provided with a list of all such classes.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

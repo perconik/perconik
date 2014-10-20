@@ -12,20 +12,20 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProviders;
 
 /**
  * An object responsible for providing {@link Listener} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public interface ListenerProvider extends Provider {
   /**
    * Returns an instance of the specified listener implementation class.
-   * 
+   *
    * <p>This method is guaranteed to return the same listener instance
    * for the specified implementation class every time it is invoked.
-   * 
+   *
    * @param implementation the listener implementation class
    * @return the listener
-   * 
+   *
    * @throws NullPointerException if the specified listener implementation
    *         class is {@code null}
    * @throws IllegalListenerClassException if the listener implementation
@@ -37,11 +37,11 @@ public interface ListenerProvider extends Provider {
 
   /**
    * Loads a listener implementation class with the specified binary name.
-   * 
+   *
    * @param name the binary name of the listener implementation class,
    *             not an empty string or {@code null}
    * @return the listener implementation class
-   * 
+   *
    * @throws IllegalArgumentException if the specified class name
    *         is an empty string
    * @throws NullPointerException if the specified class name
@@ -81,16 +81,16 @@ public interface ListenerProvider extends Provider {
 
   /**
    * A builder for creating listener provider instances.
-   * 
+   *
    * <p>Builder instances can be reused, it is safe to call {@link #build}
    * multiple times to build multiple listener providers in series.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */
   public interface Builder {
     /**
-     * Adds listener implementation to the built listener provider. 
+     * Adds listener implementation to the built listener provider.
      * If the listener provider already contains given implementation,
      * then this method has no effect.
      * @param implementation the listener type to add, not {@code null}

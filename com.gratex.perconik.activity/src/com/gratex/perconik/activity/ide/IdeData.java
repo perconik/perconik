@@ -22,19 +22,17 @@ import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 import static com.google.common.base.Preconditions.checkState;
 
 public final class IdeData {
-  private IdeData() {
-    throw new AssertionError();
-  }
+  private IdeData() {}
 
-  public static final IdeDocumentData newDocumentData(final IFile file) {
+  public static IdeDocumentData newDocumentData(final IFile file) {
     return newDocumentRepositoryData(file.getFullPath(), IdeGitProjects.getRepository(file));
   }
 
-  public static final IdeDocumentData newDocumentData(final IClassFile file) {
+  public static IdeDocumentData newDocumentData(final IClassFile file) {
     return newDocumentPathData(ClassFiles.path(file));
   }
 
-  private static final IdeDocumentData newDocumentPathData(final IPath path) {
+  private static IdeDocumentData newDocumentPathData(final IPath path) {
     IdeDocumentData data = new IdeDocumentData();
 
     data.setLocalPath(path.toString());
@@ -42,7 +40,7 @@ public final class IdeData {
     return data;
   }
 
-  private static final IdeDocumentData newDocumentRepositoryData(final IPath path, @Nullable final Repository repository) {
+  private static IdeDocumentData newDocumentRepositoryData(final IPath path, @Nullable final Repository repository) {
     IdeDocumentData data = newDocumentPathData(path.makeRelative());
 
     if (repository != null) {
@@ -60,7 +58,7 @@ public final class IdeData {
     return data;
   }
 
-  public static final IdeRcsServerData newGitServerData(final String url) {
+  public static IdeRcsServerData newGitServerData(final String url) {
     IdeRcsServerData data = new IdeRcsServerData();
 
     data.setUrl(url);
@@ -69,7 +67,7 @@ public final class IdeData {
     return data;
   }
 
-  public static final void setApplicationData(final IdeEventData data) {
+  public static void setApplicationData(final IdeEventData data) {
     IdeApplication application = IdeApplication.getInstance();
 
     data.setSessionId(Integer.toString(application.getPid()));
@@ -77,15 +75,15 @@ public final class IdeData {
     data.setAppVersion(application.getVersion());
   }
 
-  public static final void setEventData(final IdeEventData data, final long time) {
+  public static void setEventData(final IdeEventData data, final long time) {
     data.setTimestamp(Internals.timeSupplier.from(time));
   }
 
-  public static final void setProjectData(final IdeEventData data, final IFile file) {
+  public static void setProjectData(final IdeEventData data, final IFile file) {
     setProjectData(data, file.getProject());
   }
 
-  public static final void setProjectData(final IdeEventData data, final IClassFile file) {
+  public static void setProjectData(final IdeEventData data, final IClassFile file) {
     IJavaElement root = file.getAncestor(IJavaElement.PACKAGE_FRAGMENT_ROOT);
 
     checkState(root != null, "Package fragment root not found");
@@ -93,11 +91,11 @@ public final class IdeData {
     setProjectData(data, Workspaces.getName(file.getJavaProject().getProject().getWorkspace()), root.getElementName());
   }
 
-  public static final void setProjectData(final IdeEventData data, final IProject project) {
+  public static void setProjectData(final IdeEventData data, final IProject project) {
     setProjectData(data, Workspaces.getName(project.getWorkspace()), project.getName());
   }
 
-  private static final void setProjectData(final IdeEventData data, final String workspace, final String project) {
+  private static void setProjectData(final IdeEventData data, final String workspace, final String project) {
     data.setSolutionName(workspace);
     data.setProjectName(project);
   }

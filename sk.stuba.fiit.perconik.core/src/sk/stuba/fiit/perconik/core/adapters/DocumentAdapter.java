@@ -9,13 +9,13 @@ import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
  * An abstract adapter class for a {@code DocumentListener}.
  * The methods in this class are empty. This class exists
  * as convenience for creating listener objects.
- * 
+ *
  * <p>Extend this class to create a {@code DocumentListener}
  * and override the methods for the events of interest.
- * 
+ *
  * @see Adapter
  * @see DocumentListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -25,7 +25,7 @@ public class DocumentAdapter extends Adapter implements DocumentListener {
    */
   protected DocumentAdapter() {}
 
-  public void documentAboutToBeChanged(DocumentEvent event) {}
+  public void documentAboutToBeChanged(final DocumentEvent event) {}
 
-  public void documentChanged(DocumentEvent event) {}
+  public void documentChanged(final DocumentEvent event) {}
 }

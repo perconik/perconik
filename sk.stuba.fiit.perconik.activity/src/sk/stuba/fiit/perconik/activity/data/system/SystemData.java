@@ -11,15 +11,15 @@ public class SystemData extends AnyStructuredData {
 
   public SystemData() {}
 
-  public void setJava(JavaData java) {
+  public void setJava(final JavaData java) {
     this.java = java;
   }
 
-  public void setOperatingSystem(OperatingSystemData operatingSystem) {
+  public void setOperatingSystem(final OperatingSystemData operatingSystem) {
     this.operatingSystem = operatingSystem;
   }
 
-  public void setUser(UserData user) {
+  public void setUser(final UserData user) {
     this.user = user;
   }
 

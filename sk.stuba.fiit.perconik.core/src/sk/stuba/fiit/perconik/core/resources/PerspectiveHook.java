@@ -11,7 +11,7 @@ final class PerspectiveHook extends InternalHook<IWorkbenchWindow, PerspectiveLi
   }
 
   static final class Support extends AbstractHookSupport<PerspectiveHook, IWorkbenchWindow, PerspectiveListener> {
-    public final Hook<IWorkbenchWindow, PerspectiveListener> create(final PerspectiveListener listener) {
+    public Hook<IWorkbenchWindow, PerspectiveListener> create(final PerspectiveListener listener) {
       return new PerspectiveHook(listener);
     }
   }
@@ -21,29 +21,29 @@ final class PerspectiveHook extends InternalHook<IWorkbenchWindow, PerspectiveLi
       super(IWorkbenchWindow.class, listener);
     }
 
-    public final void register(final IWorkbenchWindow window) {
+    public void register(final IWorkbenchWindow window) {
       window.addPerspectiveListener(this.listener);
     }
 
-    public final void unregister(final IWorkbenchWindow window) {
+    public void unregister(final IWorkbenchWindow window) {
       window.removePerspectiveListener(this.listener);
     }
   }
 
   @Override
-  final void preRegisterInternal() {
+  void preRegisterInternal() {
     Hooks.addWindowsAsynchronouslyTo(this);
   }
 
-  public final void windowOpened(final IWorkbenchWindow window) {
+  public void windowOpened(final IWorkbenchWindow window) {
     this.add(window);
   }
 
-  public final void windowClosed(final IWorkbenchWindow window) {
+  public void windowClosed(final IWorkbenchWindow window) {
     this.remove(window);
   }
 
-  public final void windowActivated(final IWorkbenchWindow window) {}
+  public void windowActivated(final IWorkbenchWindow window) {}
 
-  public final void windowDeactivated(final IWorkbenchWindow window) {}
+  public void windowDeactivated(final IWorkbenchWindow window) {}
 }

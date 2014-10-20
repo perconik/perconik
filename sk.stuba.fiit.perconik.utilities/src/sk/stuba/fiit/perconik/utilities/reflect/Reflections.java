@@ -16,19 +16,17 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
 public final class Reflections {
-  private Reflections() {
-    throw new AssertionError();
-  }
+  private Reflections() {}
 
   private static enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>> {
     INSTANCE;
 
-    public final Class<? extends Annotation> apply(@Nullable Annotation annotation) {
+    public Class<? extends Annotation> apply(@Nullable final Annotation annotation) {
       return annotation != null ? annotation.annotationType() : null;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return Classes.toMethodName(this.getClass());
     }
   }
@@ -36,12 +34,12 @@ public final class Reflections {
   private static enum ToClassFunction implements Function<Object, Class<? extends Object>> {
     INSTANCE;
 
-    public final Class<? extends Object> apply(@Nullable Object object) {
+    public Class<? extends Object> apply(@Nullable final Object object) {
       return object != null ? object.getClass() : null;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return Classes.toMethodName(this.getClass());
     }
   }
@@ -49,17 +47,17 @@ public final class Reflections {
   private static enum ToEnumTypeFunction implements Function<Enum<?>, Class<?>> {
     INSTANCE;
 
-    public final Class<?> apply(@Nullable Enum<?> constant) {
+    public Class<?> apply(@Nullable final Enum<?> constant) {
       return constant != null ? constant.getDeclaringClass() : null;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return Classes.toMethodName(this.getClass());
     }
   }
 
-  private static final <F, T> Function<F, T> cast(final Function<?, ?> function) {
+  private static <F, T> Function<F, T> cast(final Function<?, ?> function) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings({"unchecked", "rawtypes"})
     Function<F, T> result = (Function) function;
@@ -67,19 +65,19 @@ public final class Reflections {
     return result;
   }
 
-  public static final <A extends Annotation> Function<A, Class<? extends A>> toAnnotationTypeFunction() {
+  public static <A extends Annotation> Function<A, Class<? extends A>> toAnnotationTypeFunction() {
     return cast(ToAnnotationTypeFunction.INSTANCE);
   }
 
-  public static final <T> Function<T, Class<? extends T>> toClassFunction() {
+  public static <T> Function<T, Class<? extends T>> toClassFunction() {
     return cast(ToClassFunction.INSTANCE);
   }
 
-  public static final <E extends Enum<E>> Function<E, Class<E>> toEnumTypeFunction() {
+  public static <E extends Enum<E>> Function<E, Class<E>> toEnumTypeFunction() {
     return cast(ToEnumTypeFunction.INSTANCE);
   }
 
-  public static final <T> LinkedList<Class<? super T>> collectSuperclasses(Class<T> type) {
+  public static <T> LinkedList<Class<? super T>> collectSuperclasses(final Class<T> type) {
     LinkedList<Class<? super T>> superclasses = newLinkedList();
 
     Class<? super T> supertype = type;
@@ -91,7 +89,7 @@ public final class Reflections {
     return superclasses;
   }
 
-  public static final LinkedHashSet<Class<?>> collectInterfaces(Class<?> type) {
+  public static LinkedHashSet<Class<?>> collectInterfaces(final Class<?> type) {
     Set<Class<?>> resolved = newHashSet();
 
     LinkedHashSet<Class<?>> interfaces = newLinkedHashSet();
@@ -107,7 +105,7 @@ public final class Reflections {
     return interfaces;
   }
 
-  private static final void groupInterfaces(Class<?> type, Set<Class<?>> resolved, Set<Class<?>> result) {
+  private static void groupInterfaces(final Class<?> type, final Set<Class<?>> resolved, final Set<Class<?>> result) {
     if (resolved.add(type)) {
       for (Class<?> supertype: type.getInterfaces()) {
         groupInterfaces(supertype, resolved, result);

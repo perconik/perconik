@@ -11,7 +11,7 @@ import sk.stuba.fiit.perconik.core.services.Services;
  * An abstract implementation of the {@link ResourceRegistration} interface.
  * Implemented predicates like the current registration status are obtained
  * directly from the core using the underlying resource or resource's data.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

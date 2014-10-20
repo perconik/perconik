@@ -20,49 +20,49 @@ enum TestRunHandler implements Handler<TestRunListener> {
       this.listener = checkNotNull(listener);
     }
 
-    public final void preRegister() {
+    public void preRegister() {
       this.listener.preRegister();
     }
 
-    public final void postRegister() {
+    public void postRegister() {
       this.listener.postRegister();
     }
 
-    public final void preUnregister() {
+    public void preUnregister() {
       this.listener.preUnregister();
     }
 
-    public final void postUnregister() {
+    public void postUnregister() {
       this.listener.postUnregister();
     }
 
     @Override
-    public final void sessionLaunched(final ITestRunSession session) {
+    public void sessionLaunched(final ITestRunSession session) {
       this.listener.sessionLaunched(session);
     }
 
     @Override
-    public final void sessionStarted(final ITestRunSession session) {
+    public void sessionStarted(final ITestRunSession session) {
       this.listener.sessionStarted(session);
     }
 
     @Override
-    public final void sessionFinished(final ITestRunSession session) {
+    public void sessionFinished(final ITestRunSession session) {
       this.listener.sessionFinished(session);
     }
 
     @Override
-    public final void testCaseStarted(final ITestCaseElement testCaseElement) {
+    public void testCaseStarted(final ITestCaseElement testCaseElement) {
       this.listener.testCaseStarted(testCaseElement);
     }
 
     @Override
-    public final void testCaseFinished(final ITestCaseElement testCaseElement) {
+    public void testCaseFinished(final ITestCaseElement testCaseElement) {
       this.listener.testCaseFinished(testCaseElement);
     }
 
     @Override
-    public final boolean equals(@Nullable final Object o) {
+    public boolean equals(@Nullable final Object o) {
       if (this == o) {
         return true;
       }
@@ -77,21 +77,21 @@ enum TestRunHandler implements Handler<TestRunListener> {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       return this.listener.hashCode();
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return this.listener.toString();
     }
   }
 
-  public final void register(final TestRunListener listener) {
+  public void register(final TestRunListener listener) {
     JUnitCore.addTestRunListener(new TestRunProxy(listener));
   }
 
-  public final void unregister(final TestRunListener listener) {
+  public void unregister(final TestRunListener listener) {
     JUnitCore.addTestRunListener(new TestRunProxy(listener));
   }
 }

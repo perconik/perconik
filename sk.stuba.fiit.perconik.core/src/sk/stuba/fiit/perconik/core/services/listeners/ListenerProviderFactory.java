@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.services.ProviderFactory;
 /**
  * The {@code ListenerProviderFactory}
  * creates {@link ListenerProvider} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

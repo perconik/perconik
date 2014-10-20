@@ -12,9 +12,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 public final class UacaMessageDialogs {
-  private UacaMessageDialogs() {
-    throw new AssertionError();
-  }
+  private UacaMessageDialogs() {}
 
   public static void openError(final String key, final String message) {
     openError(key, message, "Always display warning on service failure");
@@ -22,7 +20,7 @@ public final class UacaMessageDialogs {
 
   public static void openError(final String key, final String message, final String toggle) {
     final Runnable dialog = new Runnable() {
-      public final void run() {
+      public void run() {
         IWorkbenchWindow window = Workbenches.getActiveWindow();
 
         Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell();

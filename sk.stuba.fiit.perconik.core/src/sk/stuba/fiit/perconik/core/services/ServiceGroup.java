@@ -16,10 +16,10 @@ import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * An immutable set of {@code Service} instances user-specified
- * iteration order. Does not permit {@code null} elements. 
- * 
+ * iteration order. Does not permit {@code null} elements.
+ *
  * @param <S> the common supertype that all services must share
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -33,14 +33,14 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
   /**
    * Returns the empty service group.
    */
-  public static final <S extends Service> ServiceGroup<S> of() {
+  public static <S extends Service> ServiceGroup<S> of() {
     return new ServiceGroup<>(ImmutableSet.<S>of());
   }
 
   /**
    * Returns a service group containing a single service.
    */
-  public static final <S extends Service> ServiceGroup<S> of(final S service) {
+  public static <S extends Service> ServiceGroup<S> of(final S service) {
     return new ServiceGroup<>(ImmutableSet.of(service));
   }
 
@@ -50,7 +50,7 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
    * after the first are ignored.
    * @throws NullPointerException if any service is {@code null}
    */
-  public static final <S extends Service> ServiceGroup<S> of(final S first, final S second) {
+  public static <S extends Service> ServiceGroup<S> of(final S first, final S second) {
     return new ServiceGroup<>(ImmutableSet.of(first, second));
   }
 
@@ -61,32 +61,32 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
    * @throws NullPointerException if any service is {@code null}
    */
   @SafeVarargs
-  public static final <S extends Service> ServiceGroup<S> of(final S first, final S second, final S ... rest) {
+  public static <S extends Service> ServiceGroup<S> of(final S first, final S second, final S ... rest) {
     return new ServiceGroup<>(asList(first, second, rest));
   }
 
   // TODO add 4 copyOf methods like in ImmutableSet
 
   @Override
-  protected final Set<S> delegate() {
+  protected Set<S> delegate() {
     return this.services;
   }
 
-  public final void startSynchronously() {
+  public void startSynchronously() {
     for (S service: this.services) {
       service.startAsync();
       service.awaitRunning();
     }
   }
 
-  public final void stopSynchronously() {
+  public void stopSynchronously() {
     for (S service: this.services) {
       service.stopAsync();
       service.awaitTerminated();
     }
   }
 
-  public final ServiceGroup<S> startAsynchronously() {
+  public ServiceGroup<S> startAsynchronously() {
     for (S service: this.services) {
       service.startAsync();
     }
@@ -94,7 +94,7 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     return this;
   }
 
-  public final ServiceGroup<S> stopAsynchronously() {
+  public ServiceGroup<S> stopAsynchronously() {
     for (S service: this.services) {
       service.stopAsync();
     }
@@ -102,19 +102,19 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     return this;
   }
 
-  public final void awaitRunning() {
+  public void awaitRunning() {
     for (S service: this.services) {
       service.awaitRunning();
     }
   }
 
-  public final void awaitTerminated() {
+  public void awaitTerminated() {
     for (S service: this.services) {
       service.awaitTerminated();
     }
   }
 
-  public final Map<S, State> states() {
+  public Map<S, State> states() {
     ImmutableMap.Builder<S, State> builder = ImmutableMap.builder();
 
     for (S service: this.services) {
@@ -124,7 +124,7 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     return builder.build();
   }
 
-  public final <U extends S> ServiceGroup<U> narrow(final Class<U> type) {
+  public <U extends S> ServiceGroup<U> narrow(final Class<U> type) {
     ImmutableSet.Builder<U> builder = ImmutableSet.builder();
 
     for (S service: this.services) {
@@ -136,7 +136,7 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     return new ServiceGroup<>(builder.build());
   }
 
-  public final <U extends S> U fetch(final Class<U> type) {
+  public <U extends S> U fetch(final Class<U> type) {
     Iterator<U> iterator = this.narrow(type).iterator();
 
     U service = iterator.next();
@@ -146,7 +146,7 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     return service;
   }
 
-  public final ServiceGroup<S> reverse() {
+  public ServiceGroup<S> reverse() {
     return new ServiceGroup<>(Lists.reverse(newArrayList(this.services)));
   }
 }

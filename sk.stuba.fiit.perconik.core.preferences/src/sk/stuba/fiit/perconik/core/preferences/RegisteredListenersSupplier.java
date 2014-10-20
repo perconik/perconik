@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerClassesSupplier;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class RegisteredListenersSupplier implements ListenerClassesSupplier {
+public final class RegisteredListenersSupplier implements ListenerClassesSupplier {
   /**
    * The constructor.
    */
@@ -24,7 +24,7 @@ public class RegisteredListenersSupplier implements ListenerClassesSupplier {
    * state of <i>instance</i> scope of {@code ListenerPreferences}.
    * @return classes of registered listeners
    */
-  public final Set<Class<? extends Listener>> get() {
+  public Set<Class<? extends Listener>> get() {
     ListenerPreferences preferences = ListenerPreferences.getShared();
 
     return Registrations.toListenerClasses(Registrations.marked(preferences.getListenerPersistenceData()));

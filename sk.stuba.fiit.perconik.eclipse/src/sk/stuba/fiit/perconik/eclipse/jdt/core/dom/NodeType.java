@@ -550,31 +550,31 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
     this.type = type;
   }
 
-  public static final int count() {
+  public static int count() {
     return count;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final Set<Class<? extends ASTNode>> valuesAsTypes() {
+  public static Set<Class<? extends ASTNode>> valuesAsTypes() {
     return types.getTypes();
   }
 
-  public static final NodeType valueOf(final int value) {
+  public static NodeType valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final NodeType valueOf(final Class<? extends ASTNode> type) {
+  public static NodeType valueOf(final Class<? extends ASTNode> type) {
     return types.getConstant(type);
   }
 
-  public static final NodeType valueOf(final ASTNode node) {
+  public static NodeType valueOf(final ASTNode node) {
     return valueOf(node.getNodeType());
   }
 
-  public static final Set<NodeType> setOf(final Iterable<Class<? extends ASTNode>> types) {
+  public static Set<NodeType> setOf(final Iterable<Class<? extends ASTNode>> types) {
     Set<NodeType> result = newHashSet();
 
     for (Class<? extends ASTNode> type: types) {
@@ -584,27 +584,27 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
     return result;
   }
 
-  public static final boolean isInstance(@Nullable final ASTNode node, final NodeType a) {
+  public static boolean isInstance(@Nullable final ASTNode node, final NodeType a) {
     return node != null && a.isInstance(node);
   }
 
-  public static final boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b) {
+  public static boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b) {
     return node != null && (a.isInstance(node) || b.isInstance(node));
   }
 
-  public static final boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c) {
+  public static boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c) {
     return node != null && (a.isInstance(node) || b.isInstance(node) || c.isInstance(node));
   }
 
-  public static final boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d) {
+  public static boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d) {
     return node != null && (a.isInstance(node) || b.isInstance(node) || c.isInstance(node) || d.isInstance(node));
   }
 
-  public static final boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d, final NodeType ... rest) {
+  public static boolean isInstance(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d, final NodeType ... rest) {
     return isInstance(node, a, b, c, d) || isInstance(node, asList(rest));
   }
 
-  public static final boolean isInstance(@Nullable final ASTNode node, final Iterable<NodeType> types) {
+  public static boolean isInstance(@Nullable final ASTNode node, final Iterable<NodeType> types) {
     if (node == null) {
       return false;
     }
@@ -618,27 +618,27 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
     return false;
   }
 
-  public static final boolean isMatching(@Nullable final ASTNode node, final NodeType a) {
+  public static boolean isMatching(@Nullable final ASTNode node, final NodeType a) {
     return node != null && a.isMatching(node);
   }
 
-  public static final boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b) {
+  public static boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b) {
     return node != null && (a.isMatching(node) || b.isMatching(node));
   }
 
-  public static final boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c) {
+  public static boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c) {
     return node != null && (a.isMatching(node) || b.isMatching(node) || c.isMatching(node));
   }
 
-  public static final boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d) {
+  public static boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d) {
     return node != null && (a.isMatching(node) || b.isMatching(node) || c.isMatching(node) || d.isMatching(node));
   }
 
-  public static final boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d, final NodeType ... rest) {
+  public static boolean isMatching(@Nullable final ASTNode node, final NodeType a, final NodeType b, final NodeType c, final NodeType d, final NodeType ... rest) {
     return isMatching(node, a, b, c, d) || isMatching(node, asList(rest));
   }
 
-  public static final boolean isMatching(@Nullable final ASTNode node, final Iterable<NodeType> types) {
+  public static boolean isMatching(@Nullable final ASTNode node, final Iterable<NodeType> types) {
     if (node == null) {
       return false;
     }
@@ -652,28 +652,28 @@ public enum NodeType implements IntegralConstant, TypeConstant<ASTNode> {
     return false;
   }
 
-  public final boolean isInstance(@Nullable final ASTNode node) {
+  public boolean isInstance(@Nullable final ASTNode node) {
     return node != null && this.type.isInstance(node);
   }
 
-  public final boolean isMatching(@Nullable final ASTNode node) {
+  public boolean isMatching(@Nullable final ASTNode node) {
     return node != null && this.value == node.getNodeType();
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return this.getName();
   }
 
-  public final String getName() {
+  public String getName() {
     return this.name;
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 
-  public final Class<? extends ASTNode> getType() {
+  public Class<? extends ASTNode> getType() {
     return this.type;
   }
 }

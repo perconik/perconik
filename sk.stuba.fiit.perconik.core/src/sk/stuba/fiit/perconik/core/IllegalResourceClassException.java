@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
  * are invalid. This may occur either because the class is not an instance
  * of {@link sk.stuba.fiit.perconik.core.Resource Resource} or it does not
  * meet any other service implementation specific requirements.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -24,21 +24,21 @@ public class IllegalResourceClassException extends IllegalArgumentException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public IllegalResourceClassException(@Nullable String message) {
+  public IllegalResourceClassException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public IllegalResourceClassException(@Nullable String message, @Nullable Throwable cause) {
+  public IllegalResourceClassException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public IllegalResourceClassException(@Nullable Throwable cause) {
+  public IllegalResourceClassException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

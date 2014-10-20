@@ -22,61 +22,59 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @since 1.0
  */
 public final class Workbenches {
-  private Workbenches() {
-    throw new AssertionError();
-  }
+  private Workbenches() {}
 
-  public static final Supplier<IWorkbench> workbenchSupplier() {
+  public static Supplier<IWorkbench> workbenchSupplier() {
     return new Supplier<IWorkbench>() {
-      public final IWorkbench get() {
+      public IWorkbench get() {
         return getWorkbench();
       }
     };
   }
 
-  public static final Supplier<IWorkbenchWindow> activeWindowSupplier() {
+  public static Supplier<IWorkbenchWindow> activeWindowSupplier() {
     return new Supplier<IWorkbenchWindow>() {
-      public final IWorkbenchWindow get() {
+      public IWorkbenchWindow get() {
         return getActiveWindow();
       }
     };
   }
 
-  public static final Supplier<IWorkbenchWindow> activeWindowSupplier(@Nullable final IWorkbench workbench) {
+  public static Supplier<IWorkbenchWindow> activeWindowSupplier(@Nullable final IWorkbench workbench) {
     return new Supplier<IWorkbenchWindow>() {
-      public final IWorkbenchWindow get() {
+      public IWorkbenchWindow get() {
         return getActiveWindow(workbench);
       }
     };
   }
 
-  public static final Supplier<IWorkbenchPage> activePageSupplier() {
+  public static Supplier<IWorkbenchPage> activePageSupplier() {
     return new Supplier<IWorkbenchPage>() {
-      public final IWorkbenchPage get() {
+      public IWorkbenchPage get() {
         return getActivePage();
       }
     };
   }
 
-  public static final Supplier<IWorkbenchPage> activePageSupplier(@Nullable final IWorkbenchWindow window) {
+  public static Supplier<IWorkbenchPage> activePageSupplier(@Nullable final IWorkbenchWindow window) {
     return new Supplier<IWorkbenchPage>() {
-      public final IWorkbenchPage get() {
+      public IWorkbenchPage get() {
         return getActivePage(window);
       }
     };
   }
 
-  public static final Supplier<IWorkbenchPart> activePartSupplier() {
+  public static Supplier<IWorkbenchPart> activePartSupplier() {
     return new Supplier<IWorkbenchPart>() {
-      public final IWorkbenchPart get() {
+      public IWorkbenchPart get() {
         return getActivePart();
       }
     };
   }
 
-  public static final Supplier<IWorkbenchPart> activePartSupplier(@Nullable final IWorkbenchPage page) {
+  public static Supplier<IWorkbenchPart> activePartSupplier(@Nullable final IWorkbenchPage page) {
     return new Supplier<IWorkbenchPart>() {
-      public final IWorkbenchPart get() {
+      public IWorkbenchPart get() {
         return getActivePart(page);
       }
     };
@@ -86,11 +84,11 @@ public final class Workbenches {
    * Gets the workbench.
    * @return the workbench or {@code null} if it has not been created yet
    */
-  public static final IWorkbench getWorkbench() {
+  public static IWorkbench getWorkbench() {
     try {
       return PlatformUI.getWorkbench();
     } catch (IllegalStateException e) {
-      PluginConsoles.create(Activator.getDefault()).error("Workbench has not been created yet.", e);
+      PluginConsoles.create(Activator.defaultInstance()).error("Workbench has not been created yet.", e);
 
       return null;
     }
@@ -101,7 +99,7 @@ public final class Workbenches {
    * @return the active window or {@code null} if
    *         the workbench has not been created yet
    */
-  public static final IWorkbenchWindow getActiveWindow() {
+  public static IWorkbenchWindow getActiveWindow() {
     return getActiveWindow(getWorkbench());
   }
 
@@ -111,7 +109,7 @@ public final class Workbenches {
    * @return the active window or {@code null} if the workbench
    *         is {@code null} or if called from a non-UI thread
    */
-  public static final IWorkbenchWindow getActiveWindow(@Nullable final IWorkbench workbench) {
+  public static IWorkbenchWindow getActiveWindow(@Nullable final IWorkbench workbench) {
     if (workbench == null) {
       return null;
     }
@@ -123,7 +121,7 @@ public final class Workbenches {
    * Gets the currently active page.
    * @return the active page or {@code null} if there is no active window
    */
-  public static final IWorkbenchPage getActivePage() {
+  public static IWorkbenchPage getActivePage() {
     return getActivePage(getActiveWindow());
   }
 
@@ -133,7 +131,7 @@ public final class Workbenches {
    * @return the active page or {@code null} if the window
    *         is {@code null} or there is no active page
    */
-  public static final IWorkbenchPage getActivePage(@Nullable final IWorkbenchWindow window) {
+  public static IWorkbenchPage getActivePage(@Nullable final IWorkbenchWindow window) {
     if (window == null) {
       return null;
     }
@@ -145,7 +143,7 @@ public final class Workbenches {
    * Gets the currently active part.
    * @return the active part or {@code null} if there is no active page
    */
-  public static final IWorkbenchPart getActivePart() {
+  public static IWorkbenchPart getActivePart() {
     return getActivePart(getActivePage());
   }
 
@@ -155,7 +153,7 @@ public final class Workbenches {
    * @return the active part or {@code null} if the page
    *         is {@code null} or there is no active part
    */
-  public static final IWorkbenchPart getActivePart(@Nullable final IWorkbenchPage page) {
+  public static IWorkbenchPart getActivePart(@Nullable final IWorkbenchPage page) {
     if (page == null) {
       return null;
     }
@@ -168,7 +166,7 @@ public final class Workbenches {
    * This method blocks until there is an available workbench.
    * @see #getWorkbench()
    */
-  public static final IWorkbench waitForWorkbench() {
+  public static IWorkbench waitForWorkbench() {
     IWorkbench workbench;
 
     while ((workbench = getWorkbench()) == null) {}
@@ -181,7 +179,7 @@ public final class Workbenches {
    * This method blocks until there is an active window.
    * @see #getActiveWindow()
    */
-  public static final IWorkbenchWindow waitForActiveWindow() {
+  public static IWorkbenchWindow waitForActiveWindow() {
     return waitForActiveWindow(waitForWorkbench());
   }
 
@@ -191,7 +189,7 @@ public final class Workbenches {
    * @param workbench the workbench, can not be {@code null}
    * @see #getActiveWindow(IWorkbench)
    */
-  public static final IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench) {
+  public static IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench) {
     checkNotNull(workbench);
 
     IWorkbenchWindow window;
@@ -206,7 +204,7 @@ public final class Workbenches {
    * This method blocks until there is an active page.
    * @see #getActivePage()
    */
-  public static final IWorkbenchPage waitForActivePage() {
+  public static IWorkbenchPage waitForActivePage() {
     return waitForActivePage(waitForActiveWindow());
   }
 
@@ -216,7 +214,7 @@ public final class Workbenches {
    * @param window the window, can not be {@code null}
    * @see #getActivePage(IWorkbenchWindow)
    */
-  public static final IWorkbenchPage waitForActivePage(final IWorkbenchWindow window) {
+  public static IWorkbenchPage waitForActivePage(final IWorkbenchWindow window) {
     checkNotNull(window);
 
     IWorkbenchPage page;
@@ -231,7 +229,7 @@ public final class Workbenches {
    * This method blocks until there is an active part.
    * @see #getActivePart()
    */
-  public static final IWorkbenchPart waitForActivePart() {
+  public static IWorkbenchPart waitForActivePart() {
     return waitForActivePart(waitForActivePage());
   }
 
@@ -241,7 +239,7 @@ public final class Workbenches {
    * @param page the page, can not be {@code null}
    * @see #getActivePart(IWorkbenchPage)
    */
-  public static final IWorkbenchPart waitForActivePart(final IWorkbenchPage page) {
+  public static IWorkbenchPart waitForActivePart(final IWorkbenchPage page) {
     checkNotNull(page);
 
     IWorkbenchPart part;

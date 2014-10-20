@@ -19,43 +19,43 @@ public final class CommandExecutionDebugListener extends AbstractDebugListener i
     super(console);
   }
 
-  public final void preExecute(final String id, final ExecutionEvent event) {
+  public void preExecute(final String id, final ExecutionEvent event) {
     this.printHeader("Command pre execute");
     this.printLine("identifier", id);
     this.printExecutionEvent(event);
   }
 
-  public final void postExecuteSuccess(final String id, final Object result) {
+  public void postExecuteSuccess(final String id, final Object result) {
     this.printHeader("Command execute success");
     this.printLine("identifier", id);
     this.printLine("result", result);
   }
 
-  public final void postExecuteFailure(final String id, final ExecutionException exception) {
+  public void postExecuteFailure(final String id, final ExecutionException exception) {
     this.printHeader("Command execute failure");
     this.printLine("identifier", id);
     this.printLine("exception", exception);
   }
 
-  public final void notDefined(final String id, final NotDefinedException exception) {
+  public void notDefined(final String id, final NotDefinedException exception) {
     this.printHeader("Command not defined");
     this.printLine("identifier", id);
     this.printLine("exception", exception);
   }
 
-  public final void notEnabled(final String id, final NotEnabledException exception) {
+  public void notEnabled(final String id, final NotEnabledException exception) {
     this.printHeader("Command not enabled");
     this.printLine("identifier", id);
     this.printLine("exception", exception);
   }
 
-  public final void notHandled(final String id, final NotHandledException exception) {
+  public void notHandled(final String id, final NotHandledException exception) {
     this.printHeader("Command not handled");
     this.printLine("identifier", id);
     this.printLine("exception", exception);
   }
 
-  private final void printExecutionEvent(final ExecutionEvent event) {
+  private void printExecutionEvent(final ExecutionEvent event) {
     try {
       this.put(Debug.dumpExecutionEvent(event));
     } catch (CommandException e) {

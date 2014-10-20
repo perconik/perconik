@@ -16,16 +16,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @since 1.0
  */
 public final class Handlers {
-  private Handlers() {
-    throw new AssertionError();
-  }
+  private Handlers() {}
 
   /**
    * Gets the handler service.
    * @return the handler service or {@code null} if
    *         the workbench has not been created yet
    */
-  public static final IHandlerService getHandlerService() {
+  public static IHandlerService getHandlerService() {
     return getHandlerService(Workbenches.getWorkbench());
   }
 
@@ -35,7 +33,7 @@ public final class Handlers {
    * @return the handler service or {@code null} if the workbench
    *         is {@code null} or if the workbench has no handler service
    */
-  public static final IHandlerService getHandlerService(@Nullable final IWorkbench workbench) {
+  public static IHandlerService getHandlerService(@Nullable final IWorkbench workbench) {
     if (workbench == null) {
       return null;
     }
@@ -48,7 +46,7 @@ public final class Handlers {
    * This method blocks until there is an available handler service.
    * @see #getHandlerService()
    */
-  public static final IHandlerService waitForHandlerService() {
+  public static IHandlerService waitForHandlerService() {
     return waitForHandlerService(Workbenches.waitForWorkbench());
   }
 
@@ -58,7 +56,7 @@ public final class Handlers {
    * @param workbench the workbench, can not be {@code null}
    * @see #getHandlerService(IWorkbench)
    */
-  public static final IHandlerService waitForHandlerService(final IWorkbench workbench) {
+  public static IHandlerService waitForHandlerService(final IWorkbench workbench) {
     checkNotNull(workbench);
 
     IHandlerService service;

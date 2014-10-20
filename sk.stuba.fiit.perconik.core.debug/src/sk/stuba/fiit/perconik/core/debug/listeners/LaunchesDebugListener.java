@@ -15,27 +15,27 @@ public final class LaunchesDebugListener extends AbstractDebugListener implement
     super(console);
   }
 
-  public final void launchesAdded(final ILaunch[] launches) {
+  public void launchesAdded(final ILaunch[] launches) {
     this.printHeader("Launches added");
     this.printLaunches(launches);
   }
 
-  public final void launchesRemoved(final ILaunch[] launches) {
+  public void launchesRemoved(final ILaunch[] launches) {
     this.printHeader("Launches added");
     this.printLaunches(launches);
   }
 
-  public final void launchesChanged(final ILaunch[] launches) {
+  public void launchesChanged(final ILaunch[] launches) {
     this.printHeader("Launches added");
     this.printLaunches(launches);
   }
 
-  public final void launchesTerminated(final ILaunch[] launches) {
+  public void launchesTerminated(final ILaunch[] launches) {
     this.printHeader("Launches added");
     this.printLaunches(launches);
   }
 
-  private final void printLaunches(final ILaunch[] launches) {
+  private void printLaunches(final ILaunch[] launches) {
     try {
       this.put(Debug.dumpLaunches(launches));
     } catch (CoreException e) {

@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A command execution listener.
- * 
+ *
  * @see Listener
  * @see IExecutionListenerWithChecks
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

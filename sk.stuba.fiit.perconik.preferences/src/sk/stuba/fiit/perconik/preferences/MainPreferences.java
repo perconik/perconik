@@ -39,7 +39,7 @@ public final class MainPreferences extends AbstractPreferences {
      * when the appropriate default preference node is accessed.
      */
     @Override
-    public final void initializeDefaultPreferences() {}
+    public void initializeDefaultPreferences() {}
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
@@ -48,14 +48,14 @@ public final class MainPreferences extends AbstractPreferences {
   /**
    * Gets default scoped core preferences.
    */
-  public static final MainPreferences getDefault() {
+  public static MainPreferences getDefault() {
     return new MainPreferences(Scope.DEFAULT);
   }
 
   /**
    * Gets configuration scoped core preferences.
    */
-  public static final MainPreferences getShared() {
+  public static MainPreferences getShared() {
     return new MainPreferences(Scope.CONFIGURATION);
   }
 }

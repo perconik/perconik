@@ -15,9 +15,9 @@ import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * Resource types.
- * 
+ *
  * @see IResource
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -57,27 +57,27 @@ public enum ResourceType implements IntegralConstant, TypeConstant<IResource> {
     this.type = type;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final Set<Class<? extends IResource>> valuesAsTypes() {
+  public static Set<Class<? extends IResource>> valuesAsTypes() {
     return types.getTypes();
   }
 
-  public static final ResourceType valueOf(final int value) {
+  public static ResourceType valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final ResourceType valueOf(final Class<? extends IResource> type) {
+  public static ResourceType valueOf(final Class<? extends IResource> type) {
     return types.getConstant(type);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 
-  public final Class<? extends IResource> getType() {
+  public Class<? extends IResource> getType() {
     return this.type;
   }
 }

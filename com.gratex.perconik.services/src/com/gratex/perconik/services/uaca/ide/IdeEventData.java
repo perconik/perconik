@@ -36,7 +36,7 @@ public class IdeEventData {
     return this.sessionId;
   }
 
-  public void setSessionId(String sessionId) {
+  public void setSessionId(final String sessionId) {
     this.sessionId = sessionId;
   }
 
@@ -44,7 +44,7 @@ public class IdeEventData {
     return this.appName;
   }
 
-  public void setAppName(String appName) {
+  public void setAppName(final String appName) {
     this.appName = appName;
   }
 
@@ -52,7 +52,7 @@ public class IdeEventData {
     return this.appVersion;
   }
 
-  public void setAppVersion(String appVersion) {
+  public void setAppVersion(final String appVersion) {
     this.appVersion = appVersion;
   }
 
@@ -60,7 +60,7 @@ public class IdeEventData {
     return this.projectName;
   }
 
-  public void setProjectName(String projectName) {
+  public void setProjectName(final String projectName) {
     this.projectName = projectName;
   }
 
@@ -68,7 +68,7 @@ public class IdeEventData {
     return this.solutionName;
   }
 
-  public void setSolutionName(String solutionName) {
+  public void setSolutionName(final String solutionName) {
     this.solutionName = solutionName;
   }
 
@@ -76,7 +76,7 @@ public class IdeEventData {
     return this.timestamp;
   }
 
-  public void setTimestamp(XMLGregorianCalendar timestamp) {
+  public void setTimestamp(final XMLGregorianCalendar timestamp) {
     this.timestamp = timestamp;
   }
 }

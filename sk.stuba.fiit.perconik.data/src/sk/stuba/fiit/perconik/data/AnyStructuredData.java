@@ -33,19 +33,19 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
     super(new Structure());
   }
 
-  protected AnyStructuredData(Map<String, Object> other) {
+  protected AnyStructuredData(final Map<String, Object> other) {
     super(Structure.from(other));
   }
 
-  public static AnyStructuredData fromMap(Map<String, Object> data) {
+  public static AnyStructuredData fromMap(final Map<String, Object> data) {
     return fromMap(AnyStructuredData.class, data);
   }
 
-  public static AnyStructuredData fromString(String data) {
+  public static AnyStructuredData fromString(final String data) {
     return fromString(AnyStructuredData.class, data);
   }
 
-  public static AnyStructuredData of(Map<String, Object> other) {
+  public static AnyStructuredData of(final Map<String, Object> other) {
     return new AnyStructuredData(other);
   }
 
@@ -62,7 +62,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       this.map = newLinkedHashMap();
     }
 
-    static final Structure from(final Map<String, Object> map) {
+    static Structure from(final Map<String, Object> map) {
       Structure structure = new Structure();
 
       structure.putAll(map);
@@ -71,11 +71,11 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
     }
 
     @Override
-    protected final Map<String, Object> delegate() {
+    protected Map<String, Object> delegate() {
       return this.map;
     }
 
-    private static final Iterator<String> normalize(Iterator<String> key) {
+    private static Iterator<String> normalize(final Iterator<String> key) {
       checkState(key.hasNext());
 
       String component = key.next();
@@ -87,7 +87,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       return key.hasNext() ? Iterators.concat(components, key) : components;
     }
 
-    final Object put(Iterator<String> key, Object value) {
+    Object put(Iterator<String> key, final Object value) {
       key = normalize(key);
 
       String component = key.next();
@@ -111,7 +111,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       return data.structure().put(key, value);
     }
 
-    final Object remove(Iterator<String> key) {
+    Object remove(Iterator<String> key) {
       key = normalize(key);
 
       String component = key.next();
@@ -129,7 +129,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       return null;
     }
 
-    final boolean contains(Iterator<String> key) {
+    boolean contains(Iterator<String> key) {
       key = normalize(key);
 
       String component = key.next();
@@ -147,7 +147,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       return false;
     }
 
-    final Object get(Iterator<String> key) {
+    Object get(Iterator<String> key) {
       key = normalize(key);
 
       Object value = this.map.get(key.next());
@@ -164,27 +164,27 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
     }
 
     @Override
-    public final Object put(final String key, final Object value) {
+    public Object put(final String key, final Object value) {
       return this.put(Iterators.singletonIterator(key), value);
     }
 
     @Override
-    public final void putAll(final Map<? extends String, ? extends Object> map) {
+    public void putAll(final Map<? extends String, ? extends Object> map) {
       this.standardPutAll(map);
     }
 
     @Override
-    public final Object remove(final Object key) {
+    public Object remove(final Object key) {
       return this.remove(Iterators.singletonIterator((String) key));
     }
 
     @Override
-    public final boolean containsKey(final Object key) {
+    public boolean containsKey(final Object key) {
       return this.contains(Iterators.singletonIterator((String) key));
     }
 
     @Override
-    public final Object get(final Object key) {
+    public Object get(final Object key) {
       if (key instanceof String) {
         return this.get(Iterators.singletonIterator((String) key));
       }
@@ -192,7 +192,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       return null;
     }
 
-    private static class SerializationProxy<E extends Enum<E>> implements Serializable {
+    private static final class SerializationProxy<E extends Enum<E>> implements Serializable {
       private static final long serialVersionUID = 7166925961646497798L;
 
       private final Map<String, Object> map;
@@ -201,7 +201,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
         this.map = structure.map;
       }
 
-      private final Object readResolve() throws InvalidObjectException {
+      private Object readResolve() throws InvalidObjectException {
         try {
           return from(this.map);
         } catch (Exception e) {
@@ -211,11 +211,11 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
     }
 
     @SuppressWarnings({"static-method", "unused"})
-    private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+    private void readObject(final ObjectInputStream in) throws InvalidObjectException {
       throw new InvalidObjectException("Serialization proxy required");
     }
 
-    private final Object writeReplace() {
+    private Object writeReplace() {
       return new SerializationProxy<>(this);
     }
   }
@@ -231,32 +231,32 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   @JsonAnySetter
   @JsonDeserialize(using = AnyStructuredContentDeserializer.class)
   @Override
-  public void put(String key, @Nullable Object value) {
+  public void put(final String key, @Nullable final Object value) {
     this.other.put(key, value);
   }
 
-  public void put(Iterable<String> key, Object value) {
+  public void put(final Iterable<String> key, final Object value) {
     this.put(key.iterator(), value);
   }
 
-  public void put(Iterator<String> key, Object value) {
+  public void put(final Iterator<String> key, final Object value) {
     this.structure().put(key, value);
   }
 
   @Override
-  public Object get(String key) {
+  public Object get(final String key) {
     return this.other.get(key);
   }
 
-  public Object get(String key, String ... more) {
+  public Object get(final String key, final String ... more) {
     return this.get(asList(key, more));
   }
 
-  public Object get(Iterable<String> key) {
+  public Object get(final Iterable<String> key) {
     return this.get(key.iterator());
   }
 
-  public Object get(Iterator<String> key) {
+  public Object get(final Iterator<String> key) {
     return this.structure().get(key);
   }
 }

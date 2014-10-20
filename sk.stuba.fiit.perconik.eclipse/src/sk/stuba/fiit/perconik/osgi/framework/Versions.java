@@ -11,35 +11,33 @@ import static com.google.common.collect.Lists.newArrayListWithCapacity;
 public final class Versions {
   private static final String separator = ".";
 
-  private Versions() {
-    throw new AssertionError();
-  }
+  private Versions() {}
 
   public static enum Component {
     MAJOR {
       @Override
-      public final Integer get(final Version version) {
+      public Integer get(final Version version) {
         return version.getMajor();
       }
     },
 
     MINOR {
       @Override
-      public final Integer get(final Version version) {
+      public Integer get(final Version version) {
         return version.getMinor();
       }
     },
 
     MICRO {
       @Override
-      public final Integer get(final Version version) {
+      public Integer get(final Version version) {
         return version.getMicro();
       }
     },
 
     QUALIFIER {
       @Override
-      public final String get(final Version version) {
+      public String get(final Version version) {
         return version.getQualifier();
       }
     };
@@ -52,7 +50,7 @@ public final class Versions {
     }
   }
 
-  public static final String toString(final Version version, final Component ... components) {
+  public static String toString(final Version version, final Component ... components) {
     List<Object> values = newArrayListWithCapacity(components.length);
 
     for (Component component: components) {
@@ -62,7 +60,7 @@ public final class Versions {
     return Joiner.on(separator).join(values);
   }
 
-  public static final String getSeparator() {
+  public static String getSeparator() {
     return separator;
   }
 }

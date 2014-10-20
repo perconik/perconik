@@ -15,11 +15,9 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 import static com.google.common.collect.Lists.newLinkedList;
 
 public final class ClassFiles {
-  private ClassFiles() {
-    throw new AssertionError();
-  }
+  private ClassFiles() {}
 
-  public static final IPath path(final IClassFile file) {
+  public static IPath path(final IClassFile file) {
     LinkedList<String> segments = newLinkedList();
 
     IJavaElement element = file;

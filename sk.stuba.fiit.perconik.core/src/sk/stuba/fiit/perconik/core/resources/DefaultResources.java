@@ -54,7 +54,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
-import static sk.stuba.fiit.perconik.core.utilities.LogHelper.log;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.defaultInstance;
 
 /**
  * Static accessor methods pertaining to default resource core implementation.
@@ -190,11 +190,9 @@ public final class DefaultResources {
     provider = builder.build();
   }
 
-  private DefaultResources() {
-    throw new AssertionError();
-  }
+  private DefaultResources() {}
 
-  private static final <L extends Listener> void safePreRegister(final L listener) {
+  private static <L extends Listener> void safePreRegister(final L listener) {
     try {
       listener.preRegister();
     } catch (Exception failure) {
@@ -202,15 +200,15 @@ public final class DefaultResources {
     }
   }
 
-  private static final <L extends Listener> void safeRegisterTo(final Resource<? super L> resource, final L listener) {
+  private static <L extends Listener> void safeRegisterTo(final Resource<? super L> resource, final L listener) {
     try {
       resource.register(listener);
     } catch (UnsupportedResourceException failure) {
-      log.error(failure, "Unsupported resource %s failed registering listener %s", resource, listener);
+      defaultInstance().getConsole().error(failure, "Unsupported resource %s failed registering listener %s", resource, listener);
     }
   }
 
-  private static final <L extends Listener> void safePostRegister(final Listener listener) {
+  private static <L extends Listener> void safePostRegister(final Listener listener) {
     try {
       listener.postRegister();
     } catch (Exception failure) {
@@ -218,7 +216,7 @@ public final class DefaultResources {
     }
   }
 
-  private static final <L extends Listener> void safePreUnregister(final L listener) {
+  private static <L extends Listener> void safePreUnregister(final L listener) {
     try {
       listener.preUnregister();
     } catch (Exception failure) {
@@ -226,15 +224,15 @@ public final class DefaultResources {
     }
   }
 
-  private static final <L extends Listener> void safeUnregisterFrom(final Resource<? super L> resource, final L listener) {
+  private static <L extends Listener> void safeUnregisterFrom(final Resource<? super L> resource, final L listener) {
     try {
       resource.unregister(listener);
     } catch (UnsupportedResourceException failure) {
-      log.error(failure, "Unsupported resource %s failed unregistering listener %s", resource, listener);
+      defaultInstance().getConsole().error(failure, "Unsupported resource %s failed unregistering listener %s", resource, listener);
     }
   }
 
-  private static final <L extends Listener> void safePostUnregister(final L listener) {
+  private static <L extends Listener> void safePostUnregister(final L listener) {
     try {
       listener.postUnregister();
     } catch (Exception failure) {
@@ -242,13 +240,13 @@ public final class DefaultResources {
     }
   }
 
-  public static final <L extends Listener> void registerTo(final Resource<L> resource, final L listener) {
+  public static <L extends Listener> void registerTo(final Resource<L> resource, final L listener) {
     safePreRegister(listener);
     safeRegisterTo(resource, listener);
     safePostRegister(listener);
   }
 
-  public static final <L extends Listener> void registerTo(final Iterable<Resource<? super L>> resources, final L listener) {
+  public static <L extends Listener> void registerTo(final Iterable<Resource<? super L>> resources, final L listener) {
     safePreRegister(listener);
 
     for (Resource<? super L> resource: resources) {
@@ -258,13 +256,13 @@ public final class DefaultResources {
     safePostRegister(listener);
   }
 
-  public static final <L extends Listener> void unregisterFrom(final Resource<L> resource, final L listener) {
+  public static <L extends Listener> void unregisterFrom(final Resource<L> resource, final L listener) {
     safePreUnregister(listener);
     safeUnregisterFrom(resource, listener);
     safePostUnregister(listener);
   }
 
-  public static final <L extends Listener> void unregisterFrom(final Iterable<Resource<? super L>> resources, final L listener) {
+  public static <L extends Listener> void unregisterFrom(final Iterable<Resource<? super L>> resources, final L listener) {
     safePreUnregister(listener);
 
     for (Resource<? super L> resource: resources) {
@@ -281,9 +279,7 @@ public final class DefaultResources {
       instance = ResourceManagers.create();
     }
 
-    private ManagerHolder() {
-      throw new AssertionError();
-    }
+    private ManagerHolder() {}
   }
 
   private static final class ServiceHolder {
@@ -298,9 +294,7 @@ public final class DefaultResources {
       instance = builder.build();
     }
 
-    private ServiceHolder() {
-      throw new AssertionError();
-    }
+    private ServiceHolder() {}
   }
 
   /**
@@ -319,7 +313,7 @@ public final class DefaultResources {
    * @see ResourceProviders#builder()
    * @see ResourceProviders#getSystemProvider()
    */
-  public static final ResourceProvider getDefaultResourceProvider() {
+  public static ResourceProvider getDefaultResourceProvider() {
     return provider;
   }
 
@@ -336,7 +330,7 @@ public final class DefaultResources {
    * @see ResourceManager
    * @see ResourceManagers#create()
    */
-  public static final ResourceManager getDefaultResourceManager() {
+  public static ResourceManager getDefaultResourceManager() {
     return ManagerHolder.instance;
   }
 
@@ -359,7 +353,7 @@ public final class DefaultResources {
    * @see #getDefaultResourceProvider()
    * @see #getDefaultResourceManager()
    */
-  public static final ResourceService getDefaultResourceService() {
+  public static ResourceService getDefaultResourceService() {
     return ServiceHolder.instance;
   }
 
@@ -376,15 +370,15 @@ public final class DefaultResources {
    * @see ResourceNamesSupplier
    * @see #getDefaultResourceProvider()
    */
-  public static final ResourceNamesSupplier getDefaultResourceNamesSupplier() {
+  public static ResourceNamesSupplier getDefaultResourceNamesSupplier() {
     return new ResourceNamesSupplier() {
-      public final SetMultimap<Class<? extends Listener>, String> get() {
+      public SetMultimap<Class<? extends Listener>, String> get() {
         return ResourceProviders.toResourceNamesMultimap(Services.getResourceService().getResourceProvider());
       }
     };
   }
 
-  private static final <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder) {
+  private static <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder) {
     boolean unsupported = handler.getClass().isAnnotationPresent(Unimplemented.class);
 
     Resource<L> resource = StandardResource.newInstance(Pools.safe(Pools.getListenerPoolFactory().create(handler), type), unsupported);
@@ -394,147 +388,147 @@ public final class DefaultResources {
     return resource;
   }
 
-  public static final Resource<CommandListener> getCommandResource() {
+  public static Resource<CommandListener> getCommandResource() {
     return DefaultResources.command;
   }
 
-  public static final Resource<CommandCategoryListener> getCommandCategoryResource() {
+  public static Resource<CommandCategoryListener> getCommandCategoryResource() {
     return DefaultResources.commandCategory;
   }
 
-  public static final Resource<CommandContextListener> getCommandContextResource() {
+  public static Resource<CommandContextListener> getCommandContextResource() {
     return DefaultResources.commandContext;
   }
 
-  public static final Resource<CommandContextManagerListener> getCommandContextManagerResource() {
+  public static Resource<CommandContextManagerListener> getCommandContextManagerResource() {
     return DefaultResources.commandContextManager;
   }
 
-  public static final Resource<CommandExecutionListener> getCommandExecutionResource() {
+  public static Resource<CommandExecutionListener> getCommandExecutionResource() {
     return DefaultResources.commandExecution;
   }
 
-  public static final Resource<CommandHandlerListener> getCommandHandlerResource() {
+  public static Resource<CommandHandlerListener> getCommandHandlerResource() {
     return DefaultResources.commandHandler;
   }
 
-  public static final Resource<CommandManagerListener> getCommandManagerResource() {
+  public static Resource<CommandManagerListener> getCommandManagerResource() {
     return DefaultResources.commandManager;
   }
 
-  public static final Resource<CompletionListener> getCompletionResource() {
+  public static Resource<CompletionListener> getCompletionResource() {
     return DefaultResources.completion;
   }
 
-  public static final Resource<DebugEventsListener> getDebugEventsResource() {
+  public static Resource<DebugEventsListener> getDebugEventsResource() {
     return DefaultResources.debugEvents;
   }
 
-  public static final Resource<DocumentListener> getDocumentResource() {
+  public static Resource<DocumentListener> getDocumentResource() {
     return DefaultResources.document;
   }
 
-  public static final Resource<EditorListener> getEditorResource() {
+  public static Resource<EditorListener> getEditorResource() {
     return DefaultResources.editor;
   }
 
-  public static final Resource<FileBufferListener> getFileBufferResource() {
+  public static Resource<FileBufferListener> getFileBufferResource() {
     return DefaultResources.fileBuffer;
   }
 
-  public static final Resource<GitConfigurationListener> getGitConfigurationResource() {
+  public static Resource<GitConfigurationListener> getGitConfigurationResource() {
     return DefaultResources.gitConfiguration;
   }
 
-  public static final Resource<GitIndexListener> getGitIndexResource() {
+  public static Resource<GitIndexListener> getGitIndexResource() {
     return DefaultResources.gitIndex;
   }
 
-  public static final Resource<GitReferenceListener> getGitReferenceResource() {
+  public static Resource<GitReferenceListener> getGitReferenceResource() {
     return DefaultResources.gitReference;
   }
 
-  public static final Resource<GitRepositoryListener> getGitRepositoryResource() {
+  public static Resource<GitRepositoryListener> getGitRepositoryResource() {
     return DefaultResources.gitRepository;
   }
 
-  public static final Resource<JavaElementListener> getJavaElementResource() {
+  public static Resource<JavaElementListener> getJavaElementResource() {
     return DefaultResources.javaElement;
   }
 
-  public static final Resource<LaunchListener> getLaunchResource() {
+  public static Resource<LaunchListener> getLaunchResource() {
     return DefaultResources.launch;
   }
 
-  public static final Resource<LaunchesListener> getLaunchesResource() {
+  public static Resource<LaunchesListener> getLaunchesResource() {
     return DefaultResources.launches;
   }
 
-  public static final Resource<LaunchConfigurationListener> getLaunchConfigurationResource() {
+  public static Resource<LaunchConfigurationListener> getLaunchConfigurationResource() {
     return DefaultResources.launchConfiguration;
   }
 
-  public static final Resource<MarkSelectionListener> getMarkSelectionResource() {
+  public static Resource<MarkSelectionListener> getMarkSelectionResource() {
     return DefaultResources.markSelection;
   }
 
-  public static final Resource<OperationHistoryListener> getOperationHistoryResource() {
+  public static Resource<OperationHistoryListener> getOperationHistoryResource() {
     return DefaultResources.operationHistory;
   }
 
-  public static final Resource<PageListener> getPageResource() {
+  public static Resource<PageListener> getPageResource() {
     return DefaultResources.page;
   }
 
-  public static final Resource<PartListener> getPartResource() {
+  public static Resource<PartListener> getPartResource() {
     return DefaultResources.part;
   }
 
-  public static final Resource<PerspectiveListener> getPerspectiveResource() {
+  public static Resource<PerspectiveListener> getPerspectiveResource() {
     return DefaultResources.perspective;
   }
 
-  public static final Resource<RefactoringExecutionListener> getRefactoringExecutionResource() {
+  public static Resource<RefactoringExecutionListener> getRefactoringExecutionResource() {
     return DefaultResources.refactoringExecution;
   }
 
-  public static final Resource<RefactoringHistoryListener> getRefactoringHistoryResource() {
+  public static Resource<RefactoringHistoryListener> getRefactoringHistoryResource() {
     return DefaultResources.refactoringHistory;
   }
 
-  public static final Resource<ResourceListener> getResourceResource() {
+  public static Resource<ResourceListener> getResourceResource() {
     return DefaultResources.resource;
   }
 
-  public static final Resource<SearchQueryListener> getSearchQueryResource() {
+  public static Resource<SearchQueryListener> getSearchQueryResource() {
     return DefaultResources.searchQuery;
   }
 
-  public static final Resource<SearchResultListener> getSearchResultResource() {
+  public static Resource<SearchResultListener> getSearchResultResource() {
     return DefaultResources.searchResult;
   }
 
-  public static final Resource<SelectionListener> getSelectionResource() {
+  public static Resource<SelectionListener> getSelectionResource() {
     return DefaultResources.selection;
   }
 
-  public static final Resource<StructuredSelectionListener> getStructuredSelectionResource() {
+  public static Resource<StructuredSelectionListener> getStructuredSelectionResource() {
     return DefaultResources.structuredSelection;
   }
 
-  public static final Resource<TestRunListener> getTestRunResource() {
+  public static Resource<TestRunListener> getTestRunResource() {
     return DefaultResources.testRun;
   }
 
-  public static final Resource<TextSelectionListener> getTextSelectionResource() {
+  public static Resource<TextSelectionListener> getTextSelectionResource() {
     return DefaultResources.textSelection;
   }
 
-  public static final Resource<WindowListener> getWindowResource() {
+  public static Resource<WindowListener> getWindowResource() {
     return DefaultResources.window;
   }
 
-  public static final Resource<WorkbenchListener> getWorkbenchResource() {
+  public static Resource<WorkbenchListener> getWorkbenchResource() {
     return DefaultResources.workbench;
   }
 }

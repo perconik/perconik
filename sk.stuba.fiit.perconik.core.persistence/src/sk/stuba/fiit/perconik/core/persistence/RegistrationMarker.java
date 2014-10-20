@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core.persistence;
 
 /**
  * A registration status marker for {@code MarkableRegistration} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -10,7 +10,7 @@ public interface RegistrationMarker<R extends MarkableRegistration> {
   /**
    * Applies the registered mark by registering or
    * unregistering the underlying registrable object.
-   * 
+   *
    * <p><b>Note:</b> This method propagates runtime exceptions thrown
    * by the registration mechanism of the underlying registrable object.
    * @return registration with updated current registration status

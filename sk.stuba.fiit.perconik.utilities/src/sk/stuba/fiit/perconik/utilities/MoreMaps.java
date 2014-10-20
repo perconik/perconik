@@ -17,11 +17,9 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
  * @since 1.0
  */
 public final class MoreMaps {
-  private MoreMaps() {
-    throw new AssertionError();
-  }
+  private MoreMaps() {}
 
-  private static final <K, V> void copy(Dictionary<? extends K, ? extends V> from, Map<K, V> to) {
+  private static <K, V> void copy(final Dictionary<? extends K, ? extends V> from, final Map<K, V> to) {
     Enumeration<? extends K> keys = from.keys();
 
     while (keys.hasMoreElements()) {
@@ -31,7 +29,7 @@ public final class MoreMaps {
     }
   }
 
-  public static final <K, V> Map<K, V> fromDictionary(Dictionary<K, V> dictionary) {
+  public static <K, V> Map<K, V> fromDictionary(final Dictionary<K, V> dictionary) {
     Map<K, V> map = newHashMapWithExpectedSize(dictionary.size());
 
     copy(dictionary, map);
@@ -39,20 +37,20 @@ public final class MoreMaps {
     return map;
   }
 
-  public static final Map<String, Object> flatten(Map<?, Object> map) {
+  public static Map<String, Object> flatten(final Map<?, Object> map) {
     return flatten(map, Joiner.on("."));
   }
 
-  public static final Map<String, Object> flatten(Map<?, Object> map, Joiner joiner) {
+  public static Map<String, Object> flatten(final Map<?, Object> map, final Joiner joiner) {
     return flatten(map, joiner, Maps.<String, Object>newLinkedHashMap());
   }
 
-  public static final Map<String, Object> flatten(Map<?, Object> map, Joiner joiner, Map<String, Object> result) {
+  public static Map<String, Object> flatten(final Map<?, Object> map, final Joiner joiner, final Map<String, Object> result) {
     return flatten(map, joiner, result, (String) null);
   }
 
   @SuppressWarnings("unchecked")
-  private static final Map<String, Object> flatten(Map<?, Object> map, Joiner joiner, Map<String, Object> result, String prefix) {
+  private static Map<String, Object> flatten(final Map<?, Object> map, final Joiner joiner, final Map<String, Object> result, final String prefix) {
     for (Entry<?, Object> entry: map.entrySet()) {
       String key = joiner.join(prefix, entry.getKey());
       Object value = entry.getValue();

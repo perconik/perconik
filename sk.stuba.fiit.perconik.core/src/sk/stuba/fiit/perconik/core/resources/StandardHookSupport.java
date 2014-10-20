@@ -11,11 +11,11 @@ final class StandardHookSupport<H extends Hook<T, L>, T, L extends Listener> ext
     this.factory = checkNotNull(factory);
   }
 
-  static final <H extends Hook<T, L>, T, L extends Listener> StandardHookSupport<H, T, L> using(final HookFactory<T, L> factory) {
+  static <H extends Hook<T, L>, T, L extends Listener> StandardHookSupport<H, T, L> using(final HookFactory<T, L> factory) {
     return new StandardHookSupport<>(factory);
   }
 
-  public final Hook<T, L> create(final L listener) {
+  public Hook<T, L> create(final L listener) {
     return this.factory.create(listener);
   }
 }

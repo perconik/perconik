@@ -7,10 +7,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A structured selection listener.
- * 
- * @see Listener 
+ *
+ * @see Listener
  * @see SelectionListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

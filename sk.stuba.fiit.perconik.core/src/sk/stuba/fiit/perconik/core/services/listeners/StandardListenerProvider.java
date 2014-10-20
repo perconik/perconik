@@ -31,8 +31,8 @@ final class StandardListenerProvider extends AbstractListenerProvider {
     this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
   }
 
-  public static final class Builder implements ListenerProvider.Builder {
-    BiMap<String, Class<? extends Listener>> map;
+  public static class Builder implements ListenerProvider.Builder {
+    final BiMap<String, Class<? extends Listener>> map;
 
     Optional<ListenerProvider> parent;
 
@@ -41,7 +41,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
       this.parent = Optional.absent();
     }
 
-    public final Builder add(final Class<? extends Listener> implementation) {
+    public Builder add(final Class<? extends Listener> implementation) {
       checkNotNull(implementation);
 
       this.map.put(implementation.getName(), implementation.asSubclass(Listener.class));
@@ -49,7 +49,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
       return this;
     }
 
-    public final Builder addAll(final Iterable<Class<? extends Listener>> implementations) {
+    public Builder addAll(final Iterable<Class<? extends Listener>> implementations) {
       for (Class<? extends Listener> type: implementations) {
         this.add(type);
       }
@@ -57,7 +57,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
       return this;
     }
 
-    public final Builder parent(final ListenerProvider parent) {
+    public Builder parent(final ListenerProvider parent) {
       checkState(!this.parent.isPresent());
 
       this.parent = Optional.of(checkNotNull(parent));
@@ -65,21 +65,21 @@ final class StandardListenerProvider extends AbstractListenerProvider {
       return this;
     }
 
-    public final StandardListenerProvider build() {
+    public StandardListenerProvider build() {
       return new StandardListenerProvider(this);
     }
   }
 
-  public static final Builder builder() {
+  public static Builder builder() {
     return new Builder();
   }
 
   @Override
-  protected final ClassLoader loader() {
+  protected ClassLoader loader() {
     return this.getClass().getClassLoader();
   }
 
-  public final <L extends Listener> L forClass(final Class<L> type) {
+  public <L extends Listener> L forClass(final Class<L> type) {
     Listener listener = this.cache.get(cast(type));
 
     if (listener != null) {
@@ -113,7 +113,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
     return instance;
   }
 
-  public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
+  public Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
     Class<? extends Listener> type = this.map.get(name);
 
     if (type != null) {
@@ -127,11 +127,11 @@ final class StandardListenerProvider extends AbstractListenerProvider {
     }
   }
 
-  public final Set<Class<? extends Listener>> classes() {
+  public Set<Class<? extends Listener>> classes() {
     return MoreSets.newHashSet(this.map.values(), this.parent.classes());
   }
 
-  public final ListenerProvider parent() {
+  public ListenerProvider parent() {
     return this.parent;
   }
 }

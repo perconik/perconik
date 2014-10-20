@@ -7,18 +7,18 @@ import sk.stuba.fiit.perconik.core.Nameable;
 /**
  * An object with an operational state, plus asynchronous lifecycle methods
  * to transition between states.
- * 
+ *
  * <p>Uniqueness of a service is determined by its qualified name.
  * Two {@code Service} instances with the same qualified name should
  * be implemented by the same class, provide the same functionality
  * and behave the same way.
- * 
+ *
  * <p>Implementors of this interface are strongly encouraged to extend one
  * of the abstract classes in this package which implement this interface
  * and make the threading and state management easier.
- * 
+ *
  * @see com.google.common.util.concurrent.Service
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

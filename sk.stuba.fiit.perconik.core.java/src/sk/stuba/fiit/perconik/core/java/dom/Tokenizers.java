@@ -13,7 +13,5 @@ final class Tokenizers {
     shared = Tokenizer.create(factory);
   }
 
-  private Tokenizers() {
-    throw new AssertionError();
-  }
+  private Tokenizers() {}
 }

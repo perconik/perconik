@@ -51,27 +51,27 @@ public enum TreeApiLevel implements IntegralConstant {
     this.value = value;
   }
 
-  public static final TreeApiLevel latest() {
+  public static TreeApiLevel latest() {
     return latest;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final TreeApiLevel valueOf(final int value) {
+  public static TreeApiLevel valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final TreeApiLevel valueOf(final AST tree) {
+  public static TreeApiLevel valueOf(final AST tree) {
     return integers.getConstant(tree.apiLevel());
   }
 
-  public static final TreeApiLevel valueOf(final ASTNode node) {
+  public static TreeApiLevel valueOf(final ASTNode node) {
     return valueOf(node.getAST());
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

@@ -15,12 +15,12 @@ public final class StructuredSelectionDebugListener extends AbstractDebugListene
     super(console);
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final IStructuredSelection selection) {
+  public void selectionChanged(final IWorkbenchPart part, final IStructuredSelection selection) {
     this.printHeader("Structured selection changed");
     this.printStructuredSelection(selection);
   }
 
-  private final void printStructuredSelection(final IStructuredSelection selection) {
+  private void printStructuredSelection(final IStructuredSelection selection) {
     this.put(Debug.dumpStructuredSelection(selection));
   }
 }

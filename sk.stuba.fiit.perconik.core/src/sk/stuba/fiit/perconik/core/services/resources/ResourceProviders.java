@@ -15,22 +15,20 @@ import static java.util.Arrays.asList;
  * Static utility methods pertaining to {@link ResourceProvider} instances.
  * Also see this class's counterparts {@link ResourceServices}
  * and {@link ResourceManagers}.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public final class ResourceProviders {
   // TODO add javadocs
 
-  private ResourceProviders() {
-    throw new AssertionError();
-  }
+  private ResourceProviders() {}
 
-  public static final Builder builder() {
+  public static Builder builder() {
     return StandardResourceProvider.builder();
   }
 
-  public static final Builder builder(@Nullable final ResourceProvider parent) {
+  public static Builder builder(@Nullable final ResourceProvider parent) {
     Builder builder = builder();
 
     if (parent != null) {
@@ -40,21 +38,21 @@ public final class ResourceProviders {
     return builder;
   }
 
-  public static final ResourceNamesSupplier supplier(final ResourceProvider provider) {
+  public static ResourceNamesSupplier supplier(final ResourceProvider provider) {
     return new ResourceNamesSupplier() {
-      public final SetMultimap<Class<? extends Listener>, String> get() {
+      public SetMultimap<Class<? extends Listener>, String> get() {
         return toResourceNamesMultimap(provider);
       }
     };
   }
 
-  public static final ResourceNamesSupplier merge(final ResourceNamesSupplier ... suppliers) {
+  public static ResourceNamesSupplier merge(final ResourceNamesSupplier ... suppliers) {
     return merge(asList(suppliers));
   }
 
-  public static final ResourceNamesSupplier merge(final Iterable<ResourceNamesSupplier> suppliers) {
+  public static ResourceNamesSupplier merge(final Iterable<ResourceNamesSupplier> suppliers) {
     return new ResourceNamesSupplier() {
-      public final SetMultimap<Class<? extends Listener>, String> get() {
+      public SetMultimap<Class<? extends Listener>, String> get() {
         SetMultimap<Class<? extends Listener>, String> names = HashMultimap.create();
 
         for (ResourceNamesSupplier supplier: suppliers) {
@@ -66,7 +64,7 @@ public final class ResourceProviders {
     };
   }
 
-  public static final SetMultimap<Class<? extends Listener>, String> toResourceNamesMultimap(final ResourceProvider provider) {
+  public static SetMultimap<Class<? extends Listener>, String> toResourceNamesMultimap(final ResourceProvider provider) {
     SetMultimap<Class<? extends Listener>, String> names = HashMultimap.create();
 
     for (Class<? extends Listener> type: provider.types()) {
@@ -78,7 +76,7 @@ public final class ResourceProviders {
     return names;
   }
 
-  public static final ResourceProvider getSystemProvider() {
+  public static ResourceProvider getSystemProvider() {
     return SystemResourceProvider.getInstance();
   }
 }

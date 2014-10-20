@@ -11,9 +11,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Resource delta kinds.
- * 
+ *
  * @see IResourceDelta
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -48,7 +48,7 @@ public enum ResourceDeltaKind implements IntegralConstant {
    */
   REMOVED_PHANTOM(IResourceDelta.REMOVED_PHANTOM);
 
-  public static final Set<ResourceDeltaKind> ALL_WITH_PHANTOMS = ImmutableSet.of(ADDED, REMOVED, CHANGED, ADDED_PHANTOM, REMOVED_PHANTOM);
+  public static Set<ResourceDeltaKind> ALL_WITH_PHANTOMS = ImmutableSet.of(ADDED, REMOVED, CHANGED, ADDED_PHANTOM, REMOVED_PHANTOM);
 
   private static final IntegralConstantSupport<ResourceDeltaKind> integers = IntegralConstantSupport.of(ResourceDeltaKind.class);
 
@@ -58,15 +58,15 @@ public enum ResourceDeltaKind implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final ResourceDeltaKind valueOf(final int value) {
+  public static ResourceDeltaKind valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

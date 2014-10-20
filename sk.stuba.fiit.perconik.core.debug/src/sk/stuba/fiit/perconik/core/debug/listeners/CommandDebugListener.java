@@ -15,12 +15,12 @@ public final class CommandDebugListener extends AbstractDebugListener implements
     super(console);
   }
 
-  public final void commandChanged(final CommandEvent event) {
+  public void commandChanged(final CommandEvent event) {
     this.printHeader("Command changed");
     this.printCommandEvent(event);
   }
 
-  private final void printCommandEvent(final CommandEvent event) {
+  private void printCommandEvent(final CommandEvent event) {
     try {
       this.put(Debug.dumpCommandEvent(event));
     } catch (CommandException e) {

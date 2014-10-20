@@ -29,20 +29,20 @@ public final class DebugConsole implements PluginConsole {
   private static enum Factory implements DebugConsoleFactory {
     INSTANCE;
 
-    public final DebugConsole create(final Plugin plugin) {
+    public DebugConsole create(final Plugin plugin) {
       return of(plugin);
     }
   }
 
-  public static final DebugConsoleFactory factory() {
+  public static DebugConsoleFactory factory() {
     return Factory.INSTANCE;
   }
 
-  public static final DebugConsole of(final Plugin plugin) {
+  public static DebugConsole of(final Plugin plugin) {
     return of(PluginConsoles.create(plugin));
   }
 
-  public static final DebugConsole of(final PluginConsole console) {
+  public static DebugConsole of(final PluginConsole console) {
     if (console instanceof DebugConsole) {
       return (DebugConsole) console;
     }
@@ -50,56 +50,56 @@ public final class DebugConsole implements PluginConsole {
     return new DebugConsole(console);
   }
 
-  private final boolean isEnabled() {
+  private boolean isEnabled() {
     return this.enabled;
   }
 
-  public final PluginConsole append(@Nullable CharSequence s) {
+  public PluginConsole append(@Nullable final CharSequence s) {
     this.builder.append(s);
 
     return this;
   }
 
-  public final PluginConsole append(@Nullable CharSequence s, int from, int to) {
+  public PluginConsole append(@Nullable final CharSequence s, final int from, final int to) {
     this.builder.append(s, from, to);
 
     return this;
   }
 
-  public final PluginConsole append(char c) {
+  public PluginConsole append(final char c) {
     this.builder.append(c);
 
     return this;
   }
 
-  public final void close() {}
+  public void close() {}
 
-  public final void flush() {}
+  public void flush() {}
 
-  public final void tab() {
+  public void tab() {
     this.builder.tab();
   }
 
-  public final void untab() {
+  public void untab() {
     this.builder.untab();
   }
 
-  private final void trim() {
+  private void trim() {
     if (this.builder.capacity() >= MAX_BUFFER_SIZE) {
       this.builder.trimToSize();
     }
   }
 
-  private final String indent(@Nullable final String message) {
+  private String indent(@Nullable final String message) {
     return this.builder.lines(message).toString();
   }
 
-  private final String indent(final String format, final Object ... args) {
+  private String indent(final String format, final Object ... args) {
     return this.indent(String.format(format, args));
   }
 
   @Override
-  public final void put(@Nullable final String message) {
+  public void put(@Nullable final String message) {
     if (this.isEnabled()) {
       this.console.put(indent(message));
       this.putHook();
@@ -107,20 +107,20 @@ public final class DebugConsole implements PluginConsole {
   }
 
   @Override
-  public final void put(final String format, final Object ... args) {
+  public void put(final String format, final Object ... args) {
     if (this.isEnabled()) {
       this.console.put(indent(format, args));
       this.putHook();
     }
   }
 
-  private final void putHook() {
+  private void putHook() {
     this.builder.setLength(0);
     this.trim();
   }
 
   @Override
-  public final void print(@Nullable final String message) {
+  public void print(@Nullable final String message) {
     if (this.isEnabled()) {
       this.console.print(indent(message));
       this.printHook();
@@ -128,65 +128,65 @@ public final class DebugConsole implements PluginConsole {
   }
 
   @Override
-  public final void print(final String format, final Object ... args) {
+  public void print(final String format, final Object ... args) {
     if (this.isEnabled()) {
       this.console.print(indent(format, args));
       this.printHook();
     }
   }
 
-  private final void printHook() {
+  private void printHook() {
     this.builder.truncate();
     this.trim();
   }
 
   @Override
-  public final void notice(final String message) {
+  public void notice(final String message) {
     if (this.isEnabled()) {
       this.console.notice(message);
     }
   }
 
   @Override
-  public final void notice(final String format, final Object ... args) {
+  public void notice(final String format, final Object ... args) {
     if (this.isEnabled()) {
       this.console.notice(format, args);
     }
   }
 
   @Override
-  public final void warning(final String message) {
+  public void warning(final String message) {
     if (this.isEnabled()) {
       this.console.warning(message);
     }
   }
 
   @Override
-  public final void warning(final String format, final Object ... args) {
+  public void warning(final String format, final Object ... args) {
     if (this.isEnabled()) {
       this.console.warning(format, args);
     }
   }
 
-  public final void error(String message) {
+  public void error(final String message) {
     if (this.isEnabled()) {
       this.console.error(message);
     }
   }
 
-  public final void error(String format, Object ... args) {
+  public void error(final String format, final Object ... args) {
     if (this.isEnabled()) {
       this.console.error(format, args);
     }
   }
 
-  public final void error(Throwable failure, String message) {
+  public void error(final Throwable failure, final String message) {
     if (this.isEnabled()) {
       this.console.error(failure, message);
     }
   }
 
-  public final void error(Throwable failure, String format, Object ... args) {
+  public void error(final Throwable failure, final String format, final Object ... args) {
     if (this.isEnabled()) {
       this.console.error(failure, format, args);
     }

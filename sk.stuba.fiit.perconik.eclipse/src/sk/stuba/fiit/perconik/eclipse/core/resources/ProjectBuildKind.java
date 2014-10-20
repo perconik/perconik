@@ -9,9 +9,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Project build kinds.
- * 
+ *
  * @see IncrementalProjectBuilder
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -44,15 +44,15 @@ public enum ProjectBuildKind implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final ProjectBuildKind valueOf(final int value) {
+  public static ProjectBuildKind valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

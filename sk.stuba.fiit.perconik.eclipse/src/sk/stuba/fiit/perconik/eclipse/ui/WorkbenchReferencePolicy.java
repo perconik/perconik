@@ -18,15 +18,15 @@ public enum WorkbenchReferencePolicy {
     this.restore = restore;
   }
 
-  public final IEditorPart getEditor(final IEditorReference reference) {
+  public IEditorPart getEditor(final IEditorReference reference) {
     return reference.getEditor(this.restore);
   }
 
-  public final IWorkbenchPart getPart(final IWorkbenchPartReference reference) {
+  public IWorkbenchPart getPart(final IWorkbenchPartReference reference) {
     return reference.getPart(this.restore);
   }
 
-  public final IViewPart getView(final IViewReference reference) {
+  public IViewPart getView(final IViewReference reference) {
     return reference.getView(this.restore);
   }
 }

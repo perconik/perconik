@@ -7,10 +7,10 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType;
 
 /**
  * A resource listener.
- * 
+ *
  * @see FilteringListener
  * @see IResourceChangeListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

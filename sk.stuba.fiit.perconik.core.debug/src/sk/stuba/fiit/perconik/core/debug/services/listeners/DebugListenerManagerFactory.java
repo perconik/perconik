@@ -6,7 +6,7 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerManagerFactory;
 public final class DebugListenerManagerFactory implements ListenerManagerFactory {
   public DebugListenerManagerFactory() {}
 
-  public final ListenerManager create() {
+  public ListenerManager create() {
     return DebugListenerManagers.create();
   }
 }

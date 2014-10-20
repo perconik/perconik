@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.services.ServiceFactory;
 /**
  * The {@code ListenerServiceFactory}
  * creates {@link ListenerService} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

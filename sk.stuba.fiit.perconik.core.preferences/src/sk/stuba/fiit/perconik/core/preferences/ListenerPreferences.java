@@ -45,7 +45,7 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
      * when the appropriate default preference node is accessed.
      */
     @Override
-    public final void initializeDefaultPreferences() {
+    public void initializeDefaultPreferences() {
       Set<ListenerPersistenceData> data = ListenerPersistenceData.defaults();
 
       ListenerPreferences.getDefault().setListenerPersistenceData(data);
@@ -59,14 +59,14 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
   /**
    * Gets default scoped core preferences.
    */
-  public static final ListenerPreferences getDefault() {
+  public static ListenerPreferences getDefault() {
     return new ListenerPreferences(Scope.DEFAULT);
   }
 
   /**
    * Gets configuration scoped core preferences.
    */
-  public static final ListenerPreferences getShared() {
+  public static ListenerPreferences getShared() {
     return new ListenerPreferences(Scope.CONFIGURATION);
   }
 
@@ -75,19 +75,19 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
    * @param data listener persistence data
    * @throws NullPointerException if {@code data} is {@code null}
    */
-  public final void setListenerPersistenceData(final Set<ListenerPersistenceData> data) {
+  public void setListenerPersistenceData(final Set<ListenerPersistenceData> data) {
     this.setRegistrations(persistence, data);
   }
 
   /**
    * Gets listener persistence data.
    */
-  public final Set<ListenerPersistenceData> getListenerPersistenceData() {
+  public Set<ListenerPersistenceData> getListenerPersistenceData() {
     return this.getRegistrations(persistence);
   }
 
   @Override
-  final Set<ListenerPersistenceData> getDefaultRegistrations() {
+  Set<ListenerPersistenceData> getDefaultRegistrations() {
     return ListenerPersistenceData.defaults();
   }
 }

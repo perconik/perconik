@@ -26,22 +26,22 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
   public ListenersPreferencePage() {}
 
   @Override
-  final Class<ListenerPersistenceData> type() {
+  Class<ListenerPersistenceData> type() {
     return ListenerPersistenceData.class;
   }
 
   @Override
-  protected final ListenerLabelProvider createContentProvider() {
+  protected ListenerLabelProvider createContentProvider() {
     return new ListenerLabelProvider();
   }
 
   @Override
-  protected final ListenerViewerComparator createViewerComparator() {
+  protected ListenerViewerComparator createViewerComparator() {
     return new ListenerViewerComparator();
   }
 
   @Override
-  protected final void makeTableColumns(Table table, TableColumnLayout layout, GC gc) {
+  protected void makeTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
     Tables.createColumn(table, layout, "Listener implementation", gc, 4);
     Tables.createColumn(table, layout, "Version", gc, 1);
     Tables.createColumn(table, layout, "Notes", gc, 1);
@@ -50,7 +50,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
   private static final class ListenerLabelProvider extends AbstractLabelProvider<ListenerPersistenceData> {
     ListenerLabelProvider() {}
 
-    public final String getColumnText(final Object element, final int column) {
+    public String getColumnText(final Object element, final int column) {
       ListenerPersistenceData data = (ListenerPersistenceData) element;
 
       switch (column) {
@@ -69,11 +69,11 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
     }
   }
 
-  private static final class ListenerViewerComparator extends AbstractViewerComparator {
+  private static class ListenerViewerComparator extends AbstractViewerComparator {
     ListenerViewerComparator() {}
 
     @Override
-    public final int compare(final Viewer viewer, final Object a, final Object b) {
+    public int compare(final Viewer viewer, final Object a, final Object b) {
       if ((a instanceof ListenerPersistenceData) && (b instanceof ListenerPersistenceData)) {
         ListenerPersistenceData data = (ListenerPersistenceData) a;
         ListenerPersistenceData other = (ListenerPersistenceData) b;
@@ -86,17 +86,17 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
-  final Set<ListenerPersistenceData> defaults() {
+  Set<ListenerPersistenceData> defaults() {
     return ListenerPersistenceData.defaults();
   }
 
   @Override
-  final ListenerPreferences preferences() {
+  ListenerPreferences preferences() {
     return ListenerPreferences.getShared();
   }
 
   @Override
-  final void apply() {
+  void apply() {
     try {
       Set<ListenerPersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
 
@@ -114,22 +114,22 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
-  final void load(final ListenerPreferences preferences) {
+  void load(final ListenerPreferences preferences) {
     this.setListenerPreferences(preferences);
   }
 
   @Override
-  final void save() throws BackingStoreException {
+  void save() throws BackingStoreException {
     this.getPreferences().flush();
   }
 
-  public final void setListenerPreferences(final ListenerPreferences preferences) {
+  public void setListenerPreferences(final ListenerPreferences preferences) {
     this.setPreferences(preferences);
 
     this.registrations = preferences.getListenerPersistenceData();
   }
 
-  public final ListenerPreferences getListenerPreferences() {
+  public ListenerPreferences getListenerPreferences() {
     return this.getPreferences();
   }
 }

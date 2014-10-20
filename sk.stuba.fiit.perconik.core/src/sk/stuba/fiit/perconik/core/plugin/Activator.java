@@ -12,6 +12,7 @@ import org.osgi.framework.BundleContext;
 
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.osgi.framework.BundleNotFoundException;
 import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
@@ -23,9 +24,9 @@ import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
- * 
+ *
  * <p><b>Warning:</b> Users should not explicitly instantiate this class.
- * 
+ *
  * @author Pavol Zbell
  */
 public final class Activator extends ExtendedPlugin {
@@ -39,6 +40,9 @@ public final class Activator extends ExtendedPlugin {
    */
   private static volatile Activator plugin;
 
+  /**
+   * Indicates whether core plug-in extensions are processed or not.
+   */
   volatile boolean processed;
 
   /**
@@ -48,15 +52,23 @@ public final class Activator extends ExtendedPlugin {
 
   /**
    * Gets the shared instance.
-   * @return the shared instance
+   * @return the shared instance or {@code null}
    */
-  public static final Activator getDefault() {
-    synchronized (Activator.class) {
-      return plugin;
-    }
+  public static Activator defaultInstance() {
+    return plugin;
   }
 
-  public static final Set<String> extensionContributors() {
+  /**
+   * Gets the shared console.
+   * @return the shared console or {@code null}
+   */
+  public static PluginConsole defaultConsole() {
+    Activator plugin = defaultInstance();
+
+    return plugin != null ? plugin.getConsole() : null;
+  }
+
+  public static Set<String> extensionContributors() {
     Set<String> contributors = newHashSet();
 
     for (String point: ExtensionPoints.all) {
@@ -68,7 +80,7 @@ public final class Activator extends ExtendedPlugin {
     return contributors;
   }
 
-  public static final List<Bundle> contributingBundles() {
+  public static List<Bundle> contributingBundles() {
     try {
       return Bundles.forNames(extensionContributors());
     } catch (BundleNotFoundException e) {
@@ -76,10 +88,10 @@ public final class Activator extends ExtendedPlugin {
     }
   }
 
-  public static final ClassResolver classResolver() {
+  public static ClassResolver classResolver() {
     List<ClassResolver> resolvers = newArrayList();
 
-    resolvers.add(Bundles.newClassResolver(getDefault().getBundle()));
+    resolvers.add(Bundles.newClassResolver(defaultInstance().getBundle()));
     resolvers.addAll(Bundles.newClassResolvers(contributingBundles()));
 
     return ClassResolvers.compose(resolvers);
@@ -89,19 +101,19 @@ public final class Activator extends ExtendedPlugin {
    * Waits blocking until all supplied extensions are processed.
    * @throws NullPointerException if the shared instance is not constructed
    */
-  public static final void waitForExtensions() {
+  public static void waitForExtensions() {
     Activator plugin;
 
     do {
-      plugin = getDefault();
+      plugin = defaultInstance();
     } while (plugin == null || !plugin.processed);
   }
 
   /**
-   * Plug-in early startup. 
-   * 
+   * Plug-in early startup.
+   *
    * <p><b>Warning:</b> Users should not explicitly instantiate this class.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */
@@ -114,33 +126,29 @@ public final class Activator extends ExtendedPlugin {
     /**
      * Processes supplied extensions and starts core services.
      */
-    public final void earlyStartup() {
+    public void earlyStartup() {
       ServicesLoader loader = new ServicesLoader();
 
       loader.load();
 
-      getDefault().processed = true;
+      defaultInstance().processed = true;
     }
   }
 
   @Override
-  public final void start(final BundleContext context) throws Exception {
+  public void start(final BundleContext context) throws Exception {
     this.processed = false;
 
     super.start(context);
 
-    synchronized (Activator.class) {
-      plugin = this;
-    }
+    plugin = this;
   }
 
   @Override
-  public final void stop(final BundleContext context) throws Exception {
+  public void stop(final BundleContext context) throws Exception {
     ServiceSnapshot.take().servicesInStopOrder().stopSynchronously();
 
-    synchronized (Activator.class) {
-      plugin = null;
-    }
+    plugin = null;
 
     super.stop(context);
 

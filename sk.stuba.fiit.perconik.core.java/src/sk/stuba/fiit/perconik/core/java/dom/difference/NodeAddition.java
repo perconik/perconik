@@ -14,12 +14,12 @@ public final class NodeAddition<N extends ASTNode> extends NodeDelta<N> {
     this.node = node;
   }
 
-  public static final <N extends ASTNode> NodeAddition<N> of(@Nullable final N node) {
+  public static <N extends ASTNode> NodeAddition<N> of(@Nullable final N node) {
     return new NodeAddition<>(node);
   }
 
   @Override
-  public final String toString(final int indent) {
+  public String toString(final int indent) {
     SmartStringBuilder builder = this.toStringBuilder(indent);
 
     builder.append("revised: ").appendln(Nodes.toTypeString(this.node));
@@ -28,22 +28,22 @@ public final class NodeAddition<N extends ASTNode> extends NodeDelta<N> {
     return builder.toString();
   }
 
-  public final N getAddedNode() {
+  public N getAddedNode() {
     return this.node;
   }
 
   @Override
-  public final N getOriginalNode() {
+  public N getOriginalNode() {
     return null;
   }
 
   @Override
-  public final N getRevisedNode() {
+  public N getRevisedNode() {
     return this.getAddedNode();
   }
 
   @Override
-  public final NodeDeltaType getType() {
+  public NodeDeltaType getType() {
     return NodeDeltaType.ADDITION;
   }
 }

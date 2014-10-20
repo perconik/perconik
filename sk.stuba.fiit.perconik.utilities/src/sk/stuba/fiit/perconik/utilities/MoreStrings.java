@@ -24,11 +24,9 @@ import static com.google.common.base.Preconditions.checkState;
 public final class MoreStrings {
   static final String lineSeparatorRegex = "\r?\n|\r";
 
-  private MoreStrings() {
-    throw new AssertionError();
-  }
+  private MoreStrings() {}
 
-  public static final boolean equalsIgnoreLineSeparators(String s, @Nullable Object o) {
+  public static boolean equalsIgnoreLineSeparators(final String s, @Nullable final Object o) {
     if (s == o) {
       return true;
     }
@@ -81,11 +79,11 @@ public final class MoreStrings {
     return false;
   }
 
-  public static final String lineSeparatorRegex() {
+  public static String lineSeparatorRegex() {
     return lineSeparatorRegex;
   }
 
-  public static final List<Integer> lineNumbers(String s, int offset, int length) {
+  public static List<Integer> lineNumbers(final String s, final int offset, final int length) {
     int limit = offset + length;
 
     checkState(offset >= 0 && length >= 0 && limit <= s.length());
@@ -119,11 +117,11 @@ public final class MoreStrings {
     return lines;
   }
 
-  public static final List<String> lines(String s) {
+  public static List<String> lines(final String s) {
     return asList(s.split(lineSeparatorRegex));
   }
 
-  public static final boolean isWhitespace(String s) {
+  public static boolean isWhitespace(final String s) {
     int length = s.length();
 
     for (int i = 0; i < length; i ++) {
@@ -135,11 +133,11 @@ public final class MoreStrings {
     return true;
   }
 
-  public static final String toDefaultString(Object o) {
+  public static String toDefaultString(final Object o) {
     return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
   }
 
-  public static final String toCanonicalString(Object o) {
+  public static String toCanonicalString(final Object o) {
     String name = o.getClass().getCanonicalName();
 
     if (name == null) {
@@ -149,7 +147,7 @@ public final class MoreStrings {
     return name + "@" + Integer.toHexString(o.hashCode());
   }
 
-  public static final String toImplementedString(Object o) {
+  public static String toImplementedString(final Object o) {
     String result = o.toString();
 
     if (toDefaultString(o).equals(result)) {
@@ -162,19 +160,19 @@ public final class MoreStrings {
   private enum ToStringComparator implements Comparator<Object> {
     INSTANCE;
 
-    public final int compare(Object a, Object b) {
+    public int compare(final Object a, final Object b) {
       return a.toString().compareTo(b.toString());
     }
   }
 
-  public static final <T> Comparator<T> toStringComparator() {
+  public static <T> Comparator<T> toStringComparator() {
     @SuppressWarnings("unchecked")
     Comparator<T> comparator = (Comparator<T>) ToStringComparator.INSTANCE;
 
     return comparator;
   }
 
-  public static final String toStringFallback(Object o) {
+  public static String toStringFallback(final Object o) {
     String result = toImplementedString(o);
 
     if (result != null) {
@@ -190,25 +188,25 @@ public final class MoreStrings {
     return toDefaultString(o);
   }
 
-  public static final <T> Function<T, String> toStringFunction() {
+  public static <T> Function<T, String> toStringFunction() {
     @SuppressWarnings("unchecked")
     Function<T, String> result = (Function<T, String>) Functions.toStringFunction();
 
     return result;
   }
 
-  public static final String toLowerCaseFirst(String s) {
+  public static String toLowerCaseFirst(final String s) {
     return Character.toLowerCase(s.charAt(0)) + s.substring(1);
   }
 
-  public static final String toUpperCaseFirst(String s) {
+  public static String toUpperCaseFirst(final String s) {
     return Character.toUpperCase(s.charAt(0)) + s.substring(1);
   }
 
   private enum ToLowerCaseFunction implements Function<String, String> {
     INSTANCE;
 
-    public final String apply(String s) {
+    public String apply(final String s) {
       return String.valueOf(s).toLowerCase();
     }
   }
@@ -216,16 +214,16 @@ public final class MoreStrings {
   private enum ToUpperCaseFunction implements Function<String, String> {
     INSTANCE;
 
-    public final String apply(String s) {
+    public String apply(final String s) {
       return String.valueOf(s).toUpperCase();
     }
   }
 
-  public static final Function<String, String> toLowerCaseFunction() {
+  public static Function<String, String> toLowerCaseFunction() {
     return ToLowerCaseFunction.INSTANCE;
   }
 
-  public static final Function<String, String> toUpperCaseFunction() {
+  public static Function<String, String> toUpperCaseFunction() {
     return ToUpperCaseFunction.INSTANCE;
   }
 }

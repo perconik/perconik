@@ -23,12 +23,12 @@ import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Markable listener registration with lively updated registration status.
- * 
+ *
  * <p><b>Note:</b> This implementation is truly serializable if and only
  * if the underlying listener is serializable. Otherwise this implementation
  * serializes listener's data necessary to obtain the listener from the core
  * listener provider after deserialization at runtime.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -47,22 +47,22 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
     this.listener = listener;
   }
 
-  static final ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener) {
+  static ListenerPersistenceData construct(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener) {
     Utilities.checkListenerClass(implementation);
     Utilities.checkListenerImplementation(implementation, listener);
 
     return copy(registered, implementation, listener);
   }
 
-  static final ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener) {
+  static ListenerPersistenceData copy(final boolean registered, final Class<? extends Listener> implementation, @Nullable final Listener listener) {
     return new ListenerPersistenceData(registered, implementation, Utilities.serializableOrNullAsOptional(listener));
   }
 
-  public static final ListenerPersistenceData of(final Listener listener) {
+  public static ListenerPersistenceData of(final Listener listener) {
     return construct(Listeners.isRegistered(listener), listener.getClass(), listener);
   }
 
-  public static final Set<ListenerPersistenceData> defaults() {
+  public static Set<ListenerPersistenceData> defaults() {
     ListenerProvider provider = Services.getListenerService().getListenerProvider();
 
     Set<ListenerPersistenceData> data = newHashSet();
@@ -74,7 +74,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
     return data;
   }
 
-  public static final Set<ListenerPersistenceData> snapshot() {
+  public static Set<ListenerPersistenceData> snapshot() {
     ListenerProvider provider = Services.getListenerService().getListenerProvider();
 
     Set<ListenerPersistenceData> data = newHashSet();
@@ -105,11 +105,11 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
       this.listener = data.getSerializedListener();
     }
 
-    static final SerializationProxy of(final ListenerPersistenceData data) {
+    static SerializationProxy of(final ListenerPersistenceData data) {
       return new SerializationProxy(data);
     }
 
-    private final Object readResolve() throws InvalidObjectException {
+    private Object readResolve() throws InvalidObjectException {
       try {
         return construct(this.registered, Utilities.resolveClassAsSubclass(this.implementation, Listener.class), this.listener.orNull());
       } catch (Exception e) {
@@ -119,15 +119,15 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+  private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidListenerException("Serialization proxy required");
   }
 
-  private final Object writeReplace() {
+  private Object writeReplace() {
     return SerializationProxy.of(this);
   }
 
-  public final ListenerPersistenceData applyRegisteredMark() {
+  public ListenerPersistenceData applyRegisteredMark() {
     Listener listener = this.getListener();
 
     if (listener == null) {
@@ -149,11 +149,11 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
     return new ListenerPersistenceData(status, this.implementation, this.listener);
   }
 
-  public final ListenerPersistenceData updateRegisteredMark() {
+  public ListenerPersistenceData updateRegisteredMark() {
     return this.markRegistered(this.isRegistered());
   }
 
-  public final ListenerPersistenceData markRegistered(final boolean status) {
+  public ListenerPersistenceData markRegistered(final boolean status) {
     if (this.registered == status) {
       return this;
     }
@@ -161,15 +161,15 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
     return new ListenerPersistenceData(status, this.implementation, this.listener);
   }
 
-  public final boolean hasRegistredMark() {
+  public boolean hasRegistredMark() {
     return this.registered;
   }
 
-  public final boolean hasSerializedListener() {
+  public boolean hasSerializedListener() {
     return this.listener.isPresent();
   }
 
-  public final Listener getListener() {
+  public Listener getListener() {
     if (this.hasSerializedListener()) {
       return this.listener.get();
     }
@@ -177,11 +177,11 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
     return Listeners.forClass(this.implementation);
   }
 
-  public final Class<? extends Listener> getListenerClass() {
+  public Class<? extends Listener> getListenerClass() {
     return this.implementation;
   }
 
-  public final Optional<Listener> getSerializedListener() {
+  public Optional<Listener> getSerializedListener() {
     return this.listener;
   }
 }

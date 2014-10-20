@@ -7,11 +7,11 @@ import sk.stuba.fiit.perconik.core.listeners.LaunchListener;
 enum LaunchHandler implements Handler<LaunchListener> {
   INSTANCE;
 
-  public final void register(final LaunchListener listener) {
+  public void register(final LaunchListener listener) {
     DebugPlugin.getDefault().getLaunchManager().addLaunchListener(listener);
   }
 
-  public final void unregister(final LaunchListener listener) {
+  public void unregister(final LaunchListener listener) {
     DebugPlugin.getDefault().getLaunchManager().removeLaunchListener(listener);
   }
 }

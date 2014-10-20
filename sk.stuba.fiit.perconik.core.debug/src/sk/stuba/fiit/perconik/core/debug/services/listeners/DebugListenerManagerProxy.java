@@ -23,11 +23,11 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
     this.manager = checkNotNull(manager);
   }
 
-  public static final DebugListenerManagerProxy wrap(final ListenerManager manager) {
+  public static DebugListenerManagerProxy wrap(final ListenerManager manager) {
     return wrap(manager, Debug.getDefaultConsole());
   }
 
-  public static final DebugListenerManagerProxy wrap(final ListenerManager manager, final DebugConsole console) {
+  public static DebugListenerManagerProxy wrap(final ListenerManager manager, final DebugConsole console) {
     if (manager instanceof DebugListenerManagerProxy) {
       return (DebugListenerManagerProxy) manager;
     }
@@ -35,7 +35,7 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
     return new DebugListenerManagerProxy(manager, console);
   }
 
-  public static final ListenerManager unwrap(final ListenerManager manager) {
+  public static ListenerManager unwrap(final ListenerManager manager) {
     if (manager instanceof DebugListenerManagerProxy) {
       return ((DebugListenerManagerProxy) manager).delegate();
     }
@@ -44,11 +44,11 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
   }
 
   @Override
-  public final ListenerManager delegate() {
+  public ListenerManager delegate() {
     return this.manager;
   }
 
-  public final <L extends Listener> void register(final L listener) {
+  public <L extends Listener> void register(final L listener) {
     this.print("Registering listener %s", DebugListeners.toString(listener));
     this.tab();
 
@@ -57,7 +57,7 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
     this.untab();
   }
 
-  public final <L extends Listener> void unregister(final L listener) {
+  public <L extends Listener> void unregister(final L listener) {
     this.print("Unregistering listener %s", DebugListeners.toString(listener));
     this.tab();
 
@@ -66,7 +66,7 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
     this.untab();
   }
 
-  public final <L extends Listener> void unregisterAll(final Class<L> type) {
+  public <L extends Listener> void unregisterAll(final Class<L> type) {
     this.print("Unregistering all listeners assignable to listener type %s", DebugListeners.toString(type));
     this.tab();
 
@@ -75,15 +75,15 @@ public final class DebugListenerManagerProxy extends DebugNameableProxy implemen
     this.untab();
   }
 
-  public final SetMultimap<Resource<?>, Listener> registrations() {
+  public SetMultimap<Resource<?>, Listener> registrations() {
     return this.delegate().registrations();
   }
 
-  public final <L extends Listener> Collection<L> registered(final Class<L> type) {
+  public <L extends Listener> Collection<L> registered(final Class<L> type) {
     return this.delegate().registered(type);
   }
 
-  public final boolean registered(final Listener listener) {
+  public boolean registered(final Listener listener) {
     return this.delegate().registered(listener);
   }
 }

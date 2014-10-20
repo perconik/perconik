@@ -137,14 +137,14 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
     private final IdeCodeEventType type;
 
-    private Operation(String id, IdeCodeEventType type) {
+    private Operation(final String id, final IdeCodeEventType type) {
       assert !id.isEmpty() && type != null;
 
       this.id = id;
       this.type = type;
     }
 
-    public static final Operation resolve(String id) {
+    public static Operation resolve(final String id) {
       checkArgument(!id.isEmpty());
 
       for (Operation operation: values()) {
@@ -156,11 +156,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       return null;
     }
 
-    public final String getIdentifier() {
+    public String getIdentifier() {
       return this.id;
     }
 
-    public final IdeCodeEventType getEventType() {
+    public IdeCodeEventType getEventType() {
       return this.type;
     }
   }
@@ -178,7 +178,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       int line, offset;
     }
 
-    static final Region of(final IDocument document, int offset, int length, final String text) {
+    static Region of(final IDocument document, final int offset, final int length, final String text) {
       checkArgument(offset >= 0);
       checkArgument(length >= 0);
       checkArgument(text != null);
@@ -236,7 +236,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     private ClipboardReader() {}
 
     @Override
-    public final String call() {
+    public String call() {
       Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
 
       if (Collections.disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
@@ -277,7 +277,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     private SelectionRangeReader() {}
 
     @Override
-    public final SelectionRangeData call() {
+    public SelectionRangeData call() {
       IEditorPart editor = Editors.getActiveEditor();
 
       if (editor == null) {
@@ -309,11 +309,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       this.selection = selection;
     }
 
-    final boolean contentEquals(final SelectionEvent other) {
+    boolean contentEquals(final SelectionEvent other) {
       return this.part == other.part && this.selection.equals(other.selection);
     }
 
-    final boolean isContinuousWith(final SelectionEvent other) {
+    boolean isContinuousWith(final SelectionEvent other) {
       if (this.part != other.part) {
         return false;
       }
@@ -324,16 +324,16 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
       return a == b || (a + this.selection.getLength()) == (b + other.selection.getLength());
     }
 
-    final boolean isSelectionEmpty() {
+    boolean isSelectionEmpty() {
       return this.selection.isEmpty();
     }
 
-    final boolean isSelectionTextEmpty() {
+    boolean isSelectionTextEmpty() {
       return isNullOrEmpty(this.selection.getText());
     }
   }
 
-  final void processCopyOrCut(final long time, final Operation operation) {
+  void processCopyOrCut(final long time, final Operation operation) {
     String text = execute(ClipboardReader.instance);
 
     SelectionRangeData data = execute(SelectionRangeReader.instance);
@@ -376,7 +376,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     this.proxy.sendCodeEvent(build(time, resource, region), operation.getEventType());
   }
 
-  final void processPaste(final long time, final DocumentEvent event) {
+  void processPaste(final long time, final DocumentEvent event) {
     IDocument document = event.getDocument();
     IEditorPart editor = Editors.forDocument(document);
 
@@ -395,7 +395,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     this.proxy.sendCodeEvent(build(time, resource, region), IdeCodeEventType.PASTE);
   }
 
-  final void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+  void processSelection(final long time, final IWorkbenchPart part, final ITextSelection selection) {
     if (!(part instanceof IEditorPart)) {
       return;
     }
@@ -409,13 +409,13 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     this.processSelection(time, content, selection);
   }
 
-  final void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection) {
+  void processSelection(final long time, final UnderlyingContent<?> content, final ITextSelection selection) {
     Region region = Region.of(content.document, selection.getOffset(), selection.getLength(), selection.getText());
 
     this.proxy.sendCodeEvent(build(time, content.resource, region), IdeCodeEventType.SELECTION_CHANGED);
   }
 
-  private final void preClose() {
+  private void preClose() {
     synchronized (this.lock) {
       if (this.watch.isRunning()) {
         this.stopWatchAndProcessLastSelectionEvent();
@@ -424,21 +424,21 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   }
 
   @Override
-  public final void preUnregister() {
+  public void preUnregister() {
     this.preClose();
   }
 
-  public final boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+  public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     this.preUnregister();
 
     return true;
   }
 
-  public final void postShutdown(final IWorkbench workbench) {}
+  public void postShutdown(final IWorkbench workbench) {}
 
-  public final void documentAboutToBeChanged(final DocumentEvent event) {}
+  public void documentAboutToBeChanged(final DocumentEvent event) {}
 
-  public final void documentChanged(final DocumentEvent event) {
+  public void documentChanged(final DocumentEvent event) {
     if (Log.enabled()) {
       Log.message().appendln("paste: " + this.paste.getState()).appendTo(this.console);
     }
@@ -454,14 +454,14 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     final long time = Utilities.currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processPaste(time, event);
       }
     });
   }
 
   @GuardedBy("lock")
-  private final void startWatchAndClearSelectionEvents() {
+  private void startWatchAndClearSelectionEvents() {
     assert !this.watch.isRunning() && this.continuousSelections == null;
 
     this.continuousSelections = newLinkedList();
@@ -470,7 +470,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   }
 
   @GuardedBy("lock")
-  private final void stopWatchAndProcessLastSelectionEvent() {
+  private void stopWatchAndProcessLastSelectionEvent() {
     assert this.watch.isRunning() && this.continuousSelections != null;
 
     this.lastSentSelection = this.continuousSelections.getLast();
@@ -482,7 +482,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     this.watch.stop();
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
+  public void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
     final long time = Utilities.currentTime();
 
     if (selection.isEmpty()) {
@@ -536,48 +536,48 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
-  private final void selectionChanged(final SelectionEvent event) {
+  private void selectionChanged(final SelectionEvent event) {
     this.selectionChanged(event.time, event.part, event.selection);
   }
 
-  private final void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+  private void selectionChanged(final long time, final IWorkbenchPart part, final ITextSelection selection) {
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processSelection(time, part, selection);
       }
     });
   }
 
-  public final void editorOpened(final IEditorReference reference) {}
+  public void editorOpened(final IEditorReference reference) {}
 
-  public final void editorClosed(final IEditorReference reference) {
+  public void editorClosed(final IEditorReference reference) {
     this.preClose();
   }
 
-  public final void editorActivated(final IEditorReference reference) {}
+  public void editorActivated(final IEditorReference reference) {}
 
-  public final void editorDeactivated(final IEditorReference reference) {}
+  public void editorDeactivated(final IEditorReference reference) {}
 
-  public final void editorVisible(final IEditorReference reference) {}
+  public void editorVisible(final IEditorReference reference) {}
 
-  public final void editorHidden(final IEditorReference reference) {}
+  public void editorHidden(final IEditorReference reference) {}
 
-  public final void editorBroughtToTop(final IEditorReference reference) {}
+  public void editorBroughtToTop(final IEditorReference reference) {}
 
-  public final void editorInputChanged(final IEditorReference reference) {}
+  public void editorInputChanged(final IEditorReference reference) {}
 
-  public final void preExecute(final String id, final ExecutionEvent event) {
+  public void preExecute(final String id, final ExecutionEvent event) {
     this.paste.transitOnMatch(id, EXECUTING);
   }
 
-  public final void postExecuteSuccess(final String id, final Object result) {
+  public void postExecuteSuccess(final String id, final Object result) {
     final Operation operation = Operation.resolve(id);
 
     if (operation == COPY || operation == CUT) {
       final long time = Utilities.currentTime();
 
       execute(new Runnable() {
-        public final void run() {
+        public void run() {
           processCopyOrCut(time, operation);
         }
       });
@@ -586,19 +586,19 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
-  public final void postExecuteFailure(final String id, final ExecutionException exception) {
+  public void postExecuteFailure(final String id, final ExecutionException exception) {
     this.paste.transitOnMatch(id, FAILED);
   }
 
-  public final void notDefined(final String id, final NotDefinedException exception) {
+  public void notDefined(final String id, final NotDefinedException exception) {
     this.paste.transitOnMatch(id, UNDEFINED);
   }
 
-  public final void notEnabled(final String id, final NotEnabledException exception) {
+  public void notEnabled(final String id, final NotEnabledException exception) {
     this.paste.transitOnMatch(id, DISABLED);
   }
 
-  public final void notHandled(final String id, final NotHandledException exception) {
+  public void notHandled(final String id, final NotHandledException exception) {
     this.paste.transitOnMatch(id, UNHANDLED);
   }
 }

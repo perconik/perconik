@@ -19,7 +19,7 @@ final class UnderlyingContent<R> {
     this.resource = resource;
   }
 
-  public static final UnderlyingContent<?> from(@Nullable final IEditorPart editor) {
+  public static UnderlyingContent<?> from(@Nullable final IEditorPart editor) {
     IDocument document = Editors.getDocument(editor);
 
     UnderlyingResource<?> resource = UnderlyingResource.from(editor);

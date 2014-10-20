@@ -7,15 +7,15 @@ import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.widgets.Composite;
 
 public class UriFieldEditor extends StringFieldEditor {
-  public UriFieldEditor(String name, String label, Composite parent) {
+  public UriFieldEditor(final String name, final String label, final Composite parent) {
     super(name, label, parent);
   }
 
-  public UriFieldEditor(String name, String label, int width, Composite parent) {
+  public UriFieldEditor(final String name, final String label, final int width, final Composite parent) {
     super(name, label, width, parent);
   }
 
-  public UriFieldEditor(String name, String label, int width, int strategy, Composite parent) {
+  public UriFieldEditor(final String name, final String label, final int width, final int strategy, final Composite parent) {
     super(name, label, width, strategy, parent);
   }
 

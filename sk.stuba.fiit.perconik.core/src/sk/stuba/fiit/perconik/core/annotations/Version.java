@@ -10,11 +10,11 @@ import sk.stuba.fiit.perconik.core.Registrable;
 
 /**
  * Marks a {@link Registrable} with a version identifier.
- * 
+ *
  * <p>See {@link org.osgi.framework.Version#toString() toString()} method
  * of class {@link org.osgi.framework.Version Version} for more details about
  * the version format.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

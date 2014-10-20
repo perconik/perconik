@@ -5,11 +5,9 @@ import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 
 final class Utilities {
-  private Utilities() {
-    throw new AssertionError();
-  }
+  private Utilities() {}
 
-  static final String format(String format, Object ... args) {
+  static String format(final String format, final Object ... args) {
     for (int i = 0; i < args.length; i ++) {
       if (args[i] instanceof Class) {
         args[i] = ((Class<?>) args[i]).getName();
@@ -19,35 +17,35 @@ final class Utilities {
     return String.format(format, args);
   }
 
-  static final RuntimeException createArgument(String format, Object ... args) {
+  static RuntimeException createArgument(final String format, final Object ... args) {
     return new IllegalArgumentException(format(format, args));
   }
 
-  static final RuntimeException createState(String format, Object ... args) {
+  static RuntimeException createState(final String format, final Object ... args) {
     return new IllegalStateException(format(format, args));
   }
 
-  static final void throwArgument(String format, Object ... args) {
+  static void throwArgument(final String format, final Object ... args) {
     throw createArgument(format, args);
   }
 
-  static final void throwState(String format, Object ... args) {
+  static void throwState(final String format, final Object ... args) {
     throw createState(format(format, args));
   }
 
-  static final void checkArgument(boolean expression, String format, Object ... args) {
+  static void checkArgument(final boolean expression, final String format, final Object ... args) {
     if (!expression) {
       throwArgument(format, args);
     }
   }
 
-  static final void checkState(boolean expression, String format, Object ... args) {
+  static void checkState(final boolean expression, final String format, final Object ... args) {
     if (!expression) {
       throwState(format, args);
     }
   }
 
-  static final <T, R, S extends R> Invokable<T, S> specialize(Invokable<T, R> invokable, TypeToken<S> type) {
+  static <T, R, S extends R> Invokable<T, S> specialize(final Invokable<T, R> invokable, final TypeToken<S> type) {
     TypeToken<? extends R> base = invokable.getReturnType();
 
     if (!wrap(type).isAssignableFrom(wrap(base))) {
@@ -60,11 +58,11 @@ final class Utilities {
     return specialized;
   }
 
-  static <T> TypeToken<T> wrap(TypeToken<T> type) {
+  static <T> TypeToken<T> wrap(final TypeToken<T> type) {
     return (TypeToken<T>) (type.isPrimitive() ? TypeToken.of(Primitives.wrap(type.getRawType())) : type);
   }
 
-  static <T> TypeToken<T> unwrap(TypeToken<T> type) {
+  static <T> TypeToken<T> unwrap(final TypeToken<T> type) {
     return (TypeToken<T>) (type.isPrimitive() ? TypeToken.of(Primitives.unwrap(type.getRawType())) : type);
   }
 }

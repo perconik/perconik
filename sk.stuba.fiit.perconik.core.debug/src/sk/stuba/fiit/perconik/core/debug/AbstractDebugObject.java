@@ -43,7 +43,7 @@ public abstract class AbstractDebugObject implements DebugObject {
     this.console.notice(message);
   }
 
-  protected final void notice(final String format, Object ... args) {
+  protected final void notice(final String format, final Object ... args) {
     this.console.notice(format, args);
   }
 
@@ -51,7 +51,7 @@ public abstract class AbstractDebugObject implements DebugObject {
     this.console.warning(message);
   }
 
-  protected final void warning(final String format, Object ... args) {
+  protected final void warning(final String format, final Object ... args) {
     this.console.warning(format, args);
   }
 

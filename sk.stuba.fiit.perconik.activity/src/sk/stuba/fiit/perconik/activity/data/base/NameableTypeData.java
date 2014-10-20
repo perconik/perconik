@@ -7,7 +7,7 @@ public class NameableTypeData extends TypeData {
 
   public NameableTypeData() {}
 
-  protected NameableTypeData(Nameable nameable) {
+  protected NameableTypeData(final Nameable nameable) {
     if (nameable == null) {
       return;
     }
@@ -16,7 +16,7 @@ public class NameableTypeData extends TypeData {
     this.setImplementation(ClassData.of(nameable.getClass()));
   }
 
-  protected NameableTypeData(String name, Class<?> implementation) {
+  protected NameableTypeData(final String name, final Class<?> implementation) {
     super(implementation);
 
     if (name == null) {
@@ -26,15 +26,15 @@ public class NameableTypeData extends TypeData {
     this.setName(name);
   }
 
-  public static NameableTypeData of(Nameable nameable) {
+  public static NameableTypeData of(final Nameable nameable) {
     return new NameableTypeData(nameable);
   }
 
-  public static NameableTypeData of(String name, Class<?> implementation) {
+  public static NameableTypeData of(final String name, final Class<?> implementation) {
     return new NameableTypeData(name, implementation);
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 

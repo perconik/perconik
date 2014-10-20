@@ -15,37 +15,37 @@ public final class CompletionDebugListener extends AbstractDebugListener impleme
     super(console);
   }
 
-  public final void assistSessionStarted(final ContentAssistEvent event) {
+  public void assistSessionStarted(final ContentAssistEvent event) {
     this.printHeader("Content assist session started");
     this.printContentAssistEvent(event);
   }
 
-  public final void assistSessionRestarted(final ContentAssistEvent event) {
+  public void assistSessionRestarted(final ContentAssistEvent event) {
     this.printHeader("Content assist session");
     this.printContentAssistEvent(event);
   }
 
-  public final void assistSessionEnded(final ContentAssistEvent event) {
+  public void assistSessionEnded(final ContentAssistEvent event) {
     this.printHeader("Content assist session");
     this.printContentAssistEvent(event);
   }
 
-  public final void applied(final ICompletionProposal proposal) {
+  public void applied(final ICompletionProposal proposal) {
     this.printHeader("Completion proposal applied");
     this.printCompletionProposal(proposal);
   }
 
-  public final void selectionChanged(final ICompletionProposal proposal, final boolean smart) {
+  public void selectionChanged(final ICompletionProposal proposal, final boolean smart) {
     this.printHeader("Completion proposal selection changed");
     this.printCompletionProposal(proposal);
     this.printLine("smart", smart);
   }
 
-  private final void printContentAssistEvent(final ContentAssistEvent event) {
+  private void printContentAssistEvent(final ContentAssistEvent event) {
     this.put(Debug.dumpContentAssistEvent(event));
   }
 
-  private final void printCompletionProposal(final ICompletionProposal proposal) {
+  private void printCompletionProposal(final ICompletionProposal proposal) {
     this.put(Debug.dumpCompletionProposal(proposal));
   }
 }

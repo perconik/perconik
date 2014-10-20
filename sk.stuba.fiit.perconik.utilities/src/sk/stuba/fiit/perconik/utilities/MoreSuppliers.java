@@ -5,13 +5,11 @@ import java.util.concurrent.Callable;
 import com.google.common.base.Supplier;
 
 public final class MoreSuppliers {
-  private MoreSuppliers() {
-    throw new AssertionError();
-  }
+  private MoreSuppliers() {}
 
-  public static final <V> Callable<V> asCallable(final Supplier<V> supplier) {
+  public static <V> Callable<V> asCallable(final Supplier<V> supplier) {
     return new Callable<V>() {
-      public final V call() throws Exception {
+      public V call() throws Exception {
         return supplier.get();
       }
     };

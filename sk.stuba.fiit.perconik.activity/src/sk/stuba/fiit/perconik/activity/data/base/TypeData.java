@@ -7,7 +7,7 @@ public class TypeData extends AnyStructuredData {
 
   public TypeData() {}
 
-  protected TypeData(Class<?> implementation) {
+  protected TypeData(final Class<?> implementation) {
     if (implementation == null) {
       return;
     }
@@ -15,11 +15,11 @@ public class TypeData extends AnyStructuredData {
     this.setImplementation(ClassData.of(implementation));
   }
 
-  public static TypeData of(Class<?> type) {
+  public static TypeData of(final Class<?> type) {
     return new TypeData(type);
   }
 
-  public void setImplementation(ClassData implementation) {
+  public void setImplementation(final ClassData implementation) {
     this.implementation = implementation;
   }
 

@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A debug events listener.
- * 
+ *
  * @see Listener
  * @see IDebugEventSetListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

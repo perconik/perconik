@@ -5,11 +5,9 @@ import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 public final class NodeVisitors {
-  private NodeVisitors() {
-    throw new AssertionError();
-  }
+  private NodeVisitors() {}
 
-  public static final void accept(@Nullable final ASTNode node, final NodeVisitor visitor) {
+  public static void accept(@Nullable final ASTNode node, final NodeVisitor visitor) {
     if (node != null) {
       node.accept(visitor.asUnderlyingVisitor());
     }

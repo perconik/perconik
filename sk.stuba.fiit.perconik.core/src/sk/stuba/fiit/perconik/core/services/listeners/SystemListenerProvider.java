@@ -18,16 +18,16 @@ final class SystemListenerProvider extends AbstractListenerProvider {
     this.map = HashBiMap.create();
   }
 
-  static final ListenerProvider getInstance() {
+  static ListenerProvider getInstance() {
     return instance;
   }
 
   @Override
-  protected final ClassLoader loader() {
+  protected ClassLoader loader() {
     return ClassLoader.getSystemClassLoader();
   }
 
-  public final <L extends Listener> L forClass(final Class<L> implementation) {
+  public <L extends Listener> L forClass(final Class<L> implementation) {
     if (!this.map.containsValue(implementation)) {
       cast(implementation);
     }
@@ -39,7 +39,7 @@ final class SystemListenerProvider extends AbstractListenerProvider {
     }
   }
 
-  public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
+  public Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
     Class<? extends Listener> type = this.map.get(name);
 
     if (type != null) {
@@ -53,11 +53,11 @@ final class SystemListenerProvider extends AbstractListenerProvider {
     return type;
   }
 
-  public final Set<Class<? extends Listener>> classes() {
+  public Set<Class<? extends Listener>> classes() {
     return this.map.values();
   }
 
-  public final ListenerProvider parent() {
+  public ListenerProvider parent() {
     return null;
   }
 }

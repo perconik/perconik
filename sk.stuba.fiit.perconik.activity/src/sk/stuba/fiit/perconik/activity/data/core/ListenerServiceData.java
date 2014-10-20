@@ -23,7 +23,7 @@ public class ListenerServiceData extends NameableTypeData {
 
   public ListenerServiceData() {}
 
-  protected ListenerServiceData(ListenerService service) {
+  protected ListenerServiceData(final ListenerService service) {
     super(service);
 
     if (service == null) {
@@ -44,23 +44,23 @@ public class ListenerServiceData extends NameableTypeData {
     this.setRegistrations(registrations);
   }
 
-  public static ListenerServiceData of(ListenerService service) {
+  public static ListenerServiceData of(final ListenerService service) {
     return new ListenerServiceData(service);
   }
 
-  public void setProvider(NameableTypeData provider) {
+  public void setProvider(final NameableTypeData provider) {
     this.provider = provider;
   }
 
-  public void setManager(NameableTypeData manager) {
+  public void setManager(final NameableTypeData manager) {
     this.manager = manager;
   }
 
-  public void setClasses(Set<Class<? extends Listener>> classes) {
+  public void setClasses(final Set<Class<? extends Listener>> classes) {
     this.classes = classes;
   }
 
-  public void setRegistrations(SetMultimap<String, ListenerData> registrations) {
+  public void setRegistrations(final SetMultimap<String, ListenerData> registrations) {
     this.registrations = registrations;
   }
 

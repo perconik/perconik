@@ -14,12 +14,12 @@ public final class DebugEventsDebugListener extends AbstractDebugListener implem
     super(console);
   }
 
-  public final void handleDebugEvents(final DebugEvent[] events) {
+  public void handleDebugEvents(final DebugEvent[] events) {
     this.printHeader("Debug events");
     this.printDebugEvents(events);
   }
 
-  private final void printDebugEvents(final DebugEvent[] events) {
+  private void printDebugEvents(final DebugEvent[] events) {
     this.put(Debug.dumpDebugEvents(events));
   }
 }

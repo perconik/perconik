@@ -10,7 +10,7 @@ public final class NamingStrategy extends PropertyNamingStrategyBase {
   public NamingStrategy() {}
 
   @Override
-  public final String translate(final String input) {
+  public String translate(final String input) {
     if (input == null) {
       return null;
     }

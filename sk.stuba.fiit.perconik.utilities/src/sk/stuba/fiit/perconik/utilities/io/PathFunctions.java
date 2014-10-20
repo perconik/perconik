@@ -19,11 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.propagate;
 
 public final class PathFunctions {
-  private PathFunctions() {
-    throw new AssertionError();
-  }
+  private PathFunctions() {}
 
-  private static final <T extends Path> Function<T, T> castWhole(Function<? extends Path, ? extends Path> function) {
+  private static <T extends Path> Function<T, T> castWhole(final Function<? extends Path, ? extends Path> function) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings("unchecked")
     Function<T, T> result = (Function<T, T>) function;
@@ -31,7 +29,7 @@ public final class PathFunctions {
     return result;
   }
 
-  private static final <T extends Path, R> Function<T, R> castInput(Function<? extends Path, R> function) {
+  private static <T extends Path, R> Function<T, R> castInput(final Function<? extends Path, R> function) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings("unchecked")
     Function<T, R> result = (Function<T, R>) function;
@@ -39,26 +37,26 @@ public final class PathFunctions {
     return result;
   }
 
-  public static final <T extends Path> Function<T, T> normalize() {
+  public static <T extends Path> Function<T, T> normalize() {
     return castWhole(NormalizeFunction.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, T> relativize(T path) {
+  public static <T extends Path> Function<T, T> relativize(final T path) {
     return castWhole(new RelativizeFunction(path));
   }
 
-  public static final <T extends Path> Function<T, T> resolve(T path) {
+  public static <T extends Path> Function<T, T> resolve(final T path) {
     return castWhole(new ResolveFunction(path));
   }
 
-  public static final <T extends Path> Function<T, T> resolveSibling(T path) {
+  public static <T extends Path> Function<T, T> resolveSibling(final T path) {
     return castWhole(new ResolveSiblingFunction(path));
   }
 
   static enum NormalizeFunction implements Function<Path, Path> {
     INSTANCE;
 
-    public final Path apply(@Nonnull Path path) {
+    public Path apply(@Nonnull final Path path) {
       return path.normalize();
     }
 
@@ -70,11 +68,11 @@ public final class PathFunctions {
 
     final Path path;
 
-    public RelativizeFunction(Path path) {
+    public RelativizeFunction(final Path path) {
       this.path = checkNotNull(path);
     }
 
-    public final Path apply(@Nullable Path path) {
+    public Path apply(@Nullable final Path path) {
       return path != null ? path.relativize(this.path) : null;
     }
 
@@ -86,11 +84,11 @@ public final class PathFunctions {
 
     final Path path;
 
-    public ResolveFunction(Path path) {
+    public ResolveFunction(final Path path) {
       this.path = checkNotNull(path);
     }
 
-    public final Path apply(@Nullable Path path) {
+    public Path apply(@Nullable final Path path) {
       return path != null ? path.resolve(this.path) : null;
     }
 
@@ -102,22 +100,22 @@ public final class PathFunctions {
 
     final Path path;
 
-    public ResolveSiblingFunction(Path path) {
+    public ResolveSiblingFunction(final Path path) {
       this.path = checkNotNull(path);
     }
 
-    public final Path apply(@Nullable Path path) {
+    public Path apply(@Nullable final Path path) {
       return path != null ? path.resolveSibling(this.path) : null;
     }
 
     // TODO add equals, hashCode, toString
   }
 
-  public static final <T extends Path> Function<T, T> name(int index) {
+  public static <T extends Path> Function<T, T> name(final int index) {
     return castWhole(new NameFunction(index));
   }
 
-  public static final <T extends Path> Function<T, Integer> nameCount() {
+  public static <T extends Path> Function<T, Integer> nameCount() {
     return castInput(NameCountFunction.INSTANCE);
   }
 
@@ -126,13 +124,13 @@ public final class PathFunctions {
 
     private final int index;
 
-    NameFunction(int index) {
+    NameFunction(final int index) {
       checkArgument(index >= 0);
 
       this.index = index;
     }
 
-    public final Path apply(@Nullable Path path) {
+    public Path apply(@Nullable final Path path) {
       return path != null ? path.getName(this.index) : null;
     }
 
@@ -142,33 +140,33 @@ public final class PathFunctions {
   static enum NameCountFunction implements Function<Path, Integer> {
     INSTANCE;
 
-    public final Integer apply(@Nonnull Path path) {
+    public Integer apply(@Nonnull final Path path) {
       return path.getNameCount();
     }
 
     // TODO add toString
   }
 
-  public static final <T extends Path> Function<T, T> root() {
+  public static <T extends Path> Function<T, T> root() {
     return castWhole(RootFunction.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, T> parent() {
+  public static <T extends Path> Function<T, T> parent() {
     return castWhole(ParentFunction.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, T> fileName() {
+  public static <T extends Path> Function<T, T> fileName() {
     return castWhole(FileNameFunction.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, FileSystem> fileSystem() {
+  public static <T extends Path> Function<T, FileSystem> fileSystem() {
     return castInput(FileSystemFunction.INSTANCE);
   }
 
   static enum RootFunction implements Function<Path, Path> {
     INSTANCE;
 
-    public final Path apply(@Nonnull Path path) {
+    public Path apply(@Nonnull final Path path) {
       return path.getRoot();
     }
 
@@ -178,7 +176,7 @@ public final class PathFunctions {
   static enum ParentFunction implements Function<Path, Path> {
     INSTANCE;
 
-    public final Path apply(@Nonnull Path path) {
+    public Path apply(@Nonnull final Path path) {
       return path.getParent();
     }
 
@@ -188,7 +186,7 @@ public final class PathFunctions {
   static enum FileNameFunction implements Function<Path, Path> {
     INSTANCE;
 
-    public final Path apply(@Nonnull Path path) {
+    public Path apply(@Nonnull final Path path) {
       return path.getFileName();
     }
 
@@ -198,37 +196,37 @@ public final class PathFunctions {
   static enum FileSystemFunction implements Function<Path, FileSystem> {
     INSTANCE;
 
-    public final FileSystem apply(@Nonnull Path path) {
+    public FileSystem apply(@Nonnull final Path path) {
       return path.getFileSystem();
     }
 
     // TODO add toString
   }
 
-  public static final <T extends Path> Function<T, T> toAbsolutePath() {
+  public static <T extends Path> Function<T, T> toAbsolutePath() {
     return castWhole(ToAbsolutePathFunction.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, T> toRealPath() {
+  public static <T extends Path> Function<T, T> toRealPath() {
     return castWhole(ToRealPathFunction.Default.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, T> toRealPath(LinkOption ... options) {
+  public static <T extends Path> Function<T, T> toRealPath(final LinkOption ... options) {
     return castWhole(new ToRealPathFunction(options));
   }
 
-  public static final <T extends Path> Function<T, File> toFile() {
+  public static <T extends Path> Function<T, File> toFile() {
     return castInput(ToFileFunction.INSTANCE);
   }
 
-  public static final <T extends Path> Function<T, URI> toUri() {
+  public static <T extends Path> Function<T, URI> toUri() {
     return castInput(ToUriFunction.INSTANCE);
   }
 
   static enum ToAbsolutePathFunction implements Function<Path, Path> {
     INSTANCE;
 
-    public final Path apply(@Nonnull Path path) {
+    public Path apply(@Nonnull final Path path) {
       return path.toAbsolutePath();
     }
 
@@ -240,11 +238,11 @@ public final class PathFunctions {
 
     private final LinkOption[] options;
 
-    ToRealPathFunction(LinkOption ... options) {
+    ToRealPathFunction(final LinkOption ... options) {
       this.options = Arrays.copyOf(options, options.length);
     }
 
-    public final Path apply(@Nonnull Path path) {
+    public Path apply(@Nonnull final Path path) {
       try {
         return path.toRealPath(this.options);
       } catch (IOException e) {
@@ -255,7 +253,7 @@ public final class PathFunctions {
     static enum Default implements Function<Path, Path> {
       INSTANCE;
 
-      public final Path apply(@Nonnull Path path) {
+      public Path apply(@Nonnull final Path path) {
         try {
           return path.toRealPath();
         } catch (IOException e) {
@@ -272,7 +270,7 @@ public final class PathFunctions {
   static enum ToFileFunction implements Function<Path, File> {
     INSTANCE;
 
-    public final File apply(@Nonnull Path path) {
+    public File apply(@Nonnull final Path path) {
       return path.toFile();
     }
 
@@ -282,7 +280,7 @@ public final class PathFunctions {
   static enum ToUriFunction implements Function<Path, URI> {
     INSTANCE;
 
-    public final URI apply(@Nonnull Path path) {
+    public URI apply(@Nonnull final Path path) {
       return path.toUri();
     }
 

@@ -24,11 +24,11 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   @Override
-  protected final SetMultimap<Class<? extends Listener>, Resource<?>> multimap() {
+  protected SetMultimap<Class<? extends Listener>, Resource<?>> multimap() {
     return this.multimap;
   }
 
-  public final <L extends Listener> void unregisterAll(final Class<L> type) {
+  public <L extends Listener> void unregisterAll(final Class<L> type) {
     List<Exception> failures = newLinkedList();
 
     for (Entry<Class<? extends L>, Resource<? extends L>> entry: this.assignablesAsSetMultimap(type).entries()) {
@@ -46,11 +46,11 @@ final class StandardResourceManager extends AbstractResourceManager {
     }
   }
 
-  public final <L extends Listener> Set<Resource<? extends L>> assignables(final Class<L> type) {
+  public <L extends Listener> Set<Resource<? extends L>> assignables(final Class<L> type) {
     return newHashSet(this.assignablesAsSetMultimap(type).values());
   }
 
-  private final <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignablesAsSetMultimap(final Class<L> type) {
+  private <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignablesAsSetMultimap(final Class<L> type) {
     SetMultimap<Class<? extends L>, Resource<? extends L>> result = HashMultimap.create();
 
     for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries()) {
@@ -70,7 +70,7 @@ final class StandardResourceManager extends AbstractResourceManager {
     return result;
   }
 
-  public final <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type) {
+  public <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type) {
     Set<Resource<? super L>> result = newHashSet();
 
     for (Entry<Class<? extends Listener>, Resource<?>> entry: this.multimap.entries()) {
@@ -98,11 +98,11 @@ final class StandardResourceManager extends AbstractResourceManager {
     return result;
   }
 
-  public final SetMultimap<Class<? extends Listener>, Resource<?>> registrations() {
+  public SetMultimap<Class<? extends Listener>, Resource<?>> registrations() {
     return HashMultimap.create(this.multimap);
   }
 
-  public final boolean registered(final Class<? extends Listener> type, final Resource<?> resource) {
+  public boolean registered(final Class<? extends Listener> type, final Resource<?> resource) {
     return this.multimap.containsEntry(type, resource);
   }
 }

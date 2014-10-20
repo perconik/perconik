@@ -47,7 +47,7 @@ public class Data implements Content {
     }
   }
 
-  public Map<String, Object> toMap(boolean pretty) {
+  public Map<String, Object> toMap(final boolean pretty) {
     if (!pretty) {
       return this.toMap();
     }
@@ -68,7 +68,7 @@ public class Data implements Content {
     }
   }
 
-  public String toString(boolean pretty) {
+  public String toString(final boolean pretty) {
     if (!pretty) {
       return this.toString();
     }

@@ -5,47 +5,45 @@ import com.google.common.collect.ImmutableList;
 import static com.google.common.collect.Lists.asList;
 
 public final class ClassResolvers {
-  private ClassResolvers() {
-    throw new AssertionError();
-  }
+  private ClassResolvers() {}
 
-  public static final ClassResolver forClassLoader(ClassLoader loader) {
+  public static ClassResolver forClassLoader(final ClassLoader loader) {
     return new LoadingClassResolver(loader);
   }
 
-  public static final ClassResolver forSystemClassLoader() {
+  public static ClassResolver forSystemClassLoader() {
     return forClassLoader(ClassLoader.getSystemClassLoader());
   }
 
-  public static final ClassResolver forClass(Class<?> type) {
+  public static ClassResolver forClass(final Class<?> type) {
     return forClassLoader(type.getClassLoader());
   }
 
-  public static final ClassResolver forObject(Object object) {
+  public static ClassResolver forObject(final Object object) {
     return forClass(object.getClass());
   }
 
-  public static final ClassResolver forThread(Thread thread) {
+  public static ClassResolver forThread(final Thread thread) {
     return forClassLoader(thread.getContextClassLoader());
   }
 
-  public static final ClassResolver forCurrentThread() {
+  public static ClassResolver forCurrentThread() {
     return forThread(Thread.currentThread());
   }
 
-  public static final ClassResolver getDefault() {
+  public static ClassResolver getDefault() {
     return DefaultClassResolver.INSTANCE;
   }
 
-  public static final ClassResolver compose(ClassResolver a, ClassResolver b) {
+  public static ClassResolver compose(final ClassResolver a, final ClassResolver b) {
     return compose(ImmutableList.of(a, b));
   }
 
-  public static final ClassResolver compose(ClassResolver a, ClassResolver b, ClassResolver ... rest) {
+  public static ClassResolver compose(final ClassResolver a, final ClassResolver b, final ClassResolver ... rest) {
     return compose(asList(a, b, rest));
   }
 
-  public static final ClassResolver compose(Iterable<ClassResolver> resolvers) {
+  public static ClassResolver compose(final Iterable<ClassResolver> resolvers) {
     return new CompositeClassResolver(resolvers);
   }
 }

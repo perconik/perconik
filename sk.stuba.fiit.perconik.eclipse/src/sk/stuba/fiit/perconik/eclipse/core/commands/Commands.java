@@ -16,16 +16,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @since 1.0
  */
 public final class Commands {
-  private Commands() {
-    throw new AssertionError();
-  }
+  private Commands() {}
 
   /**
    * Gets the command service.
    * @return the command service or {@code null} if
    *         the workbench has not been created yet
    */
-  public static final ICommandService getCommandService() {
+  public static ICommandService getCommandService() {
     return getCommandService(Workbenches.getWorkbench());
   }
 
@@ -35,7 +33,7 @@ public final class Commands {
    * @return the command service or {@code null} if the workbench
    *         is {@code null} or if the workbench has no command service
    */
-  public static final ICommandService getCommandService(@Nullable final IWorkbench workbench) {
+  public static ICommandService getCommandService(@Nullable final IWorkbench workbench) {
     if (workbench == null) {
       return null;
     }
@@ -48,7 +46,7 @@ public final class Commands {
    * This method blocks until there is an available command service.
    * @see #getCommandService()
    */
-  public static final ICommandService waitForCommandService() {
+  public static ICommandService waitForCommandService() {
     return waitForCommandService(Workbenches.waitForWorkbench());
   }
 
@@ -58,7 +56,7 @@ public final class Commands {
    * @param workbench the workbench, can not be {@code null}
    * @see #getCommandService(IWorkbench)
    */
-  public static final ICommandService waitForCommandService(final IWorkbench workbench) {
+  public static ICommandService waitForCommandService(final IWorkbench workbench) {
     checkNotNull(workbench);
 
     ICommandService service;

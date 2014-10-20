@@ -6,12 +6,12 @@ import sk.stuba.fiit.perconik.core.Nameable;
 
 /**
  * An object managing other objects, usually {@code Registrable} instances.
- * 
+ *
  * <p>Uniqueness of a manager is determined by its qualified name.
  * Two {@code Manager} instances with the same qualified name should
  * be implemented by the same class, provide the same functionality
  * and behave the same way.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

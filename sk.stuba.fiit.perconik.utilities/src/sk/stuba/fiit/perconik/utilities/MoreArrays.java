@@ -12,15 +12,13 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 public final class MoreArrays {
-  private MoreArrays() {
-    throw new AssertionError();
-  }
+  private MoreArrays() {}
 
-  public static final boolean contains(Object[] a, @Nullable Object key) {
+  public static boolean contains(final Object[] a, @Nullable final Object key) {
     return search(a, key) >= 0;
   }
 
-  public static final int search(Object[] a, @Nullable Object key) {
+  public static int search(final Object[] a, @Nullable final Object key) {
     int length = a.length;
 
     for (int i = 0; i < length; i ++) {
@@ -34,7 +32,7 @@ public final class MoreArrays {
     return -1;
   }
 
-  public static final Object[] wrap(Object o) {
+  public static Object[] wrap(final Object o) {
     if (o instanceof Object[]) {
       return (Object[]) o;
     }

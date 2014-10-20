@@ -16,12 +16,12 @@ public final class CommandManagerDebugListener extends AbstractDebugListener imp
     super(console);
   }
 
-  public final void commandManagerChanged(final CommandManagerEvent event) {
+  public void commandManagerChanged(final CommandManagerEvent event) {
     this.printHeader("Command manager changed");
     this.printCommandManagerEvent(event);
   }
 
-  private final void printCommandManagerEvent(final CommandManagerEvent event) {
+  private void printCommandManagerEvent(final CommandManagerEvent event) {
     this.put(Debug.dumpCommandManagerEvent(event));
   }
 }

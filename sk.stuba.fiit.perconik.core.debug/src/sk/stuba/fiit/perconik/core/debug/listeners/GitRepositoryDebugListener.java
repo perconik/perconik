@@ -15,12 +15,12 @@ public final class GitRepositoryDebugListener extends AbstractDebugListener impl
     super(console);
   }
 
-  public final void repositoryChanged(final RepositoryMapping mapping) {
+  public void repositoryChanged(final RepositoryMapping mapping) {
     this.printHeader("Git repository changed");
     this.printGitRepositoryMapping(mapping);
   }
 
-  private final void printGitRepositoryMapping(final RepositoryMapping mapping) {
+  private void printGitRepositoryMapping(final RepositoryMapping mapping) {
     this.put(Debug.dumpGitRepositoryMapping(mapping));
   }
 }

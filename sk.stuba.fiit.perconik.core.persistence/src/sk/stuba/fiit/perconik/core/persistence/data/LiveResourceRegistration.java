@@ -12,11 +12,11 @@ import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * Standard resource registration with lively updated registration status.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
-public class LiveResourceRegistration extends AbstractResourceRegistration {
+public final class LiveResourceRegistration extends AbstractResourceRegistration {
   private final Class<? extends Listener> type;
 
   private final String name;
@@ -29,7 +29,7 @@ public class LiveResourceRegistration extends AbstractResourceRegistration {
     this.resource = resource;
   }
 
-  static final LiveResourceRegistration construct(final Class<? extends Listener> type, final String name, final Resource<?> resource) {
+  static LiveResourceRegistration construct(final Class<? extends Listener> type, final String name, final Resource<?> resource) {
     Utilities.checkListenerType(type);
     Utilities.checkResourceName(name);
     Utilities.checkResourceImplementation(name, resource);
@@ -37,19 +37,19 @@ public class LiveResourceRegistration extends AbstractResourceRegistration {
     return copy(type, name, resource);
   }
 
-  static final LiveResourceRegistration copy(final Class<? extends Listener> type, final String name, final Resource<?> resource) {
+  static LiveResourceRegistration copy(final Class<? extends Listener> type, final String name, final Resource<?> resource) {
     return new LiveResourceRegistration(type, name, resource);
   }
 
-  public static final <L extends Listener> LiveResourceRegistration of(final Class<L> type, final String name) {
+  public static <L extends Listener> LiveResourceRegistration of(final Class<L> type, final String name) {
     return of(type, Unsafe.cast(type, Resources.forName(name)));
   }
 
-  public static final <L extends Listener> LiveResourceRegistration of(final Class<L> type, final Resource<? super L> resource) {
+  public static <L extends Listener> LiveResourceRegistration of(final Class<L> type, final Resource<? super L> resource) {
     return construct(type, resource.getName(), resource);
   }
 
-  public static final Set<LiveResourceRegistration> snapshot() {
+  public static Set<LiveResourceRegistration> snapshot() {
     ResourceProvider provider = Services.getResourceService().getResourceProvider();
 
     Set<LiveResourceRegistration> data = newHashSet();
@@ -63,19 +63,19 @@ public class LiveResourceRegistration extends AbstractResourceRegistration {
     return data;
   }
 
-  public final ResourcePersistenceData toPersistenceData() {
+  public ResourcePersistenceData toPersistenceData() {
     return ResourcePersistenceData.copy(this.isRegistered(), this.type, this.name, Utilities.serializableOrNull(this.resource));
   }
 
-  public final Class<? extends Listener> getListenerType() {
+  public Class<? extends Listener> getListenerType() {
     return this.type;
   }
 
-  public final Resource<?> getResource() {
+  public Resource<?> getResource() {
     return this.resource;
   }
 
-  public final String getResourceName() {
+  public String getResourceName() {
     return this.name;
   }
 }

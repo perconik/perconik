@@ -10,13 +10,13 @@ import com.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer;
 
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
-public final class AnyStructuredContentDeserializer extends UntypedObjectDeserializer {
+public class AnyStructuredContentDeserializer extends UntypedObjectDeserializer {
   private static final long serialVersionUID = 0L;
 
   public AnyStructuredContentDeserializer() {}
 
   @Override
-  protected Object mapObject(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+  protected Object mapObject(final JsonParser parser, final DeserializationContext context) throws IOException, JsonProcessingException {
     return AnyStructuredData.of(Map.class.cast(super.mapObject(parser, context)));
   }
 }

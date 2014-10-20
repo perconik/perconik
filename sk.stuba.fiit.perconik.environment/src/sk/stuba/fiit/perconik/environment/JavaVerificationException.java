@@ -11,11 +11,11 @@ public class JavaVerificationException extends Exception {
 
   private final String detected;
 
-  public JavaVerificationException(Version required, Version detected) {
+  public JavaVerificationException(final Version required, final Version detected) {
     this(required, detected, null);
   }
 
-  public JavaVerificationException(Version required, Version detected, @Nullable Throwable cause) {
+  public JavaVerificationException(final Version required, final Version detected, @Nullable final Throwable cause) {
     super("Java " + required + " required but Java " + detected + " detected", cause);
 
     this.detected = detected.toString();

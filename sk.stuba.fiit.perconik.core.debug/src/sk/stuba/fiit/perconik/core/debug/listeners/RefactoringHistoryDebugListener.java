@@ -14,12 +14,12 @@ public final class RefactoringHistoryDebugListener extends AbstractDebugListener
     super(console);
   }
 
-  public final void historyNotification(final RefactoringHistoryEvent event) {
+  public void historyNotification(final RefactoringHistoryEvent event) {
     this.printHeader("Refectoring history");
     this.printRefactoringHistoryEvent(event);
   }
 
-  private final void printRefactoringHistoryEvent(final RefactoringHistoryEvent event) {
+  private void printRefactoringHistoryEvent(final RefactoringHistoryEvent event) {
     this.put(Debug.dumpRefactoringHistoryEvent(event));
   }
 }

@@ -12,7 +12,7 @@ import com.google.common.reflect.TypeToken;
 abstract class AbstractAccessor<T> implements Accessor<T> {
   final TypeToken<T> token;
 
-  AbstractAccessor(TypeToken<T> token) {
+  AbstractAccessor(final TypeToken<T> token) {
     assert token != null;
 
     this.token = token;
@@ -21,7 +21,7 @@ abstract class AbstractAccessor<T> implements Accessor<T> {
   static class ConstantAccessor<T> extends AbstractAccessor<T> {
     final T constant;
 
-    ConstantAccessor(TypeToken<T> type, T constant) {
+    ConstantAccessor(final TypeToken<T> type, final T constant) {
       super(type);
 
       this.constant = constant;
@@ -39,7 +39,7 @@ abstract class AbstractAccessor<T> implements Accessor<T> {
     @Nullable
     final Object receiver;
 
-    FieldAccessor(TypeToken<T> type, Field field, @Nullable Object receiver) {
+    FieldAccessor(final TypeToken<T> type, final Field field, @Nullable final Object receiver) {
       super(type);
 
       this.field = field;
@@ -60,7 +60,7 @@ abstract class AbstractAccessor<T> implements Accessor<T> {
 
     final Object[] arguments;
 
-    InvokableAccessor(TypeToken<T> type, Invokable<Object, T> invokable, @Nullable Object receiver, Object ... arguments) {
+    InvokableAccessor(final TypeToken<T> type, final Invokable<Object, T> invokable, @Nullable final Object receiver, final Object ... arguments) {
       super(type);
 
       this.invokable = invokable;

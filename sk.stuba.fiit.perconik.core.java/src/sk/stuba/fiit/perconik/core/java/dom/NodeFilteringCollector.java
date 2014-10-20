@@ -15,11 +15,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNode> implements ListCollector<N, R> {
   NodeFilteringCollector() {}
 
-  public static final <N extends R, R extends ASTNode> NodeFilteringCollector<N, R> using(final Predicate<N> filter) {
+  public static <N extends R, R extends ASTNode> NodeFilteringCollector<N, R> using(final Predicate<N> filter) {
     return new Generic<>(filter);
   }
 
-  public static final <N extends ASTNode, R extends ASTNode> NodeFilteringCollector<N, R> using(final NodeClassFilter<N, R> filter) {
+  public static <N extends ASTNode, R extends ASTNode> NodeFilteringCollector<N, R> using(final NodeClassFilter<N, R> filter) {
     return new Type<>(filter);
   }
 
@@ -31,11 +31,11 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
     }
 
     @Override
-    public final List<R> apply(@Nullable final N node) {
+    public List<R> apply(@Nullable final N node) {
       return new Processor().perform(node);
     }
 
-    private final class Processor extends AbstractCollectingVisitor<N, R> {
+    private class Processor extends AbstractCollectingVisitor<N, R> {
       Processor() {}
 
       @Override
@@ -53,7 +53,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
     }
 
     @Override
-    public final Predicate<N> getFilter() {
+    public Predicate<N> getFilter() {
       return this.filter;
     }
   }
@@ -66,7 +66,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
     }
 
     @Override
-    public final List<R> apply(@Nullable final N node) {
+    public List<R> apply(@Nullable final N node) {
       return new Processor().perform(node);
     }
 
@@ -74,7 +74,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
       Processor() {}
 
       @Override
-      public final void preVisit(final ASTNode node) {
+      public void preVisit(final ASTNode node) {
         for (Class<? extends R> type: Type.this.filter.getNodeClasses()) {
           if (type.isInstance(node)) {
             boolean accepted = false;
@@ -100,7 +100,7 @@ public abstract class NodeFilteringCollector<N extends ASTNode, R extends ASTNod
     }
 
     @Override
-    public final Predicate<N> getFilter() {
+    public Predicate<N> getFilter() {
       return this.filter;
     }
   }

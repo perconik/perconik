@@ -8,11 +8,11 @@ enum PerspectiveHandler implements Handler<PerspectiveListener> {
 
   private final Support support = new Support();
 
-  public final void register(final PerspectiveListener listener) {
+  public void register(final PerspectiveListener listener) {
     this.support.hook(DefaultResources.getWindowResource(), listener);
   }
 
-  public final void unregister(final PerspectiveListener listener) {
+  public void unregister(final PerspectiveListener listener) {
     this.support.unhook(DefaultResources.getWindowResource(), listener);
   }
 }

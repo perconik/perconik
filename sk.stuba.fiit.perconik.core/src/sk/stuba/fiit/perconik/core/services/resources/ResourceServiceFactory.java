@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.services.ServiceFactory;
 /**
  * The {@code ResourceServiceFactory}
  * creates {@link ResourceService} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

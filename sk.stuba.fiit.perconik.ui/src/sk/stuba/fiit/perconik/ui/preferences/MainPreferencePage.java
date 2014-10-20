@@ -10,7 +10,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * <i>PerConIK</i> main preference page.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -20,22 +20,22 @@ public final class MainPreferencePage extends AbstractWorkbenchPreferencePage {
   public MainPreferencePage() {}
 
   @Override
-  public final void init(final IWorkbench workbench) {
+  public void init(final IWorkbench workbench) {
     this.noDefaultAndApplyButton();
 
     this.setDescription("Expand the tree to edit preferences for a specific feature.");
   }
 
   @Override
-  protected final Control createContents(final Composite parent) {
+  protected Control createContents(final Composite parent) {
     return parent;
   }
 
-  public final void setMainPreferences(final MainPreferences preferences) {
+  public void setMainPreferences(final MainPreferences preferences) {
     this.preferences = checkNotNull(preferences);
   }
 
-  public final MainPreferences getMainPreferences() {
+  public MainPreferences getMainPreferences() {
     return this.preferences;
   }
 }

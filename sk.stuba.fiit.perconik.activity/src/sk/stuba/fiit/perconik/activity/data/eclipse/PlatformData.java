@@ -40,67 +40,67 @@ public class PlatformData extends AnyStructuredData {
 
   public PlatformData() {}
 
-  public void setProduct(ProductData product) {
+  public void setProduct(final ProductData product) {
     this.product = product;
   }
 
-  public void setApplicationArguments(List<String> applicationArguments) {
+  public void setApplicationArguments(final List<String> applicationArguments) {
     this.applicationArguments = applicationArguments;
   }
 
-  public void setCommandLineArguments(List<String> commandLineArguments) {
+  public void setCommandLineArguments(final List<String> commandLineArguments) {
     this.commandLineArguments = commandLineArguments;
   }
 
-  public void setConfigurationLocation(URL configurationLocation) {
+  public void setConfigurationLocation(final URL configurationLocation) {
     this.configurationLocation = configurationLocation;
   }
 
-  public void setInstallLocation(URL installLocation) {
+  public void setInstallLocation(final URL installLocation) {
     this.installLocation = installLocation;
   }
 
-  public void setInstanceLocation(URL instanceLocation) {
+  public void setInstanceLocation(final URL instanceLocation) {
     this.instanceLocation = instanceLocation;
   }
 
-  public void setUserLocation(URL userLocation) {
+  public void setUserLocation(final URL userLocation) {
     this.userLocation = userLocation;
   }
 
-  public void setWorkingLocation(URL workingLocation) {
+  public void setWorkingLocation(final URL workingLocation) {
     this.workingLocation = workingLocation;
   }
 
-  public void setNationalLanguage(String nationalLanguage) {
+  public void setNationalLanguage(final String nationalLanguage) {
     this.nationalLanguage = nationalLanguage;
   }
 
-  public void setOperatingSystem(String operatingSystem) {
+  public void setOperatingSystem(final String operatingSystem) {
     this.operatingSystem = operatingSystem;
   }
 
-  public void setOperatingSystemArchitecture(String operatingSystemArchitecture) {
+  public void setOperatingSystemArchitecture(final String operatingSystemArchitecture) {
     this.operatingSystemArchitecture = operatingSystemArchitecture;
   }
 
-  public void setWindowSystem(String windowSystem) {
+  public void setWindowSystem(final String windowSystem) {
     this.windowSystem = windowSystem;
   }
 
-  public void setStateStamp(long stateStamp) {
+  public void setStateStamp(final long stateStamp) {
     this.stateStamp = stateStamp;
   }
 
-  public void setRunning(boolean running) {
+  public void setRunning(final boolean running) {
     this.running = running;
   }
 
-  public void setDebugMode(boolean debugMode) {
+  public void setDebugMode(final boolean debugMode) {
     this.debugMode = debugMode;
   }
 
-  public void setDevelopmentMode(boolean developmentMode) {
+  public void setDevelopmentMode(final boolean developmentMode) {
     this.developmentMode = developmentMode;
   }
 

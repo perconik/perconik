@@ -15,12 +15,12 @@ public final class TextSelectionDebugListener extends AbstractDebugListener impl
     super(console);
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
+  public void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
     this.printHeader("Text selection changed");
     this.printTextSelection(selection);
   }
 
-  private final void printTextSelection(final ITextSelection selection) {
+  private void printTextSelection(final ITextSelection selection) {
     this.put(Debug.dumpTextSelection(selection));
   }
 }

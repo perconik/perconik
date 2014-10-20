@@ -17,21 +17,21 @@ public enum JavaVerifier {
     this.version = parseJavaVersion(version);
   }
 
-  public static final Version parseJavaVersion(final String value) {
+  public static Version parseJavaVersion(final String value) {
     return Version.parseVersion(value.replace("_", "."));
   }
 
-  public final boolean isJavaCompatible() {
+  public boolean isJavaCompatible() {
     return this.version.compareTo(Environment.getJavaVersion()) < 0;
   }
 
-  public final void verify() throws JavaVerificationException {
+  public void verify() throws JavaVerificationException {
     if (!this.isJavaCompatible()) {
       throw new JavaVerificationException(this.version, Environment.getJavaVersion());
     }
   }
 
-  public final Version getJavaVersion() {
+  public Version getJavaVersion() {
     return this.version;
   }
 }

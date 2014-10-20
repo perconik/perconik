@@ -10,9 +10,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 final class Handlers {
-  private Handlers() {
-    throw new AssertionError();
-  }
+  private Handlers() {}
 
   private static final class SafeHandler<T> implements Handler<T> {
     private final Handler<T> handler;
@@ -24,25 +22,25 @@ final class Handlers {
       this.type = checkNotNull(type);
     }
 
-    private final T check(final T object) {
+    private T check(final T object) {
       return this.type.cast(checkNotNull(object));
     }
 
-    public final void register(final T object) {
+    public void register(final T object) {
       this.handler.register(check(object));
     }
 
-    public final void unregister(final T object) {
+    public void unregister(final T object) {
       this.handler.unregister(check(object));
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return this.handler.toString();
     }
   }
 
-  static final <E extends Enum<E> & IntegralConstant> int mask(final FilteringListener<E> listener) {
+  static <E extends Enum<E> & IntegralConstant> int mask(final FilteringListener<E> listener) {
     Set<E> types = listener.getEventTypes();
 
     checkState(types != null && !types.isEmpty());
@@ -50,7 +48,7 @@ final class Handlers {
     return IntegralConstantSupport.constantsAsInteger(types);
   }
 
-  static final <T> Handler<T> safe(final Handler<T> handler, final Class<T> type) {
+  static <T> Handler<T> safe(final Handler<T> handler, final Class<T> type) {
     return new SafeHandler<>(handler, type);
   }
 }

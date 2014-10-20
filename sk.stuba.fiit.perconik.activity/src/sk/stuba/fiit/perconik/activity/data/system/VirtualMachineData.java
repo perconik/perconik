@@ -5,7 +5,7 @@ public class VirtualMachineData extends SpecificationData {
 
   public VirtualMachineData() {}
 
-  public void setSpecification(SpecificationData specification) {
+  public void setSpecification(final SpecificationData specification) {
     this.specification = specification;
   }
 

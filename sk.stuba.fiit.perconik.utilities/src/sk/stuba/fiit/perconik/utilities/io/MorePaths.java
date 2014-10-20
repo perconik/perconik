@@ -8,14 +8,12 @@ import com.google.common.collect.AbstractSequentialIterator;
 import static com.google.common.base.Preconditions.checkState;
 
 public final class MorePaths {
-  private MorePaths() {
-    throw new AssertionError();
-  }
+  private MorePaths() {}
 
   private static final class DownToBaseIterator<T extends Path> extends AbstractSequentialIterator<T> {
     private final int count;
 
-    protected DownToBaseIterator(T base, T path) {
+    protected DownToBaseIterator(final T base, final T path) {
       super(path);
 
       checkState(path.startsWith(base));
@@ -24,7 +22,7 @@ public final class MorePaths {
     }
 
     @Override
-    protected final T computeNext(T previous) {
+    protected T computeNext(final T previous) {
       int count = previous.getNameCount();
 
       if (this.count < count) {
@@ -40,12 +38,12 @@ public final class MorePaths {
   }
 
   private static final class DownToRootIterator<T extends Path> extends AbstractSequentialIterator<T> {
-    protected DownToRootIterator(T path) {
+    protected DownToRootIterator(final T path) {
       super(path);
     }
 
     @Override
-    protected final T computeNext(T previous) {
+    protected T computeNext(final T previous) {
       // safe cast as T overrides getParent() properly
       @SuppressWarnings("unchecked")
       T result = (T) previous.getParent();
@@ -54,17 +52,17 @@ public final class MorePaths {
     }
   }
 
-  public static final <T extends Path> Iterable<T> downToBase(final T base, final T path) {
+  public static <T extends Path> Iterable<T> downToBase(final T base, final T path) {
     return new Iterable<T>() {
-      public final Iterator<T> iterator() {
+      public Iterator<T> iterator() {
         return new DownToBaseIterator<>(base, path);
       }
     };
   }
 
-  public static final <T extends Path> Iterable<T> downToRoot(final T path) {
+  public static <T extends Path> Iterable<T> downToRoot(final T path) {
     return new Iterable<T>() {
-      public final Iterator<T> iterator() {
+      public Iterator<T> iterator() {
         return new DownToRootIterator<>(path);
       }
     };

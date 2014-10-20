@@ -21,21 +21,19 @@ public class NodePaths {
 
   private static final NodePathExtractor<?> typePathExtractor = NodePathExtractor.using(PathNameStrategy.TYPE);
 
-  private NodePaths() {
-    throw new AssertionError();
-  }
+  private NodePaths() {}
 
-  public static final String unknownPathName() {
+  public static String unknownPathName() {
     return unknownPathName;
   }
 
-  public static final String variableSeparator() {
+  public static String variableSeparator() {
     return variableSeparator;
   }
 
   private static enum PathNameStrategy implements Function<ASTNode, String> {
     NAME {
-      public final String apply(final ASTNode node) {
+      public String apply(final ASTNode node) {
         if (node == null) {
           return unknownPathName;
         }
@@ -50,24 +48,24 @@ public class NodePaths {
       }
 
       @Override
-      public final String toString() {
+      public String toString() {
         return "name";
       }
     },
 
     TYPE {
-      public final String apply(final ASTNode node) {
+      public String apply(final ASTNode node) {
         return node != null ? NodeType.valueOf(node).getName() : unknownPathName;
       }
 
       @Override
-      public final String toString() {
+      public String toString() {
         return "type";
       }
     };
   }
 
-  private static final <N extends ASTNode> NodePathExtractor<N> cast(final NodePathExtractor<?> extractor) {
+  private static <N extends ASTNode> NodePathExtractor<N> cast(final NodePathExtractor<?> extractor) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings("unchecked")
     NodePathExtractor<N> result = (NodePathExtractor<N>) extractor;
@@ -75,11 +73,11 @@ public class NodePaths {
     return result;
   }
 
-  public static final <N extends ASTNode> NodePathExtractor<N> namePathExtractor() {
+  public static <N extends ASTNode> NodePathExtractor<N> namePathExtractor() {
     return cast(namePathExtractor);
   }
 
-  public static final <N extends ASTNode> NodePathExtractor<N> typePathExtractor() {
+  public static <N extends ASTNode> NodePathExtractor<N> typePathExtractor() {
     return cast(typePathExtractor);
   }
 }

@@ -35,11 +35,11 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
     super(GRID);
   }
 
-  public final void init(final IWorkbench workbench) {
-    this.setPreferenceStore(Activator.getDefault().getPreferenceStore());
+  public void init(final IWorkbench workbench) {
+    this.setPreferenceStore(Activator.defaultInstance().getPreferenceStore());
   }
 
-  static final <E extends StringFieldEditor> E prepare(final E editor) {
+  static <E extends StringFieldEditor> E prepare(final E editor) {
     editor.setEmptyStringAllowed(false);
     editor.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
 
@@ -47,7 +47,7 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
   }
 
   @Override
-  protected final void createFieldEditors() {
+  protected void createFieldEditors() {
     this.uacaUrl = new UrlFieldEditor(Keys.uacaUrl, "URL:", this.getFieldEditorParent());
 
     Widgets.createFieldSeparator(this.getFieldEditorParent());
@@ -68,18 +68,18 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
   }
 
   @Override
-  protected final IPreferenceStore doGetPreferenceStore() {
+  protected IPreferenceStore doGetPreferenceStore() {
     return UacaPreferences.getShared().getPreferenceStore();
   }
 
   @Override
-  public final boolean performOk() {
+  public boolean performOk() {
     Preconditions.checkState(this.checkConnection != null);
 
     return super.performOk() && (this.checkConnection.getBooleanValue() ? this.checkConnection() : true);
   }
 
-  final boolean checkConnection() {
+  boolean checkConnection() {
     Preconditions.checkState(this.checkConnection != null);
     Preconditions.checkState(this.uacaUrl != null);
 

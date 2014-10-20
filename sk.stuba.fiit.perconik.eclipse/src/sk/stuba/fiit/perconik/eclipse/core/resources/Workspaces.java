@@ -12,15 +12,13 @@ import org.eclipse.core.resources.ResourcesPlugin;
  * @since 1.0
  */
 public final class Workspaces {
-  private Workspaces() {
-    throw new AssertionError();
-  }
+  private Workspaces() {}
 
-  public static final IWorkspace getWorkspace() {
+  public static IWorkspace getWorkspace() {
     return ResourcesPlugin.getWorkspace();
   }
 
-  public static final String getName(final IWorkspace workspace) {
+  public static String getName(final IWorkspace workspace) {
     return Paths.get(workspace.getRoot().getLocationURI()).getFileName().toString();
   }
 }

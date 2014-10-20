@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A workbench listener.
- * 
- * @see Listener 
+ *
+ * @see Listener
  * @see IWorkbenchListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

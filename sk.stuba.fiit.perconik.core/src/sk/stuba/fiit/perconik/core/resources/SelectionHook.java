@@ -11,7 +11,7 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
   }
 
   static final class Support extends AbstractHookSupport<SelectionHook, IWorkbenchWindow, SelectionListener> {
-    public final Hook<IWorkbenchWindow, SelectionListener> create(final SelectionListener listener) {
+    public Hook<IWorkbenchWindow, SelectionListener> create(final SelectionListener listener) {
       return new SelectionHook(listener);
     }
   }
@@ -21,29 +21,29 @@ final class SelectionHook extends InternalHook<IWorkbenchWindow, SelectionListen
       super(IWorkbenchWindow.class, listener);
     }
 
-    public final void register(final IWorkbenchWindow window) {
+    public void register(final IWorkbenchWindow window) {
       window.getSelectionService().addSelectionListener(this.listener);
     }
 
-    public final void unregister(final IWorkbenchWindow window) {
+    public void unregister(final IWorkbenchWindow window) {
       window.getSelectionService().removeSelectionListener(this.listener);
     }
   }
 
   @Override
-  final void preRegisterInternal() {
+  void preRegisterInternal() {
     Hooks.addWindowsAsynchronouslyTo(this);
   }
 
-  public final void windowOpened(final IWorkbenchWindow window) {
+  public void windowOpened(final IWorkbenchWindow window) {
     this.add(window);
   }
 
-  public final void windowClosed(final IWorkbenchWindow window) {
+  public void windowClosed(final IWorkbenchWindow window) {
     this.remove(window);
   }
 
-  public final void windowActivated(final IWorkbenchWindow window) {}
+  public void windowActivated(final IWorkbenchWindow window) {}
 
-  public final void windowDeactivated(final IWorkbenchWindow window) {}
+  public void windowDeactivated(final IWorkbenchWindow window) {}
 }

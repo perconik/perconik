@@ -13,23 +13,21 @@ import org.osgi.framework.Version;
  * @since 1.0
  */
 public final class Products {
-  private Products() {
-    throw new AssertionError();
-  }
+  private Products() {}
 
-  public static final IProduct getProduct() {
+  public static IProduct getProduct() {
     return Platform.getProduct();
   }
 
-  public static final Bundle getBundle(final IProduct product) {
+  public static Bundle getBundle(final IProduct product) {
     return product.getDefiningBundle();
   }
 
-  public static final String getName(final IProduct product) {
+  public static String getName(final IProduct product) {
     return product.getName();
   }
 
-  public static final Version getVersion(final IProduct product) {
+  public static Version getVersion(final IProduct product) {
     return getBundle(product).getVersion();
   }
 }

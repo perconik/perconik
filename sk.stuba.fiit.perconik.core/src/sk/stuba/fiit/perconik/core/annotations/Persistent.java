@@ -12,10 +12,10 @@ import sk.stuba.fiit.perconik.core.Registrable;
 /**
  * Indicates that a {@link Registrable} is persistent and should be treated
  * accordingly by the core service implementations.
- * 
+ *
  * <p>In general all registrables that implement the {@link Serializable}
  * interface should be also marked as persistent.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

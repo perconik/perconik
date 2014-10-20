@@ -13,14 +13,14 @@ import sk.stuba.fiit.perconik.core.services.ForwardingManager;
  * manager. Subclasses should override one or more methods to modify the
  * behavior of the backing listener manager as desired per the decorator
  * pattern.
- * 
+ *
  * <p>Note that this class does <i>not</i> forward the {@code equals}
  * and {@code hashCode} methods through to the backing object. See
  * {@link com.google.common.collect.ForwardingObject ForwardingObject}
  * for more details.
- * 
+ *
  * @see ListenerManager
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -33,19 +33,19 @@ public abstract class ForwardingListenerManager extends ForwardingManager implem
   @Override
   protected abstract ListenerManager delegate();
 
-  public <L extends Listener> void register(L listener) {
+  public <L extends Listener> void register(final L listener) {
     this.delegate().register(listener);
   }
 
-  public <L extends Listener> void unregister(L listener) {
+  public <L extends Listener> void unregister(final L listener) {
     this.delegate().unregister(listener);
   }
 
-  public <L extends Listener> void unregisterAll(Class<L> type) {
+  public <L extends Listener> void unregisterAll(final Class<L> type) {
     this.delegate().unregisterAll(type);
   }
 
-  public <L extends Listener> Collection<L> registered(Class<L> type) {
+  public <L extends Listener> Collection<L> registered(final Class<L> type) {
     return this.delegate().registered(type);
   }
 

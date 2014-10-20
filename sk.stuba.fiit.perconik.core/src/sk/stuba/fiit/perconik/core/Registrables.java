@@ -32,9 +32,7 @@ import static com.google.common.collect.Lists.newArrayList;
  * @since 1.0
  */
 public final class Registrables {
-  private Registrables() {
-    throw new AssertionError();
-  }
+  private Registrables() {}
 
   @Persistent
   private static enum PersistentMark {
@@ -49,7 +47,7 @@ public final class Registrables {
       this.value = value;
     }
 
-    public final Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
       String member = method.getName();
 
       Class<?>[] parameters = method.getParameterTypes();
@@ -81,7 +79,7 @@ public final class Registrables {
 
   private static final Persistent persistent = PersistentMark.class.getAnnotation(Persistent.class);
 
-  private static final <R extends Registrable> Version version(final Class<R> type) {
+  private static <R extends Registrable> Version version(final Class<R> type) {
     String value = Bundles.forClass(type).getVersion().toString();
 
     if (isNullOrEmpty(value)) {
@@ -91,7 +89,7 @@ public final class Registrables {
     return (Version) Proxy.newProxyInstance(Version.class.getClassLoader(), new Class[] {Version.class}, new VersionHandler(value));
   }
 
-  public static final <R extends Registrable> Annotable toAnnotable(final Class<R> type) {
+  public static <R extends Registrable> Annotable toAnnotable(final Class<R> type) {
     LinkedList<Class<? super R>> types = Reflections.collectSuperclasses(type);
 
     types.addFirst(type);
@@ -113,23 +111,23 @@ public final class Registrables {
     return Annotations.asAnnotable(annotations);
   }
 
-  public static final boolean isExperimental(final Class<? extends Registrable> type) {
+  public static boolean isExperimental(final Class<? extends Registrable> type) {
     return type.isAnnotationPresent(Experimental.class);
   }
 
-  public static final boolean isInternal(final Class<? extends Registrable> type) {
+  public static boolean isInternal(final Class<? extends Registrable> type) {
     return type.isAnnotationPresent(Internal.class);
   }
 
-  public static final boolean isPersistent(final Class<? extends Registrable> type) {
+  public static boolean isPersistent(final Class<? extends Registrable> type) {
     return type.isAnnotationPresent(Persistent.class);
   }
 
-  public static final boolean isUnsafe(final Class<? extends Registrable> type) {
+  public static boolean isUnsafe(final Class<? extends Registrable> type) {
     return type.isAnnotationPresent(Unsafe.class);
   }
 
-  public static final boolean isUnsupported(final Class<? extends Registrable> type) {
+  public static boolean isUnsupported(final Class<? extends Registrable> type) {
     return type.isAnnotationPresent(Unsupported.class);
   }
 }

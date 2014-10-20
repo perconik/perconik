@@ -8,11 +8,11 @@ enum CompletionHandler implements Handler<CompletionListener> {
 
   private final Support support = new Support();
 
-  public final void register(final CompletionListener listener) {
+  public void register(final CompletionListener listener) {
     this.support.hook(DefaultResources.getEditorResource(), listener);
   }
 
-  public final void unregister(final CompletionListener listener) {
+  public void unregister(final CompletionListener listener) {
     this.support.unhook(DefaultResources.getEditorResource(), listener);
   }
 }

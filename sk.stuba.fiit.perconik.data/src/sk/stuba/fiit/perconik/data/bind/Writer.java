@@ -12,11 +12,9 @@ public final class Writer {
     pretty = Mapper.getShared().writer(new PrettyPrinter()).with(INDENT_OUTPUT, ORDER_MAP_ENTRIES_BY_KEYS);
   }
 
-  private Writer() {
-    throw new AssertionError();
-  }
+  private Writer() {}
 
-  public static final ObjectWriter getPretty() {
+  public static ObjectWriter getPretty() {
     return pretty;
   }
 }

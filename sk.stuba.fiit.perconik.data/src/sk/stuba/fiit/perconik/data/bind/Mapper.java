@@ -36,15 +36,13 @@ public final class Mapper {
     sharedInstance.disable(FAIL_ON_EMPTY_BEANS);
   }
 
-  private Mapper() {
-    throw new AssertionError();
-  }
+  private Mapper() {}
 
-  public static final JavaType getMapType() {
+  public static JavaType getMapType() {
     return defaultMapType;
   }
 
-  public static final ObjectMapper getShared() {
+  public static ObjectMapper getShared() {
     return sharedInstance;
   }
 }

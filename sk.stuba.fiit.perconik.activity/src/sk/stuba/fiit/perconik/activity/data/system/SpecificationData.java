@@ -11,15 +11,15 @@ public class SpecificationData extends AnyStructuredData {
 
   public SpecificationData() {}
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setVendor(String vendor) {
+  public void setVendor(final String vendor) {
     this.vendor = vendor;
   }
 
-  public void setVersion(String version) {
+  public void setVersion(final String version) {
     this.version = version;
   }
 

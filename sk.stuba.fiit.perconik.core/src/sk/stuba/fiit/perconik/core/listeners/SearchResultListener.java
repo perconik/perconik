@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A search result listener.
- * 
+ *
  * @see Listener
  * @see ISearchResultListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

@@ -13,7 +13,7 @@ public abstract class DisplayTask<V> implements Callable<V> {
   public static final <V> DisplayTask<V> of(final Callable<V> callable) {
     return new DisplayTask<V>() {
       @Override
-      public final V call() throws Exception {
+      public V call() throws Exception {
         return callable.call();
       }
     };
@@ -22,7 +22,7 @@ public abstract class DisplayTask<V> implements Callable<V> {
   public static final <V> DisplayTask<V> of(final Runnable runnable, final V result) {
     return new DisplayTask<V>() {
       @Override
-      public final V call() {
+      public V call() {
         runnable.run();
 
         return result;
@@ -33,7 +33,7 @@ public abstract class DisplayTask<V> implements Callable<V> {
   public static final <V> DisplayTask<V> of(final Supplier<V> supplier) {
     return new DisplayTask<V>() {
       @Override
-      public final V call() {
+      public V call() {
         return supplier.get();
       }
     };

@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A command context manager listener.
- * 
- * @see Listener 
+ *
+ * @see Listener
  * @see IContextManagerListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

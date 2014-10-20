@@ -13,9 +13,9 @@ import sk.stuba.fiit.perconik.core.Registrable;
 /**
  * Indicates that a {@link Registrable} type is internal and should not be
  * considered as a resolvable type of a registrable instance.
- * 
+ *
  * @see Listeners#resolveTypes(Listener)
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

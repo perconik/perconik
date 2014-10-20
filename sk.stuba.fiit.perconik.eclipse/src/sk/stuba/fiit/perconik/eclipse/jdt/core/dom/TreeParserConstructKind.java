@@ -16,9 +16,9 @@ import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * AST parser construct kinds.
- * 
+ *
  * @see ASTParser
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -58,31 +58,31 @@ public enum TreeParserConstructKind implements IntegralConstant, TypeConstant<AS
     this.type = type;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final Set<Class<? extends ASTNode>> valuesAsTypes() {
+  public static Set<Class<? extends ASTNode>> valuesAsTypes() {
     return types.getTypes();
   }
 
-  public static final TreeParserConstructKind valueOf(final int value) {
+  public static TreeParserConstructKind valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final TreeParserConstructKind valueOf(final Class<? extends ASTNode> type) {
+  public static TreeParserConstructKind valueOf(final Class<? extends ASTNode> type) {
     return types.getConstant(type);
   }
 
-  public static final TreeParserConstructKind valueOf(final ASTNode element) {
+  public static TreeParserConstructKind valueOf(final ASTNode element) {
     return valueOf(element.getClass());
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 
-  public final Class<? extends ASTNode> getType() {
+  public Class<? extends ASTNode> getType() {
     return this.type;
   }
 }

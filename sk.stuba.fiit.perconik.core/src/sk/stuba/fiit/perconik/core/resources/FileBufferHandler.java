@@ -7,11 +7,11 @@ import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 enum FileBufferHandler implements Handler<FileBufferListener> {
   INSTANCE;
 
-  public final void register(final FileBufferListener listener) {
+  public void register(final FileBufferListener listener) {
     FileBuffers.getTextFileBufferManager().addFileBufferListener(listener);
   }
 
-  public final void unregister(final FileBufferListener listener) {
+  public void unregister(final FileBufferListener listener) {
     FileBuffers.getTextFileBufferManager().removeFileBufferListener(listener);
   }
 }

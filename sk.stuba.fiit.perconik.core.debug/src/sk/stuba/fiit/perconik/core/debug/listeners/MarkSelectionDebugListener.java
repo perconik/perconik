@@ -15,12 +15,12 @@ public final class MarkSelectionDebugListener extends AbstractDebugListener impl
     super(console);
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final IMarkSelection selection) {
+  public void selectionChanged(final IWorkbenchPart part, final IMarkSelection selection) {
     this.printHeader("Mark selection changed");
     this.printMarkSelection(selection);
   }
 
-  private final void printMarkSelection(final IMarkSelection selection) {
+  private void printMarkSelection(final IMarkSelection selection) {
     this.put(Debug.dumpMarkSelection(selection));
   }
 }

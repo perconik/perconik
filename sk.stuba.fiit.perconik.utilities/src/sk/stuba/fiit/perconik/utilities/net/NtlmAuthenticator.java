@@ -14,7 +14,7 @@ public final class NtlmAuthenticator extends Authenticator {
   }
 
   @Override
-  public final PasswordAuthentication getPasswordAuthentication() {
+  public PasswordAuthentication getPasswordAuthentication() {
     return new PasswordAuthentication(this.username, this.password);
   }
 }

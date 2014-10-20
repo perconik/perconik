@@ -17,7 +17,7 @@ public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollect
 
   NodeTypeDivider() {}
 
-  public static final <N extends ASTNode> NodeTypeDivider<N> create() {
+  public static <N extends ASTNode> NodeTypeDivider<N> create() {
     // stateless internal singleton is shared across all types
     @SuppressWarnings("unchecked")
     NodeTypeDivider<N> casted = (NodeTypeDivider<N>) instance;
@@ -25,7 +25,7 @@ public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollect
     return casted;
   }
 
-  public final Multimap<NodeType, ASTNode> apply(final N node) {
+  public Multimap<NodeType, ASTNode> apply(final N node) {
     return new Processor().perform(node);
   }
 
@@ -38,7 +38,7 @@ public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollect
       this.result = LinkedListMultimap.create(NodeType.count());
     }
 
-    final Multimap<NodeType, ASTNode> perform(@Nullable final N node) {
+    Multimap<NodeType, ASTNode> perform(@Nullable final N node) {
       if (node == null) {
         return ImmutableMultimap.of();
       }
@@ -49,23 +49,23 @@ public final class NodeTypeDivider<N extends ASTNode> implements MultimapCollect
     }
 
     @Override
-    public final void preVisit(final ASTNode node) {
+    public void preVisit(final ASTNode node) {
       this.result.put(NodeType.valueOf(node), node);
     }
   }
 
   @Override
-  public final boolean equals(@Nullable final Object o) {
+  public boolean equals(@Nullable final Object o) {
     return o == this;
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return super.hashCode();
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return "divider";
   }
 }

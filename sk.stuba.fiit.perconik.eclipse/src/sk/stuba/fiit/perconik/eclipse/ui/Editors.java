@@ -25,11 +25,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @since 1.0
  */
 public final class Editors {
-  private Editors() {
-    throw new AssertionError();
-  }
+  private Editors() {}
 
-  public static final IEditorPart forDocument(final IDocument document) {
+  public static IEditorPart forDocument(final IDocument document) {
     for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
       for (IWorkbenchPage page: window.getPages()) {
         IEditorPart editor = page.getActiveEditor();
@@ -43,17 +41,17 @@ public final class Editors {
     return null;
   }
 
-  public static final Supplier<IEditorPart> activeEditorSupplier() {
+  public static Supplier<IEditorPart> activeEditorSupplier() {
     return new Supplier<IEditorPart>() {
-      public final IEditorPart get() {
+      public IEditorPart get() {
         return getActiveEditor();
       }
     };
   }
 
-  public static final Supplier<IEditorPart> activeEditorSupplier(@Nullable final IWorkbenchPage page) {
+  public static Supplier<IEditorPart> activeEditorSupplier(@Nullable final IWorkbenchPage page) {
     return new Supplier<IEditorPart>() {
-      public final IEditorPart get() {
+      public IEditorPart get() {
         return getActiveEditor(page);
       }
     };
@@ -63,7 +61,7 @@ public final class Editors {
    * Gets the active editor.
    * @return the active editor or {@code null} if there is no active editor
    */
-  public static final IEditorPart getActiveEditor() {
+  public static IEditorPart getActiveEditor() {
     return getActiveEditor(Workbenches.getActivePage());
   }
 
@@ -73,7 +71,7 @@ public final class Editors {
    * @return the active editor or {@code null} if the page
    *         is {@code null} or there is no active editor
    */
-  public static final IEditorPart getActiveEditor(@Nullable final IWorkbenchPage page) {
+  public static IEditorPart getActiveEditor(@Nullable final IWorkbenchPage page) {
     if (page == null) {
       return null;
     }
@@ -81,11 +79,11 @@ public final class Editors {
     return page.getActiveEditor();
   }
 
-  public static final IResource getResource(@Nullable final IEditorPart editor) {
+  public static IResource getResource(@Nullable final IEditorPart editor) {
     return editor != null ? (IResource) editor.getEditorInput().getAdapter(IResource.class) : null;
   }
 
-  public static final IFile getFile(@Nullable final IEditorPart editor) {
+  public static IFile getFile(@Nullable final IEditorPart editor) {
     if (editor == null) {
       return null;
     }
@@ -107,7 +105,7 @@ public final class Editors {
    * @return the source viewer or {@code null} if the editor
    *         is {@code null} or there is no source viewer
    */
-  public static final ISourceViewer getSourceViewer(@Nullable final IEditorPart editor) {
+  public static ISourceViewer getSourceViewer(@Nullable final IEditorPart editor) {
     if (editor == null) {
       return null;
     }
@@ -123,7 +121,7 @@ public final class Editors {
    * @return the text widget or {@code null} if the editor
    *         is {@code null} or there is no text widget
    */
-  public static final StyledText getStyledText(@Nullable final IEditorPart editor) {
+  public static StyledText getStyledText(@Nullable final IEditorPart editor) {
     ISourceViewer viewer = getSourceViewer(editor);
 
     if (viewer == null) {
@@ -137,9 +135,9 @@ public final class Editors {
    * Gets the input document from given editor.
    * @param editor the editor, may be {@code null}
    * @return the document or {@code null} if the editor
-   *         is {@code null} or there is no document 
+   *         is {@code null} or there is no document
    */
-  public static final IDocument getDocument(@Nullable final IEditorPart editor) {
+  public static IDocument getDocument(@Nullable final IEditorPart editor) {
     ISourceViewer viewer = getSourceViewer(editor);
 
     if (viewer == null) {
@@ -154,7 +152,7 @@ public final class Editors {
    * This method blocks until there is an active editor.
    * @see #getActiveEditor()
    */
-  public static final IEditorPart waitForActiveEditor() {
+  public static IEditorPart waitForActiveEditor() {
     return waitForActiveEditor(Workbenches.waitForActivePage());
   }
 
@@ -164,7 +162,7 @@ public final class Editors {
    * @param page the page, can not be {@code null}
    * @see #getActiveEditor(IWorkbenchPage)
    */
-  public static final IEditorPart waitForActiveEditor(final IWorkbenchPage page) {
+  public static IEditorPart waitForActiveEditor(final IWorkbenchPage page) {
     checkNotNull(page);
 
     IEditorPart editor;

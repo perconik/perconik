@@ -18,7 +18,7 @@ public class IdeFindResultRowData {
 
   public IdeFindResultRowData() {}
 
-  public IdeFindResultRowData(Integer row, Integer column, String text) {
+  public IdeFindResultRowData(final Integer row, final Integer column, final String text) {
     this.row = row;
     this.column = column;
     this.text = text;
@@ -28,7 +28,7 @@ public class IdeFindResultRowData {
     return this.row;
   }
 
-  public void setRow(Integer row) {
+  public void setRow(final Integer row) {
     this.row = row;
   }
 
@@ -36,7 +36,7 @@ public class IdeFindResultRowData {
     return this.column;
   }
 
-  public void setColumn(Integer column) {
+  public void setColumn(final Integer column) {
     this.column = column;
   }
 
@@ -44,7 +44,7 @@ public class IdeFindResultRowData {
     return this.text;
   }
 
-  public void setText(String text) {
+  public void setText(final String text) {
     this.text = text;
   }
 }

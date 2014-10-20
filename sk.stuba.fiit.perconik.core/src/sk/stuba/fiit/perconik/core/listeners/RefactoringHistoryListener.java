@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A refactoring history listener.
- * 
+ *
  * @see Listener
  * @see IRefactoringHistoryListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

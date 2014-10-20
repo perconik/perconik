@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A command handler listener.
- * 
+ *
  * @see Listener
  * @see IHandlerListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

@@ -13,9 +13,9 @@ import static com.google.common.base.Throwables.propagate;
 
 /**
  * An abstract implementation of {@link ResourceProvider}.
- * 
+ *
  * TODO doc providing process, class loading / instantiation
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

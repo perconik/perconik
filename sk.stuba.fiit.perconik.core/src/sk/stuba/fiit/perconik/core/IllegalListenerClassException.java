@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
  * are invalid. This may occur either because the class is not an instance
  * of {@link sk.stuba.fiit.perconik.core.Listener Listener} or it does not
  * meet any other service implementation specific requirements.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -24,21 +24,21 @@ public class IllegalListenerClassException extends IllegalArgumentException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public IllegalListenerClassException(@Nullable String message) {
+  public IllegalListenerClassException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public IllegalListenerClassException(@Nullable String message, @Nullable Throwable cause) {
+  public IllegalListenerClassException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public IllegalListenerClassException(@Nullable Throwable cause) {
+  public IllegalListenerClassException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

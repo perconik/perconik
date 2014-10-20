@@ -14,12 +14,12 @@ public final class NodeDeletion<N extends ASTNode> extends NodeDelta<N> {
     this.node = node;
   }
 
-  public static final <N extends ASTNode> NodeDeletion<N> of(@Nullable final N node) {
+  public static <N extends ASTNode> NodeDeletion<N> of(@Nullable final N node) {
     return new NodeDeletion<>(node);
   }
 
   @Override
-  public final String toString(final int indent) {
+  public String toString(final int indent) {
     SmartStringBuilder builder = this.toStringBuilder(indent);
 
     builder.append("original: ").appendln(Nodes.toTypeString(this.node));
@@ -28,22 +28,22 @@ public final class NodeDeletion<N extends ASTNode> extends NodeDelta<N> {
     return builder.toString();
   }
 
-  public final N getDeletedNode() {
+  public N getDeletedNode() {
     return this.node;
   }
 
   @Override
-  public final N getOriginalNode() {
+  public N getOriginalNode() {
     return this.getDeletedNode();
   }
 
   @Override
-  public final N getRevisedNode() {
+  public N getRevisedNode() {
     return null;
   }
 
   @Override
-  public final NodeDeltaType getType() {
+  public NodeDeltaType getType() {
     return NodeDeltaType.DELETION;
   }
 }

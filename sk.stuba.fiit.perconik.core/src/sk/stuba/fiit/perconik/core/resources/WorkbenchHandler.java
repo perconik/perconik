@@ -11,7 +11,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener> {
   public final void register(final WorkbenchListener listener) {
     final Runnable addListener = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         Workbenches.waitForWorkbench().addWorkbenchListener(listener);
       }
     };
@@ -22,7 +22,7 @@ enum WorkbenchHandler implements Handler<WorkbenchListener> {
   public final void unregister(final WorkbenchListener listener) {
     final Runnable removeListener = new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         Workbenches.waitForWorkbench().removeWorkbenchListener(listener);
       }
     };

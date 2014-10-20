@@ -34,7 +34,7 @@ final class Internals {
 
   static {
     timeSupplier = new TimeSupplier() {
-      public final XMLGregorianCalendar from(final long time) {
+      public XMLGregorianCalendar from(final long time) {
         GregorianCalendar calendar = new GregorianCalendar(timeZone);
 
         calendar.setTimeInMillis(time);
@@ -44,11 +44,9 @@ final class Internals {
     };
   }
 
-  private Internals() {
-    throw new AssertionError();
-  }
+  private Internals() {}
 
-  static final int pid() {
+  static int pid() {
     try {
       return Environment.getProcessIdentifier();
     } catch (RuntimeException e) {

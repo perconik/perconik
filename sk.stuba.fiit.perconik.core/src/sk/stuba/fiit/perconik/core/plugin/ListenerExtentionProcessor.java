@@ -19,7 +19,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
   }
 
   @Override
-  final ResolvedListeners processExtensions() {
+  ResolvedListeners processExtensions() {
     ListenerService service;
 
     boolean serviceSupplied = this.atLeastOneSupplied(ListenerServiceFactory.class);
@@ -47,7 +47,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return new ResolvedListeners(service, supplier);
   }
 
-  private final ListenerService processListenerServiceFactories(final List<ListenerServiceFactory> factories) {
+  private ListenerService processListenerServiceFactories(final List<ListenerServiceFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "listener service")) {
       return DefaultListeners.getDefaultListenerService();
     }
@@ -55,7 +55,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createListenerService(factories.get(0));
   }
 
-  private final ListenerProvider processListenerProviderFactories(final List<ListenerProviderFactory> factories) {
+  private ListenerProvider processListenerProviderFactories(final List<ListenerProviderFactory> factories) {
     ListenerProvider provider = DefaultListeners.getDefaultListenerProvider();
 
     for (ListenerProviderFactory factory: factories) {
@@ -65,7 +65,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return provider;
   }
 
-  private final ListenerManager processListenerManagerFactories(final List<ListenerManagerFactory> factories) {
+  private ListenerManager processListenerManagerFactories(final List<ListenerManagerFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "listener manager")) {
       return DefaultListeners.getDefaultListenerManager();
     }
@@ -73,7 +73,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createListenerManager(factories.get(0));
   }
 
-  private final ListenerClassesSupplier processListenerClassesSuppliers(final List<ListenerClassesSupplier> suppliers) {
+  private ListenerClassesSupplier processListenerClassesSuppliers(final List<ListenerClassesSupplier> suppliers) {
     if (this.emptyWithNotice(suppliers, "registered listeners")) {
       return DefaultListeners.getDefaultListenerClassesSupplier();
     }
@@ -81,28 +81,28 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return ListenerProviders.merge(suppliers);
   }
 
-  private final ListenerService createListenerService(final ListenerServiceFactory factory) {
+  private ListenerService createListenerService(final ListenerServiceFactory factory) {
     return resultOf(new SafeGet<ListenerService>(factory, ListenerService.class) {
       @Override
-      final ListenerService get() {
+      ListenerService get() {
         return factory.create();
       }
     });
   }
 
-  private final ListenerProvider createListenerProvider(final ListenerProviderFactory factory, final ListenerProvider parent) {
+  private ListenerProvider createListenerProvider(final ListenerProviderFactory factory, final ListenerProvider parent) {
     return resultOf(new SafeGet<ListenerProvider>(factory, ListenerProvider.class) {
       @Override
-      final ListenerProvider get() {
+      ListenerProvider get() {
         return factory.create(parent);
       }
     });
   }
 
-  private final ListenerManager createListenerManager(final ListenerManagerFactory factory) {
+  private ListenerManager createListenerManager(final ListenerManagerFactory factory) {
     return resultOf(new SafeGet<ListenerManager>(factory, ListenerManager.class) {
       @Override
-      final ListenerManager get() {
+      ListenerManager get() {
         return factory.create();
       }
     });

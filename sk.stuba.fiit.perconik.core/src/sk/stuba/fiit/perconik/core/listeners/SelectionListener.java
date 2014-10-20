@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * A selection listener.
- * 
+ *
  * @see Listener
  * @see ISelectionListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

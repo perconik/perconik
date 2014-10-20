@@ -10,9 +10,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Status severities.
- * 
+ *
  * @see IStatus
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -50,27 +50,27 @@ public enum StatusSeverity implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final int valuesAsInteger() {
+  public static int valuesAsInteger() {
     return integers.getConstantsAsInteger();
   }
 
-  public static final int valuesAsInteger(Set<JavaElementDeltaFlag> values) {
+  public static int valuesAsInteger(final Set<JavaElementDeltaFlag> values) {
     return IntegralConstantSupport.constantsAsInteger(values);
   }
 
-  public static final StatusSeverity valueOf(final int value) {
+  public static StatusSeverity valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final Set<StatusSeverity> setOf(final int values) {
+  public static Set<StatusSeverity> setOf(final int values) {
     return integers.getConstants(values);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

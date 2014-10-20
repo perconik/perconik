@@ -8,14 +8,12 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.StringLiteral;
 
 public final class StringLiterals {
-  private StringLiterals() {
-    throw new AssertionError();
-  }
+  private StringLiterals() {}
 
   private static enum ToEscapedValue implements Function<StringLiteral, String> {
     INSTANCE;
 
-    public final String apply(@Nonnull final StringLiteral literal) {
+    public String apply(@Nonnull final StringLiteral literal) {
       return literal.getEscapedValue();
     }
   }
@@ -23,12 +21,12 @@ public final class StringLiterals {
   private static enum ToLiteralValue implements Function<StringLiteral, String> {
     INSTANCE;
 
-    public final String apply(@Nonnull final StringLiteral literal) {
+    public String apply(@Nonnull final StringLiteral literal) {
       return literal.getLiteralValue();
     }
   }
 
-  private static final <N extends ASTNode, T> Function<N, T> cast(final Function<?, T> transformer) {
+  private static <N extends ASTNode, T> Function<N, T> cast(final Function<?, T> transformer) {
     // only for stateless internal singletons shared across all types
     @SuppressWarnings("unchecked")
     Function<N, T> result = (Function<N, T>) transformer;
@@ -36,11 +34,11 @@ public final class StringLiterals {
     return result;
   }
 
-  public static final <N extends StringLiteral> Function<N, String> toEscapedValue() {
+  public static <N extends StringLiteral> Function<N, String> toEscapedValue() {
     return cast(ToEscapedValue.INSTANCE);
   }
 
-  public static final <N extends StringLiteral> Function<N, String> toLiteralValue() {
+  public static <N extends StringLiteral> Function<N, String> toLiteralValue() {
     return cast(ToLiteralValue.INSTANCE);
   }
 }

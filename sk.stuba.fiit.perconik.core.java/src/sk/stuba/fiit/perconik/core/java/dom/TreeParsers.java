@@ -14,61 +14,59 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 
 public final class TreeParsers {
-  private TreeParsers() {
-    throw new AssertionError();
-  }
+  private TreeParsers() {}
 
-  public static final ASTParser newParser() {
+  public static ASTParser newParser() {
     return newParser(TreeApiLevel.latest());
   }
 
-  public static final ASTParser newParser(final TreeApiLevel level) {
+  public static ASTParser newParser(final TreeApiLevel level) {
     return ASTParser.newParser(level.getValue());
   }
 
-  public static final String read(final Path path) throws IOException {
+  public static String read(final Path path) throws IOException {
     return Files.toString(path.toFile(), Charsets.UTF_8);
   }
 
-  public static final String read(final Path path, final Charset charset) throws IOException {
+  public static String read(final Path path, final Charset charset) throws IOException {
     return Files.toString(path.toFile(), charset);
   }
 
-  public static final ASTNode parse(final Path path) throws IOException {
+  public static ASTNode parse(final Path path) throws IOException {
     return parse(path, Charsets.UTF_8);
   }
 
-  public static final ASTNode parse(final Path path, final Charset charset) throws IOException {
+  public static ASTNode parse(final Path path, final Charset charset) throws IOException {
     return parse(path, charset, TreeApiLevel.latest());
   }
 
-  public static final ASTNode parse(final Path path, final Charset charset, final TreeApiLevel level) throws IOException {
+  public static ASTNode parse(final Path path, final Charset charset, final TreeApiLevel level) throws IOException {
     return parse(Files.toString(path.toFile(), charset), level);
   }
 
-  public static final ASTNode parse(final String source) {
+  public static ASTNode parse(final String source) {
     return parse(source, TreeApiLevel.latest());
   }
 
-  public static final ASTNode parse(final String source, final TreeApiLevel level) {
+  public static ASTNode parse(final String source, final TreeApiLevel level) {
     return Nodes.create(newParser(level), source);
   }
 
-  public static final ASTNode parse(final ICompilationUnit source) {
+  public static ASTNode parse(final ICompilationUnit source) {
     return parse(source, TreeApiLevel.latest(), true);
   }
 
-  public static final ASTNode parse(final ICompilationUnit source, final TreeApiLevel level, final boolean resolveBindings) {
+  public static ASTNode parse(final ICompilationUnit source, final TreeApiLevel level, final boolean resolveBindings) {
     return Nodes.create(newParser(level), source, resolveBindings);
   }
 
   //  TODO rm?
-  //	public static final ASTNode parse(final IClassFile source)
+  //	public static ASTNode parse(final IClassFile source)
   //	{
   //		return parse(source, TreeApiLevel.latest());
   //	}
   //
-  //	public static final ASTNode parse(final IClassFile source, final TreeApiLevel level)
+  //	public static ASTNode parse(final IClassFile source, final TreeApiLevel level)
   //	{
   //		return Nodes.create(newParser(level), source);
   //	}

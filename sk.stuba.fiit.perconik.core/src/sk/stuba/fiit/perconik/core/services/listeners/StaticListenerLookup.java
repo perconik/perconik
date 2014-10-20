@@ -12,7 +12,7 @@ final class StaticListenerLookup<L extends Listener> implements Supplier<L> {
     this.lookup = lookup;
   }
 
-  static final <L extends Listener> StaticListenerLookup<L> forClass(final Class<L> type) {
+  static <L extends Listener> StaticListenerLookup<L> forClass(final Class<L> type) {
     DelayedLookup.Builder<L> builder = DelayedLookup.builder();
 
     builder.enumConstant(type, "INSTANCE");
@@ -25,7 +25,7 @@ final class StaticListenerLookup<L extends Listener> implements Supplier<L> {
     return new StaticListenerLookup<>(builder.build());
   }
 
-  public final L get() {
+  public L get() {
     return this.lookup.get();
   }
 }

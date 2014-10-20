@@ -12,7 +12,7 @@ public class AnnotableData extends AnyStructuredData {
 
   public AnnotableData() {}
 
-  protected AnnotableData(Annotable annotable) {
+  protected AnnotableData(final Annotable annotable) {
     if (annotable == null) {
       return;
     }
@@ -20,19 +20,19 @@ public class AnnotableData extends AnyStructuredData {
     this.setAnnotations(AnnotationData.of(annotable.getAnnotations()));
   }
 
-  protected AnnotableData(AnnotatedElement element) {
+  protected AnnotableData(final AnnotatedElement element) {
     this(Annotables.fromElement(element));
   }
 
-  public static AnnotableData of(Annotable annotable) {
+  public static AnnotableData of(final Annotable annotable) {
     return new AnnotableData(annotable);
   }
 
-  public static AnnotableData of(AnnotatedElement element) {
+  public static AnnotableData of(final AnnotatedElement element) {
     return new AnnotableData(element);
   }
 
-  public void setAnnotations(List<AnnotationData> annotations) {
+  public void setAnnotations(final List<AnnotationData> annotations) {
     this.annotations = annotations;
   }
 

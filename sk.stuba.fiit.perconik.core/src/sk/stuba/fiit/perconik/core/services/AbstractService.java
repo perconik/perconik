@@ -19,7 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
 /**
  * An abstract implementation of {@link Service}
  * interface covering service name and equivalence.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -39,8 +39,8 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 
       builder.append(this.toString()).append(" must be in state ");
 
-      Function<State, String> toLowerCase = new Function<State, String>() {
-        public final String apply(@Nonnull final State state) {
+      final Function<State, String> toLowerCase = new Function<State, String>() {
+        public String apply(@Nonnull final State state) {
           return state.toString().toLowerCase();
         }
       };

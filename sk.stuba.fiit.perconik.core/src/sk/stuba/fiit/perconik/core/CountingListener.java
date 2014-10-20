@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * A listener capable of counting events. The events are identified
  * by instances of implementations of {@link Key} interface.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -25,7 +25,7 @@ public interface CountingListener extends Listener {
 
   /**
    * Marker interface for event identification.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */

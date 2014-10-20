@@ -14,22 +14,22 @@ public final class PageDebugListener extends AbstractDebugListener implements Pa
     super(console);
   }
 
-  public final void pageOpened(final IWorkbenchPage page) {
+  public void pageOpened(final IWorkbenchPage page) {
     this.printHeader("Page opened");
     this.printPage(page);
   }
 
-  public final void pageClosed(final IWorkbenchPage page) {
+  public void pageClosed(final IWorkbenchPage page) {
     this.printHeader("Page closed");
     this.printPage(page);
   }
 
-  public final void pageActivated(final IWorkbenchPage page) {
+  public void pageActivated(final IWorkbenchPage page) {
     this.printHeader("Page activated");
     this.printPage(page);
   }
 
-  private final void printPage(final IWorkbenchPage page) {
+  private void printPage(final IWorkbenchPage page) {
     this.put(Debug.dumpPage(page));
   }
 }

@@ -111,23 +111,23 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     this.line = true;
   }
 
-  public static final SmartStringBuilder builder() {
+  public static SmartStringBuilder builder() {
     return new SmartStringBuilder();
   }
 
-  public static final SmartStringBuilder builder(int capacity) {
+  public static SmartStringBuilder builder(int capacity) {
     return new SmartStringBuilder(capacity);
   }
 
-  public static final SmartStringBuilder builder(@Nullable CharSequence sequence) {
+  public static SmartStringBuilder builder(@Nullable CharSequence sequence) {
     return new SmartStringBuilder(sequence);
   }
 
-  public static final SmartStringBuilder builder(@Nullable String string) {
+  public static SmartStringBuilder builder(@Nullable String string) {
     return new SmartStringBuilder(string);
   }
 
-  public static final SmartStringBuilder builder(Options options) {
+  public static SmartStringBuilder builder(Options options) {
     return new SmartStringBuilder(options);
   }
 
@@ -160,19 +160,19 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
 
     Options() {}
 
-    final StringBuilder builder() {
+    StringBuilder builder() {
       return new StringBuilder(this.initialCapacity).append(this.initialValue);
     }
 
-    public static final Options of(SmartStringBuilder builder) {
+    public static Options of(SmartStringBuilder builder) {
       return builder.options;
     }
 
-    public static final Options of(Map<String, ?> map) {
+    public static Options of(Map<String, ?> map) {
       return new Options().from(map);
     }
 
-    public final Options from(Map<String, ?> map) {
+    public Options from(Map<String, ?> map) {
       for (Entry<String, ?> entry: map.entrySet()) {
         OptionsAccess.put(this, entry.getKey(), entry.getValue());
       }
@@ -180,15 +180,15 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final Map<String, Object> asMap() {
+    public Map<String, Object> asMap() {
       return new OptionsMap(this);
     }
 
-    public final Map<String, Object> toMap() {
+    public Map<String, Object> toMap() {
       return this.toMap(new HashMap<String, Object>());
     }
 
-    public final Map<String, Object> toMap(Map<String, Object> map) {
+    public Map<String, Object> toMap(Map<String, Object> map) {
       for (String name: OptionsAccess.names()) {
         map.put(name, OptionsAccess.get(this, name));
       }
@@ -197,28 +197,28 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return this.toMap().toString();
     }
 
-    private final void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+    private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
       in.defaultReadObject();
 
       this.from(Map.class.cast(in.readObject()));
     }
 
-    private final void writeObject(ObjectOutputStream out) throws java.io.IOException {
+    private void writeObject(ObjectOutputStream out) throws java.io.IOException {
       out.defaultWriteObject();
       out.writeObject(this.toMap());
     }
 
-    public final Options initialCapacity(int value) {
+    public Options initialCapacity(int value) {
       this.initialCapacity = max(value, this.initialValue.length());
 
       return this;
     }
 
-    public final Options initialValue(@Nullable CharSequence value) {
+    public Options initialValue(@Nullable CharSequence value) {
       value = Objects.toString(value, this.nullValue);
 
       this.initialCapacity = max(this.initialCapacity, value.length());
@@ -227,19 +227,19 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final Options emptyValue(String value) {
+    public Options emptyValue(String value) {
       this.emptyValue = checkNotNull(value);
 
       return this;
     }
 
-    public final Options entrySeparator(String value) {
+    public Options entrySeparator(String value) {
       this.entrySeparator = checkNotNull(value);
 
       return this;
     }
 
-    public final Options lineSeparator(String value) {
+    public Options lineSeparator(String value) {
       checkArgument(!value.isEmpty());
 
       this.lineSeparator = value;
@@ -247,7 +247,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final Options lineRegex(String value) {
+    public Options lineRegex(String value) {
       checkArgument(!value.isEmpty());
 
       this.lineRegex = value;
@@ -255,37 +255,37 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final Options listSeparator(String value) {
+    public Options listSeparator(String value) {
       this.listSeparator = checkNotNull(value);
 
       return this;
     }
 
-    public final Options nullValue(String value) {
+    public Options nullValue(String value) {
       this.nullValue = checkNotNull(value);
 
       return this;
     }
 
-    public final Options sizePrecision(int value) {
+    public Options sizePrecision(int value) {
       this.sizePrecision = value;
 
       return this;
     }
 
-    public final Options sizeSeparator(String value) {
+    public Options sizeSeparator(String value) {
       this.sizeSeparator = checkNotNull(value);
 
       return this;
     }
 
-    public final Options tab(CharSequence value) {
+    public Options tab(CharSequence value) {
       this.tab = checkNotNull(value);
 
       return this;
     }
 
-    public final Options valueFormat(String value) {
+    public Options valueFormat(String value) {
       checkArgument(!value.isEmpty());
 
       this.valueFormat = value;
@@ -293,60 +293,60 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final int initialCapacity() {
+    public int initialCapacity() {
       return this.initialCapacity;
     }
 
-    public final CharSequence initialValue() {
+    public CharSequence initialValue() {
       return this.initialValue;
     }
 
-    public final String emptyValue() {
+    public String emptyValue() {
       return this.emptyValue;
     }
 
-    public final String entrySeparator() {
+    public String entrySeparator() {
       return this.entrySeparator;
     }
 
-    public final String lineSeparator() {
+    public String lineSeparator() {
       return this.lineSeparator;
     }
 
-    public final String lineRegex() {
+    public String lineRegex() {
       return this.lineRegex;
     }
 
-    public final String listSeparator() {
+    public String listSeparator() {
       return this.listSeparator;
     }
 
-    public final String nullValue() {
+    public String nullValue() {
       return this.nullValue;
     }
 
-    public final int sizePrecision() {
+    public int sizePrecision() {
       return this.sizePrecision;
     }
 
-    public final String sizeSeparator() {
+    public String sizeSeparator() {
       return this.sizeSeparator;
     }
 
-    public final CharSequence tab() {
+    public CharSequence tab() {
       return this.tab;
     }
 
-    public final String valueFormat() {
+    public String valueFormat() {
       return this.valueFormat;
     }
   }
 
   // TODO consider reflection effectiveness
   private static final class OptionsAccess {
-    private static final Map<String, Field> readers;
+    private static Map<String, Field> readers;
 
-    private static final Map<String, Method> writers;
+    private static Map<String, Method> writers;
 
     static {
       Class<?> type = Options.class;
@@ -358,7 +358,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       assert readers.keySet().equals(writers.keySet());
     }
 
-    private static final Set<String> resolveNames(Class<?> type) {
+    private static Set<String> resolveNames(Class<?> type) {
       ImmutableSet.Builder<String> keys = ImmutableSet.builder();
 
       for (Field field: type.getDeclaredFields()) {
@@ -370,7 +370,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return keys.build();
     }
 
-    private static final Map<String, Field> resolveReaders(Class<?> type, Set<String> names) {
+    private static Map<String, Field> resolveReaders(Class<?> type, Set<String> names) {
       ImmutableMap.Builder<String, Field> readers = ImmutableMap.builder();
 
       for (Field field: type.getDeclaredFields()) {
@@ -384,7 +384,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return readers.build();
     }
 
-    private static final Map<String, Method> resolveWriters(Class<?> type, Set<String> names) {
+    private static Map<String, Method> resolveWriters(Class<?> type, Set<String> names) {
       ImmutableMap.Builder<String, Method> writers = ImmutableMap.builder();
 
       for (Method method: type.getDeclaredMethods()) {
@@ -398,11 +398,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return writers.build();
     }
 
-    static final Set<String> names() {
+    static Set<String> names() {
       return readers.keySet();
     }
 
-    static final void put(Options options, String key, @Nullable Object value) {
+    static void put(Options options, String key, @Nullable Object value) {
       Method method = writers.get(key);
 
       checkArgument(method != null);
@@ -414,7 +414,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       }
     }
 
-    static final Object get(Options options, String key) {
+    static Object get(Options options, String key) {
       Field field = readers.get(key);
 
       checkArgument(field != null);
@@ -428,9 +428,9 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   private static final class OptionsMap extends AbstractMap<String, Object> {
-    final Options options;
+    Options options;
 
-    private final Set<Entry<String, Object>> entries;
+    private Set<Entry<String, Object>> entries;
 
     OptionsMap(Options options) {
       assert options != null;
@@ -446,7 +446,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
 
     private final class OptionsEntry implements Entry<String, Object> {
-      private final String name;
+      private String name;
 
       OptionsEntry(String name) {
         assert !name.isEmpty();
@@ -455,7 +455,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       }
 
       @Override
-      public final boolean equals(@Nullable Object object) {
+      public boolean equals(@Nullable Object object) {
         if (this == object) {
           return true;
         }
@@ -470,37 +470,37 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       }
 
       @Override
-      public final int hashCode() {
+      public int hashCode() {
         Object value = this.getValue();
 
         return this.name.hashCode() ^ ((value == null) ? 0 : value.hashCode());
       }
 
       @Override
-      public final String toString() {
+      public String toString() {
         return this.getKey() + "=" + String.valueOf(this.getValue());
       }
 
-      public final Object setValue(Object value) {
+      public Object setValue(Object value) {
         return OptionsMap.this.put(this.name, value);
       }
 
-      public final String getKey() {
+      public String getKey() {
         return this.name;
       }
 
-      public final Object getValue() {
+      public Object getValue() {
         return OptionsAccess.get(OptionsMap.this.options, this.name);
       }
     }
 
     @Override
-    public final Set<Entry<String, Object>> entrySet() {
+    public Set<Entry<String, Object>> entrySet() {
       return this.entries;
     }
 
     @Override
-    public final Object put(String key, @Nullable Object value) {
+    public Object put(String key, @Nullable Object value) {
       Object other = OptionsAccess.get(this.options, key);
 
       OptionsAccess.put(OptionsMap.this.options, key, value);
@@ -509,15 +509,15 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
   }
 
-  public final Options options() {
+  public Options options() {
     return this.options;
   }
 
-  public final void ensureCapacity(int minimum) {
+  public void ensureCapacity(int minimum) {
     this.builder.ensureCapacity(minimum);
   }
 
-  private final void ensureIndent() {
+  private void ensureIndent() {
     if (this.line) {
       for (int i = 0; i < this.indent; i ++) {
         this.builder.append(this.options.tab);
@@ -527,90 +527,90 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
   }
 
-  public final int capacity() {
+  public int capacity() {
     return this.builder.capacity();
   }
 
-  public final int length() {
+  public int length() {
     return this.builder.length();
   }
 
-  public final int indent() {
+  public int indent() {
     return this.indent;
   }
 
-  public final SmartStringBuilder indent(int value) {
+  public SmartStringBuilder indent(int value) {
     this.setIndent(value);
 
     return this;
   }
 
-  public final char charAt(int index) {
+  public char charAt(int index) {
     return this.builder.charAt(index);
   }
 
-  public final int codePointAt(int index) {
+  public int codePointAt(int index) {
     return this.builder.codePointAt(index);
   }
 
-  public final int codePointBefore(int index) {
+  public int codePointBefore(int index) {
     return this.builder.codePointBefore(index);
   }
 
-  public final int codePointCount(int from, int to) {
+  public int codePointCount(int from, int to) {
     return this.builder.codePointCount(from, to);
   }
 
-  public final SmartStringBuilder appendCodePoint(int value) {
+  public SmartStringBuilder appendCodePoint(int value) {
     this.ensureIndent();
     this.builder.appendCodePoint(value);
 
     return this;
   }
 
-  public final int offsetByCodePoints(int index, int offset) {
+  public int offsetByCodePoints(int index, int offset) {
     return this.builder.offsetByCodePoints(index, offset);
   }
 
-  public final int indexOf(String s) {
+  public int indexOf(String s) {
     return this.builder.indexOf(s);
   }
 
-  public final int indexOf(String s, int from) {
+  public int indexOf(String s, int from) {
     return this.builder.indexOf(s, from);
   }
 
-  public final int lastIndexOf(String s) {
+  public int lastIndexOf(String s) {
     return this.builder.lastIndexOf(s);
   }
 
-  public final int lastIndexOf(String s, int from) {
+  public int lastIndexOf(String s, int from) {
     return this.builder.lastIndexOf(s, from);
   }
 
-  public final CharSequence subSequence(int from, int to) {
+  public CharSequence subSequence(int from, int to) {
     return this.builder.subSequence(from, to);
   }
 
-  public final String substring(int offset) {
+  public String substring(int offset) {
     return this.builder.substring(offset);
   }
 
-  public final String substring(int from, int to) {
+  public String substring(int from, int to) {
     return this.builder.substring(from, to);
   }
 
-  public final SmartStringBuilder reverse() {
+  public SmartStringBuilder reverse() {
     this.builder.reverse();
 
     return this;
   }
 
-  public final void trimToSize() {
+  public void trimToSize() {
     this.builder.trimToSize();
   }
 
-  public final SmartStringBuilder truncate() {
+  public SmartStringBuilder truncate() {
     this.builder.setLength(0);
 
     this.line = true;
@@ -618,7 +618,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final String flush() {
+  public String flush() {
     String content = this.builder.toString();
 
     this.truncate();
@@ -626,41 +626,41 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return content;
   }
 
-  public final void setLength(int value) {
+  public void setLength(int value) {
     this.builder.setLength(value);
   }
 
-  public final void setIndent(int value) {
+  public void setIndent(int value) {
     checkArgument(value >= 0);
 
     this.indent = value;
   }
 
-  public final void setNewLine(boolean value) {
+  public void setNewLine(boolean value) {
     this.line = value;
   }
 
-  public final void setCharAt(int index, char c) {
+  public void setCharAt(int index, char c) {
     this.builder.setCharAt(index, c);
   }
 
-  public final void getChars(int from, int to, char[] result, int offset) {
+  public void getChars(int from, int to, char[] result, int offset) {
     this.builder.getChars(from, to, result, offset);
   }
 
-  public final boolean isEmpty() {
+  public boolean isEmpty() {
     return this.builder.length() == 0;
   }
 
-  public final boolean isNewLine() {
+  public boolean isNewLine() {
     return this.line;
   }
 
-  public final SmartStringBuilder tab() {
+  public SmartStringBuilder tab() {
     return this.tab(1);
   }
 
-  public final SmartStringBuilder tab(int k) {
+  public SmartStringBuilder tab(int k) {
     int indent = this.indent + k;
 
     checkArgument(indent >= 0);
@@ -670,24 +670,24 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder untab() {
+  public SmartStringBuilder untab() {
     return this.tab(-1);
   }
 
-  public final SmartStringBuilder untab(int k) {
+  public SmartStringBuilder untab(int k) {
     return this.tab(-k);
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return this.builder.toString();
   }
 
-  public final StringBuilder toStringBuilder() {
+  public StringBuilder toStringBuilder() {
     return new StringBuilder(this.builder);
   }
 
-  private final String toString(@Nullable Object object) {
+  private String toString(@Nullable Object object) {
     if (object == null) {
       return this.options.nullValue;
     }
@@ -704,13 +704,13 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   private static final class SerializationProxy implements Serializable {
     private static final long serialVersionUID = 1889347853022112994L;
 
-    private final String content;
+    private String content;
 
-    private final Options options;
+    private Options options;
 
-    private final int indent;
+    private int indent;
 
-    private final boolean line;
+    private boolean line;
 
     SerializationProxy(SmartStringBuilder builder) {
       this.content = builder.toString();
@@ -719,7 +719,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.line = builder.isNewLine();
     }
 
-    private final Object readResolve() throws InvalidObjectException {
+    private Object readResolve() throws InvalidObjectException {
       try {
         SmartStringBuilder builder = new SmartStringBuilder(new StringBuilder(this.content), this.options);
 
@@ -734,95 +734,95 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  private final void readObject(final ObjectInputStream in) throws InvalidObjectException {
+  private void readObject(ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }
 
-  private final Object writeReplace() {
+  private Object writeReplace() {
     return new SerializationProxy(this);
   }
 
-  public final SmartStringBuilder append(@Nullable Object o) {
+  public SmartStringBuilder append(@Nullable Object o) {
     this.ensureIndent();
 
     return this.append(this.toString(o));
   }
 
-  public final SmartStringBuilder append(@Nullable String s) {
+  public SmartStringBuilder append(@Nullable String s) {
     this.ensureIndent();
     this.builder.append(this.toString(s));
 
     return this;
   }
 
-  public final SmartStringBuilder append(@Nullable CharSequence s) {
+  public SmartStringBuilder append(@Nullable CharSequence s) {
     return this.append(this.toString(s));
   }
 
-  public final SmartStringBuilder append(@Nullable CharSequence s, int from, int to) {
+  public SmartStringBuilder append(@Nullable CharSequence s, int from, int to) {
     this.ensureIndent();
     this.builder.append(this.toString(s), from, to);
 
     return this;
   }
 
-  public final SmartStringBuilder append(boolean b) {
+  public SmartStringBuilder append(boolean b) {
     this.ensureIndent();
     this.builder.append(b);
 
     return this;
   }
 
-  public final SmartStringBuilder append(char c) {
+  public SmartStringBuilder append(char c) {
     this.ensureIndent();
     this.builder.append(c);
 
     return this;
   }
 
-  public final SmartStringBuilder append(char[] s) {
+  public SmartStringBuilder append(char[] s) {
     this.ensureIndent();
     this.builder.append(s);
 
     return this;
   }
 
-  public final SmartStringBuilder append(char[] s, int offset, int length) {
+  public SmartStringBuilder append(char[] s, int offset, int length) {
     this.ensureIndent();
     this.builder.append(s, offset, length);
 
     return this;
   }
 
-  public final SmartStringBuilder append(int i) {
+  public SmartStringBuilder append(int i) {
     this.ensureIndent();
     this.builder.append(i);
 
     return this;
   }
 
-  public final SmartStringBuilder append(long l) {
+  public SmartStringBuilder append(long l) {
     this.ensureIndent();
     this.builder.append(l);
 
     return this;
   }
 
-  public final SmartStringBuilder append(float f) {
+  public SmartStringBuilder append(float f) {
     this.ensureIndent();
     this.builder.append(f);
 
     return this;
   }
 
-  public final SmartStringBuilder append(double d) {
+  public SmartStringBuilder append(double d) {
     this.ensureIndent();
     this.builder.append(d);
 
     return this;
   }
 
-  public final SmartStringBuilder appendln() {
+  public SmartStringBuilder appendln() {
     this.ensureIndent();
     this.builder.append(this.options.lineSeparator);
 
@@ -831,85 +831,85 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder appendln(@Nullable Object o) {
+  public SmartStringBuilder appendln(@Nullable Object o) {
     return this.appendln(this.toString(o));
   }
 
-  public final SmartStringBuilder appendln(@Nullable String s) {
+  public SmartStringBuilder appendln(@Nullable String s) {
     this.ensureIndent();
     this.builder.append(this.toString(s));
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(@Nullable CharSequence s) {
+  public SmartStringBuilder appendln(@Nullable CharSequence s) {
     return this.appendln(this.toString(s));
   }
 
-  public final SmartStringBuilder appendln(@Nullable CharSequence s, int from, int to) {
+  public SmartStringBuilder appendln(@Nullable CharSequence s, int from, int to) {
     this.ensureIndent();
     this.builder.append(this.toString(s), from, to);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(boolean b) {
+  public SmartStringBuilder appendln(boolean b) {
     this.ensureIndent();
     this.builder.append(b);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(char c) {
+  public SmartStringBuilder appendln(char c) {
     this.ensureIndent();
     this.builder.append(c);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(char[] s) {
+  public SmartStringBuilder appendln(char[] s) {
     this.ensureIndent();
     this.builder.append(s);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(char[] s, int offset, int length) {
+  public SmartStringBuilder appendln(char[] s, int offset, int length) {
     this.ensureIndent();
     this.builder.append(s, offset, length);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(int i) {
+  public SmartStringBuilder appendln(int i) {
     this.ensureIndent();
     this.builder.append(i);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(long l) {
+  public SmartStringBuilder appendln(long l) {
     this.ensureIndent();
     this.builder.append(l);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(float f) {
+  public SmartStringBuilder appendln(float f) {
     this.ensureIndent();
     this.builder.append(f);
 
     return this.appendln();
   }
 
-  public final SmartStringBuilder appendln(double d) {
+  public SmartStringBuilder appendln(double d) {
     this.ensureIndent();
     this.builder.append(d);
 
     return this.appendln();
   }
 
-  public final <A extends Appendable> A appendTo(A appendable) {
+  public <A extends Appendable> A appendTo(A appendable) {
     try {
       return this.appendSafelyTo(appendable);
     } catch (IOException failure) {
@@ -917,77 +917,77 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
   }
 
-  public final CharBuffer appendTo(CharBuffer writer) {
+  public CharBuffer appendTo(CharBuffer writer) {
     return writer.append(this.builder);
   }
 
-  public final StringBuffer appendTo(StringBuffer buffer) {
+  public StringBuffer appendTo(StringBuffer buffer) {
     return buffer.append(this.builder);
   }
 
-  public final StringBuilder appendTo(StringBuilder builder) {
+  public StringBuilder appendTo(StringBuilder builder) {
     return builder.append(this.builder);
   }
 
-  public final PrintStream appendTo(PrintStream stream) {
+  public PrintStream appendTo(PrintStream stream) {
     return stream.append(this.builder);
   }
 
-  public final <A extends Appendable> A appendSafelyTo(A appendable) throws IOException {
+  public <A extends Appendable> A appendSafelyTo(A appendable) throws IOException {
     appendable.append(this.builder);
 
     return appendable;
   }
 
-  public final SmartStringBuilder prepend(@Nullable Object o) {
+  public SmartStringBuilder prepend(@Nullable Object o) {
     return this.insert(0, o);
   }
 
-  public final SmartStringBuilder prepend(@Nullable String s) {
+  public SmartStringBuilder prepend(@Nullable String s) {
     return this.insert(0, s);
   }
 
-  public final SmartStringBuilder prepend(@Nullable CharSequence s) {
+  public SmartStringBuilder prepend(@Nullable CharSequence s) {
     return this.insert(0, s);
   }
 
-  public final SmartStringBuilder prepend(@Nullable CharSequence s, int from, int to) {
+  public SmartStringBuilder prepend(@Nullable CharSequence s, int from, int to) {
     return this.insert(0, s, from, to);
   }
 
-  public final SmartStringBuilder prepend(boolean b) {
+  public SmartStringBuilder prepend(boolean b) {
     return this.insert(0, b);
   }
 
-  public final SmartStringBuilder prepend(char c) {
+  public SmartStringBuilder prepend(char c) {
     return this.insert(0, c);
   }
 
-  public final SmartStringBuilder prepend(char[] s) {
+  public SmartStringBuilder prepend(char[] s) {
     return this.insert(0, s);
   }
 
-  public final SmartStringBuilder prepend(char[] s, int offset, int length) {
+  public SmartStringBuilder prepend(char[] s, int offset, int length) {
     return this.insert(0, s, offset, length);
   }
 
-  public final SmartStringBuilder prepend(int i) {
+  public SmartStringBuilder prepend(int i) {
     return this.insert(0, i);
   }
 
-  public final SmartStringBuilder prepend(long l) {
+  public SmartStringBuilder prepend(long l) {
     return this.insert(0, l);
   }
 
-  public final SmartStringBuilder prepend(float f) {
+  public SmartStringBuilder prepend(float f) {
     return this.insert(0, f);
   }
 
-  public final SmartStringBuilder prepend(double d) {
+  public SmartStringBuilder prepend(double d) {
     return this.insert(0, d);
   }
 
-  private final SmartStringBuilder prependLine(String s) {
+  private SmartStringBuilder prependLine(String s) {
     this.prepend(s + this.options.lineSeparator);
 
     this.line = true;
@@ -997,83 +997,83 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder prependln() {
+  public SmartStringBuilder prependln() {
     return this.prependLine("");
   }
 
-  public final SmartStringBuilder prependln(@Nullable Object o) {
+  public SmartStringBuilder prependln(@Nullable Object o) {
     return this.prependLine(this.toString(o));
   }
 
-  public final SmartStringBuilder prependln(@Nullable String s) {
+  public SmartStringBuilder prependln(@Nullable String s) {
     return this.prependLine(this.toString(s));
   }
 
-  public final SmartStringBuilder prependln(@Nullable CharSequence s) {
+  public SmartStringBuilder prependln(@Nullable CharSequence s) {
     return this.prependLine(this.toString(s));
   }
 
-  public final SmartStringBuilder prependln(@Nullable CharSequence s, int from, int to) {
+  public SmartStringBuilder prependln(@Nullable CharSequence s, int from, int to) {
     return this.prependLine(this.toString(s).substring(from, to));
   }
 
-  public final SmartStringBuilder prependln(boolean b) {
+  public SmartStringBuilder prependln(boolean b) {
     return this.prependLine(Boolean.toString(b));
   }
 
-  public final SmartStringBuilder prependln(char c) {
+  public SmartStringBuilder prependln(char c) {
     return this.prependLine(Character.toString(c));
   }
 
-  public final SmartStringBuilder prependln(char[] s) {
+  public SmartStringBuilder prependln(char[] s) {
     return this.prependLine(new String(s));
   }
 
-  public final SmartStringBuilder prependln(char[] s, int offset, int length) {
+  public SmartStringBuilder prependln(char[] s, int offset, int length) {
     return this.prependLine(new String(s, offset, length));
   }
 
-  public final SmartStringBuilder prependln(int i) {
+  public SmartStringBuilder prependln(int i) {
     return this.prependLine(Integer.toString(i));
   }
 
-  public final SmartStringBuilder prependln(long l) {
+  public SmartStringBuilder prependln(long l) {
     return this.prependLine(Long.toString(l));
   }
 
-  public final SmartStringBuilder prependln(float f) {
+  public SmartStringBuilder prependln(float f) {
     return this.prependLine(Float.toString(f));
   }
 
-  public final SmartStringBuilder prependln(double d) {
+  public SmartStringBuilder prependln(double d) {
     return this.prependLine(Double.toString(d));
   }
 
-  public final SmartStringBuilder delete(int from, int to) {
+  public SmartStringBuilder delete(int from, int to) {
     this.builder.delete(from, to);
 
     return this;
   }
 
-  public final SmartStringBuilder deleteCharAt(int index) {
+  public SmartStringBuilder deleteCharAt(int index) {
     this.builder.deleteCharAt(index);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, @Nullable Object o) {
+  public SmartStringBuilder insert(int offset, @Nullable Object o) {
     this.builder.insert(offset, this.toString(o));
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, @Nullable String s) {
+  public SmartStringBuilder insert(int offset, @Nullable String s) {
     this.builder.insert(offset, this.toString(s));
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, @Nullable CharSequence s) {
+  public SmartStringBuilder insert(int offset, @Nullable CharSequence s) {
     s = this.toString(s);
 
     this.builder.insert(offset, s, 0, s.length());
@@ -1081,75 +1081,75 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, @Nullable CharSequence s, int from, int to) {
+  public SmartStringBuilder insert(int offset, @Nullable CharSequence s, int from, int to) {
     this.builder.insert(offset, this.toString(s), from, to);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, boolean b) {
+  public SmartStringBuilder insert(int offset, boolean b) {
     this.builder.insert(offset, b);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, char c) {
+  public SmartStringBuilder insert(int offset, char c) {
     this.builder.insert(offset, c);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, char[] s) {
+  public SmartStringBuilder insert(int offset, char[] s) {
     this.builder.insert(offset, s);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int index, char[] s, int offset, int length) {
+  public SmartStringBuilder insert(int index, char[] s, int offset, int length) {
     this.builder.insert(index, s, offset, length);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, int i) {
+  public SmartStringBuilder insert(int offset, int i) {
     this.builder.insert(offset, i);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, long l) {
+  public SmartStringBuilder insert(int offset, long l) {
     this.builder.insert(offset, l);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, float f) {
+  public SmartStringBuilder insert(int offset, float f) {
     this.builder.insert(offset, f);
 
     return this;
   }
 
-  public final SmartStringBuilder insert(int offset, double d) {
+  public SmartStringBuilder insert(int offset, double d) {
     this.builder.insert(offset, d);
 
     return this;
   }
 
-  public final SmartStringBuilder replace(int from, int to, @Nullable String s) {
+  public SmartStringBuilder replace(int from, int to, @Nullable String s) {
     this.builder.replace(from, to, this.toString(s));
 
     return this;
   }
 
-  public final void replaceAt(int index, int length, @Nullable String replacement) {
+  public void replaceAt(int index, int length, @Nullable String replacement) {
     this.builder.replace(index, index + length, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, @Nullable Object replacement) {
+  public SmartStringBuilder replace(String source, @Nullable Object replacement) {
     return this.replace(source, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, @Nullable String replacement) {
+  public SmartStringBuilder replace(String source, @Nullable String replacement) {
     int index;
 
     replacement = this.toString(replacement);
@@ -1161,39 +1161,39 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder replace(String source, @Nullable CharSequence replacement) {
+  public SmartStringBuilder replace(String source, @Nullable CharSequence replacement) {
     return this.replace(source, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, boolean replacement) {
+  public SmartStringBuilder replace(String source, boolean replacement) {
     return this.replace(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, char replacement) {
+  public SmartStringBuilder replace(String source, char replacement) {
     return this.replace(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, int replacement) {
+  public SmartStringBuilder replace(String source, int replacement) {
     return this.replace(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, long replacement) {
+  public SmartStringBuilder replace(String source, long replacement) {
     return this.replace(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, float replacement) {
+  public SmartStringBuilder replace(String source, float replacement) {
     return this.replace(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replace(String source, double replacement) {
+  public SmartStringBuilder replace(String source, double replacement) {
     return this.replace(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, @Nullable Object replacement) {
+  public SmartStringBuilder replaceFirst(String source, @Nullable Object replacement) {
     return this.replaceFirst(source, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, @Nullable String replacement) {
+  public SmartStringBuilder replaceFirst(String source, @Nullable String replacement) {
     int index = this.builder.indexOf(source);
 
     if (index != -1) {
@@ -1203,39 +1203,39 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder replaceFirst(String source, @Nullable CharSequence replacement) {
+  public SmartStringBuilder replaceFirst(String source, @Nullable CharSequence replacement) {
     return this.replaceFirst(source, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, boolean replacement) {
+  public SmartStringBuilder replaceFirst(String source, boolean replacement) {
     return this.replaceFirst(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, char replacement) {
+  public SmartStringBuilder replaceFirst(String source, char replacement) {
     return this.replaceFirst(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, int replacement) {
+  public SmartStringBuilder replaceFirst(String source, int replacement) {
     return this.replaceFirst(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, long replacement) {
+  public SmartStringBuilder replaceFirst(String source, long replacement) {
     return this.replaceFirst(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, float replacement) {
+  public SmartStringBuilder replaceFirst(String source, float replacement) {
     return this.replaceFirst(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceFirst(String source, double replacement) {
+  public SmartStringBuilder replaceFirst(String source, double replacement) {
     return this.replaceFirst(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, @Nullable Object replacement) {
+  public SmartStringBuilder replaceLast(String source, @Nullable Object replacement) {
     return this.replaceLast(source, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, @Nullable String replacement) {
+  public SmartStringBuilder replaceLast(String source, @Nullable String replacement) {
     int index = this.builder.lastIndexOf(source);
 
     if (index != -1) {
@@ -1245,35 +1245,35 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder replaceLast(String source, @Nullable CharSequence replacement) {
+  public SmartStringBuilder replaceLast(String source, @Nullable CharSequence replacement) {
     return this.replaceLast(source, this.toString(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, boolean replacement) {
+  public SmartStringBuilder replaceLast(String source, boolean replacement) {
     return this.replaceLast(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, char replacement) {
+  public SmartStringBuilder replaceLast(String source, char replacement) {
     return this.replaceLast(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, int replacement) {
+  public SmartStringBuilder replaceLast(String source, int replacement) {
     return this.replaceLast(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, long replacement) {
+  public SmartStringBuilder replaceLast(String source, long replacement) {
     return this.replaceLast(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, float replacement) {
+  public SmartStringBuilder replaceLast(String source, float replacement) {
     return this.replaceLast(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder replaceLast(String source, double replacement) {
+  public SmartStringBuilder replaceLast(String source, double replacement) {
     return this.replaceLast(source, String.valueOf(replacement));
   }
 
-  public final SmartStringBuilder repeat(int n, @Nullable Object o) {
+  public SmartStringBuilder repeat(int n, @Nullable Object o) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1289,7 +1289,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, @Nullable String s) {
+  public SmartStringBuilder repeat(int n, @Nullable String s) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1305,7 +1305,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, @Nullable CharSequence s) {
+  public SmartStringBuilder repeat(int n, @Nullable CharSequence s) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1321,7 +1321,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, @Nullable CharSequence s, int from, int to) {
+  public SmartStringBuilder repeat(int n, @Nullable CharSequence s, int from, int to) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1337,7 +1337,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, boolean b) {
+  public SmartStringBuilder repeat(int n, boolean b) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1353,7 +1353,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, char c) {
+  public SmartStringBuilder repeat(int n, char c) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1369,7 +1369,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, int i) {
+  public SmartStringBuilder repeat(int n, int i) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1385,7 +1385,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, long l) {
+  public SmartStringBuilder repeat(int n, long l) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1401,7 +1401,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, float f) {
+  public SmartStringBuilder repeat(int n, float f) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1417,7 +1417,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, double d) {
+  public SmartStringBuilder repeat(int n, double d) {
     if (n < 0) {
       throw new IllegalArgumentException();
     }
@@ -1433,109 +1433,109 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder repeat(int n, String format, Object ... args) {
+  public SmartStringBuilder repeat(int n, String format, Object ... args) {
     this.repeat(n, String.format(format, args));
 
     return this;
   }
 
-  private static final FieldPosition insignificantPosition = new FieldPosition(0);
+  private static FieldPosition insignificantPosition = new FieldPosition(0);
 
-  public final SmartStringBuilder format(String format, Object ... args) {
+  public SmartStringBuilder format(String format, Object ... args) {
     this.ensureIndent();
     this.builder.append(String.format(format, args));
 
     return this;
   }
 
-  public final SmartStringBuilder format(String format, Iterable<Object> args) {
+  public SmartStringBuilder format(String format, Iterable<Object> args) {
     return this.format(format, Iterables.toArray(args, Object.class));
   }
 
-  public final SmartStringBuilder format(String format, Iterator<Object> args) {
+  public SmartStringBuilder format(String format, Iterator<Object> args) {
     return this.format(format, Iterators.toArray(args, Object.class));
   }
 
-  public final SmartStringBuilder format(Format format, @Nullable Object value) {
+  public SmartStringBuilder format(Format format, @Nullable Object value) {
     return this.format(format, value, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(Format format, @Nullable Object value, FieldPosition position) {
+  public SmartStringBuilder format(Format format, @Nullable Object value, FieldPosition position) {
     this.ensureIndent();
     this.builder.append(format.format(value, new StringBuffer(), position));
 
     return this;
   }
 
-  public final SmartStringBuilder format(CaseFormat from, CaseFormat to, Object value) {
+  public SmartStringBuilder format(CaseFormat from, CaseFormat to, Object value) {
     this.ensureIndent();
     this.builder.append(from.to(to, this.toString(value)));
 
     return this;
   }
 
-  public final SmartStringBuilder format(CaseFormat from, CaseFormat to, String value) {
+  public SmartStringBuilder format(CaseFormat from, CaseFormat to, String value) {
     return this.format(from, to, (Object) value);
   }
 
-  public final SmartStringBuilder format(CaseFormat from, CaseFormat to, CharSequence value) {
+  public SmartStringBuilder format(CaseFormat from, CaseFormat to, CharSequence value) {
     return this.format(from, to, (Object) value);
   }
 
-  public final SmartStringBuilder format(DateFormat format, Date value) {
+  public SmartStringBuilder format(DateFormat format, Date value) {
     return this.format(format, value, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(DateFormat format, Date value, FieldPosition position) {
+  public SmartStringBuilder format(DateFormat format, Date value, FieldPosition position) {
     this.ensureIndent();
     this.builder.append(format.format(value, new StringBuffer(), position));
 
     return this;
   }
 
-  public final SmartStringBuilder format(MessageFormat format, Object[] args) {
+  public SmartStringBuilder format(MessageFormat format, Object[] args) {
     return this.format(format, args, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(MessageFormat format, Object[] args, FieldPosition position) {
+  public SmartStringBuilder format(MessageFormat format, Object[] args, FieldPosition position) {
     this.ensureIndent();
     this.builder.append(format.format(args, new StringBuffer(), position));
 
     return this;
   }
 
-  public final SmartStringBuilder format(MessageFormat format, Iterable<Object> args) {
+  public SmartStringBuilder format(MessageFormat format, Iterable<Object> args) {
     return this.format(format, args, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(MessageFormat format, Iterable<Object> args, FieldPosition position) {
+  public SmartStringBuilder format(MessageFormat format, Iterable<Object> args, FieldPosition position) {
     return this.format(format, Iterables.toArray(args, Object.class), position);
   }
 
-  public final SmartStringBuilder format(MessageFormat format, Iterator<Object> args) {
+  public SmartStringBuilder format(MessageFormat format, Iterator<Object> args) {
     return this.format(format, args, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(MessageFormat format, Iterator<Object> args, FieldPosition position) {
+  public SmartStringBuilder format(MessageFormat format, Iterator<Object> args, FieldPosition position) {
     return this.format(format, Iterators.toArray(args, Object.class), position);
   }
 
-  public final SmartStringBuilder format(NumberFormat format, long value) {
+  public SmartStringBuilder format(NumberFormat format, long value) {
     return this.format(format, value, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(NumberFormat format, long value, FieldPosition position) {
+  public SmartStringBuilder format(NumberFormat format, long value, FieldPosition position) {
     this.ensureIndent();
     this.builder.append(format.format(value, new StringBuffer(), position));
 
     return this;
   }
 
-  public final SmartStringBuilder format(NumberFormat format, double value) {
+  public SmartStringBuilder format(NumberFormat format, double value) {
     return this.format(format, value, insignificantPosition);
   }
 
-  public final SmartStringBuilder format(NumberFormat format, double value, FieldPosition position) {
+  public SmartStringBuilder format(NumberFormat format, double value, FieldPosition position) {
     this.ensureIndent();
     this.builder.append(format.format(value, new StringBuffer(), position));
 
@@ -1543,7 +1543,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   @SafeVarargs
-  private static final <T> T[] asArray(@Nullable T first, @Nullable T second, T ... rest) {
+  private static <T> T[] asArray(@Nullable T first, @Nullable T second, T ... rest) {
     T[] values = ObjectArrays.newArray(rest, rest.length + 2);
 
     values[0] = first;
@@ -1554,31 +1554,31 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return values;
   }
 
-  public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest) {
+  public SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest) {
     return this.list(asList(first, second, rest));
   }
 
-  public final SmartStringBuilder list(Object[] values) {
+  public SmartStringBuilder list(Object[] values) {
     return this.list(asList(values));
   }
 
-  public final SmartStringBuilder list(Iterable<?> values) {
+  public SmartStringBuilder list(Iterable<?> values) {
     return this.list(values.iterator());
   }
 
-  public final SmartStringBuilder list(Iterator<?> values) {
+  public SmartStringBuilder list(Iterator<?> values) {
     return this.list(values, this.options.listSeparator);
   }
 
-  public final SmartStringBuilder list(Object[] values, String separator) {
+  public SmartStringBuilder list(Object[] values, String separator) {
     return this.list(asList(values), separator);
   }
 
-  public final SmartStringBuilder list(Iterable<?> values, String separator) {
+  public SmartStringBuilder list(Iterable<?> values, String separator) {
     return this.list(values.iterator(), separator);
   }
 
-  public final SmartStringBuilder list(Iterator<?> values, String separator) {
+  public SmartStringBuilder list(Iterator<?> values, String separator) {
     checkNotNull(separator);
 
     if (values.hasNext()) {
@@ -1594,35 +1594,35 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder list(Joiner joiner, @Nullable Object first, @Nullable Object second, Object ... rest) {
+  public SmartStringBuilder list(Joiner joiner, @Nullable Object first, @Nullable Object second, Object ... rest) {
     return this.append(joiner.join(first, second, rest));
   }
 
-  public final SmartStringBuilder list(Object[] values, Joiner joiner) {
+  public SmartStringBuilder list(Object[] values, Joiner joiner) {
     return this.append(joiner.join(values));
   }
 
-  public final SmartStringBuilder list(Iterable<?> values, Joiner joiner) {
+  public SmartStringBuilder list(Iterable<?> values, Joiner joiner) {
     return this.append(joiner.join(values));
   }
 
-  public final SmartStringBuilder list(Iterator<?> values, Joiner joiner) {
+  public SmartStringBuilder list(Iterator<?> values, Joiner joiner) {
     return this.append(joiner.join(values));
   }
 
-  public final SmartStringBuilder list(Map<?, ?> values, String listSeparator, String entrySeparator) {
+  public SmartStringBuilder list(Map<?, ?> values, String listSeparator, String entrySeparator) {
     return this.list(values.entrySet(), listSeparator, entrySeparator);
   }
 
-  public final SmartStringBuilder list(Properties values, String listSeparator, String entrySeparator) {
+  public SmartStringBuilder list(Properties values, String listSeparator, String entrySeparator) {
     return this.list(Maps.fromProperties(values), listSeparator, entrySeparator);
   }
 
-  public final SmartStringBuilder list(Iterable<? extends Entry<?, ?>> values, String listSeparator, String entrySeparator) {
+  public SmartStringBuilder list(Iterable<? extends Entry<?, ?>> values, String listSeparator, String entrySeparator) {
     return this.list(values.iterator(), listSeparator, entrySeparator);
   }
 
-  public final SmartStringBuilder list(Iterator<? extends Entry<?, ?>> values, String listSeparator, String entrySeparator) {
+  public SmartStringBuilder list(Iterator<? extends Entry<?, ?>> values, String listSeparator, String entrySeparator) {
     checkNotNull(listSeparator);
     checkNotNull(entrySeparator);
 
@@ -1648,139 +1648,139 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder list(Map<?, ?> values, MapJoiner joiner) {
+  public SmartStringBuilder list(Map<?, ?> values, MapJoiner joiner) {
     return this.append(joiner.join(values));
   }
 
-  public final SmartStringBuilder list(Properties values, MapJoiner joiner) {
+  public SmartStringBuilder list(Properties values, MapJoiner joiner) {
     return this.list(Maps.fromProperties(values), joiner);
   }
 
-  public final SmartStringBuilder list(Iterable<? extends Entry<?, ?>> values, MapJoiner joiner) {
+  public SmartStringBuilder list(Iterable<? extends Entry<?, ?>> values, MapJoiner joiner) {
     return this.append(joiner.join(values));
   }
 
-  public final SmartStringBuilder list(Iterator<? extends Entry<?, ?>> values, MapJoiner joiner) {
+  public SmartStringBuilder list(Iterator<? extends Entry<?, ?>> values, MapJoiner joiner) {
     return this.append(joiner.join(values));
   }
 
   // TODO rename
-  public final SmartStringBuilder listValues(boolean ... values) {
+  public SmartStringBuilder listValues(boolean ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(char ... values) {
+  public SmartStringBuilder listValues(char ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(int ... values) {
+  public SmartStringBuilder listValues(int ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(long ... values) {
+  public SmartStringBuilder listValues(long ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(float ... values) {
+  public SmartStringBuilder listValues(float ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(double ... values) {
+  public SmartStringBuilder listValues(double ... values) {
     return this.list(this.options.listSeparator, values);
   }
 
-  public final SmartStringBuilder listValues(String separator, boolean ... values) {
+  public SmartStringBuilder listValues(String separator, boolean ... values) {
     return this.list(Booleans.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, char ... values) {
+  public SmartStringBuilder listValues(String separator, char ... values) {
     return this.list(Chars.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, int ... values) {
+  public SmartStringBuilder listValues(String separator, int ... values) {
     return this.list(Ints.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, long ... values) {
+  public SmartStringBuilder listValues(String separator, long ... values) {
     return this.list(Longs.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, float ... values) {
+  public SmartStringBuilder listValues(String separator, float ... values) {
     return this.list(Floats.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(String separator, double ... values) {
+  public SmartStringBuilder listValues(String separator, double ... values) {
     return this.list(Doubles.asList(values), separator);
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, boolean ... values) {
+  public SmartStringBuilder listValues(Joiner joiner, boolean ... values) {
     return this.append(joiner.join(Booleans.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, char ... values) {
+  public SmartStringBuilder listValues(Joiner joiner, char ... values) {
     return this.append(joiner.join(Chars.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, int ... values) {
+  public SmartStringBuilder listValues(Joiner joiner, int ... values) {
     return this.append(joiner.join(Ints.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, long ... values) {
+  public SmartStringBuilder listValues(Joiner joiner, long ... values) {
     return this.append(joiner.join(Longs.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, float ... values) {
+  public SmartStringBuilder listValues(Joiner joiner, float ... values) {
     return this.append(joiner.join(Floats.asList(values)));
   }
 
-  public final SmartStringBuilder listValues(Joiner joiner, double ... values) {
+  public SmartStringBuilder listValues(Joiner joiner, double ... values) {
     return this.append(joiner.join(Doubles.asList(values)));
   }
 
   private static enum NotEmptyPredicate implements Predicate<CharSequence> {
     INSTANCE;
 
-    public final boolean apply(@Nullable CharSequence s) {
+    public boolean apply(@Nullable CharSequence s) {
       return s != null && s.length() != 0;
     }
   }
 
   // TODO add listNonNull, listNonEmpty, filteredList, sortedList with separators & joiners
 
-  //  public final SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest)
-  //  public final SmartStringBuilder list(Object[] values)
-  //  public final SmartStringBuilder list(Iterable<?> values)
-  //  public final SmartStringBuilder list(Iterator<?> values)
+  //  public SmartStringBuilder list(@Nullable Object first, @Nullable Object second, Object ... rest)
+  //  public SmartStringBuilder list(Object[] values)
+  //  public SmartStringBuilder list(Iterable<?> values)
+  //  public SmartStringBuilder list(Iterator<?> values)
 
-  public final SmartStringBuilder listNonNull(Object first, Object second, Object ... rest) {
+  public SmartStringBuilder listNonNull(Object first, Object second, Object ... rest) {
     return this.listNonNull(asList(first, second, rest));
   }
 
-  public final SmartStringBuilder listNonNull(Object[] values) {
+  public SmartStringBuilder listNonNull(Object[] values) {
     return this.listNonNull(asList(values));
   }
 
-  public final SmartStringBuilder listNonNull(Iterable<?> values) {
+  public SmartStringBuilder listNonNull(Iterable<?> values) {
     return this.listNonNull(values.iterator());
   }
 
-  public final SmartStringBuilder listNonNull(Iterator<?> values) {
+  public SmartStringBuilder listNonNull(Iterator<?> values) {
     return this.filteredList(values, notNull());
   }
 
-  public final SmartStringBuilder listNonEmpty(@Nullable CharSequence first, @Nullable CharSequence second, CharSequence ... rest) {
+  public SmartStringBuilder listNonEmpty(@Nullable CharSequence first, @Nullable CharSequence second, CharSequence ... rest) {
     return this.listNonEmpty(asList(first, second, rest));
   }
 
-  public final SmartStringBuilder listNonEmpty(CharSequence[] values) {
+  public SmartStringBuilder listNonEmpty(CharSequence[] values) {
     return this.listNonEmpty(asList(values));
   }
 
-  public final SmartStringBuilder listNonEmpty(Iterable<? extends CharSequence> values) {
+  public SmartStringBuilder listNonEmpty(Iterable<? extends CharSequence> values) {
     return this.listNonEmpty(values.iterator());
   }
 
-  public final SmartStringBuilder listNonEmpty(Iterator<? extends CharSequence> values) {
+  public SmartStringBuilder listNonEmpty(Iterator<? extends CharSequence> values) {
     return this.filteredList(values, NotEmptyPredicate.INSTANCE);
   }
 
@@ -1801,7 +1801,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.list(Iterators.filter(values, filter));
   }
 
-  private final SmartStringBuilder sortAndList(Object[] values) {
+  private SmartStringBuilder sortAndList(Object[] values) {
     sort(values);
 
     this.list(values);
@@ -1826,18 +1826,18 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.sortAndList(Iterators.toArray(values, Object.class));
   }
 
-  @SafeVarargs
-  public final <T> SmartStringBuilder sortedList(Comparator<? super T> comparator, @Nullable T first, @Nullable T second, T ... rest) {
-    return this.list(asArray(first, second, rest), comparator);
-  }
-
   @SuppressWarnings("unchecked")
-  public final <T> SmartStringBuilder sortAndList(Object[] values, Comparator<?> comparator) {
+  private <T> SmartStringBuilder sortAndList(Object[] values, Comparator<?> comparator) {
     sort(values, (Comparator<Object>) comparator);
 
     this.list(values);
 
     return this;
+  }
+
+  @SafeVarargs
+  public final <T> SmartStringBuilder sortedList(Comparator<? super T> comparator, @Nullable T first, @Nullable T second, T ... rest) {
+    return this.list(asArray(first, second, rest), comparator);
   }
 
   public final <T> SmartStringBuilder sortedList(T[] values, Comparator<? super T> comparator) {
@@ -1853,35 +1853,35 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   }
 
   // TODO review
-  public final SmartStringBuilder splitList(Object value, Splitter splitter, Joiner joiner) {
+  public SmartStringBuilder splitList(Object value, Splitter splitter, Joiner joiner) {
     return this.splitList(this.toString(value), splitter, joiner);
   }
 
-  public final SmartStringBuilder splitList(String value, Splitter splitter, Joiner joiner) {
+  public SmartStringBuilder splitList(String value, Splitter splitter, Joiner joiner) {
     return this.splitList((CharSequence) value, splitter, joiner);
   }
 
-  public final SmartStringBuilder splitList(CharSequence value, Splitter splitter, Joiner joiner) {
+  public SmartStringBuilder splitList(CharSequence value, Splitter splitter, Joiner joiner) {
     return this.append(joiner.join(splitter.splitToList(value)));
   }
 
-  public final SmartStringBuilder splitList(Object value, MapSplitter splitter, MapJoiner joiner) {
+  public SmartStringBuilder splitList(Object value, MapSplitter splitter, MapJoiner joiner) {
     return this.splitList(this.toString(value), splitter, joiner);
   }
 
-  public final SmartStringBuilder splitList(String value, MapSplitter splitter, MapJoiner joiner) {
+  public SmartStringBuilder splitList(String value, MapSplitter splitter, MapJoiner joiner) {
     return this.splitList((CharSequence) value, splitter, joiner);
   }
 
-  public final SmartStringBuilder splitList(CharSequence value, MapSplitter splitter, MapJoiner joiner) {
+  public SmartStringBuilder splitList(CharSequence value, MapSplitter splitter, MapJoiner joiner) {
     return this.append(joiner.join(splitter.split(value)));
   }
 
-  public final SmartStringBuilder lines(@Nullable Object o) {
+  public SmartStringBuilder lines(@Nullable Object o) {
     return this.lines(this.toString(o));
   }
 
-  public final SmartStringBuilder lines(@Nullable String s) {
+  public SmartStringBuilder lines(@Nullable String s) {
     String content = this.toString(s);
     String[] lines = content.split(this.options.lineRegex);
 
@@ -1900,75 +1900,75 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder lines(@Nullable CharSequence s) {
+  public SmartStringBuilder lines(@Nullable CharSequence s) {
     return this.lines(this.toString(s));
   }
 
-  public final SmartStringBuilder signed(byte i) {
+  public SmartStringBuilder signed(byte i) {
     return this.append(Integer.toString(i));
   }
 
-  public final SmartStringBuilder signed(byte i, int radix) {
+  public SmartStringBuilder signed(byte i, int radix) {
     return this.append(Integer.toString(i, radix));
   }
 
-  public final SmartStringBuilder signed(short i) {
+  public SmartStringBuilder signed(short i) {
     return this.append(Integer.toString(i));
   }
 
-  public final SmartStringBuilder signed(short i, int radix) {
+  public SmartStringBuilder signed(short i, int radix) {
     return this.append(Integer.toString(i, radix));
   }
 
-  public final SmartStringBuilder signed(int i) {
+  public SmartStringBuilder signed(int i) {
     return this.append(Integer.toString(i));
   }
 
-  public final SmartStringBuilder signed(int i, int radix) {
+  public SmartStringBuilder signed(int i, int radix) {
     return this.append(Integer.toString(i, radix));
   }
 
-  public final SmartStringBuilder signed(long i) {
+  public SmartStringBuilder signed(long i) {
     return this.append(Long.toString(i));
   }
 
-  public final SmartStringBuilder signed(long i, int radix) {
+  public SmartStringBuilder signed(long i, int radix) {
     return this.append(Long.toString(i, radix));
   }
 
-  public final SmartStringBuilder unsigned(byte i) {
+  public SmartStringBuilder unsigned(byte i) {
     return this.append(UnsignedBytes.toString(i));
   }
 
-  public final SmartStringBuilder unsigned(byte i, int radix) {
+  public SmartStringBuilder unsigned(byte i, int radix) {
     return this.append(UnsignedBytes.toString(i, radix));
   }
 
-  public final SmartStringBuilder unsigned(short i) {
+  public SmartStringBuilder unsigned(short i) {
     return this.append(UnsignedInts.toString(i));
   }
 
-  public final SmartStringBuilder unsigned(short i, int radix) {
+  public SmartStringBuilder unsigned(short i, int radix) {
     return this.append(UnsignedInts.toString(i, radix));
   }
 
-  public final SmartStringBuilder unsigned(int i) {
+  public SmartStringBuilder unsigned(int i) {
     return this.append(UnsignedInts.toString(i));
   }
 
-  public final SmartStringBuilder unsigned(int i, int radix) {
+  public SmartStringBuilder unsigned(int i, int radix) {
     return this.append(UnsignedInts.toString(i, radix));
   }
 
-  public final SmartStringBuilder unsigned(long i) {
+  public SmartStringBuilder unsigned(long i) {
     return this.append(UnsignedLongs.toString(i));
   }
 
-  public final SmartStringBuilder unsigned(long i, int radix) {
+  public SmartStringBuilder unsigned(long i, int radix) {
     return this.append(UnsignedLongs.toString(i, radix));
   }
 
-  private final SmartStringBuilder appendValue(String format, long value, int base, Object[] symbols, int exponent) {
+  private SmartStringBuilder appendValue(String format, long value, int base, Object[] symbols, int exponent) {
     assert symbols != null;
 
     if (value < 0 || base <= 0 || exponent >= symbols.length) {
@@ -1992,15 +1992,15 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder value(long value, int base, Object ... units) {
+  public SmartStringBuilder value(long value, int base, Object ... units) {
     return this.appendValue(this.options.valueFormat, value, base, units, -1);
   }
 
-  public final <U> SmartStringBuilder value(long value, int base, Iterable<U> units) {
+  public <U> SmartStringBuilder value(long value, int base, Iterable<U> units) {
     return this.value(value, base, Iterables.toArray(units, Object.class));
   }
 
-  public final SmartStringBuilder value(long value, ValueOptions options) {
+  public SmartStringBuilder value(long value, ValueOptions options) {
     options.validate();
 
     return this.appendValue(options.format, value, options.base, options.units.toArray(), options.unit);
@@ -2022,7 +2022,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       this.units = null;
     }
 
-    public final ValueOptions format(String value) {
+    public ValueOptions format(String value) {
       checkArgument(!value.isEmpty());
 
       this.format = value;
@@ -2030,7 +2030,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final ValueOptions base(int value) {
+    public ValueOptions base(int value) {
       checkArgument(value > 0);
 
       this.base = value;
@@ -2038,7 +2038,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final ValueOptions units(Object ... values) {
+    public ValueOptions units(Object ... values) {
       checkArgument(values.length > 0);
 
       this.units = newArrayList(values);
@@ -2047,11 +2047,11 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final ValueOptions units(Iterable<?> values) {
+    public ValueOptions units(Iterable<?> values) {
       return this.units(Iterables.toArray(values, Object.class));
     }
 
-    public final ValueOptions unit(int value) {
+    public ValueOptions unit(int value) {
       checkElementIndex(value, this.units.size());
 
       this.unit = value;
@@ -2059,48 +2059,48 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
       return this;
     }
 
-    public final ValueOptions unit(Object value) {
+    public ValueOptions unit(Object value) {
       return this.unit(this.units.indexOf(value));
     }
 
-    final void validate() {
+    void validate() {
       checkState(this.base != 0);
       checkState(this.units != null);
     }
   }
 
-  public static final ValueOptions units(Object ... units) {
+  public static ValueOptions units(Object ... units) {
     return new ValueOptions().units(units);
   }
 
-  public static final ValueOptions units(Iterable<?> units) {
+  public static ValueOptions units(Iterable<?> units) {
     return new ValueOptions().units(units);
   }
 
-  private static final String[] bits = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+  private static String[] bits = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
-  private static final String[] bytes = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
+  private static String[] bytes = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
 
-  public final SmartStringBuilder bits(long value) {
+  public SmartStringBuilder bits(long value) {
     return this.bits(value, this.options.sizePrecision);
   }
 
-  public final SmartStringBuilder bits(long value, int precision) {
+  public SmartStringBuilder bits(long value, int precision) {
     return this.appendValue("%." + precision + "f %s", value, 1000, SmartStringBuilder.bits, -1);
   }
 
-  public final SmartStringBuilder bytes(long value) {
+  public SmartStringBuilder bytes(long value) {
     return this.bytes(value, this.options.sizePrecision);
   }
 
-  public final SmartStringBuilder bytes(long value, int precision) {
+  public SmartStringBuilder bytes(long value, int precision) {
     return this.appendValue("%." + precision + "f %s", value, 1024, SmartStringBuilder.bytes, -1);
   }
 
-  private final static char[] digits = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  private static char[] digits = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-  private final SmartStringBuilder appendBytes(byte[] values, int size, int shift, String separator) {
-    final int length = values.length;
+  private SmartStringBuilder appendBytes(byte[] values, int size, int shift, String separator) {
+    int length = values.length;
 
     if (length == 0) {
       return this;
@@ -2117,7 +2117,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  private final SmartStringBuilder appendByte(int value, int size, int shift) {
+  private SmartStringBuilder appendByte(int value, int size, int shift) {
     char[] buffer = new char[size];
 
     int index = size;
@@ -2135,370 +2135,321 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this;
   }
 
-  public final SmartStringBuilder bin(byte ... bytes) {
+  public SmartStringBuilder bin(byte ... bytes) {
     return this.bin(this.options.sizeSeparator, bytes);
   }
 
-  public final SmartStringBuilder bin(String separator, byte ... bytes) {
+  public SmartStringBuilder bin(String separator, byte ... bytes) {
     return this.appendBytes(bytes, 8, 1, separator);
   }
 
-  public final SmartStringBuilder hex(byte ... bytes) {
+  public SmartStringBuilder hex(byte ... bytes) {
     return this.hex(this.options.sizeSeparator, bytes);
   }
 
-  public final SmartStringBuilder hex(String separator, byte ... bytes) {
+  public SmartStringBuilder hex(String separator, byte ... bytes) {
     return this.appendBytes(bytes, 2, 4, separator);
   }
 
   // TODO refactor to return int[]
 
-  private static final byte[] to8(byte a) {
+  private static byte[] to8(byte a) {
     return new byte[] {a};
   }
 
-  private static final byte[] to8(short a, int shift) {
+  private static byte[] to8(short a, int shift) {
     return new byte[] {((byte) ((a >> shift) & 0xff))};
   }
 
-  private static final byte[] to8(int a, int shift)  {
+  private static byte[] to8(int a, int shift) {
     return new byte[] {((byte) ((a >> shift) & 0xff))};
   }
 
-  private static final byte[] to8(long a, int shift) {
+  private static byte[] to8(long a, int shift) {
     return new byte[] {((byte) ((a >> shift) & 0xff))};
   }
 
-  private static final byte[] to16(byte a, byte b) {
+  private static byte[] to16(byte a, byte b) {
     return new byte[] {a, b};
   }
 
-  private static final byte[] to16(short a) {
+  private static byte[] to16(short a) {
     return new byte[] {(byte) (a >> 8), (byte) a};
   }
 
-  private static final byte[] to16(int a, int shift) {
-    return new byte[] {((byte) ((a >> (shift + 8)) & 0xff)),
-        ((byte) ((a >> (shift    )) & 0xff))};
+  private static byte[] to16(int a, int shift) {
+    return new byte[] {((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff))};
   }
 
-  private static final byte[] to16(long a, int shift) {
-    return new byte[] {((byte) ((a >> (shift + 8)) & 0xff)),
-        ((byte) ((a >> (shift    )) & 0xff))};
+  private static byte[] to16(long a, int shift) {
+    return new byte[] {((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff))};
   }
 
-  private static final byte[] to32(byte a, byte b, byte c, byte d) {
+  private static byte[] to32(byte a, byte b, byte c, byte d) {
     return new byte[] {a, b, c, d};
   }
 
-  private static final byte[] to32(short a, short b) {
-    return new byte[] {(byte) (a >> 8), (byte) a,
-        (byte) (b >> 8), (byte) b};
+  private static byte[] to32(short a, short b) {
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b};
   }
 
-  private static final byte[] to32(int a) {
-    return new byte[] {(byte) (a >> 24), (byte) (a >> 16),
-        (byte) (a >>  8), (byte)  a       };
+  private static byte[] to32(int a) {
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a};
   }
 
-  private static final byte[] to32(long a, int shift) {
-    return new byte[] {((byte) ((a >> (shift + 24)) & 0xff)),
-        ((byte) ((a >> (shift + 16)) & 0xff)),
-        ((byte) ((a >> (shift +  8)) & 0xff)),
-        ((byte) ((a >> (shift     )) & 0xff))};
+  private static byte[] to32(long a, int shift) {
+    return new byte[] {((byte) ((a >> (shift + 24)) & 0xff)), ((byte) ((a >> (shift + 16)) & 0xff)), ((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff))};
   }
 
-  private static final byte[] to48(byte a, byte b, byte c, byte d, byte e, byte f) {
+  private static byte[] to48(byte a, byte b, byte c, byte d, byte e, byte f) {
     return new byte[] {a, b, c, d, e, f};
   }
 
-  private static final byte[] to48(short a, short b, short c) {
-    return new byte[] {(byte) (a >> 8), (byte) a,
-        (byte) (b >> 8), (byte) b,
-        (byte) (c >> 8), (byte) c};
+  private static byte[] to48(short a, short b, short c) {
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c};
   }
 
-  private static final byte[] to64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
+  private static byte[] to64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
     return new byte[] {a, b, c, d, e, f, g, h};
   }
 
-  private static final byte[] to64(short a, short b, short c, short d) {
-    return new byte[] {(byte) (a >> 8), (byte) a,
-        (byte) (b >> 8), (byte) b,
-        (byte) (c >> 8), (byte) c,
-        (byte) (d >> 8), (byte) d};
+  private static byte[] to64(short a, short b, short c, short d) {
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d};
   }
 
-  private static final byte[] to64(int a, int b) {
-    return new byte[] {(byte) (a >> 24), (byte) (a >> 16),
-        (byte) (a >>  8), (byte)  a       ,
-        (byte) (b >> 24), (byte) (b >> 16),
-        (byte) (b >>  8), (byte)  b       };
+  private static byte[] to64(int a, int b) {
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b};
   }
 
-  private static final byte[] to64(long a) {
-    return new byte[] {(byte) (a >> 56), (byte) (a >> 48),
-        (byte) (a >> 40), (byte) (a >> 32),
-        (byte) (a >> 24), (byte) (a >> 16),
-        (byte) (a >>  8), (byte)  a       };
+  private static byte[] to64(long a) {
+    return new byte[] {(byte) (a >> 56), (byte) (a >> 48), (byte) (a >> 40), (byte) (a >> 32), (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a};
   }
 
-  private static final byte[] to96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
+  private static byte[] to96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
     return new byte[] {a, b, c, d, e, f, g, h, i, j, k, l};
   }
 
-  private static final byte[] to96(short a, short b, short c, short d, short e, short f) {
-    return new byte[] {(byte) (a >> 8), (byte) a,
-        (byte) (b >> 8), (byte) b,
-        (byte) (c >> 8), (byte) c,
-        (byte) (d >> 8), (byte) d,
-        (byte) (e >> 8), (byte) e,
-        (byte) (f >> 8), (byte) f};
+  private static byte[] to96(short a, short b, short c, short d, short e, short f) {
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d, (byte) (e >> 8), (byte) e, (byte) (f >> 8), (byte) f};
   }
 
-  private static final byte[] to96(int a, int b, int c) {
-    return new byte[] {(byte) (a >> 24), (byte) (a >> 16),
-        (byte) (a >>  8), (byte)  a       ,
-        (byte) (b >> 24), (byte) (b >> 16),
-        (byte) (b >>  8), (byte)  b       ,
-        (byte) (c >> 24), (byte) (c >> 16),
-        (byte) (c >>  8), (byte)  c       };
+  private static byte[] to96(int a, int b, int c) {
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b, (byte) (c >> 24), (byte) (c >> 16), (byte) (c >> 8), (byte) c};
   }
 
-  private static final byte[] to128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
+  private static byte[] to128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
     return new byte[] {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p};
   }
 
-  private static final byte[] to128(short a, short b, short c, short d, short e, short f, short g, short h) {
-    return new byte[] {(byte) (a >> 8), (byte) a,
-        (byte) (b >> 8), (byte) b,
-        (byte) (c >> 8), (byte) c,
-        (byte) (d >> 8), (byte) d,
-        (byte) (e >> 8), (byte) e,
-        (byte) (f >> 8), (byte) f,
-        (byte) (g >> 8), (byte) g,
-        (byte) (h >> 8), (byte) h};
+  private static byte[] to128(short a, short b, short c, short d, short e, short f, short g, short h) {
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d, (byte) (e >> 8), (byte) e, (byte) (f >> 8), (byte) f, (byte) (g >> 8), (byte) g, (byte) (h >> 8), (byte) h};
   }
 
-  private static final byte[] to128(int a, int b, int c, int d) {
-    return new byte[] {(byte) (a >> 24), (byte) (a >> 16),
-        (byte) (a >>  8), (byte)  a       ,
-        (byte) (b >> 24), (byte) (b >> 16),
-        (byte) (b >>  8), (byte)  b       ,
-        (byte) (c >> 24), (byte) (c >> 16),
-        (byte) (c >>  8), (byte)  c       ,
-        (byte) (d >> 24), (byte) (d >> 16),
-        (byte) (d >>  8), (byte)  d       };
+  private static byte[] to128(int a, int b, int c, int d) {
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b, (byte) (c >> 24), (byte) (c >> 16), (byte) (c >> 8), (byte) c, (byte) (d >> 24), (byte) (d >> 16), (byte) (d >> 8), (byte) d};
   }
 
-  private static final byte[] to128(long a, long b) {
-    return new byte[] {(byte) (a >> 56), (byte) (a >> 48),
-        (byte) (a >> 40), (byte) (a >> 32),
-        (byte) (a >> 24), (byte) (a >> 16),
-        (byte) (a >>  8), (byte)  a       ,
-        (byte) (b >> 56), (byte) (b >> 48),
-        (byte) (b >> 40), (byte) (b >> 32),
-        (byte) (b >> 24), (byte) (b >> 16),
-        (byte) (b >>  8), (byte)  b       };
+  private static byte[] to128(long a, long b) {
+    return new byte[] {(byte) (a >> 56), (byte) (a >> 48), (byte) (a >> 40), (byte) (a >> 32), (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 56), (byte) (b >> 48), (byte) (b >> 40), (byte) (b >> 32), (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b};
   }
 
-  public final SmartStringBuilder bin8(byte a) {
+  public SmartStringBuilder bin8(byte a) {
     return this.bin(to8(a));
   }
 
-  public final SmartStringBuilder bin8(short a, int shift) {
+  public SmartStringBuilder bin8(short a, int shift) {
     return this.bin(to8(a, shift));
   }
 
-  public final SmartStringBuilder bin8(int a, int shift) {
+  public SmartStringBuilder bin8(int a, int shift) {
     return this.bin(to8(a, shift));
   }
 
-  public final SmartStringBuilder bin8(long a, int shift) {
+  public SmartStringBuilder bin8(long a, int shift) {
     return this.bin(to8(a, shift));
   }
 
-  public final SmartStringBuilder bin16(byte a, byte b) {
+  public SmartStringBuilder bin16(byte a, byte b) {
     return this.bin(to16(a, b));
   }
 
-  public final SmartStringBuilder bin16(short a) {
+  public SmartStringBuilder bin16(short a) {
     return this.bin(to16(a));
   }
 
-  public final SmartStringBuilder bin16(int a, int shift) {
+  public SmartStringBuilder bin16(int a, int shift) {
     return this.bin(to16(a, shift));
   }
 
-  public final SmartStringBuilder bin16(long a, int shift) {
+  public SmartStringBuilder bin16(long a, int shift) {
     return this.bin(to16(a, shift));
   }
 
-  public final SmartStringBuilder bin32(byte a, byte b, byte c, byte d) {
+  public SmartStringBuilder bin32(byte a, byte b, byte c, byte d) {
     return this.bin(to32(a, b, c, d));
   }
 
-  public final SmartStringBuilder bin32(short a, short b) {
+  public SmartStringBuilder bin32(short a, short b) {
     return this.bin(to32(a, b));
   }
 
-  public final SmartStringBuilder bin32(int a) {
+  public SmartStringBuilder bin32(int a) {
     return this.bin(to32(a));
   }
 
-  public final SmartStringBuilder bin32(long a, int shift) {
+  public SmartStringBuilder bin32(long a, int shift) {
     return this.bin(to32(a, shift));
   }
 
-  public final SmartStringBuilder bin48(byte a, byte b, byte c, byte d, byte e, byte f) {
+  public SmartStringBuilder bin48(byte a, byte b, byte c, byte d, byte e, byte f) {
     return this.bin(to48(a, b, c, d, e, f));
   }
 
-  public final SmartStringBuilder bin48(short a, short b, short c) {
+  public SmartStringBuilder bin48(short a, short b, short c) {
     return this.bin(to48(a, b, c));
   }
 
-  public final SmartStringBuilder bin64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
+  public SmartStringBuilder bin64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
     return this.bin(to64(a, b, c, d, e, f, g, h));
   }
 
-  public final SmartStringBuilder bin64(short a, short b, short c, short d) {
+  public SmartStringBuilder bin64(short a, short b, short c, short d) {
     return this.bin(to64(a, b, c, d));
   }
 
-  public final SmartStringBuilder bin64(int a, int b) {
+  public SmartStringBuilder bin64(int a, int b) {
     return this.bin(to64(a, b));
   }
 
-  public final SmartStringBuilder bin64(long a) {
+  public SmartStringBuilder bin64(long a) {
     return this.bin(to64(a));
   }
 
-  public final SmartStringBuilder bin96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
+  public SmartStringBuilder bin96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
     return this.bin(to96(a, b, c, d, e, f, g, h, i, j, k, l));
   }
 
-  public final SmartStringBuilder bin96(short a, short b, short c, short d, short e, short f) {
+  public SmartStringBuilder bin96(short a, short b, short c, short d, short e, short f) {
     return this.bin(to96(a, b, c, d, e, f));
   }
 
-  public final SmartStringBuilder bin96(int a, int b, int c) {
+  public SmartStringBuilder bin96(int a, int b, int c) {
     return this.bin(to96(a, b, c));
   }
 
-  public final SmartStringBuilder bin128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
+  public SmartStringBuilder bin128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
     return this.bin(to128(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p));
   }
 
-  public final SmartStringBuilder bin128(short a, short b, short c, short d, short e, short f, short g, short h) {
+  public SmartStringBuilder bin128(short a, short b, short c, short d, short e, short f, short g, short h) {
     return this.bin(to128(a, b, c, d, e, f, g, h));
   }
 
-  public final SmartStringBuilder bin128(int a, int b, int c, int d) {
+  public SmartStringBuilder bin128(int a, int b, int c, int d) {
     return this.bin(to128(a, b, c, d));
   }
 
-  public final SmartStringBuilder bin128(long a, long b) {
+  public SmartStringBuilder bin128(long a, long b) {
     return this.bin(to128(a, b));
   }
 
-  public final SmartStringBuilder hex8(byte a) {
+  public SmartStringBuilder hex8(byte a) {
     return this.hex(to8(a));
   }
 
-  public final SmartStringBuilder hex8(short a, int shift) {
+  public SmartStringBuilder hex8(short a, int shift) {
     return this.hex(to8(a, shift));
   }
 
-  public final SmartStringBuilder hex8(int a, int shift) {
+  public SmartStringBuilder hex8(int a, int shift) {
     return this.hex(to8(a, shift));
   }
 
-  public final SmartStringBuilder hex8(long a, int shift) {
+  public SmartStringBuilder hex8(long a, int shift) {
     return this.hex(to8(a, shift));
   }
 
-  public final SmartStringBuilder hex16(byte a, byte b) {
+  public SmartStringBuilder hex16(byte a, byte b) {
     return this.hex(to16(a, b));
   }
 
-  public final SmartStringBuilder hex16(short a) {
+  public SmartStringBuilder hex16(short a) {
     return this.hex(to16(a));
   }
 
-  public final SmartStringBuilder hex16(int a, int shift) {
+  public SmartStringBuilder hex16(int a, int shift) {
     return this.hex(to16(a, shift));
   }
 
-  public final SmartStringBuilder hex16(long a, int shift) {
+  public SmartStringBuilder hex16(long a, int shift) {
     return this.hex(to16(a, shift));
   }
 
-  public final SmartStringBuilder hex32(byte a, byte b, byte c, byte d) {
+  public SmartStringBuilder hex32(byte a, byte b, byte c, byte d) {
     return this.hex(to32(a, b, c, d));
   }
 
-  public final SmartStringBuilder hex32(short a, short b) {
+  public SmartStringBuilder hex32(short a, short b) {
     return this.hex(to32(a, b));
   }
 
-  public final SmartStringBuilder hex32(int a) {
+  public SmartStringBuilder hex32(int a) {
     return this.hex(to32(a));
   }
 
-  public final SmartStringBuilder hex32(long a, int shift) {
+  public SmartStringBuilder hex32(long a, int shift) {
     return this.hex(to32(a, shift));
   }
 
-  public final SmartStringBuilder hex48(byte a, byte b, byte c, byte d, byte e, byte f) {
+  public SmartStringBuilder hex48(byte a, byte b, byte c, byte d, byte e, byte f) {
     return this.hex(to48(a, b, c, d, e, f));
   }
 
-  public final SmartStringBuilder hex48(short a, short b, short c) {
+  public SmartStringBuilder hex48(short a, short b, short c) {
     return this.hex(to48(a, b, c));
   }
 
-  public final SmartStringBuilder hex64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
+  public SmartStringBuilder hex64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
     return this.hex(to64(a, b, c, d, e, f, g, h));
   }
 
-  public final SmartStringBuilder hex64(short a, short b, short c, short d) {
+  public SmartStringBuilder hex64(short a, short b, short c, short d) {
     return this.hex(to64(a, b, c, d));
   }
 
-  public final SmartStringBuilder hex64(int a, int b) {
+  public SmartStringBuilder hex64(int a, int b) {
     return this.hex(to64(a, b));
   }
 
-  public final SmartStringBuilder hex64(long a) {
+  public SmartStringBuilder hex64(long a) {
     return this.hex(to64(a));
   }
 
-  public final SmartStringBuilder hex96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
+  public SmartStringBuilder hex96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
     return this.hex(to96(a, b, c, d, e, f, g, h, i, j, k, l));
   }
 
-  public final SmartStringBuilder hex96(short a, short b, short c, short d, short e, short f) {
+  public SmartStringBuilder hex96(short a, short b, short c, short d, short e, short f) {
     return this.hex(to96(a, b, c, d, e, f));
   }
 
-  public final SmartStringBuilder hex96(int a, int b, int c) {
+  public SmartStringBuilder hex96(int a, int b, int c) {
     return this.hex(to96(a, b, c));
   }
 
-  public final SmartStringBuilder hex128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
+  public SmartStringBuilder hex128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
     return this.hex(to128(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p));
   }
 
-  public final SmartStringBuilder hex128(short a, short b, short c, short d, short e, short f, short g, short h) {
+  public SmartStringBuilder hex128(short a, short b, short c, short d, short e, short f, short g, short h) {
     return this.hex(to128(a, b, c, d, e, f, g, h));
   }
 
-  public final SmartStringBuilder hex128(int a, int b, int c, int d) {
+  public SmartStringBuilder hex128(int a, int b, int c, int d) {
     return this.hex(to128(a, b, c, d));
   }
 
-  public final SmartStringBuilder hex128(long a, long b) {
+  public SmartStringBuilder hex128(long a, long b) {
     return this.hex(to128(a, b));
   }
 }

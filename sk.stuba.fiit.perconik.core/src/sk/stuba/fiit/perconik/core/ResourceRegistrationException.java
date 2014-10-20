@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 /**
  * Thrown when resource registration fails.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -21,21 +21,21 @@ public class ResourceRegistrationException extends IllegalStateException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public ResourceRegistrationException(@Nullable String message) {
+  public ResourceRegistrationException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public ResourceRegistrationException(@Nullable String message, @Nullable Throwable cause) {
+  public ResourceRegistrationException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public ResourceRegistrationException(@Nullable Throwable cause) {
+  public ResourceRegistrationException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

@@ -19,19 +19,19 @@ public final class DebugListenerPool extends AbstractDebugResource<DebugListener
 
   private DebugListenerPool() {}
 
-  public static final DebugListenerPool getInstance() {
+  public static DebugListenerPool getInstance() {
     return instance;
   }
 
-  public final void register(final DebugListener listener) {
+  public void register(final DebugListener listener) {
     this.pool.add(listener);
   }
 
-  public final void unregister(final DebugListener listener) {
+  public void unregister(final DebugListener listener) {
     this.pool.remove(listener);
   }
 
-  public final <U extends Listener> Collection<U> registered(final Class<U> type) {
+  public <U extends Listener> Collection<U> registered(final Class<U> type) {
     Collection<U> result = newArrayList();
 
     for (DebugListener listener: this.pool) {
@@ -43,7 +43,7 @@ public final class DebugListenerPool extends AbstractDebugResource<DebugListener
     return result;
   }
 
-  public final boolean registered(Listener listener) {
+  public boolean registered(final Listener listener) {
     return this.pool.contains(listener);
   }
 }

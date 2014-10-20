@@ -8,11 +8,11 @@ enum DocumentHandler implements Handler<DocumentListener> {
 
   private final Support support = new Support();
 
-  public final void register(final DocumentListener listener) {
+  public void register(final DocumentListener listener) {
     this.support.hook(DefaultResources.getEditorResource(), listener);
   }
 
-  public final void unregister(final DocumentListener listener) {
+  public void unregister(final DocumentListener listener) {
     this.support.unhook(DefaultResources.getEditorResource(), listener);
   }
 }

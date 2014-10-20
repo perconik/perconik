@@ -9,7 +9,7 @@ public class ClassData extends AnnotableData {
 
   public ClassData() {}
 
-  protected ClassData(Class<?> type) {
+  protected ClassData(final Class<?> type) {
     super(type);
 
     if (type == null) {
@@ -21,19 +21,19 @@ public class ClassData extends AnnotableData {
     this.setCanonicalName(type.getCanonicalName());
   }
 
-  public static ClassData of(Class<?> type) {
+  public static ClassData of(final Class<?> type) {
     return new ClassData(type);
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setCanonicalName(String canonicalName) {
+  public void setCanonicalName(final String canonicalName) {
     this.canonicalName = canonicalName;
   }
 
-  public void setSimpleName(String simpleName) {
+  public void setSimpleName(final String simpleName) {
     this.simpleName = simpleName;
   }
 

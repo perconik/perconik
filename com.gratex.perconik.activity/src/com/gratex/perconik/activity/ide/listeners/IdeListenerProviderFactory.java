@@ -29,7 +29,7 @@ public final class IdeListenerProviderFactory implements ListenerProviderFactory
 
   public IdeListenerProviderFactory() {}
 
-  public final ListenerProvider create(final ListenerProvider parent) {
+  public ListenerProvider create(final ListenerProvider parent) {
     return ListenerProviders.builder(parent).addAll(classes).build();
   }
 }

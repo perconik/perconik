@@ -22,7 +22,7 @@ public class ResourceServiceData extends NameableTypeData {
 
   public ResourceServiceData() {}
 
-  protected ResourceServiceData(ResourceService service) {
+  protected ResourceServiceData(final ResourceService service) {
     super(service);
 
     if (service == null) {
@@ -42,23 +42,23 @@ public class ResourceServiceData extends NameableTypeData {
     this.setRegistrations(registrations);
   }
 
-  public static ResourceServiceData of(ResourceService service) {
+  public static ResourceServiceData of(final ResourceService service) {
     return new ResourceServiceData(service);
   }
 
-  public void setProvider(NameableTypeData provider) {
+  public void setProvider(final NameableTypeData provider) {
     this.provider = provider;
   }
 
-  public void setManager(NameableTypeData manager) {
+  public void setManager(final NameableTypeData manager) {
     this.manager = manager;
   }
 
-  public void setNames(Set<String> names) {
+  public void setNames(final Set<String> names) {
     this.names = names;
   }
 
-  public void setRegistrations(SetMultimap<String, ResourceData> registrations) {
+  public void setRegistrations(final SetMultimap<String, ResourceData> registrations) {
     this.registrations = registrations;
   }
 

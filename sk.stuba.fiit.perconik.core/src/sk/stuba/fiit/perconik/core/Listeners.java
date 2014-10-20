@@ -36,35 +36,33 @@ import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
 public final class Listeners {
   // TODO add javadocs
 
-  private Listeners() {
-    throw new AssertionError();
-  }
+  private Listeners() {}
 
-  static final ListenerService service() {
+  static ListenerService service() {
     return Services.getListenerService();
   }
 
-  static final ListenerProvider provider() {
+  static ListenerProvider provider() {
     return service().getListenerProvider();
   }
 
-  static final ListenerManager manager() {
+  static ListenerManager manager() {
     return service().getListenerManager();
   }
 
-  public static final Listener forClass(final Class<? extends Listener> type) {
+  public static Listener forClass(final Class<? extends Listener> type) {
     return provider().forClass(type);
   }
 
-  public static final void register(final Listener listener) {
+  public static void register(final Listener listener) {
     manager().register(listener);
   }
 
-  public static final void registerAll(final Listener ... listeners) {
+  public static void registerAll(final Listener ... listeners) {
     registerAll(asList(listeners));
   }
 
-  public static final void registerAll(final Iterable<? extends Listener> listeners) {
+  public static void registerAll(final Iterable<? extends Listener> listeners) {
     List<Exception> failures = newLinkedList();
 
     ListenerManager manager = manager();
@@ -82,7 +80,7 @@ public final class Listeners {
     }
   }
 
-  public static final void registerAll(final ListenerClassesSupplier supplier) {
+  public static void registerAll(final ListenerClassesSupplier supplier) {
     List<Exception> failures = newLinkedList();
 
     ListenerProvider provider = provider();
@@ -103,35 +101,35 @@ public final class Listeners {
     }
   }
 
-  public static final void unregister(final Listener listener) {
+  public static void unregister(final Listener listener) {
     manager().unregister(listener);
   }
 
-  public static final void unregisterAll() {
+  public static void unregisterAll() {
     unregisterAll(Listener.class);
   }
 
-  public static final void unregisterAll(final Class<? extends Listener> type) {
+  public static void unregisterAll(final Class<? extends Listener> type) {
     manager().unregisterAll(type);
   }
 
-  public static final Collection<Listener> registered() {
+  public static Collection<Listener> registered() {
     return registered(Listener.class);
   }
 
-  public static final <L extends Listener> Collection<L> registered(final Class<L> type) {
+  public static <L extends Listener> Collection<L> registered(final Class<L> type) {
     return manager().registered(type);
   }
 
-  public static final SetMultimap<Resource<?>, Listener> registrations() {
+  public static SetMultimap<Resource<?>, Listener> registrations() {
     return manager().registrations();
   }
 
-  public static final boolean isRegistered(final Listener listener) {
+  public static boolean isRegistered(final Listener listener) {
     return manager().registered(listener);
   }
 
-  public static final Set<Class<? extends Listener>> resolveTypes(final Listener listener) {
+  public static Set<Class<? extends Listener>> resolveTypes(final Listener listener) {
     Set<Class<?>> raw = Reflections.collectInterfaces(listener.getClass());
 
     raw.remove(Registrable.class);

@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.core;
 
 /**
  * An abstract implementation of {@link Registrable} with empty hook methods.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

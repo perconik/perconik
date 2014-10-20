@@ -7,11 +7,9 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 
 final class Unsafe {
-  private Unsafe() {
-    throw new AssertionError();
-  }
+  private Unsafe() {}
 
-  static final <L extends Listener> Resource<L> cast(final Class<L> type, final Resource<?> resource) {
+  static <L extends Listener> Resource<L> cast(final Class<L> type, final Resource<?> resource) {
     @SuppressWarnings("serial")
     TypeToken<Resource<L>> token = new TypeToken<Resource<L>>() {}.where(new TypeParameter<L>() {}, TypeToken.of(type));
 

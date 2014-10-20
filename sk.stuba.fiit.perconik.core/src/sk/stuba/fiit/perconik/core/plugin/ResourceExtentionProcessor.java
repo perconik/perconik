@@ -19,7 +19,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
   }
 
   @Override
-  final ResolvedResources processExtensions() {
+  ResolvedResources processExtensions() {
     ResourceService service;
 
     boolean serviceSupplied = this.atLeastOneSupplied(ResourceServiceFactory.class);
@@ -47,7 +47,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return new ResolvedResources(service, supplier);
   }
 
-  private final ResourceService processResourceServiceFactories(final List<ResourceServiceFactory> factories) {
+  private ResourceService processResourceServiceFactories(final List<ResourceServiceFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "resource service")) {
       return DefaultResources.getDefaultResourceService();
     }
@@ -55,7 +55,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createResourceService(factories.get(0));
   }
 
-  private final ResourceProvider processResourceProviderFactories(final List<ResourceProviderFactory> factories) {
+  private ResourceProvider processResourceProviderFactories(final List<ResourceProviderFactory> factories) {
     ResourceProvider provider = DefaultResources.getDefaultResourceProvider();
 
     for (ResourceProviderFactory factory: factories) {
@@ -65,7 +65,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return provider;
   }
 
-  private final ResourceManager processResourceManagerFactories(final List<ResourceManagerFactory> factories) {
+  private ResourceManager processResourceManagerFactories(final List<ResourceManagerFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "resource manager")) {
       return DefaultResources.getDefaultResourceManager();
     }
@@ -73,7 +73,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createResourceManager(factories.get(0));
   }
 
-  private final ResourceNamesSupplier processResourceNamesSuppliers(final List<ResourceNamesSupplier> suppliers) {
+  private ResourceNamesSupplier processResourceNamesSuppliers(final List<ResourceNamesSupplier> suppliers) {
     if (this.emptyWithNotice(suppliers, "registered resources")) {
       return DefaultResources.getDefaultResourceNamesSupplier();
     }
@@ -81,28 +81,28 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return ResourceProviders.merge(suppliers);
   }
 
-  private final ResourceService createResourceService(final ResourceServiceFactory factory) {
+  private ResourceService createResourceService(final ResourceServiceFactory factory) {
     return resultOf(new SafeGet<ResourceService>(factory, ResourceService.class) {
       @Override
-      final ResourceService get() {
+      ResourceService get() {
         return factory.create();
       }
     });
   }
 
-  private final ResourceProvider createResourceProvider(final ResourceProviderFactory factory, final ResourceProvider parent) {
+  private ResourceProvider createResourceProvider(final ResourceProviderFactory factory, final ResourceProvider parent) {
     return resultOf(new SafeGet<ResourceProvider>(factory, ResourceProvider.class) {
       @Override
-      final ResourceProvider get() {
+      ResourceProvider get() {
         return factory.create(parent);
       }
     });
   }
 
-  private final ResourceManager createResourceManager(final ResourceManagerFactory factory) {
+  private ResourceManager createResourceManager(final ResourceManagerFactory factory) {
     return resultOf(new SafeGet<ResourceManager>(factory, ResourceManager.class) {
       @Override
-      final ResourceManager get() {
+      ResourceManager get() {
         return factory.create();
       }
     });

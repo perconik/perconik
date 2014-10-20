@@ -27,9 +27,9 @@ import sk.stuba.fiit.perconik.utilities.constant.TypeConstantSupport;
 
 /**
  * Java element types.
- * 
+ *
  * @see IJavaElement
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -128,31 +128,31 @@ public enum JavaElementType implements IntegralConstant, TypeConstant<IJavaEleme
     this.type = type;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final Set<Class<? extends IJavaElement>> valuesAsTypes() {
+  public static Set<Class<? extends IJavaElement>> valuesAsTypes() {
     return types.getTypes();
   }
 
-  public static final JavaElementType valueOf(final int value) {
+  public static JavaElementType valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final JavaElementType valueOf(final Class<? extends IJavaElement> type) {
+  public static JavaElementType valueOf(final Class<? extends IJavaElement> type) {
     return types.getConstant(type);
   }
 
-  public static final JavaElementType valueOf(final IJavaElement element) {
+  public static JavaElementType valueOf(final IJavaElement element) {
     return valueOf(element.getElementType());
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 
-  public final Class<? extends IJavaElement> getType() {
+  public Class<? extends IJavaElement> getType() {
     return this.type;
   }
 }

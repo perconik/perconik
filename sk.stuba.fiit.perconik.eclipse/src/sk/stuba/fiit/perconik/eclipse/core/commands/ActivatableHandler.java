@@ -13,7 +13,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 public abstract class ActivatableHandler extends AbstractHandler {
-  private Map<String, IHandlerActivation> activations;
+  private final Map<String, IHandlerActivation> activations;
 
   protected ActivatableHandler() {
     this.activations = newLinkedHashMap();

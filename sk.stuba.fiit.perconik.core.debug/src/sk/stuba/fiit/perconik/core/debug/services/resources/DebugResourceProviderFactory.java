@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceProviderFactory;
 public final class DebugResourceProviderFactory implements ResourceProviderFactory {
   public DebugResourceProviderFactory() {}
 
-  public final ResourceProvider create(@Nonnull final ResourceProvider parent) {
+  public ResourceProvider create(@Nonnull final ResourceProvider parent) {
     return DebugResourceProviders.create(parent);
   }
 }

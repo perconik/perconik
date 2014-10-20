@@ -15,21 +15,21 @@ public class DataException extends RuntimeException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public DataException(@Nullable String message) {
+  public DataException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public DataException(@Nullable String message, @Nullable Throwable cause) {
+  public DataException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public DataException(@Nullable Throwable cause) {
+  public DataException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

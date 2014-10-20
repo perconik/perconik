@@ -1,6 +1,5 @@
 package com.gratex.perconik.services.uaca.ide;
 
-
 public class IdeDocumentEventData extends IdeEventData {
   /**
    * Document that has been subject of this event
@@ -13,7 +12,7 @@ public class IdeDocumentEventData extends IdeEventData {
     return this.document;
   }
 
-  public void setDocument(IdeDocumentData document) {
+  public void setDocument(final IdeDocumentData document) {
     this.document = document;
   }
 }

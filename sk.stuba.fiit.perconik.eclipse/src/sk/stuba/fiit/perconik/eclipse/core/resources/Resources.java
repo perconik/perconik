@@ -16,11 +16,9 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
  * @since 1.0
  */
 public final class Resources {
-  private Resources() {
-    throw new AssertionError();
-  }
+  private Resources() {}
 
-  public static final void accept(final IResource resource, final IResourceVisitor visitor) {
+  public static void accept(final IResource resource, final IResourceVisitor visitor) {
     try {
       resource.accept(visitor);
     } catch (CoreException e) {
@@ -28,11 +26,11 @@ public final class Resources {
     }
   }
 
-  public static final void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth) {
+  public static void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth) {
     accept(resource, visitor, depth, EnumSet.allOf(ResourceMemberFlag.class));
   }
 
-  public static final void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth, final Set<ResourceMemberFlag> flags) {
+  public static void accept(final IResource resource, final IResourceVisitor visitor, final ResourceVisitorDepth depth, final Set<ResourceMemberFlag> flags) {
     try {
       resource.accept(visitor, depth.getValue(), ResourceMemberFlag.valuesAsInteger(flags));
     } catch (CoreException e) {

@@ -5,9 +5,7 @@ import javax.annotation.Nullable;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 public final class NodeDeltaFactory {
-  private NodeDeltaFactory() {
-    throw new AssertionError();
-  }
+  private NodeDeltaFactory() {}
 
   public static <N extends ASTNode> NodeDelta<N> create(@Nullable final N original, @Nullable final N revised) {
     if (original != null && revised != null) {

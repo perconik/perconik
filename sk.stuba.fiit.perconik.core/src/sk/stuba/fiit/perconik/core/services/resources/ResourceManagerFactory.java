@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.services.ManagerFactory;
 /**
  * The {@code ResourceManagerFactory}
  * creates {@link ResourceManager} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

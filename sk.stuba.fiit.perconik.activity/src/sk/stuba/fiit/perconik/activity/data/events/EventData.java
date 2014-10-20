@@ -15,7 +15,7 @@ public class EventData extends AnnotableData {
 
   public EventData() {}
 
-  protected EventData(String action) {
+  protected EventData(final String action) {
     if (action == null) {
       return;
     }
@@ -23,19 +23,19 @@ public class EventData extends AnnotableData {
     this.setAnnotations(AnnotationData.of(Annotations.ofClass(this.getClass())));
   }
 
-  public static EventData of(String action) {
+  public static EventData of(final String action) {
     return new EventData(action);
   }
 
-  public void setTimestamp(long timestamp) {
+  public void setTimestamp(final long timestamp) {
     this.timestamp = timestamp;
   }
 
-  public void setAction(String action) {
+  public void setAction(final String action) {
     this.action = action;
   }
 
-  public void setTags(Set<String> tags) {
+  public void setTags(final Set<String> tags) {
     this.tags = tags;
   }
 

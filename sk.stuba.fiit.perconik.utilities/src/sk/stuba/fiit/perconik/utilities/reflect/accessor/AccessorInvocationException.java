@@ -17,21 +17,21 @@ public class AccessorInvocationException extends ReflectionException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public AccessorInvocationException(@Nullable String message) {
+  public AccessorInvocationException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public AccessorInvocationException(@Nullable String message, @Nullable Throwable cause) {
+  public AccessorInvocationException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public AccessorInvocationException(@Nullable Throwable cause) {
+  public AccessorInvocationException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

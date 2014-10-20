@@ -7,11 +7,11 @@ import org.eclipse.swt.widgets.Composite;
 public class ExtendedBooleanFieldEditor extends BooleanFieldEditor {
   private Button control;
 
-  public ExtendedBooleanFieldEditor(String name, String label, Composite parent) {
+  public ExtendedBooleanFieldEditor(final String name, final String label, final Composite parent) {
     this(name, label, DEFAULT, parent);
   }
 
-  public ExtendedBooleanFieldEditor(String name, String label, int style, Composite parent) {
+  public ExtendedBooleanFieldEditor(final String name, final String label, final int style, final Composite parent) {
     super(name, label, style, parent);
   }
 
@@ -24,7 +24,7 @@ public class ExtendedBooleanFieldEditor extends BooleanFieldEditor {
   }
 
   @Override
-  public Button getChangeControl(Composite parent) {
+  public Button getChangeControl(final Composite parent) {
     if (this.control == null) {
       this.control = super.getChangeControl(parent);
     }

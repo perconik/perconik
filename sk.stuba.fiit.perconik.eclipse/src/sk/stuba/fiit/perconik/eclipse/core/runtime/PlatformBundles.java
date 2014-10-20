@@ -21,27 +21,25 @@ public final class PlatformBundles {
 
   static final String sdk = "org.eclipse.sdk";
 
-  private PlatformBundles() {
-    throw new AssertionError();
-  }
+  private PlatformBundles() {}
 
-  public static final Bundle getPlatformBundle() {
+  public static Bundle getPlatformBundle() {
     return Platform.getBundle(platform);
   }
 
-  public static final Bundle getJdtBundle() {
+  public static Bundle getJdtBundle() {
     return Platform.getBundle(jdt);
   }
 
-  public static final Bundle getPdeBundle() {
+  public static Bundle getPdeBundle() {
     return Platform.getBundle(pde);
   }
 
-  public static final Bundle getRcpBundle() {
+  public static Bundle getRcpBundle() {
     return Platform.getBundle(rcp);
   }
 
-  public static final Bundle getSdkBundle() {
+  public static Bundle getSdkBundle() {
     return Platform.getBundle(sdk);
   }
 }

@@ -16,18 +16,18 @@ enum StructuredSelectionHandler implements Handler<StructuredSelectionListener> 
       super(listener);
     }
 
-    public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+    public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
       if (selection instanceof StructuredSelection) {
         this.listener.selectionChanged(part, (IStructuredSelection) selection);
       }
     }
   }
 
-  public final void register(final StructuredSelectionListener listener) {
+  public void register(final StructuredSelectionListener listener) {
     SelectionHandler.INSTANCE.register(new SelectionFilter(listener));
   }
 
-  public final void unregister(final StructuredSelectionListener listener) {
+  public void unregister(final StructuredSelectionListener listener) {
     SelectionHandler.INSTANCE.unregister(new SelectionFilter(listener));
   }
 }

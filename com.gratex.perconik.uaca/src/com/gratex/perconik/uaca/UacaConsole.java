@@ -17,24 +17,24 @@ import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 public final class UacaConsole extends ForwardingPluginConsole {
   private static final UacaConsole instance = new UacaConsole();
 
-  private final PluginConsole delegate;
-
   private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
+  private final PluginConsole delegate;
+
   private UacaConsole() {
-    this.delegate = Activator.getDefault().getConsole();
+    this.delegate = Activator.defaultInstance().getConsole();
   }
 
-  public static final UacaConsole getInstance() {
+  public static UacaConsole getInstance() {
     return instance;
   }
 
   @Override
-  protected final PluginConsole delegate() {
+  protected PluginConsole delegate() {
     return this.delegate;
   }
 
-  private final String hook(final String message) {
+  private String hook(final String message) {
     if (UacaPreferences.getShared().isEventLoggerEnabled()) {
       this.notice(message);
     }
@@ -43,37 +43,37 @@ public final class UacaConsole extends ForwardingPluginConsole {
   }
 
   @Override
-  public final PluginConsole append(@Nullable final CharSequence s) {
+  public PluginConsole append(@Nullable final CharSequence s) {
     return super.append(this.hook(String.valueOf(s)));
   }
 
   @Override
-  public final PluginConsole append(@Nullable final CharSequence s, final int from, final int to) {
+  public PluginConsole append(@Nullable final CharSequence s, final int from, final int to) {
     return super.append(this.hook(String.valueOf(s).substring(from, to)));
   }
 
   @Override
-  public final PluginConsole append(final char c) {
+  public PluginConsole append(final char c) {
     return super.append(this.hook(String.valueOf(c)));
   }
 
   @Override
-  public final void put(final String message) {
+  public void put(final String message) {
     super.put(this.hook(message));
   }
 
   @Override
-  public final void put(final String format, final Object ... args) {
+  public void put(final String format, final Object ... args) {
     super.put(this.hook(String.format(format, args)));
   }
 
   @Override
-  public final void print(final String message) {
+  public void print(final String message) {
     super.print(this.hook(message));
   }
 
   @Override
-  public final void print(final String format, final Object ... args) {
+  public void print(final String format, final Object ... args) {
     super.print(this.hook(String.format(format, args)));
   }
 }

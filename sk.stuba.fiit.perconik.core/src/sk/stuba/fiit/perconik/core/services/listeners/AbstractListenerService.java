@@ -6,7 +6,7 @@ import sk.stuba.fiit.perconik.core.services.AbstractGenericService;
  * An abstract implementation of {@link ListenerService}. This skeleton
  * implementation provides an abstract builder mechanism to construct
  * instances of extended classes. It holds listener provider and manager.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -20,10 +20,10 @@ public abstract class AbstractListenerService extends AbstractGenericService<Lis
 
   /**
    * An abstract builder for creating listener service instances.
-   * 
+   *
    * <p>Builder instances can be reused, it is safe to call {@link #build}
    * multiple times to build multiple listener services in series.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */

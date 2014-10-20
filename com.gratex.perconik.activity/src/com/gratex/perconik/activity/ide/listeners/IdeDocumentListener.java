@@ -135,7 +135,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
 
   public IdeDocumentListener() {}
 
-  private final boolean updateResource(final UnderlyingResource<?> resource) {
+  private boolean updateResource(final UnderlyingResource<?> resource) {
     if (resource != null) {
       synchronized (this.lock) {
         if (!resource.equals(this.resource)) {
@@ -149,11 +149,11 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     return false;
   }
 
-  static final IdeDocumentEventRequest build(final long time, final IFile file) {
+  static IdeDocumentEventRequest build(final long time, final IFile file) {
     return build(time, UnderlyingResource.of(file));
   }
 
-  static final IdeDocumentEventRequest build(final long time, final UnderlyingResource<?> resource) {
+  static IdeDocumentEventRequest build(final long time, final UnderlyingResource<?> resource) {
     final IdeDocumentEventRequest data = new IdeDocumentEventRequest();
 
     resource.setDocumentData(data);
@@ -185,7 +185,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
 
     @Override
-    protected final boolean resolveDelta(final IResourceDelta delta, final IResource resource) {
+    protected boolean resolveDelta(final IResourceDelta delta, final IResource resource) {
       assert delta != null && resource != null;
 
       if (this.type != POST_CHANGE || this.filter.apply(resource)) {
@@ -233,12 +233,12 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
 
     @Override
-    protected final boolean resolveResource(final IResource resource) {
+    protected boolean resolveResource(final IResource resource) {
       return false;
     }
 
     @Override
-    protected final void postVisitOrProbe() {
+    protected void postVisitOrProbe() {
       if (this.operations.containsKey(IdeDocumentEventType.RENAME)) {
         this.operations.removeAll(IdeDocumentEventType.ADD);
       }
@@ -254,7 +254,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
   private static enum OutputLocationFilter implements Predicate<IResource> {
     INSTANCE;
 
-    public final boolean apply(@Nonnull final IResource resource) {
+    public boolean apply(@Nonnull final IResource resource) {
       IProject project = resource.getProject();
 
       if (project == null) {
@@ -275,7 +275,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
   private static enum GitInternalFilter implements Predicate<IResource> {
     INSTANCE;
 
-    public final boolean apply(@Nonnull final IResource resource) {
+    public boolean apply(@Nonnull final IResource resource) {
       IPath path = resource.getLocation();
 
       if (path == null) {
@@ -295,7 +295,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
   private static enum GitIgnoreFilter implements Predicate<IResource> {
     INSTANCE;
 
-    public final boolean apply(@Nonnull final IResource resource) {
+    public boolean apply(@Nonnull final IResource resource) {
       ResourceType type = ResourceType.valueOf(resource.getType());
 
       if (type == ROOT || type == PROJECT) {
@@ -324,14 +324,14 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
   }
 
-  final void processResource(final long time, final IResourceChangeEvent event) {
+  void processResource(final long time, final IResourceChangeEvent event) {
     ResourceEventType type = ResourceEventType.valueOf(event.getType());
     IResourceDelta delta = event.getDelta();
 
     new ResourceDeltaVisitor(time, type).visitOrProbe(delta, event);
   }
 
-  final void processResource(final long time, final IEditorReference reference, final IdeDocumentEventType type) {
+  void processResource(final long time, final IEditorReference reference, final IdeDocumentEventType type) {
     UnderlyingResource<?> resource = UnderlyingResource.from(dereferenceEditor(reference));
 
     if (resource != null) {
@@ -339,7 +339,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
   }
 
-  final void processSelection(final long time, final IWorkbenchPart part, final ISelection selection) {
+  void processSelection(final long time, final IWorkbenchPart part, final ISelection selection) {
     UnderlyingResource<?> resource = null;
 
     if (processStructuredSelections) {
@@ -368,10 +368,10 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
   }
 
   @Override
-  public final void postRegister() {
+  public void postRegister() {
     execute(new Runnable() {
       @Override
-      public final void run() {
+      public void run() {
         IEditorPart editor = execute(DisplayTask.of(Editors.activeEditorSupplier()));
 
         UnderlyingResource<?> resource = UnderlyingResource.from(editor);
@@ -385,78 +385,78 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     });
   }
 
-  public final void resourceChanged(final IResourceChangeEvent event) {
+  public void resourceChanged(final IResourceChangeEvent event) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processResource(time, event);
       }
     });
   }
 
-  public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+  public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         IdeDocumentListener.this.processSelection(time, part, selection);
       }
     });
   }
 
-  public final void editorOpened(final IEditorReference reference) {
+  public void editorOpened(final IEditorReference reference) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processResource(time, reference, IdeDocumentEventType.OPEN);
       }
     });
   }
 
   // TODO close not working for locally build class files
-  public final void editorClosed(final IEditorReference reference) {
+  public void editorClosed(final IEditorReference reference) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         processResource(time, reference, IdeDocumentEventType.CLOSE);
       }
     });
   }
 
-  public final void editorActivated(final IEditorReference reference) {}
+  public void editorActivated(final IEditorReference reference) {}
 
-  public final void editorDeactivated(final IEditorReference reference) {}
+  public void editorDeactivated(final IEditorReference reference) {}
 
-  public final void editorVisible(final IEditorReference reference) {}
+  public void editorVisible(final IEditorReference reference) {}
 
-  public final void editorHidden(final IEditorReference reference) {}
+  public void editorHidden(final IEditorReference reference) {}
 
-  public final void editorBroughtToTop(final IEditorReference reference) {}
+  public void editorBroughtToTop(final IEditorReference reference) {}
 
-  public final void editorInputChanged(final IEditorReference reference) {}
+  public void editorInputChanged(final IEditorReference reference) {}
 
-  public final void bufferCreated(final IFileBuffer buffer) {}
+  public void bufferCreated(final IFileBuffer buffer) {}
 
-  public final void bufferDisposed(final IFileBuffer buffer) {}
+  public void bufferDisposed(final IFileBuffer buffer) {}
 
-  public final void bufferContentAboutToBeReplaced(final IFileBuffer buffer) {}
+  public void bufferContentAboutToBeReplaced(final IFileBuffer buffer) {}
 
-  public final void bufferContentReplaced(final IFileBuffer buffer) {}
+  public void bufferContentReplaced(final IFileBuffer buffer) {}
 
-  public final void stateChanging(final IFileBuffer buffer) {}
+  public void stateChanging(final IFileBuffer buffer) {}
 
-  public final void stateChangeFailed(final IFileBuffer buffer) {}
+  public void stateChangeFailed(final IFileBuffer buffer) {}
 
-  public final void stateValidationChanged(final IFileBuffer buffer, final boolean stateValidated) {}
+  public void stateValidationChanged(final IFileBuffer buffer, final boolean stateValidated) {}
 
-  public final void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty) {
+  public void dirtyStateChanged(final IFileBuffer buffer, final boolean dirty) {
     final long time = currentTime();
 
     execute(new Runnable() {
-      public final void run() {
+      public void run() {
         if (!dirty) {
           IFile file = FileBuffers.getWorkspaceFileAtLocation(buffer.getLocation());
 
@@ -466,11 +466,11 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     });
   }
 
-  public final void underlyingFileMoved(final IFileBuffer buffer, final IPath path) {}
+  public void underlyingFileMoved(final IFileBuffer buffer, final IPath path) {}
 
-  public final void underlyingFileDeleted(final IFileBuffer buffer) {}
+  public void underlyingFileDeleted(final IFileBuffer buffer) {}
 
-  public final Set<ResourceEventType> getEventTypes() {
+  public Set<ResourceEventType> getEventTypes() {
     return resourceEventTypes;
   }
 }

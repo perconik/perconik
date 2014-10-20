@@ -129,13 +129,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     this.tableViewer.setComparator(this.createViewerComparator());
 
     this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-      public final void selectionChanged(final SelectionChangedEvent e) {
+      public void selectionChanged(final SelectionChangedEvent e) {
         updateButtons();
       }
     });
 
     this.tableViewer.addCheckStateListener(new ICheckStateListener() {
-      public final void checkStateChanged(final CheckStateChangedEvent e) {
+      public void checkStateChanged(final CheckStateChangedEvent e) {
         @SuppressWarnings("unchecked")
         R data = (R) e.getElement();
 
@@ -157,13 +157,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     buttons.setLayout(parentLayout);
 
     this.addButton = Buttons.create(buttons, "Add", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performAdd();
       }
     });
 
     this.removeButton = Buttons.create(buttons, "Remove", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performRemove();
       }
     });
@@ -171,13 +171,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     Widgets.createButtonSeparator(buttons);
 
     this.registerButton = Buttons.create(buttons, "Register", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performRegister();
       }
     });
 
     this.unregisterButton = Buttons.create(buttons, "Unregister", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performUnregister();
       }
     });
@@ -185,13 +185,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     Widgets.createButtonSeparator(buttons);
 
     this.importButton = Buttons.create(buttons, "Import", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performImport();
       }
     });
 
     this.exportButton = Buttons.create(buttons, "Export", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performExport();
       }
     });
@@ -199,13 +199,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     Widgets.createButtonSeparator(buttons);
 
     this.refreshButton = Buttons.create(buttons, "Refresh", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performRefresh();
       }
     });
 
     this.notesButton = Buttons.create(buttons, "Notes", new WidgetListener() {
-      public final void handleEvent(final Event e) {
+      public void handleEvent(final Event e) {
         performNotes();
       }
     });
@@ -228,7 +228,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   final Set<R> checkedData() {
     return Sets.filter(this.registrations, new Predicate<R>() {
-      public final boolean apply(@Nonnull final R registration) {
+      public boolean apply(@Nonnull final R registration) {
         return registration.hasRegistredMark();
       }
     });
@@ -236,7 +236,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   final Set<R> unknownData() {
     return Sets.filter(this.registrations, new Predicate<R>() {
-      public final boolean apply(@Nonnull final R registration) {
+      public boolean apply(@Nonnull final R registration) {
         return !registration.isProvided();
       }
     });
@@ -307,11 +307,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   private static enum AnnotationFilter implements Predicate<Annotation> {
     INSTANCE;
 
-    public static final Iterable<Annotation> apply(final Iterable<Annotation> annotations) {
+    public static Iterable<Annotation> apply(final Iterable<Annotation> annotations) {
       return Iterables.filter(annotations, INSTANCE);
     }
 
-    public final boolean apply(@Nonnull final Annotation annotation) {
+    public boolean apply(@Nonnull final Annotation annotation) {
       return annotation.annotationType() != Version.class;
     }
   }
@@ -323,15 +323,15 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
       this.data = Collections.emptySet();
     }
 
-    public final Object[] getElements(final Object input) {
+    public Object[] getElements(final Object input) {
       return this.data.toArray();
     }
 
-    public final void inputChanged(final Viewer viewer, final Object from, final Object to) {
+    public void inputChanged(final Viewer viewer, final Object from, final Object to) {
       this.data = (Set<?>) to;
     }
 
-    public final void dispose() {
+    public void dispose() {
       this.data = null;
     }
   }
@@ -353,7 +353,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
       return version != null ? version.value() : "?";
     }
 
-    public Image getColumnImage(Object element, int column) {
+    public Image getColumnImage(final Object element, final int column) {
       return null;
     }
   }
@@ -362,7 +362,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     AbstractViewerComparator() {}
 
     @Override
-    public boolean isSorterProperty(Object element, String property) {
+    public boolean isSorterProperty(final Object element, final String property) {
       return true;
     }
   }

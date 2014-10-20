@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 /**
  * An abstract implementation of {@link Provider}
  * interface covering provider name and equivalence.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

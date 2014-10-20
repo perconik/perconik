@@ -20,11 +20,11 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
     this.provider = checkNotNull(provider);
   }
 
-  public static final DebugListenerProviderProxy wrap(final ListenerProvider provider) {
+  public static DebugListenerProviderProxy wrap(final ListenerProvider provider) {
     return wrap(provider, Debug.getDefaultConsole());
   }
 
-  public static final DebugListenerProviderProxy wrap(final ListenerProvider provider, final DebugConsole console) {
+  public static DebugListenerProviderProxy wrap(final ListenerProvider provider, final DebugConsole console) {
     if (provider instanceof DebugListenerProviderProxy) {
       return (DebugListenerProviderProxy) provider;
     }
@@ -32,7 +32,7 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
     return new DebugListenerProviderProxy(provider, console);
   }
 
-  public static final ListenerProvider unwrap(final ListenerProvider provider) {
+  public static ListenerProvider unwrap(final ListenerProvider provider) {
     if (provider instanceof DebugListenerProviderProxy) {
       return ((DebugListenerProviderProxy) provider).delegate();
     }
@@ -41,11 +41,11 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
   }
 
   @Override
-  public final ListenerProvider delegate() {
+  public ListenerProvider delegate() {
     return this.provider;
   }
 
-  public final <L extends Listener> L forClass(final Class<L> type) {
+  public <L extends Listener> L forClass(final Class<L> type) {
     this.put("Requesting listener for class %s ... ", DebugListeners.toString(type));
 
     L listener = this.delegate().forClass(type);
@@ -55,15 +55,15 @@ public final class DebugListenerProviderProxy extends DebugNameableProxy impleme
     return listener;
   }
 
-  public final Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
+  public Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
     return this.delegate().loadClass(name);
   }
 
-  public final Set<Class<? extends Listener>> classes() {
+  public Set<Class<? extends Listener>> classes() {
     return this.delegate().classes();
   }
 
-  public final ListenerProvider parent() {
+  public ListenerProvider parent() {
     return this.delegate().parent();
   }
 }

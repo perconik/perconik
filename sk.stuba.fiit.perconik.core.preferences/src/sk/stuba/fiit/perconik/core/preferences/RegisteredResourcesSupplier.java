@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class RegisteredResourcesSupplier implements ResourceNamesSupplier {
+public final class RegisteredResourcesSupplier implements ResourceNamesSupplier {
   /**
    * The constructor.
    */
@@ -25,7 +25,7 @@ public class RegisteredResourcesSupplier implements ResourceNamesSupplier {
    * of {@code ResourcePreferences}.
    * @return names of registered resources grouped under listener types
    */
-  public final SetMultimap<Class<? extends Listener>, String> get() {
+  public SetMultimap<Class<? extends Listener>, String> get() {
     ResourcePreferences preferences = ResourcePreferences.getShared();
 
     return Registrations.toResourceNames(Registrations.marked(preferences.getResourcePersistenceData()));

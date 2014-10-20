@@ -14,12 +14,12 @@ public final class RefactoringExecutionDebugListener extends AbstractDebugListen
     super(console);
   }
 
-  public final void executionNotification(final RefactoringExecutionEvent event) {
+  public void executionNotification(final RefactoringExecutionEvent event) {
     this.printHeader("Refactoring execution");
     this.printRefactoringExecutionEventg(event);
   }
 
-  private final void printRefactoringExecutionEventg(final RefactoringExecutionEvent event) {
+  private void printRefactoringExecutionEventg(final RefactoringExecutionEvent event) {
     this.put(Debug.dumpRefactoringExecutionEvent(event));
   }
 }

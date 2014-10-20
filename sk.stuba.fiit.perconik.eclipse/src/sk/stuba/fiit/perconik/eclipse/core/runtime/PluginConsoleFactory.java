@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.Plugin;
 
 /**
  * The {@code PluginConsoleFactory} creates {@link PluginConsole} instances.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

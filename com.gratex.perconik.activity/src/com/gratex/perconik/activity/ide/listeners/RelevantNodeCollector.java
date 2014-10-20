@@ -42,7 +42,7 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
       this.result = newLinkedHashSet();
     }
 
-    public final List<ASTNode> apply(@Nullable final CompilationUnit unit) {
+    public List<ASTNode> apply(@Nullable final CompilationUnit unit) {
       if (unit == null) {
         return null;
       }
@@ -52,32 +52,32 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
       return newArrayList(this.result);
     }
 
-    private final void addNode(final ASTNode node) {
+    private void addNode(final ASTNode node) {
       if (node != null) {
         this.result.add(node);
       }
     }
 
-    private final void addNodes(final Collection<? extends ASTNode> nodes) {
+    private void addNodes(final Collection<? extends ASTNode> nodes) {
       this.result.addAll(nodes);
     }
 
     // compilation unit
 
     @Override
-    public final boolean visit(CompilationUnit node) {
+    public boolean visit(final CompilationUnit node) {
       return true;
     }
 
     @Override
-    public final boolean visit(PackageDeclaration node) {
+    public boolean visit(final PackageDeclaration node) {
       this.addNode(node);
 
       return true;
     }
 
     @Override
-    public final boolean visit(ImportDeclaration node) {
+    public boolean visit(final ImportDeclaration node) {
       this.addNode(node);
 
       return true;
@@ -86,7 +86,7 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
     // abstract type declarations
 
     @Override
-    public final boolean visit(AnnotationTypeDeclaration node) {
+    public boolean visit(final AnnotationTypeDeclaration node) {
       this.addNode(node.getJavadoc());
       this.addNodes(node.modifiers());
       this.addNode(node.getName());
@@ -95,7 +95,7 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
     }
 
     @Override
-    public final boolean visit(EnumDeclaration node) {
+    public boolean visit(final EnumDeclaration node) {
       this.addNode(node.getJavadoc());
       this.addNodes(node.modifiers());
       this.addNode(node.getName());
@@ -105,7 +105,7 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
     }
 
     @Override
-    public final boolean visit(TypeDeclaration node) {
+    public boolean visit(final TypeDeclaration node) {
       this.addNode(node.getJavadoc());
       this.addNodes(node.modifiers());
       this.addNode(node.getName());
@@ -119,35 +119,35 @@ final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode>
     // abstract type body declarations
 
     @Override
-    public final boolean visit(AnnotationTypeMemberDeclaration node) {
+    public boolean visit(final AnnotationTypeMemberDeclaration node) {
       this.addNode(node);
 
       return true;
     }
 
     @Override
-    public final boolean visit(EnumConstantDeclaration node) {
+    public boolean visit(final EnumConstantDeclaration node) {
       this.addNode(node);
 
       return true;
     }
 
     @Override
-    public final boolean visit(FieldDeclaration node) {
+    public boolean visit(final FieldDeclaration node) {
       this.addNode(node);
 
       return true;
     }
 
     @Override
-    public final boolean visit(Initializer node) {
+    public boolean visit(final Initializer node) {
       this.addNode(node);
 
       return true;
     }
 
     @Override
-    public final boolean visit(MethodDeclaration node) {
+    public boolean visit(final MethodDeclaration node) {
       this.addNode(node);
 
       return true;

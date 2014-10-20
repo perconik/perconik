@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableSet;
 /**
  * An abstract implementation of {@link FilteringListener}
  * holding acceptable event types in an immutable set.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

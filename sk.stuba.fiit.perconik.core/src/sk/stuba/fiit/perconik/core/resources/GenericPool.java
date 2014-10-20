@@ -35,7 +35,7 @@ final class GenericPool<T> extends AbstractPool<T> {
       this.handler = checkNotNull(handler);
     }
 
-    public final Builder<T> arrayList() {
+    public Builder<T> arrayList() {
       checkState(this.implementation == null);
 
       this.implementation = newArrayList();
@@ -43,7 +43,7 @@ final class GenericPool<T> extends AbstractPool<T> {
       return this;
     }
 
-    public final Builder<T> hashSet() {
+    public Builder<T> hashSet() {
       checkState(this.implementation == null);
 
       this.implementation = newHashSet();
@@ -51,7 +51,7 @@ final class GenericPool<T> extends AbstractPool<T> {
       return this;
     }
 
-    public final Builder<T> linkedList() {
+    public Builder<T> linkedList() {
       checkState(this.implementation == null);
 
       this.implementation = newLinkedList();
@@ -59,7 +59,7 @@ final class GenericPool<T> extends AbstractPool<T> {
       return this;
     }
 
-    public final Builder<T> linkedHashSet() {
+    public Builder<T> linkedHashSet() {
       checkState(this.implementation == null);
 
       this.implementation = newLinkedHashSet();
@@ -67,15 +67,15 @@ final class GenericPool<T> extends AbstractPool<T> {
       return this;
     }
 
-    public final Builder<T> identity() {
+    public Builder<T> identity() {
       checkState(this.strategy == null);
 
-      this.strategy = PresenceStrategy.IDENLILY;
+      this.strategy = PresenceStrategy.IDENTITY;
 
       return this;
     }
 
-    public final Builder<T> equals() {
+    public Builder<T> equals() {
       checkState(this.strategy == null);
 
       this.strategy = PresenceStrategy.EQUALS;
@@ -83,12 +83,12 @@ final class GenericPool<T> extends AbstractPool<T> {
       return this;
     }
 
-    public final GenericPool<T> build() {
+    public GenericPool<T> build() {
       if (this.strategy == null) {
-        this.strategy = PresenceStrategy.DEFAULL;
+        this.strategy = PresenceStrategy.DEFAULT;
       }
 
-      if (this.strategy == PresenceStrategy.IDENLILY && this.implementation instanceof HashSet) {
+      if (this.strategy == PresenceStrategy.IDENTITY && this.implementation instanceof HashSet) {
         this.implementation = newIdentityHashSet();
       }
 
@@ -96,21 +96,21 @@ final class GenericPool<T> extends AbstractPool<T> {
     }
   }
 
-  public static final <T> Builder<T> builder(final Handler<T> handler) {
+  public static <T> Builder<T> builder(final Handler<T> handler) {
     return new Builder<>(handler);
   }
 
   private enum PresenceStrategy {
-    DEFAULL {
+    DEFAULT {
       @Override
-      final boolean contains(final Collection<?> collection, @Nullable final Object object) {
+      boolean contains(final Collection<?> collection, @Nullable final Object object) {
         return collection.contains(object);
       }
     },
 
-    IDENLILY {
+    IDENTITY {
       @Override
-      final boolean contains(final Collection<?> collection, @Nullable final Object object) {
+      boolean contains(final Collection<?> collection, @Nullable final Object object) {
         for (Object other: collection) {
           if (object == other) {
             return true;
@@ -123,7 +123,7 @@ final class GenericPool<T> extends AbstractPool<T> {
 
     EQUALS {
       @Override
-      final boolean contains(final Collection<?> collection, @Nullable final Object object) {
+      boolean contains(final Collection<?> collection, @Nullable final Object object) {
         for (Object other: collection) {
           if (equal(object, other)) {
             return true;
@@ -137,20 +137,20 @@ final class GenericPool<T> extends AbstractPool<T> {
     abstract boolean contains(Collection<?> collection, @Nullable Object object);
   }
 
-  public final boolean contains(final Object object) {
+  public boolean contains(final Object object) {
     return this.strategy.contains(this.objects, object);
   }
 
-  public final Collection<T> toCollection() {
+  public Collection<T> toCollection() {
     return new ArrayList<>(this.objects);
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return this.getName();
   }
 
-  public final String getName() {
+  public String getName() {
     String name = this.handler.getClass().getCanonicalName();
 
     if (name == null) {

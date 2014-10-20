@@ -9,9 +9,9 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
  * Java element delta flags.
- * 
+ *
  * @see IJavaElementDelta
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -134,27 +134,27 @@ public enum JavaElementDeltaFlag implements IntegralConstant {
     this.value = value;
   }
 
-  public static final Set<Integer> valuesAsIntegers() {
+  public static Set<Integer> valuesAsIntegers() {
     return integers.getIntegers();
   }
 
-  public static final int valuesAsInteger() {
+  public static int valuesAsInteger() {
     return integers.getConstantsAsInteger();
   }
 
-  public static final int valuesAsInteger(final Set<JavaElementDeltaFlag> values) {
+  public static int valuesAsInteger(final Set<JavaElementDeltaFlag> values) {
     return IntegralConstantSupport.constantsAsInteger(values);
   }
 
-  public static final JavaElementDeltaFlag valueOf(final int value) {
+  public static JavaElementDeltaFlag valueOf(final int value) {
     return integers.getConstant(value);
   }
 
-  public static final Set<JavaElementDeltaFlag> setOf(final int values) {
+  public static Set<JavaElementDeltaFlag> setOf(final int values) {
     return integers.getConstants(values);
   }
 
-  public final int getValue() {
+  public int getValue() {
     return this.value;
   }
 }

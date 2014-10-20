@@ -11,12 +11,12 @@ import sk.stuba.fiit.perconik.core.services.ForwardingProvider;
  * provider. Subclasses should override one or more methods to modify the
  * behavior of the backing resource provider as desired per the decorator
  * pattern.
- * 
+ *
  * <p>Note that this class does <i>not</i> forward the {@code equals}
  * and {@code hashCode} methods through to the backing object. See
  * {@link com.google.common.collect.ForwardingObject ForwardingObject}
  * for more details.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -29,11 +29,11 @@ public abstract class ForwardingResourceProvider extends ForwardingProvider impl
   @Override
   protected abstract ResourceProvider delegate();
 
-  public Resource<?> forName(String name) {
+  public Resource<?> forName(final String name) {
     return this.delegate().forName(name);
   }
 
-  public <L extends Listener> Set<Resource<L>> forType(Class<L> type) {
+  public <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
     return this.delegate().forType(type);
   }
 

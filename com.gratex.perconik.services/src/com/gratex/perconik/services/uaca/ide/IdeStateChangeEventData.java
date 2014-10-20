@@ -1,6 +1,5 @@
 package com.gratex.perconik.services.uaca.ide;
 
-
 public class IdeStateChangeEventData extends IdeEventData {
   /**
    * Uri specifying state/perspective to which has been IDE switched.
@@ -16,7 +15,7 @@ public class IdeStateChangeEventData extends IdeEventData {
     return this.stateTypeUri;
   }
 
-  public void setStateTypeUri(String stateTypeUri) {
+  public void setStateTypeUri(final String stateTypeUri) {
     this.stateTypeUri = stateTypeUri;
   }
 }

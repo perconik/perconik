@@ -8,15 +8,15 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 
 /**
  * An abstract UI plug-in with extended basic capabilities.
- * 
+ *
  * @see AbstractUIPlugin
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
 public abstract class UserInterfacePlugin extends AbstractUIPlugin {
   /**
-   * The plug-in console. 
+   * The plug-in console.
    */
   protected final PluginConsole console;
 

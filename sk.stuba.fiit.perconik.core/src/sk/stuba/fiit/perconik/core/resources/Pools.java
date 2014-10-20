@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class Pools {
+final class Pools {
   private enum DefaultPoolFactory implements PoolFactory {
     INSTANCE;
 
-    public final <T> Pool<T> create(final Handler<T> handler) {
+    public <T> Pool<T> create(final Handler<T> handler) {
       return Synchronized.pool(GenericPool.builder(handler).identity().hashSet().build());
     }
   }
@@ -17,9 +17,7 @@ class Pools {
 
   private static PoolFactory listenerPoolFactory = DefaultPoolFactory.INSTANCE;
 
-  private Pools() {
-    throw new AssertionError();
-  }
+  private Pools() {}
 
   private static final class SafePool<T> implements Pool<T> {
     private final Pool<T> pool;
@@ -31,49 +29,49 @@ class Pools {
       this.type = checkNotNull(type);
     }
 
-    private final T check(final T object) {
+    private T check(final T object) {
       return this.type.cast(checkNotNull(object));
     }
 
-    public final boolean contains(final Object object) {
+    public boolean contains(final Object object) {
       return this.pool.contains(object);
     }
 
-    public final void add(final T object) {
+    public void add(final T object) {
       this.pool.add(this.check(object));
     }
 
-    public final void remove(final T object) {
+    public void remove(final T object) {
       this.pool.remove(this.check(object));
     }
 
-    public final Collection<T> toCollection() {
+    public Collection<T> toCollection() {
       return this.pool.toCollection();
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return this.pool.toString();
     }
   }
 
-  static final <T> Pool<T> safe(final Pool<T> pool, final Class<T> type) {
+  static <T> Pool<T> safe(final Pool<T> pool, final Class<T> type) {
     return new SafePool<>(pool, type);
   }
 
-  static final void setObjectPoolFactory(final PoolFactory factory) {
+  static void setObjectPoolFactory(final PoolFactory factory) {
     objectPoolFactory = checkNotNull(factory);
   }
 
-  static final void setListenerPoolFactory(final PoolFactory factory) {
+  static void setListenerPoolFactory(final PoolFactory factory) {
     listenerPoolFactory = checkNotNull(factory);
   }
 
-  static final PoolFactory getObjectPoolFactory() {
+  static PoolFactory getObjectPoolFactory() {
     return objectPoolFactory;
   }
 
-  static final PoolFactory getListenerPoolFactory() {
+  static PoolFactory getListenerPoolFactory() {
     return listenerPoolFactory;
   }
 }

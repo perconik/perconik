@@ -68,7 +68,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.queryText;
   }
 
-  public void setQueryText(String queryText) {
+  public void setQueryText(final String queryText) {
     this.queryText = queryText;
   }
 
@@ -76,7 +76,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.matchCase;
   }
 
-  public void setMatchCase(Boolean matchCase) {
+  public void setMatchCase(final Boolean matchCase) {
     this.matchCase = matchCase;
   }
 
@@ -84,7 +84,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.matchWholeWord;
   }
 
-  public void setMatchWholeWord(Boolean matchWholeWord) {
+  public void setMatchWholeWord(final Boolean matchWholeWord) {
     this.matchWholeWord = matchWholeWord;
   }
 
@@ -92,7 +92,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.searchSubfolders;
   }
 
-  public void setSearchSubfolders(Boolean searchSubfolders) {
+  public void setSearchSubfolders(final Boolean searchSubfolders) {
     this.searchSubfolders = searchSubfolders;
   }
 
@@ -100,7 +100,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.lookinTypeUri;
   }
 
-  public void setLookinTypeUri(String lookinTypeUri) {
+  public void setLookinTypeUri(final String lookinTypeUri) {
     this.lookinTypeUri = lookinTypeUri;
   }
 
@@ -108,7 +108,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.patternSyntaxTypeUri;
   }
 
-  public void setPatternSyntaxTypeUri(String patternSyntaxTypeUri) {
+  public void setPatternSyntaxTypeUri(final String patternSyntaxTypeUri) {
     this.patternSyntaxTypeUri = patternSyntaxTypeUri;
   }
 
@@ -116,7 +116,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.fileTypes;
   }
 
-  public void setFileTypes(String fileTypes) {
+  public void setFileTypes(final String fileTypes) {
     this.fileTypes = fileTypes;
   }
 
@@ -124,7 +124,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.totalFilesSearched;
   }
 
-  public void setTotalFilesSearched(Integer totalFilesSearched) {
+  public void setTotalFilesSearched(final Integer totalFilesSearched) {
     this.totalFilesSearched = totalFilesSearched;
   }
 
@@ -132,7 +132,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.derivedResources;
   }
 
-  public void setDerivedResources(Boolean derivedResources) {
+  public void setDerivedResources(final Boolean derivedResources) {
     this.derivedResources = derivedResources;
   }
 
@@ -144,7 +144,7 @@ public class IdeFindEventData extends IdeEventData {
     return this.resultsPerFiles;
   }
 
-  public void setResultsPerFiles(List<IdeFindFileResultData> resultsPerFiles) {
+  public void setResultsPerFiles(final List<IdeFindFileResultData> resultsPerFiles) {
     this.resultsPerFiles = resultsPerFiles;
   }
 }

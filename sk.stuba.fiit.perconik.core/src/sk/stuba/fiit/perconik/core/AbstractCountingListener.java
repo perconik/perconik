@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.AtomicLongMap;
 /**
  * An abstract implementation of {@link CountingListener}
  * holding event counts in an atomic map.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

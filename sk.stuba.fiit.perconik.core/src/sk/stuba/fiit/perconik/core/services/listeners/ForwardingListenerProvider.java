@@ -10,12 +10,12 @@ import sk.stuba.fiit.perconik.core.services.ForwardingProvider;
  * provider. Subclasses should override one or more methods to modify the
  * behavior of the backing listener provider as desired per the decorator
  * pattern.
- * 
+ *
  * <p>Note that this class does <i>not</i> forward the {@code equals}
  * and {@code hashCode} methods through to the backing object. See
  * {@link com.google.common.collect.ForwardingObject ForwardingObject}
  * for more details.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -28,11 +28,11 @@ public abstract class ForwardingListenerProvider extends ForwardingProvider impl
   @Override
   protected abstract ListenerProvider delegate();
 
-  public <L extends Listener> L forClass(Class<L> type) {
+  public <L extends Listener> L forClass(final Class<L> type) {
     return this.delegate().forClass(type);
   }
 
-  public Class<? extends Listener> loadClass(String name) throws ClassNotFoundException {
+  public Class<? extends Listener> loadClass(final String name) throws ClassNotFoundException {
     return this.delegate().loadClass(name);
   }
 

@@ -6,10 +6,10 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 /**
  * An editor listener.
- * 
+ *
  * @see Listener
  * @see PartListener
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

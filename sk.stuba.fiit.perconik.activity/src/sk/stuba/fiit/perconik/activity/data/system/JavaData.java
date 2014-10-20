@@ -30,47 +30,47 @@ public class JavaData extends AnyStructuredData {
 
   public JavaData() {}
 
-  public void setVendor(String vendor) {
+  public void setVendor(final String vendor) {
     this.vendor = vendor;
   }
 
-  public void setVendorUrl(URL vendorUrl) {
+  public void setVendorUrl(final URL vendorUrl) {
     this.vendorUrl = vendorUrl;
   }
 
-  public void setVersion(String version) {
+  public void setVersion(final String version) {
     this.version = version;
   }
 
-  public void setSpecification(SpecificationData specification) {
+  public void setSpecification(final SpecificationData specification) {
     this.specification = specification;
   }
 
-  public void setVirtualMachine(VirtualMachineData virtualMachine) {
+  public void setVirtualMachine(final VirtualMachineData virtualMachine) {
     this.virtualMachine = virtualMachine;
   }
 
-  public void setHome(Path home) {
+  public void setHome(final Path home) {
     this.home = home;
   }
 
-  public void setCompiler(String compiler) {
+  public void setCompiler(final String compiler) {
     this.compiler = compiler;
   }
 
-  public void setClassPath(Path classPath) {
+  public void setClassPath(final Path classPath) {
     this.classPath = classPath;
   }
 
-  public void setLibraryPath(Path libraryPath) {
+  public void setLibraryPath(final Path libraryPath) {
     this.libraryPath = libraryPath;
   }
 
-  public void setExtensionDirectories(Path extensionDirectories) {
+  public void setExtensionDirectories(final Path extensionDirectories) {
     this.extensionDirectories = extensionDirectories;
   }
 
-  public void setTemporaryDirectory(Path temporaryDirectory) {
+  public void setTemporaryDirectory(final Path temporaryDirectory) {
     this.temporaryDirectory = temporaryDirectory;
   }
 

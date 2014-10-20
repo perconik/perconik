@@ -14,17 +14,17 @@ public final class DocumentDebugListener extends AbstractDebugListener implement
     super(console);
   }
 
-  public final void documentAboutToBeChanged(final DocumentEvent event) {
+  public void documentAboutToBeChanged(final DocumentEvent event) {
     this.printHeader("Document about to be changed");
     this.printDocumentEvent(event);
   }
 
-  public final void documentChanged(final DocumentEvent event) {
+  public void documentChanged(final DocumentEvent event) {
     this.printHeader("Document changed");
     this.printDocumentEvent(event);
   }
 
-  private final void printDocumentEvent(final DocumentEvent event) {
+  private void printDocumentEvent(final DocumentEvent event) {
     this.put(Debug.dumpDocumentEvent(event));
   }
 }

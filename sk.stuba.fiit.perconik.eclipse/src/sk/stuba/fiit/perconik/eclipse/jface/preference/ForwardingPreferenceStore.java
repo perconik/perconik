@@ -11,11 +11,11 @@ import org.eclipse.jface.util.IPropertyChangeListener;
  * A preference store which forwards all its method calls to another preference
  * store. Subclasses should override one or more methods to modify the behavior
  * of the backing preference store as desired per the decorator pattern.
- * 
+ *
  * <p>Note that this class does <i>not</i> forward the {@code equals}
  * and {@code hashCode} methods through to the backing object.
  * See {@link ForwardingObject} for more details.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -28,15 +28,15 @@ public abstract class ForwardingPreferenceStore extends ForwardingObject impleme
   @Override
   protected abstract IPreferenceStore delegate();
 
-  public void addPropertyChangeListener(IPropertyChangeListener listener) {
+  public void addPropertyChangeListener(final IPropertyChangeListener listener) {
     this.delegate().addPropertyChangeListener(listener);
   }
 
-  public void removePropertyChangeListener(IPropertyChangeListener listener) {
+  public void removePropertyChangeListener(final IPropertyChangeListener listener) {
     this.delegate().removePropertyChangeListener(listener);
   }
 
-  public void firePropertyChangeEvent(String name, Object oldValue, Object newValue) {
+  public void firePropertyChangeEvent(final String name, final Object oldValue, final Object newValue) {
     this.delegate().firePropertyChangeEvent(name, oldValue, newValue);
   }
 
@@ -44,115 +44,115 @@ public abstract class ForwardingPreferenceStore extends ForwardingObject impleme
     return this.delegate().needsSaving();
   }
 
-  public void putValue(String name, @Nullable String value) {
+  public void putValue(final String name, @Nullable final String value) {
     this.delegate().putValue(name, value);
   }
 
-  public void setToDefault(String name) {
+  public void setToDefault(final String name) {
     this.delegate().setToDefault(name);
   }
 
-  public boolean contains(String name) {
+  public boolean contains(final String name) {
     return this.delegate().contains(name);
   }
 
-  public boolean isDefault(String name) {
+  public boolean isDefault(final String name) {
     return this.delegate().isDefault(name);
   }
 
-  public void setDefault(String name, boolean value) {
+  public void setDefault(final String name, final boolean value) {
     this.delegate().setDefault(name, value);
   }
 
-  public void setDefault(String name, float value) {
+  public void setDefault(final String name, final float value) {
     this.delegate().setDefault(name, value);
   }
 
-  public void setDefault(String name, double value) {
+  public void setDefault(final String name, final double value) {
     this.delegate().setDefault(name, value);
   }
 
-  public void setDefault(String name, int value) {
+  public void setDefault(final String name, final int value) {
     this.delegate().setDefault(name, value);
   }
 
-  public void setDefault(String name, long value) {
+  public void setDefault(final String name, final long value) {
     this.delegate().setDefault(name, value);
   }
 
-  public void setDefault(String name, @Nullable String value) {
+  public void setDefault(final String name, @Nullable final String value) {
     this.delegate().setDefault(name, value);
   }
 
-  public boolean getDefaultBoolean(String name) {
+  public boolean getDefaultBoolean(final String name) {
     return this.delegate().getDefaultBoolean(name);
   }
 
-  public float getDefaultFloat(String name) {
+  public float getDefaultFloat(final String name) {
     return this.delegate().getDefaultFloat(name);
   }
 
-  public double getDefaultDouble(String name) {
+  public double getDefaultDouble(final String name) {
     return this.delegate().getDefaultDouble(name);
   }
 
-  public int getDefaultInt(String name) {
+  public int getDefaultInt(final String name) {
     return this.delegate().getDefaultInt(name);
   }
 
-  public long getDefaultLong(String name) {
+  public long getDefaultLong(final String name) {
     return this.delegate().getDefaultLong(name);
   }
 
-  public String getDefaultString(String name) {
+  public String getDefaultString(final String name) {
     return this.delegate().getDefaultString(name);
   }
 
-  public void setValue(String name, boolean value) {
+  public void setValue(final String name, final boolean value) {
     this.delegate().setValue(name, value);
   }
 
-  public void setValue(String name, float value) {
+  public void setValue(final String name, final float value) {
     this.delegate().setValue(name, value);
   }
 
-  public void setValue(String name, double value) {
+  public void setValue(final String name, final double value) {
     this.delegate().setValue(name, value);
   }
 
-  public void setValue(String name, int value) {
+  public void setValue(final String name, final int value) {
     this.delegate().setValue(name, value);
   }
 
-  public void setValue(String name, long value) {
+  public void setValue(final String name, final long value) {
     this.delegate().setValue(name, value);
   }
 
-  public void setValue(String name, @Nullable String value) {
+  public void setValue(final String name, @Nullable final String value) {
     this.delegate().setValue(name, value);
   }
 
-  public boolean getBoolean(String name) {
+  public boolean getBoolean(final String name) {
     return this.delegate().getBoolean(name);
   }
 
-  public float getFloat(String name) {
+  public float getFloat(final String name) {
     return this.delegate().getFloat(name);
   }
 
-  public double getDouble(String name) {
+  public double getDouble(final String name) {
     return this.delegate().getDouble(name);
   }
 
-  public int getInt(String name) {
+  public int getInt(final String name) {
     return this.delegate().getInt(name);
   }
 
-  public long getLong(String name) {
+  public long getLong(final String name) {
     return this.delegate().getLong(name);
   }
 
-  public String getString(String name) {
+  public String getString(final String name) {
     return this.delegate().getString(name);
   }
 }

@@ -118,1010 +118,1010 @@ public class NodeMatcher {
   }
 
   @SuppressWarnings("unused")
-  public void preMatch(AnnotationTypeDeclaration node, Object other) {}
+  public void preMatch(final AnnotationTypeDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(AnnotationTypeMemberDeclaration node, Object other) {}
+  public void preMatch(final AnnotationTypeMemberDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(AnonymousClassDeclaration node, Object other) {}
+  public void preMatch(final AnonymousClassDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ArrayAccess node, Object other) {}
+  public void preMatch(final ArrayAccess node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ArrayCreation node, Object other) {}
+  public void preMatch(final ArrayCreation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ArrayInitializer node, Object other) {}
+  public void preMatch(final ArrayInitializer node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ArrayType node, Object other) {}
+  public void preMatch(final ArrayType node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(AssertStatement node, Object other) {}
+  public void preMatch(final AssertStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(Assignment node, Object other) {}
+  public void preMatch(final Assignment node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(Block node, Object other) {}
+  public void preMatch(final Block node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(BlockComment node, Object other) {}
+  public void preMatch(final BlockComment node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(BooleanLiteral node, Object other) {}
+  public void preMatch(final BooleanLiteral node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(BreakStatement node, Object other) {}
+  public void preMatch(final BreakStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(CastExpression node, Object other) {}
+  public void preMatch(final CastExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(CatchClause node, Object other) {}
+  public void preMatch(final CatchClause node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(CharacterLiteral node, Object other) {}
+  public void preMatch(final CharacterLiteral node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ClassInstanceCreation node, Object other) {}
+  public void preMatch(final ClassInstanceCreation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(CompilationUnit node, Object other) {}
+  public void preMatch(final CompilationUnit node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ConditionalExpression node, Object other) {}
+  public void preMatch(final ConditionalExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ConstructorInvocation node, Object other) {}
+  public void preMatch(final ConstructorInvocation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ContinueStatement node, Object other) {}
+  public void preMatch(final ContinueStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(UnionType node, Object other) {}
+  public void preMatch(final UnionType node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(DoStatement node, Object other) {}
+  public void preMatch(final DoStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(EmptyStatement node, Object other) {}
+  public void preMatch(final EmptyStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(EnhancedForStatement node, Object other) {}
+  public void preMatch(final EnhancedForStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(EnumConstantDeclaration node, Object other) {}
+  public void preMatch(final EnumConstantDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(EnumDeclaration node, Object other) {}
+  public void preMatch(final EnumDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ExpressionStatement node, Object other) {}
+  public void preMatch(final ExpressionStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(FieldAccess node, Object other) {}
+  public void preMatch(final FieldAccess node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(FieldDeclaration node, Object other) {}
+  public void preMatch(final FieldDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ForStatement node, Object other) {}
+  public void preMatch(final ForStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(IfStatement node, Object other) {}
+  public void preMatch(final IfStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ImportDeclaration node, Object other) {}
+  public void preMatch(final ImportDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(InfixExpression node, Object other) {}
+  public void preMatch(final InfixExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(InstanceofExpression node, Object other) {}
+  public void preMatch(final InstanceofExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(Initializer node, Object other) {}
+  public void preMatch(final Initializer node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(Javadoc node, Object other) {}
+  public void preMatch(final Javadoc node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(LabeledStatement node, Object other) {}
+  public void preMatch(final LabeledStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(LineComment node, Object other) {}
+  public void preMatch(final LineComment node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MarkerAnnotation node, Object other) {}
+  public void preMatch(final MarkerAnnotation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MemberRef node, Object other) {}
+  public void preMatch(final MemberRef node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MemberValuePair node, Object other) {}
+  public void preMatch(final MemberValuePair node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MethodRef node, Object other) {}
+  public void preMatch(final MethodRef node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MethodRefParameter node, Object other) {}
+  public void preMatch(final MethodRefParameter node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MethodDeclaration node, Object other) {}
+  public void preMatch(final MethodDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(MethodInvocation node, Object other) {}
+  public void preMatch(final MethodInvocation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(Modifier node, Object other) {}
+  public void preMatch(final Modifier node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(NormalAnnotation node, Object other) {}
+  public void preMatch(final NormalAnnotation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(NullLiteral node, Object other) {}
+  public void preMatch(final NullLiteral node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(NumberLiteral node, Object other) {}
+  public void preMatch(final NumberLiteral node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(PackageDeclaration node, Object other) {}
+  public void preMatch(final PackageDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ParameterizedType node, Object other) {}
+  public void preMatch(final ParameterizedType node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ParenthesizedExpression node, Object other) {}
+  public void preMatch(final ParenthesizedExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(PostfixExpression node, Object other) {}
+  public void preMatch(final PostfixExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(PrefixExpression node, Object other) {}
+  public void preMatch(final PrefixExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(PrimitiveType node, Object other) {}
+  public void preMatch(final PrimitiveType node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(QualifiedName node, Object other) {}
+  public void preMatch(final QualifiedName node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(QualifiedType node, Object other) {}
+  public void preMatch(final QualifiedType node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ReturnStatement node, Object other) {}
+  public void preMatch(final ReturnStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SimpleName node, Object other) {}
+  public void preMatch(final SimpleName node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SimpleType node, Object other) {}
+  public void preMatch(final SimpleType node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SingleMemberAnnotation node, Object other) {}
+  public void preMatch(final SingleMemberAnnotation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SingleVariableDeclaration node, Object other) {}
+  public void preMatch(final SingleVariableDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(StringLiteral node, Object other) {}
+  public void preMatch(final StringLiteral node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SuperConstructorInvocation node, Object other) {}
+  public void preMatch(final SuperConstructorInvocation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SuperFieldAccess node, Object other) {}
+  public void preMatch(final SuperFieldAccess node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SuperMethodInvocation node, Object other) {}
+  public void preMatch(final SuperMethodInvocation node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SwitchCase node, Object other) {}
+  public void preMatch(final SwitchCase node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SwitchStatement node, Object other) {}
+  public void preMatch(final SwitchStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(SynchronizedStatement node, Object other) {}
+  public void preMatch(final SynchronizedStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TagElement node, Object other) {}
+  public void preMatch(final TagElement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TextElement node, Object other) {}
+  public void preMatch(final TextElement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ThisExpression node, Object other) {}
+  public void preMatch(final ThisExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(ThrowStatement node, Object other) {}
+  public void preMatch(final ThrowStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TryStatement node, Object other) {}
+  public void preMatch(final TryStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TypeDeclaration node, Object other) {}
+  public void preMatch(final TypeDeclaration node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TypeDeclarationStatement node, Object other) {}
+  public void preMatch(final TypeDeclarationStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TypeLiteral node, Object other) {}
+  public void preMatch(final TypeLiteral node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(TypeParameter node, Object other) {}
+  public void preMatch(final TypeParameter node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(VariableDeclarationExpression node, Object other) {}
+  public void preMatch(final VariableDeclarationExpression node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(VariableDeclarationFragment node, Object other) {}
+  public void preMatch(final VariableDeclarationFragment node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(VariableDeclarationStatement node, Object other) {}
+  public void preMatch(final VariableDeclarationStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(WhileStatement node, Object other) {}
+  public void preMatch(final WhileStatement node, final Object other) {}
 
   @SuppressWarnings("unused")
-  public void preMatch(WildcardType node, Object other) {}
+  public void preMatch(final WildcardType node, final Object other) {}
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(AnnotationTypeDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final AnnotationTypeDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(AnnotationTypeMemberDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final AnnotationTypeMemberDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(AnonymousClassDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final AnonymousClassDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ArrayAccess node, Object other, boolean result) {
+  public boolean postMatch(final ArrayAccess node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ArrayCreation node, Object other, boolean result) {
+  public boolean postMatch(final ArrayCreation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ArrayInitializer node, Object other, boolean result) {
+  public boolean postMatch(final ArrayInitializer node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ArrayType node, Object other, boolean result) {
+  public boolean postMatch(final ArrayType node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(AssertStatement node, Object other, boolean result) {
+  public boolean postMatch(final AssertStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(Assignment node, Object other, boolean result) {
+  public boolean postMatch(final Assignment node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(Block node, Object other, boolean result) {
+  public boolean postMatch(final Block node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(BlockComment node, Object other, boolean result) {
+  public boolean postMatch(final BlockComment node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(BooleanLiteral node, Object other, boolean result) {
+  public boolean postMatch(final BooleanLiteral node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(BreakStatement node, Object other, boolean result) {
+  public boolean postMatch(final BreakStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(CastExpression node, Object other, boolean result) {
+  public boolean postMatch(final CastExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(CatchClause node, Object other, boolean result) {
+  public boolean postMatch(final CatchClause node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(CharacterLiteral node, Object other, boolean result) {
+  public boolean postMatch(final CharacterLiteral node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ClassInstanceCreation node, Object other, boolean result) {
+  public boolean postMatch(final ClassInstanceCreation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(CompilationUnit node, Object other, boolean result) {
+  public boolean postMatch(final CompilationUnit node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ConditionalExpression node, Object other, boolean result) {
+  public boolean postMatch(final ConditionalExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ConstructorInvocation node, Object other, boolean result) {
+  public boolean postMatch(final ConstructorInvocation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ContinueStatement node, Object other, boolean result) {
+  public boolean postMatch(final ContinueStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(UnionType node, Object other, boolean result) {
+  public boolean postMatch(final UnionType node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(DoStatement node, Object other, boolean result) {
+  public boolean postMatch(final DoStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(EmptyStatement node, Object other, boolean result) {
+  public boolean postMatch(final EmptyStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(EnhancedForStatement node, Object other, boolean result) {
+  public boolean postMatch(final EnhancedForStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(EnumConstantDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final EnumConstantDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(EnumDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final EnumDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ExpressionStatement node, Object other, boolean result) {
+  public boolean postMatch(final ExpressionStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(FieldAccess node, Object other, boolean result) {
+  public boolean postMatch(final FieldAccess node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(FieldDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final FieldDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ForStatement node, Object other, boolean result) {
+  public boolean postMatch(final ForStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(IfStatement node, Object other, boolean result) {
+  public boolean postMatch(final IfStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ImportDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final ImportDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(InfixExpression node, Object other, boolean result) {
+  public boolean postMatch(final InfixExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(InstanceofExpression node, Object other, boolean result) {
+  public boolean postMatch(final InstanceofExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(Initializer node, Object other, boolean result) {
+  public boolean postMatch(final Initializer node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(Javadoc node, Object other, boolean result) {
+  public boolean postMatch(final Javadoc node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(LabeledStatement node, Object other, boolean result) {
+  public boolean postMatch(final LabeledStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(LineComment node, Object other, boolean result) {
+  public boolean postMatch(final LineComment node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MarkerAnnotation node, Object other, boolean result) {
+  public boolean postMatch(final MarkerAnnotation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MemberRef node, Object other, boolean result) {
+  public boolean postMatch(final MemberRef node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MemberValuePair node, Object other, boolean result) {
+  public boolean postMatch(final MemberValuePair node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MethodRef node, Object other, boolean result) {
+  public boolean postMatch(final MethodRef node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MethodRefParameter node, Object other, boolean result) {
+  public boolean postMatch(final MethodRefParameter node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MethodDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final MethodDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(MethodInvocation node, Object other, boolean result) {
+  public boolean postMatch(final MethodInvocation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(Modifier node, Object other, boolean result) {
+  public boolean postMatch(final Modifier node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(NormalAnnotation node, Object other, boolean result) {
+  public boolean postMatch(final NormalAnnotation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(NullLiteral node, Object other, boolean result) {
+  public boolean postMatch(final NullLiteral node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(NumberLiteral node, Object other, boolean result) {
+  public boolean postMatch(final NumberLiteral node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(PackageDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final PackageDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ParameterizedType node, Object other, boolean result) {
+  public boolean postMatch(final ParameterizedType node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ParenthesizedExpression node, Object other, boolean result) {
+  public boolean postMatch(final ParenthesizedExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(PostfixExpression node, Object other, boolean result) {
+  public boolean postMatch(final PostfixExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(PrefixExpression node, Object other, boolean result) {
+  public boolean postMatch(final PrefixExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(PrimitiveType node, Object other, boolean result) {
+  public boolean postMatch(final PrimitiveType node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(QualifiedName node, Object other, boolean result) {
+  public boolean postMatch(final QualifiedName node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(QualifiedType node, Object other, boolean result) {
+  public boolean postMatch(final QualifiedType node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ReturnStatement node, Object other, boolean result) {
+  public boolean postMatch(final ReturnStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SimpleName node, Object other, boolean result) {
+  public boolean postMatch(final SimpleName node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SimpleType node, Object other, boolean result) {
+  public boolean postMatch(final SimpleType node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SingleMemberAnnotation node, Object other, boolean result) {
+  public boolean postMatch(final SingleMemberAnnotation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SingleVariableDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final SingleVariableDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(StringLiteral node, Object other, boolean result) {
+  public boolean postMatch(final StringLiteral node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SuperConstructorInvocation node, Object other, boolean result) {
+  public boolean postMatch(final SuperConstructorInvocation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SuperFieldAccess node, Object other, boolean result) {
+  public boolean postMatch(final SuperFieldAccess node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SuperMethodInvocation node, Object other, boolean result) {
+  public boolean postMatch(final SuperMethodInvocation node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SwitchCase node, Object other, boolean result) {
+  public boolean postMatch(final SwitchCase node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SwitchStatement node, Object other, boolean result) {
+  public boolean postMatch(final SwitchStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(SynchronizedStatement node, Object other, boolean result) {
+  public boolean postMatch(final SynchronizedStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TagElement node, Object other, boolean result) {
+  public boolean postMatch(final TagElement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TextElement node, Object other, boolean result) {
+  public boolean postMatch(final TextElement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ThisExpression node, Object other, boolean result) {
+  public boolean postMatch(final ThisExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(ThrowStatement node, Object other, boolean result) {
+  public boolean postMatch(final ThrowStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TryStatement node, Object other, boolean result) {
+  public boolean postMatch(final TryStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TypeDeclaration node, Object other, boolean result) {
+  public boolean postMatch(final TypeDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TypeDeclarationStatement node, Object other, boolean result) {
+  public boolean postMatch(final TypeDeclarationStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TypeLiteral node, Object other, boolean result) {
+  public boolean postMatch(final TypeLiteral node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(TypeParameter node, Object other, boolean result) {
+  public boolean postMatch(final TypeParameter node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(VariableDeclarationExpression node, Object other, boolean result) {
+  public boolean postMatch(final VariableDeclarationExpression node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(VariableDeclarationFragment node, Object other, boolean result) {
+  public boolean postMatch(final VariableDeclarationFragment node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(VariableDeclarationStatement node, Object other, boolean result) {
+  public boolean postMatch(final VariableDeclarationStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(WhileStatement node, Object other, boolean result) {
+  public boolean postMatch(final WhileStatement node, final Object other, final boolean result) {
     return result;
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  public boolean postMatch(WildcardType node, Object other, boolean result) {
+  public boolean postMatch(final WildcardType node, final Object other, final boolean result) {
     return result;
   }
 
-  public boolean match(AnnotationTypeDeclaration node, Object other) {
+  public boolean match(final AnnotationTypeDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(AnnotationTypeMemberDeclaration node, Object other) {
+  public boolean match(final AnnotationTypeMemberDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(AnonymousClassDeclaration node, Object other) {
+  public boolean match(final AnonymousClassDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ArrayAccess node, Object other) {
+  public boolean match(final ArrayAccess node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ArrayCreation node, Object other) {
+  public boolean match(final ArrayCreation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ArrayInitializer node, Object other) {
+  public boolean match(final ArrayInitializer node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ArrayType node, Object other) {
+  public boolean match(final ArrayType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(AssertStatement node, Object other) {
+  public boolean match(final AssertStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(Assignment node, Object other) {
+  public boolean match(final Assignment node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(Block node, Object other) {
+  public boolean match(final Block node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(BlockComment node, Object other) {
+  public boolean match(final BlockComment node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(BooleanLiteral node, Object other) {
+  public boolean match(final BooleanLiteral node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(BreakStatement node, Object other) {
+  public boolean match(final BreakStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(CastExpression node, Object other) {
+  public boolean match(final CastExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(CatchClause node, Object other) {
+  public boolean match(final CatchClause node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(CharacterLiteral node, Object other) {
+  public boolean match(final CharacterLiteral node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ClassInstanceCreation node, Object other) {
+  public boolean match(final ClassInstanceCreation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(CompilationUnit node, Object other) {
+  public boolean match(final CompilationUnit node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ConditionalExpression node, Object other) {
+  public boolean match(final ConditionalExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ConstructorInvocation node, Object other) {
+  public boolean match(final ConstructorInvocation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ContinueStatement node, Object other) {
+  public boolean match(final ContinueStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(UnionType node, Object other) {
+  public boolean match(final UnionType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(DoStatement node, Object other) {
+  public boolean match(final DoStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(EmptyStatement node, Object other) {
+  public boolean match(final EmptyStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(EnhancedForStatement node, Object other) {
+  public boolean match(final EnhancedForStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(EnumConstantDeclaration node, Object other) {
+  public boolean match(final EnumConstantDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(EnumDeclaration node, Object other) {
+  public boolean match(final EnumDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ExpressionStatement node, Object other) {
+  public boolean match(final ExpressionStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(FieldAccess node, Object other) {
+  public boolean match(final FieldAccess node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(FieldDeclaration node, Object other) {
+  public boolean match(final FieldDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ForStatement node, Object other) {
+  public boolean match(final ForStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(IfStatement node, Object other) {
+  public boolean match(final IfStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ImportDeclaration node, Object other) {
+  public boolean match(final ImportDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(InfixExpression node, Object other) {
+  public boolean match(final InfixExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(InstanceofExpression node, Object other) {
+  public boolean match(final InstanceofExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(Initializer node, Object other) {
+  public boolean match(final Initializer node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(Javadoc node, Object other) {
+  public boolean match(final Javadoc node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(LabeledStatement node, Object other) {
+  public boolean match(final LabeledStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(LineComment node, Object other) {
+  public boolean match(final LineComment node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MarkerAnnotation node, Object other) {
+  public boolean match(final MarkerAnnotation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MemberRef node, Object other) {
+  public boolean match(final MemberRef node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MemberValuePair node, Object other) {
+  public boolean match(final MemberValuePair node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MethodRef node, Object other) {
+  public boolean match(final MethodRef node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MethodRefParameter node, Object other) {
+  public boolean match(final MethodRefParameter node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MethodDeclaration node, Object other) {
+  public boolean match(final MethodDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(MethodInvocation node, Object other) {
+  public boolean match(final MethodInvocation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(Modifier node, Object other) {
+  public boolean match(final Modifier node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(NormalAnnotation node, Object other) {
+  public boolean match(final NormalAnnotation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(NullLiteral node, Object other) {
+  public boolean match(final NullLiteral node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(NumberLiteral node, Object other) {
+  public boolean match(final NumberLiteral node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(PackageDeclaration node, Object other) {
+  public boolean match(final PackageDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ParameterizedType node, Object other) {
+  public boolean match(final ParameterizedType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ParenthesizedExpression node, Object other) {
+  public boolean match(final ParenthesizedExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(PostfixExpression node, Object other) {
+  public boolean match(final PostfixExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(PrefixExpression node, Object other) {
+  public boolean match(final PrefixExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(PrimitiveType node, Object other) {
+  public boolean match(final PrimitiveType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(QualifiedName node, Object other) {
+  public boolean match(final QualifiedName node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(QualifiedType node, Object other) {
+  public boolean match(final QualifiedType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ReturnStatement node, Object other) {
+  public boolean match(final ReturnStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SimpleName node, Object other) {
+  public boolean match(final SimpleName node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SimpleType node, Object other) {
+  public boolean match(final SimpleType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SingleMemberAnnotation node, Object other) {
+  public boolean match(final SingleMemberAnnotation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SingleVariableDeclaration node, Object other) {
+  public boolean match(final SingleVariableDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(StringLiteral node, Object other) {
+  public boolean match(final StringLiteral node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SuperConstructorInvocation node, Object other) {
+  public boolean match(final SuperConstructorInvocation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SuperFieldAccess node, Object other) {
+  public boolean match(final SuperFieldAccess node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SuperMethodInvocation node, Object other) {
+  public boolean match(final SuperMethodInvocation node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SwitchCase node, Object other) {
+  public boolean match(final SwitchCase node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SwitchStatement node, Object other) {
+  public boolean match(final SwitchStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(SynchronizedStatement node, Object other) {
+  public boolean match(final SynchronizedStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TagElement node, Object other) {
+  public boolean match(final TagElement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TextElement node, Object other) {
+  public boolean match(final TextElement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ThisExpression node, Object other) {
+  public boolean match(final ThisExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(ThrowStatement node, Object other) {
+  public boolean match(final ThrowStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TryStatement node, Object other) {
+  public boolean match(final TryStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TypeDeclaration node, Object other) {
+  public boolean match(final TypeDeclaration node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TypeDeclarationStatement node, Object other) {
+  public boolean match(final TypeDeclarationStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TypeLiteral node, Object other) {
+  public boolean match(final TypeLiteral node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(TypeParameter node, Object other) {
+  public boolean match(final TypeParameter node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(VariableDeclarationExpression node, Object other) {
+  public boolean match(final VariableDeclarationExpression node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(VariableDeclarationFragment node, Object other) {
+  public boolean match(final VariableDeclarationFragment node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(VariableDeclarationStatement node, Object other) {
+  public boolean match(final VariableDeclarationStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(WhileStatement node, Object other) {
+  public boolean match(final WhileStatement node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
-  public boolean match(WildcardType node, Object other) {
+  public boolean match(final WildcardType node, final Object other) {
     return this.internals.standardMatch(node, other);
   }
 
@@ -1135,926 +1135,926 @@ public class NodeMatcher {
     }
 
     @Override
-    public final boolean match(AnnotationTypeDeclaration node, Object object) {
+    public boolean match(final AnnotationTypeDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(AnnotationTypeMemberDeclaration node, Object object) {
+    public boolean match(final AnnotationTypeMemberDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(AnonymousClassDeclaration node, Object object) {
+    public boolean match(final AnonymousClassDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ArrayAccess node, Object object) {
+    public boolean match(final ArrayAccess node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ArrayCreation node, Object object) {
+    public boolean match(final ArrayCreation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ArrayInitializer node, Object object) {
+    public boolean match(final ArrayInitializer node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ArrayType node, Object object) {
+    public boolean match(final ArrayType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(AssertStatement node, Object object) {
+    public boolean match(final AssertStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(Assignment node, Object object) {
+    public boolean match(final Assignment node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(Block node, Object object) {
+    public boolean match(final Block node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(BlockComment node, Object object) {
+    public boolean match(final BlockComment node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(BooleanLiteral node, Object object) {
+    public boolean match(final BooleanLiteral node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(BreakStatement node, Object object) {
+    public boolean match(final BreakStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(CastExpression node, Object object) {
+    public boolean match(final CastExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(CatchClause node, Object object) {
+    public boolean match(final CatchClause node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(CharacterLiteral node, Object object) {
+    public boolean match(final CharacterLiteral node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ClassInstanceCreation node, Object object) {
+    public boolean match(final ClassInstanceCreation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(CompilationUnit node, Object object) {
+    public boolean match(final CompilationUnit node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ConditionalExpression node, Object object) {
+    public boolean match(final ConditionalExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ConstructorInvocation node, Object object) {
+    public boolean match(final ConstructorInvocation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ContinueStatement node, Object object) {
+    public boolean match(final ContinueStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(UnionType node, Object object) {
+    public boolean match(final UnionType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(DoStatement node, Object object) {
+    public boolean match(final DoStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(EmptyStatement node, Object object) {
+    public boolean match(final EmptyStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(EnhancedForStatement node, Object object) {
+    public boolean match(final EnhancedForStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(EnumConstantDeclaration node, Object object) {
+    public boolean match(final EnumConstantDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(EnumDeclaration node, Object object) {
+    public boolean match(final EnumDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ExpressionStatement node, Object object) {
+    public boolean match(final ExpressionStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(FieldAccess node, Object object) {
+    public boolean match(final FieldAccess node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(FieldDeclaration node, Object object) {
+    public boolean match(final FieldDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ForStatement node, Object object) {
+    public boolean match(final ForStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(IfStatement node, Object object) {
+    public boolean match(final IfStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ImportDeclaration node, Object object) {
+    public boolean match(final ImportDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(InfixExpression node, Object object) {
+    public boolean match(final InfixExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(InstanceofExpression node, Object object) {
+    public boolean match(final InstanceofExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(Initializer node, Object object) {
+    public boolean match(final Initializer node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(Javadoc node, Object object) {
+    public boolean match(final Javadoc node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(LabeledStatement node, Object object) {
+    public boolean match(final LabeledStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(LineComment node, Object object) {
+    public boolean match(final LineComment node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MarkerAnnotation node, Object object) {
+    public boolean match(final MarkerAnnotation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MemberRef node, Object object) {
+    public boolean match(final MemberRef node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MemberValuePair node, Object object) {
+    public boolean match(final MemberValuePair node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MethodRef node, Object object) {
+    public boolean match(final MethodRef node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MethodRefParameter node, Object object) {
+    public boolean match(final MethodRefParameter node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MethodDeclaration node, Object object) {
+    public boolean match(final MethodDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(MethodInvocation node, Object object) {
+    public boolean match(final MethodInvocation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(Modifier node, Object object) {
+    public boolean match(final Modifier node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(NormalAnnotation node, Object object) {
+    public boolean match(final NormalAnnotation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(NullLiteral node, Object object) {
+    public boolean match(final NullLiteral node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(NumberLiteral node, Object object) {
+    public boolean match(final NumberLiteral node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(PackageDeclaration node, Object object) {
+    public boolean match(final PackageDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ParameterizedType node, Object object) {
+    public boolean match(final ParameterizedType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ParenthesizedExpression node, Object object) {
+    public boolean match(final ParenthesizedExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(PostfixExpression node, Object object) {
+    public boolean match(final PostfixExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(PrefixExpression node, Object object) {
+    public boolean match(final PrefixExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(PrimitiveType node, Object object) {
+    public boolean match(final PrimitiveType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(QualifiedName node, Object object) {
+    public boolean match(final QualifiedName node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(QualifiedType node, Object object) {
+    public boolean match(final QualifiedType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ReturnStatement node, Object object) {
+    public boolean match(final ReturnStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SimpleName node, Object object) {
+    public boolean match(final SimpleName node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SimpleType node, Object object) {
+    public boolean match(final SimpleType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SingleMemberAnnotation node, Object object) {
+    public boolean match(final SingleMemberAnnotation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SingleVariableDeclaration node, Object object) {
+    public boolean match(final SingleVariableDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(StringLiteral node, Object object) {
+    public boolean match(final StringLiteral node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SuperConstructorInvocation node, Object object) {
+    public boolean match(final SuperConstructorInvocation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SuperFieldAccess node, Object object) {
+    public boolean match(final SuperFieldAccess node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SuperMethodInvocation node, Object object) {
+    public boolean match(final SuperMethodInvocation node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SwitchCase node, Object object) {
+    public boolean match(final SwitchCase node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SwitchStatement node, Object object) {
+    public boolean match(final SwitchStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(SynchronizedStatement node, Object object) {
+    public boolean match(final SynchronizedStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TagElement node, Object object) {
+    public boolean match(final TagElement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TextElement node, Object object) {
+    public boolean match(final TextElement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ThisExpression node, Object object) {
+    public boolean match(final ThisExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(ThrowStatement node, Object object) {
+    public boolean match(final ThrowStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TryStatement node, Object object) {
+    public boolean match(final TryStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TypeDeclaration node, Object object) {
+    public boolean match(final TypeDeclaration node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TypeDeclarationStatement node, Object object) {
+    public boolean match(final TypeDeclarationStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TypeLiteral node, Object object) {
+    public boolean match(final TypeLiteral node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(TypeParameter node, Object object) {
+    public boolean match(final TypeParameter node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(VariableDeclarationExpression node, Object object) {
+    public boolean match(final VariableDeclarationExpression node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(VariableDeclarationFragment node, Object object) {
+    public boolean match(final VariableDeclarationFragment node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(VariableDeclarationStatement node, Object object) {
+    public boolean match(final VariableDeclarationStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(WhileStatement node, Object object) {
+    public boolean match(final WhileStatement node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
     @Override
-    public final boolean match(WildcardType node, Object object) {
+    public boolean match(final WildcardType node, final Object object) {
       this.matcher.preMatch(node, object);
 
       return this.matcher.postMatch(node, object, this.matcher.match(node, object));
     }
 
-    final boolean standardMatch(AnnotationTypeDeclaration node, Object other) {
+    boolean standardMatch(final AnnotationTypeDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(AnnotationTypeMemberDeclaration node, Object other) {
+    boolean standardMatch(final AnnotationTypeMemberDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(AnonymousClassDeclaration node, Object other) {
+    boolean standardMatch(final AnonymousClassDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ArrayAccess node, Object other) {
+    boolean standardMatch(final ArrayAccess node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ArrayCreation node, Object other) {
+    boolean standardMatch(final ArrayCreation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ArrayInitializer node, Object other) {
+    boolean standardMatch(final ArrayInitializer node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ArrayType node, Object other) {
+    boolean standardMatch(final ArrayType node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(AssertStatement node, Object other) {
+    boolean standardMatch(final AssertStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(Assignment node, Object other) {
+    boolean standardMatch(final Assignment node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(Block node, Object other) {
+    boolean standardMatch(final Block node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(BlockComment node, Object other) {
+    boolean standardMatch(final BlockComment node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(BooleanLiteral node, Object other) {
+    boolean standardMatch(final BooleanLiteral node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(BreakStatement node, Object other) {
+    boolean standardMatch(final BreakStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(CastExpression node, Object other) {
+    boolean standardMatch(final CastExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(CatchClause node, Object other) {
+    boolean standardMatch(final CatchClause node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(CharacterLiteral node, Object other) {
+    boolean standardMatch(final CharacterLiteral node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ClassInstanceCreation node, Object other) {
+    boolean standardMatch(final ClassInstanceCreation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(CompilationUnit node, Object other) {
+    boolean standardMatch(final CompilationUnit node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ConditionalExpression node, Object other) {
+    boolean standardMatch(final ConditionalExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ConstructorInvocation node, Object other) {
+    boolean standardMatch(final ConstructorInvocation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ContinueStatement node, Object other) {
+    boolean standardMatch(final ContinueStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(UnionType node, Object other) {
+    boolean standardMatch(final UnionType node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(DoStatement node, Object other) {
+    boolean standardMatch(final DoStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(EmptyStatement node, Object other) {
+    boolean standardMatch(final EmptyStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(EnhancedForStatement node, Object other) {
+    boolean standardMatch(final EnhancedForStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(EnumConstantDeclaration node, Object other) {
+    boolean standardMatch(final EnumConstantDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(EnumDeclaration node, Object other) {
+    boolean standardMatch(final EnumDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ExpressionStatement node, Object other) {
+    boolean standardMatch(final ExpressionStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(FieldAccess node, Object other) {
+    boolean standardMatch(final FieldAccess node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(FieldDeclaration node, Object other) {
+    boolean standardMatch(final FieldDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ForStatement node, Object other) {
+    boolean standardMatch(final ForStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(IfStatement node, Object other) {
+    boolean standardMatch(final IfStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ImportDeclaration node, Object other) {
+    boolean standardMatch(final ImportDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(InfixExpression node, Object other) {
+    boolean standardMatch(final InfixExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(InstanceofExpression node, Object other) {
+    boolean standardMatch(final InstanceofExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(Initializer node, Object other) {
+    boolean standardMatch(final Initializer node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(Javadoc node, Object other) {
+    boolean standardMatch(final Javadoc node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(LabeledStatement node, Object other) {
+    boolean standardMatch(final LabeledStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(LineComment node, Object other) {
+    boolean standardMatch(final LineComment node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MarkerAnnotation node, Object other) {
+    boolean standardMatch(final MarkerAnnotation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MemberRef node, Object other) {
+    boolean standardMatch(final MemberRef node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MemberValuePair node, Object other) {
+    boolean standardMatch(final MemberValuePair node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MethodRef node, Object other) {
+    boolean standardMatch(final MethodRef node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MethodRefParameter node, Object other) {
+    boolean standardMatch(final MethodRefParameter node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MethodDeclaration node, Object other) {
+    boolean standardMatch(final MethodDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(MethodInvocation node, Object other) {
+    boolean standardMatch(final MethodInvocation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(Modifier node, Object other) {
+    boolean standardMatch(final Modifier node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(NormalAnnotation node, Object other) {
+    boolean standardMatch(final NormalAnnotation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(NullLiteral node, Object other) {
+    boolean standardMatch(final NullLiteral node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(NumberLiteral node, Object other) {
+    boolean standardMatch(final NumberLiteral node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(PackageDeclaration node, Object other) {
+    boolean standardMatch(final PackageDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ParameterizedType node, Object other) {
+    boolean standardMatch(final ParameterizedType node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ParenthesizedExpression node, Object other) {
+    boolean standardMatch(final ParenthesizedExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(PostfixExpression node, Object other) {
+    boolean standardMatch(final PostfixExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(PrefixExpression node, Object other) {
+    boolean standardMatch(final PrefixExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(PrimitiveType node, Object other) {
+    boolean standardMatch(final PrimitiveType node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(QualifiedName node, Object other) {
+    boolean standardMatch(final QualifiedName node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(QualifiedType node, Object other) {
+    boolean standardMatch(final QualifiedType node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ReturnStatement node, Object other) {
+    boolean standardMatch(final ReturnStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SimpleName node, Object other) {
+    boolean standardMatch(final SimpleName node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SimpleType node, Object other) {
+    boolean standardMatch(final SimpleType node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SingleMemberAnnotation node, Object other) {
+    boolean standardMatch(final SingleMemberAnnotation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SingleVariableDeclaration node, Object other) {
+    boolean standardMatch(final SingleVariableDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(StringLiteral node, Object other) {
+    boolean standardMatch(final StringLiteral node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SuperConstructorInvocation node, Object other) {
+    boolean standardMatch(final SuperConstructorInvocation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SuperFieldAccess node, Object other) {
+    boolean standardMatch(final SuperFieldAccess node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SuperMethodInvocation node, Object other) {
+    boolean standardMatch(final SuperMethodInvocation node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SwitchCase node, Object other) {
+    boolean standardMatch(final SwitchCase node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SwitchStatement node, Object other) {
+    boolean standardMatch(final SwitchStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(SynchronizedStatement node, Object other) {
+    boolean standardMatch(final SynchronizedStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TagElement node, Object other) {
+    boolean standardMatch(final TagElement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TextElement node, Object other) {
+    boolean standardMatch(final TextElement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ThisExpression node, Object other) {
+    boolean standardMatch(final ThisExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(ThrowStatement node, Object other) {
+    boolean standardMatch(final ThrowStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TryStatement node, Object other) {
+    boolean standardMatch(final TryStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TypeDeclaration node, Object other) {
+    boolean standardMatch(final TypeDeclaration node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TypeDeclarationStatement node, Object other) {
+    boolean standardMatch(final TypeDeclarationStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TypeLiteral node, Object other) {
+    boolean standardMatch(final TypeLiteral node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(TypeParameter node, Object other) {
+    boolean standardMatch(final TypeParameter node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(VariableDeclarationExpression node, Object other) {
+    boolean standardMatch(final VariableDeclarationExpression node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(VariableDeclarationFragment node, Object other) {
+    boolean standardMatch(final VariableDeclarationFragment node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(VariableDeclarationStatement node, Object other) {
+    boolean standardMatch(final VariableDeclarationStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(WhileStatement node, Object other) {
+    boolean standardMatch(final WhileStatement node, final Object other) {
       return super.match(node, other);
     }
 
-    final boolean standardMatch(WildcardType node, Object other) {
+    boolean standardMatch(final WildcardType node, final Object other) {
       return super.match(node, other);
     }
   }

@@ -17,7 +17,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
   }
 
   static final class Support extends AbstractHookSupport<CompletionHook, ISourceViewer, CompletionListener> {
-    public final Hook<ISourceViewer, CompletionListener> create(final CompletionListener listener) {
+    public Hook<ISourceViewer, CompletionListener> create(final CompletionListener listener) {
       return new CompletionHook(listener);
     }
   }
@@ -27,7 +27,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
       super(ISourceViewer.class, listener);
     }
 
-    private final static IQuickAssistAssistant assistant(final ISourceViewer viewer) {
+    private static IQuickAssistAssistant assistant(final ISourceViewer viewer) {
       if (viewer instanceof ISourceViewerExtension3) {
         return ((ISourceViewerExtension3) viewer).getQuickAssistAssistant();
       }
@@ -35,7 +35,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
       return null;
     }
 
-    private final static ContentAssistantFacade facade(final ISourceViewer viewer) {
+    private static ContentAssistantFacade facade(final ISourceViewer viewer) {
       if (viewer instanceof ISourceViewerExtension4) {
         return ((ISourceViewerExtension4) viewer).getContentAssistantFacade();
       }
@@ -43,7 +43,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
       return null;
     }
 
-    public final void register(final ISourceViewer viewer) {
+    public void register(final ISourceViewer viewer) {
       IQuickAssistAssistant assistant = assistant(viewer);
       ContentAssistantFacade facade = facade(viewer);
 
@@ -56,7 +56,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
       }
     }
 
-    public final void unregister(final ISourceViewer viewer) {
+    public void unregister(final ISourceViewer viewer) {
       IQuickAssistAssistant assistant = assistant(viewer);
       ContentAssistantFacade facade = facade(viewer);
 
@@ -71,11 +71,11 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
   }
 
   @Override
-  final void preRegisterInternal() {
+  void preRegisterInternal() {
     Hooks.addSourceViewersAsynchronouslyTo(this);
   }
 
-  private static final ISourceViewer filter(final ISourceViewer viewer) {
+  private static ISourceViewer filter(final ISourceViewer viewer) {
     if (viewer instanceof ISourceViewerExtension3) {
       return viewer;
     }
@@ -87,7 +87,7 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
     return null;
   }
 
-  public final void editorOpened(final IEditorReference reference) {
+  public void editorOpened(final IEditorReference reference) {
     Hooks.addNonNull(this, filter(Editors.getSourceViewer(Hooks.dereferenceEditor(reference))));
   }
 
@@ -95,15 +95,15 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
     Hooks.removeNonNull(this, filter(Editors.getSourceViewer(Hooks.dereferenceEditor(reference))));
   }
 
-  public final void editorActivated(final IEditorReference reference) {}
+  public void editorActivated(final IEditorReference reference) {}
 
-  public final void editorDeactivated(final IEditorReference reference) {}
+  public void editorDeactivated(final IEditorReference reference) {}
 
-  public final void editorVisible(final IEditorReference reference) {}
+  public void editorVisible(final IEditorReference reference) {}
 
-  public final void editorHidden(final IEditorReference reference) {}
+  public void editorHidden(final IEditorReference reference) {}
 
-  public final void editorBroughtToTop(final IEditorReference reference) {}
+  public void editorBroughtToTop(final IEditorReference reference) {}
 
-  public final void editorInputChanged(final IEditorReference reference) {}
+  public void editorInputChanged(final IEditorReference reference) {}
 }

@@ -8,11 +8,11 @@ import sk.stuba.fiit.perconik.core.listeners.GitRepositoryListener;
 enum GitRepositoryHandler implements Handler<GitRepositoryListener> {
   INSTANCE;
 
-  public final void register(final GitRepositoryListener listener) {
+  public void register(final GitRepositoryListener listener) {
     GitProjectData.addRepositoryChangeListener(listener);
   }
 
-  public final void unregister(final GitRepositoryListener listener) {
+  public void unregister(final GitRepositoryListener listener) {
     GitProjectData.removeRepositoryChangeListener(listener);
   }
 }

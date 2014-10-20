@@ -20,11 +20,9 @@ import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
  * @since 1.0
  */
 public final class Registrations {
-  private Registrations() {
-    throw new AssertionError();
-  }
+  private Registrations() {}
 
-  private static final <E> Set<E> newSet(final Iterable<?> iterable) {
+  private static <E> Set<E> newSet(final Iterable<?> iterable) {
     if (iterable instanceof Collection) {
       newHashSetWithExpectedSize(((Collection<?>) iterable).size());
     }
@@ -32,23 +30,23 @@ public final class Registrations {
     return newHashSet();
   }
 
-  public static final <R extends MarkableRegistration> Set<R> registered(final Iterable<R> registrations) {
+  public static <R extends MarkableRegistration> Set<R> registered(final Iterable<R> registrations) {
     return selectByRegisteredStatus(registrations, true);
   }
 
-  public static final <R extends MarkableRegistration> Set<R> unregistered(final Iterable<R> registrations) {
+  public static <R extends MarkableRegistration> Set<R> unregistered(final Iterable<R> registrations) {
     return selectByRegisteredStatus(registrations, false);
   }
 
-  public static final <R extends MarkableRegistration> Set<R> marked(final Iterable<R> registrations) {
+  public static <R extends MarkableRegistration> Set<R> marked(final Iterable<R> registrations) {
     return selectByRegisteredMark(registrations, true);
   }
 
-  public static final <R extends MarkableRegistration> Set<R> unmarked(final Iterable<R> registrations) {
+  public static <R extends MarkableRegistration> Set<R> unmarked(final Iterable<R> registrations) {
     return selectByRegisteredMark(registrations, false);
   }
 
-  public static final <R extends Registration> Set<R> selectByRegisteredStatus(final Iterable<R> registrations, final boolean status) {
+  public static <R extends Registration> Set<R> selectByRegisteredStatus(final Iterable<R> registrations, final boolean status) {
     Set<R> result = newSet(registrations);
 
     for (R registration: registrations) {
@@ -60,7 +58,7 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends MarkableRegistration> Set<R> selectByRegisteredMark(final Iterable<R> registrations, final boolean status) {
+  public static <R extends MarkableRegistration> Set<R> selectByRegisteredMark(final Iterable<R> registrations, final boolean status) {
     Set<R> result = newSet(registrations);
 
     for (R registration: registrations) {
@@ -72,7 +70,7 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> applyRegisteredMark(final Iterable<R> registrations) {
+  public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> applyRegisteredMark(final Iterable<R> registrations) {
     Set<R> result = newSet(registrations);
 
     for (R registration: registrations) {
@@ -82,7 +80,7 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> updateRegisteredMark(final Iterable<R> registrations) {
+  public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> updateRegisteredMark(final Iterable<R> registrations) {
     Set<R> result = newSet(registrations);
 
     for (R registration: registrations) {
@@ -92,11 +90,11 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Iterable<R> registrations, final boolean status) {
+  public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Iterable<R> registrations, final boolean status) {
     return markRegistered(registrations, constant(status));
   }
 
-  public static final <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Iterable<R> registrations, final Function<? super R, Boolean> function) {
+  public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Iterable<R> registrations, final Function<? super R, Boolean> function) {
     Set<R> result = newSet(registrations);
 
     for (R registration: registrations) {
@@ -106,7 +104,7 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends Registration> Set<R> supplement(final Set<? extends R> original, final Iterable<? extends R> supplements) {
+  public static <R extends Registration> Set<R> supplement(final Set<? extends R> original, final Iterable<? extends R> supplements) {
     Set<R> result = newHashSet(original);
 
     for (R registration: supplements) {
@@ -118,7 +116,7 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends ResourceRegistration & MarkableRegistration> SetMultimap<Class<? extends Listener>, String> toResourceNames(final Iterable<R> registrations) {
+  public static <R extends ResourceRegistration & MarkableRegistration> SetMultimap<Class<? extends Listener>, String> toResourceNames(final Iterable<R> registrations) {
     SetMultimap<Class<? extends Listener>, String> result = HashMultimap.create();
 
     for (R registration: registrations) {
@@ -128,7 +126,7 @@ public final class Registrations {
     return result;
   }
 
-  public static final <R extends ListenerRegistration & MarkableRegistration> Set<Class<? extends Listener>> toListenerClasses(final Iterable<R> registrations) {
+  public static <R extends ListenerRegistration & MarkableRegistration> Set<Class<? extends Listener>> toListenerClasses(final Iterable<R> registrations) {
     Set<Class<? extends Listener>> result = newSet(registrations);
 
     for (R registration: registrations) {

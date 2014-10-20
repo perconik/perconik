@@ -20,27 +20,27 @@ public class CoreData extends PluginData {
 
   public CoreData() {}
 
-  protected CoreData(Activator activator) {
+  protected CoreData(final Activator activator) {
     super(activator);
   }
 
-  public void setClassResolver(String classResolver) {
+  public void setClassResolver(final String classResolver) {
     this.classResolver = classResolver;
   }
 
-  public void setExtensionContributors(Set<String> extensionContributors) {
+  public void setExtensionContributors(final Set<String> extensionContributors) {
     this.extensionContributors = extensionContributors;
   }
 
-  public void setContributingBundles(List<BundleData> contributingBundles) {
+  public void setContributingBundles(final List<BundleData> contributingBundles) {
     this.contributingBundles = contributingBundles;
   }
 
-  public void setResourceService(ResourceServiceData resourceService) {
+  public void setResourceService(final ResourceServiceData resourceService) {
     this.resourceService = resourceService;
   }
 
-  public void setListenerService(ListenerServiceData listenerService) {
+  public void setListenerService(final ListenerServiceData listenerService) {
     this.listenerService = listenerService;
   }
 

@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * An abstract implementation of {@link ResourceManager}. This class
  * implements the resource registration mechanism based on an underlying
  * {@code SetMultimap} of listener types to registered resources.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

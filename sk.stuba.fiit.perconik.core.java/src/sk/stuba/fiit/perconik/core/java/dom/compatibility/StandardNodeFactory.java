@@ -8,7 +8,7 @@ enum StandardNodeFactory implements NodeFactory {
 
   private StandardNodeFactory() {}
 
-  public final <N extends ASTNode> N newNode(final AST tree, final Class<N> implementation) {
+  public <N extends ASTNode> N newNode(final AST tree, final Class<N> implementation) {
     return implementation.cast(tree.createInstance(implementation));
   }
 }

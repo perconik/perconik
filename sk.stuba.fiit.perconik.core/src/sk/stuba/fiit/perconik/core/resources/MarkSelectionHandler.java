@@ -16,18 +16,18 @@ enum MarkSelectionHandler implements Handler<MarkSelectionListener> {
       super(listener);
     }
 
-    public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+    public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
       if (selection instanceof MarkSelection) {
         this.listener.selectionChanged(part, (IMarkSelection) selection);
       }
     }
   }
 
-  public final void register(final MarkSelectionListener listener) {
+  public void register(final MarkSelectionListener listener) {
     SelectionHandler.INSTANCE.register(new SelectionFilter(listener));
   }
 
-  public final void unregister(final MarkSelectionListener listener) {
+  public void unregister(final MarkSelectionListener listener) {
     SelectionHandler.INSTANCE.unregister(new SelectionFilter(listener));
   }
 }

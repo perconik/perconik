@@ -9,11 +9,11 @@ import com.google.common.collect.ForwardingObject;
  * console. Subclasses should override one or more methods to modify the
  * behavior of the backing plug-in console as desired per the decorator
  * pattern.
- * 
+ *
  * <p>Note that this class does <i>not</i> forward the {@code equals}
  * and {@code hashCode} methods through to the backing object.
  * See {@link ForwardingObject} for more details.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -26,15 +26,15 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
   @Override
   protected abstract PluginConsole delegate();
 
-  public PluginConsole append(@Nullable CharSequence s) {
+  public PluginConsole append(@Nullable final CharSequence s) {
     return this.delegate().append(s);
   }
 
-  public PluginConsole append(@Nullable CharSequence s, int from, int to) {
+  public PluginConsole append(@Nullable final CharSequence s, final int from, final int to) {
     return this.delegate().append(s, from, to);
   }
 
-  public PluginConsole append(char c) {
+  public PluginConsole append(final char c) {
     return this.delegate().append(c);
   }
 
@@ -46,51 +46,51 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
     this.delegate().flush();
   }
 
-  public void put(@Nullable String message) {
+  public void put(@Nullable final String message) {
     this.delegate().put(message);
   }
 
-  public void put(String format, Object ... args) {
+  public void put(final String format, final Object ... args) {
     this.delegate().put(format, args);
   }
 
-  public void print(@Nullable String message) {
+  public void print(@Nullable final String message) {
     this.delegate().print(message);
   }
 
-  public void print(String format, Object ... args) {
+  public void print(final String format, final Object ... args) {
     this.delegate().print(format, args);
   }
 
-  public void notice(String message) {
+  public void notice(final String message) {
     this.delegate().notice(message);
   }
 
-  public void notice(String format, Object ... args) {
+  public void notice(final String format, final Object ... args) {
     this.delegate().notice(format, args);
   }
 
-  public void warning(String message) {
+  public void warning(final String message) {
     this.delegate().warning(message);
   }
 
-  public void warning(String format, Object ... args) {
+  public void warning(final String format, final Object ... args) {
     this.delegate().warning(format, args);
   }
 
-  public void error(String message) {
+  public void error(final String message) {
     this.delegate().error(message);
   }
 
-  public void error(String format, Object ... args) {
+  public void error(final String format, final Object ... args) {
     this.delegate().error(format, args);
   }
 
-  public void error(Throwable failure, String message) {
+  public void error(final Throwable failure, final String message) {
     this.delegate().error(failure, message);
   }
 
-  public void error(Throwable failure, String format, Object ... args) {
+  public void error(final Throwable failure, final String format, final Object ... args) {
     this.delegate().error(failure, format, args);
   }
 }

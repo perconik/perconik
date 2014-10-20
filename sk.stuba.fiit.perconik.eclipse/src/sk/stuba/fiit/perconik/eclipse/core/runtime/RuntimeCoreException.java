@@ -15,21 +15,21 @@ public class RuntimeCoreException extends RuntimeException {
   /**
    * Creates a new instance with the given detail message.
    */
-  public RuntimeCoreException(@Nullable String message) {
+  public RuntimeCoreException(@Nullable final String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public RuntimeCoreException(@Nullable String message, @Nullable Throwable cause) {
+  public RuntimeCoreException(@Nullable final String message, @Nullable final Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public RuntimeCoreException(@Nullable Throwable cause) {
+  public RuntimeCoreException(@Nullable final Throwable cause) {
     super(cause);
   }
 }

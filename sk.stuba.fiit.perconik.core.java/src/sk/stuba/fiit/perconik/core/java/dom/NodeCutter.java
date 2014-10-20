@@ -17,12 +17,12 @@ public final class NodeCutter<N extends ASTNode> implements Function<N, N> {
     this.filter = checkNotNull(filter);
   }
 
-  public static final <N extends ASTNode> NodeCutter<N> using(final Predicate<ASTNode> filter) {
+  public static <N extends ASTNode> NodeCutter<N> using(final Predicate<ASTNode> filter) {
     return new NodeCutter<>(filter);
   }
 
   @Override
-  public final N apply(@Nullable final N node) {
+  public N apply(@Nullable final N node) {
     if (node == null) {
       return null;
     }
@@ -30,8 +30,31 @@ public final class NodeCutter<N extends ASTNode> implements Function<N, N> {
     return new Processor().perform(node);
   }
 
+  private final class Processor extends ASTVisitor {
+    Processor() {
+      super(true);
+    }
+
+    public N perform(final N node) {
+      node.accept(this);
+
+      return node;
+    }
+
+    @Override
+    public boolean preVisit2(final ASTNode node) {
+      if (NodeCutter.this.filter.apply(node)) {
+        node.delete();
+
+        return false;
+      }
+
+      return true;
+    }
+  }
+
   @Override
-  public final boolean equals(@Nullable Object o) {
+  public boolean equals(@Nullable final Object o) {
     if (o instanceof NodeCutter) {
       NodeCutter<?> other = (NodeCutter<?>) o;
 
@@ -42,35 +65,12 @@ public final class NodeCutter<N extends ASTNode> implements Function<N, N> {
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return this.filter.hashCode();
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return "cutter(" + this.filter + ")";
-  }
-
-  private final class Processor extends ASTVisitor {
-    Processor() {
-      super(true);
-    }
-
-    public final N perform(final N node) {
-      node.accept(this);
-
-      return node;
-    }
-
-    @Override
-    public final boolean preVisit2(ASTNode node) {
-      if (NodeCutter.this.filter.apply(node)) {
-        node.delete();
-
-        return false;
-      }
-
-      return true;
-    }
   }
 }

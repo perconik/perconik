@@ -17,7 +17,7 @@ public class ProductData extends AnyStructuredData {
 
   public ProductData() {}
 
-  protected ProductData(IProduct product) {
+  protected ProductData(final IProduct product) {
     if (product == null) {
       return;
     }
@@ -29,27 +29,27 @@ public class ProductData extends AnyStructuredData {
     this.setBundle(BundleData.of(product.getDefiningBundle()));
   }
 
-  public static ProductData of(IProduct product) {
+  public static ProductData of(final IProduct product) {
     return new ProductData(product);
   }
 
-  public void setApplication(String application) {
+  public void setApplication(final String application) {
     this.application = application;
   }
 
-  public void setIdentifier(String identifier) {
+  public void setIdentifier(final String identifier) {
     this.identifier = identifier;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(final String description) {
     this.description = description;
   }
 
-  public void setBundle(BundleData bundle) {
+  public void setBundle(final BundleData bundle) {
     this.bundle = bundle;
   }
 

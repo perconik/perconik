@@ -11,7 +11,7 @@ import sk.stuba.fiit.perconik.core.Registrable;
 /**
  * Indicates that a {@link Registrable} is a debug implementation and should
  * be treated accordingly by the core service implementations.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */

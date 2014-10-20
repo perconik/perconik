@@ -17,35 +17,33 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newTreeSet;
 
 public final class DebugResources {
-  private DebugResources() {
-    throw new AssertionError();
-  }
+  private DebugResources() {}
 
-  public static final String toString(final Class<? extends Resource<?>> type) {
+  public static String toString(final Class<? extends Resource<?>> type) {
     return type.getName();
   }
 
-  public static final String toString(final Resource<?> resource) {
+  public static String toString(final Resource<?> resource) {
     return MoreStrings.toStringFallback(resource);
   }
 
-  public static final void printRegistered() {
+  public static void printRegistered() {
     printRegistered(Debug.getDefaultConsole());
   }
 
-  public static final void printRegistered(final DebugConsole console) {
+  public static void printRegistered(final DebugConsole console) {
     console.put(dumpRegistered());
   }
 
-  public static final void printRegistrations() {
+  public static void printRegistrations() {
     printRegistrations(Debug.getDefaultConsole());
   }
 
-  public static final void printRegistrations(final DebugConsole console) {
+  public static void printRegistrations(final DebugConsole console) {
     console.put(dumpRegistrations());
   }
 
-  static final String dumpRegistered() {
+  static String dumpRegistered() {
     SmartStringBuilder builder = new SmartStringBuilder();
 
     builder.appendln("Registered resources:").tab();
@@ -65,7 +63,7 @@ public final class DebugResources {
     return builder.toString();
   }
 
-  static final String dumpRegistrations() {
+  static String dumpRegistrations() {
     SmartStringBuilder builder = new SmartStringBuilder();
 
     builder.appendln("Registered listener type to resources map:").tab();

@@ -7,11 +7,9 @@ import java.net.URL;
 import java.net.URLStreamHandler;
 
 public final class UniformResources {
-  private UniformResources() {
-    throw new AssertionError();
-  }
+  private UniformResources() {}
 
-  public static final URI newUri(String str) {
+  public static URI newUri(final String str) {
     try {
       return new URI(str);
     } catch (URISyntaxException e) {
@@ -19,7 +17,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URI newUri(String scheme, String login, String host, int port, String path, String query, String fragment) {
+  public static URI newUri(final String scheme, final String login, final String host, final int port, final String path, final String query, final String fragment) {
     try {
       return new URI(scheme, login, host, port, path, query, fragment);
     } catch (URISyntaxException e) {
@@ -27,7 +25,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URI newUri(String scheme, String authority, String path, String query, String fragment) {
+  public static URI newUri(final String scheme, final String authority, final String path, final String query, final String fragment) {
     try {
       return new URI(scheme, authority, path, query, fragment);
     } catch (URISyntaxException e) {
@@ -35,7 +33,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URI newUri(String scheme, String host, String path, String fragment) {
+  public static URI newUri(final String scheme, final String host, final String path, final String fragment) {
     try {
       return new URI(scheme, host, path, fragment);
     } catch (URISyntaxException e) {
@@ -43,7 +41,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URI newUri(String scheme, String part, String fragment) {
+  public static URI newUri(final String scheme, final String part, final String fragment) {
     try {
       return new URI(scheme, part, fragment);
     } catch (URISyntaxException e) {
@@ -51,7 +49,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URL newUrl(String content) {
+  public static URL newUrl(final String content) {
     try {
       return new URL(content);
     } catch (MalformedURLException e) {
@@ -59,7 +57,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URL newUrl(String protocol, String host, String file) {
+  public static URL newUrl(final String protocol, final String host, final String file) {
     try {
       return new URL(protocol, host, file);
     } catch (MalformedURLException e) {
@@ -67,7 +65,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URL newUrl(String protocol, String host, int port, String file) {
+  public static URL newUrl(final String protocol, final String host, final int port, final String file) {
     try {
       return new URL(protocol, host, port, file);
     } catch (MalformedURLException e) {
@@ -75,7 +73,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URL newUrl(String protocol, String host, int port, String file, URLStreamHandler handler) {
+  public static URL newUrl(final String protocol, final String host, final int port, final String file, final URLStreamHandler handler) {
     try {
       return new URL(protocol, host, port, file, handler);
     } catch (MalformedURLException e) {
@@ -83,7 +81,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URL newUrl(URL context, String content) {
+  public static URL newUrl(final URL context, final String content) {
     try {
       return new URL(context, content);
     } catch (MalformedURLException e) {
@@ -91,7 +89,7 @@ public final class UniformResources {
     }
   }
 
-  public static final URL newUrl(URL context, String content, URLStreamHandler handler) {
+  public static URL newUrl(final URL context, final String content, final URLStreamHandler handler) {
     try {
       return new URL(context, content, handler);
     } catch (MalformedURLException e) {

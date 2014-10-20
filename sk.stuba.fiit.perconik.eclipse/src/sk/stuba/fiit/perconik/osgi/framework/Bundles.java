@@ -25,15 +25,13 @@ import static com.google.common.collect.Lists.newArrayListWithCapacity;
  * @since 1.0
  */
 public final class Bundles {
-  private Bundles() {
-    throw new AssertionError();
-  }
+  private Bundles() {}
 
-  public static final Bundle forClass(final Class<?> type) {
+  public static Bundle forClass(final Class<?> type) {
     return FrameworkUtil.getBundle(type);
   }
 
-  public static final Bundle forName(final String name) throws BundleNotFoundException {
+  public static Bundle forName(final String name) throws BundleNotFoundException {
     checkArgument(!name.isEmpty());
 
     Bundle bundle = Platform.getBundle(name);
@@ -45,11 +43,11 @@ public final class Bundles {
     throw new BundleNotFoundException(name + " not found");
   }
 
-  public static final List<Bundle> forNames(final String ... names) throws BundleNotFoundException {
+  public static List<Bundle> forNames(final String ... names) throws BundleNotFoundException {
     return forNames(asList(names));
   }
 
-  public static final List<Bundle> forNames(final Iterable<String> names) throws BundleNotFoundException {
+  public static List<Bundle> forNames(final Iterable<String> names) throws BundleNotFoundException {
     List<Bundle> bundles = newArrayListWithCapacity(Iterables.size(names));
 
     for (String name: names) {
@@ -59,15 +57,15 @@ public final class Bundles {
     return bundles;
   }
 
-  public static final ClassResolver newClassResolver(Bundle bundle) {
+  public static ClassResolver newClassResolver(final Bundle bundle) {
     return new BundleClassResolver(bundle);
   }
 
-  public static final List<ClassResolver> newClassResolvers(Bundle ... bundles) {
+  public static List<ClassResolver> newClassResolvers(final Bundle ... bundles) {
     return newClassResolvers(asList(bundles));
   }
 
-  public static final List<ClassResolver> newClassResolvers(Iterable<Bundle> bundles) {
+  public static List<ClassResolver> newClassResolvers(final Iterable<Bundle> bundles) {
     List<ClassResolver> resolvers = newArrayListWithCapacity(Iterables.size(bundles));
 
     for (Bundle bundle: bundles) {
@@ -77,11 +75,11 @@ public final class Bundles {
     return resolvers;
   }
 
-  public static final Map<String, String> getHeaders(Bundle bundle) {
+  public static Map<String, String> getHeaders(final Bundle bundle) {
     return MoreMaps.fromDictionary(bundle.getHeaders());
   }
 
-  public static final String getName(Bundle bundle) {
+  public static String getName(final Bundle bundle) {
     return bundle.getHeaders().get("Bundle-Name");
   }
 }

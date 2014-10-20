@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.core.services.Service;
  * lifecycle methods to transition between states. Resource provider and
  * manager encapsulated by this service are only accessible while the
  * service is running.
- * 
+ *
  * @author Pavol Zbell
  * @since 1.0
  */
@@ -41,10 +41,10 @@ public interface ResourceService extends Service {
 
   /**
    * A builder for creating resource service instances.
-   * 
+   *
    * <p>Builder instances can be reused, it is safe to call {@link #build}
    * multiple times to build multiple resource services in series.
-   * 
+   *
    * @author Pavol Zbell
    * @since 1.0
    */
