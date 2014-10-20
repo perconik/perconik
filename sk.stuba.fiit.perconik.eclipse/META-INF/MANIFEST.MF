@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Eclipse API Extensions
 Bundle-SymbolicName: sk.stuba.fiit.perconik.eclipse;singleton:=true
-Bundle-Version: 0.7.2.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.eclipse.core.commands,
  sk.stuba.fiit.perconik.eclipse.core.commands.operations,
@@ -36,8 +36,8 @@ Require-Bundle: org.eclipse.core.filebuffers;bundle-version="3.5.200",
  org.eclipse.ui;bundle-version="3.8.0",
  org.eclipse.ui.ide;bundle-version="3.8.0",
  org.eclipse.ui.navigator;bundle-version="3.5.200",
- sk.stuba.fiit.perconik.environment;bundle-version="0.4.2",
- sk.stuba.fiit.perconik.libraries;bundle-version="0.6.1",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.4.3"
+ sk.stuba.fiit.perconik.environment;bundle-version="0.5.0",
+ sk.stuba.fiit.perconik.libraries;bundle-version="0.7.0",
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.5.0"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
