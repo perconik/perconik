@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.base;
+package sk.stuba.fiit.perconik.activity.data;
 
 public class ClassData extends AnnotableData {
   protected String name;

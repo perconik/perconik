@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.base;
+package sk.stuba.fiit.perconik.activity.data;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.List;

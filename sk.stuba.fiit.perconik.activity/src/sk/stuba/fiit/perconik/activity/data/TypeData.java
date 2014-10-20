@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.base;
+package sk.stuba.fiit.perconik.activity.data;
 
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 

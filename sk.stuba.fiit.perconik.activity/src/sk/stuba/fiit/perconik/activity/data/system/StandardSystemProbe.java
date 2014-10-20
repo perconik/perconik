@@ -25,8 +25,8 @@ import static com.google.common.base.StandardSystemProperty.USER_DIR;
 import static com.google.common.base.StandardSystemProperty.USER_HOME;
 import static com.google.common.base.StandardSystemProperty.USER_NAME;
 
-import static sk.stuba.fiit.perconik.activity.data.base.Utilities.pathOrNull;
-import static sk.stuba.fiit.perconik.activity.data.base.Utilities.urlOrNull;
+import static sk.stuba.fiit.perconik.utilities.io.Conversions.pathOrNull;
+import static sk.stuba.fiit.perconik.utilities.net.Conversions.urlOrNull;
 
 public final class StandardSystemProbe implements SystemProbe {
   public StandardSystemProbe() {}

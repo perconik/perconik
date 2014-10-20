@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.Platform;
 
 import static java.util.Arrays.asList;
 
-import static sk.stuba.fiit.perconik.activity.data.eclipse.Utilities.urlOrNull;
+import static sk.stuba.fiit.perconik.activity.data.eclipse.Conversions.urlOrNull;
 
 public class StandardPlatformProbe implements PlatformProbe {
   public StandardPlatformProbe() {}

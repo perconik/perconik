@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.activity.data.events;
 
 import java.util.Set;
 
-import sk.stuba.fiit.perconik.activity.data.base.AnnotableData;
-import sk.stuba.fiit.perconik.activity.data.base.AnnotationData;
+import sk.stuba.fiit.perconik.activity.data.AnnotableData;
+import sk.stuba.fiit.perconik.activity.data.AnnotationData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 public class EventData extends AnnotableData {
