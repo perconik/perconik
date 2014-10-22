@@ -6,6 +6,8 @@ public class IdeDocumentData {
    */
   private String changesetIdInRcs;
 
+  private String changesetIdInRcsOfPath;
+
   /**
    *  Full local path of the document
    */
@@ -44,6 +46,14 @@ public class IdeDocumentData {
 
   public void setChangesetIdInRcs(final String changesetIdInRcs) {
     this.changesetIdInRcs = changesetIdInRcs;
+  }
+
+  public String getChangesetIdInRcsOfPath() {
+    return this.changesetIdInRcsOfPath;
+  }
+
+  public void setChangesetIdInRcsOfPath(final String changesetIdInRcsOfPath) {
+    this.changesetIdInRcsOfPath = changesetIdInRcsOfPath;
   }
 
   public String getLocalPath() {

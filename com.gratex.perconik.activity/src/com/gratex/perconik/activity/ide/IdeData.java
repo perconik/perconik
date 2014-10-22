@@ -1,10 +1,9 @@
 package com.gratex.perconik.activity.ide;
 
-import javax.annotation.Nullable;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.egit.core.project.RepositoryMapping;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jgit.lib.Repository;
@@ -21,11 +20,13 @@ import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
 import static com.google.common.base.Preconditions.checkState;
 
+//TODO resolve: not sure why is egit core restricted
+@SuppressWarnings("restriction")
 public final class IdeData {
   private IdeData() {}
 
   public static IdeDocumentData newDocumentData(final IFile file) {
-    return newDocumentRepositoryData(file.getFullPath(), IdeGitProjects.getRepository(file));
+    return newDocumentFileData(file);
   }
 
   public static IdeDocumentData newDocumentData(final IClassFile file) {
@@ -40,18 +41,32 @@ public final class IdeData {
     return data;
   }
 
-  private static IdeDocumentData newDocumentRepositoryData(final IPath path, @Nullable final Repository repository) {
-    IdeDocumentData data = newDocumentPathData(path.makeRelative());
+  private static IdeDocumentData newDocumentFileData(final IFile file) {
+    IdeDocumentData data = newDocumentPathData(file.getFullPath().makeRelative());
 
-    if (repository != null) {
-      data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
-      data.setBranch(GitRepositories.getBranch(repository));
-      data.setServerPath(data.getLocalPath());
+    RepositoryMapping mapping = IdeGitProjects.getRepositoryMapping(file);
 
-      RevCommit commit = GitRepositories.getMostRecentCommit(repository, path.makeRelative().toString());
+    if (mapping != null) {
+      Repository repository = mapping.getRepository();
 
-      if (commit != null) {
-        data.setChangesetIdInRcs(commit.getName());
+      if (repository != null) {
+        data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
+        data.setBranch(GitRepositories.getBranch(repository));
+        data.setServerPath(data.getLocalPath());
+
+        RevCommit repositoryCommit = GitRepositories.getMostRecentCommit(repository);
+
+        if (repositoryCommit != null) {
+          data.setChangesetIdInRcs(repositoryCommit.getName());
+        }
+
+        String path = mapping.getRepoRelativePath(file);
+
+        RevCommit fileCommit = GitRepositories.getMostRecentCommit(repository, path);
+
+        if (fileCommit != null) {
+          data.setChangesetIdInRcsOfPath(fileCommit.getName());
+        }
       }
     }
 

@@ -14,8 +14,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
+//TODO resolve: not sure why is egit core restricted
 @SuppressWarnings("restriction")
-// TODO resolve: not sure why is egit core restricted
 public final class IdeGitProjects {
   private IdeGitProjects() {}
 
