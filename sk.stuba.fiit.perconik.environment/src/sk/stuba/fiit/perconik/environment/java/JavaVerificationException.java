@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.environment;
+package sk.stuba.fiit.perconik.environment.java;
 
 import javax.annotation.Nullable;
 

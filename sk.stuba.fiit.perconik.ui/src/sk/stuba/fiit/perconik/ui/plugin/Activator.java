@@ -12,7 +12,7 @@ import org.osgi.framework.BundleContext;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
-import sk.stuba.fiit.perconik.environment.JavaVerificationException;
+import sk.stuba.fiit.perconik.environment.java.JavaVerificationException;
 import sk.stuba.fiit.perconik.osgi.framework.Versions;
 
 import static sk.stuba.fiit.perconik.osgi.framework.Versions.Component.MAJOR;

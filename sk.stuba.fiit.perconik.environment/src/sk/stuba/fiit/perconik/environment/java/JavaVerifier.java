@@ -1,6 +1,8 @@
-package sk.stuba.fiit.perconik.environment;
+package sk.stuba.fiit.perconik.environment.java;
 
 import org.osgi.framework.Version;
+
+import sk.stuba.fiit.perconik.environment.Environment;
 
 public enum JavaVerifier {
   JAVA_5("1.5"),

@@ -6,6 +6,8 @@ import com.google.common.base.StandardSystemProperty;
 
 import org.osgi.framework.Version;
 
+import sk.stuba.fiit.perconik.environment.java.JavaVerifier;
+
 /**
  * Bridge between plug-in environment and the native platform.
  *

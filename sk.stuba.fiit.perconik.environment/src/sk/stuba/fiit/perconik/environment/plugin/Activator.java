@@ -6,8 +6,8 @@ import org.eclipse.core.runtime.Status;
 
 import org.osgi.framework.BundleContext;
 
-import sk.stuba.fiit.perconik.environment.JavaVerificationException;
-import sk.stuba.fiit.perconik.environment.JavaVerifier;
+import sk.stuba.fiit.perconik.environment.java.JavaVerificationException;
+import sk.stuba.fiit.perconik.environment.java.JavaVerifier;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
