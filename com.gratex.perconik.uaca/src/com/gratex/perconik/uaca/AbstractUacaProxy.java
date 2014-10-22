@@ -5,17 +5,17 @@ import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import sk.stuba.fiit.perconik.data.bind.Mapper;
+import sk.stuba.fiit.perconik.data.providers.MapperProvider;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
 import static java.lang.String.format;
 
+import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.client.Entity.entity;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 
 @SuppressWarnings({"static-method", "unused"})
 public abstract class AbstractUacaProxy implements AutoCloseable {
@@ -24,7 +24,7 @@ public abstract class AbstractUacaProxy implements AutoCloseable {
   private final Client client;
 
   protected AbstractUacaProxy() {
-    this.client = ClientBuilder.newClient().register(Mapper.getShared());
+    this.client = newClient().register(MapperProvider.class);
   }
 
   protected abstract URL url();
@@ -69,7 +69,7 @@ public abstract class AbstractUacaProxy implements AutoCloseable {
   protected void filterRequest(final WebTarget target, @Nullable final Object request) {}
 
   protected Response sendRequest(final WebTarget target, @Nullable final Object request) {
-    return target.request().post(entity(request, MediaType.APPLICATION_JSON_TYPE));
+    return target.request().post(entity(request, APPLICATION_JSON_TYPE));
   }
 
   protected void processResponse(final WebTarget target, @Nullable final Object request, final Response response) {}
