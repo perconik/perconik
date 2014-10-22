@@ -15,4 +15,5 @@ Export-Package: sk.stuba.fiit.perconik.data,
  sk.stuba.fiit.perconik.data.bind,
  sk.stuba.fiit.perconik.data.content,
  sk.stuba.fiit.perconik.data.store,
- sk.stuba.fiit.perconik.data.type.common
+ sk.stuba.fiit.perconik.data.type.common,
+ sk.stuba.fiit.perconik.data.type.content

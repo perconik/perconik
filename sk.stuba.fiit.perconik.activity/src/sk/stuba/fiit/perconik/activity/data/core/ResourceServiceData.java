@@ -6,15 +6,15 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
-import sk.stuba.fiit.perconik.activity.data.NameableTypeData;
+import sk.stuba.fiit.perconik.activity.data.NameableData;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 
-public class ResourceServiceData extends NameableTypeData {
-  protected NameableTypeData provider;
+public class ResourceServiceData extends NameableData {
+  protected NameableData provider;
 
-  protected NameableTypeData manager;
+  protected NameableData manager;
 
   protected Set<String> names;
 
@@ -29,8 +29,8 @@ public class ResourceServiceData extends NameableTypeData {
       return;
     }
 
-    this.setProvider(NameableTypeData.of(service.getResourceProvider()));
-    this.setManager(NameableTypeData.of(service.getResourceManager()));
+    this.setProvider(NameableData.of(service.getResourceProvider()));
+    this.setManager(NameableData.of(service.getResourceManager()));
     this.setNames(service.getResourceProvider().names());
 
     SetMultimap<String, ResourceData> registrations = HashMultimap.create();
@@ -46,11 +46,11 @@ public class ResourceServiceData extends NameableTypeData {
     return new ResourceServiceData(service);
   }
 
-  public void setProvider(final NameableTypeData provider) {
+  public void setProvider(final NameableData provider) {
     this.provider = provider;
   }
 
-  public void setManager(final NameableTypeData manager) {
+  public void setManager(final NameableData manager) {
     this.manager = manager;
   }
 
@@ -62,11 +62,11 @@ public class ResourceServiceData extends NameableTypeData {
     this.registrations = registrations;
   }
 
-  public NameableTypeData getProvider() {
+  public NameableData getProvider() {
     return this.provider;
   }
 
-  public NameableTypeData getManager() {
+  public NameableData getManager() {
     return this.manager;
   }
 

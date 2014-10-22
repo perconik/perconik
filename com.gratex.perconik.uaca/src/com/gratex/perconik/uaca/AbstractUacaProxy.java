@@ -31,9 +31,9 @@ public abstract class AbstractUacaProxy implements AutoCloseable {
 
   protected final void send(final String path, @Nullable final Object request) {
     final Runnable command = new Runnable() {
-      public final void run() {
-        Response response = null;
+      public void run() {
         WebTarget target = null;
+        Response response = null;
 
         try {
           target = createTarget().path(path);

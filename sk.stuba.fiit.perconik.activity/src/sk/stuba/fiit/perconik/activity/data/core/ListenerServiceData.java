@@ -6,16 +6,15 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
-import sk.stuba.fiit.perconik.activity.data.ClassData;
-import sk.stuba.fiit.perconik.activity.data.NameableTypeData;
+import sk.stuba.fiit.perconik.activity.data.NameableData;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 
-public class ListenerServiceData extends NameableTypeData {
-  protected NameableTypeData provider;
+public class ListenerServiceData extends NameableData {
+  protected NameableData provider;
 
-  protected NameableTypeData manager;
+  protected NameableData manager;
 
   protected Set<Class<? extends Listener>> classes;
 
@@ -30,9 +29,8 @@ public class ListenerServiceData extends NameableTypeData {
       return;
     }
 
-    this.setImplementation(ClassData.of(service.getClass()));
-    this.setProvider(NameableTypeData.of(service.getListenerProvider()));
-    this.setManager(NameableTypeData.of(service.getListenerManager()));
+    this.setProvider(NameableData.of(service.getListenerProvider()));
+    this.setManager(NameableData.of(service.getListenerManager()));
     this.setClasses(service.getListenerProvider().classes());
 
     SetMultimap<String, ListenerData> registrations = HashMultimap.create();
@@ -48,11 +46,11 @@ public class ListenerServiceData extends NameableTypeData {
     return new ListenerServiceData(service);
   }
 
-  public void setProvider(final NameableTypeData provider) {
+  public void setProvider(final NameableData provider) {
     this.provider = provider;
   }
 
-  public void setManager(final NameableTypeData manager) {
+  public void setManager(final NameableData manager) {
     this.manager = manager;
   }
 
@@ -64,11 +62,11 @@ public class ListenerServiceData extends NameableTypeData {
     this.registrations = registrations;
   }
 
-  public NameableTypeData getProvider() {
+  public NameableData getProvider() {
     return this.provider;
   }
 
-  public NameableTypeData getManager() {
+  public NameableData getManager() {
     return this.manager;
   }
 

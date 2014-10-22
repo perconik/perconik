@@ -3,12 +3,13 @@ package sk.stuba.fiit.perconik.activity.data.core;
 import java.util.List;
 import java.util.Set;
 
+import sk.stuba.fiit.perconik.activity.data.ObjectData;
 import sk.stuba.fiit.perconik.activity.data.eclipse.BundleData;
 import sk.stuba.fiit.perconik.activity.data.eclipse.PluginData;
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 
 public class CoreData extends PluginData {
-  protected String classResolver;
+  protected ObjectData classResolver;
 
   protected Set<String> extensionContributors;
 
@@ -24,7 +25,7 @@ public class CoreData extends PluginData {
     super(activator);
   }
 
-  public void setClassResolver(final String classResolver) {
+  public void setClassResolver(final ObjectData classResolver) {
     this.classResolver = classResolver;
   }
 
@@ -44,7 +45,7 @@ public class CoreData extends PluginData {
     this.listenerService = listenerService;
   }
 
-  public String getClassResolver() {
+  public ObjectData getClassResolver() {
     return this.classResolver;
   }
 
