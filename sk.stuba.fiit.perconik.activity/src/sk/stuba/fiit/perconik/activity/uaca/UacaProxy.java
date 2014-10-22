@@ -14,7 +14,7 @@ public final class UacaProxy extends SharedUacaProxy implements Store {
     throw new UnsupportedOperationException();
   }
 
-  public void save(final String path, @Nullable final Content data) {
-    this.send("generic/event", UacaDataWrapper.of(path, data));
+  public void save(final String path, @Nullable final Content resource) {
+    this.send("generic/event", UacaDataWrapper.of(path, resource));
   }
 }

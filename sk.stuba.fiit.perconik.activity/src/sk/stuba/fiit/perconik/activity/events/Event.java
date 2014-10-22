@@ -1,30 +1,41 @@
-package sk.stuba.fiit.perconik.activity.data.events;
+package sk.stuba.fiit.perconik.activity.events;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
 import java.util.Set;
 
 import sk.stuba.fiit.perconik.activity.data.AnnotableData;
 import sk.stuba.fiit.perconik.activity.data.AnnotationData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
-public class EventData extends AnnotableData {
+public class Event extends AnnotableData {
   protected long timestamp;
 
   protected String action;
 
   protected Set<String> tags;
 
-  public EventData() {}
+  public Event() {}
 
-  protected EventData(final String action) {
-    if (action == null) {
-      return;
-    }
+  protected Event(final long timestamp) {
+    List<Annotation> annotations = Annotations.ofClass(this.getClass());
 
-    this.setAnnotations(AnnotationData.of(Annotations.ofClass(this.getClass())));
+    this.setAnnotations(AnnotationData.of(annotations));
+    this.setTimestamp(timestamp);
   }
 
-  public static EventData of(final String action) {
-    return new EventData(action);
+  protected Event(final long timestamp, final String action) {
+    this(timestamp);
+
+    this.setAction(action);
+  }
+
+  public static Event of(final long timestamp) {
+    return new Event(timestamp);
+  }
+
+  public static Event of(final long timestamp, final String action) {
+    return new Event(timestamp, action);
   }
 
   public void setTimestamp(final long timestamp) {

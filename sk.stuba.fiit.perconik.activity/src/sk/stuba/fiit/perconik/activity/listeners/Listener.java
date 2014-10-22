@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 import com.gratex.perconik.uaca.UacaConsole;
 
 import sk.stuba.fiit.perconik.activity.data.core.ListenerData;
-import sk.stuba.fiit.perconik.activity.data.events.EventData;
+import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.data.content.Content;
@@ -63,7 +63,7 @@ public abstract class Listener extends Adapter {
     }
   }
 
-  final void persist(final String path, final EventData data) {
+  final void persist(final String path, final Event data) {
     assert !isNullOrEmpty(path);
     assert data.getTimestamp() > 0L;
     assert !isNullOrEmpty(data.getAction());
@@ -73,9 +73,9 @@ public abstract class Listener extends Adapter {
     this.save(path, data);
   }
 
-  private final void save(final String path, final Content data) {
+  private final void save(final String path, final Content resource) {
     try {
-      this.proxy.save(path, data);
+      this.proxy.save(path, resource);
     } catch (Exception failure) {
       this.console.error(failure, "Unable to save data with UACA proxy");
     }
