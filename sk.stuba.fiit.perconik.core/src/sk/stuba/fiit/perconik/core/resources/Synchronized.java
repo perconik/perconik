@@ -82,13 +82,13 @@ final class Synchronized {
     }
 
     @Override
-    public boolean equals(@Nullable final Object o) {
-      if (o == this) {
+    public boolean equals(@Nullable final Object object) {
+      if (object == this) {
         return true;
       }
 
       synchronized (this.mutex) {
-        return this.delegate.equals(o);
+        return this.delegate.equals(object);
       }
     }
 
@@ -138,13 +138,13 @@ final class Synchronized {
     }
 
     @Override
-    public boolean equals(@Nullable final Object o) {
-      if (o == this) {
+    public boolean equals(@Nullable final Object object) {
+      if (object == this) {
         return true;
       }
 
       synchronized (this.mutex) {
-        return this.delegate.equals(o);
+        return this.delegate.equals(object);
       }
     }
 
@@ -188,13 +188,13 @@ final class Synchronized {
     }
 
     @Override
-    public boolean equals(@Nullable final Object o) {
-      if (o == this) {
+    public boolean equals(@Nullable final Object object) {
+      if (object == this) {
         return true;
       }
 
       synchronized (this.mutex) {
-        return this.delegate.equals(o);
+        return this.delegate.equals(object);
       }
     }
 
@@ -226,13 +226,13 @@ final class Synchronized {
     }
 
     @Override
-    public boolean equals(@Nullable final Object o) {
-      if (o == this) {
+    public boolean equals(@Nullable final Object object) {
+      if (object == this) {
         return true;
       }
 
       synchronized (this.mutex) {
-        return this.delegate.equals(o);
+        return this.delegate.equals(object);
       }
     }
 
