@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.services.Services;
 public class StandardCoreProbe implements CoreProbe {
   public StandardCoreProbe() {}
 
-  public CoreData core() {
+  public CoreData get() {
     CoreData data = new CoreData(Activator.defaultInstance());
 
     data.setClassResolver(ObjectData.of(Activator.classResolver()));

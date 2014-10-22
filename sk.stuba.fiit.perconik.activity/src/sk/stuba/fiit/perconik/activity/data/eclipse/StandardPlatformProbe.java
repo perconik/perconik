@@ -9,7 +9,7 @@ import static sk.stuba.fiit.perconik.activity.data.eclipse.Conversions.urlOrNull
 public class StandardPlatformProbe implements PlatformProbe {
   public StandardPlatformProbe() {}
 
-  public PlatformData platform() {
+  public PlatformData get() {
     PlatformData data = new PlatformData();
 
     data.setProduct(ProductData.of(Platform.getProduct()));

@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.activity.data.system;
 
-public interface SystemProbe {
-  public SystemData system();
+import sk.stuba.fiit.perconik.activity.probes.Probe;
+
+public interface SystemProbe extends Probe<SystemData> {
+  @Override
+  public SystemData get();
 }

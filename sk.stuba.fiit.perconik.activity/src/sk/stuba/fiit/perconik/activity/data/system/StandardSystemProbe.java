@@ -28,10 +28,10 @@ import static com.google.common.base.StandardSystemProperty.USER_NAME;
 import static sk.stuba.fiit.perconik.utilities.io.Conversions.pathOrNull;
 import static sk.stuba.fiit.perconik.utilities.net.Conversions.urlOrNull;
 
-public final class StandardSystemProbe implements SystemProbe {
+public class StandardSystemProbe implements SystemProbe {
   public StandardSystemProbe() {}
 
-  public final SystemData system() {
+  public SystemData get() {
     SystemData data = new SystemData();
 
     data.setJava(new JavaData());

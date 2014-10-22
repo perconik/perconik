@@ -42,9 +42,9 @@ public final class WorkbenchListener extends Listener implements sk.stuba.fiit.p
     data.setAction(action.identifier);
 
     // TODO
-    data.put("core", new StandardCoreProbe().core());
-    data.put("platform", new StandardPlatformProbe().platform());
-    data.put("system", new StandardSystemProbe().system());
+    data.put("core", new StandardCoreProbe().get());
+    data.put("platform", new StandardPlatformProbe().get());
+    data.put("system", new StandardSystemProbe().get());
 
     return data;
   }

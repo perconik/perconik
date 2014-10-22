@@ -1,5 +1,8 @@
 package sk.stuba.fiit.perconik.activity.data.core;
 
-public interface CoreProbe {
-  public CoreData core();
+import sk.stuba.fiit.perconik.activity.probes.Probe;
+
+public interface CoreProbe extends Probe<CoreData> {
+  @Override
+  public CoreData get();
 }
