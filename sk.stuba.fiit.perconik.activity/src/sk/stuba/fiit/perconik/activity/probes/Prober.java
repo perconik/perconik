@@ -4,8 +4,8 @@ import java.util.Map;
 
 import sk.stuba.fiit.perconik.data.content.AnyContent;
 
-public interface Prober extends GenericProber<AnyContent, Probe<?>> {
-  public void inject(AnyContent content);
+public interface Prober<T extends AnyContent, P extends Probe<?>> {
+  public void inject(T content);
 
-  public Map<String, Probe<?>> probes();
+  public Map<String, P> probes();
 }

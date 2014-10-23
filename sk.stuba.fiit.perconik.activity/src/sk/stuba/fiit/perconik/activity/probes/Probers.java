@@ -12,6 +12,7 @@ import sk.stuba.fiit.perconik.data.content.AnyContent;
 
 import static java.util.Objects.requireNonNull;
 
+import static com.google.common.collect.ImmutableMap.copyOf;
 import static com.google.common.collect.Lists.newLinkedList;
 
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
@@ -19,11 +20,11 @@ import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppress
 public final class Probers {
   private Probers() {}
 
-  private static abstract class AbstractProber<T extends AnyContent, P extends Probe<?>> extends AbstractGenericProber<T, P> {
-    final Map<String, P> probes;
+  private static abstract class ImmutableProper<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
+    final ImmutableMap<String, P> probes;
 
-    AbstractProber(final Map<String, P> probes) {
-      this.probes = ImmutableMap.copyOf(probes);
+    ImmutableProper(final Map<String, P> probes) {
+      this.probes = copyOf(probes);
     }
 
     public final Map<String, P> probes() {
@@ -31,16 +32,16 @@ public final class Probers {
     }
   }
 
-  private static final class BasicProber<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
-    BasicProber(final Map<String, P> probes) {
+  private static final class RegularProber<T extends AnyContent, P extends Probe<?>> extends ImmutableProper<T, P> {
+    RegularProber(final Map<String, P> probes) {
       super(probes);
     }
   }
 
-  private static final class ConcurrentProber<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
+  private static final class ConcurrentProber<T extends AnyContent, P extends Probe<?>> extends ImmutableProper<T, P> {
     final ExecutorService executor;
 
-    ConcurrentProber(final Map<String, P>    probes, final ExecutorService executor) {
+    ConcurrentProber(final Map<String, P> probes, final ExecutorService executor) {
       super(probes);
 
       this.executor = requireNonNull(executor);
@@ -78,11 +79,11 @@ public final class Probers {
     }
   }
 
-  public static <T extends AnyContent, P extends Probe<?>> GenericProber<T, P> create(final Map<String, P> probes) {
-    return new BasicProber<>(probes);
+  public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes) {
+    return new RegularProber<>(probes);
   }
 
-  public static <T extends AnyContent, P extends Probe<?>> GenericProber<T, P> create(final Map<String, P> probes, final ExecutorService executor) {
+  public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes, final ExecutorService executor) {
     return new ConcurrentProber<>(probes, executor);
   }
 }
