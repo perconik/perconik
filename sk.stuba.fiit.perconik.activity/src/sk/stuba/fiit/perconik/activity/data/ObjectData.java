@@ -5,9 +5,9 @@ import sk.stuba.fiit.perconik.data.AnyStructuredData;
 public class ObjectData extends AnyStructuredData {
   protected ClassData implementation;
 
-  protected int hashCode;
+  protected String description;
 
-  protected String toString;
+  protected int hash;
 
   public ObjectData() {}
 
@@ -17,8 +17,8 @@ public class ObjectData extends AnyStructuredData {
     }
 
     this.setImplementation(ClassData.of(object.getClass()));
-    this.setHashCode(object.hashCode());
-    this.setToString(object.toString());
+    this.setHash(object.hashCode());
+    this.setDescription(object.toString());
   }
 
   public static ObjectData of(final Object object) {
@@ -29,23 +29,23 @@ public class ObjectData extends AnyStructuredData {
     this.implementation = implementation;
   }
 
-  public void setHashCode(final int hashCode) {
-    this.hashCode = hashCode;
+  public void setDescription(final String description) {
+    this.description = description;
   }
 
-  public void setToString(final String toString) {
-    this.toString = toString;
+  public void setHash(final int hash) {
+    this.hash = hash;
   }
 
   public ClassData getImplementation() {
     return this.implementation;
   }
 
-  public int getHashCode() {
-    return this.hashCode;
+  public String getDescription() {
+    return this.description;
   }
 
-  public String getToString() {
-    return this.toString;
+  public int getHash() {
+    return this.hash;
   }
 }
