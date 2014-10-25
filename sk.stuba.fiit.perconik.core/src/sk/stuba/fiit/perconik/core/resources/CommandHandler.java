@@ -11,7 +11,6 @@ enum CommandHandler implements Handler<CommandListener> {
 
   public void register(final CommandListener listener) {
     final Runnable addListener = new Runnable() {
-      @Override
       public void run() {
         for (Command command: Commands.waitForCommandService().getDefinedCommands()) {
           command.addCommandListener(listener);
@@ -24,7 +23,6 @@ enum CommandHandler implements Handler<CommandListener> {
 
   public void unregister(final CommandListener listener) {
     final Runnable removeListener = new Runnable() {
-      @Override
       public void run() {
         for (Command command: Commands.waitForCommandService().getDefinedCommands()) {
           command.removeCommandListener(listener);

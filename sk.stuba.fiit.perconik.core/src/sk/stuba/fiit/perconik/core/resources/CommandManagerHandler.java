@@ -11,11 +11,8 @@ enum CommandManagerHandler implements Handler<CommandManagerListener> {
     throw new UnsupportedResourceException("Not implemented yet");
 
     // TODO
-    //		final Runnable addListener = new Runnable()
-    //		{
-    //			@Override
-    //			public final void run()
-    //			{
+    //		final Runnable addListener = new Runnable() {
+    //			public final void run() {
     //			}
     //		};
     //

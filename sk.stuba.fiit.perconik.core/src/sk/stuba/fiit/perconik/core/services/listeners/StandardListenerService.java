@@ -13,7 +13,7 @@ final class StandardListenerService extends AbstractListenerService {
     public Builder() {}
 
     @Override
-    protected Builder implementation() {
+    protected Builder asSubtype() {
       return this;
     }
 

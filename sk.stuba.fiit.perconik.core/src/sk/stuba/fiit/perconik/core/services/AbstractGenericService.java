@@ -61,7 +61,7 @@ public abstract class AbstractGenericService<P extends Provider, M extends Manag
     /**
      * Must always return {@code this}.
      */
-    protected abstract B implementation();
+    protected abstract B asSubtype();
 
     /**
      * Sets the provider of the built generic service.
@@ -75,7 +75,7 @@ public abstract class AbstractGenericService<P extends Provider, M extends Manag
 
       this.provider = checkNotNull(provider);
 
-      return this.implementation();
+      return this.asSubtype();
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class AbstractGenericService<P extends Provider, M extends Manag
 
       this.manager = checkNotNull(manager);
 
-      return this.implementation();
+      return this.asSubtype();
     }
 
     /**

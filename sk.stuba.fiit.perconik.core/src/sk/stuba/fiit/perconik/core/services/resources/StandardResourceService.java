@@ -13,7 +13,7 @@ final class StandardResourceService extends AbstractResourceService {
     public Builder() {}
 
     @Override
-    protected Builder implementation() {
+    protected Builder asSubtype() {
       return this;
     }
 

@@ -10,7 +10,6 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener> {
 
   public void register(final CommandExecutionListener listener) {
     final Runnable addListener = new Runnable() {
-      @Override
       public void run() {
         Commands.waitForCommandService().addExecutionListener(listener);
       }
@@ -21,7 +20,6 @@ enum CommandExecutionHandler implements Handler<CommandExecutionListener> {
 
   public void unregister(final CommandExecutionListener listener) {
     final Runnable removeListener = new Runnable() {
-      @Override
       public void run() {
         Commands.waitForCommandService().removeExecutionListener(listener);
       }

@@ -10,7 +10,6 @@ enum WindowHandler implements Handler<WindowListener> {
 
   public final void register(final WindowListener listener) {
     final Runnable addListener = new Runnable() {
-      @Override
       public void run() {
         Workbenches.waitForWorkbench().addWindowListener(listener);
       }
@@ -21,7 +20,6 @@ enum WindowHandler implements Handler<WindowListener> {
 
   public final void unregister(final WindowListener listener) {
     final Runnable removeListener = new Runnable() {
-      @Override
       public void run() {
         Workbenches.waitForWorkbench().removeWindowListener(listener);
       }
