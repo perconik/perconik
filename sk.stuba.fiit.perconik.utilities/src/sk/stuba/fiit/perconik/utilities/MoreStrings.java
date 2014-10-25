@@ -13,6 +13,7 @@ import jersey.repackaged.com.google.common.collect.Lists;
 
 import static java.util.Arrays.asList;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -121,6 +122,12 @@ public final class MoreStrings {
 
   public static List<String> lines(final String s) {
     return asList(s.split(lineSeparatorRegex));
+  }
+
+  public static String requireNonNullOrEmpty(final String s) {
+    checkArgument(!s.isEmpty());
+  
+    return s;
   }
 
   public static boolean isWhitespace(final String s) {
