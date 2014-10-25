@@ -7,12 +7,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.Predicate;
 
 import jersey.repackaged.com.google.common.collect.Lists;
 
 import static java.util.Arrays.asList;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -131,6 +133,18 @@ public final class MoreStrings {
     }
 
     return true;
+  }
+
+  private enum IsNullOrEmptyPredicate implements Predicate<String> {
+    INSTANCE;
+
+    public boolean apply(final String s) {
+      return isNullOrEmpty(s);
+    }
+  }
+
+  public static Predicate<String> isNullOrEmptyPredicate() {
+    return IsNullOrEmptyPredicate.INSTANCE;
   }
 
   public static String toDefaultString(final Object o) {
