@@ -14,7 +14,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
  */
 @Unsupported
 @Version("0.0.1")
-public final class SelectionListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.SelectionListener {
+public final class SelectionListener extends SharingEventListener implements sk.stuba.fiit.perconik.core.listeners.SelectionListener {
   public SelectionListener() {}
 
   public final void selectionChanged(final IWorkbenchPart part, final ISelection selection) {}

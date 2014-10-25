@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 
 @Unsupported
 @Version("0.0.1")
-public final class LaunchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.LaunchesListener {
+public final class LaunchListener extends SharingEventListener implements sk.stuba.fiit.perconik.core.listeners.LaunchesListener {
   public LaunchListener() {}
 
   public final void launchesAdded(final ILaunch[] launches) {}

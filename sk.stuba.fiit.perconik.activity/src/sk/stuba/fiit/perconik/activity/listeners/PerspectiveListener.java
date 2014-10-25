@@ -15,7 +15,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
  */
 @Unsupported
 @Version("0.0.1")
-public final class PerspectiveListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
+public final class PerspectiveListener extends SharingEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   public PerspectiveListener() {}
 
   public final void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {}

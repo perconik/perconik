@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
  */
 @Unsupported
 @Version("0.0.1")
-public final class WindowListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
+public final class WindowListener extends SharingEventListener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
   public WindowListener() {}
 
   public final void windowOpened(final IWorkbenchWindow window) {}

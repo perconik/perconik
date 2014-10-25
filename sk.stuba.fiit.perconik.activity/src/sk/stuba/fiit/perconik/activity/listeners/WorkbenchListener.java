@@ -2,9 +2,6 @@ package sk.stuba.fiit.perconik.activity.listeners;
 
 import org.eclipse.ui.IWorkbench;
 
-import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
-import sk.stuba.fiit.perconik.activity.data.eclipse.StandardPlatformProbe;
-import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
@@ -20,7 +17,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.Utilities.currentTime;
  */
 @Unsupported
 @Version("0.0.1")
-public final class WorkbenchListener extends Listener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
+public final class WorkbenchListener extends SharingEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
   public WorkbenchListener() {}
 
   public enum Action {
@@ -41,11 +38,6 @@ public final class WorkbenchListener extends Listener implements sk.stuba.fiit.p
     data.setTimestamp(time);
     data.setAction(action.identifier);
 
-    // TODO
-    data.put("core", new StandardCoreProbe().get());
-    data.put("platform", new StandardPlatformProbe().get());
-    data.put("system", new StandardSystemProbe().get());
-
     return data;
   }
 
@@ -55,9 +47,9 @@ public final class WorkbenchListener extends Listener implements sk.stuba.fiit.p
 
     //Activator.waitForExtensions(); // TODO causes deadlock
 
-    execute(new Runnable() {
+    this.execute(new Runnable() {
       public final void run() {
-        persist("eclipse/workbench/startup", build(time, Action.STARTUP));
+        send("eclipse/workbench/startup", build(time, Action.STARTUP));
       }
     });
   }
@@ -65,9 +57,9 @@ public final class WorkbenchListener extends Listener implements sk.stuba.fiit.p
   public final boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     final long time = currentTime();
 
-    execute(new Runnable() {
+    this.execute(new Runnable() {
       public final void run() {
-        persist("workbench/shutdown", build(time, Action.SHUTDOWN));
+        send("workbench/shutdown", build(time, Action.SHUTDOWN));
       }
     });
 
