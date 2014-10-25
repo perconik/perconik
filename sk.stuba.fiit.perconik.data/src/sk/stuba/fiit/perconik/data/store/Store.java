@@ -4,10 +4,10 @@ import javax.annotation.Nullable;
 
 import sk.stuba.fiit.perconik.data.content.Content;
 
-public interface Store extends AutoCloseable {
-  public Content load(String path, @Nullable Content request) throws Exception;
+public interface Store<R> extends AutoCloseable {
+  public Content load(String path, @Nullable R request) throws Exception;
 
-  public void save(String path, @Nullable Content resource) throws Exception;
+  public void save(String path, @Nullable R resource) throws Exception;
 
   @Override
   public void close() throws Exception;
