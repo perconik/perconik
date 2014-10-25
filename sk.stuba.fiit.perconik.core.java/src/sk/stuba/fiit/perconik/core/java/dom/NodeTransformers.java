@@ -16,7 +16,7 @@ public final class NodeTransformers {
     return NodeCutter.using(filter);
   }
 
-  private static enum ToRootFunction implements Function<ASTNode, ASTNode> {
+  private enum ToRootFunction implements Function<ASTNode, ASTNode> {
     INSTANCE;
 
     public ASTNode apply(@Nullable final ASTNode node) {
@@ -29,7 +29,7 @@ public final class NodeTransformers {
     }
   }
 
-  private static enum ToParentFunction implements Function<ASTNode, ASTNode> {
+  private enum ToParentFunction implements Function<ASTNode, ASTNode> {
     INSTANCE;
 
     public ASTNode apply(@Nullable final ASTNode node) {

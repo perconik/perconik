@@ -63,7 +63,7 @@ public abstract class SharingEventListener extends RegularEventListener {
     return sharedBuilder.build();
   }
 
-  private static enum UacaProxySupplier implements Supplier<Store<? super Event>> {
+  private enum UacaProxySupplier implements Supplier<Store<? super Event>> {
     instance;
 
     public Store<? super Event> get() {
@@ -77,7 +77,7 @@ public abstract class SharingEventListener extends RegularEventListener {
     }
   }
 
-  private static enum UacaProxySaveFailureHandler implements SendFailureHandler {
+  private enum UacaProxySaveFailureHandler implements SendFailureHandler {
     instance;
 
     public void handleSendFailure(final String path, final Event data, final Exception failure) {
@@ -85,7 +85,7 @@ public abstract class SharingEventListener extends RegularEventListener {
     }
   }
 
-  private static enum UacaProxyDisposalHook implements DisposalHook {
+  private enum UacaProxyDisposalHook implements DisposalHook {
     instance;
 
     public void onDispose(final Listener listener) {

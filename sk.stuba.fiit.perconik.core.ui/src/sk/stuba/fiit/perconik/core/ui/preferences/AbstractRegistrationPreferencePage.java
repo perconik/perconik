@@ -304,7 +304,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     this.notesButton.setEnabled(selectionCount == 1);
   }
 
-  private static enum AnnotationFilter implements Predicate<Annotation> {
+  private enum AnnotationFilter implements Predicate<Annotation> {
     INSTANCE;
 
     public static Iterable<Annotation> apply(final Iterable<Annotation> annotations) {

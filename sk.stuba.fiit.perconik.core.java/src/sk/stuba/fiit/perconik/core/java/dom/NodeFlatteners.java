@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 public final class NodeFlatteners {
   private NodeFlatteners() {}
 
-  private static enum ToStringFlattener implements Function<ASTNode, CharSequence> {
+  private enum ToStringFlattener implements Function<ASTNode, CharSequence> {
     INSTANCE;
 
     public CharSequence apply(@Nullable final ASTNode node) {

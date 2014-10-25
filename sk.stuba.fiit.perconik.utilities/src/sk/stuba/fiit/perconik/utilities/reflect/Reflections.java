@@ -18,7 +18,7 @@ import static com.google.common.collect.Sets.newLinkedHashSet;
 public final class Reflections {
   private Reflections() {}
 
-  private static enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>> {
+  private enum ToAnnotationTypeFunction implements Function<Annotation, Class<? extends Annotation>> {
     INSTANCE;
 
     public Class<? extends Annotation> apply(@Nullable final Annotation annotation) {
@@ -31,7 +31,7 @@ public final class Reflections {
     }
   }
 
-  private static enum ToClassFunction implements Function<Object, Class<? extends Object>> {
+  private enum ToClassFunction implements Function<Object, Class<? extends Object>> {
     INSTANCE;
 
     public Class<? extends Object> apply(@Nullable final Object object) {
@@ -44,7 +44,7 @@ public final class Reflections {
     }
   }
 
-  private static enum ToEnumTypeFunction implements Function<Enum<?>, Class<?>> {
+  private enum ToEnumTypeFunction implements Function<Enum<?>, Class<?>> {
     INSTANCE;
 
     public Class<?> apply(@Nullable final Enum<?> constant) {

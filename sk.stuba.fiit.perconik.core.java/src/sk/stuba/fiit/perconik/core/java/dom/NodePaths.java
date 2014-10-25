@@ -31,7 +31,7 @@ public class NodePaths {
     return variableSeparator;
   }
 
-  private static enum PathNameStrategy implements Function<ASTNode, String> {
+  private enum PathNameStrategy implements Function<ASTNode, String> {
     NAME {
       public String apply(final ASTNode node) {
         if (node == null) {

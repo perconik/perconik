@@ -14,7 +14,7 @@ import sk.stuba.fiit.perconik.utilities.function.ListCollector;
 public final class NodeCollectors {
   private NodeCollectors() {}
 
-  private static enum ChildrenCollector implements ListCollector<ASTNode, ASTNode> {
+  private enum ChildrenCollector implements ListCollector<ASTNode, ASTNode> {
     INSTANCE;
 
     public LinkedList<ASTNode> apply(@Nullable final ASTNode node) {
@@ -27,7 +27,7 @@ public final class NodeCollectors {
     }
   }
 
-  private static enum AncestorsCollector implements ListCollector<ASTNode, ASTNode> {
+  private enum AncestorsCollector implements ListCollector<ASTNode, ASTNode> {
     INSTANCE;
 
     public LinkedList<ASTNode> apply(@Nullable final ASTNode node) {
@@ -40,7 +40,7 @@ public final class NodeCollectors {
     }
   }
 
-  private static enum DescendantsCollector implements ListCollector<ASTNode, ASTNode> {
+  private enum DescendantsCollector implements ListCollector<ASTNode, ASTNode> {
     INSTANCE;
 
     public LinkedList<ASTNode> apply(@Nullable final ASTNode node) {

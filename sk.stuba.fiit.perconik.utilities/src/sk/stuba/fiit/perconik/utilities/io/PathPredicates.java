@@ -114,7 +114,7 @@ public final class PathPredicates {
       return Files.isDirectory(path, this.options);
     }
 
-    static enum Default implements Predicate<Path> {
+    enum Default implements Predicate<Path> {
       INSTANCE;
 
       public boolean apply(@Nonnull final Path path) {
@@ -140,7 +140,7 @@ public final class PathPredicates {
       return Files.isRegularFile(path, this.options);
     }
 
-    static enum Default implements Predicate<Path> {
+    enum Default implements Predicate<Path> {
       INSTANCE;
 
       public boolean apply(@Nonnull final Path path) {
@@ -153,7 +153,7 @@ public final class PathPredicates {
     // TODO add equals, hashCode, toString
   }
 
-  static enum IsExecutablePredicate implements Predicate<Path> {
+  enum IsExecutablePredicate implements Predicate<Path> {
     INSTANCE;
 
     public boolean apply(@Nonnull final Path path) {
@@ -163,7 +163,7 @@ public final class PathPredicates {
     // TODO add toString
   }
 
-  static enum IsReadablePredicate implements Predicate<Path> {
+  enum IsReadablePredicate implements Predicate<Path> {
     INSTANCE;
 
     public boolean apply(@Nonnull final Path path) {
@@ -173,7 +173,7 @@ public final class PathPredicates {
     // TODO add toString
   }
 
-  static enum IsWritablePredicate implements Predicate<Path> {
+  enum IsWritablePredicate implements Predicate<Path> {
     INSTANCE;
 
     public boolean apply(@Nonnull final Path path) {
@@ -183,7 +183,7 @@ public final class PathPredicates {
     // TODO add toString
   }
 
-  static enum IsHiddenPredicate implements Predicate<Path> {
+  enum IsHiddenPredicate implements Predicate<Path> {
     INSTANCE;
 
     public boolean apply(@Nonnull final Path path) {
@@ -197,7 +197,7 @@ public final class PathPredicates {
     // TODO add toString
   }
 
-  static enum IsSymbolicLinkPredicate implements Predicate<Path> {
+  enum IsSymbolicLinkPredicate implements Predicate<Path> {
     INSTANCE;
 
     public boolean apply(@Nonnull final Path path) {

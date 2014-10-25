@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 public final class StringLiterals {
   private StringLiterals() {}
 
-  private static enum ToEscapedValue implements Function<StringLiteral, String> {
+  private enum ToEscapedValue implements Function<StringLiteral, String> {
     INSTANCE;
 
     public String apply(@Nonnull final StringLiteral literal) {
@@ -18,7 +18,7 @@ public final class StringLiterals {
     }
   }
 
-  private static enum ToLiteralValue implements Function<StringLiteral, String> {
+  private enum ToLiteralValue implements Function<StringLiteral, String> {
     INSTANCE;
 
     public String apply(@Nonnull final StringLiteral literal) {

@@ -21,7 +21,7 @@ public abstract class AbstractPreferences {
     this.data = checkNotNull(scope.preferences(qualifier));
   }
 
-  public static enum Scope {
+  public enum Scope {
     DEFAULT {
       @Override
       public IScopeContext context() {

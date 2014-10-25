@@ -18,7 +18,7 @@ public final class IntegralConstantSupport<E extends Enum<E> & IntegralConstant>
     super(type);
   }
 
-  private static enum Transformation implements Function<IntegralConstant, Integer> {
+  private enum Transformation implements Function<IntegralConstant, Integer> {
     INSTANCE;
 
     public Integer apply(@Nonnull final IntegralConstant constant) {

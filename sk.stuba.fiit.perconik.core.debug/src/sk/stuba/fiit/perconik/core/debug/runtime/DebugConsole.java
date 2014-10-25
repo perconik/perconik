@@ -26,7 +26,7 @@ public final class DebugConsole implements PluginConsole {
     this.builder = new SmartStringBuilder();
   }
 
-  private static enum Factory implements DebugConsoleFactory {
+  private enum Factory implements DebugConsoleFactory {
     INSTANCE;
 
     public DebugConsole create(final Plugin plugin) {

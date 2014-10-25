@@ -53,7 +53,7 @@ public final class PathFunctions {
     return castWhole(new ResolveSiblingFunction(path));
   }
 
-  static enum NormalizeFunction implements Function<Path, Path> {
+  enum NormalizeFunction implements Function<Path, Path> {
     INSTANCE;
 
     public Path apply(@Nonnull final Path path) {
@@ -137,7 +137,7 @@ public final class PathFunctions {
     // TODO add equals, hashCode, toString
   }
 
-  static enum NameCountFunction implements Function<Path, Integer> {
+  enum NameCountFunction implements Function<Path, Integer> {
     INSTANCE;
 
     public Integer apply(@Nonnull final Path path) {
@@ -163,7 +163,7 @@ public final class PathFunctions {
     return castInput(FileSystemFunction.INSTANCE);
   }
 
-  static enum RootFunction implements Function<Path, Path> {
+  enum RootFunction implements Function<Path, Path> {
     INSTANCE;
 
     public Path apply(@Nonnull final Path path) {
@@ -173,7 +173,7 @@ public final class PathFunctions {
     // TODO add toString
   }
 
-  static enum ParentFunction implements Function<Path, Path> {
+  enum ParentFunction implements Function<Path, Path> {
     INSTANCE;
 
     public Path apply(@Nonnull final Path path) {
@@ -183,7 +183,7 @@ public final class PathFunctions {
     // TODO add toString
   }
 
-  static enum FileNameFunction implements Function<Path, Path> {
+  enum FileNameFunction implements Function<Path, Path> {
     INSTANCE;
 
     public Path apply(@Nonnull final Path path) {
@@ -193,7 +193,7 @@ public final class PathFunctions {
     // TODO add toString
   }
 
-  static enum FileSystemFunction implements Function<Path, FileSystem> {
+  enum FileSystemFunction implements Function<Path, FileSystem> {
     INSTANCE;
 
     public FileSystem apply(@Nonnull final Path path) {
@@ -223,7 +223,7 @@ public final class PathFunctions {
     return castInput(ToUriFunction.INSTANCE);
   }
 
-  static enum ToAbsolutePathFunction implements Function<Path, Path> {
+  enum ToAbsolutePathFunction implements Function<Path, Path> {
     INSTANCE;
 
     public Path apply(@Nonnull final Path path) {
@@ -250,7 +250,7 @@ public final class PathFunctions {
       }
     }
 
-    static enum Default implements Function<Path, Path> {
+    enum Default implements Function<Path, Path> {
       INSTANCE;
 
       public Path apply(@Nonnull final Path path) {
@@ -267,7 +267,7 @@ public final class PathFunctions {
     // TODO add equals, hashCode, toString
   }
 
-  static enum ToFileFunction implements Function<Path, File> {
+  enum ToFileFunction implements Function<Path, File> {
     INSTANCE;
 
     public File apply(@Nonnull final Path path) {
@@ -277,7 +277,7 @@ public final class PathFunctions {
     // TODO add toString
   }
 
-  static enum ToUriFunction implements Function<Path, URI> {
+  enum ToUriFunction implements Function<Path, URI> {
     INSTANCE;
 
     public URI apply(@Nonnull final Path path) {

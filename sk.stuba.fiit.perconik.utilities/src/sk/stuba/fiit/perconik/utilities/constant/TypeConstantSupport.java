@@ -17,7 +17,7 @@ public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> e
     super(type);
   }
 
-  private static enum Transformation implements Function<TypeConstant<?>, Class<?>> {
+  private enum Transformation implements Function<TypeConstant<?>, Class<?>> {
     INSTANCE;
 
     public Class<?> apply(@Nonnull final TypeConstant<?> constant) {

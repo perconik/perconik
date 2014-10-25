@@ -1737,7 +1737,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.append(joiner.join(Doubles.asList(values)));
   }
 
-  private static enum NotEmptyPredicate implements Predicate<CharSequence> {
+  private enum NotEmptyPredicate implements Predicate<CharSequence> {
     INSTANCE;
 
     public boolean apply(@Nullable CharSequence s) {

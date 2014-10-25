@@ -147,7 +147,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
     return new Builder<>();
   }
 
-  private static enum Mode {
+  private enum Mode {
     INCLUDE {
       @Override
       boolean apply(final boolean result) {
@@ -165,7 +165,7 @@ public abstract class NodeClassFilter<N extends ASTNode, R extends ASTNode> impl
     abstract boolean apply(final boolean result);
   }
 
-  private static enum Strategy {
+  private enum Strategy {
     INSTANCE_OF {
       @Override
       boolean compute(final Class<? extends ASTNode> implementation, @Nullable final ASTNode node) {

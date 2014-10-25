@@ -13,7 +13,7 @@ public final class Versions {
 
   private Versions() {}
 
-  public static enum Component {
+  public enum Component {
     MAJOR {
       @Override
       public Integer get(final Version version) {

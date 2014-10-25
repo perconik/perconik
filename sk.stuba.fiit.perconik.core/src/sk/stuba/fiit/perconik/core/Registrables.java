@@ -35,7 +35,7 @@ public final class Registrables {
   private Registrables() {}
 
   @Persistent
-  private static enum PersistentMark {
+  private enum PersistentMark {
   }
 
   private static final class VersionHandler implements InvocationHandler, Serializable {

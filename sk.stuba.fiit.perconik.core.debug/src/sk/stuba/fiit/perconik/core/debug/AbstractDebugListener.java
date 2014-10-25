@@ -29,7 +29,7 @@ public abstract class AbstractDebugListener extends AbstractDebugRegistrable imp
     this.error(name + " error", e);
   }
 
-  private static enum InternalHook {
+  private enum InternalHook {
     PRE_REGISTER("Pre register") {
       @Override
       boolean execute(final AbstractDebugListener listener) {

@@ -251,7 +251,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
   }
 
-  private static enum OutputLocationFilter implements Predicate<IResource> {
+  private enum OutputLocationFilter implements Predicate<IResource> {
     INSTANCE;
 
     public boolean apply(@Nonnull final IResource resource) {
@@ -272,7 +272,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
   }
 
-  private static enum GitInternalFilter implements Predicate<IResource> {
+  private enum GitInternalFilter implements Predicate<IResource> {
     INSTANCE;
 
     public boolean apply(@Nonnull final IResource resource) {
@@ -292,7 +292,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
     }
   }
 
-  private static enum GitIgnoreFilter implements Predicate<IResource> {
+  private enum GitIgnoreFilter implements Predicate<IResource> {
     INSTANCE;
 
     public boolean apply(@Nonnull final IResource resource) {

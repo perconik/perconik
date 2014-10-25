@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.utilities.function.Numerate;
 public final class NodeCounters {
   private NodeCounters() {}
 
-  private static enum NodeCounter implements Numerate<ASTNode> {
+  private enum NodeCounter implements Numerate<ASTNode> {
     INSTANCE;
 
     public int apply(@Nullable final ASTNode node) {
@@ -33,7 +33,7 @@ public final class NodeCounters {
     }
   }
 
-  private static enum LineCounter implements Numerate<ASTNode> {
+  private enum LineCounter implements Numerate<ASTNode> {
     INSTANCE;
 
     public int apply(@Nullable final ASTNode node) {
@@ -52,7 +52,7 @@ public final class NodeCounters {
     }
   }
 
-  private static enum CharacterCounter implements Numerate<ASTNode> {
+  private enum CharacterCounter implements Numerate<ASTNode> {
     INSTANCE;
 
     public int apply(@Nullable final ASTNode node) {
@@ -65,7 +65,7 @@ public final class NodeCounters {
     }
   }
 
-  private static enum MemoryCounter implements Numerate<ASTNode> {
+  private enum MemoryCounter implements Numerate<ASTNode> {
     INSTANCE;
 
     public int apply(@Nullable final ASTNode node) {

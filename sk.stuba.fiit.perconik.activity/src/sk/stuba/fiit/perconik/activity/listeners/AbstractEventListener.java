@@ -336,7 +336,7 @@ public abstract class AbstractEventListener extends Adapter {
     public void handleSendFailure(final String path, final Event data, final Exception failure);
   }
 
-  private static enum PropagatingSendFailureHandler implements SendFailureHandler {
+  private enum PropagatingSendFailureHandler implements SendFailureHandler {
     instance;
 
     public void handleSendFailure(final String path, final Event data, final Exception failure) {
@@ -493,7 +493,7 @@ public abstract class AbstractEventListener extends Adapter {
     }
   }
 
-  private static enum IgnoringDisposalHook implements DisposalHook {
+  private enum IgnoringDisposalHook implements DisposalHook {
     instance;
 
     public void onDispose(final Listener listener) {}

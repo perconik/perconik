@@ -17,7 +17,7 @@ public final class StringConstantSupport<E extends Enum<E> & StringConstant> ext
     super(type);
   }
 
-  private static enum Transformation implements Function<StringConstant, String> {
+  private enum Transformation implements Function<StringConstant, String> {
     INSTANCE;
 
     public String apply(@Nonnull final StringConstant constant) {

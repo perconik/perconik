@@ -126,7 +126,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     this.watch = Stopwatch.createUnstarted();
   }
 
-  static enum Operation {
+  enum Operation {
     COPY("org.eclipse.ui.edit.copy", IdeCodeEventType.COPY),
 
     CUT("org.eclipse.ui.edit.cut", IdeCodeEventType.CUT),
