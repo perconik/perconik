@@ -9,9 +9,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.google.common.collect.ForwardingMap;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -23,9 +21,12 @@ import sk.stuba.fiit.perconik.utilities.MoreMaps;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Iterators.concat;
+import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.Lists.asList;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
+import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 
 public class AnyStructuredData extends AnyData implements AnyStructuredContent {
@@ -51,10 +52,6 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
 
   static final class Structure extends ForwardingMap<String, Object> implements Serializable {
     private static final long serialVersionUID = -8851372460060747540L;
-
-    static final Joiner joiner = Joiner.on(separator).skipNulls();
-
-    static final Splitter splitter = Splitter.on(separator).trimResults();
 
     final transient Map<String, Object> map;
 
@@ -82,9 +79,9 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
 
       checkArgument(!component.isEmpty());
 
-      Iterator<String> components = splitter.split(component).iterator();
+      Iterator<String> components = sequence(component).iterator();
 
-      return key.hasNext() ? Iterators.concat(components, key) : components;
+      return key.hasNext() ? concat(components, key) : components;
     }
 
     Object put(Iterator<String> key, final Object value) {
@@ -165,7 +162,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
 
     @Override
     public Object put(final String key, final Object value) {
-      return this.put(Iterators.singletonIterator(key), value);
+      return this.put(singletonIterator(key), value);
     }
 
     @Override
@@ -175,18 +172,18 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
 
     @Override
     public Object remove(final Object key) {
-      return this.remove(Iterators.singletonIterator((String) key));
+      return this.remove(singletonIterator((String) key));
     }
 
     @Override
     public boolean containsKey(final Object key) {
-      return this.contains(Iterators.singletonIterator((String) key));
+      return this.contains(singletonIterator((String) key));
     }
 
     @Override
     public Object get(final Object key) {
       if (key instanceof String) {
-        return this.get(Iterators.singletonIterator((String) key));
+        return this.get(singletonIterator((String) key));
       }
 
       return null;
@@ -225,7 +222,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   }
 
   public Map<String, Object> flatten() {
-    return MoreMaps.flatten(this.toMap(), Structure.joiner, Maps.<String, Object>newLinkedHashMap());
+    return MoreMaps.flatten(this.toMap(), Joiner.on(separator), Maps.<String, Object>newLinkedHashMap());
   }
 
   @JsonAnySetter
