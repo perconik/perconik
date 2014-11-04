@@ -1,8 +1,8 @@
 package com.gratex.perconik.services.plugin;
 
-import org.osgi.framework.BundleContext;
+import org.eclipse.core.runtime.Plugin;
 
-import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -12,7 +12,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class Activator extends ExtendedPlugin {
+public final class Activator extends Plugin {
   /**
    * The plug-in identifier.
    */
