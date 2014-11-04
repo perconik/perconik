@@ -22,6 +22,5 @@ public final class Defaults {
     MAP_TYPE = defaultTypeFactory.constructMapType(LinkedHashMap.class, String.class, Object.class);
   }
 
-  private Defaults() {
-  }
+  private Defaults() {}
 }

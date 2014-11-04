@@ -24,8 +24,7 @@ public class StructuredContents {
 
   private static final Splitter splitter = Splitter.on(separator).trimResults().omitEmptyStrings();
 
-  private StructuredContents() {
-  }
+  private StructuredContents() {}
 
   public static String key(final String key) {
     return requireNonNullOrEmpty(key);
