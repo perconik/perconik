@@ -7,15 +7,11 @@ import com.google.common.collect.ImmutableMap;
 
 import com.gratex.perconik.uaca.UacaConsole;
 
-import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
-import sk.stuba.fiit.perconik.activity.data.eclipse.StandardPlatformProbe;
-import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.Builder;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
 import sk.stuba.fiit.perconik.core.Listener;
-import sk.stuba.fiit.perconik.data.store.Store;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
@@ -23,7 +19,6 @@ import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.builder;
-import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 /**
  * TODO
@@ -39,22 +34,27 @@ public abstract class SharingEventListener extends RegularEventListener {
 
     sharedBuilder.diplayExecutor(DisplayExecutor.defaultSynchronous());
     sharedBuilder.sharedExecutor(PlatformExecutors.newLimitedThreadPool());
-    sharedBuilder.probeExecutor(PlatformExecutors.newLimitedThreadPool(0.5f));
 
-    sharedBuilder.loggerConsole(UacaConsole.getInstance());
+    sharedBuilder.pluginConsole(UacaConsole.getInstance());
     sharedBuilder.persistenceStore(UacaProxySupplier.instance);
-    sharedBuilder.sendFailureHandler(UacaProxySaveFailureHandler.instance);
+    sharedBuilder.failureHandler(UacaProxySaveFailureHandler.instance);
     sharedBuilder.disposalHook(UacaProxyDisposalHook.instance);
 
     Map<String, Probe<?>> probes = newHashMap();
 
-    probes.put(key("monitor", "core"), new StandardCoreProbe());
-    probes.put(key("monitor", "platform"), new StandardPlatformProbe());
-    probes.put(key("monitor", "system"), new StandardSystemProbe());
+    // TODO enable
+    //probes.put(key("monitor", "core"), new StandardCoreProbe());
+    //probes.put(key("monitor", "platform"), new StandardPlatformProbe());
+    //probes.put(key("monitor", "management"), new StandardManagementProbe());// TODO ?
+    //probes.put(key("monitor", "system"), new StandardSystemProbe());
 
-    sharedBuilder.probesMapping(probes);
+    sharedBuilder.probeMappings(probes);
+    sharedBuilder.probeExecutor(PlatformExecutors.newLimitedThreadPool(0.5f));
   }
 
+  /**
+   * Constructor for use by subclasses.
+   */
   protected SharingEventListener() {
     super(newConfiguration());
   }
@@ -63,12 +63,12 @@ public abstract class SharingEventListener extends RegularEventListener {
     return sharedBuilder.build();
   }
 
-  private enum UacaProxySupplier implements Supplier<Store<? super Event>> {
+  private enum UacaProxySupplier implements Supplier<PersistenceStore> {
     instance;
 
-    public Store<? super Event> get() {
+    public PersistenceStore get() {
       try {
-        return new UacaProxy();
+        return StoreWrapper.of(new UacaProxy());
       } catch (Exception failure) {
         UacaConsole.getInstance().error(failure, "Unable to open UACA proxy");
 
@@ -90,9 +90,9 @@ public abstract class SharingEventListener extends RegularEventListener {
 
     public void onDispose(final Listener listener) {
       try {
-        AbstractEventListener listenerWithPersistenceStore = (AbstractEventListener) listener;
+        RegularEventListener listenerWithPersistenceStore = (RegularEventListener) listener;
 
-        listenerWithPersistenceStore.store.close();
+        listenerWithPersistenceStore.persistenceStore.close();
       } catch (Exception failure) {
         UacaConsole.getInstance().error(failure, "Unable to close UACA proxy");
       }
@@ -100,7 +100,13 @@ public abstract class SharingEventListener extends RegularEventListener {
   }
 
   @Override
-  protected final Map<String, InternalProbe<?>> internalProbesMapping() {
-    return ImmutableMap.<String, InternalProbe<?>>builder().put("listener", new ConfigurationProbe()).build();
+  protected final Map<String, InternalProbe<?>> internalProbeMappings() {
+    ImmutableMap.Builder<String, InternalProbe<?>> builder = ImmutableMap.builder();
+
+    // TODO enable
+    //builder.put(key("monitor", "listener"), new RegularConfigurationProbe());
+    //builder.put(key("monitor", "listener", "statistics"), new RegularStatisticsProbe());
+
+    return builder.build();
   }
 }
