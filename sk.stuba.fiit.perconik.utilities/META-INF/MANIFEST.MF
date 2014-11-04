@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Utilities
 Bundle-SymbolicName: sk.stuba.fiit.perconik.utilities;singleton:=true
-Bundle-Version: 0.5.0.qualifier
+Bundle-Version: 0.6.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: sk.stuba.fiit.perconik.utilities,
  sk.stuba.fiit.perconik.utilities.concurrent,
