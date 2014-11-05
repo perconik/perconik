@@ -126,7 +126,7 @@ public final class MoreStrings {
 
   public static String requireNonNullOrEmpty(final String s) {
     checkArgument(!s.isEmpty());
-  
+
     return s;
   }
 
@@ -224,27 +224,33 @@ public final class MoreStrings {
     return Character.toUpperCase(s.charAt(0)) + s.substring(1);
   }
 
-  private enum ToLowerCaseFunction implements Function<String, String> {
+  private enum ToLowerCaseFunction implements Function<Object, String> {
     INSTANCE;
 
-    public String apply(final String s) {
-      return String.valueOf(s).toLowerCase();
+    public String apply(final Object o) {
+      return String.valueOf(o).toLowerCase();
     }
   }
 
-  private enum ToUpperCaseFunction implements Function<String, String> {
+  private enum ToUpperCaseFunction implements Function<Object, String> {
     INSTANCE;
 
-    public String apply(final String s) {
-      return String.valueOf(s).toUpperCase();
+    public String apply(final Object o) {
+      return String.valueOf(o).toUpperCase();
     }
   }
 
-  public static Function<String, String> toLowerCaseFunction() {
-    return ToLowerCaseFunction.INSTANCE;
+  public static <T> Function<T, String> toLowerCaseFunction() {
+    @SuppressWarnings("unchecked")
+    Function<T, String> result = (Function<T, String>) ToLowerCaseFunction.INSTANCE;
+
+    return result;
   }
 
-  public static Function<String, String> toUpperCaseFunction() {
-    return ToUpperCaseFunction.INSTANCE;
+  public static <T> Function<T, String> toUpperCaseFunction() {
+    @SuppressWarnings("unchecked")
+    Function<T, String> result = (Function<T, String>) ToUpperCaseFunction.INSTANCE;
+
+    return result;
   }
 }
