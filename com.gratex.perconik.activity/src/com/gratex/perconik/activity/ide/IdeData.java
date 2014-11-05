@@ -1,5 +1,7 @@
 package com.gratex.perconik.activity.ide;
 
+import java.util.Date;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
@@ -91,7 +93,7 @@ public final class IdeData {
   }
 
   public static void setEventData(final IdeEventData data, final long time) {
-    data.setTimestamp(Internals.timeSupplier.from(time));
+    data.setTimestamp(new Date(time));
   }
 
   public static void setProjectData(final IdeEventData data, final IFile file) {

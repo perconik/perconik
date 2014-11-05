@@ -1,9 +1,13 @@
 package com.gratex.perconik.services.uaca.ide;
 
-import javax.xml.datatype.XMLGregorianCalendar;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class IdeEventData {
-  private XMLGregorianCalendar timestamp;
+  public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+
+  private Date timestamp;
 
   /**
    * Application instance identifier (for instance pid)
@@ -72,11 +76,12 @@ public class IdeEventData {
     this.solutionName = solutionName;
   }
 
-  public XMLGregorianCalendar getTimestamp() {
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIMESTAMP_FORMAT)
+  public Date getTimestamp() {
     return this.timestamp;
   }
 
-  public void setTimestamp(final XMLGregorianCalendar timestamp) {
+  public void setTimestamp(final Date timestamp) {
     this.timestamp = timestamp;
   }
 }

@@ -15,7 +15,7 @@ public final class IdeApplication {
 
   private IdeApplication() {
     this.pid = Internals.pid();
-    this.debug = Internals.debug;
+    this.debug = Internals.debugFlag;
     this.product = Products.getProduct();
   }
 
