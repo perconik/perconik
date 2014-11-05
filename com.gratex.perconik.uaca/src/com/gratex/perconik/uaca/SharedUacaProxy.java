@@ -3,7 +3,6 @@ package com.gratex.perconik.uaca;
 import java.net.URL;
 
 import javax.annotation.Nullable;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
@@ -13,6 +12,7 @@ import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import static java.lang.String.format;
 
+import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
@@ -20,7 +20,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   public SharedUacaProxy() {}
 
   public static final void checkConnection(final String url) {
-    ClientBuilder.newClient().target(url).path("ide/checkin").request().options().close();
+    newClient().target(url).path("ide/checkin").request().options().close();
   }
 
   public static final void checkConnection(final URL url) {
@@ -33,12 +33,12 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   }
 
   @Override
-  protected void filterRequest(WebTarget target, @Nullable Object request) {
+  protected void filterRequest(final WebTarget target, @Nullable final Object request) {
     UacaReporter.logRequest(target, request);
   }
 
   @Override
-  protected void processResponse(WebTarget target, @Nullable Object request, Response response) {
+  protected void processResponse(final WebTarget target, @Nullable final Object request, final Response response) {
     StatusType status = response.getStatusInfo();
     Family family = status.getFamily();
 
@@ -50,7 +50,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   }
 
   @Override
-  protected void reportFailure(String message, Exception failure) {
+  protected void reportFailure(final String message, final Exception failure) {
     UacaReporter.logError(message, failure);
     UacaReporter.displayError(message, failure);
   }

@@ -2,6 +2,8 @@ package com.gratex.perconik.activity.ide.listeners;
 
 import java.util.concurrent.Executor;
 
+import org.eclipse.ui.IWorkbench;
+
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
 import com.gratex.perconik.uaca.UacaConsole;
 
@@ -11,6 +13,8 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
 import static com.google.common.base.Throwables.propagate;
+
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
 
 /**
  * A base class for all IDE listeners. This listener documents available
@@ -54,7 +58,7 @@ public abstract class IdeListener extends Adapter {
     this.console = UacaConsole.getInstance();
 
     try {
-      this.proxy = new IdeUacaProxy();
+      this.proxy = IdeUacaProxy.open();
     } catch (Exception failure) {
       this.console.error(failure, "Unable to open UACA proxy");
 
@@ -75,10 +79,14 @@ public abstract class IdeListener extends Adapter {
 
   @Override
   public final void postUnregister() {
-    try {
-      this.proxy.close();
-    } catch (Exception failure) {
-      this.console.error(failure, "Unable to close UACA proxy");
+    IWorkbench workbench = getWorkbench();
+
+    if (workbench == null || workbench.isClosing()) {
+      try {
+        this.proxy.close();
+      } catch (Exception failure) {
+        this.console.error(failure, "Unable to close UACA proxy");
+      }
     }
   }
 }

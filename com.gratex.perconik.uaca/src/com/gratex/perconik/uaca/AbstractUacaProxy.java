@@ -1,7 +1,7 @@
 package com.gratex.perconik.uaca;
 
 import java.net.URL;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.client.Client;
@@ -19,7 +19,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 
 @SuppressWarnings({"static-method", "unused"})
 public abstract class AbstractUacaProxy implements AutoCloseable {
-  private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
+  private static final ExecutorService sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
   private final Client client;
 

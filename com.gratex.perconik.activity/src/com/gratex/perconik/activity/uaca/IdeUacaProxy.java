@@ -16,7 +16,11 @@ import com.gratex.perconik.services.uaca.ide.IdeStateChangeEventRequest;
 import com.gratex.perconik.uaca.SharedUacaProxy;
 
 public final class IdeUacaProxy extends SharedUacaProxy {
-  public IdeUacaProxy() {}
+  IdeUacaProxy() {}
+
+  public static IdeUacaProxy open() {
+    return new IdeUacaProxy();
+  }
 
   @Override
   protected WebTarget createTarget() {
