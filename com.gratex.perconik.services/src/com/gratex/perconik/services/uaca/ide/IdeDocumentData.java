@@ -30,10 +30,11 @@ public class IdeDocumentData {
 
   public IdeDocumentData() {}
 
-  public IdeDocumentData(final String changesetIdInRcs, final String localPath, final String serverPath, final IdeRcsServerData rcsServer, final String branch) {
+  public IdeDocumentData(final String changesetIdInRcs, String changesetIdInRcsOfPath, final String localPath, final String serverPath, final IdeRcsServerData rcsServer, final String branch) {
     super();
 
     this.changesetIdInRcs = changesetIdInRcs;
+    this.changesetIdInRcsOfPath = changesetIdInRcsOfPath;
     this.localPath = localPath;
     this.serverPath = serverPath;
     this.rcsServer = rcsServer;
