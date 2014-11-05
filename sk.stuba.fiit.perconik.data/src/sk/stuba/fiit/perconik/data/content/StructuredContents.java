@@ -7,6 +7,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 
+import static java.util.Arrays.asList;
+
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Iterables.filter;
@@ -26,12 +28,16 @@ public class StructuredContents {
 
   private StructuredContents() {}
 
-  public static String key(final String key) {
-    return requireNonNullOrEmpty(key);
+  public static String key(final String component) {
+    return requireNonNullOrEmpty(component);
   }
 
   public static String key(final String first, final String second, final String ... rest) {
     return key(asList(first, second, rest));
+  }
+
+  public static String key(final String[] components) {
+    return key(asList(components));
   }
 
   public static String key(final Iterable<String> components) {
