@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Nullable;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
@@ -15,6 +17,7 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 
 import static java.util.Objects.requireNonNull;
 
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
 /**
@@ -28,12 +31,28 @@ public abstract class AbstractEventListener extends Adapter {
    * Constructor for use by subclasses.
    */
   protected AbstractEventListener() {
-    Disposer.activate(this);
+    Disposer.OnWorkbenchShutdown.activate(this);
   }
 
   protected abstract <V> V execute(final DisplayTask<V> task);
 
   protected abstract void execute(final Runnable command);
+
+  @Override
+  public final void preRegister() {
+    this.preRegisterHook();
+  }
+
+  @Override
+  public final void postUnregister() {
+    this.postUnregisterHook();
+
+    Disposer.OnFinalUnregistration.activate(this);
+  }
+
+  abstract void preRegisterHook();
+
+  abstract void postUnregisterHook();
 
   protected abstract class InternalProbe<T> implements Probe<T> {
     /**
@@ -50,12 +69,8 @@ public abstract class AbstractEventListener extends Adapter {
 
   protected abstract void persist(final String path, final Event data) throws Exception;
 
-  abstract void preSend(final String path, final Event data);
-
-  abstract void postSend(final String path, final Event data);
-
   protected final void send(final String path, final Event data) {
-    this.preSend(path, data);
+    this.preSendHook(path, data);
 
     try {
       this.inject(path, data);
@@ -65,44 +80,84 @@ public abstract class AbstractEventListener extends Adapter {
       this.sendFailure(path, data, failure);
     }
 
-    this.postSend(path, data);
+    this.postSendHook(path, data);
   }
 
   protected abstract void sendFailure(final String path, final Event data, Exception failure);
 
-  private static final class Disposer implements IWorkbenchListener {
+  abstract void preSendHook(final String path, final Event data);
+
+  abstract void postSendHook(final String path, final Event data);
+
+  private static abstract class Disposer {
     private static final Logger logger = Logger.getLogger(Disposer.class.getName());
 
-    private final AbstractEventListener listener;
+    final AbstractEventListener listener;
 
-    private Disposer(final AbstractEventListener listener) {
+    Disposer(final AbstractEventListener listener) {
       this.listener = requireNonNull(listener);
     }
 
-    static void activate(final AbstractEventListener listener) {
-      final Disposer disposer = new Disposer(listener);
+    private static final class OnWorkbenchShutdown extends Disposer implements IWorkbenchListener {
+      private OnWorkbenchShutdown(final AbstractEventListener listener) {
+        super(listener);
+      }
 
-      final Runnable activation = new Runnable() {
-        public void run() {
-          waitForWorkbench().addWorkbenchListener(disposer);
-        }
-      };
+      static void activate(final AbstractEventListener listener) {
+        final OnWorkbenchShutdown disposer = new OnWorkbenchShutdown(listener);
 
-      Display.getDefault().asyncExec(activation);
-    }
+        final Runnable activation = new Runnable() {
+          public void run() {
+            waitForWorkbench().addWorkbenchListener(disposer);
+          }
+        };
 
-    public final boolean preShutdown(final IWorkbench workbench, final boolean forced) {
-      return true;
-    }
+        Display.getDefault().asyncExec(activation);
+      }
 
-    public void postShutdown(final IWorkbench workbench) {
-      try {
-        this.listener.dispose();
-      } catch (Exception failure) {
-        logger.log(Level.INFO, "Internal failure on " + this.listener + " disposal", failure);
+      public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+        return true;
+      }
+
+      public void postShutdown(final IWorkbench workbench) {
+        this.safeDispose(workbench);
+      }
+
+      @Override
+      void unsafeDispose() throws Exception {
+        this.listener.onWorkbenchShutdown();
       }
     }
+
+    private static final class OnFinalUnregistration extends Disposer {
+      private OnFinalUnregistration(final AbstractEventListener listener) {
+        super(listener);
+      }
+
+      static void activate(final AbstractEventListener listener) {
+        new OnFinalUnregistration(listener).safeDispose(getWorkbench());
+      }
+
+      @Override
+      void unsafeDispose() throws Exception {
+        this.listener.onFinalUnregistration();
+      }
+    }
+
+    void safeDispose(@Nullable final IWorkbench workbench) {
+      if (workbench != null && workbench.isClosing()) {
+        try {
+          this.unsafeDispose();
+        } catch (Exception failure) {
+          logger.log(Level.INFO, "Internal failure on " + this.listener + " disposal", failure);
+        }
+      }
+    }
+
+    abstract void unsafeDispose() throws Exception;
   }
 
-  protected abstract void dispose() throws Exception;
+  protected abstract void onWorkbenchShutdown() throws Exception;
+
+  protected abstract void onFinalUnregistration() throws Exception;
 }

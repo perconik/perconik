@@ -17,8 +17,9 @@ public final class ListenerProviderExtension implements ListenerProviderFactory 
     Builder<Class<? extends Listener>> builder = ImmutableSet.builder();
 
     builder.add(LaunchListener.class);
+    builder.add(PageListener.class);
+    builder.add(PartListener.class);
     builder.add(PerspectiveListener.class);
-    builder.add(SelectionListener.class);
     builder.add(WindowListener.class);
     builder.add(WorkbenchListener.class);
 

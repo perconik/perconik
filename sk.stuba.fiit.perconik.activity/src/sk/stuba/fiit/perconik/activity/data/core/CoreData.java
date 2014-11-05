@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import sk.stuba.fiit.perconik.activity.data.ObjectData;
-import sk.stuba.fiit.perconik.activity.data.eclipse.BundleData;
-import sk.stuba.fiit.perconik.activity.data.eclipse.PluginData;
+import sk.stuba.fiit.perconik.activity.data.platform.BundleData;
+import sk.stuba.fiit.perconik.activity.data.platform.PluginData;
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 
 public class CoreData extends PluginData {

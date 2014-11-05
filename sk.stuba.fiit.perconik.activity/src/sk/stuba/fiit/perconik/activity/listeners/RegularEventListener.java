@@ -383,12 +383,12 @@ public abstract class RegularEventListener extends AbstractEventListener {
   }
 
   @Override
-  public final void preRegister() {
+  final void preRegisterHook() {
     this.statistics.registrationCount.incrementAndGet();
   }
 
   @Override
-  public final void postUnregister() {
+  final void postUnregisterHook() {
     this.statistics.unregistrationCount.incrementAndGet();
   }
 
@@ -579,12 +579,12 @@ public abstract class RegularEventListener extends AbstractEventListener {
   }
 
   @Override
-  final void preSend(final String path, final Event data) {
+  final void preSendHook(final String path, final Event data) {
     this.statistics.sendInvocations.incrementAndGet();
   }
 
   @Override
-  final void postSend(final String path, final Event data) {}
+  final void postSendHook(final String path, final Event data) {}
 
   protected abstract class AbstractConfigurationProbe extends InternalProbe<Content> {
     /**
@@ -831,7 +831,12 @@ public abstract class RegularEventListener extends AbstractEventListener {
   }
 
   @Override
-  protected final void dispose() throws Exception {
+  protected final void onWorkbenchShutdown() throws Exception {
+    // unused
+  }
+
+  @Override
+  protected final void onFinalUnregistration() throws Exception {
     this.disposalHook.onDispose(this);
   }
 }

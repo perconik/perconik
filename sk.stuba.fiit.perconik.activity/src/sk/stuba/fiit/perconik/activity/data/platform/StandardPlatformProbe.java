@@ -1,10 +1,10 @@
-package sk.stuba.fiit.perconik.activity.data.eclipse;
+package sk.stuba.fiit.perconik.activity.data.platform;
 
 import org.eclipse.core.runtime.Platform;
 
 import static java.util.Arrays.asList;
 
-import static sk.stuba.fiit.perconik.activity.data.eclipse.Conversions.urlOrNull;
+import static sk.stuba.fiit.perconik.activity.data.platform.Conversions.urlOrNull;
 
 public class StandardPlatformProbe implements PlatformProbe {
   public StandardPlatformProbe() {}

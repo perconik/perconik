@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.data.eclipse;
+package sk.stuba.fiit.perconik.activity.data.platform;
 
 import org.eclipse.core.runtime.Plugin;
 

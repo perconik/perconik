@@ -19,6 +19,9 @@ import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.builder;
+import static sk.stuba.fiit.perconik.activity.probes.Probes.forConstant;
+import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.environment.Environment.getProcessIdentifier;
 
 /**
  * TODO
@@ -42,11 +45,17 @@ public abstract class SharingEventListener extends RegularEventListener {
 
     Map<String, Probe<?>> probes = newHashMap();
 
-    // TODO enable
+    key("remove-this");// TODO enable probes
     //probes.put(key("monitor", "core"), new StandardCoreProbe());
     //probes.put(key("monitor", "platform"), new StandardPlatformProbe());
     //probes.put(key("monitor", "management"), new StandardManagementProbe());// TODO ?
     //probes.put(key("monitor", "system"), new StandardSystemProbe());
+
+    try {
+      probes.put(key("monitor", "process", "identifier"), forConstant(getProcessIdentifier()));
+    } catch (RuntimeException e) {
+      // ignore
+    }
 
     sharedBuilder.probeMappings(probes);
     sharedBuilder.probeExecutor(PlatformExecutors.newLimitedThreadPool(0.5f));
@@ -103,9 +112,9 @@ public abstract class SharingEventListener extends RegularEventListener {
   protected final Map<String, InternalProbe<?>> internalProbeMappings() {
     ImmutableMap.Builder<String, InternalProbe<?>> builder = ImmutableMap.builder();
 
-    // TODO enable
-    //builder.put(key("monitor", "listener"), new RegularConfigurationProbe());
-    //builder.put(key("monitor", "listener", "statistics"), new RegularStatisticsProbe());
+    // TODO enable probes
+    //builder.put(key("listener"), new RegularConfigurationProbe());
+    //builder.put(key("listener", "statistics"), new RegularStatisticsProbe());
 
     return builder.build();
   }

@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.activity.data.core;
 
 import sk.stuba.fiit.perconik.activity.data.ObjectData;
-import sk.stuba.fiit.perconik.activity.data.eclipse.BundleData;
+import sk.stuba.fiit.perconik.activity.data.platform.BundleData;
 import sk.stuba.fiit.perconik.core.plugin.Activator;
 import sk.stuba.fiit.perconik.core.services.Services;
 
