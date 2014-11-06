@@ -11,8 +11,7 @@ User activity tracking in Eclipse.
 
 ### Optional
 
-- Elasticsearch 1.2
-- User Activity Client Application 2.0
+- [User Activity Client Application 2.0](https://github.com/perconik/uaca)
 
 ## Setup
 
