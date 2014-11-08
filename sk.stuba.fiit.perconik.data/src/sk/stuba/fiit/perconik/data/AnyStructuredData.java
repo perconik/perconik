@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import sk.stuba.fiit.perconik.data.content.AnyStructuredContent;
+import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.type.content.AnyStructuredContentDeserializer;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 
@@ -223,6 +225,26 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
 
   public Map<String, Object> flatten() {
     return MoreMaps.flatten(this.toMap(), Joiner.on(separator), Maps.<String, Object>newLinkedHashMap());
+  }
+
+  public void merge(final Content content) {
+    this.merge(content.toMap());
+  }
+
+  public void merge(final Map<String, Object> content) {
+    this.merge(content.entrySet());
+  }
+
+  public void merge(final Iterable<Entry<String, Object>> content) {
+    this.merge(content.iterator());
+  }
+
+  public void merge(final Iterator<Entry<String, Object>> content) {
+    while (content.hasNext()) {
+      Entry<String, Object> entry = content.next();
+
+      this.put(entry.getKey(), entry.getValue());
+    }
   }
 
   @JsonAnySetter
