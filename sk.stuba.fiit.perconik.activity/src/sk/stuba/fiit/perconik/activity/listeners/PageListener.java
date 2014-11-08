@@ -53,7 +53,6 @@ public final class PageListener extends CommonEventListener implements sk.stuba.
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
 
-    event.put(key("page"), identify(window));
     event.put(key("page", "window"), identify(window));
     event.put(key("page", "window", "workbench"), identify(workbench));
 

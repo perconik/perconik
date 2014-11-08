@@ -70,7 +70,7 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
 
-    event.put(key("part", "page"), identify(window));
+    event.put(key("part", "page"), identify(page));
     event.put(key("part", "page", "window"), identify(window));
     event.put(key("part", "page", "window", "workbench"), identify(workbench));
 

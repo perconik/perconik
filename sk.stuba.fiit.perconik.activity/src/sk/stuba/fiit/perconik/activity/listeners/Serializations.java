@@ -157,13 +157,7 @@ final class Serializations {
   private static void putPage(final StructuredContent content, final IWorkbenchPage page) {
     content.put(key("label"), page.getLabel());
 
-    IPerspectiveDescriptor descriptor = page.getPerspective();
-
-    if (descriptor != null) {
-      content.put(key("perspective", "identifier"), descriptor.getId());
-      content.put(key("perspective", "description"), descriptor.getDescription());
-      content.put(key("perspective", "label"), descriptor.getLabel());
-    }
+    content.put(key("perspective"), serializePerspective(page.getPerspective()));
 
     content.put(key("isEditorAreaVisible"), page.isEditorAreaVisible());
     content.put(key("isPageZoomed"), page.isPageZoomed());
@@ -303,6 +297,25 @@ final class Serializations {
     }
 
     return contents;
+  }
+
+  private static void putPerspective(final StructuredContent content, final IPerspectiveDescriptor descriptor) {
+    content.put(key("perspective", "identifier"), descriptor.getId());
+    content.put(key("perspective", "description"), descriptor.getDescription());
+    content.put(key("perspective", "label"), descriptor.getLabel());
+  }
+
+  static StructuredContent serializePerspective(@Nullable final IPerspectiveDescriptor descriptor) {
+    if (descriptor == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObject(content, descriptor);
+    putPerspective(content, descriptor);
+
+    return content;
   }
 
   private static void putPart(final StructuredContent content, final IWorkbenchPart part) {
