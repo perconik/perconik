@@ -1,6 +1,6 @@
 package com.gratex.perconik.activity.ide.listeners;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 import org.eclipse.ui.IWorkbench;
 
@@ -46,9 +46,9 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
  * @since 1.0
  */
 public abstract class IdeListener extends Adapter {
-  private static final Executor displayExecutor = DisplayExecutor.defaultSynchronous();
+  private static final DisplayExecutor displayExecutor = DisplayExecutor.defaultSynchronous();
 
-  private static final Executor sharedExecutor = PlatformExecutors.newLimitedThreadPool();
+  private static final ExecutorService sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
   final UacaConsole console;
 

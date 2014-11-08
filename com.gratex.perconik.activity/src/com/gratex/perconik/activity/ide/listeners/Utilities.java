@@ -16,8 +16,7 @@ final class Utilities {
   }
 
   /**
-   * Returns the editor referenced by this object
-   * or {@code null} if the editor was not instantiated.
+   * Returns the reference editor or {@code null} if the editor was not instantiated.
    */
   static IEditorPart dereferenceEditor(final IEditorReference reference) {
     return reference.getEditor(false);
