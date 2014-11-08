@@ -29,7 +29,7 @@ import static sk.stuba.fiit.perconik.environment.Environment.getProcessIdentifie
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class SharingEventListener extends RegularEventListener {
+public abstract class CommonEventListener extends RegularEventListener {
   private static final Builder sharedBuilder;
 
   static {
@@ -64,7 +64,7 @@ public abstract class SharingEventListener extends RegularEventListener {
   /**
    * Constructor for use by subclasses.
    */
-  protected SharingEventListener() {
+  protected CommonEventListener() {
     super(newConfiguration());
   }
 
