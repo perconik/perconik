@@ -2,12 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Data
 Bundle-SymbolicName: sk.stuba.fiit.perconik.data;singleton:=true
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.3.0.qualifier
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.8.0",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.8.0",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.9.0",
  sk.stuba.fiit.perconik.environment;bundle-version="0.6.0",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.7.0",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.6.1"
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.7.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
