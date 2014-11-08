@@ -1,11 +1,15 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 
+import static sk.stuba.fiit.perconik.activity.listeners.Serializations.identify;
+import static sk.stuba.fiit.perconik.activity.listeners.Serializations.serializeWindowTree;
 import static sk.stuba.fiit.perconik.activity.listeners.Utilities.actionName;
 import static sk.stuba.fiit.perconik.activity.listeners.Utilities.actionPath;
 import static sk.stuba.fiit.perconik.activity.listeners.Utilities.currentTime;
@@ -13,6 +17,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.WindowListener.Action.AC
 import static sk.stuba.fiit.perconik.activity.listeners.WindowListener.Action.CLOSE;
 import static sk.stuba.fiit.perconik.activity.listeners.WindowListener.Action.DEACTIVATE;
 import static sk.stuba.fiit.perconik.activity.listeners.WindowListener.Action.OPEN;
+import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 /**
  * TODO
@@ -21,7 +26,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.WindowListener.Action.OP
  * @since 1.0
  */
 @Version("0.0.0.alpha")
-public final class WindowListener extends SharingEventListener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
+public final class WindowListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
   public WindowListener() {}
 
   enum Action {
@@ -44,50 +49,50 @@ public final class WindowListener extends SharingEventListener implements sk.stu
   }
 
   static Event build(final long time, final Action action, final IWorkbenchWindow window) {
-    return LocalEvent.of(time, action.name);
+    Event event = LocalEvent.of(time, action.name);
+
+    event.put(key("window"), serializeWindowTree(window));
+
+    IWorkbench workbench = window.getWorkbench();
+
+    event.put(key("window", "workbench"), identify(workbench));
+
+    return event;
   }
 
   void process(final long time, final Action action, final IWorkbenchWindow window) {
     this.send(action.path, build(time, action, window));
   }
 
+  void execute(final long time, final Action action, final IWorkbenchWindow window) {
+    this.execute(DisplayTask.of(new Runnable() {
+      public void run() {
+        process(time, action, window);
+      }
+    }));
+  }
+
   public void windowOpened(final IWorkbenchWindow window) {
     final long time = currentTime();
 
-    this.execute(new Runnable() {
-      public void run() {
-        process(time, OPEN, window);
-      }
-    });
+    this.execute(time, OPEN, window);
   }
 
   public void windowClosed(final IWorkbenchWindow window) {
     final long time = currentTime();
 
-    this.execute(new Runnable() {
-      public void run() {
-        process(time, CLOSE, window);
-      }
-    });
+    this.execute(time, CLOSE, window);
   }
 
   public void windowActivated(final IWorkbenchWindow window) {
     final long time = currentTime();
 
-    this.execute(new Runnable() {
-      public void run() {
-        process(time, ACTIVATE, window);
-      }
-    });
+    this.execute(time, ACTIVATE, window);
   }
 
   public void windowDeactivated(final IWorkbenchWindow window) {
     final long time = currentTime();
 
-    this.execute(new Runnable() {
-      public void run() {
-        process(time, DEACTIVATE, window);
-      }
-    });
+    this.execute(time, DEACTIVATE, window);
   }
 }
