@@ -1,11 +1,8 @@
 package sk.stuba.fiit.perconik.eclipse.swt.widgets;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 
 import com.google.common.base.Supplier;
-
-import sk.stuba.fiit.perconik.utilities.concurrent.Executables;
 
 public abstract class DisplayTask<V> implements Callable<V> {
   protected DisplayTask() {}
@@ -17,6 +14,10 @@ public abstract class DisplayTask<V> implements Callable<V> {
         return callable.call();
       }
     };
+  }
+
+  public static final <V> DisplayTask<V> of(final Runnable runnable) {
+    return of(runnable, null);
   }
 
   public static final <V> DisplayTask<V> of(final Runnable runnable, final V result) {
@@ -39,7 +40,7 @@ public abstract class DisplayTask<V> implements Callable<V> {
     };
   }
 
-  public final V get(final Executor executor) {
-    return Executables.call(executor, this);
+  public final V get(final DisplayExecutor executor) {
+    return executor.submit(this).get();
   }
 }
