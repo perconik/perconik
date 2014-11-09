@@ -29,6 +29,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.content.IContentDescription;
 import org.eclipse.core.runtime.content.IContentType;
+import org.eclipse.debug.core.DebugException;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.Launch;
+import org.eclipse.debug.core.model.IDebugTarget;
+import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.jface.text.IMarkSelection;
@@ -70,6 +77,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
+import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceType;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
@@ -90,7 +98,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 final class Serializations {
   @Target(ElementType.METHOD)
   @Retention(RetentionPolicy.SOURCE)
-  @interface PropagatesSerialization {}
+  @interface SerializesTree {}
 
   @Target(ElementType.METHOD)
   @Retention(RetentionPolicy.SOURCE)
@@ -98,11 +106,11 @@ final class Serializations {
 
   private Serializations() {}
 
-  private static StructuredContent newStructuredContent() {
+  static StructuredContent newStructuredContent() {
     return new AnyStructuredData();
   }
 
-  private static <T> List<T> newEmptyListSuitableFor(final Iterable<?> iterable) {
+  static <T> List<T> newEmptyListSuitableFor(final Iterable<?> iterable) {
     if (iterable instanceof Collection) {
       return newArrayListWithCapacity(((Collection<?>) iterable).size());
     }
@@ -132,7 +140,7 @@ final class Serializations {
     content.put(key("isClosing"), workbench.isClosing());
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   private static void putWorkbenchTree(final StructuredContent content, final IWorkbench workbench) {
     content.put(key("activeWindow"), identify(workbench.getActiveWorkbenchWindow()));
@@ -143,7 +151,7 @@ final class Serializations {
   private static void putWindow(final StructuredContent content, final IWorkbenchWindow window) {
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   private static void putWindowTree(final StructuredContent content, final IWorkbenchWindow window) {
     content.put(key("activePage"), identify(window.getActivePage()));
@@ -163,7 +171,7 @@ final class Serializations {
     content.put(key("isPageZoomed"), page.isPageZoomed());
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   private static void putPageTree(final StructuredContent content, final IWorkbenchPage page) {
     content.put(key("activePart"), identify(page.getActivePartReference()));
@@ -187,7 +195,7 @@ final class Serializations {
     return content;
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   static StructuredContent serializeWorkbenchTree(@Nullable final IWorkbench workbench) {
     if (workbench == null) {
@@ -214,7 +222,7 @@ final class Serializations {
     return content;
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   static StructuredContent serializeWindowTree(@Nullable final IWorkbenchWindow window) {
     if (window == null) {
@@ -238,7 +246,7 @@ final class Serializations {
     return contents;
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   static List<StructuredContent> serializeWindowsTree(final Iterable<? extends IWorkbenchWindow> windows) {
     List<StructuredContent> contents = newEmptyListSuitableFor(windows);
@@ -263,7 +271,7 @@ final class Serializations {
     return content;
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   static StructuredContent serializePageTree(@Nullable final IWorkbenchPage page) {
     if (page == null) {
@@ -287,7 +295,7 @@ final class Serializations {
     return contents;
   }
 
-  @PropagatesSerialization
+  @SerializesTree
   @RequiresDisplayThread
   static List<StructuredContent> serializePagesTree(final Iterable<? extends IWorkbenchPage> pages) {
     List<StructuredContent> contents = newEmptyListSuitableFor(pages);
@@ -900,6 +908,16 @@ final class Serializations {
     return content;
   }
 
+  static List<StructuredContent> serializeResources(final Iterable<? extends IResource> resources) {
+    List<StructuredContent> contents = newEmptyListSuitableFor(resources);
+
+    for (IResource resource: resources) {
+      contents.add(serializeResource(resource));
+    }
+
+    return contents;
+  }
+
   static StructuredContent serializeContainer(@Nullable final IContainer container) {
     return serializeResource(container);
   }
@@ -943,6 +961,197 @@ final class Serializations {
     StructuredContent content = newStructuredContent();
 
     putPath(content, path);
+
+    return content;
+  }
+
+  private static void putDebugTarget(final StructuredContent content, final IDebugTarget target) {
+    content.put(key("model", "identifier"), target.getModelIdentifier());
+
+    try {
+      content.put(key("name"), target.getName());
+    } catch (DebugException ignore) {}
+
+    content.put(key("process"), serializeProcess(target.getProcess()));
+
+    content.put(key("canDisconnect"), target.canDisconnect());
+    content.put(key("canResume"), target.canResume());
+    content.put(key("canSuspend"), target.canSuspend());
+    content.put(key("canTerminate"), target.canTerminate());
+
+    content.put(key("isDisconnected"), target.isDisconnected());
+    content.put(key("isSuspended"), target.isSuspended());
+    content.put(key("isTerminated"), target.isTerminated());
+  }
+
+  private static void putProcess(final StructuredContent content, final IProcess process) {
+    content.put(key("label"), process.getLabel());
+
+    content.put(key("canTerminate"), process.canTerminate());
+
+    content.put(key("isTerminated"), process.isTerminated());
+  }
+
+  static StructuredContent serializeDebugTarget(@Nullable final IDebugTarget target) {
+    if (target == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObject(content, target);
+    putDebugTarget(content, target);
+
+    return content;
+  }
+
+  static List<StructuredContent> serializeDebugTargets(final Iterable<? extends IDebugTarget> targets) {
+    List<StructuredContent> contents = newEmptyListSuitableFor(targets);
+
+    for (IDebugTarget target: targets) {
+      contents.add(serializeDebugTarget(target));
+    }
+
+    return contents;
+  }
+
+  static StructuredContent serializeProcess(@Nullable final IProcess process) {
+    if (process == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObject(content, process);
+    putProcess(content, process);
+
+    return content;
+  }
+
+  static List<StructuredContent> serializeProcesses(final Iterable<? extends IProcess> processes) {
+    List<StructuredContent> contents = newEmptyListSuitableFor(processes);
+
+    for (IProcess process: processes) {
+      contents.add(serializeProcess(process));
+    }
+
+    return contents;
+  }
+
+  private static void putLaunch(final StructuredContent content, final ILaunch launch) {
+    content.put(key("mode"), launch.getLaunchMode());
+
+    content.put(key("debug", "targets"), serializeDebugTargets(asList(launch.getDebugTargets())));
+    content.put(key("processes"), serializeProcesses(asList(launch.getProcesses())));
+
+    content.put(key("canTerminate"), launch.canTerminate());
+
+    content.put(key("isTerminated"), launch.isTerminated());
+
+    if (launch instanceof Launch) {
+      Launch other = (Launch) launch;
+
+      content.put(key("canDisconnect"), other.canDisconnect());
+
+      content.put(key("isDisconnected"), other.isDisconnected());
+    }
+  }
+
+  private static void putLaunchConfiguration(final StructuredContent content, final ILaunchConfiguration configuration) {
+    content.put(key("name"), configuration.getName());
+    content.put(key("file"), serializeFile(configuration.getFile()));
+
+    try {
+      content.put(key("type"), configuration.getType());
+    } catch (CoreException ignore) {}
+
+    try {
+      content.put(key("category"), configuration.getCategory());
+    } catch (CoreException ignore) {}
+
+    try {
+      content.put(key("modes"), configuration.getModes());
+    } catch (CoreException ignore) {}
+
+    content.put(key("projects"), Projects.fromLaunchConfiguration(configuration));
+
+    try {
+      IResource[] resources = configuration.getMappedResources();
+
+      if (resources != null) {
+        content.put(key("mappedResources"), serializeResources(asList(resources)));
+      }
+    } catch (CoreException ignore) {}
+
+    content.put(key("exists"), configuration.exists());
+
+    content.put(key("isLocal"), configuration.isLocal());
+    content.put(key("isReadOnly"), configuration.isReadOnly());
+    content.put(key("isWorkingCopy"), configuration.isWorkingCopy());
+  }
+
+  private static void putLaunchConfigurationType(final StructuredContent content, final ILaunchConfigurationType type) {
+    content.put(key("category"), type.getCategory());
+
+    content.put(key("identifier"), type.getIdentifier());
+    content.put(key("name"), type.getName());
+
+    content.put(key("plugin", "identifier"), type.getPluginIdentifier());
+    content.put(key("contributor", "name"), type.getContributorName());
+
+    content.put(key("supportedModeCombinations"), type.getSupportedModeCombinations());
+
+    content.put(key("source", "pathComputer", "identifier"), type.getSourcePathComputer().getId());
+    content.put(key("source", "locator", "identifier"), type.getSourceLocatorId());
+
+    content.put(key("isPublic"), type.isPublic());
+  }
+
+  static StructuredContent serializeLaunch(@Nullable final ILaunch launch) {
+    if (launch == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObject(content, launch);
+    putLaunch(content, launch);
+
+    return content;
+  }
+
+  static List<StructuredContent> serializeLaunches(final Iterable<? extends ILaunch> launches) {
+    List<StructuredContent> contents = newEmptyListSuitableFor(launches);
+
+    for (ILaunch launch: launches) {
+      contents.add(serializeLaunch(launch));
+    }
+
+    return contents;
+  }
+
+  static StructuredContent serializeLaunchConfiguration(@Nullable final ILaunchConfiguration configuration) {
+    if (configuration == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObject(content, configuration);
+    putLaunchConfiguration(content, configuration);
+
+    return content;
+  }
+
+  static StructuredContent serializeLaunchConfigurationType(@Nullable final ILaunchConfigurationType type) {
+    if (type == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObject(content, type);
+    putLaunchConfigurationType(content, type);
 
     return content;
   }

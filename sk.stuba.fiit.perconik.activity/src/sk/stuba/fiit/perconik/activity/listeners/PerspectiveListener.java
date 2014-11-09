@@ -54,7 +54,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
     }
   }
 
-  private static void setPage(final StructuredContent content, final IWorkbenchPage page) {
+  private static void putPageIdentity(final StructuredContent content, final IWorkbenchPage page) {
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
 
@@ -72,7 +72,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
 
     event.put(key("perspective"), serializePerspective(descriptor));
 
-    setPage(event, page);
+    putPageIdentity(event, page);
 
     return event;
   }
@@ -83,7 +83,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
     event.put(key("before"), serializePerspective(before));
     event.put(key("after"), serializePerspective(after));
 
-    setPage(event, page);
+    putPageIdentity(event, page);
 
     return event;
   }
