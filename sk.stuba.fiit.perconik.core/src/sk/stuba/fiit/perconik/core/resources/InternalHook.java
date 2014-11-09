@@ -69,6 +69,6 @@ abstract class InternalHook<T, L extends Listener> extends AbstractHook<T, L> im
   public final String getName() {
     String name = this.handler.getClass().getName();
 
-    return name.replace("Handler", "Hook") + " for " + this.handler.listener;
+    return name.replaceFirst("Handler\\z", "Hook") + " for " + this.handler.listener;
   }
 }

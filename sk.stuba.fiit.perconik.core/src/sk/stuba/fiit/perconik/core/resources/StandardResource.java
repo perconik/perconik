@@ -12,7 +12,7 @@ class StandardResource<L extends Listener> extends AbstractResource<L> {
   final Pool<L> pool;
 
   StandardResource(final Pool<L> pool) {
-    super(pool.toString().replace("Pool", "Resource"));
+    super(pool.toString().replaceFirst("Pool\\z", "Resource"));
 
     this.pool = pool;
   }
@@ -49,7 +49,7 @@ class StandardResource<L extends Listener> extends AbstractResource<L> {
 
 @Unsupported
 class UnsupportedStandardResource<L extends Listener> extends StandardResource<L> {
-  UnsupportedStandardResource(Pool<L> pool) {
+  UnsupportedStandardResource(final Pool<L> pool) {
     super(pool);
   }
 }

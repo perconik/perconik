@@ -157,6 +157,6 @@ final class GenericPool<T> extends AbstractPool<T> {
       name = this.handler.getClass().getName();
     }
 
-    return name.replace("Handler", "Pool");
+    return name.replaceFirst("Handler\\z", "Pool");
   }
 }
