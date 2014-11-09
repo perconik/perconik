@@ -282,7 +282,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (editor == null) {
         if (Log.enabled()) {
-          Log.message().appendln("copy / cut: no active editor not found").appendTo(UacaConsole.getInstance());
+          Log.message().appendln("copy / cut: no active editor found").appendTo(UacaConsole.getInstance());
         }
 
         return null;
