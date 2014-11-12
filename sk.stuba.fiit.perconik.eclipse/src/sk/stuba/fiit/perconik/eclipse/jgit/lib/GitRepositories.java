@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.LogCommand;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.ignore.IgnoreNode.MatchResult;
@@ -32,7 +32,7 @@ import static com.google.common.collect.Lists.newLinkedList;
 public final class GitRepositories {
   private GitRepositories() {}
 
-  private static Ref handleCheckoutCommand(final CheckoutCommand command) {
+  private static <T> T handle(final GitCommand<T> command) {
     try {
       return command.call();
     } catch (Exception e) {
@@ -58,32 +58,28 @@ public final class GitRepositories {
     }
   }
 
-  public static Ref checkoutFile(final Repository repository, final Path path, final RevCommit commit) {
-    return checkoutFile(repository, path.toString(), commit);
-  }
-
-  public static Ref checkoutFile(final Repository repository, final String path, final RevCommit commit) {
-    return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(commit).addPath(path));
-  }
-
-  public static Ref checkoutFileToHead(final Repository repository, final Path path) {
-    return checkoutFileToHead(repository, path.toString());
-  }
-
-  public static Ref checkoutFileToHead(final Repository repository, final String path) {
-    return handleCheckoutCommand(new Git(repository).checkout().setStartPoint(Constants.HEAD).addPath(path));
-  }
-
-  public static Ref switchBranch(final Repository repository, final String branch) {
-    return handleCheckoutCommand(new Git(repository).checkout().setName(branch));
-  }
-
-  public static String getBranch(final Repository repository) {
+  public static String getShortBranch(final Repository repository) {
     try {
       return repository.getBranch();
     } catch (Exception e) {
       throw propagate(e);
     }
+  }
+
+  public static String getFullBranch(final Repository repository) {
+    try {
+      return repository.getFullBranch();
+    } catch (Exception e) {
+      throw propagate(e);
+    }
+  }
+
+  public static List<Ref> getBranches(final Repository repository) {
+    return handle(new Git(repository).branchList());
+  }
+
+  public static List<Ref> getTags(final Repository repository) {
+    return handle(new Git(repository).tagList());
   }
 
   public static Iterable<RevCommit> getFileLog(final Repository repository, final Path path) {

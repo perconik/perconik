@@ -23,16 +23,16 @@ public final class IdeGitProjects {
     return GitProjectData.get(project);
   }
 
-  public static Repository getRepository(final IResource resource) {
-    RepositoryMapping mapping = getRepositoryMapping(resource);
-
-    return mapping != null ? mapping.getRepository() : null;
-  }
-
-  public static RepositoryMapping getRepositoryMapping(final IResource resource) {
+  public static RepositoryMapping getMapping(final IResource resource) {
     GitProjectData data = getProjectData(resource.getProject());
 
     return data != null ? data.getRepositoryMapping(resource) : null;
+  }
+
+  public static Repository getRepository(final IResource resource) {
+    RepositoryMapping mapping = getMapping(resource);
+
+    return mapping != null ? mapping.getRepository() : null;
   }
 
   public static boolean isIgnored(final IPath path) throws IOException {

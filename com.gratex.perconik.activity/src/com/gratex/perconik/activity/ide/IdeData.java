@@ -46,14 +46,14 @@ public final class IdeData {
   private static IdeDocumentData newDocumentFileData(final IFile file) {
     IdeDocumentData data = newDocumentPathData(file.getFullPath().makeRelative());
 
-    RepositoryMapping mapping = IdeGitProjects.getRepositoryMapping(file);
+    RepositoryMapping mapping = IdeGitProjects.getMapping(file);
 
     if (mapping != null) {
       Repository repository = mapping.getRepository();
 
       if (repository != null) {
         data.setRcsServer(newGitServerData(GitRepositories.getRemoteOriginUrl(repository)));
-        data.setBranch(GitRepositories.getBranch(repository));
+        data.setBranch(GitRepositories.getShortBranch(repository));
         data.setServerPath(data.getLocalPath());
 
         RevCommit repositoryCommit = GitRepositories.getMostRecentCommit(repository);

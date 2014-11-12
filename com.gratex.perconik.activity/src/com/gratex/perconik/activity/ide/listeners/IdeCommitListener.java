@@ -56,6 +56,8 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * @since 1.0
  */
 public final class IdeCommitListener extends IdeListener implements GitReferenceListener {
+  // TODO initialize cache in postRegister with Repository repository: fromWorkspace(getWorkspace()).values()
+
   private final Object lock = new Object();
 
   @GuardedBy("lock")
@@ -108,7 +110,7 @@ public final class IdeCommitListener extends IdeListener implements GitReference
 
     checkArgument(url != null, "Unable to get remote origin url from %s", directory);
 
-    String branch = GitRepositories.getBranch(repository);
+    String branch = GitRepositories.getShortBranch(repository);
     RevCommit commit = GitRepositories.getMostRecentCommit(repository);
 
     String id = commit.getName();
