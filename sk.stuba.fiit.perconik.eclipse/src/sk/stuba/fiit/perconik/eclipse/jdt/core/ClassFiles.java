@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.java;
+package sk.stuba.fiit.perconik.eclipse.jdt.core;
 
 import java.util.LinkedList;
 
@@ -9,8 +9,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
-
-import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementType;
 
 import static com.google.common.collect.Lists.newLinkedList;
 

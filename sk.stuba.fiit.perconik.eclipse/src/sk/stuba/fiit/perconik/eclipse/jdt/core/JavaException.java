@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.java;
+package sk.stuba.fiit.perconik.eclipse.jdt.core;
 
 import javax.annotation.Nullable;
 

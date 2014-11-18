@@ -10,6 +10,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaExceptions;
+
 import static com.google.common.base.Preconditions.checkState;
 
 public final class JavaProjects {

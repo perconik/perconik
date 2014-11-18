@@ -4,9 +4,13 @@ import java.util.LinkedList;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Throwables;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
+
+import sk.stuba.fiit.perconik.eclipse.jdt.core.JavaException;
 
 import static com.google.common.collect.Lists.newLinkedList;
 
@@ -39,6 +43,18 @@ public final class JavaElements {
     return branch;
   }
 
+  private static <T> T handle(final Exception failure) {
+    if (failure instanceof JavaModelException) {
+      throw new JavaException(failure);
+    }
+
+    if (failure instanceof NullPointerException) {
+      return null;
+    }
+
+    throw Throwables.propagate(failure);
+  }
+
   public static IResource resource(@Nullable final IJavaElement element) {
     return element != null ? element.getResource() : null;
   }
@@ -47,7 +63,7 @@ public final class JavaElements {
     try {
       return element != null ? element.getCorrespondingResource() : null;
     } catch (JavaModelException e) {
-      return JavaExceptions.handle(e);
+      return handle(e);
     }
   }
 
@@ -55,7 +71,7 @@ public final class JavaElements {
     try {
       return element != null ? element.getUnderlyingResource() : null;
     } catch (JavaModelException e) {
-      return JavaExceptions.handle(e);
+      return handle(e);
     }
   }
 }

@@ -1,6 +1,4 @@
-package sk.stuba.fiit.perconik.core.java;
-
-import com.google.common.base.Throwables;
+package sk.stuba.fiit.perconik.eclipse.jdt.core;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaModelException;
@@ -16,17 +14,5 @@ public final class JavaExceptions {
     }
 
     return CoreExceptions.propagate(failure);
-  }
-
-  static <T> T handle(final Exception failure) {
-    if (failure instanceof JavaModelException) {
-      throw new JavaException(failure);
-    }
-
-    if (failure instanceof NullPointerException) {
-      return null;
-    }
-
-    throw Throwables.propagate(failure);
   }
 }
