@@ -16,8 +16,8 @@ import com.gratex.perconik.services.uaca.ide.IdeDocumentData;
 import com.gratex.perconik.services.uaca.ide.IdeEventData;
 import com.gratex.perconik.services.uaca.ide.IdeRcsServerData;
 
-import sk.stuba.fiit.perconik.core.java.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces;
+import sk.stuba.fiit.perconik.eclipse.jdt.core.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
 import static com.google.common.base.Preconditions.checkState;
