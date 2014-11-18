@@ -11,6 +11,15 @@ import org.eclipse.core.runtime.CoreException;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.RuntimeCoreException;
 
+/**
+ * TODO
+ *
+ * @deprecated Use {@link ResourceEventResolver} instead.
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+@Deprecated
 public abstract class ResourceDeltaResolver implements IResourceDeltaVisitor {
   protected ResourceDeltaResolver() {}
 
@@ -51,7 +60,7 @@ public abstract class ResourceDeltaResolver implements IResourceDeltaVisitor {
   protected abstract boolean resolveResource(IResource resource) throws CoreException;
 
   /**
-   * Resolves supplied resource delta or resource change event.
+   * Resolves supplied resource delta or resource of a change event.
    * If the resource delta is not {@code null} then this method
    * visits it, otherwise it probes the specified resource.
    *
