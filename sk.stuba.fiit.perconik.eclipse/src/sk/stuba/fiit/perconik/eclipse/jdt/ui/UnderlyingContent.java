@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.ide.listeners;
+package sk.stuba.fiit.perconik.eclipse.jdt.ui;
 
 import javax.annotation.Nullable;
 
@@ -9,14 +9,10 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * @deprecated Use {@link sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingContent} instead.
- */
-@Deprecated
-final class UnderlyingContent<R> {
-  final IDocument document;
+public final class UnderlyingContent<R> {
+  private final IDocument document;
 
-  final UnderlyingResource<R> resource;
+  private final UnderlyingResource<R> resource;
 
   private UnderlyingContent(final IDocument document, final UnderlyingResource<R> resource) {
     this.document = requireNonNull(document);

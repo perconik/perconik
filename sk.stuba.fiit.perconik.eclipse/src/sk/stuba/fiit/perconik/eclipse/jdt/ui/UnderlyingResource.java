@@ -1,4 +1,4 @@
-package com.gratex.perconik.activity.ide.listeners;
+package sk.stuba.fiit.perconik.eclipse.jdt.ui;
 
 import javax.annotation.Nullable;
 
@@ -10,20 +10,11 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IEditorPart;
 
-import com.gratex.perconik.activity.ide.IdeData;
-import com.gratex.perconik.services.uaca.ide.IdeCodeEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeDocumentEventRequest;
-import com.gratex.perconik.services.uaca.ide.IdeEventData;
-
 import sk.stuba.fiit.perconik.eclipse.jdt.core.ClassFiles;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-/**
- * @deprecated Use {@link sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingResource} instead.
- */
-@Deprecated
-abstract class UnderlyingResource<R> {
-  private final String id;
+public abstract class UnderlyingResource<R> {
+  private final String identifier;
 
   final R raw;
 
@@ -31,10 +22,11 @@ abstract class UnderlyingResource<R> {
 
   final IFile file;
 
-  UnderlyingResource(final String id, final R raw, @Nullable final IPath path, @Nullable final IFile file) {
-    assert id != null && raw != null;
+  UnderlyingResource(final String identifier, final R raw, @Nullable final IPath path, @Nullable final IFile file) {
+    assert identifier != null && raw != null;
 
-    this.id = id;
+    this.identifier = identifier;
+
     this.raw = raw;
     this.path = path;
     this.file = file;
@@ -81,8 +73,8 @@ abstract class UnderlyingResource<R> {
   }
 
   private static final class ClassFile extends UnderlyingResource<IClassFile> {
-    private ClassFile(final String id, final IClassFile raw, @Nullable final IPath path, @Nullable final IFile file) {
-      super(id, raw, path, file);
+    private ClassFile(final String identifier, final IClassFile raw, @Nullable final IPath path, @Nullable final IFile file) {
+      super(identifier, raw, path, file);
     }
 
     static ClassFile create(final IClassFile raw) {
@@ -98,21 +90,6 @@ abstract class UnderlyingResource<R> {
       path = ClassFiles.path(raw).makeRelative();
 
       return new ClassFile(path.toString(), raw, path, file);
-    }
-
-    @Override
-    void setDocumentData(final IdeCodeEventRequest data) {
-      data.setDocument(IdeData.newDocumentData(this.raw));
-    }
-
-    @Override
-    void setDocumentData(final IdeDocumentEventRequest data) {
-      data.setDocument(IdeData.newDocumentData(this.raw));
-    }
-
-    @Override
-    void setProjectData(final IdeEventData data) {
-      IdeData.setProjectData(data, this.raw);
     }
 
     @Override
@@ -141,21 +118,6 @@ abstract class UnderlyingResource<R> {
     }
 
     @Override
-    void setDocumentData(final IdeCodeEventRequest data) {
-      data.setDocument(IdeData.newDocumentData(this.raw));
-    }
-
-    @Override
-    void setDocumentData(final IdeDocumentEventRequest data) {
-      data.setDocument(IdeData.newDocumentData(this.raw));
-    }
-
-    @Override
-    void setProjectData(final IdeEventData data) {
-      IdeData.setProjectData(data, this.raw);
-    }
-
-    @Override
     public IFile getRaw() {
       return this.raw;
     }
@@ -181,19 +143,13 @@ abstract class UnderlyingResource<R> {
       return false;
     }
 
-    return this.id.equals(((UnderlyingResource<?>) o).id);
+    return this.identifier.equals(((UnderlyingResource<?>) o).identifier);
   }
 
   @Override
   public final int hashCode() {
-    return this.id.hashCode();
+    return this.identifier.hashCode();
   }
-
-  abstract void setDocumentData(IdeCodeEventRequest data);
-
-  abstract void setDocumentData(IdeDocumentEventRequest data);
-
-  abstract void setProjectData(IdeEventData data);
 
   public abstract R getRaw();
 
