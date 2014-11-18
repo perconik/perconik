@@ -29,15 +29,15 @@ public class CommandExecutionAdapter extends Adapter implements CommandExecution
    */
   protected CommandExecutionAdapter() {}
 
-  public void preExecute(final String id, final ExecutionEvent event) {}
+  public void preExecute(final String identifier, final ExecutionEvent event) {}
 
-  public void postExecuteSuccess(final String id, final Object result) {}
+  public void postExecuteSuccess(final String identifier, final Object result) {}
 
-  public void postExecuteFailure(final String id, final ExecutionException exception) {}
+  public void postExecuteFailure(final String identifier, final ExecutionException exception) {}
 
-  public void notDefined(final String id, final NotDefinedException exception) {}
+  public void notDefined(final String identifier, final NotDefinedException exception) {}
 
-  public void notEnabled(final String id, final NotEnabledException exception) {}
+  public void notEnabled(final String identifier, final NotEnabledException exception) {}
 
-  public void notHandled(final String id, final NotHandledException exception) {}
+  public void notHandled(final String identifier, final NotHandledException exception) {}
 }

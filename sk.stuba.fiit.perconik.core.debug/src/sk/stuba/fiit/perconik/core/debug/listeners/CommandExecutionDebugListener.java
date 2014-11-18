@@ -19,39 +19,39 @@ public final class CommandExecutionDebugListener extends AbstractDebugListener i
     super(console);
   }
 
-  public void preExecute(final String id, final ExecutionEvent event) {
+  public void preExecute(final String identifier, final ExecutionEvent event) {
     this.printHeader("Command pre execute");
-    this.printLine("identifier", id);
+    this.printLine("identifier", identifier);
     this.printExecutionEvent(event);
   }
 
-  public void postExecuteSuccess(final String id, final Object result) {
+  public void postExecuteSuccess(final String identifier, final Object result) {
     this.printHeader("Command execute success");
-    this.printLine("identifier", id);
+    this.printLine("identifier", identifier);
     this.printLine("result", result);
   }
 
-  public void postExecuteFailure(final String id, final ExecutionException exception) {
+  public void postExecuteFailure(final String identifier, final ExecutionException exception) {
     this.printHeader("Command execute failure");
-    this.printLine("identifier", id);
+    this.printLine("identifier", identifier);
     this.printLine("exception", exception);
   }
 
-  public void notDefined(final String id, final NotDefinedException exception) {
+  public void notDefined(final String identifier, final NotDefinedException exception) {
     this.printHeader("Command not defined");
-    this.printLine("identifier", id);
+    this.printLine("identifier", identifier);
     this.printLine("exception", exception);
   }
 
-  public void notEnabled(final String id, final NotEnabledException exception) {
+  public void notEnabled(final String identifier, final NotEnabledException exception) {
     this.printHeader("Command not enabled");
-    this.printLine("identifier", id);
+    this.printLine("identifier", identifier);
     this.printLine("exception", exception);
   }
 
-  public void notHandled(final String id, final NotHandledException exception) {
+  public void notHandled(final String identifier, final NotHandledException exception) {
     this.printHeader("Command not handled");
-    this.printLine("identifier", id);
+    this.printLine("identifier", identifier);
     this.printLine("exception", exception);
   }
 
