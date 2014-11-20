@@ -69,7 +69,7 @@ public abstract class UnderlyingResource<R> {
   }
 
   public static UnderlyingResource<IFile> of(final IFile raw) {
-    return DataFile.create(raw);
+    return File.create(raw);
   }
 
   private static final class ClassFile extends UnderlyingResource<IClassFile> {
@@ -108,13 +108,13 @@ public abstract class UnderlyingResource<R> {
     }
   }
 
-  private static final class DataFile extends UnderlyingResource<IFile> {
-    private DataFile(final IFile raw, final IPath path) {
+  private static final class File extends UnderlyingResource<IFile> {
+    private File(final IFile raw, final IPath path) {
       super(path.toString(), raw, path, raw);
     }
 
-    static DataFile create(final IFile raw) {
-      return new DataFile(raw, raw.getFullPath().makeRelative());
+    static File create(final IFile raw) {
+      return new File(raw, raw.getFullPath().makeRelative());
     }
 
     @Override

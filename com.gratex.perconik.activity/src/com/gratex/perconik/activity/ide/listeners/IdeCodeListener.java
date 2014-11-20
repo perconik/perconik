@@ -165,6 +165,10 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     }
   }
 
+  /**
+   * @deprecated Use {@link sk.sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion} instead.
+   */
+  @Deprecated
   static final class Region {
     final Position start = new Position();
 

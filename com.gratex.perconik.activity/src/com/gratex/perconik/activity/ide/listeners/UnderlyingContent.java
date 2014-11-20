@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import static java.util.Objects.requireNonNull;
 
 /**
- * @deprecated Use {@link sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingContent} instead.
+ * @deprecated Use {@link sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView} instead.
  */
 @Deprecated
 final class UnderlyingContent<R> {

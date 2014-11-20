@@ -7,9 +7,12 @@ import org.eclipse.core.filebuffers.LocationKind;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.CoreExceptions;
+
+import static com.google.common.base.Throwables.propagate;
 
 /**
  * Static utility methods pertaining to Eclipse documents.
@@ -36,5 +39,13 @@ public final class Documents {
     ITextFileBuffer buffer = manager.getTextFileBuffer(path, kind);
 
     return buffer.getDocument();
+  }
+
+  public static String get(final IDocument document, final int offset, final int length) {
+    try {
+      return document.get(offset, length);
+    } catch (BadLocationException e) {
+      throw propagate(e);
+    }
   }
 }
