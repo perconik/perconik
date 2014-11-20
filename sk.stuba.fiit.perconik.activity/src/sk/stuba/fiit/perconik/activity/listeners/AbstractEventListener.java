@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +84,16 @@ public abstract class AbstractEventListener extends Adapter {
     this.postSendHook(path, data);
   }
 
+  protected final void send(final String path, final Iterable<Event> batch) {
+    this.send(path, batch.iterator());
+  }
+
+  protected final void send(final String path, final Iterator<Event> batch) {
+    while (batch.hasNext()) {
+      this.send(path, batch.next());
+    }
+  }
+
   protected abstract void sendFailure(final String path, final Event data, Exception failure);
 
   abstract void preSendHook(final String path, final Event data);
@@ -160,4 +171,9 @@ public abstract class AbstractEventListener extends Adapter {
   protected abstract void onWorkbenchShutdown() throws Exception;
 
   protected abstract void onFinalUnregistration() throws Exception;
+
+  @Override
+  public String toString() {
+    return this.getClass().getName();
+  }
 }

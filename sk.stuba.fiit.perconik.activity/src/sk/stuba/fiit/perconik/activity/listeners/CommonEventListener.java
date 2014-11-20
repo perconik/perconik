@@ -6,6 +6,7 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableMap;
 
 import com.gratex.perconik.uaca.UacaConsole;
+import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.Builder;
@@ -13,15 +14,21 @@ import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
+import static java.util.Arrays.asList;
+
 import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.builder;
 import static sk.stuba.fiit.perconik.activity.probes.Probes.forConstant;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.environment.Environment.getProcessIdentifier;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 
 /**
  * TODO
@@ -72,6 +79,22 @@ public abstract class CommonEventListener extends RegularEventListener {
     return sharedBuilder.build();
   }
 
+  public static final String actionName(final Object ... components) {
+    return key(transform(asList(components), toLowerCaseFunction()));
+  }
+
+  public static final String actionPath(final Object ... components) {
+    StringBuilder builder = new StringBuilder(16 * components.length);
+
+    for (Object component: components) {
+      for (String item: sequence(component.toString())) {
+        builder.append(item.toLowerCase()).append("/");
+      }
+    }
+
+    return builder.substring(0, builder.length() - 1);
+  }
+
   private enum UacaProxySupplier implements Supplier<PersistenceStore> {
     instance;
 
@@ -117,5 +140,21 @@ public abstract class CommonEventListener extends RegularEventListener {
     //builder.put(key("listener", "statistics"), new RegularStatisticsProbe());
 
     return builder.build();
+  }
+
+  protected static final class Log {
+    private Log() {}
+
+    public static SmartStringBuilder message(final String content) {
+      return SmartStringBuilder.builder(content.length()).format(content);
+    }
+
+    public static SmartStringBuilder message(final String format, final Object ... args) {
+      return SmartStringBuilder.builder(4 * format.length()).format(format, args);
+    }
+
+    public static boolean isEnabled() {
+      return UacaPreferences.getShared().isErrorLoggerEnabled();
+    }
   }
 }

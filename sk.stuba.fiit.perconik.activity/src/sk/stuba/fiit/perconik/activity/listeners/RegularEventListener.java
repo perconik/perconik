@@ -49,23 +49,51 @@ import static sk.stuba.fiit.perconik.utilities.MoreSuppliers.ofNull;
 public abstract class RegularEventListener extends AbstractEventListener {
   private static final Ticker ticker = systemTicker();
 
+  /**
+   * Underlying plug-in console for event logging, also aliased as {@code log}.
+   */
   protected final PluginConsole pluginConsole;
 
+  /**
+   * Underlying display executor for executing tasks requiring UI threads.
+   */
   protected final DisplayExecutor displayExecutor;
 
+  /**
+   * Underlying executor service for executing common commands.
+   */
   protected final ExecutorService sharedExecutor;
 
+  /**
+   * Underlying event data injector for injecting
+   * additional data to event objects before validation.
+   */
   protected final DataInjector dataInjector;
 
+  /**
+   * Underlying event data validator for validating
+   * event objects before persistence.
+   */
   protected final EventValidator eventValidator;
 
+  /**
+   * Underlying persistence store for persisting event data.
+   */
   protected final PersistenceStore persistenceStore;
 
+  /**
+   * Underlying event data send failure handler.
+   */
   protected final SendFailureHandler failureHandler;
 
   private final DisposalHook disposalHook;
 
   final Statistics statistics;
+
+  /**
+   * Convenient alias for {@code pluginConsole}.
+   */
+  protected final PluginConsole log;
 
   /**
    * Constructor for use by subclasses.
@@ -83,6 +111,8 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.disposalHook = configuration.disposalHook().or(IgnoringDisposalHook.instance);
 
     this.statistics = new Statistics();
+
+    this.log = this.pluginConsole;
   }
 
   private DataInjector resolveDataInjector(final Configuration configuration) {
@@ -382,6 +412,10 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.sharedExecutor.execute(command);
   }
 
+  public static final long currentTime() {
+    return System.currentTimeMillis();
+  }
+
   @Override
   final void preRegisterHook() {
     this.statistics.registrationCount.incrementAndGet();
@@ -393,13 +427,13 @@ public abstract class RegularEventListener extends AbstractEventListener {
   }
 
   public static interface DataInjector {
-    public void inject(String path, Event event);
+    public void inject(String path, Event data);
   }
 
   private enum NoDataInjector implements DataInjector {
     instance;
 
-    public void inject(final String path, final Event event) {}
+    public void inject(final String path, final Event data) {}
   }
 
   public static final class ProbingDataInjector implements DataInjector {
@@ -421,8 +455,8 @@ public abstract class RegularEventListener extends AbstractEventListener {
       return new ProbingDataInjector(prober);
     }
 
-    public void inject(final String path, final Event event) {
-      this.prober.inject(event);
+    public void inject(final String path, final Event data) {
+      this.prober.inject(data);
     }
 
     @Override
