@@ -2,10 +2,16 @@ package sk.stuba.fiit.perconik.core.java.dom;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Optional;
+
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
 
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
+
+import static com.google.common.base.Optional.fromNullable;
+
+import static sk.stuba.fiit.perconik.core.java.dom.Nodes.toType;
 
 public final class MatchingNode<N extends ASTNode> {
   private static final ASTMatcher matcher = new ASTMatcher(true);
@@ -19,7 +25,7 @@ public final class MatchingNode<N extends ASTNode> {
     this.node = node;
   }
 
-  public static <N extends ASTNode> MatchingNode<N> from(@Nullable final N node) {
+  public static <N extends ASTNode> MatchingNode<N> of(@Nullable final N node) {
     return new MatchingNode<>(node);
   }
 
@@ -60,19 +66,24 @@ public final class MatchingNode<N extends ASTNode> {
     return this.node != null ? this.node.toString() : null;
   }
 
+  @Nullable
   public N asNode() {
     return this.node;
   }
 
+  public Optional<N> asOption() {
+    return fromNullable(this.node);
+  }
+
   public MatchingNode<?> getRoot() {
-    return from(Nodes.root(this.node));
+    return of(Nodes.root(this.node));
   }
 
   public MatchingNode<?> getParent() {
-    return from(Nodes.parent(this.node));
+    return of(Nodes.parent(this.node));
   }
 
   public NodeType getType() {
-    return Nodes.toType(this.node);
+    return toType(this.node);
   }
 }
