@@ -6,4 +6,3 @@
 package sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-

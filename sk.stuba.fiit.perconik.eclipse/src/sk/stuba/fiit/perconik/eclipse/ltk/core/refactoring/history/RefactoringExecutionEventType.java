@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 
-import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
 
 /**
@@ -15,7 +14,7 @@ import sk.stuba.fiit.perconik.utilities.constant.IntegralConstantSupport;
  * @author Pavol Zbell
  * @since 1.0
  */
-public enum RefactoringExecutionEventType implements IntegralConstant {
+public enum RefactoringExecutionEventType implements RefactoringEventType {
   /**
    * @see RefactoringExecutionEvent#ABOUT_TO_PERFORM
    */
