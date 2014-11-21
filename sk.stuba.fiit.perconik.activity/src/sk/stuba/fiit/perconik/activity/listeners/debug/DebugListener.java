@@ -31,15 +31,15 @@ public final class DebugListener extends CommonEventListener implements DebugEve
   public DebugListener() {}
 
   enum Action implements CommonEventListener.Action {
-    RESUME,
+    CREATE,
 
     SUSPEND,
 
-    CREATE,
-
-    TERMINATE,
+    RESUME,
 
     CHANGE,
+
+    TERMINATE,
 
     OTHER(DebugEventKind.MODEL_SPECIFIC);
 
