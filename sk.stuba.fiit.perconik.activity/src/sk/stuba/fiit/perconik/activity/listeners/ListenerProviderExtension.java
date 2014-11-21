@@ -13,6 +13,7 @@ import sk.stuba.fiit.perconik.activity.listeners.debug.LaunchListener;
 import sk.stuba.fiit.perconik.activity.listeners.git.BranchListener;
 import sk.stuba.fiit.perconik.activity.listeners.git.CommitListener;
 import sk.stuba.fiit.perconik.activity.listeners.git.TagListener;
+import sk.stuba.fiit.perconik.activity.listeners.java.dom.CompilationUnitDifferenceListener;
 import sk.stuba.fiit.perconik.activity.listeners.refactor.RefactoringHistoryListener;
 import sk.stuba.fiit.perconik.activity.listeners.refactor.RefactoringOperationListener;
 import sk.stuba.fiit.perconik.activity.listeners.resource.ProjectListener;
@@ -85,6 +86,8 @@ public final class ListenerProviderExtension implements ListenerProviderFactory 
     builder.add(BranchListener.class);
     builder.add(CommitListener.class);
     builder.add(TagListener.class);
+
+    builder.add(CompilationUnitDifferenceListener.class);
 
     classes = builder.build();
   }
