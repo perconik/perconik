@@ -26,7 +26,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
 final class RelevantNodeCollector implements Collector<CompilationUnit, ASTNode> {
-  public RelevantNodeCollector() {}
+  RelevantNodeCollector() {}
 
   public final List<ASTNode> apply(@Nullable final CompilationUnit unit) {
     return new Processor().apply(unit);

@@ -1,9 +1,9 @@
 package sk.stuba.fiit.perconik.activity.listeners.java.dom;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+
+import com.google.common.base.Function;
 
 import org.eclipse.jdt.core.dom.ASTMatcher;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -23,30 +23,39 @@ import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
 
+import sk.stuba.fiit.perconik.core.java.dom.MatchingNode;
 import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
+import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDifferencer;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 
-import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
+
 import static com.google.common.collect.Lists.newLinkedList;
 
-final class CompilationUnitDifferencer {
-  static final ASTMatcher matcher = new ASTMatcher(true);
+import static sk.stuba.fiit.perconik.core.java.dom.MatchingNode.unwrap;
+import static sk.stuba.fiit.perconik.core.java.dom.MatchingNode.wrap;
 
-  private final RelevantNodeCollector collector;
+// TODO extract abstract class as public API, whole isSimilar functionality can be in an ASTMatcher
 
-  private NodeDeltaSet.Builder<ASTNode> builder;
+final class CompilationUnitDifferencer<N extends ASTNode> implements NodeDifferencer<CompilationUnit, N> {
+  private static final ASTMatcher matcher = new ASTMatcher(true);
 
-  public CompilationUnitDifferencer() {
-    this.collector = new RelevantNodeCollector();
+  private final Function<? super CompilationUnit, ? extends Iterable<? extends N>> collector;
+
+  private NodeDeltaSet.Builder<N> builder;
+
+  CompilationUnitDifferencer(final Function<? super CompilationUnit, ? extends Iterable<? extends N>> collector) {
+    this.collector = requireNonNull(collector);
   }
 
-  public NodeDeltaSet<ASTNode> difference(final CompilationUnit original, final CompilationUnit revised) {
+  public NodeDeltaSet<N> difference(final CompilationUnit original, final CompilationUnit revised) {
     this.builder = NodeDeltaSet.builder();
 
     if (original != null || revised != null) {
-      List<ASTNode> originalNodes = this.collector.apply(original);
-      List<ASTNode> revisedNodes = this.collector.apply(revised);
+      Iterable<? extends N> originalNodes = this.collector.apply(original);
+      Iterable<? extends N> revisedNodes = this.collector.apply(revised);
 
       this.compute(originalNodes, revisedNodes);
     }
@@ -54,34 +63,36 @@ final class CompilationUnitDifferencer {
     return this.builder.build();
   }
 
-  private void compute(final Collection<?> original, final Collection<?> revised) {
-    final Patch patch = DiffUtils.diff(wrap(original), wrap(revised));
+  private void compute(final Iterable<? extends N> original, final Iterable<? extends N> revised) {
+    final Patch<MatchingNode<N>> patch = DiffUtils.diff(wrap(original), wrap(revised));
 
-    for (final Delta delta: patch.getDeltas()) {
+    for (final Delta<MatchingNode<N>> delta: patch.getDeltas()) {
       switch (delta.getType()) {
         case DELETE:
-          for (ASTNode node: unwrap(delta.getOriginal().getLines())) {
+          for (N node: unwrap(delta.getOriginal().getLines())) {
             this.builder.delete(node);
           }
 
           break;
+
         case INSERT:
-          for (ASTNode node: unwrap(delta.getRevised().getLines())) {
+          for (N node: unwrap(delta.getRevised().getLines())) {
             this.builder.add(node);
           }
 
           break;
+
         case CHANGE:
-          List<ASTNode> originalNodes = unwrap(delta.getOriginal().getLines());
-          List<ASTNode> revisedNodes = unwrap(delta.getRevised().getLines());
+          List<N> originalNodes = unwrap(delta.getOriginal().getLines());
+          List<N> revisedNodes = unwrap(delta.getRevised().getLines());
 
-          List<ASTNode> unmatchedOriginalNodes = newLinkedList();
+          List<N> unmatchedOriginalNodes = newLinkedList();
 
-          main: for (ASTNode originalNode: originalNodes) {
+          main: for (N originalNode: originalNodes) {
             int revisedNodesSize = revisedNodes.size();
 
             for (int k = 0; k < revisedNodesSize; k ++) {
-              ASTNode revisedNode = revisedNodes.get(k);
+              N revisedNode = revisedNodes.get(k);
 
               if (isSimilar(originalNode, revisedNode)) {
                 this.builder.modify(originalNode, revisedNode);
@@ -95,71 +106,39 @@ final class CompilationUnitDifferencer {
             unmatchedOriginalNodes.add(originalNode);
           }
 
-          for (ASTNode originalNode: unmatchedOriginalNodes) {
+          for (N originalNode: unmatchedOriginalNodes) {
             this.builder.delete(originalNode);
           }
 
-          for (ASTNode revisedNode: revisedNodes) {
+          for (N revisedNode: revisedNodes) {
             this.builder.add(revisedNode);
           }
 
           break;
+
         default:
-          throw new AssertionError();
+          throw new IllegalStateException(format("Unknown delta type %s", delta.getType()));
       }
     }
-  }
-
-  private static final class AstNodeEqualsWrapper {
-    final ASTNode node;
-
-    AstNodeEqualsWrapper(final ASTNode node) {
-      this.node = node;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      if (this == o) {
-        return true;
-      }
-
-      if (!(o instanceof AstNodeEqualsWrapper)) {
-        return false;
-      }
-
-      AstNodeEqualsWrapper other = (AstNodeEqualsWrapper) o;
-
-      return matcher.safeSubtreeMatch(this.node, other.node);
-    }
-
-    @Override
-    public int hashCode() {
-      // TODO better hash code? now it is inconsistent with equals
-      return Objects.hashCode(this.node);
-    }
-  }
-
-  private static List<AstNodeEqualsWrapper> wrap(final Collection<?> objects) {
-    final List<AstNodeEqualsWrapper> wrapped = newArrayListWithExpectedSize(objects.size());
-
-    for (final Object o: objects) {
-      wrapped.add(new AstNodeEqualsWrapper((ASTNode) o));
-    }
-
-    return wrapped;
-  }
-
-  private static List<ASTNode> unwrap(final Collection<?> objects) {
-    final List<ASTNode> nodes = newArrayListWithExpectedSize(objects.size());
-
-    for (final Object o: objects) {
-      nodes.add(((AstNodeEqualsWrapper) o).node);
-    }
-
-    return nodes;
   }
 
   // body declaration routers
+
+  private static boolean similar(final List<ASTNode> original, final List<ASTNode> revised) {
+    if (original.size() != revised.size()) {
+      return false;
+    }
+
+    Iterator<ASTNode> revisedIterator = revised.iterator();
+
+    for (ASTNode originalNode: original) {
+      if (!isSimilar(originalNode, revisedIterator.next())) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   private static boolean isSimilar(final ASTNode original, final ASTNode revised) {
     if (original instanceof AbstractTypeDeclaration) {
@@ -169,14 +148,19 @@ final class CompilationUnitDifferencer {
     switch (NodeType.valueOf(original)) {
       case ANNOTATION_TYPE_MEMBER_DECLARATION:
         return isSimilar((AnnotationTypeMemberDeclaration) original, revised);
+
       case ENUM_CONSTANT_DECLARATION:
         return isSimilar((EnumConstantDeclaration) original, revised);
+
       case FIELD_DECLARATION:
         return isSimilar((FieldDeclaration) original, revised);
+
       case INITIALIZER:
         return isSimilar((Initializer) original, revised);
+
       case METHOD_DECLARATION:
         return isSimilar((MethodDeclaration) original, revised);
+
       default:
         return false;
     }
@@ -186,10 +170,13 @@ final class CompilationUnitDifferencer {
     switch (NodeType.valueOf(original)) {
       case ANNOTATION_TYPE_DECLARATION:
         return isSimilar((AnnotationTypeDeclaration) original, revised);
+
       case ENUM_DECLARATION:
         return isSimilar((EnumDeclaration) original, revised);
+
       case TYPE_DECLARATION:
         return isSimilar((TypeDeclaration) original, revised);
+
       default:
         return false;
     }
@@ -210,7 +197,7 @@ final class CompilationUnitDifferencer {
       return true;
     }
 
-    boolean restMatches = matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers()) && areSimilar(original.bodyDeclarations(), other.bodyDeclarations());
+    boolean restMatches = matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers()) && similar(original.bodyDeclarations(), other.bodyDeclarations());
 
     return restMatches;
   }
@@ -228,7 +215,7 @@ final class CompilationUnitDifferencer {
       return true;
     }
 
-    boolean restMatches = matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers()) && matcher.safeSubtreeListMatch(original.superInterfaceTypes(), other.superInterfaceTypes()) && matcher.safeSubtreeListMatch(original.enumConstants(), other.enumConstants()) && areSimilar(original.bodyDeclarations(), other.bodyDeclarations());
+    boolean restMatches = matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers()) && matcher.safeSubtreeListMatch(original.superInterfaceTypes(), other.superInterfaceTypes()) && matcher.safeSubtreeListMatch(original.enumConstants(), other.enumConstants()) && similar(original.bodyDeclarations(), other.bodyDeclarations());
 
     return restMatches;
   }
@@ -249,17 +236,16 @@ final class CompilationUnitDifferencer {
     boolean restMatches = true;
 
     switch (TreeApiLevel.valueOf(original)) {
-      case JLS2:
-        throw new UnsupportedOperationException();
       case JLS3:
       case JLS4:
         restMatches = restMatches && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers()) && matcher.safeSubtreeListMatch(original.typeParameters(), other.typeParameters()) && matcher.safeSubtreeMatch(original.getSuperclassType(), other.getSuperclassType()) && matcher.safeSubtreeListMatch(original.superInterfaceTypes(), other.superInterfaceTypes());
         break;
+
       default:
-        throw new AssertionError();
+        throw new UnsupportedOperationException(format("Unsupported tree API level %s", TreeApiLevel.valueOf(original)));
     }
 
-    restMatches = restMatches && original.isInterface() == other.isInterface() && matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeMatch(original.getName(), other.getName()) && areSimilar(original.bodyDeclarations(), other.bodyDeclarations());
+    restMatches = restMatches && original.isInterface() == other.isInterface() && matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeMatch(original.getName(), other.getName()) && similar(original.bodyDeclarations(), other.bodyDeclarations());
 
     return restMatches;
   }
@@ -310,7 +296,6 @@ final class CompilationUnitDifferencer {
     FieldDeclaration other = (FieldDeclaration) revised;
 
     boolean fragmentMatches = false;
-    boolean restMatches = true;
 
     for (Object originalFragment: original.fragments()) {
       if (!(originalFragment instanceof VariableDeclarationFragment)) {
@@ -333,25 +318,19 @@ final class CompilationUnitDifferencer {
       return true;
     }
 
+    boolean restMatches = true;
+
     switch (TreeApiLevel.valueOf(original)) {
-      case JLS2:
-        throw new UnsupportedOperationException();
       case JLS3:
       case JLS4:
         restMatches = restMatches && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers());
         break;
+
       default:
-        throw new AssertionError();
+        throw new UnsupportedOperationException(format("Unsupported tree API level %s", TreeApiLevel.valueOf(original)));
     }
 
     restMatches = restMatches && matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeMatch(original.getType(), other.getType());
-
-    // TODO rm
-    //		System.out.println("TYPE : "+original.getType());
-    //		System.out.println("TYPE : "+other.getType());
-    //		System.out.println("FIELD CMP name : "+(fragmentMatches));
-    //		System.out.println("FIELD CMP rest : "+(restMatches));
-    //		System.out.println("FIELD CMP : "+(fragmentMatches || restMatches));
 
     return restMatches;
   }
@@ -382,14 +361,13 @@ final class CompilationUnitDifferencer {
     boolean restMatches = true;
 
     switch (TreeApiLevel.valueOf(original)) {
-      case JLS2:
-        throw new UnsupportedOperationException();
       case JLS3:
       case JLS4:
         restMatches = restMatches && matcher.safeSubtreeListMatch(original.modifiers(), other.modifiers()) && matcher.safeSubtreeMatch(original.getReturnType2(), other.getReturnType2()) && matcher.safeSubtreeListMatch(original.typeParameters(), other.typeParameters());
         break;
+
       default:
-        throw new AssertionError();
+        throw new UnsupportedOperationException(format("Unsupported tree API level %s", TreeApiLevel.valueOf(original)));
     }
 
     restMatches = restMatches && original.isConstructor() == other.isConstructor() && matcher.safeSubtreeMatch(original.getJavadoc(), other.getJavadoc()) && matcher.safeSubtreeListMatch(original.parameters(), other.parameters()) && original.getExtraDimensions() == other.getExtraDimensions() && matcher.safeSubtreeListMatch(original.thrownExceptions(), other.thrownExceptions()) && matcher.safeSubtreeMatch(original.getBody(), other.getBody());
@@ -406,14 +384,6 @@ final class CompilationUnitDifferencer {
 
     VariableDeclarationFragment other = (VariableDeclarationFragment) revised;
 
-    // TODO rm
-    //		System.out.println("--------------------------------");
-    //		System.out.println("ORIGINAL NAME: " +original.getName());
-    //		System.out.println("ORIGINAL: " +original);
-    //		System.out.println("OTHER NAME: " +other.getName());
-    //		System.out.println("OTHER: " +other);
-    //		System.out.println("--------------------------------");
-
     boolean nameMatches = matcher.safeSubtreeMatch(original.getName(), other.getName());
 
     if (nameMatches) {
@@ -422,27 +392,6 @@ final class CompilationUnitDifferencer {
 
     boolean restMatches = original.getExtraDimensions() == other.getExtraDimensions() && matcher.safeSubtreeMatch(original.getInitializer(), other.getInitializer());
 
-    // TODO rm
-    //		System.out.println("CMP name : "+(nameMatches));
-    //		System.out.println("CMP rest : "+(restMatches));
-    //		System.out.println("CMP : "+(nameMatches || restMatches));
-
     return restMatches;
-  }
-
-  private static boolean areSimilar(final List<ASTNode> original, final List<ASTNode> revised) {
-    if (original.size() != revised.size()) {
-      return false;
-    }
-
-    Iterator<ASTNode> revisedIterator = revised.iterator();
-
-    for (ASTNode originalNode: original) {
-      if (!isSimilar(originalNode, revisedIterator.next())) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }
