@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.activity.serializers;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,10 +8,10 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
-import static com.google.common.collect.Lists.newArrayListWithCapacity;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.MoreLists.newArrayListSuitableFor;
 
 // TODO remove all (most of) serialization from listeners?
 
@@ -24,11 +23,7 @@ public final class Serializations {
   }
 
   public static <T> List<T> newEmptyListSuitableFor(final Iterable<?> iterable) {
-    if (iterable instanceof Collection) {
-      return newArrayListWithCapacity(((Collection<?>) iterable).size());
-    }
-
-    return newArrayListWithExpectedSize(16);
+    return newArrayListSuitableFor(iterable);
   }
 
   public static <T> List<T> newEmptyListSuitableFor(@SuppressWarnings("unused") final Iterator<?> iterator) {
