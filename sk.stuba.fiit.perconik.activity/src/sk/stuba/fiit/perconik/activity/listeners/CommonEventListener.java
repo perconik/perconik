@@ -141,7 +141,7 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     for (Object component: components) {
       for (String item: sequence(component.toString())) {
-        builder.append(item.toLowerCase()).append("/");
+        builder.append(item.replace('_', '-').toLowerCase()).append("/");
       }
     }
 
