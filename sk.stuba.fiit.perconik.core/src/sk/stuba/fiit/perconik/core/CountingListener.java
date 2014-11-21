@@ -29,6 +29,6 @@ public interface CountingListener extends Listener {
    * @author Pavol Zbell
    * @since 1.0
    */
-  public static interface Key {
+  public interface Key {
   }
 }

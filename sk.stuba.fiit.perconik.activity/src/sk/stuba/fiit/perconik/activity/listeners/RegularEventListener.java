@@ -160,7 +160,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
     public Optional<DisposalHook> disposalHook();
 
-    public static interface Builder {
+    public interface Builder {
       public Configuration build();
     }
   }
@@ -426,7 +426,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.statistics.unregistrationCount.incrementAndGet();
   }
 
-  public static interface DataInjector {
+  public interface DataInjector {
     public void inject(String path, Event data);
   }
 
@@ -478,7 +478,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.statistics.injectTime.addAndGet(delta);
   }
 
-  public static interface EventValidator {
+  public interface EventValidator {
     public void validate(String path, Event data);
   }
 
@@ -510,7 +510,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.statistics.validateTime.addAndGet(delta);
   }
 
-  public static interface PersistenceStore extends AutoCloseable {
+  public interface PersistenceStore extends AutoCloseable {
     public void persist(String path, Event data) throws Exception;
   }
 
@@ -552,7 +552,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.statistics.persistTime.addAndGet(delta);
   }
 
-  public static interface SendFailureHandler {
+  public interface SendFailureHandler {
     public void handleSendFailure(final String path, final Event data, final Exception failure);
   }
 

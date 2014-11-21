@@ -48,7 +48,7 @@ public interface ListenerService extends Service {
    * @author Pavol Zbell
    * @since 1.0
    */
-  public static interface Builder {
+  public interface Builder {
     /**
      * Sets the listener provider of the built listener service.
      * @param provider the provider, not {@code null}

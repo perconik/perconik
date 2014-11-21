@@ -48,7 +48,7 @@ public interface ResourceService extends Service {
    * @author Pavol Zbell
    * @since 1.0
    */
-  public static interface Builder {
+  public interface Builder {
     /**
      * Sets the resource provider of the built resource service.
      * @param provider the provider, not {@code null}

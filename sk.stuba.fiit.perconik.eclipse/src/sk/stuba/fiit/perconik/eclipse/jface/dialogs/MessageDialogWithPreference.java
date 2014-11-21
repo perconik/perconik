@@ -45,7 +45,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
       return new Preference(store, key, ToggleStateStrategy.INSTANCE);
     }
 
-    public static interface Strategy {
+    public interface Strategy {
       public void set(IPreferenceStore store, String key, int code, boolean state);
 
       public Object get(IPreferenceStore store, String key);
