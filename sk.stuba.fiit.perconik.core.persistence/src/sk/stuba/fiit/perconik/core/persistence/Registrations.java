@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.persistence;
 
-import java.util.Collection;
 import java.util.Set;
 
 import com.google.common.base.Function;
@@ -11,7 +10,8 @@ import sk.stuba.fiit.perconik.core.Listener;
 
 import static com.google.common.base.Functions.constant;
 import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
+
+import static sk.stuba.fiit.perconik.utilities.MoreSets.newHashSetExpectedFor;
 
 /**
  * Static utility methods pertaining to {@code Registration} instances.
@@ -21,14 +21,6 @@ import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
  */
 public final class Registrations {
   private Registrations() {}
-
-  private static <E> Set<E> newSet(final Iterable<?> iterable) {
-    if (iterable instanceof Collection) {
-      newHashSetWithExpectedSize(((Collection<?>) iterable).size());
-    }
-
-    return newHashSet();
-  }
 
   public static <R extends MarkableRegistration> Set<R> registered(final Iterable<R> registrations) {
     return selectByRegisteredStatus(registrations, true);
@@ -47,7 +39,7 @@ public final class Registrations {
   }
 
   public static <R extends Registration> Set<R> selectByRegisteredStatus(final Iterable<R> registrations, final boolean status) {
-    Set<R> result = newSet(registrations);
+    Set<R> result = newHashSetExpectedFor(registrations);
 
     for (R registration: registrations) {
       if (registration.isRegistered() == status) {
@@ -59,7 +51,7 @@ public final class Registrations {
   }
 
   public static <R extends MarkableRegistration> Set<R> selectByRegisteredMark(final Iterable<R> registrations, final boolean status) {
-    Set<R> result = newSet(registrations);
+    Set<R> result = newHashSetExpectedFor(registrations);
 
     for (R registration: registrations) {
       if (registration.hasRegistredMark() == status) {
@@ -71,7 +63,7 @@ public final class Registrations {
   }
 
   public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> applyRegisteredMark(final Iterable<R> registrations) {
-    Set<R> result = newSet(registrations);
+    Set<R> result = newHashSetExpectedFor(registrations);
 
     for (R registration: registrations) {
       result.add(registration.applyRegisteredMark());
@@ -81,7 +73,7 @@ public final class Registrations {
   }
 
   public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> updateRegisteredMark(final Iterable<R> registrations) {
-    Set<R> result = newSet(registrations);
+    Set<R> result = newHashSetExpectedFor(registrations);
 
     for (R registration: registrations) {
       result.add(registration.updateRegisteredMark());
@@ -95,7 +87,7 @@ public final class Registrations {
   }
 
   public static <R extends MarkableRegistration & RegistrationMarker<R>> Set<R> markRegistered(final Iterable<R> registrations, final Function<? super R, Boolean> function) {
-    Set<R> result = newSet(registrations);
+    Set<R> result = newHashSetExpectedFor(registrations);
 
     for (R registration: registrations) {
       result.add(registration.markRegistered(function.apply(registration)));
@@ -127,7 +119,7 @@ public final class Registrations {
   }
 
   public static <R extends ListenerRegistration & MarkableRegistration> Set<Class<? extends Listener>> toListenerClasses(final Iterable<R> registrations) {
-    Set<Class<? extends Listener>> result = newSet(registrations);
+    Set<Class<? extends Listener>> result = newHashSetExpectedFor(registrations);
 
     for (R registration: registrations) {
       result.add(registration.getListenerClass());
