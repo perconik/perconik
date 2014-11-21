@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.java.dom;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
@@ -12,6 +14,7 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import static com.google.common.base.Optional.fromNullable;
 
 import static sk.stuba.fiit.perconik.core.java.dom.Nodes.toType;
+import static sk.stuba.fiit.perconik.utilities.MoreLists.newArrayListSuitableFor;
 
 public final class MatchingNode<N extends ASTNode> {
   private static final ASTMatcher matcher = new ASTMatcher(true);
@@ -27,6 +30,26 @@ public final class MatchingNode<N extends ASTNode> {
 
   public static <N extends ASTNode> MatchingNode<N> of(@Nullable final N node) {
     return new MatchingNode<>(node);
+  }
+
+  public static <N extends ASTNode> List<MatchingNode<N>> wrap(final Iterable<? extends N> nodes) {
+    List<MatchingNode<N>> wrapped = newArrayListSuitableFor(nodes);
+
+    for (N node: nodes) {
+      wrapped.add(of(node));
+    }
+
+    return wrapped;
+  }
+
+  public static <N extends ASTNode> List<N> unwrap(final Iterable<? extends MatchingNode<N>> nodes) {
+    List<N> unwrapped = newArrayListSuitableFor(nodes);
+
+    for (MatchingNode<? extends N> node: nodes) {
+      unwrapped.add(node.node);
+    }
+
+    return unwrapped;
   }
 
   @Override
