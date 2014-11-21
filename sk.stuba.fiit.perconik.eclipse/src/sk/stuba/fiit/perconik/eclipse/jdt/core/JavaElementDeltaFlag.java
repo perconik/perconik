@@ -74,12 +74,12 @@ public enum JavaElementDeltaFlag implements IntegralConstant {
   /**
    * @see IJavaElementDelta#F_SOURCEATTACHED
    */
-  SOURCEATTACHED(IJavaElementDelta.F_SOURCEATTACHED),
+  SOURCE_ATTACHED(IJavaElementDelta.F_SOURCEATTACHED),
 
   /**
    * @see IJavaElementDelta#F_SOURCEDETACHED
    */
-  SOURCEDETACHED(IJavaElementDelta.F_SOURCEDETACHED),
+  SOURCE_DETACHED(IJavaElementDelta.F_SOURCEDETACHED),
 
   /**
    * @see IJavaElementDelta#F_FINE_GRAINED
