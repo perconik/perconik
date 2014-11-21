@@ -53,7 +53,7 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
     private Action(final String identifier) {
       this.identifier = requireNonNull(identifier);
 
-      this.name = actionName("eclipse", "ui", "text", this);
+      this.name = actionName("eclipse", "text", this);
       this.path = actionPath(this.name);
     }
 

@@ -57,7 +57,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
     private final String path;
 
     private Action() {
-      this.name = actionName("eclipse", "ui", "text", this);
+      this.name = actionName("eclipse", "text", this);
       this.path = actionPath(this.name);
     }
 
