@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
-import static sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSessionListener.Action.END;
+import static sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSessionListener.Action.FINISH;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSessionListener.Action.RESTART;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSessionListener.Action.START;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
@@ -29,7 +29,7 @@ public final class CompletionSessionListener extends CommonEventListener impleme
 
     RESTART,
 
-    END;
+    FINISH;
 
     private final String name;
 
@@ -87,7 +87,7 @@ public final class CompletionSessionListener extends CommonEventListener impleme
   public void assistSessionEnded(final ContentAssistEvent event) {
     final long time = currentTime();
 
-    this.execute(time, END, event);
+    this.execute(time, FINISH, event);
   }
 
   public void selectionChanged(final ICompletionProposal proposal, final boolean smart) {
