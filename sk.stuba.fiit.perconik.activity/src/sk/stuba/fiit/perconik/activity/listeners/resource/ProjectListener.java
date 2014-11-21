@@ -25,6 +25,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.resource.ProjectListener
 import static sk.stuba.fiit.perconik.activity.listeners.resource.ProjectListener.Action.CLOSE;
 import static sk.stuba.fiit.perconik.activity.listeners.resource.ProjectListener.Action.DELETE;
 import static sk.stuba.fiit.perconik.activity.listeners.resource.ProjectListener.Action.OPEN;
+import static sk.stuba.fiit.perconik.activity.listeners.resource.ProjectListener.Action.REMOVE;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.POST_CHANGE;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PRE_BUILD;
@@ -43,8 +44,13 @@ public final class ProjectListener extends AbstractResourceListener {
 
   public ProjectListener() {}
 
+  // TODO test DELETE vs REMOVE
+  // TODO figure out how to distinguish CREATE from ADD
+
   enum Action implements CommonEventListener.Action {
     ADD,
+
+    REMOVE,
 
     DELETE,
 
@@ -128,6 +134,10 @@ public final class ProjectListener extends AbstractResourceListener {
 
         if (kind == ResourceDeltaKind.ADDED) {
           this.process(ADD, visit, project);
+        }
+
+        if (kind == ResourceDeltaKind.REMOVED) {
+          this.process(REMOVE, visit, project);
         }
 
         if (flags.contains(ResourceDeltaFlag.OPEN) && project.isOpen()) {
