@@ -21,16 +21,24 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class CompletionSelectionListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.CompletionListener {
   public CompletionSelectionListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     SELECT;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "completion", "selection", this);
       this.path = actionPath(this.name);
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
     }
   }
 
@@ -40,7 +48,7 @@ public final class CompletionSelectionListener extends CommonEventListener imple
   //  }
 
   static Event build(final long time, final Action action, final ICompletionProposal proposal, final boolean smart) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     // ICompletionProposal
     // IJavaCompletionProposal
@@ -60,7 +68,7 @@ public final class CompletionSelectionListener extends CommonEventListener imple
   }
 
   void process(final long time, final Action action, final ICompletionProposal proposal, final boolean smart) {
-    this.send(action.path, build(time, action, proposal, smart));
+    this.send(action.getPath(), build(time, action, proposal, smart));
   }
 
   public void selectionChanged(final ICompletionProposal proposal, final boolean smart) {

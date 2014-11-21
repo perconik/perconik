@@ -25,23 +25,31 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 public final class WorkbenchListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
   public WorkbenchListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     STARTUP,
 
     SHUTDOWN;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "workbench", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final IWorkbench workbench) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("workbench"), new WorkbenchSerializer(TREE).serialize(workbench));
 
@@ -49,7 +57,7 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   }
 
   void process(final long time, final Action action, final IWorkbench workbench) {
-    this.send(action.path, build(time, action, workbench));
+    this.send(action.getPath(), build(time, action, workbench));
   }
 
   void execute(final long time, final Action action, final IWorkbench workbench) {

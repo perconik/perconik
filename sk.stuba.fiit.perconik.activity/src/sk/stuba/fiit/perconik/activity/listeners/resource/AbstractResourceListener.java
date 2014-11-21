@@ -36,7 +36,7 @@ abstract class AbstractResourceListener extends CommonEventListener implements R
     content.put(key("visit", "current", "resource"), identifyObject(visit.resource.orNull()));
   }
 
-  abstract void resolve(final long time, final IResourceChangeEvent event);
+  abstract void resolve(long time, IResourceChangeEvent event);
 
   public final void resourceChanged(final IResourceChangeEvent event) {
     final long time = currentTime();

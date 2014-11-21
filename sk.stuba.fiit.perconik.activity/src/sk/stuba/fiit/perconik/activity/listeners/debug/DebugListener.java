@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners.debug;
 
+import com.google.common.base.Optional;
+
 import org.eclipse.debug.core.DebugEvent;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
@@ -9,6 +11,9 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
+
+import static com.google.common.base.Optional.absent;
+import static com.google.common.base.Optional.of;
 
 import static sk.stuba.fiit.perconik.activity.listeners.debug.DebugListener.Action.fromKind;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
@@ -25,7 +30,7 @@ import static sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind.valueOf;
 public final class DebugListener extends CommonEventListener implements DebugEventsListener {
   public DebugListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     RESUME,
 
     SUSPEND,
@@ -38,11 +43,11 @@ public final class DebugListener extends CommonEventListener implements DebugEve
 
     OTHER(DebugEventKind.MODEL_SPECIFIC);
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
-    final DebugEventKind kind;
+    private final DebugEventKind kind;
 
     private Action() {
       this(null);
@@ -54,19 +59,27 @@ public final class DebugListener extends CommonEventListener implements DebugEve
       this.kind = kind != null ? kind : DebugEventKind.valueOf(this.name());
     }
 
-    static Action fromKind(final DebugEventKind kind) {
+    static Optional<Action> fromKind(final DebugEventKind kind) {
       for (Action action: values()) {
         if (action.kind == kind) {
-          return action;
+          return of(action);
         }
       }
 
-      throw new IllegalStateException();
+      return absent();
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
     }
   }
 
   static Event build(final long time, final Action action, final DebugEvent event) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("kind"), DebugEventKind.valueOf(event.getKind()).toString().toLowerCase());
     data.put(key("detail"), DebugEventDetail.valueOf(event.getDetail()).toString().toLowerCase());
@@ -80,17 +93,15 @@ public final class DebugListener extends CommonEventListener implements DebugEve
   }
 
   void process(final long time, final DebugEvent event) {
-    Action action;
+    Optional<Action> option = fromKind(valueOf(event.getKind()));
 
-    try {
-      action = fromKind(valueOf(event.getKind()));
-    } catch (RuntimeException failure) {
-      this.log.error(failure, "%s action resolving failure for event kind %s", this, event.getKind());
-
-      return;
+    if (!option.isPresent()) {
+      this.log.error("%s unable to resolve action for event kind %s", this, event.getKind());
     }
 
-    this.send(action.path, build(time, action, event));
+    Action action = option.get();
+
+    this.send(action.getPath(), build(time, action, event));
   }
 
   public void handleDebugEvents(final DebugEvent[] events) {

@@ -9,13 +9,11 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
-import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
@@ -40,17 +38,17 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
   private final CommandExecutionStateHandler paste;
 
   public TextPasteListener() {
-    this.paste = CommandExecutionStateHandler.of(PASTE.identifier);
+    this.paste = CommandExecutionStateHandler.of(PASTE.getIdentifier());
   }
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     PASTE("org.eclipse.ui.edit.paste");
 
-    final String identifier;
+    private final String identifier;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action(final String identifier) {
       this.identifier = requireNonNull(identifier);
@@ -58,21 +56,25 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
       this.name = actionName("eclipse", "ui", "text", this);
       this.path = actionPath(this.name);
     }
-  }
 
-  static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
-    Event data = LocalEvent.of(time, action.name);
+    public String getIdentifier() {
+      return this.identifier;
+    }
 
-    put(data, editor);
-    put(data, view);
-    put(data, region);
+    public String getName() {
+      return this.name;
+    }
 
-    return data;
+    public String getPath() {
+      return this.path;
+    }
   }
 
   void process(final long time, final Action action, final DocumentEvent event) {
     IDocument document = event.getDocument();
     IEditorPart editor = Editors.forDocument(document);
+
+    LineRegion region = LineRegion.of(document, event.getOffset(), event.getLength(), event.getText());
 
     if (editor == null) {
       if (Log.isEnabled()) {
@@ -82,11 +84,7 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
       return;
     }
 
-    UnderlyingView<?> content = UnderlyingView.resolve(document, editor);
-
-    LineRegion region = LineRegion.of(document, event.getOffset(), event.getLength(), event.getText());
-
-    this.send(action.path, build(time, action, editor, content, region));
+    this.process(time, action, editor, document, region);
   }
 
   public void documentAboutToBeChanged(final DocumentEvent event) {

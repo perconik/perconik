@@ -26,25 +26,33 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class TestSessionListener extends CommonEventListener implements TestRunListener {
   public TestSessionListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     LAUNCH,
 
     START,
 
     FINISH;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "test", "session", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final ITestRunSession session) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("session"), new TestRunSessionSerializer(TREE).serialize(session));
 
@@ -52,7 +60,7 @@ public final class TestSessionListener extends CommonEventListener implements Te
   }
 
   void process(final long time, final Action action, final ITestRunSession session) {
-    this.send(action.path, build(time, action, session));
+    this.send(action.getPath(), build(time, action, session));
   }
 
   void execute(final long time, final Action action, final ITestRunSession session) {

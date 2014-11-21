@@ -14,10 +14,10 @@ import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractTextCopyListener<A> extends AbstractTextOperationListener {
+abstract class AbstractTextCopyListener extends AbstractTextOperationListener {
   AbstractTextCopyListener() {}
 
-  final void process(final long time, final A action) {
+  final void process(final long time, final Action action) {
     String text = this.execute(ClipboardReader.instance);
 
     TextSelectionCapture capture = this.execute(TextSelectionReader.instance);
@@ -37,5 +37,13 @@ abstract class AbstractTextCopyListener<A> extends AbstractTextOperationListener
     this.process(time, action, editor, document, region, selection);
   }
 
-  abstract void process(final long time, final A action, final IEditorPart editor, final IDocument document, final LineRegion region, final String selection);
+  abstract boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection);
+
+  final void process(final long time, final Action action, final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
+    if (!this.validate(editor, document, region, selection)) {
+      return;
+    }
+
+    this.process(time, action, editor, document, region);
+  }
 }

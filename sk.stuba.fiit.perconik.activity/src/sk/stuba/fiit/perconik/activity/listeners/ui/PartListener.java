@@ -33,7 +33,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class PartListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PartListener {
   public PartListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     OPEN,
 
     CLOSE,
@@ -50,18 +50,26 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
 
     CHANGE_INPUT;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "part", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final IWorkbenchPartReference reference) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("part"), new PartReferenceSerializer(TREE).serialize(reference));
 
@@ -77,7 +85,7 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
   }
 
   void process(final long time, final Action action, final IWorkbenchPartReference reference) {
-    this.send(action.path, build(time, action, reference));
+    this.send(action.getPath(), build(time, action, reference));
   }
 
   void execute(final long time, final Action action, final IWorkbenchPartReference reference) {

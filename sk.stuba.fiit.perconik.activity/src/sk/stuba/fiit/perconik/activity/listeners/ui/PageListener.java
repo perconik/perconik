@@ -27,25 +27,33 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class PageListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PageListener {
   public PageListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     OPEN,
 
     CLOSE,
 
     ACTIVATE;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "page", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final IWorkbenchPage page) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("page"), new PageSerializer(TREE).serialize(page));
 
@@ -59,7 +67,7 @@ public final class PageListener extends CommonEventListener implements sk.stuba.
   }
 
   void process(final long time, final Action action, final IWorkbenchPage page) {
-    this.send(action.path, build(time, action, page));
+    this.send(action.getPath(), build(time, action, page));
   }
 
   void execute(final long time, final Action action, final IWorkbenchPage page) {

@@ -5,6 +5,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.CommitSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -33,21 +34,29 @@ public final class CommitListener extends AbstractReferenceListener {
     this.cache.update(repository, getFullBranch(repository), getMostRecentCommit(repository).getName());
   }
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     COMMIT;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "git", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final Repository repository, final RevCommit commit) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("repository"), new RepositorySerializer().serialize(repository));
     data.put(key("commit"), new CommitSerializer().serialize(commit));
@@ -60,7 +69,7 @@ public final class CommitListener extends AbstractReferenceListener {
     RevCommit commit = getMostRecentCommit(repository);
 
     if (this.cache.updated(repository, getFullBranch(repository), commit.getName())) {
-      this.send(COMMIT.path, build(time, COMMIT, repository, commit));
+      this.send(COMMIT.getPath(), build(time, COMMIT, repository, commit));
     }
   }
 }

@@ -33,7 +33,7 @@ abstract class AbstractReferenceListener extends CommonEventListener implements 
 
   abstract void postRegisterRepository(Repository repository);
 
-  abstract void process(final long time, final Repository repository);
+  abstract void process(long time, Repository repository);
 
   public final void onRefsChanged(final RefsChangedEvent event) {
     final long time = currentTime();

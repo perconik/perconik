@@ -20,21 +20,29 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 public final class MarkSelectionListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener {
   public MarkSelectionListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     ;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
 
 
@@ -42,7 +50,7 @@ public final class MarkSelectionListener extends CommonEventListener implements 
   }
 
   void process(final long time, final Action action) {
-    this.send(action.path, build(time, action));
+    this.send(action.getPath(), build(time, action));
   }
 
   void execute(final long time, final Action action) {

@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.resource.ProjectSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
@@ -42,7 +43,7 @@ public final class ProjectListener extends AbstractResourceListener {
 
   public ProjectListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     ADD,
 
     DELETE,
@@ -53,18 +54,26 @@ public final class ProjectListener extends AbstractResourceListener {
 
     BUILD;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "project", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final ResourceEventVisit visit, final IProject project) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     put(data, visit);
 
@@ -74,7 +83,7 @@ public final class ProjectListener extends AbstractResourceListener {
   }
 
   void process(final long time, final Action action, final ResourceEventVisit visit, final IProject project) {
-    this.send(action.path, build(time, action, visit, project));
+    this.send(action.getPath(), build(time, action, visit, project));
   }
 
   private final class ProjectEventResolver extends ResourceEventResolver {

@@ -1,11 +1,14 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import sk.stuba.fiit.perconik.activity.events.Event;
+import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.EditorSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
@@ -49,5 +52,21 @@ abstract class AbstractTextOperationListener extends CommonEventListener {
 
   static final void put(final StructuredContent content, final LineRegion region) {
     content.put(key("region"), new LineRegionSerializer().serialize(region));
+  }
+
+  static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
+    Event data = LocalEvent.of(time, action.getName());
+
+    put(data, editor);
+    put(data, view);
+    put(data, region);
+
+    return data;
+  }
+
+  final void process(final long time, final Action action, final IEditorPart editor, final IDocument document, final LineRegion region) {
+    UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
+
+    this.send(action.getPath(), build(time, action, editor, view, region));
   }
 }

@@ -7,6 +7,7 @@ import org.eclipse.jgit.lib.Repository;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
@@ -40,18 +41,26 @@ public final class BranchListener extends AbstractReferenceListener {
     this.cache.update(repository, newHashSet(toNames(getBranches(repository))));
   }
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     CREATE,
 
     DELETE;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "git", "branch", this);
       this.path = actionPath(this.name);
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
     }
   }
 
@@ -61,7 +70,7 @@ public final class BranchListener extends AbstractReferenceListener {
     List<Event> collection = newEmptyListSuitableFor(branches);
 
     for (String branch: branches) {
-      Event data = LocalEvent.of(time, action.name);
+      Event data = LocalEvent.of(time, action.getName());
 
       data.put(key("repository"), content);
       data.put(key("branch", "full"), branch);
@@ -78,8 +87,8 @@ public final class BranchListener extends AbstractReferenceListener {
     Set<String> before = this.cache.update(repository, after);
 
     if (before != null) {
-      this.send(CREATE.path, build(time, CREATE, repository, difference(after, before)));
-      this.send(DELETE.path, build(time, DELETE, repository, difference(before, after)));
+      this.send(CREATE.getPath(), build(time, CREATE, repository, difference(after, before)));
+      this.send(DELETE.getPath(), build(time, DELETE, repository, difference(before, after)));
     }
   }
 }

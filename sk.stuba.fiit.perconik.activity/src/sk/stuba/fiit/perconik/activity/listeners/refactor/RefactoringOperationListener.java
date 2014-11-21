@@ -4,8 +4,7 @@ import com.google.common.base.Optional;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringEventProxy;
@@ -29,16 +28,16 @@ import static sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.Refact
 public final class RefactoringOperationListener extends AbstractRefactoringListener implements RefactoringExecutionListener {
   public RefactoringOperationListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     EXECUTE(PERFORMED),
 
     UNDO(UNDONE),
 
     REDO(REDONE);
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     RefactoringExecutionEventType type;
 
@@ -57,23 +56,19 @@ public final class RefactoringOperationListener extends AbstractRefactoringListe
 
       return Optional.absent();
     }
-  }
 
-  static Event build(final long time, final Action action, final RefactoringEventProxy<?> event) {
-    Event data = LocalEvent.of(time, action.name);
+    public String getName() {
+      return this.name;
+    }
 
-    put(data, event);
-
-    return data;
+    public String getPath() {
+      return this.path;
+    }
   }
 
   @Override
-  void process(final long time, final RefactoringEventProxy<?> event) {
-    Optional<Action> action = fromType(event.getType());
-
-    if (action.isPresent()) {
-      this.send(action.get().path, build(time, action.get(), event));
-    }
+  Optional<Action> resolve(final RefactoringEventProxy<?> event) {
+    return fromType(event.getType());
   }
 
   public void executionNotification(final RefactoringExecutionEvent event) {

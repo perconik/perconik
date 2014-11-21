@@ -26,23 +26,31 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class TestCaseListener extends CommonEventListener implements TestRunListener {
   public TestCaseListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     START,
 
     FINISH;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "test", "case", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final ITestCaseElement element) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("case"), new TestCaseElementSerializer(TREE).serialize(element));
 
@@ -52,7 +60,7 @@ public final class TestCaseListener extends CommonEventListener implements TestR
   }
 
   void process(final long time, final Action action, final ITestCaseElement element) {
-    this.send(action.path, build(time, action, element));
+    this.send(action.getPath(), build(time, action, element));
   }
 
   void execute(final long time, final Action action, final ITestCaseElement element) {

@@ -1,7 +1,11 @@
 package sk.stuba.fiit.perconik.activity.listeners.command;
 
+import com.google.common.base.Optional;
+
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 
+import sk.stuba.fiit.perconik.activity.events.Event;
+import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.command.UndoableOperationSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.runtime.StatusSerializer;
@@ -27,7 +31,25 @@ abstract class AbstractUndoableListener extends CommonEventListener implements O
     content.put(key("operation"), new UndoableOperationSerializer(TREE).serialize(event.getOperation()));
   }
 
-  abstract void process(final long time, final OperationHistoryEvent event);
+  static final Event build(final long time, final Action action, final OperationHistoryEvent event) {
+    Event data = LocalEvent.of(time, action.getName());
+
+    put(data, event);
+
+    return data;
+  }
+
+  abstract Optional<? extends Action> resolve(OperationHistoryEvent event);
+
+  final void process(final long time, final OperationHistoryEvent event) {
+    Optional<? extends Action> option = this.resolve(event);
+
+    if (option.isPresent()) {
+      Action action = option.get();
+
+      this.send(action.getPath(), build(time, action, event));
+    }
+  }
 
   public final void historyNotification(final OperationHistoryEvent event) {
     final long time = currentTime();

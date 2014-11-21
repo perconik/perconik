@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.ElementChangedEvent;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.dom.CompilationUnits;
@@ -84,6 +85,27 @@ public final class CompilationUnitDifferenceListener extends AbstractNodeDiffere
       throw new UnsupportedOperationException("YOLO");
 
       //return (CompilationUnit) TreeParsers.parse(Paths.get(key));
+    }
+  }
+
+  enum Action implements CommonEventListener.Action {
+    ;
+
+    private final String name;
+
+    private final String path;
+
+    private Action() {
+      this.name = actionName("eclipse", "TODO", this);
+      this.path = actionPath(this.name);
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
     }
   }
 

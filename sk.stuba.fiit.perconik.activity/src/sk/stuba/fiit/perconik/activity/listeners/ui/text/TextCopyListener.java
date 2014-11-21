@@ -8,12 +8,9 @@ import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCopyListener.Action;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
-import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
 import static java.util.Objects.requireNonNull;
@@ -28,17 +25,17 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * @since 1.0
  */
 @Version("0.0.0.alpha")
-public final class TextCopyListener extends AbstractTextCopyListener<Action> implements CommandExecutionListener {
+public final class TextCopyListener extends AbstractTextCopyListener implements CommandExecutionListener {
   public TextCopyListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     COPY("org.eclipse.ui.edit.copy");
 
-    final String identifier;
+    private final String identifier;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action(final String identifier) {
       this.identifier = requireNonNull(identifier);
@@ -46,31 +43,29 @@ public final class TextCopyListener extends AbstractTextCopyListener<Action> imp
       this.name = actionName("eclipse", "ui", "text", this);
       this.path = actionPath(this.name);
     }
-  }
 
-  static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
-    Event data = LocalEvent.of(time, action.name);
+    public String getIdentifier() {
+      return this.identifier;
+    }
 
-    put(data, editor);
-    put(data, view);
-    put(data, region);
+    public String getName() {
+      return this.name;
+    }
 
-    return data;
+    public String getPath() {
+      return this.path;
+    }
   }
 
   @Override
-  void process(final long time, final Action action, final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
-    if (region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection))) {
-      if (Log.isEnabled()) {
-        Log.message("copy: clipboard content not equal to editor selection '%s' != '%s'%n", region.text, selection).appendTo(this.log);
-      }
+  boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
+    boolean valid = region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection));
 
-      return;
+    if (!valid && Log.isEnabled()) {
+      Log.message("copy: clipboard content not equal to editor selection '%s' != '%s'%n", region.text, selection).appendTo(this.log);
     }
 
-    UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
-
-    this.send(action.path, build(time, action, editor, view, region));
+    return valid;
   }
 
   public void preExecute(final String identifier, final ExecutionEvent event) {
@@ -80,7 +75,7 @@ public final class TextCopyListener extends AbstractTextCopyListener<Action> imp
   public void postExecuteSuccess(final String identifier, final Object result) {
     final long time = currentTime();
 
-    if (!COPY.identifier.equals(identifier)) {
+    if (!COPY.getIdentifier().equals(identifier)) {
       return;
     }
 

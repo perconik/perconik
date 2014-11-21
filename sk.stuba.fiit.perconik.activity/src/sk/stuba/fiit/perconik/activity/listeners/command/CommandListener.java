@@ -36,23 +36,31 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
 public final class CommandListener extends CommonEventListener implements CommandExecutionListener {
   public CommandListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     EXECUTE;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "command", this);
       this.path = actionPath(this.name);
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
     }
   }
 
   static Event build(final long time, final Action action, final String identifier, final CommandExecutionState state) {
     assert !identifier.isEmpty();
 
-    Event event = LocalEvent.of(time, action.name);
+    Event event = LocalEvent.of(time, action.getName());
 
     event.put(key("command", "identifier"), identifier);
 
@@ -83,15 +91,15 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   void process(final long time, final Action action, final String identifier, final CommandExecutionState state) {
-    this.send(action.path, build(time, action, identifier, state));
+    this.send(action.getPath(), build(time, action, identifier, state));
   }
 
   void process(final long time, final Action action, final String identifier, final CommandExecutionState state, final ExecutionEvent execution) {
-    this.send(action.path, build(time, action, identifier, state, execution));
+    this.send(action.getPath(), build(time, action, identifier, state, execution));
   }
 
   void process(final long time, final Action action, final String identifier, final CommandExecutionState state, @Nullable final Object result) {
-    this.send(action.path, build(time, action, identifier, state, result));
+    this.send(action.getPath(), build(time, action, identifier, state, result));
   }
 
   public void notDefined(final String identifier, final NotDefinedException exception) {

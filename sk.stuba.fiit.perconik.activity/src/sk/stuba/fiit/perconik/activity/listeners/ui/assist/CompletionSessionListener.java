@@ -24,25 +24,33 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class CompletionSessionListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.CompletionListener {
   public CompletionSessionListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     START,
 
     RESTART,
 
     END;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "completion", "session", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final ContentAssistEvent event) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("assistant"), identifyObject(event.assistant));
     data.put(key("processor"), identifyObject(event.processor));
@@ -53,7 +61,7 @@ public final class CompletionSessionListener extends CommonEventListener impleme
   }
 
   void process(final long time, final Action action, final ContentAssistEvent assist) {
-    this.send(action.path, build(time, action, assist));
+    this.send(action.getPath(), build(time, action, assist));
   }
 
   void execute(final long time, final Action action, final ContentAssistEvent assist) {

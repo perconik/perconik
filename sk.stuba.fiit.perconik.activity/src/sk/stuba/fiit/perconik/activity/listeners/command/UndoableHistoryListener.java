@@ -4,12 +4,14 @@ import com.google.common.base.Optional;
 
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 
 import static java.util.Objects.requireNonNull;
+
+import static com.google.common.base.Optional.absent;
+import static com.google.common.base.Optional.of;
 
 import static sk.stuba.fiit.perconik.activity.listeners.command.UndoableHistoryListener.Action.fromType;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType.OPERATION_ADDED;
@@ -28,7 +30,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationH
 public final class UndoableHistoryListener extends AbstractUndoableListener {
   public UndoableHistoryListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     ADD(OPERATION_ADDED),
 
     REMOVE(OPERATION_REMOVED),
@@ -37,11 +39,11 @@ public final class UndoableHistoryListener extends AbstractUndoableListener {
 
     CHANGE(OPERATION_CHANGED);
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
-    final OperationHistoryEventType type;
+    private final OperationHistoryEventType type;
 
     private Action(final OperationHistoryEventType type) {
       this.name = actionName("eclipse", "command", "history", this);
@@ -52,28 +54,24 @@ public final class UndoableHistoryListener extends AbstractUndoableListener {
     static Optional<Action> fromType(final OperationHistoryEventType type) {
       for (Action action: values()) {
         if (action.type == type) {
-          return Optional.of(action);
+          return of(action);
         }
       }
 
-      return Optional.absent();
+      return absent();
     }
-  }
 
-  static Event build(final long time, final Action action, final OperationHistoryEvent event) {
-    Event data = LocalEvent.of(time, action.name);
+    public String getName() {
+      return this.name;
+    }
 
-    put(data, event);
-
-    return data;
+    public String getPath() {
+      return this.path;
+    }
   }
 
   @Override
-  void process(final long time, final OperationHistoryEvent event) {
-    Optional<Action> action = fromType(valueOf(event.getEventType()));
-
-    if (action.isPresent()) {
-      this.send(action.get().path, build(time, action.get(), event));
-    }
+  Optional<Action> resolve(final OperationHistoryEvent event) {
+    return fromType(valueOf(event.getEventType()));
   }
 }

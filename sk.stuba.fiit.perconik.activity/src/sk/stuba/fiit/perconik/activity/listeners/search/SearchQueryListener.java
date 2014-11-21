@@ -19,7 +19,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 public final class SearchQueryListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.SearchQueryListener {
   public SearchQueryListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     ADD,
 
     REMOVE,
@@ -28,18 +28,26 @@ public final class SearchQueryListener extends CommonEventListener implements sk
 
     FINISH;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "search", "query", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
 
 
@@ -47,7 +55,7 @@ public final class SearchQueryListener extends CommonEventListener implements sk
   }
 
   void process(final long time, final Action action) {
-    this.send(action.path, build(time, action));
+    this.send(action.getPath(), build(time, action));
   }
 
   void execute(final long time, final Action action) {

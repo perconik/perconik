@@ -31,7 +31,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class PerspectiveListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   public PerspectiveListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     OPEN,
 
     CLOSE,
@@ -42,13 +42,21 @@ public final class PerspectiveListener extends CommonEventListener implements sk
 
     SAVE;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "perspective", this);
       this.path = actionPath(this.name);
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
     }
   }
 
@@ -66,7 +74,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
   }
 
   static Event build(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("perspective"), new PerspectiveDescriptorSerializer().serialize(descriptor));
 
@@ -76,7 +84,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
   }
 
   static Event build(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     PerspectiveDescriptorSerializer serializer = new PerspectiveDescriptorSerializer();
 
@@ -89,11 +97,11 @@ public final class PerspectiveListener extends CommonEventListener implements sk
   }
 
   void process(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
-    this.send(action.path, build(time, action, page, descriptor));
+    this.send(action.getPath(), build(time, action, page, descriptor));
   }
 
   void process(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {
-    this.send(action.path, build(time, action, page, before, after));
+    this.send(action.getPath(), build(time, action, page, before, after));
   }
 
   void execute(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {

@@ -79,22 +79,6 @@ public abstract class CommonEventListener extends RegularEventListener {
     return sharedBuilder.build();
   }
 
-  public static final String actionName(final Object ... components) {
-    return key(transform(asList(components), toLowerCaseFunction()));
-  }
-
-  public static final String actionPath(final Object ... components) {
-    StringBuilder builder = new StringBuilder(16 * components.length);
-
-    for (Object component: components) {
-      for (String item: sequence(component.toString())) {
-        builder.append(item.toLowerCase()).append("/");
-      }
-    }
-
-    return builder.substring(0, builder.length() - 1);
-  }
-
   private enum UacaProxySupplier implements Supplier<PersistenceStore> {
     instance;
 
@@ -140,6 +124,28 @@ public abstract class CommonEventListener extends RegularEventListener {
     //builder.put(key("listener", "statistics"), new RegularStatisticsProbe());
 
     return builder.build();
+  }
+
+  protected interface Action {
+    public String getName();
+
+    public String getPath();
+  }
+
+  public static final String actionName(final Object ... components) {
+    return key(transform(asList(components), toLowerCaseFunction()));
+  }
+
+  public static final String actionPath(final Object ... components) {
+    StringBuilder builder = new StringBuilder(16 * components.length);
+
+    for (Object component: components) {
+      for (String item: sequence(component.toString())) {
+        builder.append(item.toLowerCase()).append("/");
+      }
+    }
+
+    return builder.substring(0, builder.length() - 1);
   }
 
   protected static final class Log {

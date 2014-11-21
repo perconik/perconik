@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
@@ -48,21 +49,29 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
     this.watch = Stopwatch.createUnstarted();
   }
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     SELECT;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "ui", "text", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region, final ITextSelection selection) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     put(data, editor);
     put(data, view);
@@ -88,7 +97,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
 
     LineRegion region = LineRegion.of(view.getDocument(), selection.getOffset(), selection.getLength(), selection.getText());
 
-    this.send(action.path, build(time, action, editor, view, region, selection));
+    this.send(action.getPath(), build(time, action, editor, view, region, selection));
   }
 
   @Override

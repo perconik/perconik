@@ -29,7 +29,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class LaunchListener extends CommonEventListener implements LaunchesListener {
   public LaunchListener() {}
 
-  enum Action {
+  enum Action implements CommonEventListener.Action {
     ADD,
 
     REMOVE,
@@ -38,18 +38,26 @@ public final class LaunchListener extends CommonEventListener implements Launche
 
     TERMINATE;
 
-    final String name;
+    private final String name;
 
-    final String path;
+    private final String path;
 
     private Action() {
       this.name = actionName("eclipse", "launch", this);
       this.path = actionPath(this.name);
     }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getPath() {
+      return this.path;
+    }
   }
 
   static Event build(final long time, final Action action, final List<ILaunch> launches) {
-    Event data = LocalEvent.of(time, action.name);
+    Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("launches"), new LaunchSerializer().serialize(launches));
 
@@ -57,7 +65,7 @@ public final class LaunchListener extends CommonEventListener implements Launche
   }
 
   void process(final long time, final Action action, final List<ILaunch> launches) {
-    this.send(action.path, build(time, action, launches));
+    this.send(action.getPath(), build(time, action, launches));
   }
 
   void execute(final long time, final Action action, final List<ILaunch> launches) {

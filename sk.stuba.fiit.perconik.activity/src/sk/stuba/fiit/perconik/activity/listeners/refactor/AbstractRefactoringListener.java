@@ -1,9 +1,13 @@
 package sk.stuba.fiit.perconik.activity.listeners.refactor;
 
+import com.google.common.base.Optional;
+
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
 
+import sk.stuba.fiit.perconik.activity.events.Event;
+import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorProxySerializer;
 import sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorSerializer;
@@ -40,7 +44,25 @@ abstract class AbstractRefactoringListener extends CommonEventListener {
     }
   }
 
-  abstract void process(final long time, final RefactoringEventProxy<?> event);
+  static final Event build(final long time, final Action action, final RefactoringEventProxy<?> event) {
+    Event data = LocalEvent.of(time, action.getName());
+
+    put(data, event);
+
+    return data;
+  }
+
+  abstract Optional<? extends Action> resolve(RefactoringEventProxy<?> event);
+
+  final void process(final long time, final RefactoringEventProxy<?> event) {
+    Optional<? extends Action> option = this.resolve(event);
+
+    if (option.isPresent()) {
+      Action action = option.get();
+
+      this.send(action.getPath(), build(time, action, event));
+    }
+  }
 
   final void execute(final long time, final RefactoringEventProxy<?> event) {
     this.execute(new Runnable() {
