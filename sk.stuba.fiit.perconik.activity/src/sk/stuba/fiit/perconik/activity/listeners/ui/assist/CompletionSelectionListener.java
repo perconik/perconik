@@ -29,7 +29,7 @@ public final class CompletionSelectionListener extends CommonEventListener imple
     private final String path;
 
     private Action() {
-      this.name = actionName("eclipse", "completion", "selection", this);
+      this.name = actionName("eclipse", "completion", this);
       this.path = actionPath(this.name);
     }
 
