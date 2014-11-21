@@ -1,12 +1,15 @@
 package sk.stuba.fiit.perconik.utilities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newArrayListWithCapacity;
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static com.google.common.collect.Lists.newLinkedList;
 
 /**
@@ -17,6 +20,22 @@ import static com.google.common.collect.Lists.newLinkedList;
  */
 public final class MoreLists {
   private MoreLists() {}
+
+  public static <E> ArrayList<E> newArrayListSuitableFor(final Iterable<?> iterable) {
+    if (iterable instanceof Collection) {
+      return newArrayListWithCapacity(((Collection<?>) iterable).size());
+    }
+
+    return newArrayList();
+  }
+
+  public static <E> ArrayList<E> newArrayListExpectedFor(final Iterable<?> iterable) {
+    if (iterable instanceof Collection) {
+      return newArrayListWithExpectedSize(((Collection<?>) iterable).size());
+    }
+
+    return newArrayList();
+  }
 
   public static List<?> wrap(final Object object) {
     if (object instanceof List) {

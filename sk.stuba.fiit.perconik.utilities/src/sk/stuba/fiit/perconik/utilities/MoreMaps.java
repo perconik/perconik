@@ -1,13 +1,16 @@
 package sk.stuba.fiit.perconik.utilities;
 
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 
 /**
@@ -18,6 +21,14 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
  */
 public final class MoreMaps {
   private MoreMaps() {}
+
+  public static <K, V> HashMap<K, V> newHashMapExpectedFor(final Iterable<?> iterable) {
+    if (iterable instanceof Collection) {
+      return newHashMapWithExpectedSize(((Collection<?>) iterable).size());
+    }
+
+    return newHashMap();
+  }
 
   private static <K, V> void copy(final Dictionary<? extends K, ? extends V> from, final Map<K, V> to) {
     Enumeration<? extends K> keys = from.keys();

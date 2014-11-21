@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.utilities;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.TreeSet;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 
+import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.Sets.newTreeSet;
 
@@ -41,6 +43,14 @@ public final class MoreSets {
 
   public static <E extends Enum<E>> EnumSet<E> newEnumSet(final Iterable<E> elements) {
     return EnumSet.copyOf(MoreLists.toList(elements));
+  }
+
+  public static <E> HashSet<E> newHashSetExpectedFor(final Iterable<?> iterable) {
+    if (iterable instanceof Collection) {
+      return newHashSetWithExpectedSize(((Collection<?>) iterable).size());
+    }
+
+    return Sets.newHashSet();
   }
 
   public static <E> Set<E> toSet(final Iterable<E> elements) {
