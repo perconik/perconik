@@ -11,7 +11,7 @@ User activity tracking in Eclipse.
 
 ### Optional
 
-- [User Activity Client Application 2.0](https://github.com/perconik/uaca)
+- [User Activity Client Application](https://github.com/perconik/uaca) 2.0
 
 ## Setup
 
