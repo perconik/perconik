@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.preferences;
+package sk.stuba.fiit.perconik.utilities.configuration;
 
 import javax.annotation.Nullable;
 
