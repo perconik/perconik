@@ -8,14 +8,20 @@ import static java.util.Collections.EMPTY_MAP;
 
 import static com.google.common.collect.Maps.newHashMap;
 
-public abstract class AbstractConfiguration extends ForwardingMap<String, Object> implements Configuration {
+/**
+ * TODO
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public abstract class AbstractOptions extends ForwardingMap<String, Object> implements Options {
   protected final Map<String, Object> options;
 
-  protected AbstractConfiguration() {
+  protected AbstractOptions() {
     this(EMPTY_MAP);
   }
 
-  protected AbstractConfiguration(final Map<String, Object> options) {
+  protected AbstractOptions(final Map<String, Object> options) {
     this.options = newHashMap(options);
   }
 

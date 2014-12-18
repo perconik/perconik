@@ -2,7 +2,13 @@ package sk.stuba.fiit.perconik.core.preferences;
 
 import java.util.Map;
 
-public interface Configuration {
+/**
+ * TODO
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
+public interface Options {
   public void fromMap(Map<String, Object> map);
 
   public Map<String, Object> toMap();
