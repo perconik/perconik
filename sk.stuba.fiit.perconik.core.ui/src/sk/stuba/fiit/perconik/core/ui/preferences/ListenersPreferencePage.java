@@ -16,6 +16,8 @@ import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
+
 /**
  * Listeners preference page.
  *
@@ -24,6 +26,11 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
  */
 public final class ListenersPreferencePage extends AbstractRegistrationPreferencePage<ListenerPreferences, ListenerPersistenceData> {
   public ListenersPreferencePage() {}
+
+  @Override
+  String name() {
+    return "listener";
+  }
 
   @Override
   Class<ListenerPersistenceData> type() {
@@ -36,12 +43,17 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
+  protected ListenerOptionsDialog createOptionsDialog() {
+    return new ListenerOptionsDialog(this.getShell());
+  }
+
+  @Override
   protected ListenerViewerComparator createViewerComparator() {
     return new ListenerViewerComparator();
   }
 
   @Override
-  protected void makeTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
+  protected void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
     Tables.createColumn(table, layout, "Listener implementation", gc, 4);
     Tables.createColumn(table, layout, "Version", gc, 1);
     Tables.createColumn(table, layout, "Notes", gc, 1);
@@ -108,7 +120,8 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
       message.append("Select only listeners with registered resources.\n\n");
       message.append(e.getMessage() + ".");
 
-      this.displayError("Listener registration", message.toString());
+      openError(this.getShell(), "Listener registration", message.toString());
+
       this.performRefresh();
     }
   }

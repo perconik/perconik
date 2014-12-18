@@ -16,6 +16,8 @@ import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
+
 /**
  * Resources preference page.
  *
@@ -24,6 +26,11 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
  */
 public final class ResourcesPreferencePage extends AbstractRegistrationPreferencePage<ResourcePreferences, ResourcePersistenceData> {
   public ResourcesPreferencePage() {}
+
+  @Override
+  String name() {
+    return "resource";
+  }
 
   @Override
   Class<ResourcePersistenceData> type() {
@@ -36,12 +43,17 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
+  protected ResourceOptionsDialog createOptionsDialog() {
+    return new ResourceOptionsDialog(this.getShell());
+  }
+
+  @Override
   protected ResourceViewerComparator createViewerComparator() {
     return new ResourceViewerComparator();
   }
 
   @Override
-  protected void makeTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
+  protected void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
     Tables.createColumn(table, layout, "Resource name", gc, 4);
     Tables.createColumn(table, layout, "Listener type", gc, 4);
     Tables.createColumn(table, layout, "Version", gc, 1);
@@ -119,7 +131,8 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
           message.append("\n  " + listener.getClass().getName());
         }
 
-        this.displayError("Resource unregistration", message.toString());
+        openError(this.getShell(), "Resource unregistration", message.toString());
+
         this.performRefresh();
 
         return;

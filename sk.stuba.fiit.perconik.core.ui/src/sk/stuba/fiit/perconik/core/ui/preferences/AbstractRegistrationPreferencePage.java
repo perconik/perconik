@@ -1,7 +1,6 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.lang.annotation.Annotation;
-import java.util.Collections;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -11,6 +10,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -48,9 +48,23 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.String.format;
+import static java.util.Collections.emptySet;
+import static java.util.Objects.requireNonNull;
+
 import static com.google.common.collect.Sets.newHashSet;
 
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
+import static org.eclipse.jface.dialogs.MessageDialog.openInformation;
+
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toUpperCaseFirst;
+
+/**
+ * TODO
+ *
+ * @author Pavol Zbell
+ * @since 1.0
+ */
 abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage {
   private P preferences;
 
@@ -72,9 +86,17 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   Button refreshButton;
 
+  Button optionsButton;
+
   Button notesButton;
 
   AbstractRegistrationPreferencePage() {}
+
+  abstract String name();
+
+  private static String pluralize(final String s) {
+    return s + "s";
+  }
 
   abstract Class<R> type();
 
@@ -91,6 +113,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     parentLayout.marginHeight = 0;
     parentLayout.marginWidth = 0;
     composite.setLayout(parentLayout);
+    composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
     Composite innerParent = new Composite(composite, SWT.NONE);
 
@@ -118,13 +141,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     GC gc = new GC(this.getShell());
     gc.setFont(JFaceResources.getDialogFont());
 
-    this.makeTableColumns(table, tableLayout, gc);
+    this.createTableColumns(table, tableLayout, gc);
 
     gc.dispose();
 
     this.tableViewer = new CheckboxTableViewer(table);
 
-    this.tableViewer.setContentProvider(new StandardContentProvider());
+    this.tableViewer.setContentProvider(new SetContentProvider());
     this.tableViewer.setLabelProvider(this.createContentProvider());
     this.tableViewer.setComparator(this.createViewerComparator());
 
@@ -204,6 +227,12 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
       }
     });
 
+    this.optionsButton = Buttons.create(buttons, "Options", new WidgetListener() {
+      public void handleEvent(final Event e) {
+        performOptions();
+      }
+    });
+
     this.notesButton = Buttons.create(buttons, "Notes", new WidgetListener() {
       public void handleEvent(final Event e) {
         performNotes();
@@ -222,9 +251,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   protected abstract AbstractLabelProvider<R> createContentProvider();
 
+  protected abstract AbstractOptionsDialog<R> createOptionsDialog();
+
   protected abstract AbstractViewerComparator createViewerComparator();
 
-  protected abstract void makeTableColumns(final Table table, final TableColumnLayout layout, final GC gc);
+  protected abstract void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc);
 
   final Set<R> checkedData() {
     return Sets.filter(this.registrations, new Predicate<R>() {
@@ -301,6 +332,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
     this.exportButton.setEnabled(selectionCount > 0);
 
+    this.optionsButton.setEnabled(selectionCount == 1);
     this.notesButton.setEnabled(selectionCount == 1);
   }
 
@@ -316,11 +348,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     }
   }
 
-  private static final class StandardContentProvider implements IStructuredContentProvider {
+  private static final class SetContentProvider implements IStructuredContentProvider {
     private Set<?> data;
 
-    StandardContentProvider() {
-      this.data = Collections.emptySet();
+    SetContentProvider() {
+      this.data = emptySet();
     }
 
     public Object[] getElements(final Object input) {
@@ -368,11 +400,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   }
 
   void performAdd() {
-    this.displayNotice("Add", "Operation not yet implemented.");
+    openInformation(this.getShell(), "Add " + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
 
   void performRemove() {
-    this.displayNotice("Remove", "Operation not yet implemented.");
+    openInformation(this.getShell(), "Remove" + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
 
   void performRegister() {
@@ -386,17 +418,28 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   }
 
   void performImport() {
-    this.displayNotice("Import", "Operation not yet implemented.");
+    openInformation(this.getShell(), "Import" + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
 
   void performExport() {
-    this.displayNotice("Export", "Operation not yet implemented.");
+    openInformation(this.getShell(), "Export" + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
 
   void performRefresh() {
     for (R registration: newHashSet(this.registrations)) {
       this.updateData(registration, registration.isRegistered());
     }
+  }
+
+  void performOptions() {
+    IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
+
+    R registration = this.cast(selection.toList().get(0));
+
+    AbstractOptionsDialog<R> dialog = this.createOptionsDialog();
+
+    dialog.setRegistration(registration);
+    dialog.open();
   }
 
   void performNotes() {
@@ -407,7 +450,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     String name = ((ITableLabelProvider) this.tableViewer.getLabelProvider()).getColumnText(registration, 0);
     String message = Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
 
-    this.displayNotice("Notes for " + name, !message.isEmpty() ? message : "No notes available.");
+    openInformation(this.getShell(), "Notes for " + name, !message.isEmpty() ? message : "No notes available.");
   }
 
   abstract Set<R> defaults();
@@ -431,6 +474,14 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   @Override
   protected final void performDefaults() {
+    String name = pluralize(this.name());
+    String title = format("Restore %s Defaults", toUpperCaseFirst(name));
+    String message = format("PerConIK Core is about to restore default state of %s registrations. Current state of %s configuration may be lost unless persisted internally by themselves.", this.name(), name);
+
+    if (new MessageDialog(this.getShell(), title, null, message, WARNING, new String[] { "Continue", "Cancel" }, 1).open() == 1) {
+      return;
+    }
+
     this.registrations = this.defaults();
 
     this.updateTable();
@@ -468,12 +519,12 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     try {
       this.save();
     } catch (BackingStoreException e) {
-      this.displayError("Preferences", "Failed to save preferences.");
+      openError(this.getShell(), "Preferences", "Failed to save preferences.");
     }
   }
 
   final void setPreferences(final P preferences) {
-    this.preferences = checkNotNull(preferences);
+    this.preferences = requireNonNull(preferences);
   }
 
   final P getPreferences() {
