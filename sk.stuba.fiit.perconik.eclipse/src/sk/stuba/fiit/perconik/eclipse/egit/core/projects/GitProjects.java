@@ -15,7 +15,11 @@ public final class GitProjects {
     Map<IProject, Repository> projects = newHashMap();
 
     for (IProject project: workspace.getRoot().getProjects()) {
-      projects.put(project, EGitAccess.getRepository(project));
+      Repository repository = EGitAccess.getRepository(project);
+
+      if (repository != null) {
+        projects.put(project, repository);
+      }
     }
 
     return projects;
