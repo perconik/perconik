@@ -25,16 +25,20 @@ import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newHashSet;
 
 final class StandardResourceManager extends AbstractResourceManager {
-  static final int typeMatchCacheCacheMaximumSize = 4 * 128;
+  static final int typeToResourcesMapExpectedSize = 128;
 
-  private final SetMultimap<Class<? extends Listener>, Resource<?>> typeToResourceCache;
+  static final int typeToResourcesMapExpectedSizePerType = 4;
+
+  static final int typeMatchCacheMaximumSize = 512;
+
+  private final SetMultimap<Class<? extends Listener>, Resource<?>> typeToResources;
 
   private final LoadingCache<TypeMatch, Boolean> typeMatchCache;
 
   StandardResourceManager() {
-    this.typeToResourceCache = HashMultimap.create();
+    this.typeToResources = HashMultimap.create(typeToResourcesMapExpectedSize, typeToResourcesMapExpectedSizePerType);
 
-    this.typeMatchCache = newBuilder().maximumSize(typeMatchCacheCacheMaximumSize).build(new CacheLoader<TypeMatch, Boolean>() {
+    this.typeMatchCache = newBuilder().maximumSize(typeMatchCacheMaximumSize).build(new CacheLoader<TypeMatch, Boolean>() {
       @Override
       public Boolean load(final TypeMatch match) throws Exception {
         return match.compute();
@@ -43,8 +47,8 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   @Override
-  protected SetMultimap<Class<? extends Listener>, Resource<?>> typeToResourceCache() {
-    return this.typeToResourceCache;
+  protected SetMultimap<Class<? extends Listener>, Resource<?>> typeToResources() {
+    return this.typeToResources;
   }
 
   public <L extends Listener> void unregisterAll(final Class<L> type) {
@@ -72,7 +76,7 @@ final class StandardResourceManager extends AbstractResourceManager {
   private <L extends Listener> SetMultimap<Class<? extends L>, Resource<? extends L>> assignablesAsSetMultimap(final Class<L> type) {
     SetMultimap<Class<? extends L>, Resource<? extends L>> result = HashMultimap.create();
 
-    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.typeToResourceCache.entries()) {
+    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.typeToResources.entries()) {
       if (type.isAssignableFrom(entry.getKey())) {
         // safe cast as key type is a subtype of specified type
         @SuppressWarnings("unchecked")
@@ -95,6 +99,8 @@ final class StandardResourceManager extends AbstractResourceManager {
     final Class<? extends Listener> supertype;
 
     TypeMatch(final Class<? extends Listener> type, final Class<? extends Listener> supertype) {
+      assert type != null && supertype != null;
+
       this.type = type;
       this.supertype = supertype;
     }
@@ -129,7 +135,7 @@ final class StandardResourceManager extends AbstractResourceManager {
   public <L extends Listener> Set<Resource<? super L>> registrables(final Class<L> type) {
     Set<Resource<? super L>> result = newHashSet();
 
-    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.typeToResourceCache.entries()) {
+    for (Entry<Class<? extends Listener>, Resource<?>> entry: this.typeToResources.entries()) {
       if (type == entry.getKey() || this.typeMatchCache.getUnchecked(new TypeMatch(type, entry.getKey()))) {
         // safe cast as L was matched with actual type
         @SuppressWarnings("unchecked")
@@ -143,10 +149,10 @@ final class StandardResourceManager extends AbstractResourceManager {
   }
 
   public SetMultimap<Class<? extends Listener>, Resource<?>> registrations() {
-    return HashMultimap.create(this.typeToResourceCache);
+    return HashMultimap.create(this.typeToResources);
   }
 
   public boolean registered(final Class<? extends Listener> type, final Resource<?> resource) {
-    return this.typeToResourceCache.containsEntry(type, resource);
+    return this.typeToResources.containsEntry(type, resource);
   }
 }

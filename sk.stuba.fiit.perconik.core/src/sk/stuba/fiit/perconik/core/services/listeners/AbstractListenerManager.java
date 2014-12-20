@@ -26,15 +26,15 @@ import static com.google.common.cache.CacheBuilder.newBuilder;
 public abstract class AbstractListenerManager extends AbstractManager implements ListenerManager {
   // TODO add javadocs
 
-  private static final int resolvedTypesCacheMaximumSize = 128;
+  static final int resolvedTypesCacheMaximumSize = 128;
 
-  private final LoadingCache<Class<? extends Listener>, Set<Class<? extends Listener>>> resolvedTypes;
+  private final LoadingCache<Class<? extends Listener>, Set<Class<? extends Listener>>> resolvedTypesCache;
 
   /**
    * Constructor for use by subclasses.
    */
   protected AbstractListenerManager() {
-    this.resolvedTypes = newBuilder().maximumSize(resolvedTypesCacheMaximumSize).build(new CacheLoader<Class<? extends Listener>, Set<Class<? extends Listener>>>() {
+    this.resolvedTypesCache = newBuilder().maximumSize(resolvedTypesCacheMaximumSize).build(new CacheLoader<Class<? extends Listener>, Set<Class<? extends Listener>>>() {
       @Override
       public Set<Class<? extends Listener>> load(final Class<? extends Listener> supertype) throws Exception {
         return Listeners.resolveTypes(supertype);
@@ -53,7 +53,7 @@ public abstract class AbstractListenerManager extends AbstractManager implements
 
     Set<Resource<? super L>> resources = manager.registrables(supertype);
 
-    for (Class<? extends Listener> type: this.resolvedTypes.getUnchecked(supertype)) {
+    for (Class<? extends Listener> type: this.resolvedTypesCache.getUnchecked(supertype)) {
       if (manager.registrables(type).isEmpty()) {
         throw new ResourceNotRegistredException("No registred resources for listener implementation " + listener.getClass().getName() + " as " + type.getName());
       }

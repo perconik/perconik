@@ -1,10 +1,11 @@
 package sk.stuba.fiit.perconik.core.services.resources;
 
-import java.util.Collections;
 import java.util.Set;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.Resource;
+
+import static java.util.Collections.emptySet;
 
 final class SystemResourceProvider extends AbstractResourceProvider {
   private static final ResourceProvider instance = new SystemResourceProvider();
@@ -20,15 +21,15 @@ final class SystemResourceProvider extends AbstractResourceProvider {
   }
 
   public <L extends Listener> Set<Resource<L>> forType(final Class<L> type) {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Set<String> names() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Set<Class<? extends Listener>> types() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public ResourceProvider parent() {
