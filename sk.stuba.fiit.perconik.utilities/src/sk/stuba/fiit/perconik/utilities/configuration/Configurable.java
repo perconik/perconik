@@ -7,5 +7,16 @@ package sk.stuba.fiit.perconik.utilities.configuration;
  * @since 1.0
  */
 public interface Configurable {
-  public Options options();
+  /**
+   * Gets options of this configurable instance.
+   *
+   * <p>Note that the implementation specifies whether
+   * this method returns a snapshot or view of options.
+   *
+   * @return either a snapshot or view of options
+   *
+   * @throws UnsupportedOperationException if the configurable
+   *         does not support access to its options
+   */
+  public Options getOptions();
 }
