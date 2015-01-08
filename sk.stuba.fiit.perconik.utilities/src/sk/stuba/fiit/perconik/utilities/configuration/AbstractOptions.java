@@ -4,10 +4,6 @@ import java.util.Map;
 
 import com.google.common.collect.ForwardingMap;
 
-import static java.util.Collections.EMPTY_MAP;
-
-import static com.google.common.collect.Maps.newHashMap;
-
 /**
  * TODO
  *
@@ -15,34 +11,26 @@ import static com.google.common.collect.Maps.newHashMap;
  * @since 1.0
  */
 public abstract class AbstractOptions extends ForwardingMap<String, Object> implements Options {
-  protected final Map<String, Object> options;
+  protected final transient Map<String, Object> map;
 
-  protected AbstractOptions() {
-    this(EMPTY_MAP);
-  }
-
-  protected AbstractOptions(final Map<String, Object> options) {
-    this.options = newHashMap(options);
+  protected AbstractOptions(final Map<String, Object> map) {
+    this.map = map;
   }
 
   @Override
   protected final Map<String, Object> delegate() {
-    return this.options;
+    return this.map;
   }
 
   @Override
   public abstract Object put(final String key, final Object value);
 
   @Override
-  public final void putAll(final Map<? extends String, ?> map) {
+  public void putAll(final Map<? extends String, ?> map) {
     this.standardPutAll(map);
   }
 
-  public final void fromMap(final Map<String, Object> map) {
+  public void fromMap(final Map<String, Object> map) {
     this.putAll(map);
-  }
-
-  public final Map<String, Object> toMap() {
-    return newHashMap(this);
   }
 }
