@@ -22,7 +22,7 @@ public abstract class AbstractListenerRegistration extends AbstractAnnotableRegi
   protected AbstractListenerRegistration() {}
 
   @Override
-  final Registrable source() {
+  final Registrable registrable() {
     return this.getListener();
   }
 

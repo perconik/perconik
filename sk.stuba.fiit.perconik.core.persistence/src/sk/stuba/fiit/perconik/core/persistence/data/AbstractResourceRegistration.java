@@ -22,7 +22,7 @@ public abstract class AbstractResourceRegistration extends AbstractAnnotableRegi
   protected AbstractResourceRegistration() {}
 
   @Override
-  final Registrable source() {
+  final Registrable registrable() {
     return this.getResource();
   }
 

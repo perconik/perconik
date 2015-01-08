@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.core.persistence.data;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.Registrables;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
@@ -14,15 +13,13 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractAnnotableRegistration implements AnnotableRegistration {
+abstract class AbstractAnnotableRegistration extends AbstractRegistration implements AnnotableRegistration {
   private transient volatile Annotable annotable;
 
   /**
    * Constructor for use by subclasses.
    */
   protected AbstractAnnotableRegistration() {}
-
-  abstract Registrable source();
 
   private final Annotable annotable() {
     Annotable annotable = this.annotable;
@@ -32,7 +29,7 @@ abstract class AbstractAnnotableRegistration implements AnnotableRegistration {
         annotable = this.annotable;
 
         if (annotable == null) {
-          annotable = this.annotable = Registrables.toAnnotable(this.source().getClass());
+          annotable = this.annotable = Registrables.toAnnotable(this.registrable().getClass());
         }
       }
     }
