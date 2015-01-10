@@ -4,17 +4,19 @@ import java.util.Map;
 
 import com.google.common.collect.ForwardingMap;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * TODO
  *
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractOptions extends ForwardingMap<String, Object> implements Options {
-  protected final transient Map<String, Object> map;
+public abstract class AbstractMapOptions extends ForwardingMap<String, Object> implements Options {
+  final transient Map<String, Object> map;
 
-  protected AbstractOptions(final Map<String, Object> map) {
-    this.map = map;
+  protected AbstractMapOptions(final Map<String, Object> map) {
+    this.map = requireNonNull(map);
   }
 
   @Override

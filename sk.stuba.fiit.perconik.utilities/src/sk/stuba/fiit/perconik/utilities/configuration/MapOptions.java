@@ -18,7 +18,7 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class MapOptions extends AbstractOptions implements Serializable {
+public abstract class MapOptions extends AbstractMapOptions implements Serializable {
   private static final long serialVersionUID = -6372082702258295853L;
 
   final transient Putter putter;
@@ -51,18 +51,6 @@ public abstract class MapOptions extends AbstractOptions implements Serializable
     }
 
     return new View(map, putter);
-  }
-
-  public static MapOptions lock(final MapOptions options) {
-    if (options instanceof Immutable) {
-      return options;
-    }
-
-    return new Immutable(options.map, options.putter);
-  }
-
-  public static MapOptions unlock(final MapOptions options) {
-    return from(options.map, options.putter);
   }
 
   private static final class Regular extends MapOptions {
