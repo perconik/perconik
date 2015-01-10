@@ -43,7 +43,7 @@ final class UacaReporter {
   }
 
   static void displayError(final String message, @Nullable final Exception failure) {
-    if (!UacaPreferences.getShared().getPreferenceStore().getBoolean(Keys.displayErrors)) {
+    if (!UacaPreferences.getShared().isErrorDialogEnabled()) {
       return;
     }
 
