@@ -1,12 +1,21 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
-import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Objects.requireNonNull;
+
+import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.configuration;
 import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.persistence;
+import static sk.stuba.fiit.perconik.core.preferences.plugin.Activator.PLUGIN_ID;
+import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 
 /**
  * Listener preferences. Supports both <i>default</i>
@@ -15,8 +24,8 @@ import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.p
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ListenerPreferences extends AbstractRegistrationPreferences<ListenerPersistenceData> {
-  static final String qualifier = Activator.PLUGIN_ID + ".listeners";
+public final class ListenerPreferences extends RegistrationWithOptionPreferences<ListenerPersistenceData, Class<? extends Listener>> {
+  static final String qualifier = join(PLUGIN_ID, "listeners");
 
   private ListenerPreferences(final Scope scope) {
     super(scope, qualifier);
@@ -46,14 +55,17 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
      */
     @Override
     public void initializeDefaultPreferences() {
-      Set<ListenerPersistenceData> data = ListenerPersistenceData.defaults();
+      ListenerPreferences preferences = ListenerPreferences.getDefault();
 
-      ListenerPreferences.getDefault().setListenerPersistenceData(data);
+      preferences.setListenerPersistenceData(preferences.getDefaultRegistrations());
+      preferences.setListenerConfigurationData(preferences.getDefaultOptions());
     }
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
-    public static final String persistence = qualifier + ".persistence";
+    public static final String persistence = join(qualifier, "persistence");
+
+    public static final String configuration = join(qualifier, "configuration");
   }
 
   /**
@@ -70,6 +82,29 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
     return new ListenerPreferences(Scope.CONFIGURATION);
   }
 
+  @Override
+  Set<ListenerPersistenceData> castRegistrations(final Object object) {
+    Set<ListenerPersistenceData> registrations = Set.class.cast(requireNonNull(object));
+
+    for (Object element: registrations) {
+      ListenerPersistenceData.class.cast(requireNonNull(element));
+    }
+
+    return registrations;
+  }
+
+  @Override
+  Map<Class<? extends Listener>, Options> castOptions(final Object object) {
+    Map<Class<? extends Listener>, Options> options = Map.class.cast(requireNonNull(object));
+
+    for (Entry<Class<? extends Listener>, Options> entry: options.entrySet()) {
+      Class.class.cast(requireNonNull(entry.getKey())).asSubclass(Listener.class);
+      Options.class.cast(requireNonNull(entry.getValue()));
+    }
+
+    return options;
+  }
+
   /**
    * Sets listener persistence data.
    * @param data listener persistence data
@@ -80,14 +115,35 @@ public final class ListenerPreferences extends AbstractRegistrationPreferences<L
   }
 
   /**
+   * Sets listener configuration data.
+   * @param data listener configuration data
+   * @throws NullPointerException if {@code data} is {@code null}
+   */
+  public void setListenerConfigurationData(final Map<Class<? extends Listener>, Options> data) {
+    this.setOptions(configuration, data);
+  }
+
+  /**
    * Gets listener persistence data.
    */
   public Set<ListenerPersistenceData> getListenerPersistenceData() {
     return this.getRegistrations(persistence);
   }
 
+  /**
+   * Gets listener configuration data.
+   */
+  public Map<Class<? extends Listener>, Options> getListenerConfigurationData() {
+    return this.getOptions(configuration);
+  }
+
   @Override
   Set<ListenerPersistenceData> getDefaultRegistrations() {
     return ListenerPersistenceData.defaults();
+  }
+
+  @Override
+  Map<Class<? extends Listener>, Options> getDefaultOptions() {
+    return emptyMap();
   }
 }

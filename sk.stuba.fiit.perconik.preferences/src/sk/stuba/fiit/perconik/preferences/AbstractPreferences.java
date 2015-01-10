@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import com.google.common.base.Joiner;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.DefaultScope;
@@ -55,8 +57,14 @@ public abstract class AbstractPreferences {
   }
 
   public static abstract class Keys {
+    public static final String separator = ".";
+
     protected Keys() {
       throw new AssertionError();
+    }
+
+    public static final String join(final String ... parts) {
+      return Joiner.on(separator).join(parts);
     }
   }
 
@@ -68,15 +76,15 @@ public abstract class AbstractPreferences {
     return this.data;
   }
 
+  public final void synchronize() throws BackingStoreException {
+    this.data.sync();
+  }
+
   public final void clear() throws BackingStoreException {
     this.data.clear();
   }
 
   public final void flush() throws BackingStoreException {
     this.data.flush();
-  }
-
-  public final void synchronize() throws BackingStoreException {
-    this.data.sync();
   }
 }

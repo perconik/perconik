@@ -14,7 +14,7 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
     this.resolver = checkNotNull(resolver);
   }
 
-  static final Object fromBytesOrFailure(final String key, final byte[] value, final ClassResolver resolver) {
+  static final Object fromBytesOrFail(final String key, final byte[] value, final ClassResolver resolver) {
     try {
       return Serialization.fromBytes(value, resolver);
     } catch (Exception e) {
@@ -22,7 +22,7 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
     }
   }
 
-  static final byte[] toBytesOrFailure(final String key, final Object value) {
+  static final byte[] toBytesOrFail(final String key, final Object value) {
     try {
       return Serialization.toBytes(value);
     } catch (Exception e) {
@@ -31,10 +31,10 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
   }
 
   protected final void putObject(final String key, final Object value) {
-    this.data.putByteArray(key, toBytesOrFailure(key, value));
+    this.data.putByteArray(key, toBytesOrFail(key, value));
   }
 
   protected final Object getObject(final String key) {
-    return fromBytesOrFailure(key, this.data.getByteArray(key, null), this.resolver);
+    return fromBytesOrFail(key, this.data.getByteArray(key, null), this.resolver);
   }
 }

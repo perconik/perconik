@@ -1,12 +1,20 @@
 package sk.stuba.fiit.perconik.core.preferences;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
-import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Objects.requireNonNull;
+
+import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.configuration;
 import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.persistence;
+import static sk.stuba.fiit.perconik.core.preferences.plugin.Activator.PLUGIN_ID;
+import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 
 /**
  * Resource preferences. Supports both <i>default</i>
@@ -15,8 +23,8 @@ import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.p
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ResourcePreferences extends AbstractRegistrationPreferences<ResourcePersistenceData> {
-  static final String qualifier = Activator.PLUGIN_ID + ".resources";
+public final class ResourcePreferences extends RegistrationWithOptionPreferences<ResourcePersistenceData, String> {
+  static final String qualifier = join(PLUGIN_ID, "resources");
 
   private ResourcePreferences(final Scope scope) {
     super(scope, qualifier);
@@ -46,14 +54,17 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
      */
     @Override
     public void initializeDefaultPreferences() {
-      Set<ResourcePersistenceData> data = ResourcePersistenceData.defaults();
+      ResourcePreferences preferences = ResourcePreferences.getDefault();
 
-      ResourcePreferences.getDefault().setResourcePersistenceData(data);
+      preferences.setResourcePersistenceData(preferences.getDefaultRegistrations());
+      preferences.setResourceConfigurationData(preferences.getDefaultOptions());
     }
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
-    public static final String persistence = qualifier + ".persistence";
+    public static final String persistence = join(qualifier, "persistence");
+
+    public static final String configuration = join(qualifier, "configuration");
   }
 
   /**
@@ -70,6 +81,29 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
     return new ResourcePreferences(Scope.CONFIGURATION);
   }
 
+  @Override
+  Set<ResourcePersistenceData> castRegistrations(final Object object) {
+    Set<ResourcePersistenceData> registrations = Set.class.cast(requireNonNull(object));
+
+    for (Object element: registrations) {
+      ResourcePersistenceData.class.cast(requireNonNull(element));
+    }
+
+    return registrations;
+  }
+
+  @Override
+  Map<String, Options> castOptions(final Object object) {
+    Map<String, Options> options = Map.class.cast(requireNonNull(object));
+
+    for (Entry<String, Options> entry: options.entrySet()) {
+      String.class.cast(requireNonNull(entry.getKey()));
+      Options.class.cast(requireNonNull(entry.getValue()));
+    }
+
+    return options;
+  }
+
   /**
    * Sets resource persistence data.
    * @param data resource persistence data
@@ -80,14 +114,35 @@ public final class ResourcePreferences extends AbstractRegistrationPreferences<R
   }
 
   /**
+   * Sets resource configuration data.
+   * @param data resource configuration data
+   * @throws NullPointerException if {@code data} is {@code null}
+   */
+  public void setResourceConfigurationData(final Map<String, Options> data) {
+    this.setOptions(configuration, data);
+  }
+
+  /**
    * Gets resource persistence data.
    */
   public Set<ResourcePersistenceData> getResourcePersistenceData() {
     return this.getRegistrations(persistence);
   }
 
+  /**
+   * Gets resource configuration data.
+   */
+  public Map<String, Options> getResourceConfigurationData() {
+    return this.getOptions(configuration);
+  }
+
   @Override
   Set<ResourcePersistenceData> getDefaultRegistrations() {
     return ResourcePersistenceData.defaults();
+  }
+
+  @Override
+  Map<String, Options> getDefaultOptions() {
+    return emptyMap();
   }
 }

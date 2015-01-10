@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.preferences;
 
-import sk.stuba.fiit.perconik.preferences.plugin.Activator;
+import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.preferences.plugin.Activator.PLUGIN_ID;
 
 /**
  * Main preferences. Supports both <i>default</i>
@@ -10,7 +11,7 @@ import sk.stuba.fiit.perconik.preferences.plugin.Activator;
  * @since 1.0
  */
 public final class MainPreferences extends AbstractPreferences {
-  static final String qualifier = Activator.PLUGIN_ID + ".main";
+  static final String qualifier = join(PLUGIN_ID, "main");
 
   private MainPreferences(final Scope scope) {
     super(scope, qualifier);
