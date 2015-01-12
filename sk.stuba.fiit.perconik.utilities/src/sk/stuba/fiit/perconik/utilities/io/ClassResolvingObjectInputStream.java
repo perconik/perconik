@@ -7,23 +7,29 @@ import java.io.ObjectStreamClass;
 
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
+
+import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 
 public class ClassResolvingObjectInputStream extends ObjectInputStream {
   private final ClassResolver resolver;
 
-  public ClassResolvingObjectInputStream(ClassResolver resolver, InputStream in) throws IOException {
+  public ClassResolvingObjectInputStream(final ClassResolver resolver, final InputStream in) throws IOException {
     super(in);
 
-    this.resolver = checkNotNull(resolver);
+    this.resolver = requireNonNull(resolver);
   }
 
   @Override
   protected Class<?> resolveClass(final ObjectStreamClass type) throws ClassNotFoundException, IOException {
     try {
       return this.resolver.forName(type.getName());
-    } catch (ClassNotFoundException cnfe) {
-      return super.resolveClass(type);
+    } catch (ClassNotFoundException suppress) {
+      try {
+        return super.resolveClass(type);
+      } catch (ClassNotFoundException failure) {
+        throw initializeSuppressor(failure, suppress);
+      }
     }
   }
 }
