@@ -29,8 +29,8 @@ final class UacaReporter {
       String serializedRequest = Writer.getPretty().writeValueAsString(requestProperties);
 
       UacaConsole.getInstance().notice(format("%s%n%s", target.getUri(), serializedRequest));
-    } catch (Exception e) {
-      UacaConsole.getInstance().error(e, "UacaProxy: Unable to format object");
+    } catch (Exception failure) {
+      UacaConsole.getInstance().error(failure, "UacaProxy: Unable to format object");
     }
   }
 
