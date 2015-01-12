@@ -1,17 +1,18 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import static java.util.Collections.emptySet;
+import static java.util.Collections.emptyList;
 
-final class SetContentProvider implements IStructuredContentProvider {
-  private Set<?> data;
+final class CollectionContentProvider implements IStructuredContentProvider {
+  private Collection<?> data;
 
-  SetContentProvider() {
-    this.data = emptySet();
+  CollectionContentProvider() {
+    this.data = emptyList();
   }
 
   public Object[] getElements(final Object input) {
@@ -22,6 +23,7 @@ final class SetContentProvider implements IStructuredContentProvider {
     this.data = (Set<?>) to;
   }
 
+  @Override
   public void dispose() {
     this.data = null;
   }
