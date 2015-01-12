@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -74,5 +75,19 @@ public final class MoreMaps {
     }
 
     return result;
+  }
+
+  public static <K, V> void putAll(final Map<K, V> map, final Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    for (Entry<? extends K, ? extends V> entry: entries) {
+      map.put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  public static <K, V> void putAll(final Map<K, V> map, final Iterator<? extends Entry<? extends K, ? extends V>> entries) {
+    while (entries.hasNext()) {
+      Entry<? extends K, ? extends V> entry = entries.next();
+
+      map.put(entry.getKey(), entry.getValue());
+    }
   }
 }
