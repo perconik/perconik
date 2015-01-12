@@ -14,9 +14,6 @@ public interface Configurable {
    * this method returns a snapshot or view of options.
    *
    * @return either a snapshot or view of options
-   *
-   * @throws UnsupportedOperationException if the configurable
-   *         does not support access to its options
    */
   public Options getOptions();
 }
