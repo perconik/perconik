@@ -1,7 +1,10 @@
 package sk.stuba.fiit.perconik.utilities;
 
+import java.io.Serializable;
+import java.text.Collator;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +15,7 @@ import com.google.common.base.Predicate;
 import jersey.repackaged.com.google.common.collect.Lists;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -186,11 +190,62 @@ public final class MoreStrings {
     }
   }
 
+  private static abstract class ToStringLocalizedComparator<T> implements Comparator<T>, Serializable {
+    private static final long serialVersionUID = 0L;
+
+    ToStringLocalizedComparator() {}
+
+    static class Default extends ToStringLocalizedComparator<Object> {
+      private static final long serialVersionUID = 0L;
+
+      static final Default INSTANCE = new Default();
+
+      private Default() {}
+
+      @Override
+      Collator collator() {
+        return Collator.getInstance();
+      }
+    }
+
+    static class Regular<T> extends ToStringLocalizedComparator<T> {
+      private static final long serialVersionUID = 0L;
+
+      private final Locale locale;
+
+      Regular(final Locale locale) {
+        this.locale = requireNonNull(locale);
+      }
+
+      @Override
+      Collator collator() {
+        return Collator.getInstance(this.locale);
+      }
+    }
+
+    abstract Collator collator();
+
+    public final int compare(final Object a, final Object b) {
+      return this.collator().compare(a.toString(), b.toString());
+    }
+  }
+
   public static <T> Comparator<T> toStringComparator() {
     @SuppressWarnings("unchecked")
     Comparator<T> comparator = (Comparator<T>) ToStringComparator.INSTANCE;
 
     return comparator;
+  }
+
+  public static <T> Comparator<T> toStringLocalizedComparator() {
+    @SuppressWarnings("unchecked")
+    Comparator<T> comparator = (Comparator<T>) ToStringLocalizedComparator.Default.INSTANCE;
+
+    return comparator;
+  }
+
+  public static <T> Comparator<T> toStringLocalizedComparator(final Locale locale) {
+    return new ToStringLocalizedComparator.Regular<>(locale);
   }
 
   public static String toStringFallback(final Object o) {
