@@ -63,7 +63,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toUpperCaseFirst;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage {
+abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends AbstractWorkbenchPreferencePage {
   private P preferences;
 
   Set<R> registrations;
@@ -90,7 +90,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   Button notesButton;
 
-  AbstractRegistrationPreferencePage() {}
+  AbstractPreferencePage() {}
 
   abstract String name();
 

@@ -128,14 +128,14 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     gc.dispose();
 
-    LocalMapEntrySorter keySorter = new LocalMapEntrySorter(table) {
+    LocalMapTableSorter keySorter = new LocalMapTableSorter(table) {
       @Override
       Comparator<Entry<String, Object>> comparator() {
         return Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, String>toKeyFunction());
       }
     };
 
-    LocalMapEntrySorter valueSorter = new LocalMapEntrySorter(table) {
+    LocalMapTableSorter valueSorter = new LocalMapTableSorter(table) {
       @Override
       Comparator<Entry<String, Object>> comparator() {
         return Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, Object>toValueFunction());
@@ -225,8 +225,8 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     this.removeButton.setEnabled(selectionCount > 0 && selectionCount <= itemCount);
   }
 
-  abstract class LocalMapEntrySorter extends MapEntrySorter<String, Object> {
-    LocalMapEntrySorter(final Table table) {
+  abstract class LocalMapTableSorter extends MapTableSorter<String, Object> {
+    LocalMapTableSorter(final Table table) {
       super(table);
     }
   

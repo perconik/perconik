@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComp
  * @author Pavol Zbell
  * @since 1.0
  */
-public final class ListenersPreferencePage extends AbstractRegistrationPreferencePage<ListenerPreferences, ListenerPersistenceData> {
+public final class ListenersPreferencePage extends AbstractPreferencePage<ListenerPreferences, ListenerPersistenceData> {
   public ListenersPreferencePage() {}
 
   @Override
