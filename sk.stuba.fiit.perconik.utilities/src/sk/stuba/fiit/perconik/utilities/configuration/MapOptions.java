@@ -190,7 +190,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
 
     abstract T construct(Map<String, Object> map, Putter putter);
 
-    private Object readResolve() throws InvalidObjectException {
+    final Object readResolve() throws InvalidObjectException {
       try {
         return this.construct(this.map, this.putter);
       } catch (Exception e) {
@@ -200,7 +200,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
   }
 
   @SuppressWarnings({"static-method", "unused"})
-  private void readObject(final ObjectInputStream in) throws InvalidObjectException {
+  final void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }
 
