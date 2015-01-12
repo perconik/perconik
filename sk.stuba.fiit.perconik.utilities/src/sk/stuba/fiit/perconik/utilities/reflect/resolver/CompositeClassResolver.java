@@ -6,10 +6,10 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-import sk.stuba.fiit.perconik.utilities.MoreThrowables;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.newLinkedList;
+
+import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 
 final class CompositeClassResolver implements ClassResolver {
   private final List<ClassResolver> resolvers;
@@ -33,7 +33,7 @@ final class CompositeClassResolver implements ClassResolver {
 
     ClassNotFoundException failure = new ClassNotFoundException(name + " not found");
 
-    throw MoreThrowables.initializeSuppressor(failure, Lists.reverse(suppressions));
+    throw initializeSuppressor(failure, Lists.reverse(suppressions));
   }
 
   @Override
