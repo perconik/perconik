@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.text.Collator;
 import java.util.Set;
 
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -17,6 +16,8 @@ import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
+
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
 
 /**
  * Resources preference page.
@@ -94,13 +95,13 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
         ResourcePersistenceData data = (ResourcePersistenceData) a;
         ResourcePersistenceData other = (ResourcePersistenceData) b;
 
-        int result = Collator.getInstance().compare(data.getResourceName(), other.getResourceName());
+        int result = toStringLocalizedComparator().compare(data.getResourceName(), other.getResourceName());
 
         if (result != 0) {
           return result;
         }
 
-        return Collator.getInstance().compare(data.getListenerType().getName(), other.getListenerType().getName());
+        return toStringLocalizedComparator().compare(data.getListenerType().getName(), other.getListenerType().getName());
       }
 
       return super.compare(viewer, a, b);
@@ -108,12 +109,12 @@ public final class ResourcesPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
-  Set<ResourcePersistenceData> defaults() {
+  Set<ResourcePersistenceData> defaultRegistrations() {
     return ResourcePersistenceData.defaults();
   }
 
   @Override
-  ResourcePreferences preferences() {
+  ResourcePreferences sharedPreferences() {
     return ResourcePreferences.getShared();
   }
 

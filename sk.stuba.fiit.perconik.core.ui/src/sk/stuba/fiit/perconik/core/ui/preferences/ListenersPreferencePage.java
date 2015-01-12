@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.text.Collator;
 import java.util.Set;
 
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -17,6 +16,8 @@ import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
+
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
 
 /**
  * Listeners preference page.
@@ -90,7 +91,7 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
         ListenerPersistenceData data = (ListenerPersistenceData) a;
         ListenerPersistenceData other = (ListenerPersistenceData) b;
 
-        return Collator.getInstance().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
+        return toStringLocalizedComparator().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
       }
 
       return super.compare(viewer, a, b);
@@ -98,12 +99,12 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
   }
 
   @Override
-  Set<ListenerPersistenceData> defaults() {
+  Set<ListenerPersistenceData> defaultRegistrations() {
     return ListenerPersistenceData.defaults();
   }
 
   @Override
-  ListenerPreferences preferences() {
+  ListenerPreferences sharedPreferences() {
     return ListenerPreferences.getShared();
   }
 
@@ -113,12 +114,12 @@ public final class ListenersPreferencePage extends AbstractRegistrationPreferenc
       Set<ListenerPersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
 
       this.getPreferences().setListenerPersistenceData(data);
-    } catch (ResourceNotRegistredException e) {
+    } catch (ResourceNotRegistredException failure) {
       StringBuilder message = new StringBuilder();
 
       message.append("Listener registration failed due to one or more unregistered but required resources. ");
       message.append("Select only listeners with registered resources.\n\n");
-      message.append(e.getMessage() + ".");
+      message.append(failure.getMessage() + ".");
 
       openError(this.getShell(), "Listener registration", message.toString());
 

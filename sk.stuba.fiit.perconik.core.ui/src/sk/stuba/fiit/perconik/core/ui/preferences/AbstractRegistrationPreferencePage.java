@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.lang.annotation.Annotation;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -24,6 +26,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -33,7 +36,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -41,6 +46,8 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
+import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
@@ -52,6 +59,7 @@ import static java.lang.String.format;
 import static java.util.Collections.emptySet;
 import static java.util.Objects.requireNonNull;
 
+import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newHashSet;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
@@ -71,6 +79,8 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   Set<R> registrations;
 
   CheckboxTableViewer tableViewer;
+
+  AbstractOptionsDialog<P, R> optionsDialog;
 
   Button addButton;
 
@@ -239,7 +249,9 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
       }
     });
 
-    this.loadInternal(this.preferences());
+    this.optionsDialog = this.createOptionsDialog();
+
+    this.loadInternal(this.sharedPreferences());
     this.performRefresh();
 
     Dialog.applyDialogFont(composite);
@@ -251,7 +263,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   protected abstract AbstractLabelProvider<R> createContentProvider();
 
-  protected abstract AbstractOptionsDialog<R> createOptionsDialog();
+  protected abstract AbstractOptionsDialog<P, R> createOptionsDialog();
 
   protected abstract AbstractViewerComparator createViewerComparator();
 
@@ -348,7 +360,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     }
   }
 
-  private static final class SetContentProvider implements IStructuredContentProvider {
+  static final class SetContentProvider implements IStructuredContentProvider {
     private Set<?> data;
 
     SetContentProvider() {
@@ -399,6 +411,49 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     }
   }
 
+  static abstract class AbstractTableSorter<T> {
+    private final Table table;
+
+    AbstractTableSorter(final Table table) {
+      this.table = requireNonNull(table);
+    }
+
+    private final class Handler implements Listener {
+      private SortDirection direction;
+
+      Handler(final SortDirection direction) {
+        this.direction = requireNonNull(direction);
+      }
+
+      public void handleEvent(final Event event) {
+        sort((TableColumn) event.widget, this.direction);
+
+        this.direction = this.direction.opposite();
+      }
+    }
+
+    final void attach(final TableColumn column, final SortDirection direction) {
+      column.addListener(SWT.Selection, new Handler(direction));
+    }
+
+    abstract Comparator<? super T> comparator();
+
+    final void sort(final TableColumn column, final SortDirection direction) {
+      List<T> data = newLinkedList(this.loadData());
+
+      direction.sort(data, this.comparator());
+
+      this.updateData(data);
+
+      this.table.setSortColumn(column);
+      this.table.setSortDirection(direction.getValue());
+    }
+
+    abstract Iterable<T> loadData();
+
+    abstract void updateData(List<T> data);
+  }
+
   void performAdd() {
     openInformation(this.getShell(), "Add " + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
@@ -418,11 +473,11 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   }
 
   void performImport() {
-    openInformation(this.getShell(), "Import" + toUpperCaseFirst(this.name()), "Operation not yet supported.");
+    openInformation(this.getShell(), "Import " + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
 
   void performExport() {
-    openInformation(this.getShell(), "Export" + toUpperCaseFirst(this.name()), "Operation not yet supported.");
+    openInformation(this.getShell(), "Export " + toUpperCaseFirst(this.name()), "Operation not yet supported.");
   }
 
   void performRefresh() {
@@ -436,10 +491,17 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
     R registration = this.cast(selection.toList().get(0));
 
-    AbstractOptionsDialog<R> dialog = this.createOptionsDialog();
+    AbstractOptionsDialog<P, R> dialog = this.optionsDialog;
 
+    dialog.setTitle("Options for " + ((ITableLabelProvider) this.tableViewer.getLabelProvider()).getColumnText(registration, 0));
+    dialog.setPreferences(this.getPreferences());
     dialog.setRegistration(registration);
+
     dialog.open();
+
+    if (dialog.getReturnCode() == Window.OK) {
+      dialog.configure();
+    }
   }
 
   void performNotes() {
@@ -453,9 +515,9 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     openInformation(this.getShell(), "Notes for " + name, !message.isEmpty() ? message : "No notes available.");
   }
 
-  abstract Set<R> defaults();
+  abstract Set<R> defaultRegistrations();
 
-  abstract P preferences();
+  abstract P sharedPreferences();
 
   @Override
   public final boolean performOk() {
@@ -467,7 +529,7 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   @Override
   public final boolean performCancel() {
-    this.loadInternal(this.preferences());
+    this.loadInternal(this.sharedPreferences());
 
     return super.performCancel();
   }
@@ -476,13 +538,13 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
   protected final void performDefaults() {
     String name = pluralize(this.name());
     String title = format("Restore %s Defaults", toUpperCaseFirst(name));
-    String message = format("PerConIK Core is about to restore default state of %s registrations. Current state of %s configuration may be lost unless persisted internally by themselves.", this.name(), name);
+    String message = format("PerConIK Core is about to restore default state of %s registrations. Configured options are not restored, see options dialog to restore effective options.", this.name(), name);
 
     if (new MessageDialog(this.getShell(), title, null, message, WARNING, new String[] { "Continue", "Cancel" }, 1).open() == 1) {
       return;
     }
 
-    this.registrations = this.defaults();
+    this.registrations = this.defaultRegistrations();
 
     this.updateTable();
     this.updateButtons();
@@ -501,25 +563,30 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
 
   abstract void save() throws BackingStoreException;
 
-  private final void applyInternal() {
+  private void applyInternal() {
     this.apply();
 
     this.updateTable();
     this.updateButtons();
   }
 
-  private final void loadInternal(final P preferences) {
+  private void loadInternal(final P preferences) {
     this.load(preferences);
 
     this.updateTable();
     this.updateButtons();
   }
 
-  private final void saveInternal() {
+  private void saveInternal() {
     try {
       this.save();
-    } catch (BackingStoreException e) {
-      openError(this.getShell(), "Preferences", "Failed to save preferences.");
+    } catch (BackingStoreException failure) {
+      String title = "Preferences";
+      String message = "Failed to save preferences.";
+
+      openError(this.getShell(), title, message + " See error log for more details.");
+
+      Activator.defaultInstance().getConsole().error(failure, message);
     }
   }
 
