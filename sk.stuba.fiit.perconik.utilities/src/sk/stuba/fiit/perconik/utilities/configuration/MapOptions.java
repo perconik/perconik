@@ -62,7 +62,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
 
     @Override
     public Object put(final String key, final Object value) {
-      return this.putter.put(this, key, value);
+      return this.putter.put(this.map, key, value);
     }
 
     public Map<String, Object> toMap() {
