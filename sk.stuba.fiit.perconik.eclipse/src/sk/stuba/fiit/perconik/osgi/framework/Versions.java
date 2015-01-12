@@ -50,6 +50,14 @@ public final class Versions {
     }
   }
 
+  public static String separator() {
+    return separator;
+  }
+
+  public static Version parse(final String value) {
+    return Version.parseVersion(value);
+  }
+
   public static String toString(final Version version, final Component ... components) {
     List<Object> values = newArrayListWithCapacity(components.length);
 
@@ -60,7 +68,11 @@ public final class Versions {
     return Joiner.on(separator).join(values);
   }
 
-  public static String getSeparator() {
-    return separator;
+  public static Version toVersion(final String value) {
+    try {
+      return Version.parseVersion(value);
+    } catch (RuntimeException e) {
+      return Version.emptyVersion;
+    }
   }
 }
