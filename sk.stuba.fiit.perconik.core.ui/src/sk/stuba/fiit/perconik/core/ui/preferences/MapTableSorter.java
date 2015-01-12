@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -22,7 +21,7 @@ abstract class MapTableSorter<K, V> extends AbstractTableSorter<Entry<K, V>> {
   }
 
   @Override
-  final void updateData(final List<Entry<K, V>> data) {
+  final void updateData(final Iterable<? extends Entry<K, V>> data) {
     Map<K, V> update = newLinkedHashMap();
 
     putAll(update, data);

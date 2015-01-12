@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 
 import static java.util.Objects.requireNonNull;
 
-import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Lists.newArrayList;
 
 abstract class AbstractTableSorter<T> {
   private final Table table;
@@ -43,7 +43,7 @@ abstract class AbstractTableSorter<T> {
   abstract Comparator<? super T> comparator();
 
   final void sort(final TableColumn column, final SortDirection direction) {
-    List<T> data = newLinkedList(this.loadData());
+    List<T> data = newArrayList(this.loadData());
 
     direction.sort(data, this.comparator());
 
@@ -55,5 +55,5 @@ abstract class AbstractTableSorter<T> {
 
   abstract Iterable<T> loadData();
 
-  abstract void updateData(List<T> data);
+  abstract void updateData(Iterable<? extends T> data);
 }
