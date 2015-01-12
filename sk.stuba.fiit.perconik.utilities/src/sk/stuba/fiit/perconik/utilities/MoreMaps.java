@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 
@@ -89,5 +90,35 @@ public final class MoreMaps {
 
       map.put(entry.getKey(), entry.getValue());
     }
+  }
+
+  private enum ToKeyFunction implements Function<Entry<Object, Object>, Object> {
+    INSTANCE;
+
+    public Object apply(final Entry<Object, Object> entry) {
+      return entry.getKey();
+    }
+  }
+
+  private enum ToValueFunction implements Function<Entry<Object, Object>, Object> {
+    INSTANCE;
+
+    public Object apply(final Entry<Object, Object> entry) {
+      return entry.getValue();
+    }
+  }
+
+  public static <E extends Entry<? extends K, ?>, K> Function<E, K> toKeyFunction() {
+    @SuppressWarnings("unchecked")
+    Function<E, K> result = (Function<E, K>) ToKeyFunction.INSTANCE;
+
+    return result;
+  }
+
+  public static <E extends Entry<?, ? extends V>, V> Function<E, V> toValueFunction() {
+    @SuppressWarnings("unchecked")
+    Function<E, V> result = (Function<E, V>) ToValueFunction.INSTANCE;
+
+    return result;
   }
 }
