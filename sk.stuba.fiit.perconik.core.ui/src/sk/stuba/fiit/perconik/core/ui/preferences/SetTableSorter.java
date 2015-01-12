@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Table;
 
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
-abstract class SetTableSorter<E> extends AbstractTableSorter<E> {
+abstract class SetTableSorter<E> extends TableSorter<E> {
   SetTableSorter(final Table table) {
     super(table);
   }

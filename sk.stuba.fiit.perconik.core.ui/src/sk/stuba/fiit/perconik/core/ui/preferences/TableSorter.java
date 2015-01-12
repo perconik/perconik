@@ -17,25 +17,27 @@ import static java.util.Objects.requireNonNull;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-abstract class AbstractTableSorter<T> {
+abstract class TableSorter<T> {
+  private static final String key = TableSorter.class.getName();
+
   private final Table table;
 
   @Nullable
   private final Comparator<? super T> comparator;
 
-  AbstractTableSorter(final Table table) {
+  TableSorter(final Table table) {
     this(table, null);
   }
 
-  AbstractTableSorter(final Table table, final Comparator<? super T> comparator) {
+  TableSorter(final Table table, final Comparator<? super T> comparator) {
     this.table = requireNonNull(table);
     this.comparator = comparator;
   }
 
-  private final class Handler implements Listener {
+  final class Handle implements Listener {
     private SortDirection direction;
 
-    Handler(final SortDirection direction) {
+    Handle(final SortDirection direction) {
       this.direction = requireNonNull(direction);
     }
 
@@ -44,10 +46,27 @@ abstract class AbstractTableSorter<T> {
 
       this.direction = this.direction.opposite();
     }
+
+    void detach(final TableColumn column) {
+      column.removeListener(SWT.Selection, this);
+    }
   }
 
-  final void attach(final TableColumn column, final SortDirection direction) {
-    column.addListener(SWT.Selection, new Handler(direction));
+  final Handle attach(final TableColumn column) {
+    return this.attach(column, SortDirection.UP);
+  }
+
+  final Handle attach(final TableColumn column, final SortDirection direction) {
+    Handle handle = new Handle(direction);
+
+    column.addListener(SWT.Selection, handle);
+    column.setData(key, this);
+
+    return handle;
+  }
+
+  static void attachedSort(final TableColumn column, final SortDirection direction) {
+    ((TableSorter<?>) column.getData(key)).sort(column, direction);
   }
 
   final void sort(final TableColumn column, final SortDirection direction) {

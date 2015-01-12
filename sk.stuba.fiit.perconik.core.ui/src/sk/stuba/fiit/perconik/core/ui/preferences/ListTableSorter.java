@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Table;
 
 import static com.google.common.collect.Lists.newLinkedList;
 
-abstract class ListTableSorter<E> extends AbstractTableSorter<E> {
+abstract class ListTableSorter<E> extends TableSorter<E> {
   ListTableSorter(final Table table) {
     super(table);
   }

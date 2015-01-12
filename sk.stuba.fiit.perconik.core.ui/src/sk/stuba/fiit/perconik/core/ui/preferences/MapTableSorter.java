@@ -11,7 +11,7 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static sk.stuba.fiit.perconik.utilities.MoreMaps.putAll;
 
-abstract class MapTableSorter<K, V> extends AbstractTableSorter<Entry<K, V>> {
+abstract class MapTableSorter<K, V> extends TableSorter<Entry<K, V>> {
   MapTableSorter(final Table table) {
     super(table);
   }
