@@ -4,12 +4,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.configuration;
 import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.persistence;
@@ -143,6 +146,16 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
 
   @Override
   Map<String, Options> getDefaultOptions() {
-    return emptyMap();
+    Map<String, Options> options = newHashMap();
+
+    for (ResourcePersistenceData data: getDefaultRegistrations()) {
+      Resource<?> resource = data.getResource();
+
+      if (resource instanceof Configurable) {
+        options.put(data.getResourceName(), ((Configurable) resource).getOptions());
+      }
+    }
+
+    return options;
   }
 }

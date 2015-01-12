@@ -7,10 +7,12 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.configuration;
 import static sk.stuba.fiit.perconik.core.preferences.ListenerPreferences.Keys.persistence;
@@ -144,6 +146,16 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
 
   @Override
   Map<Class<? extends Listener>, Options> getDefaultOptions() {
-    return emptyMap();
+    Map<Class<? extends Listener>, Options> options = newHashMap();
+
+    for (ListenerPersistenceData data: getDefaultRegistrations()) {
+      Listener listener = data.getListener();
+
+      if (listener instanceof Configurable) {
+        options.put(data.getListenerClass(), ((Configurable) listener).getOptions());
+      }
+    }
+
+    return options;
   }
 }
