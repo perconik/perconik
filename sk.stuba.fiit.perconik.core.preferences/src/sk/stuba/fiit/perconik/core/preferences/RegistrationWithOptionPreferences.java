@@ -8,15 +8,16 @@ import org.osgi.service.prefs.BackingStoreException;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
-import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.util.Objects.requireNonNull;
 
+import static sk.stuba.fiit.perconik.core.plugin.Activator.classResolver;
+
 abstract class RegistrationWithOptionPreferences<R extends Registration, K> extends AbstractObjectPreferences {
   RegistrationWithOptionPreferences(final Scope scope, final String qualifier) {
-    super(scope, qualifier, Bundles.newClassResolver(Activator.defaultInstance().getBundle()));
+    super(scope, qualifier, classResolver());
   }
 
   private static void reportFailure(final Throwable failure, final String format, final Object ... args) {
