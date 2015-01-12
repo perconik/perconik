@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Table;
@@ -9,6 +10,10 @@ import static com.google.common.collect.Lists.newLinkedList;
 abstract class ListTableSorter<E> extends AbstractTableSorter<E> {
   ListTableSorter(final Table table) {
     super(table);
+  }
+
+  ListTableSorter(final Table table, final Comparator<? super E> comparator) {
+    super(table, comparator);
   }
 
   @Override

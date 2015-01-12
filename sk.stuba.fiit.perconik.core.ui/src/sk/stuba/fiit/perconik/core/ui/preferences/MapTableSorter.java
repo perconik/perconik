@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -13,6 +14,10 @@ import static sk.stuba.fiit.perconik.utilities.MoreMaps.putAll;
 abstract class MapTableSorter<K, V> extends AbstractTableSorter<Entry<K, V>> {
   MapTableSorter(final Table table) {
     super(table);
+  }
+
+  MapTableSorter(final Table table, final Comparator<? super Entry<K, V>> comparator) {
+    super(table, comparator);
   }
 
   @Override
