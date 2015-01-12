@@ -1,8 +1,6 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.lang.annotation.Annotation;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -19,13 +17,10 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -36,9 +31,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -47,7 +40,6 @@ import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
-import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
@@ -56,10 +48,8 @@ import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 import static java.lang.String.format;
-import static java.util.Collections.emptySet;
 import static java.util.Objects.requireNonNull;
 
-import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newHashSet;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
@@ -360,26 +350,6 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     }
   }
 
-  static final class SetContentProvider implements IStructuredContentProvider {
-    private Set<?> data;
-
-    SetContentProvider() {
-      this.data = emptySet();
-    }
-
-    public Object[] getElements(final Object input) {
-      return this.data.toArray();
-    }
-
-    public void inputChanged(final Viewer viewer, final Object from, final Object to) {
-      this.data = (Set<?>) to;
-    }
-
-    public void dispose() {
-      this.data = null;
-    }
-  }
-
   static abstract class AbstractLabelProvider<R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends LabelProvider implements ITableLabelProvider {
     AbstractLabelProvider() {}
 
@@ -400,58 +370,6 @@ abstract class AbstractRegistrationPreferencePage<P, R extends AnnotableRegistra
     public Image getColumnImage(final Object element, final int column) {
       return null;
     }
-  }
-
-  static abstract class AbstractViewerComparator extends ViewerComparator {
-    AbstractViewerComparator() {}
-
-    @Override
-    public boolean isSorterProperty(final Object element, final String property) {
-      return true;
-    }
-  }
-
-  static abstract class AbstractTableSorter<T> {
-    private final Table table;
-
-    AbstractTableSorter(final Table table) {
-      this.table = requireNonNull(table);
-    }
-
-    private final class Handler implements Listener {
-      private SortDirection direction;
-
-      Handler(final SortDirection direction) {
-        this.direction = requireNonNull(direction);
-      }
-
-      public void handleEvent(final Event event) {
-        sort((TableColumn) event.widget, this.direction);
-
-        this.direction = this.direction.opposite();
-      }
-    }
-
-    final void attach(final TableColumn column, final SortDirection direction) {
-      column.addListener(SWT.Selection, new Handler(direction));
-    }
-
-    abstract Comparator<? super T> comparator();
-
-    final void sort(final TableColumn column, final SortDirection direction) {
-      List<T> data = newLinkedList(this.loadData());
-
-      direction.sort(data, this.comparator());
-
-      this.updateData(data);
-
-      this.table.setSortColumn(column);
-      this.table.setSortDirection(direction.getValue());
-    }
-
-    abstract Iterable<T> loadData();
-
-    abstract void updateData(List<T> data);
   }
 
   void performAdd() {
