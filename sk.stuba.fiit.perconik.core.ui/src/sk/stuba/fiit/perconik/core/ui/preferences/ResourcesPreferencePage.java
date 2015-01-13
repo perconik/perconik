@@ -2,11 +2,16 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Set;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Ordering;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
+import org.osgi.framework.Version;
 import org.osgi.service.prefs.BackingStoreException;
 
 import sk.stuba.fiit.perconik.core.Listener;
@@ -17,6 +22,7 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
+import static sk.stuba.fiit.perconik.osgi.framework.Versions.toVersion;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
 
 /**
@@ -55,10 +61,39 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
 
   @Override
   protected void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
-    Tables.createColumn(table, layout, "Resource name", gc, 4);
-    Tables.createColumn(table, layout, "Listener type", gc, 4);
-    Tables.createColumn(table, layout, "Version", gc, 1);
-    Tables.createColumn(table, layout, "Notes", gc, 1);
+    TableColumn resourceColumn = Tables.createColumn(table, layout, "Resource name", gc, 4);
+    TableColumn listenerColumn = Tables.createColumn(table, layout, "Listener type", gc, 4);
+    TableColumn versionColumn = Tables.createColumn(table, layout, "Version", gc, 1);
+    TableColumn notesColumn = Tables.createColumn(table, layout, "Notes", gc, 1);
+
+    LocalSetTableSorter resourceSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
+      public String apply(final ResourcePersistenceData data) {
+        return data.getResourceName();
+      }
+    }));
+
+    LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
+      public String apply(final ResourcePersistenceData data) {
+        return data.getListenerType().getName();
+      }
+    }).compound(resourceSorter.getComparator()));
+
+    LocalSetTableSorter versionSorter = new LocalSetTableSorter(table, Ordering.natural().onResultOf(new Function<ResourcePersistenceData, Version>() {
+      public Version apply(final ResourcePersistenceData data) {
+        return toVersion(((ResourceLabelProvider) ResourcesPreferencePage.this.tableViewer.getLabelProvider()).getVersion(data));
+      }
+    }).compound(resourceSorter.getComparator()));
+
+    LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
+      public String apply(final ResourcePersistenceData data) {
+        return ((ResourceLabelProvider) ResourcesPreferencePage.this.tableViewer.getLabelProvider()).getNotes(data);
+      }
+    }).compound(resourceSorter.getComparator()));
+
+    resourceSorter.attach(resourceColumn);
+    listenerSorter.attach(listenerColumn);
+    versionSorter.attach(versionColumn);
+    notesSorter.attach(notesColumn);
   }
 
   private static final class ResourceLabelProvider extends AbstractLabelProvider<ResourcePersistenceData> {
@@ -78,7 +113,7 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
           return this.getVersion(data);
 
         case 3:
-          return this.getAnnotations(data);
+          return this.getNotes(data);
 
         default:
           throw new IllegalStateException();
@@ -86,7 +121,7 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
     }
   }
 
-  private static final class ResourceViewerComparator extends AbstractViewerComparator {
+  private static final class ResourceViewerComparator extends SortingViewerComparator {
     ResourceViewerComparator() {}
 
     @Override

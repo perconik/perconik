@@ -128,22 +128,11 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     gc.dispose();
 
-    LocalMapTableSorter keySorter = new LocalMapTableSorter(table) {
-      @Override
-      Comparator<Entry<String, Object>> comparator() {
-        return Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, String>toKeyFunction());
-      }
-    };
+    LocalMapTableSorter keySorter = new LocalMapTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, String>toKeyFunction()));
+    LocalMapTableSorter valueSorter = new LocalMapTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, Object>toValueFunction()).compound(keySorter.getComparator()));
 
-    LocalMapTableSorter valueSorter = new LocalMapTableSorter(table) {
-      @Override
-      Comparator<Entry<String, Object>> comparator() {
-        return Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, Object>toValueFunction());
-      }
-    };
-
-    keySorter.attach(keyColumn, SortDirection.DOWN);
-    valueSorter.attach(valueColumn, SortDirection.UP);
+    keySorter.attach(keyColumn);
+    valueSorter.attach(valueColumn);
 
     this.tableViewer = new CheckboxTableViewer(table);
 
@@ -204,7 +193,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     innerParent.layout();
 
-    keySorter.sort(keyColumn, SortDirection.UP);
+    TableSorter.attachedSort(table.getColumn(0), SortDirection.UP);
     table.setSortColumn(null);
 
     return composite;
@@ -225,20 +214,20 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     this.removeButton.setEnabled(selectionCount > 0 && selectionCount <= itemCount);
   }
 
-  abstract class LocalMapTableSorter extends MapTableSorter<String, Object> {
-    LocalMapTableSorter(final Table table) {
-      super(table);
+  class LocalMapTableSorter extends MapTableSorter<String, Object> {
+    LocalMapTableSorter(final Table table, final Comparator<Entry<String, Object>> comparator) {
+      super(table, comparator);
     }
-  
+
     @Override
     final Map<String, Object> loadMap() {
       return AbstractOptionsDialog.this.map;
     }
-  
+
     @Override
     final void updateMap(final Map<String, Object> map) {
       AbstractOptionsDialog.this.map = map;
-  
+
       updateTable();
     }
   }

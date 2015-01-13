@@ -2,11 +2,16 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Set;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Ordering;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
+import org.osgi.framework.Version;
 import org.osgi.service.prefs.BackingStoreException;
 
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
@@ -17,6 +22,7 @@ import sk.stuba.fiit.perconik.ui.utilities.Tables;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
+import static sk.stuba.fiit.perconik.osgi.framework.Versions.toVersion;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
 
 /**
@@ -55,9 +61,31 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
 
   @Override
   protected void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
-    Tables.createColumn(table, layout, "Listener implementation", gc, 4);
-    Tables.createColumn(table, layout, "Version", gc, 1);
-    Tables.createColumn(table, layout, "Notes", gc, 1);
+    TableColumn listenerColumn = Tables.createColumn(table, layout, "Listener implementation", gc, 4);
+    TableColumn versionColumn = Tables.createColumn(table, layout, "Version", gc, 1);
+    TableColumn notesColumn = Tables.createColumn(table, layout, "Notes", gc, 1);
+
+    LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
+      public String apply(final ListenerPersistenceData data) {
+        return data.getListenerClass().getName();
+      }
+    }));
+
+    LocalSetTableSorter versionSorter = new LocalSetTableSorter(table, Ordering.natural().onResultOf(new Function<ListenerPersistenceData, Version>() {
+      public Version apply(final ListenerPersistenceData data) {
+        return toVersion(((ListenerLabelProvider) ListenersPreferencePage.this.tableViewer.getLabelProvider()).getVersion(data));
+      }
+    }).compound(listenerSorter.getComparator()));
+
+    LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
+      public String apply(final ListenerPersistenceData data) {
+        return ((ListenerLabelProvider) ListenersPreferencePage.this.tableViewer.getLabelProvider()).getNotes(data);
+      }
+    }).compound(listenerSorter.getComparator()));
+
+    listenerSorter.attach(listenerColumn);
+    versionSorter.attach(versionColumn);
+    notesSorter.attach(notesColumn);
   }
 
   private static final class ListenerLabelProvider extends AbstractLabelProvider<ListenerPersistenceData> {
@@ -74,7 +102,7 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
           return this.getVersion(data);
 
         case 2:
-          return this.getAnnotations(data);
+          return this.getNotes(data);
 
         default:
           throw new IllegalStateException();
@@ -82,7 +110,7 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
     }
   }
 
-  private static class ListenerViewerComparator extends AbstractViewerComparator {
+  private static class ListenerViewerComparator extends SortingViewerComparator {
     ListenerViewerComparator() {}
 
     @Override

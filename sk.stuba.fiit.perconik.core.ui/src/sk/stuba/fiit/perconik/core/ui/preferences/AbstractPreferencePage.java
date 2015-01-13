@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.lang.annotation.Annotation;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -40,6 +42,7 @@ import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
@@ -50,7 +53,8 @@ import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
-import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 import static org.eclipse.jface.dialogs.MessageDialog.openInformation;
@@ -147,9 +151,8 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     this.tableViewer = new CheckboxTableViewer(table);
 
-    this.tableViewer.setContentProvider(new SetContentProvider());
+    this.tableViewer.setContentProvider(new CollectionContentProvider());
     this.tableViewer.setLabelProvider(this.createContentProvider());
-    this.tableViewer.setComparator(this.createViewerComparator());
 
     this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
       public void selectionChanged(final SelectionChangedEvent e) {
@@ -163,7 +166,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
         R data = (R) e.getElement();
 
         if (data.isProvided()) {
-          updateData(data, e.getChecked());
+          updateChosenData(data, e.getChecked());
           updateButtons();
         } else {
           e.getCheckable().setChecked(data, data.hasRegistredMark());
@@ -248,6 +251,9 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     innerParent.layout();
 
+    TableSorter.attachedSort(table.getColumn(0), SortDirection.UP);
+    table.setSortColumn(null);
+
     return composite;
   }
 
@@ -255,7 +261,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   protected abstract AbstractOptionsDialog<P, R> createOptionsDialog();
 
-  protected abstract AbstractViewerComparator createViewerComparator();
+  protected abstract SortingViewerComparator createViewerComparator();
 
   protected abstract void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc);
 
@@ -275,26 +281,38 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     });
   }
 
-  final void updateData(final R registration, final boolean status) {
-    this.registrations.remove(registration);
-    this.registrations.add(registration.markRegistered(status));
+  final void updateChosenData(final R registration, final boolean status) {
+    List<R> registrations = newArrayList(this.registrations);
 
-    this.tableViewer.setChecked(registration, status);
+    this.updateData(registrations, registration, status);
+
+    this.registrations = newLinkedHashSet(registrations);
+
     this.tableViewer.refresh();
   }
 
   final void updateSelectedData(final boolean status) {
     IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
 
+    List<R> registrations = newArrayList(this.registrations);
+
     for (Object item: selection.toList()) {
       R registration = this.cast(item);
 
       if (registration.isProvided()) {
-        this.updateData(registration, status);
+        this.updateData(registrations, registration, status);
       }
     }
 
+    this.registrations = newLinkedHashSet(registrations);
+
     this.tableViewer.refresh();
+  }
+
+  private void updateData(final List<R> registrations, final R registration, final boolean status) {
+    registrations.set(registrations.indexOf(registration), registration.markRegistered(status));
+
+    this.tableViewer.setChecked(registration, status);
   }
 
   final void updateTable() {
@@ -338,27 +356,33 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     this.notesButton.setEnabled(selectionCount == 1);
   }
 
-  private enum AnnotationFilter implements Predicate<Annotation> {
-    INSTANCE;
-
-    public static Iterable<Annotation> apply(final Iterable<Annotation> annotations) {
-      return Iterables.filter(annotations, INSTANCE);
+  class LocalSetTableSorter extends SetTableSorter<R> {
+    LocalSetTableSorter(final Table table, final Comparator<? super R> comparator) {
+      super(table, comparator);
     }
 
-    public boolean apply(@Nonnull final Annotation annotation) {
-      return annotation.annotationType() != Version.class;
+    @Override
+    final Set<R> loadSet() {
+      return AbstractPreferencePage.this.registrations;
+    }
+
+    @Override
+    final void updateSet(final Set<R> set) {
+      AbstractPreferencePage.this.registrations = set;
+
+      updateTable();
     }
   }
 
   static abstract class AbstractLabelProvider<R extends AnnotableRegistration & MarkableRegistration & RegistrationMarker<R>> extends LabelProvider implements ITableLabelProvider {
     AbstractLabelProvider() {}
 
-    public final String getAnnotations(final R registration) {
+    public final String getNotes(final R registration) {
       if (!registration.isProvided()) {
         return "?";
       }
 
-      return Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
+      return Annotations.toString(NoteFilter.apply(registration.getAnnotations()));
     }
 
     public final String getVersion(final R registration) {
@@ -369,6 +393,18 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     public Image getColumnImage(final Object element, final int column) {
       return null;
+    }
+  }
+
+  private enum NoteFilter implements Predicate<Annotation> {
+    INSTANCE;
+
+    public static Iterable<Annotation> apply(final Iterable<Annotation> annotations) {
+      return Iterables.filter(annotations, INSTANCE);
+    }
+
+    public boolean apply(@Nonnull final Annotation annotation) {
+      return annotation.annotationType() != Version.class;
     }
   }
 
@@ -399,8 +435,8 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   }
 
   void performRefresh() {
-    for (R registration: newHashSet(this.registrations)) {
-      this.updateData(registration, registration.isRegistered());
+    for (R registration: newLinkedHashSet(this.registrations)) {
+      this.updateChosenData(registration, registration.isRegistered());
     }
   }
 
@@ -428,7 +464,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     R registration = this.cast(selection.toList().get(0));
 
     String name = ((ITableLabelProvider) this.tableViewer.getLabelProvider()).getColumnText(registration, 0);
-    String message = Annotations.toString(AnnotationFilter.apply(registration.getAnnotations()));
+    String message = Annotations.toString(NoteFilter.apply(registration.getAnnotations()));
 
     openInformation(this.getShell(), "Notes for " + name, !message.isEmpty() ? message : "No notes available.");
   }
