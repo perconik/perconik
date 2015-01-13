@@ -2,14 +2,10 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
 
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
-import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
-import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 public final class ResourceOptionsDialog extends AbstractOptionsDialog<ResourcePreferences, ResourcePersistenceData> {
@@ -49,12 +45,9 @@ public final class ResourceOptionsDialog extends AbstractOptionsDialog<ResourceP
 
   public void setResourceRegistration(final ResourcePersistenceData registration) {
     this.setRegistration(registration);
+    this.updateStatusBy(registration.getResource());
 
     this.map = readFromOptions(this.options());
-
-    if (!(registration.getResource() instanceof Configurable)) {
-      this.updateStatus(new Status(IStatus.WARNING, Activator.PLUGIN_ID, IStatus.OK, "Resource is not configurable by default, it may ignore specified options", null));
-    }
   }
 
   public ResourcePreferences getResourcePreferences() {

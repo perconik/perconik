@@ -9,6 +9,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Ordering;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -32,14 +34,17 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
 import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
+import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
@@ -310,6 +315,22 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     this.updateTable();
     this.updateButtons();
+  }
+
+  final void updateStatusBy(final Registrable registrable) {
+    StatusSeverity severity;
+    String message;
+
+    if (registrable instanceof Configurable) {
+      severity = StatusSeverity.INFO;
+      message = toUpperCaseFirst(this.name()) + " is configurable by default, but may require to be reregistered to apply specified options";
+    } else {
+      severity = StatusSeverity.WARNING;
+      message = toUpperCaseFirst(this.name()) + " is not configurable by default, it may completely ignore specified options";
+    }
+
+    this.updateStatus(new Status(severity.getValue(), Activator.PLUGIN_ID, IStatus.OK, message, null));
+
   }
 
   static final <K> Map<K, Options> updateData(final Map<K, Options> data, final K key, final Options options) {

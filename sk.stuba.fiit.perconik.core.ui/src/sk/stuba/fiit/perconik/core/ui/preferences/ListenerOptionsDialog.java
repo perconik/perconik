@@ -2,15 +2,11 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
 
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
-import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
-import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 public final class ListenerOptionsDialog extends AbstractOptionsDialog<ListenerPreferences, ListenerPersistenceData> {
@@ -50,12 +46,9 @@ public final class ListenerOptionsDialog extends AbstractOptionsDialog<ListenerP
 
   public void setListenerRegistration(final ListenerPersistenceData registration) {
     this.setRegistration(registration);
+    this.updateStatusBy(registration.getListener());
 
     this.map = readFromOptions(this.options());
-
-    if (!(registration.getListener() instanceof Configurable)) {
-      this.updateStatus(new Status(IStatus.WARNING, Activator.PLUGIN_ID, IStatus.OK, "Listener is not configurable by default, it may ignore specified options", null));
-    }
   }
 
   public ListenerPreferences getListenerPreferences() {
