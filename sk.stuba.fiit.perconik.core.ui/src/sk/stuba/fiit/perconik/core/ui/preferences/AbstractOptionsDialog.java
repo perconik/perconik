@@ -12,6 +12,8 @@ import com.google.common.collect.Ordering;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.DialogSettings;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
@@ -284,8 +286,6 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   void performRestore() {
-    // TODO
-
     openInformation(this.getShell(), "Restore " + toUpperCaseFirst(this.name()) + " Options", "Operation not yet supported.");
   }
 
@@ -371,6 +371,11 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
   final R getRegistration() {
     return this.registration;
+  }
+
+  @Override
+  protected IDialogSettings getDialogBoundsSettings() {
+    return DialogSettings.getOrCreateSection(Activator.defaultInstance().getDialogSettings(), AbstractOptionsDialog.class.getName());
   }
 
   @Override

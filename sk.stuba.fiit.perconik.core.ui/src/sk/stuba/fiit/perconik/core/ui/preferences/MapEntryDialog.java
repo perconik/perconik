@@ -5,6 +5,8 @@ import java.util.Map.Entry;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.DialogSettings;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -167,6 +169,11 @@ final class MapEntryDialog<K, V> extends StatusDialog {
 
   public Entry<K, V> getEntry() {
     return this.entry;
+  }
+
+  @Override
+  protected IDialogSettings getDialogBoundsSettings() {
+    return DialogSettings.getOrCreateSection(Activator.defaultInstance().getDialogSettings(), MapEntryDialog.class.getName());
   }
 
   @Override
