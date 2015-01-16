@@ -160,7 +160,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     }
 
     public static boolean isEnabled() {
-      return UacaPreferences.getShared().isErrorLoggerEnabled();
+      return UacaPreferences.getShared().isErrorLogEnabled();
     }
   }
 }

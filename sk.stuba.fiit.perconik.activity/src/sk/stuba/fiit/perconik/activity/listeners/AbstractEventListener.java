@@ -100,6 +100,20 @@ public abstract class AbstractEventListener extends Adapter {
 
   abstract void postSendHook(final String path, final Event data);
 
+  /**
+   * Always throws {@code CloneNotSupportedException}.
+   */
+  @Override
+  protected final Object clone() throws CloneNotSupportedException {
+    throw new CloneNotSupportedException();
+  }
+
+  /**
+   * Listeners should not depend on Java finalization.
+   */
+  @Override
+  protected final void finalize() {}
+
   private static abstract class Disposer {
     private static final Logger logger = Logger.getLogger(Disposer.class.getName());
 

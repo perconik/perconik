@@ -104,7 +104,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.sharedExecutor = requireNonNull(configuration.sharedExecutor());
     this.persistenceStore = requireNonNull(configuration.persistenceStore());
 
-    this.dataInjector = resolveDataInjector(configuration);
+    this.dataInjector = this.resolveDataInjector(configuration);
 
     this.eventValidator = configuration.eventValidator().or(StandardEventValidator.instance);
     this.failureHandler = configuration.failureHandler().or(PropagatingSendFailureHandler.instance);
@@ -607,7 +607,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
     Statistics() {}
 
-    private static final AtomicLong zero() {
+    private static AtomicLong zero() {
       return new AtomicLong();
     }
   }
