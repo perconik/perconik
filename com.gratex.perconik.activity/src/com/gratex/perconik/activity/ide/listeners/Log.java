@@ -8,7 +8,7 @@ final class Log {
   private Log() {}
 
   static boolean enabled() {
-    return UacaPreferences.getShared().isErrorLoggerEnabled();
+    return UacaPreferences.getShared().isErrorLogEnabled();
   }
 
   static SmartStringBuilder message() {

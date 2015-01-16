@@ -20,7 +20,7 @@ final class UacaReporter {
   private UacaReporter() {}
 
   static void logRequest(final WebTarget target, @Nullable final Object request) {
-    if (!UacaPreferences.getShared().isEventLoggerEnabled()) {
+    if (!UacaPreferences.getShared().isEventLogEnabled()) {
       return;
     }
 
@@ -35,7 +35,7 @@ final class UacaReporter {
   }
 
   static void logError(final String message, @Nullable final Exception failure) {
-    if (!UacaPreferences.getShared().isErrorLoggerEnabled()) {
+    if (!UacaPreferences.getShared().isErrorLogEnabled()) {
       return;
     }
 

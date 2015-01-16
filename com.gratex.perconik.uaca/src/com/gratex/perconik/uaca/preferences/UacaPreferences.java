@@ -10,20 +10,20 @@ import com.gratex.perconik.uaca.plugin.Activator;
 
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
-import sk.stuba.fiit.perconik.utilities.net.UniformResources;
 
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.applicationUrl;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.checkConnection;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.displayErrors;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logErrors;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvents;
-import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.uacaUrl;
 
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
-public final class UacaPreferences {
+public final class UacaPreferences implements UacaOptions {
   static final String qualifier = join(PLUGIN_ID, "preferences");
 
   static final UacaPreferences shared = new UacaPreferences();
@@ -41,17 +41,17 @@ public final class UacaPreferences {
     public void initializeDefaultPreferences() {
       IPreferenceStore store = shared.getPreferenceStore();
 
+      store.setDefault(applicationUrl, "http://localhost:16375");
       store.setDefault(checkConnection, true);
       store.setDefault(displayErrors, true);
-
       store.setDefault(logErrors, true);
       store.setDefault(logEvents, false);
-
-      store.setDefault(uacaUrl, "http://localhost:16375");
     }
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
+    public static final String applicationUrl = join(qualifier, "applicationUrl");
+
     public static final String checkConnection = join(qualifier, "checkConnection");
 
     public static final String displayErrors = join(qualifier, "displayErrors");
@@ -59,8 +59,6 @@ public final class UacaPreferences {
     public static final String logErrors = join(qualifier, "logErrors");
 
     public static final String logEvents = join(qualifier, "logEvents");
-
-    public static final String uacaUrl = join(qualifier, "uacaUrl");
   }
 
   public static UacaPreferences getShared() {
@@ -69,23 +67,23 @@ public final class UacaPreferences {
 
   private enum ReadOnlyOptionsView implements Options {
     instance;
-  
+
     public void fromMap(final Map<String, Object> map) {
       throw new UnsupportedOperationException();
     }
-  
+
     public Map<String, Object> toMap() {
       Map<String, Object> map = newLinkedHashMap();
-  
+
+      map.put(applicationUrl, shared.getApplicationUrl());
       map.put(checkConnection, shared.isConnectionCheckEnabled());
       map.put(displayErrors, shared.isErrorDialogEnabled());
-      map.put(logErrors, shared.isErrorLoggerEnabled());
-      map.put(logEvents, shared.isEventLoggerEnabled());
-      map.put(uacaUrl, shared.getUacaUrl());
-  
+      map.put(logErrors, shared.isErrorLogEnabled());
+      map.put(logEvents, shared.isEventLogEnabled());
+
       return map;
     }
-  
+
     @Override
     public String toString() {
       return this.toMap().toString();
@@ -93,27 +91,44 @@ public final class UacaPreferences {
   }
 
   @SuppressWarnings("static-method")
-  private Options asReadOnlyOptionsView() {
+  final Options asReadOnlyOptionsView() {
     return ReadOnlyOptionsView.instance;
   }
 
+  /**
+   * Returns a read only {@code Options} view of UACA preferences.
+   */
   public Options asOptions() {
     return this.asReadOnlyOptionsView();
   }
 
+  /**
+   * Throws {@code UnsupportedOperationException}.
+   */
+  public void fromMap(final Map<String, Object> map) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Returns a read only snapshot of UACA preferences.
+   */
+  public Map<String, Object> toMap() {
+    return this.asReadOnlyOptionsView().toMap();
+  }
+
   @Override
   public String toString() {
-    return this.asOptions().toString();
+    return this.asReadOnlyOptionsView().toString();
   }
 
   public IPreferenceStore getPreferenceStore() {
     return this.store;
   }
 
-  public URL getUacaUrl() {
+  public URL getApplicationUrl() {
     IPreferenceStore store = this.getPreferenceStore();
 
-    return UniformResources.newUrl(store.getString(uacaUrl));
+    return newUrl(store.getString(applicationUrl));
   }
 
   public boolean isConnectionCheckEnabled() {
@@ -124,11 +139,11 @@ public final class UacaPreferences {
     return this.getPreferenceStore().getBoolean(displayErrors);
   }
 
-  public boolean isErrorLoggerEnabled() {
+  public boolean isErrorLogEnabled() {
     return this.getPreferenceStore().getBoolean(logErrors);
   }
 
-  public boolean isEventLoggerEnabled() {
+  public boolean isEventLogEnabled() {
     return this.getPreferenceStore().getBoolean(logEvents);
   }
 }

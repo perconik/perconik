@@ -48,7 +48,7 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
 
   @Override
   protected void createFieldEditors() {
-    this.uacaUrl = new UrlFieldEditor(Keys.uacaUrl, "URL:", this.getFieldEditorParent());
+    this.uacaUrl = new UrlFieldEditor(Keys.applicationUrl, "URL:", this.getFieldEditorParent());
 
     Widgets.createFieldSeparator(this.getFieldEditorParent());
 

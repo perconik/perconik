@@ -1,7 +1,7 @@
 package com.gratex.perconik.uaca;
 
 import java.net.URL;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.client.Client;
@@ -9,7 +9,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import sk.stuba.fiit.perconik.data.providers.MapperProvider;
-import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 
 import static java.lang.String.format;
 
@@ -19,13 +18,13 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 
 @SuppressWarnings({"static-method", "unused"})
 public abstract class AbstractUacaProxy implements AutoCloseable {
-  private static final ExecutorService sharedExecutor = PlatformExecutors.newLimitedThreadPool();
-
   private final Client client;
 
   protected AbstractUacaProxy() {
     this.client = newClient().register(MapperProvider.class);
   }
+
+  protected abstract Executor executor();
 
   protected abstract URL url();
 
@@ -59,7 +58,7 @@ public abstract class AbstractUacaProxy implements AutoCloseable {
       }
     };
 
-    sharedExecutor.execute(command);
+    this.executor().execute(command);
   }
 
   protected WebTarget createTarget() {
