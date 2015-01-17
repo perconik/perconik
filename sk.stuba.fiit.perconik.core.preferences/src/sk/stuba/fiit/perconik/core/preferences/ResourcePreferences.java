@@ -7,8 +7,9 @@ import java.util.Set;
 import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
-import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
+import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 
 import static java.util.Objects.requireNonNull;
 
@@ -151,8 +152,8 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
     for (ResourcePersistenceData data: getDefaultRegistrations()) {
       Resource<?> resource = data.getResource();
 
-      if (resource instanceof Configurable) {
-        options.put(data.getResourceName(), ((Configurable) resource).getOptions());
+      if (resource instanceof ScopedConfigurable) {
+        options.put(data.getResourceName(), ((ScopedConfigurable) resource).getOptions(StandardScope.DEFAULT));
       }
     }
 
