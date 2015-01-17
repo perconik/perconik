@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import javax.ws.rs.client.WebTarget;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 import com.gratex.perconik.uaca.preferences.UacaPreferences.Keys;
 import com.gratex.perconik.uaca.ui.UacaMessageDialogs;
@@ -29,7 +31,7 @@ final class UacaReporter {
       String serializedRequest = Writer.getPretty().writeValueAsString(requestProperties);
 
       UacaConsole.getInstance().notice(format("%s%n%s", target.getUri(), serializedRequest));
-    } catch (Exception failure) {
+    } catch (JsonProcessingException | RuntimeException failure) {
       UacaConsole.getInstance().error(failure, "UacaProxy: Unable to format object");
     }
   }
