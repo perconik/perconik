@@ -48,7 +48,7 @@ public enum ResourceDeltaKind implements IntegralConstant {
    */
   REMOVED_PHANTOM(IResourceDelta.REMOVED_PHANTOM);
 
-  public static Set<ResourceDeltaKind> ALL_WITH_PHANTOMS = ImmutableSet.of(ADDED, REMOVED, CHANGED, ADDED_PHANTOM, REMOVED_PHANTOM);
+  public static final Set<ResourceDeltaKind> ALL_WITH_PHANTOMS = ImmutableSet.of(ADDED, REMOVED, CHANGED, ADDED_PHANTOM, REMOVED_PHANTOM);
 
   private static final IntegralConstantSupport<ResourceDeltaKind> integers = IntegralConstantSupport.of(ResourceDeltaKind.class);
 
