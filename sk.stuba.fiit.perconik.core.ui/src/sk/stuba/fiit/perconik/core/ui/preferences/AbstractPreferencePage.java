@@ -491,9 +491,8 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   @Override
   protected final void performDefaults() {
-    String name = pluralize(this.name());
-    String title = format("Restore %s Defaults", toUpperCaseFirst(name));
-    String message = format("PerConIK Core is about to restore default state of %s registrations. Configured options are not restored, see options dialog to restore effective options.", this.name(), name);
+    String title = format("Restore %s Defaults", toUpperCaseFirst(pluralize(this.name())));
+    String message = format("PerConIK Core is about to restore default state of %s registrations. Configured options are not restored, see options dialog to restore effective options.", this.name());
 
     if (new MessageDialog(this.getShell(), title, null, message, WARNING, new String[] { "Continue", "Cancel" }, 1).open() == 1) {
       return;
