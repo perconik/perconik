@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.eclipse.swt.widgets;
 
 import java.util.concurrent.Callable;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Supplier;
 
 public abstract class DisplayTask<V> implements Callable<V> {
@@ -20,7 +22,7 @@ public abstract class DisplayTask<V> implements Callable<V> {
     return of(runnable, null);
   }
 
-  public static final <V> DisplayTask<V> of(final Runnable runnable, final V result) {
+  public static final <V> DisplayTask<V> of(final Runnable runnable, @Nullable final V result) {
     return new DisplayTask<V>() {
       @Override
       public V call() {

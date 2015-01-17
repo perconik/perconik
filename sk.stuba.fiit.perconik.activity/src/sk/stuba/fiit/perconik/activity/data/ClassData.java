@@ -8,10 +8,6 @@ public class ClassData extends AnnotableData {
   protected ClassData(final Class<?> type) {
     super(type);
 
-    if (type == null) {
-      return;
-    }
-
     this.setName(NameData.of(type));
   }
 

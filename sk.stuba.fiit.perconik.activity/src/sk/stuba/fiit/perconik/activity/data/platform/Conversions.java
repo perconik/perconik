@@ -17,6 +17,6 @@ final class Conversions {
   }
 
   public static URL urlOrNull(@Nullable final IPath value) {
-    return sk.stuba.fiit.perconik.utilities.net.Conversions.urlOrNull(value.toFile());
+    return value != null ? sk.stuba.fiit.perconik.utilities.net.Conversions.urlOrNull(value.toFile()) : null;
   }
 }
