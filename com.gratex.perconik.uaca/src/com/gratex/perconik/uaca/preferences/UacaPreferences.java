@@ -5,11 +5,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
-
-import com.gratex.perconik.uaca.plugin.Activator;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
-import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
@@ -23,15 +21,17 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvent
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
-public final class UacaPreferences implements UacaOptions {
+public final class UacaPreferences extends AbstractPreferences implements UacaOptions {
+  private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
+
   static final String qualifier = join(PLUGIN_ID, "preferences");
 
-  static final UacaPreferences shared = new UacaPreferences();
+  private final ScopedPreferenceStore store;
 
-  private final IPreferenceStore store;
+  private UacaPreferences(final Scope scope) {
+    super(scope, qualifier);
 
-  private UacaPreferences() {
-    this.store = Activator.defaultInstance().getPreferenceStore();
+    this.store = new ScopedPreferenceStore(scope.context(), qualifier);
   }
 
   public static final class Initializer extends AbstractPreferenceInitializer {
@@ -39,7 +39,8 @@ public final class UacaPreferences implements UacaOptions {
 
     @Override
     public void initializeDefaultPreferences() {
-      IPreferenceStore store = shared.getPreferenceStore();
+      UacaPreferences preferences = UacaPreferences.getDefault();
+      IPreferenceStore store = preferences.getPreferenceStore();
 
       store.setDefault(applicationUrl, "http://localhost:16375");
       store.setDefault(checkConnection, true);
@@ -61,45 +62,18 @@ public final class UacaPreferences implements UacaOptions {
     public static final String logEvents = join(qualifier, "logEvents");
   }
 
-  public static UacaPreferences getShared() {
-    return shared;
-  }
-
-  private enum ReadOnlyOptionsView implements Options {
-    instance;
-
-    public void fromMap(final Map<String, Object> map) {
-      throw new UnsupportedOperationException();
-    }
-
-    public Map<String, Object> toMap() {
-      Map<String, Object> map = newLinkedHashMap();
-
-      map.put(applicationUrl, shared.getApplicationUrl());
-      map.put(checkConnection, shared.isConnectionCheckEnabled());
-      map.put(displayErrors, shared.isErrorDialogEnabled());
-      map.put(logErrors, shared.isErrorLogEnabled());
-      map.put(logEvents, shared.isEventLogEnabled());
-
-      return map;
-    }
-
-    @Override
-    public String toString() {
-      return this.toMap().toString();
-    }
-  }
-
-  @SuppressWarnings("static-method")
-  final Options asReadOnlyOptionsView() {
-    return ReadOnlyOptionsView.instance;
+  /**
+   * Gets default scoped core preferences.
+   */
+  public static UacaPreferences getDefault() {
+    return new UacaPreferences(Scope.DEFAULT);
   }
 
   /**
-   * Returns a read only {@code Options} view of UACA preferences.
+   * Gets configuration scoped core preferences.
    */
-  public Options asOptions() {
-    return this.asReadOnlyOptionsView();
+  public static UacaPreferences getShared() {
+    return shared;
   }
 
   /**
@@ -113,15 +87,26 @@ public final class UacaPreferences implements UacaOptions {
    * Returns a read only snapshot of UACA preferences.
    */
   public Map<String, Object> toMap() {
-    return this.asReadOnlyOptionsView().toMap();
+    Map<String, Object> map = newLinkedHashMap();
+
+    map.put(applicationUrl, this.getApplicationUrl());
+    map.put(checkConnection, this.isConnectionCheckEnabled());
+    map.put(displayErrors, this.isErrorDialogEnabled());
+    map.put(logErrors, this.isErrorLogEnabled());
+    map.put(logEvents, this.isEventLogEnabled());
+
+    return map;
   }
 
   @Override
   public String toString() {
-    return this.asReadOnlyOptionsView().toString();
+    return this.toMap().toString();
   }
 
-  public IPreferenceStore getPreferenceStore() {
+  /**
+   * Returns the backing scoped preference store.
+   */
+  public ScopedPreferenceStore getPreferenceStore() {
     return this.store;
   }
 
