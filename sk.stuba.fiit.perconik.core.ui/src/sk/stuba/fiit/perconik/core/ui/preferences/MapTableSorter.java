@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.eclipse.swt.widgets.Table;
 
 import static com.google.common.collect.Maps.newLinkedHashMap;
@@ -16,7 +18,7 @@ abstract class MapTableSorter<K, V> extends TableSorter<Entry<K, V>> {
     super(table);
   }
 
-  MapTableSorter(final Table table, final Comparator<? super Entry<K, V>> comparator) {
+  MapTableSorter(final Table table, @Nullable final Comparator<? super Entry<K, V>> comparator) {
     super(table, comparator);
   }
 

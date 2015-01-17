@@ -29,7 +29,7 @@ abstract class TableSorter<T> {
     this(table, null);
   }
 
-  TableSorter(final Table table, final Comparator<? super T> comparator) {
+  TableSorter(final Table table, @Nullable final Comparator<? super T> comparator) {
     this.table = requireNonNull(table);
     this.comparator = comparator;
   }

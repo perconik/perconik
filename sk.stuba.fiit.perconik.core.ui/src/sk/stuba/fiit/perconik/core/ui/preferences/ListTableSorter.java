@@ -3,6 +3,8 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.eclipse.swt.widgets.Table;
 
 import static com.google.common.collect.Lists.newLinkedList;
@@ -12,7 +14,7 @@ abstract class ListTableSorter<E> extends TableSorter<E> {
     super(table);
   }
 
-  ListTableSorter(final Table table, final Comparator<? super E> comparator) {
+  ListTableSorter(final Table table, @Nullable final Comparator<? super E> comparator) {
     super(table, comparator);
   }
 

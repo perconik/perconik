@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -357,7 +358,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   }
 
   class LocalSetTableSorter extends SetTableSorter<R> {
-    LocalSetTableSorter(final Table table, final Comparator<? super R> comparator) {
+    LocalSetTableSorter(final Table table, @Nullable final Comparator<? super R> comparator) {
       super(table, comparator);
     }
 

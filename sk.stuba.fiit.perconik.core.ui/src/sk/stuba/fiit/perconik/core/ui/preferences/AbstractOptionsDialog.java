@@ -222,7 +222,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   class LocalMapTableSorter extends MapTableSorter<String, Object> {
-    LocalMapTableSorter(final Table table, final Comparator<Entry<String, Object>> comparator) {
+    LocalMapTableSorter(final Table table, @Nullable final Comparator<Entry<String, Object>> comparator) {
       super(table, comparator);
     }
 
