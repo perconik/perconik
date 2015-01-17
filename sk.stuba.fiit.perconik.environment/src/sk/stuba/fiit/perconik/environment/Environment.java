@@ -34,7 +34,7 @@ public final class Environment {
     String name = ManagementFactory.getRuntimeMXBean().getName();
 
     try {
-      return Integer.parseInt(name.substring(0, name.indexOf("@")));
+      return Integer.parseInt(name.substring(0, name.indexOf('@')));
     } catch (RuntimeException e) {
       throw new RuntimeException("Unable to get PID from " + name, e);
     }
