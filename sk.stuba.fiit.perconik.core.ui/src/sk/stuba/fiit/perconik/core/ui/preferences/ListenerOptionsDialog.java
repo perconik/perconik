@@ -20,6 +20,11 @@ public final class ListenerOptionsDialog extends AbstractOptionsDialog<ListenerP
   }
 
   @Override
+  ListenerPreferences defaultPreferences() {
+    return ListenerPreferences.getDefault();
+  }
+
+  @Override
   Options options(final ListenerPreferences preferences, final ListenerPersistenceData registration) {
     return preferences.getListenerConfigurationData().get(registration.getListenerClass());
   }

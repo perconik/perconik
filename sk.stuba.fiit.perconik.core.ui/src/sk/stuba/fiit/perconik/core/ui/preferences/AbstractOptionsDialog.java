@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
@@ -49,6 +50,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 import static com.google.common.collect.Maps.immutableEntry;
@@ -56,7 +58,6 @@ import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
-import static org.eclipse.jface.dialogs.MessageDialog.openInformation;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toUpperCaseFirst;
@@ -239,6 +240,8 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     }
   }
 
+  abstract P defaultPreferences();
+
   abstract Options options(P preferences, R registration);
 
   private void openOptionDialog(final Entry<String, Object> entry) {
@@ -290,7 +293,18 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   void performRestore() {
-    openInformation(this.getShell(), "Restore " + toUpperCaseFirst(this.name()) + " Options", "Operation not yet supported.");
+    String title = "Restore Default Options";
+    String message = format("PerConIK Core is about to restore default options for %s registration. %s may require to be reregistered for options to take effect.", this.name(), toUpperCaseFirst(this.name()));
+
+    if (new MessageDialog(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { "Continue", "Cancel" }, 1).open() == 1) {
+      return;
+    }
+
+    this.map = readFromOptions(this.options(this.defaultPreferences(), this.registration));
+
+    this.updateButtons();
+    this.updateTable();
+    this.sortTable();
   }
 
   final void configure() {

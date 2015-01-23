@@ -19,6 +19,11 @@ public final class ResourceOptionsDialog extends AbstractOptionsDialog<ResourceP
   }
 
   @Override
+  ResourcePreferences defaultPreferences() {
+    return ResourcePreferences.getDefault();
+  }
+
+  @Override
   Options options(final ResourcePreferences preferences, final ResourcePersistenceData registration) {
     return preferences.getResourceConfigurationData().get(registration.getResourceName());
   }
