@@ -9,6 +9,14 @@ import org.eclipse.swt.SWT;
 import static java.util.Collections.reverseOrder;
 
 public enum SortDirection {
+  NONE(SWT.NONE) {
+    @Override
+    public <T extends Comparable<? super T>> void sort(final List<T> list) {}
+
+    @Override
+    public <T> void sort(final List<T> list, final Comparator<? super T> comparator) {}
+  },
+
   UP(SWT.UP) {
     @Override
     public <T extends Comparable<? super T>> void sort(final List<T> list) {
@@ -40,8 +48,8 @@ public enum SortDirection {
   }
 
   public static SortDirection valueOf(final int value) {
-    if (value == SWT.NONE) {
-      return null;
+    if (value == NONE.value) {
+      return NONE;
     } else if (value == UP.value) {
       return UP;
     } else if (value == DOWN.value) {
@@ -52,7 +60,7 @@ public enum SortDirection {
   }
 
   public SortDirection opposite() {
-    return this == UP ? DOWN : UP;
+    return this == NONE ? NONE : (this == UP ? DOWN : UP);
   }
 
   public abstract <T extends Comparable<? super T>> void sort(List<T> list);
