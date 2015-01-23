@@ -45,50 +45,50 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
   }
 
   final Set<R> getRegistrations(final String key) {
+    if (this.scope() == Scope.DEFAULT) {
+      return this.getDefaultRegistrations();
+    }
+
     try {
       return this.castRegistrations(requireNonNull(this.getObject(key)));
     } catch (RuntimeException e) {
       reportFailure(e, "Unable to read registrations under key %s", key);
 
-      if (this.scope() != Scope.DEFAULT) {
-        Set<R> registrations = this.getDefaultRegistrations();
+      Set<R> registrations = this.getDefaultRegistrations();
 
-        this.setRegistrations(key, registrations);
+      this.setRegistrations(key, registrations);
 
-        try {
-          this.synchronize();
-        } catch (BackingStoreException x) {
-          reportFailure(e, "Unable to synchronize registrations under key %s", key);
-        }
-
-        return registrations;
+      try {
+        this.synchronize();
+      } catch (BackingStoreException x) {
+        reportFailure(e, "Unable to synchronize registrations under key %s", key);
       }
 
-      throw e;
+      return registrations;
     }
   }
 
   final Map<K, Options> getOptions(final String key) {
+    if (this.scope() == Scope.DEFAULT) {
+      return this.getDefaultOptions();
+    }
+
     try {
       return this.castOptions(requireNonNull(this.getObject(key)));
     } catch (RuntimeException e) {
       reportFailure(e, "Unable to read options under key %s", key);
 
-      if (this.scope() != Scope.DEFAULT) {
-        Map<K, Options> configurations = this.getDefaultOptions();
+      Map<K, Options> configurations = this.getDefaultOptions();
 
-        this.setOptions(key, configurations);
+      this.setOptions(key, configurations);
 
-        try {
-          this.synchronize();
-        } catch (BackingStoreException x) {
-          reportFailure(e, "Unable to synchronize options under key %s", key);
-        }
-
-        return configurations;
+      try {
+        this.synchronize();
+      } catch (BackingStoreException x) {
+        reportFailure(e, "Unable to synchronize options under key %s", key);
       }
 
-      throw e;
+      return configurations;
     }
   }
 
