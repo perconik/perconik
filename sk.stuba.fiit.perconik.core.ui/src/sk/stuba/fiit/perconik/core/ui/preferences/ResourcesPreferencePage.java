@@ -144,13 +144,18 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
   }
 
   @Override
-  Set<ResourcePersistenceData> defaultRegistrations() {
-    return ResourcePersistenceData.defaults();
+  ResourcePreferences defaultPreferences() {
+    return ResourcePreferences.getDefault();
   }
 
   @Override
   ResourcePreferences sharedPreferences() {
     return ResourcePreferences.getShared();
+  }
+
+  @Override
+  Set<ResourcePersistenceData> registrations(final ResourcePreferences preferences) {
+    return preferences.getResourcePersistenceData();
   }
 
   @Override

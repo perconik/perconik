@@ -470,9 +470,11 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     openInformation(this.getShell(), "Notes for " + name, !message.isEmpty() ? message : "No notes available.");
   }
 
-  abstract Set<R> defaultRegistrations();
+  abstract P defaultPreferences();
 
   abstract P sharedPreferences();
+
+  abstract Set<R> registrations(P preferences);
 
   @Override
   public final boolean performOk() {
@@ -498,7 +500,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
       return;
     }
 
-    this.registrations = this.defaultRegistrations();
+    this.registrations = this.registrations(this.defaultPreferences());
 
     this.updateButtons();
     this.updateTable();

@@ -127,13 +127,18 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
   }
 
   @Override
-  Set<ListenerPersistenceData> defaultRegistrations() {
-    return ListenerPersistenceData.defaults();
+  ListenerPreferences defaultPreferences() {
+    return ListenerPreferences.getDefault();
   }
 
   @Override
   ListenerPreferences sharedPreferences() {
     return ListenerPreferences.getShared();
+  }
+
+  @Override
+  Set<ListenerPersistenceData> registrations(final ListenerPreferences preferences) {
+    return preferences.getListenerPersistenceData();
   }
 
   @Override
