@@ -39,6 +39,18 @@ public enum SortDirection {
     this.value = value;
   }
 
+  public static SortDirection valueOf(final int value) {
+    if (value == SWT.NONE) {
+      return null;
+    } else if (value == UP.value) {
+      return UP;
+    } else if (value == DOWN.value) {
+      return DOWN;
+    }
+
+    throw new IllegalArgumentException();
+  }
+
   public SortDirection opposite() {
     return this == UP ? DOWN : UP;
   }
