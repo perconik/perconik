@@ -31,7 +31,7 @@ public final class UacaPreferences extends AbstractPreferences implements UacaOp
   private UacaPreferences(final Scope scope) {
     super(scope, qualifier);
 
-    this.store = new ScopedPreferenceStore(scope.context(), qualifier);
+    this.store = new ScopedPreferenceStore(scope.context(), PLUGIN_ID);
   }
 
   public static final class Initializer extends AbstractPreferenceInitializer {
