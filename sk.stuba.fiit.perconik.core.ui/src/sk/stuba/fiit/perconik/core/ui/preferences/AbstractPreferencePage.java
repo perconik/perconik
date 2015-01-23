@@ -43,7 +43,6 @@ import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
-import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
@@ -252,9 +251,6 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     innerParent.layout();
 
-    TableSorter.attachedSort(table.getColumn(0), SortDirection.UP);
-    table.setSortColumn(null);
-
     return composite;
   }
 
@@ -316,14 +312,6 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     this.tableViewer.setChecked(registration, status);
   }
 
-  final void updateTable() {
-    this.tableViewer.setInput(this.registrations);
-    this.tableViewer.refresh();
-    this.tableViewer.setAllChecked(false);
-    this.tableViewer.setCheckedElements(this.checkedData().toArray());
-    this.tableViewer.setGrayedElements(this.unknownData().toArray());
-  }
-
   final void updateButtons() {
     IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
 
@@ -355,6 +343,18 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     this.optionsButton.setEnabled(selectionCount == 1);
     this.notesButton.setEnabled(selectionCount == 1);
+  }
+
+  final void updateTable() {
+    this.tableViewer.setInput(this.registrations);
+    this.tableViewer.refresh();
+    this.tableViewer.setAllChecked(false);
+    this.tableViewer.setCheckedElements(this.checkedData().toArray());
+    this.tableViewer.setGrayedElements(this.unknownData().toArray());
+  }
+
+  final void sortTable() {
+    TableSorter.automaticSort(this.tableViewer.getTable());
   }
 
   class LocalSetTableSorter extends SetTableSorter<R> {
@@ -500,8 +500,9 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     this.registrations = this.defaultRegistrations();
 
-    this.updateTable();
     this.updateButtons();
+    this.updateTable();
+    this.sortTable();
 
     super.performDefaults();
   }
@@ -520,15 +521,17 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   private void applyInternal() {
     this.apply();
 
-    this.updateTable();
     this.updateButtons();
+    this.updateTable();
+    this.sortTable();
   }
 
   private void loadInternal(final P preferences) {
     this.load(preferences);
 
-    this.updateTable();
     this.updateButtons();
+    this.updateTable();
+    this.sortTable();
   }
 
   private void saveInternal() {

@@ -40,7 +40,6 @@ import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
-import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
@@ -200,15 +199,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     innerParent.layout();
 
-    TableSorter.attachedSort(table.getColumn(0), SortDirection.UP);
-    table.setSortColumn(null);
-
     return composite;
-  }
-
-  final void updateTable() {
-    this.tableViewer.setInput(this.map);
-    this.tableViewer.refresh();
   }
 
   final void updateButtons() {
@@ -219,6 +210,15 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     this.updateButton.setEnabled(selectionCount == 1);
     this.removeButton.setEnabled(selectionCount > 0 && selectionCount <= itemCount);
+  }
+
+  final void updateTable() {
+    this.tableViewer.setInput(this.map);
+    this.tableViewer.refresh();
+  }
+
+  final void sortTable() {
+    TableSorter.automaticSort(this.tableViewer.getTable());
   }
 
   class LocalMapTableSorter extends MapTableSorter<String, Object> {
@@ -252,8 +252,9 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       if (entry != null) {
         this.map.put(result.getKey(), result.getValue());
 
-        this.updateTable();
         this.updateButtons();
+        this.updateTable();
+        this.sortTable();
       }
     }
   }
@@ -281,8 +282,9 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       this.map.remove(entry.getKey());
     }
 
-    this.updateTable();
     this.updateButtons();
+    this.updateTable();
+    this.sortTable();
   }
 
   void performRestore() {
@@ -313,8 +315,9 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   private void loadInternal(final P preferences, final R registration) {
     this.load(preferences, registration);
 
-    this.updateTable();
     this.updateButtons();
+    this.updateTable();
+    this.sortTable();
   }
 
   final void updateStatusBy(final Registrable registrable) {
