@@ -69,6 +69,23 @@ abstract class TableSorter<T> {
     ((TableSorter<?>) column.getData(key)).sort(column, direction);
   }
 
+  static void automaticSort(final Table table) {
+    automaticSort(table, table.getColumn(0), SortDirection.UP);
+  }
+
+  static void automaticSort(final Table table, final TableColumn defaultColumn, final SortDirection defaultDirection) {
+    TableColumn column = table.getSortColumn();
+    SortDirection direction = SortDirection.valueOf(table.getSortDirection());
+
+    attachedSort(column != null ? column : defaultColumn, direction != SortDirection.NONE ? direction : defaultDirection);
+
+    if (column == null) {
+      table.setSortColumn(null);
+    }
+
+    table.setSortDirection(direction.getValue());
+  }
+
   final void sort(final TableColumn column, final SortDirection direction) {
     List<T> data = newArrayList(this.loadData());
 
