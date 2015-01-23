@@ -21,6 +21,8 @@ public final class PlatformExecutors {
 
   private static final int minimumPoolSize = 2;
 
+  private static final float defaultPoolSizeScalingFactor = maximumPoolSizeScalingFactor;
+
   private PlatformExecutors() {}
 
   private static int boundedAvailableProcessors() {
@@ -29,6 +31,10 @@ public final class PlatformExecutors {
 
   private static int maximumPoolSize(final float poolSizeScalingFactor) {
     return max(round(min(poolSizeScalingFactor, maximumPoolSizeScalingFactor) * boundedAvailableProcessors()), minimumPoolSize);
+  }
+
+  public static final float defaultPoolSizeScalingFactor() {
+    return defaultPoolSizeScalingFactor;
   }
 
   public static ExecutorService newLimitedThreadPool() {
