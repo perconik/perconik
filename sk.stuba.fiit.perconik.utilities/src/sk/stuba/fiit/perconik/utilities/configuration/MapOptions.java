@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import static java.util.Objects.requireNonNull;
 
@@ -27,6 +28,14 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     super(map);
 
     this.putter = requireNonNull(putter);
+  }
+
+  public static MapOptions create() {
+    return new Regular(StandardPutter.instance);
+  }
+
+  public static MapOptions create(final Putter putter) {
+    return new Regular(putter);
   }
 
   public static MapOptions from(final Map<String, Object> map) {
@@ -56,6 +65,10 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
   private static final class Regular extends MapOptions {
     private static final long serialVersionUID = 1704716560859767601L;
 
+    Regular(final Putter putter) {
+      super(Maps.<String, Object>newLinkedHashMap(), putter);
+    }
+
     Regular(final Map<String, Object> map, final Putter putter) {
       super(newLinkedHashMap(map), putter);
     }
@@ -66,7 +79,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     }
 
     public Map<String, Object> toMap() {
-      return newLinkedHashMap(this);
+      return newLinkedHashMap(this.map);
     }
 
     private static final class SerializationProxy extends AbstractSerializationProxy<Regular> {
@@ -132,11 +145,11 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
 
     @Override
     public Object put(final String key, final Object value) {
-      return this.putter.put(this, key, value);
+      return this.putter.put(this.map, key, value);
     }
 
     public Map<String, Object> toMap() {
-      return this;
+      return this.map;
     }
 
     private static final class SerializationProxy extends AbstractSerializationProxy<View> {
