@@ -5,10 +5,11 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.services.AbstractProvider;
-import sk.stuba.fiit.perconik.utilities.MoreThrowables;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Throwables.propagate;
+
+import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 
 /**
  * An abstract implementation of {@link ListenerProvider}. This class
@@ -61,16 +62,16 @@ public abstract class AbstractListenerProvider extends AbstractProvider implemen
   protected final <L extends Listener> L parentForClass(final Class<L> implementation, @Nullable final Exception cause) {
     try {
       return this.parentOrFailure().forClass(implementation);
-    } catch (Exception e) {
-      throw propagate(MoreThrowables.initializeSuppressor(e, cause));
+    } catch (Exception failure) {
+      throw propagate(initializeSuppressor(failure, cause));
     }
   }
 
   protected final Class<? extends Listener> parentLoadClass(final String name, @Nullable final Exception cause) {
     try {
       return this.parentOrFailure().loadClass(name);
-    } catch (Exception e) {
-      throw propagate(MoreThrowables.initializeSuppressor(e, cause));
+    } catch (Exception failure) {
+      throw propagate(initializeSuppressor(failure, cause));
     }
   }
 }
