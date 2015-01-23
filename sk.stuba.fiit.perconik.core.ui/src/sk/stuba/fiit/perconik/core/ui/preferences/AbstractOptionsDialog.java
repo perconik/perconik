@@ -239,6 +239,8 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     }
   }
 
+  abstract Options options(P preferences, R registration);
+
   private void openOptionDialog(final Entry<String, Object> entry) {
     MapEntryDialog<String, Object> dialog = this.entryDialog;
 

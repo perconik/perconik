@@ -19,17 +19,19 @@ public final class ListenerOptionsDialog extends AbstractOptionsDialog<ListenerP
     return "listener";
   }
 
-  private Options options() {
-    return this.getPreferences().getListenerConfigurationData().get(this.getRegistration().getListenerClass());
+  @Override
+  Options options(final ListenerPreferences preferences, final ListenerPersistenceData registration) {
+    return preferences.getListenerConfigurationData().get(registration.getListenerClass());
   }
 
   @Override
   void apply() {
     ListenerPreferences preferences = this.getPreferences();
+    ListenerPersistenceData registration = this.getRegistration();
 
     Map<Class<? extends Listener>, Options> data = preferences.getListenerConfigurationData();
-    Class<? extends Listener> implementation = this.getRegistration().getListenerClass();
-    Options options = writeToOptions(this.options(), this.map);
+    Class<? extends Listener> implementation = registration.getListenerClass();
+    Options options = writeToOptions(this.options(preferences, registration), this.map);
 
     preferences.setListenerConfigurationData(updateData(data, implementation, options));
   }
@@ -48,7 +50,7 @@ public final class ListenerOptionsDialog extends AbstractOptionsDialog<ListenerP
     this.setRegistration(registration);
     this.updateStatusBy(registration.getListener());
 
-    this.map = readFromOptions(this.options());
+    this.map = readFromOptions(this.options(this.getPreferences(), registration));
   }
 
   public ListenerPreferences getListenerPreferences() {
