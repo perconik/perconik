@@ -22,9 +22,9 @@ import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
 public final class UacaPreferences extends AbstractPreferences implements UacaOptions {
-  private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
-
   static final String qualifier = join(PLUGIN_ID, "preferences");
+
+  private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
 
   private final ScopedPreferenceStore store;
 
