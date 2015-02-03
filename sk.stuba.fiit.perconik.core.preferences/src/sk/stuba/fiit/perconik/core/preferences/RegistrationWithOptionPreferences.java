@@ -11,9 +11,10 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.core.plugin.Activator.classResolver;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 
 abstract class RegistrationWithOptionPreferences<R extends Registration, K> extends AbstractObjectPreferences {
   RegistrationWithOptionPreferences(final Scope scope, final String qualifier) {
@@ -30,7 +31,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
   final void setRegistrations(final String key, final Set<R> registrations) {
     try {
-      this.putObject(key, this.castRegistrations(registrations));
+      this.putObject(key, this.castRegistrations(checkNotNull(registrations)));
     } catch (RuntimeException e) {
       reportFailure(e, "Unable to write registrations under key %s", key);
     }
@@ -38,7 +39,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
   final void setOptions(final String key, final Map<K, Options> options) {
     try {
-      this.putObject(key, this.castOptions(options));
+      this.putObject(key, this.castOptions(checkNotNull(options)));
     } catch (RuntimeException e) {
       reportFailure(e, "Unable to write options under key %s", key);
     }
@@ -46,22 +47,22 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
   final Set<R> getRegistrations(final String key) {
     if (this.scope() == Scope.DEFAULT) {
-      return this.getDefaultRegistrations();
+      return checkNotNullAsState(this.getDefaultRegistrations());
     }
 
     try {
-      return this.castRegistrations(requireNonNull(this.getObject(key)));
+      return this.castRegistrations(checkNotNullAsState(this.getObject(key)));
     } catch (RuntimeException e) {
       reportFailure(e, "Unable to read registrations under key %s", key);
 
-      Set<R> registrations = this.getDefaultRegistrations();
+      Set<R> registrations = checkNotNullAsState(this.getDefaultRegistrations());
 
       this.setRegistrations(key, registrations);
 
       try {
         this.synchronize();
       } catch (BackingStoreException x) {
-        reportFailure(e, "Unable to synchronize registrations under key %s", key);
+        reportFailure(x, "Unable to synchronize registrations under key %s", key);
       }
 
       return registrations;
@@ -70,25 +71,25 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
   final Map<K, Options> getOptions(final String key) {
     if (this.scope() == Scope.DEFAULT) {
-      return this.getDefaultOptions();
+      return checkNotNullAsState(this.getDefaultOptions());
     }
 
     try {
-      return this.castOptions(requireNonNull(this.getObject(key)));
+      return this.castOptions(checkNotNullAsState(this.getObject(key)));
     } catch (RuntimeException e) {
       reportFailure(e, "Unable to read options under key %s", key);
 
-      Map<K, Options> configurations = this.getDefaultOptions();
+      Map<K, Options> options = checkNotNullAsState(this.getDefaultOptions());
 
-      this.setOptions(key, configurations);
+      this.setOptions(key, options);
 
       try {
         this.synchronize();
       } catch (BackingStoreException x) {
-        reportFailure(e, "Unable to synchronize options under key %s", key);
+        reportFailure(x, "Unable to synchronize options under key %s", key);
       }
 
-      return configurations;
+      return options;
     }
   }
 

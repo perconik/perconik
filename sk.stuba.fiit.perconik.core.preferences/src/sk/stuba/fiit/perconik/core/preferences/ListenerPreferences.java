@@ -111,7 +111,8 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
   /**
    * Sets listener persistence data.
    * @param data listener persistence data
-   * @throws NullPointerException if {@code data} is {@code null}
+   * @throws ClassCastException if {@code data} contain invalid types
+   * @throws NullPointerException if {@code data} contain {@code null} references
    */
   public void setListenerPersistenceData(final Set<ListenerPersistenceData> data) {
     this.setRegistrations(persistence, data);
@@ -120,7 +121,8 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
   /**
    * Sets listener configuration data.
    * @param data listener configuration data
-   * @throws NullPointerException if {@code data} is {@code null}
+   * @throws ClassCastException if {@code data} contain invalid types
+   * @throws NullPointerException if {@code data} contain {@code null} references
    */
   public void setListenerConfigurationData(final Map<Class<? extends Listener>, Options> data) {
     this.setOptions(configuration, data);
@@ -128,6 +130,8 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
 
   /**
    * Gets listener persistence data.
+   * @throws ClassCastException if data contain invalid types
+   * @throws IllegalStateException if data contain {@code null} references
    */
   public Set<ListenerPersistenceData> getListenerPersistenceData() {
     return this.getRegistrations(persistence);
@@ -135,6 +139,8 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
 
   /**
    * Gets listener configuration data.
+   * @throws ClassCastException if data contain invalid types
+   * @throws IllegalStateException if data contain {@code null} references
    */
   public Map<Class<? extends Listener>, Options> getListenerConfigurationData() {
     return this.getOptions(configuration);
@@ -149,7 +155,7 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
   Map<Class<? extends Listener>, Options> getDefaultOptions() {
     Map<Class<? extends Listener>, Options> options = newHashMap();
 
-    for (ListenerPersistenceData data: getDefaultRegistrations()) {
+    for (ListenerPersistenceData data: this.getDefaultRegistrations()) {
       Listener listener = data.getListener();
 
       if (listener instanceof ScopedConfigurable) {

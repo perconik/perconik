@@ -111,7 +111,8 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
   /**
    * Sets resource persistence data.
    * @param data resource persistence data
-   * @throws NullPointerException if {@code data} is {@code null}
+   * @throws ClassCastException if {@code data} contain invalid types
+   * @throws NullPointerException if {@code data} contain {@code null} references
    */
   public void setResourcePersistenceData(final Set<ResourcePersistenceData> data) {
     this.setRegistrations(persistence, data);
@@ -120,7 +121,8 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
   /**
    * Sets resource configuration data.
    * @param data resource configuration data
-   * @throws NullPointerException if {@code data} is {@code null}
+   * @throws ClassCastException if {@code data} contain invalid types
+   * @throws NullPointerException if {@code data} contain {@code null} references
    */
   public void setResourceConfigurationData(final Map<String, Options> data) {
     this.setOptions(configuration, data);
@@ -128,6 +130,8 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
 
   /**
    * Gets resource persistence data.
+   * @throws ClassCastException if data contain invalid types
+   * @throws IllegalStateException if data contain {@code null} references
    */
   public Set<ResourcePersistenceData> getResourcePersistenceData() {
     return this.getRegistrations(persistence);
@@ -135,6 +139,8 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
 
   /**
    * Gets resource configuration data.
+   * @throws ClassCastException if data contain invalid types
+   * @throws IllegalStateException if data contain {@code null} references
    */
   public Map<String, Options> getResourceConfigurationData() {
     return this.getOptions(configuration);
@@ -149,7 +155,7 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
   Map<String, Options> getDefaultOptions() {
     Map<String, Options> options = newHashMap();
 
-    for (ResourcePersistenceData data: getDefaultRegistrations()) {
+    for (ResourcePersistenceData data: this.getDefaultRegistrations()) {
       Resource<?> resource = data.getResource();
 
       if (resource instanceof ScopedConfigurable) {
