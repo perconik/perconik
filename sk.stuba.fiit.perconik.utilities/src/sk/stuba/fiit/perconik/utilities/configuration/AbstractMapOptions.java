@@ -24,6 +24,11 @@ public abstract class AbstractMapOptions extends ForwardingMap<String, Object> i
     return this.map;
   }
 
+  public void fromMap(final Map<String, Object> map) {
+    this.clear();
+    this.putAll(map);
+  }
+
   @Override
   public abstract Object put(final String key, final Object value);
 
@@ -32,7 +37,7 @@ public abstract class AbstractMapOptions extends ForwardingMap<String, Object> i
     this.standardPutAll(map);
   }
 
-  public void fromMap(final Map<String, Object> map) {
-    this.putAll(map);
+  public Object get(final String key) {
+    return this.map.get(key);
   }
 }

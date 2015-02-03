@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 
 import static java.util.Objects.requireNonNull;
 
-import static com.google.common.collect.ImmutableMap.copyOf;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 /**
@@ -36,6 +35,22 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
 
   public static MapOptions create(final Putter putter) {
     return new Regular(putter);
+  }
+
+  public static MapOptions copyOf(final Options options) {
+    if (options instanceof MapOptions) {
+      return copyOf((MapOptions) options);
+    }
+
+    return from(options.toMap());
+  }
+
+  public static MapOptions copyOf(final MapOptions options) {
+    if (options instanceof Immutable) {
+      return options;
+    }
+
+    return from(options.map, options.putter);
   }
 
   public static MapOptions from(final Map<String, Object> map) {
@@ -105,7 +120,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     private static final long serialVersionUID = -3797590867166061284L;
 
     Immutable(final Map<String, Object> map, final Putter putter) {
-      super(copyOf(map), putter);
+      super(ImmutableMap.copyOf(map), putter);
     }
 
     @Override
