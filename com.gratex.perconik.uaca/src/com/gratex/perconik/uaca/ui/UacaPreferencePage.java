@@ -10,7 +10,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.gratex.perconik.uaca.SharedUacaProxy;
-import com.gratex.perconik.uaca.plugin.Activator;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 import com.gratex.perconik.uaca.preferences.UacaPreferences.Keys;
 
@@ -36,7 +35,7 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
   }
 
   public void init(final IWorkbench workbench) {
-    this.setPreferenceStore(Activator.defaultInstance().getPreferenceStore());
+    this.setPreferenceStore(this.doGetPreferenceStore());
   }
 
   static <E extends StringFieldEditor> E prepare(final E editor) {
