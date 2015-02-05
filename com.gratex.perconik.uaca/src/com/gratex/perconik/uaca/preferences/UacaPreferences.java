@@ -103,6 +103,14 @@ public final class UacaPreferences extends AbstractPreferences implements UacaOp
     return this.toMap().toString();
   }
 
+  public Object put(final String key, final Object value) {
+    throw new UnsupportedOperationException();
+  }
+
+  public Object get(final String key) {
+    return this.toMap().get(key);
+  }
+
   /**
    * Returns the backing scoped preference store.
    */
