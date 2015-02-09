@@ -1,6 +1,5 @@
 package sk.stuba.fiit.perconik.utilities.reflect.accessor;
 
-import com.google.common.primitives.Primitives;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.TypeToken;
 
@@ -48,7 +47,7 @@ final class Utilities {
   static <T, R, S extends R> Invokable<T, S> specialize(final Invokable<T, R> invokable, final TypeToken<S> type) {
     TypeToken<? extends R> base = invokable.getReturnType();
 
-    if (!wrap(type).isAssignableFrom(wrap(base))) {
+    if (!type.unwrap().isAssignableFrom(base.unwrap())) {
       throw new IllegalArgumentException("Invokable is known to return " + base + ", not " + type);
     }
 
@@ -56,13 +55,5 @@ final class Utilities {
     Invokable<T, S> specialized = (Invokable<T, S>) invokable;
 
     return specialized;
-  }
-
-  static <T> TypeToken<T> wrap(final TypeToken<T> type) {
-    return (TypeToken<T>) (type.isPrimitive() ? TypeToken.of(Primitives.wrap(type.getRawType())) : type);
-  }
-
-  static <T> TypeToken<T> unwrap(final TypeToken<T> type) {
-    return (TypeToken<T>) (type.isPrimitive() ? TypeToken.of(Primitives.unwrap(type.getRawType())) : type);
   }
 }
