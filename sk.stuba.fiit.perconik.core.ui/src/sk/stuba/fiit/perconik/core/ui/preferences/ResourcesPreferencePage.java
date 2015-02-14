@@ -14,11 +14,14 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.osgi.framework.Version;
 import org.osgi.service.prefs.BackingStoreException;
 
+import jersey.repackaged.com.google.common.collect.Maps;
+
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
@@ -160,6 +163,8 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
 
   @Override
   void apply() {
+    ResourcePreferences preferences = this.getPreferences();
+
     for (ResourcePersistenceData data: this.registrations) {
       if (data.isRegistered() && !data.hasRegistredMark() && !data.getResource().registered(Listener.class).isEmpty()) {
         StringBuilder message = new StringBuilder();
@@ -182,7 +187,11 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
 
     Set<ResourcePersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
 
-    this.getPreferences().setResourcePersistenceData(data);
+    preferences.setResourcePersistenceData(data);
+
+    if (this.restoreOptions.compareAndSet(true, false)) {
+      preferences.setResourceConfigurationData(Maps.<String, Options>newHashMap());
+    }
   }
 
   @Override

@@ -23,6 +23,7 @@ import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 
 import static java.util.Objects.requireNonNull;
 
+import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.collect.Maps.immutableEntry;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
@@ -91,7 +92,7 @@ final class MapEntryDialog<K, V> extends StatusDialog {
 
     @Override
     String value(final Object original, final String text) {
-      return requireNonNull(text);
+      return emptyToNull(text);
     }
   }
 

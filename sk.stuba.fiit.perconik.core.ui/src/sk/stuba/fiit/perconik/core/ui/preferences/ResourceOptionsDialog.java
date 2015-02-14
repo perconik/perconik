@@ -35,14 +35,14 @@ public final class ResourceOptionsDialog extends AbstractOptionsDialog<ResourceP
 
     Map<String, Options> data = preferences.getResourceConfigurationData();
     String name = registration.getResourceName();
-    Options options = writeToOptions(this.options(preferences, registration), this.map);
+    Options options = writeToOptions(this.options(preferences, registration), this.customOptions());
 
     preferences.setResourceConfigurationData(updateData(data, name, options));
   }
 
   @Override
   void load(final ResourcePreferences preferences, final ResourcePersistenceData registration) {
-
+    this.setResourcePreferences(preferences);
     this.setResourceRegistration(registration);
   }
 
@@ -54,7 +54,7 @@ public final class ResourceOptionsDialog extends AbstractOptionsDialog<ResourceP
     this.setRegistration(registration);
     this.updateStatusBy(registration.getResource());
 
-    this.map = readFromOptions(this.options(this.getPreferences(), registration));
+    this.map = readFromOptions(this.options(this.defaultPreferences(), registration), this.options(this.getPreferences(), registration));
   }
 
   public ResourcePreferences getResourcePreferences() {

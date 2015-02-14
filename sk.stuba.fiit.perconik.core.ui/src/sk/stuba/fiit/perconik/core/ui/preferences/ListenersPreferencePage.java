@@ -14,11 +14,15 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.osgi.framework.Version;
 import org.osgi.service.prefs.BackingStoreException;
 
+import jersey.repackaged.com.google.common.collect.Maps;
+
+import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
@@ -143,20 +147,28 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
 
   @Override
   void apply() {
+    ListenerPreferences preferences = this.getPreferences();
+
     try {
       Set<ListenerPersistenceData> data = Registrations.applyRegisteredMark(this.registrations);
 
-      this.getPreferences().setListenerPersistenceData(data);
+      preferences.setListenerPersistenceData(data);
     } catch (ResourceNotRegistredException failure) {
       StringBuilder message = new StringBuilder();
 
       message.append("Listener registration failed due to one or more unregistered but required resources. ");
       message.append("Select only listeners with registered resources.\n\n");
-      message.append(failure.getMessage() + ".");
+      message.append(failure.getLocalizedMessage() + ".");
 
       openError(this.getShell(), "Listener registration", message.toString());
 
       this.performRefresh();
+
+      return;
+    }
+
+    if (this.restoreOptions.compareAndSet(true, false)) {
+      preferences.setListenerConfigurationData(Maps.<Class<? extends Listener>, Options>newHashMap());
     }
   }
 

@@ -1,12 +1,14 @@
 package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 import org.eclipse.core.runtime.IStatus;
@@ -15,12 +17,13 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
-import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -53,10 +56,14 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.newLinkedHashMap;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
+import static org.eclipse.jface.dialogs.IDialogConstants.CANCEL_LABEL;
+import static org.eclipse.jface.dialogs.IDialogConstants.PROCEED_LABEL;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
@@ -89,12 +96,16 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
   AbstractOptionsDialog(final Shell parent) {
     super(parent);
+
+    this.preferences = null;
+    this.registration = null;
+    this.map = null;
   }
 
   abstract String name();
 
   @Override
-  protected Control createDialogArea(final Composite parent) {
+  protected final Control createDialogArea(final Composite parent) {
     Composite composite = new Composite(parent, SWT.NONE);
 
     GridLayout parentLayout = new GridLayout();
@@ -141,7 +152,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     keySorter.attach(keyColumn);
     valueSorter.attach(valueColumn);
 
-    this.tableViewer = new CheckboxTableViewer(table);
+    this.tableViewer = new CustomTableViewer(table);
 
     this.tableViewer.setContentProvider(new MapContentProvider());
     this.tableViewer.setLabelProvider(new MapLabelProvider());
@@ -152,9 +163,9 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       }
     });
 
-    this.tableViewer.addCheckStateListener(new ICheckStateListener() {
-      public void checkStateChanged(final CheckStateChangedEvent e) {
-        updateButtons();
+    this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+      public void doubleClick(final DoubleClickEvent event) {
+        performUpdate();
       }
     });
 
@@ -203,6 +214,36 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     return composite;
   }
 
+  final Map<String, Object> knownOptions() {
+    final Set<String> defaults = readFromOptions(this.options(this.defaultPreferences(), this.registration)).keySet();
+
+    return Maps.filterEntries(this.map, new Predicate<Entry<String, Object>>() {
+      public boolean apply(final Entry<String, Object> option) {
+        return defaults.contains(option.getKey());
+      }
+    });
+  }
+
+  final Map<String, Object> unknownOptions() {
+    return Maps.difference(this.map, this.knownOptions()).entriesOnlyOnLeft();
+  }
+
+  final Map<String, Object> inheritedOptions() {
+    final Map<String, Object> defaults = readFromOptions(this.options(this.defaultPreferences(), this.registration));
+
+    return Maps.filterEntries(this.map, new Predicate<Entry<String, Object>>() {
+      public boolean apply(final Entry<String, Object> option) {
+        Object value = defaults.get(option.getKey());
+
+        return value != null && value.toString().equals(option.getValue().toString());
+      }
+    });
+  }
+
+  final Map<String, Object> customOptions() {
+    return Maps.difference(this.map, this.inheritedOptions()).entriesOnlyOnLeft();
+  }
+
   final void updateButtons() {
     IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
 
@@ -216,6 +257,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   final void updateTable() {
     this.tableViewer.setInput(this.map);
     this.tableViewer.refresh();
+    this.tableViewer.setGrayedElements(this.inheritedOptions().entrySet().toArray());
   }
 
   final void sortTable() {
@@ -257,15 +299,15 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       if (entry != null) {
         this.map.put(result.getKey(), result.getValue());
 
-        this.updateButtons();
         this.updateTable();
         this.sortTable();
+        this.updateButtons();
       }
     }
   }
 
   void performAdd() {
-    this.openOptionDialog(immutableEntry("", (Object) ""));
+    this.openOptionDialog(immutableEntry("", null));
   }
 
   void performUpdate() {
@@ -280,31 +322,65 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   void performRemove() {
     IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
 
-    for (Object item: selection.toList()) {
-      @SuppressWarnings("unchecked")
-      Entry<String, Object> entry = (Entry<String, Object>) item;
+    Set<String> known = this.knownOptions().keySet();
+    Set<String> locked = newLinkedHashSet();
 
-      this.map.remove(entry.getKey());
+    for (Object item: selection.toList()) {
+      Object key = ((Entry<?, ?>) item).getKey();
+
+      if (!known.contains(key)) {
+        requireNonNull(this.map.remove(key));
+      } else {
+        locked.add(key.toString());
+      }
     }
 
-    this.updateButtons();
     this.updateTable();
     this.sortTable();
+    this.updateButtons();
+
+    if (!locked.isEmpty()) {
+      String title = "Remove Options";
+      String message = format("Some options could not be removed since inherited from %s defaults.", this.name());
+
+      MessageDialog.openInformation(this.getShell(), title, message);
+    }
   }
 
   void performRestore() {
     String title = "Restore Default Options";
-    String message = format("PerConIK Core is about to restore default options for %s registration. %s may require to be reregistered for options to take effect.", this.name(), toUpperCaseFirst(this.name()));
+    String message = format("PerConIK Core is about to restore defaults for selected options. %s may require to be reregistered for options to take effect.", toUpperCaseFirst(this.name()));
+    String toggle = format("Restore all configured options");
 
-    if (new MessageDialog(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { "Continue", "Cancel" }, 1).open() == 1) {
+    MessageDialogWithToggle dialog = new MessageDialogWithToggle(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { PROCEED_LABEL, CANCEL_LABEL }, 1, toggle, false);
+
+    if (dialog.open() == 1) {
       return;
     }
 
-    this.map = readFromOptions(this.options(this.defaultPreferences(), this.registration));
+    Map<String, Object> defaults = readFromOptions(this.options(this.defaultPreferences(), this.registration));
 
-    this.updateButtons();
+    if (!dialog.getToggleState()) {
+      IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
+
+      if (!selection.isEmpty()) {
+        for (Object item: selection.toList()) {
+          String key = ((Entry<?, ?>) item).getKey().toString();
+
+          this.map.put(key, defaults.get(key));
+        }
+      } else {
+        message = "No options selected and restore all unchecked.";
+
+        MessageDialog.openError(this.getShell(), title, message);
+      }
+    } else {
+      this.map = defaults;
+    }
+
     this.updateTable();
     this.sortTable();
+    this.updateButtons();
   }
 
   final void configure() {
@@ -321,8 +397,11 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     } catch (RuntimeException failure) {
       String title = "Options";
       String message = "Failed to apply options.";
+      String reason = failure.getLocalizedMessage();
 
-      openError(this.getShell(), title, message + " See error log for more details.");
+      message += !isNullOrEmpty(reason) ? ("\n\n" + reason + "\n\n") : " ";
+
+      openError(this.getShell(), title, message + "See error log for more details.");
 
       Activator.defaultInstance().getConsole().error(failure, message);
     }
@@ -331,9 +410,9 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   private void loadInternal(final P preferences, final R registration) {
     this.load(preferences, registration);
 
-    this.updateButtons();
     this.updateTable();
     this.sortTable();
+    this.updateButtons();
   }
 
   final void updateStatusBy(final Registrable registrable) {
@@ -349,7 +428,6 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     }
 
     this.updateStatus(new Status(severity.getValue(), Activator.PLUGIN_ID, IStatus.OK, message, null));
-
   }
 
   static final <K> Map<K, Options> updateData(final Map<K, Options> data, final K key, final Options options) {
@@ -360,8 +438,16 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     return update;
   }
 
-  static final Map<String, Object> readFromOptions(@Nullable final Options options) {
-    return options != null ? newLinkedHashMap(options.toMap()) : new LinkedHashMap<String, Object>();
+  static final Map<String, Object> readFromOptions(final Options ... options) {
+    Map<String, Object> map = newLinkedHashMap();
+
+    for (Options partial: options) {
+      if (partial != null) {
+        map.putAll(partial.toMap());
+      }
+    }
+
+    return map;
   }
 
   static final Options writeToOptions(@Nullable final Options options, final Map<String, Object> map) {

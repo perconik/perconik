@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.google.common.collect.Sets;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -56,6 +58,8 @@ import static java.util.Objects.requireNonNull;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
+import static org.eclipse.jface.dialogs.IDialogConstants.CANCEL_LABEL;
+import static org.eclipse.jface.dialogs.IDialogConstants.PROCEED_LABEL;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 import static org.eclipse.jface.dialogs.MessageDialog.openInformation;
 
@@ -71,6 +75,8 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   private P preferences;
 
   Set<R> registrations;
+
+  AtomicBoolean restoreOptions;
 
   CheckboxTableViewer tableViewer;
 
@@ -94,7 +100,11 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   Button notesButton;
 
-  AbstractPreferencePage() {}
+  AbstractPreferencePage() {
+    this.preferences = null;
+    this.registrations = null;
+    this.restoreOptions = new AtomicBoolean(false);
+  }
 
   abstract String name();
 
@@ -135,7 +145,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     TableColumnLayout tableLayout = new TableColumnLayout();
 
     GridData tableGrid = new GridData(GridData.FILL_BOTH);
-    tableGrid.widthHint = 360;
+    tableGrid.widthHint = 720;
     tableGrid.heightHint = this.convertHeightInCharsToPixels(10);
     tableComposite.setLayout(tableLayout);
     tableComposite.setLayoutData(tableGrid);
@@ -149,7 +159,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     gc.dispose();
 
-    this.tableViewer = new CheckboxTableViewer(table);
+    this.tableViewer = new CustomTableViewer(table);
 
     this.tableViewer.setContentProvider(new CollectionContentProvider());
     this.tableViewer.setLabelProvider(this.createContentProvider());
@@ -166,7 +176,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
         R data = (R) e.getElement();
 
         if (data.isProvided()) {
-          updateChosenData(data, e.getChecked());
+          updateData(data, e.getChecked());
           updateButtons();
         } else {
           e.getCheckable().setChecked(data, data.hasRegistredMark());
@@ -278,7 +288,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     });
   }
 
-  final void updateChosenData(final R registration, final boolean status) {
+  final void updateData(final R registration, final boolean status) {
     List<R> registrations = newArrayList(this.registrations);
 
     this.updateData(registrations, registration, status);
@@ -341,7 +351,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     this.exportButton.setEnabled(selectionCount > 0);
 
-    this.optionsButton.setEnabled(selectionCount == 1);
+    this.optionsButton.setEnabled(selectionCount == 1 && !this.restoreOptions.get());
     this.notesButton.setEnabled(selectionCount == 1);
   }
 
@@ -437,7 +447,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   void performRefresh() {
     for (R registration: newLinkedHashSet(this.registrations)) {
-      this.updateChosenData(registration, registration.isRegistered());
+      this.updateData(registration, registration.isRegistered());
     }
   }
 
@@ -494,17 +504,22 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   @Override
   protected final void performDefaults() {
     String title = format("Restore %s Defaults", toUpperCaseFirst(pluralize(this.name())));
-    String message = format("PerConIK Core is about to restore default state of %s registrations. Configured options are not restored, see options dialog to restore effective options.", this.name());
+    String message = format("PerConIK Core is about to restore default state of %s registrations. Configured options are not restored by default, see options dialog to restore effective options individually.", this.name());
+    String toggle = format("Restore configured options for all %s", pluralize(this.name()));
 
-    if (new MessageDialog(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { "Continue", "Cancel" }, 1).open() == 1) {
+    MessageDialogWithToggle dialog = new MessageDialogWithToggle(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { PROCEED_LABEL, CANCEL_LABEL }, 1, toggle, false);
+
+    if (dialog.open() == 1) {
       return;
     }
 
     this.registrations = this.registrations(this.defaultPreferences());
 
-    this.updateButtons();
+    this.restoreOptions.set(dialog.getToggleState());
+
     this.updateTable();
     this.sortTable();
+    this.updateButtons();
 
     super.performDefaults();
   }
@@ -523,17 +538,17 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   private void applyInternal() {
     this.apply();
 
-    this.updateButtons();
     this.updateTable();
     this.sortTable();
+    this.updateButtons();
   }
 
   private void loadInternal(final P preferences) {
     this.load(preferences);
 
-    this.updateButtons();
     this.updateTable();
     this.sortTable();
+    this.updateButtons();
   }
 
   private void saveInternal() {
