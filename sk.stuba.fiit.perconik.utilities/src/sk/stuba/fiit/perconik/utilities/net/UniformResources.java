@@ -9,9 +9,9 @@ import java.net.URLStreamHandler;
 public final class UniformResources {
   private UniformResources() {}
 
-  public static URI newUri(final String str) {
+  public static URI newUri(final String content) {
     try {
-      return new URI(str);
+      return new URI(content);
     } catch (URISyntaxException e) {
       throw new IllegalArgumentException(e);
     }
