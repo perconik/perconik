@@ -195,7 +195,7 @@ public final class MoreStrings {
 
     ToStringLocalizedComparator() {}
 
-    static class Default extends ToStringLocalizedComparator<Object> {
+    static final class Default extends ToStringLocalizedComparator<Object> {
       private static final long serialVersionUID = 0L;
 
       static final Default INSTANCE = new Default();
@@ -208,7 +208,7 @@ public final class MoreStrings {
       }
     }
 
-    static class Regular<T> extends ToStringLocalizedComparator<T> {
+    static final class Regular<T> extends ToStringLocalizedComparator<T> {
       private static final long serialVersionUID = 0L;
 
       private final Locale locale;
