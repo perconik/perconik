@@ -15,10 +15,16 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractMapOptions extends ForwardingMap<String, Object> implements Options {
   final transient Map<String, Object> map;
 
+  /**
+   * Constructor for use by subclasses.
+   */
   protected AbstractMapOptions(final Map<String, Object> map) {
     this.map = requireNonNull(map);
   }
 
+  /**
+   * Underlying map of options.
+   */
   @Override
   protected final Map<String, Object> delegate() {
     return this.map;

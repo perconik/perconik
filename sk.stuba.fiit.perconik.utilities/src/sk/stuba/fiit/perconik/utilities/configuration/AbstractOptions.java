@@ -3,6 +3,9 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 import java.util.Map;
 
 public abstract class AbstractOptions implements Options {
+  /**
+   * Constructor for use by subclasses.
+   */
   protected AbstractOptions() {}
 
   public void fromMap(final Map<String, Object> map) {

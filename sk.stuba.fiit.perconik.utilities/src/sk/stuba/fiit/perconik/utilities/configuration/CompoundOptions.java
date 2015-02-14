@@ -7,7 +7,7 @@ import com.google.common.collect.ImmutableList;
 
 import static com.google.common.collect.Maps.newHashMap;
 
-class CompoundOptions extends AbstractOptions implements Serializable {
+final class CompoundOptions extends AbstractOptions implements Serializable {
   private static final long serialVersionUID = 0L;
 
   ImmutableList<Options> options;
@@ -16,7 +16,7 @@ class CompoundOptions extends AbstractOptions implements Serializable {
     this.options = ImmutableList.of(primary, secondary);
   }
 
-  CompoundOptions(final Iterable<Options> options) {
+  CompoundOptions(final Iterable<? extends Options> options) {
     this.options = ImmutableList.copyOf(options);
   }
 
