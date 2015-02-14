@@ -18,18 +18,17 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.displayE
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logErrors;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvents;
 
-import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
 public final class UacaPreferences extends AbstractPreferences implements UacaOptions {
-  static final String qualifier = join(PLUGIN_ID, "preferences");
+
 
   private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
 
   private final ScopedPreferenceStore store;
 
   private UacaPreferences(final Scope scope) {
-    super(scope, qualifier);
+    super(scope, Schema.qualifier);
 
     this.store = new ScopedPreferenceStore(scope.context(), PLUGIN_ID);
   }
@@ -42,24 +41,24 @@ public final class UacaPreferences extends AbstractPreferences implements UacaOp
       UacaPreferences preferences = UacaPreferences.getDefault();
       IPreferenceStore store = preferences.getPreferenceStore();
 
-      store.setDefault(applicationUrl, "http://localhost:16375");
-      store.setDefault(checkConnection, true);
-      store.setDefault(displayErrors, true);
-      store.setDefault(logErrors, true);
-      store.setDefault(logEvents, false);
+      store.setDefault(applicationUrl, Schema.applicationUrl.getDefaultValue().toString());
+      store.setDefault(checkConnection, Schema.checkConnection.getDefaultValue());
+      store.setDefault(displayErrors, Schema.displayErrors.getDefaultValue());
+      store.setDefault(logErrors, Schema.logErrors.getDefaultValue());
+      store.setDefault(logEvents, Schema.logEvents.getDefaultValue());
     }
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
-    public static final String applicationUrl = join(qualifier, "applicationUrl");
+    public static final String applicationUrl = Schema.applicationUrl.getKey();
 
-    public static final String checkConnection = join(qualifier, "checkConnection");
+    public static final String checkConnection = Schema.checkConnection.getKey();
 
-    public static final String displayErrors = join(qualifier, "displayErrors");
+    public static final String displayErrors = Schema.displayErrors.getKey();
 
-    public static final String logErrors = join(qualifier, "logErrors");
+    public static final String logErrors = Schema.logErrors.getKey();
 
-    public static final String logEvents = join(qualifier, "logEvents");
+    public static final String logEvents = Schema.logEvents.getKey();
   }
 
   /**
