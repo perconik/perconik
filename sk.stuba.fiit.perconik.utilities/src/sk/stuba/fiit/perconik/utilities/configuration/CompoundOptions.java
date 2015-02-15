@@ -23,7 +23,7 @@ final class CompoundOptions extends AbstractOptions implements Serializable {
   public Map<String, Object> toMap() {
     Map<String, Object> map = newHashMap();
 
-    for (Options options: this.options) {
+    for (Options options: this.options.reverse()) {
       map.putAll(options.toMap());
     }
 
