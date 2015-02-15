@@ -115,6 +115,10 @@ public final class Configurables {
     return new RegularOptionsWriter(options);
   }
 
+  public static MapOptions emptyOptions() {
+    return MapOptions.empty();
+  }
+
   public static Options compound(final Options primary, final Options secondary) {
     return new CompoundOptions(primary, secondary);
   }

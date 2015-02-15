@@ -29,6 +29,10 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     this.putter = requireNonNull(putter);
   }
 
+  public static MapOptions empty() {
+    return EmptyHolder.options;
+  }
+
   public static MapOptions create() {
     return new Regular(StandardPutter.instance);
   }
@@ -202,6 +206,12 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
         throw new IllegalOptionException(e);
       }
     }
+  }
+
+  private static final class EmptyHolder {
+    static final MapOptions options = new Immutable(ImmutableMap.<String, Object>of(), StandardPutter.instance);
+
+    private EmptyHolder() {}
   }
 
   static abstract class AbstractSerializationProxy<T extends MapOptions> implements Serializable {
