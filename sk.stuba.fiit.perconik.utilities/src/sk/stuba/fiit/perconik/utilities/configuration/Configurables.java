@@ -9,9 +9,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.reflect.TypeToken;
 
+import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 
 import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.asList;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
@@ -62,7 +64,7 @@ public final class Configurables {
     for (Field field: schema.getFields()) {
       int modifiers = field.getModifiers();
 
-      if (!field.isAccessible() || !isStatic(modifiers)) {
+      if (!isPublic(modifiers) || !isStatic(modifiers)) {
         continue;
       }
 
@@ -121,6 +123,10 @@ public final class Configurables {
 
   public static Options compound(final Options primary, final Options secondary) {
     return new CompoundOptions(primary, secondary);
+  }
+
+  public static Options compound(final Options primary, final Options secondary, final Options ... rest) {
+    return new CompoundOptions(asList(primary, secondary, rest));
   }
 
   public static Options compound(final Iterable<? extends Options> options) {
