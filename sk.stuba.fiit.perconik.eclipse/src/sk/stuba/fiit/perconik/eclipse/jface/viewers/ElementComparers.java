@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 import java.io.Serializable;
 
 import com.google.common.base.Equivalence;
+import com.google.common.reflect.TypeToken;
 
 import org.eclipse.jface.viewers.IElementComparer;
 
@@ -11,30 +12,40 @@ import static java.util.Objects.requireNonNull;
 public final class ElementComparers {
   private ElementComparers() {}
 
-  private static final class EquivalenceElementComparer implements IElementComparer, Serializable {
+  private static final class EquivalenceElementComparer<T> implements IElementComparer, Serializable {
     private static final long serialVersionUID = 0L;
 
-    final Equivalence<Object> equivalence;
+    final TypeToken<T> type;
 
-    EquivalenceElementComparer(final Equivalence<Object> equivalence) {
+    final Equivalence<T> equivalence;
+
+    EquivalenceElementComparer(final TypeToken<T> type, final Equivalence<T> equivalence) {
+      this.type = requireNonNull(type);
       this.equivalence = requireNonNull(equivalence);
     }
 
+    // casts are unsafe but proper equivalence should fail on incorrectly typed objects
+    @SuppressWarnings("unchecked")
     public boolean equals(final Object a, final Object b) {
-      return this.equivalence.equivalent(a, b);
+      return this.equivalence.equivalent((T) a, (T) b);
     }
 
+    // see above note
+    @SuppressWarnings("unchecked")
     public int hashCode(final Object o) {
-      return this.equivalence.hash(o);
+      return this.equivalence.hash((T) o);
     }
   }
 
-  private static final class ElementComparerEquivalence extends Equivalence<Object> implements Serializable {
+  private static final class ElementComparerEquivalence<T> extends Equivalence<T> implements Serializable {
     private static final long serialVersionUID = 0L;
+
+    final TypeToken<T> type;
 
     final IElementComparer comparer;
 
-    ElementComparerEquivalence(final IElementComparer comparer) {
+    ElementComparerEquivalence(final TypeToken<T> type, final IElementComparer comparer) {
+      this.type = requireNonNull(type);
       this.comparer = requireNonNull(comparer);
     }
 
@@ -49,19 +60,36 @@ public final class ElementComparers {
     }
   }
 
-  public static IElementComparer fromEquivalence(final Equivalence<Object> equivalence) {
-    if (equivalence instanceof ElementComparerEquivalence) {
-      return ((ElementComparerEquivalence) equivalence).comparer;
-    }
-
-    return new EquivalenceElementComparer(equivalence);
+  public static <T> IElementComparer fromEquivalence(final Class<T> type, final Equivalence<T> equivalence) {
+    return fromEquivalence(TypeToken.of(type), equivalence);
   }
 
-  public static Equivalence<Object> toEquivalence(final IElementComparer comparer) {
-    if (comparer instanceof EquivalenceElementComparer) {
-      return ((EquivalenceElementComparer) comparer).equivalence;
+  public static <T> IElementComparer fromEquivalence(final TypeToken<T> type, final Equivalence<T> equivalence) {
+    if (equivalence instanceof ElementComparerEquivalence) {
+      ElementComparerEquivalence<T> inner = (ElementComparerEquivalence<T>) equivalence;
+
+      if (inner.type.isAssignableFrom(type)) {
+        return inner.comparer;
+      }
     }
 
-    return new ElementComparerEquivalence(comparer);
+    return new EquivalenceElementComparer<>(type, equivalence);
+  }
+
+  public static <T> Equivalence<T> toEquivalence(final Class<T> type, final IElementComparer comparer) {
+    return toEquivalence(TypeToken.of(type), comparer);
+  }
+
+  public static <T> Equivalence<T> toEquivalence(final TypeToken<T> type, final IElementComparer comparer) {
+    if (comparer instanceof EquivalenceElementComparer) {
+      @SuppressWarnings("unchecked")
+      EquivalenceElementComparer<T> inner = (EquivalenceElementComparer<T>) comparer;
+
+      if (inner.type.isAssignableFrom(type)) {
+        return inner.equivalence;
+      }
+    }
+
+    return new ElementComparerEquivalence<>(type, comparer);
   }
 }
