@@ -9,9 +9,20 @@ public abstract class AbstractOptionsReader implements OptionsReader {
   protected abstract Options options();
 
   public <T> T get(final OptionParser<? extends T> parser, final String key) {
-    Object value = this.getRaw(key);
+    Object raw = this.getRaw(key);
 
-    return value != null ? parser.parse(value) : null;
+    if (raw == null) {
+      return null;
+    }
+
+    try {
+      return parser.parse(raw);
+    } catch (RuntimeException failure) {
+      // silently ignore and return null so default value
+      // can be easily supplied by an option accessor
+
+      return null;
+    }
   }
 
   public Object getRaw(final String key) {
