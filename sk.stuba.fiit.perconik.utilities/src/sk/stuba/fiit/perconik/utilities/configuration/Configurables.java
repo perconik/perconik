@@ -2,9 +2,11 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.reflect.TypeToken;
@@ -107,6 +109,24 @@ public final class Configurables {
 
   public static <T> OptionAccessor<T> option(final OptionParser<? extends T> parser, final OptionMapping<T> mapping) {
     return new RegularOptionAccessor<>(parser, mapping.getKey(), mapping.getDefaultValue());
+  }
+
+  public static <E extends Entry<String, Object>> Equivalence<E> optionEquivalence() {
+    @SuppressWarnings("unchecked")
+    Equivalence<E> equivalence = (Equivalence<E>) OptionEquivalence.INSTANCE;
+
+    return equivalence;
+  }
+
+  public static Equivalence<String> optionKeyEquivalence() {
+    return OptionEquivalence.KeyEquivalence.INSTANCE;
+  }
+
+  public static <T> Equivalence<T> optionValueEquivalence() {
+    @SuppressWarnings("unchecked")
+    Equivalence<T> equivalence = (Equivalence<T>) OptionEquivalence.ValueEquivalence.INSTANCE;
+
+    return equivalence;
   }
 
   public static OptionsReader newReader(final Options options) {
