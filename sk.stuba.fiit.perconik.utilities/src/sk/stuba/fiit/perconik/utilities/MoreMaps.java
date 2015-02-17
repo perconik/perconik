@@ -5,14 +5,15 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 
 /**
@@ -24,12 +25,44 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 public final class MoreMaps {
   private MoreMaps() {}
 
+  public static <K, V> HashMap<Equivalence.Wrapper<K>, V> newHashMap(final Equivalence<? super K> equivalence, final Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    HashMap<Equivalence.Wrapper<K>, V> map = newHashMapExpectedFor(entries);
+
+    wrapAll(map, equivalence, entries);
+
+    return map;
+  }
+
+  public static <K, V> HashMap<K, V> newHashMap(final Iterable<? extends Entry<Equivalence.Wrapper<? extends K>, ? extends V>> entries) {
+    HashMap<K, V> map = newHashMapExpectedFor(entries);
+
+    unwrapAll(map, entries);
+
+    return map;
+  }
+
   public static <K, V> HashMap<K, V> newHashMapExpectedFor(final Iterable<?> iterable) {
     if (iterable instanceof Collection) {
       return newHashMapWithExpectedSize(((Collection<?>) iterable).size());
     }
 
-    return newHashMap();
+    return Maps.newHashMap();
+  }
+
+  public static <K, V> LinkedHashMap<Equivalence.Wrapper<K>, V> newLinkedHashMap(final Equivalence<? super K> equivalence, final Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    LinkedHashMap<Equivalence.Wrapper<K>, V> map = Maps.newLinkedHashMap();
+
+    wrapAll(map, equivalence, entries);
+
+    return map;
+  }
+
+  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(final Iterable<? extends Entry<Equivalence.Wrapper<? extends K>, ? extends V>> entries) {
+    LinkedHashMap<K, V> map = Maps.newLinkedHashMap();
+
+    unwrapAll(map, entries);
+
+    return map;
   }
 
   private static <K, V> void copy(final Dictionary<? extends K, ? extends V> from, final Map<K, V> to) {
@@ -89,6 +122,18 @@ public final class MoreMaps {
       Entry<? extends K, ? extends V> entry = entries.next();
 
       map.put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  public static <K, V> void wrapAll(final Map<Equivalence.Wrapper<K>, V> map, final Equivalence<? super K> equivalence, final Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    for (Entry<? extends K, ? extends V> entry: entries) {
+      map.put(equivalence.wrap((K) entry.getKey()), entry.getValue());
+    }
+  }
+
+  public static <K, V> void unwrapAll(final Map<K, V> map, final Iterable<? extends Entry<Equivalence.Wrapper<? extends K>, ? extends V>> entries) {
+    for (Entry<Equivalence.Wrapper<? extends K>, ? extends V> entry: entries) {
+      map.put(entry.getKey().get(), entry.getValue());
     }
   }
 
