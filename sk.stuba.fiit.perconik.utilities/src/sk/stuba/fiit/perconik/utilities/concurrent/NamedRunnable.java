@@ -12,11 +12,11 @@ public abstract class NamedRunnable implements Runnable {
   private final Supplier<String> toString;
 
   protected NamedRunnable(final Class<?> identity) {
-    this(new Supplier<String>() {
-      public String get() {
-        return identity.getName();
-      }
-    });
+    this(ofInstance(identity.getName()));
+  }
+
+  protected NamedRunnable(final Class<?> identity, final String name) {
+    this(ofInstance(identity.getName() + "." + requireNonNullOrEmpty(name)));
   }
 
   protected NamedRunnable(final String name) {
