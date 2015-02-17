@@ -2,11 +2,14 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Equivalence;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.reflect.TypeToken;
@@ -14,9 +17,14 @@ import com.google.common.reflect.TypeToken;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 
+import static com.google.common.base.Predicates.not;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.asList;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.filterEntries;
+
+import static sk.stuba.fiit.perconik.utilities.MoreMaps.newHashMap;
+import static sk.stuba.fiit.perconik.utilities.MoreSets.newHashSet;
 
 /**
  * TODO
@@ -26,7 +34,10 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 public final class Configurables {
   @SuppressWarnings("serial")
-  private static final TypeToken<OptionMapping<?>> mappingType = new TypeToken<OptionMapping<?>>() {};
+  private static final TypeToken<Entry<String, Object>> rawOptionType = new TypeToken<Entry<String, Object>>() {};
+
+  @SuppressWarnings("serial")
+  private static final TypeToken<OptionMapping<?>> wildcardMappingType = new TypeToken<OptionMapping<?>>() {};
 
   private Configurables() {}
 
@@ -53,7 +64,7 @@ public final class Configurables {
   }
 
   public static List<OptionMapping<?>> mappings(final Class<?> schema) {
-    return mappings(schema, mappingType);
+    return mappings(schema, wildcardMappingType);
   }
 
   public static <T extends OptionMapping<?>> List<T> mappings(final Class<?> schema, final Class<T> type) {
@@ -151,5 +162,67 @@ public final class Configurables {
 
   public static Options compound(final Iterable<? extends Options> options) {
     return new CompoundOptions(options);
+  }
+
+  static Predicate<Entry<String, Object>> rawOptionKeyMatcher(final Equivalence<String> keyEquivalence, final Iterable<String> matchingKeys) {
+    final Set<Equivalence.Wrapper<String>> matches = newHashSet(keyEquivalence, matchingKeys);
+
+    return new Predicate<Entry<String, Object>>() {
+      public boolean apply(final Entry<String, Object> rawOption) {
+        return matches.contains(keyEquivalence.wrap(rawOption.getKey()));
+      }
+    };
+  }
+
+  public static Map<String, Object> knownRawOptions(final Map<String, Object> rawOptions, final Iterable<String> knownKeys) {
+    return knownRawOptions(rawOptions, knownKeys, optionKeyEquivalence());
+  }
+
+  public static Map<String, Object> knownRawOptions(final Map<String, Object> rawOptions, final Iterable<String> knownKeys, final Equivalence<String> keyEquivalence) {
+    return filterEntries(rawOptions, rawOptionKeyMatcher(keyEquivalence, knownKeys));
+  }
+
+  public static Map<String, Object> unknownRawOptions(final Map<String, Object> rawOptions, final Iterable<String> knownKeys) {
+    return unknownRawOptions(rawOptions, knownKeys, optionKeyEquivalence());
+  }
+
+  public static Map<String, Object> unknownRawOptions(final Map<String, Object> rawOptions, final Iterable<String> knownKeys, final Equivalence<String> keyEquivalence) {
+    return filterEntries(rawOptions, not(rawOptionKeyMatcher(keyEquivalence, knownKeys)));
+  }
+
+  static Predicate<Entry<String, Object>> rawOptionMatcher(final Equivalence<String> keyEquivalence, final Equivalence<Object> valueEquivalence, final Map<String, Object> matchingRawOptions) {
+    final Map<Equivalence.Wrapper<String>, Object> matches = newHashMap(keyEquivalence, matchingRawOptions.entrySet());
+
+    return new Predicate<Entry<String, Object>>() {
+      public boolean apply(final Entry<String, Object> rawOption) {
+        Object value = matches.get(keyEquivalence.wrap(rawOption.getKey()));
+
+        return valueEquivalence.equivalent(rawOption.getValue(), value);
+      }
+    };
+  }
+
+  public static Map<String, Object> inheritedRawOptions(final Map<String, Object> rawOptions, final Map<String, Object> parentRawOptions) {
+    return inheritedRawOptions(rawOptions, parentRawOptions, optionKeyEquivalence(), optionValueEquivalence());
+  }
+
+  public static Map<String, Object> inheritedRawOptions(final Map<String, Object> rawOptions, final Map<String, Object> parentRawOptions, final Equivalence<String> keyEquivalence, final Equivalence<Object> valueEquivalence) {
+    return filterEntries(rawOptions, rawOptionMatcher(keyEquivalence, valueEquivalence, parentRawOptions));
+  }
+
+  public static Map<String, Object> customRawOptions(final Map<String, Object> rawOptions, final Map<String, Object> parentRawOptions) {
+    return customRawOptions(rawOptions, parentRawOptions, optionKeyEquivalence(), optionValueEquivalence());
+  }
+
+  public static Map<String, Object> customRawOptions(final Map<String, Object> rawOptions, final Map<String, Object> parentRawOptions, final Equivalence<String> keyEquivalence, final Equivalence<Object> valueEquivalence) {
+    return filterEntries(rawOptions, not(rawOptionMatcher(keyEquivalence, valueEquivalence, parentRawOptions)));
+  }
+
+  public static TypeToken<Entry<String, Object>> rawOptionType() {
+    return rawOptionType;
+  }
+
+  public static TypeToken<OptionMapping<?>> wildcardMappingType() {
+    return wildcardMappingType;
   }
 }
