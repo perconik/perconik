@@ -38,6 +38,12 @@ public final class Documents {
 
     ITextFileBuffer buffer = manager.getTextFileBuffer(path, kind);
 
+    try {
+      manager.disconnect(path, kind, null);
+    } catch (CoreException e) {
+      CoreExceptions.propagate(e);
+    }
+
     return buffer.getDocument();
   }
 
