@@ -32,8 +32,8 @@ public final class Probers {
     }
   }
 
-  private static final class RegularProber<T extends AnyContent, P extends Probe<?>> extends ImmutableProper<T, P> {
-    RegularProber(final Map<String, P> probes) {
+  private static final class SameThreadProber<T extends AnyContent, P extends Probe<?>> extends ImmutableProper<T, P> {
+    SameThreadProber(final Map<String, P> probes) {
       super(probes);
     }
   }
@@ -80,7 +80,7 @@ public final class Probers {
   }
 
   public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes) {
-    return new RegularProber<>(probes);
+    return new SameThreadProber<>(probes);
   }
 
   public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes, final ExecutorService executor) {
