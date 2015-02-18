@@ -5,7 +5,9 @@ import org.eclipse.jgit.lib.Repository;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.core.listeners.GitReferenceListener;
+import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_REGISTER;
 import static sk.stuba.fiit.perconik.eclipse.core.resources.Workspaces.getWorkspace;
 import static sk.stuba.fiit.perconik.eclipse.egit.core.projects.GitProjects.fromWorkspace;
 
@@ -16,22 +18,26 @@ import static sk.stuba.fiit.perconik.eclipse.egit.core.projects.GitProjects.from
  * @since 1.0
  */
 abstract class AbstractReferenceListener extends CommonEventListener implements GitReferenceListener {
-  AbstractReferenceListener() {}
+  AbstractReferenceListener() {
+    POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "RepositoryLoader") {
+      public void run() {
+        loadRepositories();
+      }
+    });
 
-  @Override
-  public final void postRegister() {
-    super.postRegister();
+  }
 
+  final void loadRepositories() {
     for (Repository repository: fromWorkspace(getWorkspace()).values()) {
       try {
-        this.postRegisterRepository(repository);
+        this.loadRepository(repository);
       } catch (RuntimeException failure) {
         this.log.error(failure, "%s cache initialization failure while reading %s", this, repository);
       }
     }
   }
 
-  abstract void postRegisterRepository(Repository repository);
+  abstract void loadRepository(Repository repository);
 
   abstract void process(long time, Repository repository);
 

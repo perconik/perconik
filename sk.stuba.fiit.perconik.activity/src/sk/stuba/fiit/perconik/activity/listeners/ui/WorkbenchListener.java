@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.ui.IWorkbench;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
@@ -8,7 +10,9 @@ import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.WorkbenchSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
+import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_REGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener.Action.SHUTDOWN;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener.Action.STARTUP;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
@@ -23,7 +27,19 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
  */
 @Version("0.0.0.alpha")
 public final class WorkbenchListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
-  public WorkbenchListener() {}
+
+  // TODO remove these, add startup hook interface to env plugin
+  private final AtomicBoolean startupProcessed = new AtomicBoolean(false);
+
+  private final AtomicBoolean shutdownProcessed = new AtomicBoolean(false);
+
+  public WorkbenchListener() {
+    POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "PostStartup") {
+      public void run() {
+        postStartup();
+      }
+    });
+  }
 
   enum Action implements CommonEventListener.Action {
     STARTUP,
@@ -68,17 +84,20 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
     }));
   }
 
-  @Override
-  public void postRegister() {
-    final long time = currentTime();
+  public void postStartup() {
+    if (this.startupProcessed.compareAndSet(false, true)) {
+      final long time = currentTime();
 
-    this.execute(time, STARTUP, waitForWorkbench());
+      this.execute(time, STARTUP, waitForWorkbench());
+    }
   }
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
-    final long time = currentTime();
+    if (this.shutdownProcessed.compareAndSet(false, true)) {
+      final long time = currentTime();
 
-    this.execute(time, SHUTDOWN, workbench);
+      this.execute(time, SHUTDOWN, workbench);
+    }
 
     return true;
   }

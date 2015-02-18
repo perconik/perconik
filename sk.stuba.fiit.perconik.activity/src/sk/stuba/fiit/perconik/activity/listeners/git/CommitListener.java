@@ -30,7 +30,7 @@ public final class CommitListener extends AbstractReferenceListener {
   }
 
   @Override
-  void postRegisterRepository(final Repository repository) {
+  void loadRepository(final Repository repository) {
     this.cache.update(repository, getFullBranch(repository), getMostRecentCommit(repository).getName());
   }
 

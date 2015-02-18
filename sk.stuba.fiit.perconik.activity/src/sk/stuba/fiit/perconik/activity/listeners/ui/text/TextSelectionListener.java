@@ -18,9 +18,11 @@ import sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSer
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
+import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
 import static com.google.common.collect.Lists.newLinkedList;
 
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
@@ -47,6 +49,12 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
 
   public TextSelectionListener() {
     this.watch = Stopwatch.createUnstarted();
+
+    PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentSelectionHandler") {
+      public void run() {
+        handleUnsentSelectionOnUnregistration();
+      }
+    });
   }
 
   enum Action implements CommonEventListener.Action {
@@ -100,15 +108,6 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
     this.send(action.getPath(), build(time, action, editor, view, region, selection));
   }
 
-  @Override
-  public void preUnregister() {
-    synchronized (this.lock) {
-      if (this.watch.isRunning()) {
-        this.stopWatchAndProcessLastSelectionEvent();
-      }
-    }
-  }
-
   @GuardedBy("lock")
   private void startWatchAndClearSelectionEvents() {
     assert !this.watch.isRunning() && this.continuousSelections == null;
@@ -129,6 +128,14 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
     this.continuousSelections = null;
 
     this.watch.stop();
+  }
+
+  void handleUnsentSelectionOnUnregistration() {
+    synchronized (this.lock) {
+      if (this.watch.isRunning()) {
+        this.stopWatchAndProcessLastSelectionEvent();
+      }
+    }
   }
 
   public void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
@@ -152,7 +159,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
       }
 
       if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event)) {
-        if (Log.isEnabled()) {
+        if (this.isLogEnabled()) {
           Log.message("selection: watch running but selection not continuous%n").appendTo(this.log);
         }
 
@@ -160,7 +167,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
       }
 
       if (!this.watch.isRunning()) {
-        if (Log.isEnabled()) {
+        if (this.isLogEnabled()) {
           Log.message("selection: watch not running%n").appendTo(this.log);
         }
 
@@ -172,7 +179,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
       this.continuousSelections.add(event);
 
       if (!empty && delta < selectionEventWindow) {
-        if (Log.isEnabled()) {
+        if (this.isLogEnabled()) {
           Log.message("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(this.log);
         }
 

@@ -37,7 +37,7 @@ public final class TagListener extends AbstractReferenceListener {
   }
 
   @Override
-  void postRegisterRepository(final Repository repository) {
+  void loadRepository(final Repository repository) {
     this.cache.update(repository, newHashSet(toNames(getTags(repository))));
   }
 
