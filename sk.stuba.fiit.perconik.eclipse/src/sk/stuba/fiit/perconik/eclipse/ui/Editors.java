@@ -72,11 +72,7 @@ public final class Editors {
    *         is {@code null} or there is no active editor
    */
   public static IEditorPart getActiveEditor(@Nullable final IWorkbenchPage page) {
-    if (page == null) {
-      return null;
-    }
-
-    return page.getActiveEditor();
+    return page != null ? page.getActiveEditor() : null;
   }
 
   public static IResource getResource(@Nullable final IEditorPart editor) {
@@ -122,13 +118,11 @@ public final class Editors {
    *         is {@code null} or there is no text widget
    */
   public static StyledText getStyledText(@Nullable final IEditorPart editor) {
-    ISourceViewer viewer = getSourceViewer(editor);
+    return getStyledText(getSourceViewer(editor));
+  }
 
-    if (viewer == null) {
-      return null;
-    }
-
-    return viewer.getTextWidget();
+  public static StyledText getStyledText(@Nullable final ISourceViewer viewer) {
+    return viewer != null ? viewer.getTextWidget() : null;
   }
 
   /**
@@ -138,13 +132,11 @@ public final class Editors {
    *         is {@code null} or there is no document
    */
   public static IDocument getDocument(@Nullable final IEditorPart editor) {
-    ISourceViewer viewer = getSourceViewer(editor);
+    return getDocument(getSourceViewer(editor));
+  }
 
-    if (viewer == null) {
-      return null;
-    }
-
-    return viewer.getDocument();
+  public static IDocument getDocument(@Nullable final ISourceViewer viewer) {
+    return viewer != null ? viewer.getDocument() : null;
   }
 
   /**
