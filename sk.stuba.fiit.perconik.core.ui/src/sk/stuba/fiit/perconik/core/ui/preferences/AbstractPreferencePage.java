@@ -359,6 +359,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     this.tableViewer.setInput(this.registrations);
     this.tableViewer.refresh();
     this.tableViewer.setAllChecked(false);
+    this.tableViewer.setAllGrayed(false);
     this.tableViewer.setCheckedElements(this.checkedData().toArray());
     this.tableViewer.setGrayedElements(this.unknownData().toArray());
   }

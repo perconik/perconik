@@ -7,8 +7,6 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 import org.eclipse.core.runtime.IStatus;
@@ -44,6 +42,7 @@ import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.utilities.Buttons;
 import sk.stuba.fiit.perconik.ui.utilities.Tables;
@@ -68,6 +67,12 @@ import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toUpperCaseFirst;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.customRawOptions;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.inheritedRawOptions;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.knownRawOptions;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.optionEquivalence;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawOptionType;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.unknownRawOptions;
 
 /**
  * TODO
@@ -154,6 +159,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     this.tableViewer = new CustomTableViewer(table);
 
+    this.tableViewer.setComparer(ElementComparers.fromEquivalence(rawOptionType(), optionEquivalence()));
     this.tableViewer.setContentProvider(new MapContentProvider());
     this.tableViewer.setLabelProvider(new MapLabelProvider());
 
@@ -215,33 +221,19 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   final Map<String, Object> knownOptions() {
-    final Set<String> defaults = readFromOptions(this.options(this.defaultPreferences(), this.registration)).keySet();
-
-    return Maps.filterEntries(this.map, new Predicate<Entry<String, Object>>() {
-      public boolean apply(final Entry<String, Object> option) {
-        return defaults.contains(option.getKey());
-      }
-    });
+    return knownRawOptions(this.map, readFromOptions(this.options(this.defaultPreferences(), this.registration)).keySet());
   }
 
   final Map<String, Object> unknownOptions() {
-    return Maps.difference(this.map, this.knownOptions()).entriesOnlyOnLeft();
+    return unknownRawOptions(this.map, readFromOptions(this.options(this.defaultPreferences(), this.registration)).keySet());
   }
 
   final Map<String, Object> inheritedOptions() {
-    final Map<String, Object> defaults = readFromOptions(this.options(this.defaultPreferences(), this.registration));
-
-    return Maps.filterEntries(this.map, new Predicate<Entry<String, Object>>() {
-      public boolean apply(final Entry<String, Object> option) {
-        Object value = defaults.get(option.getKey());
-
-        return value != null && value.toString().equals(option.getValue().toString());
-      }
-    });
+    return inheritedRawOptions(this.map, readFromOptions(this.options(this.defaultPreferences(), this.registration)));
   }
 
   final Map<String, Object> customOptions() {
-    return Maps.difference(this.map, this.inheritedOptions()).entriesOnlyOnLeft();
+    return customRawOptions(this.map, readFromOptions(this.options(this.defaultPreferences(), this.registration)));
   }
 
   final void updateButtons() {
@@ -257,6 +249,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   final void updateTable() {
     this.tableViewer.setInput(this.map);
     this.tableViewer.refresh();
+    this.tableViewer.setAllGrayed(false);
     this.tableViewer.setGrayedElements(this.inheritedOptions().entrySet().toArray());
   }
 

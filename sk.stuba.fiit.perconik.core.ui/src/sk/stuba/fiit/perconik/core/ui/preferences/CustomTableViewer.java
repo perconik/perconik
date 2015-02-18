@@ -2,15 +2,19 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Set;
 
+import com.google.common.base.Equivalence;
+
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Widget;
 
+import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
-import static com.google.common.collect.Sets.newHashSet;
+import static sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers.toEquivalence;
+import static sk.stuba.fiit.perconik.utilities.MoreSets.newHashSet;
 
 final class CustomTableViewer extends CheckboxTableViewer {
   private static final String key = CustomTableViewer.class.getName() + ".grayed";
@@ -58,18 +62,23 @@ final class CustomTableViewer extends CheckboxTableViewer {
 
   @Override
   public void setGrayedElements(final Object[] elements) {
-    Set<Object> set = newHashSet(elements);
+    Equivalence<Object> equivalence = this.getEquivalence();
+    Set<Equivalence.Wrapper<Object>> set = newHashSet(equivalence, asList(elements));
 
     for (TableItem item: this.getTable().getItems()) {
       Object element = item.getData();
 
       if (element != null) {
-        boolean state = set.contains(element);
+        boolean state = set.contains(equivalence.wrap(element));
 
         if (getGrayedItem(item) != state) {
           setGrayedItem(item, state);
         }
       }
     }
+  }
+
+  public Equivalence<Object> getEquivalence() {
+    return this.getComparer() != null ? toEquivalence(Object.class, this.getComparer()) : Equivalence.equals();
   }
 }
