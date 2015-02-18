@@ -3,14 +3,18 @@ package sk.stuba.fiit.perconik.activity.listeners;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
+import com.google.common.collect.ImmutableMap;
 
 import sk.stuba.fiit.perconik.activity.data.ObjectData;
 import sk.stuba.fiit.perconik.activity.events.Event;
@@ -18,12 +22,19 @@ import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.probes.Prober;
 import sk.stuba.fiit.perconik.activity.probes.Probers;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.store.Store;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
+import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
+import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.configuration.Scope;
+import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
+import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
@@ -38,7 +49,10 @@ import static com.google.common.base.Ticker.systemTicker;
 import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 import static sk.stuba.fiit.perconik.utilities.MoreSuppliers.ofNull;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.emptyOptions;
 
 /**
  * TODO
@@ -46,7 +60,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreSuppliers.ofNull;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class RegularEventListener extends AbstractEventListener {
+public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
   private static final Ticker ticker = systemTicker();
 
   /**
@@ -84,11 +98,27 @@ public abstract class RegularEventListener extends AbstractEventListener {
   /**
    * Underlying event data send failure handler.
    */
-  protected final SendFailureHandler failureHandler;
+  protected final SendFailureHandler sendFailureHandler;
 
-  private final DisposalHook disposalHook;
+  /**
+   * Underlying listener registration failure handler.
+   */
+  final RegisterFailureHandler registerFailureHandler;
 
-  final Statistics statistics;
+  /**
+   * Underlying listener statistics.
+   */
+  final RuntimeStatistics runtimeStatistics;
+
+  /**
+   * Underlying listener options holder.
+   */
+  final OptionsLoader optionsLoader;
+
+  /**
+   * Underlying listener disposal hook.
+   */
+  final DisposalHook disposalHook;
 
   /**
    * Convenient alias for {@code pluginConsole}.
@@ -107,10 +137,12 @@ public abstract class RegularEventListener extends AbstractEventListener {
     this.dataInjector = this.resolveDataInjector(configuration);
 
     this.eventValidator = configuration.eventValidator().or(StandardEventValidator.instance);
-    this.failureHandler = configuration.failureHandler().or(PropagatingSendFailureHandler.instance);
+    this.sendFailureHandler = configuration.sendFailureHandler().or(PropagatingSendFailureHandler.instance);
+    this.registerFailureHandler = configuration.registerFailureHandler().or(PropagatingRegisterFailureHandler.instance);
     this.disposalHook = configuration.disposalHook().or(IgnoringDisposalHook.instance);
 
-    this.statistics = new Statistics();
+    this.runtimeStatistics = this.initializeRuntimeStatistics();
+    this.optionsLoader = this.initializeOptionsLoader();
 
     this.log = this.pluginConsole;
   }
@@ -139,6 +171,37 @@ public abstract class RegularEventListener extends AbstractEventListener {
     return NoDataInjector.instance;
   }
 
+  private RuntimeStatistics initializeRuntimeStatistics() {
+    final RuntimeStatistics statistics = new RuntimeStatistics();
+
+    RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(RuntimeStatistics.class) {
+      public void run() {
+        statistics.registrationCount.incrementAndGet();
+      }
+    });
+
+    RegistrationHook.POST_UNREGISTER.add(this, new NamedRunnable(RuntimeStatistics.class) {
+      public void run() {
+        statistics.unregistrationCount.incrementAndGet();
+      }
+    });
+
+    return statistics;
+  }
+
+  private OptionsLoader initializeOptionsLoader() {
+    final OptionsLoader loader = new OptionsLoader(this);
+
+    RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(OptionsLoader.class) {
+      public void run() {
+        loader.load(ListenerPreferences.getShared());
+      }
+    });
+
+    return loader;
+  }
+
+  // TODO parametrize with L & rename to Setup
   public interface Configuration {
     public PluginConsole pluginConsole();
 
@@ -156,7 +219,9 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
     public PersistenceStore persistenceStore();
 
-    public Optional<SendFailureHandler> failureHandler();
+    public Optional<SendFailureHandler> sendFailureHandler();
+
+    public Optional<RegisterFailureHandler> registerFailureHandler();
 
     public Optional<DisposalHook> disposalHook();
 
@@ -182,7 +247,9 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
     private final Supplier<PersistenceStore> persistenceStore;
 
-    private final Supplier<SendFailureHandler> failureHandler;
+    private final Supplier<SendFailureHandler> sendFailureHandler;
+
+    private final RegisterFailureHandler registerFailureHandler;
 
     private final DisposalHook disposalHook;
 
@@ -198,7 +265,8 @@ public abstract class RegularEventListener extends AbstractEventListener {
       this.probeExecutor = requireNonNull(builder.probeExecutor);
       this.eventValidator = requireNonNull(builder.eventValidator);
       this.persistenceStore = requireNonNull(builder.persistenceStore);
-      this.failureHandler = requireNonNull(builder.failureHandler);
+      this.sendFailureHandler = requireNonNull(builder.sendFailureHandler);
+      this.registerFailureHandler = requireNonNull(builder.registerFailureHandler);
       this.disposalHook = requireNonNull(builder.disposalHook);
     }
 
@@ -219,7 +287,9 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
       Supplier<PersistenceStore> persistenceStore;
 
-      Supplier<SendFailureHandler> failureHandler = ofNull();
+      Supplier<SendFailureHandler> sendFailureHandler = ofNull();
+
+      RegisterFailureHandler registerFailureHandler = null;
 
       DisposalHook disposalHook = null;
 
@@ -313,12 +383,18 @@ public abstract class RegularEventListener extends AbstractEventListener {
         return this.asSubtype();
       }
 
-      public final B failureHandler(final SendFailureHandler handler) {
-        return this.failureHandler(ofInstance(requireNonNull(handler)));
+      public final B sendFailureHandler(final SendFailureHandler handler) {
+        return this.sendFailureHandler(ofInstance(requireNonNull(handler)));
       }
 
-      public final B failureHandler(final Supplier<SendFailureHandler> handler) {
-        this.failureHandler = requireNonNull(handler);
+      public final B sendFailureHandler(final Supplier<SendFailureHandler> handler) {
+        this.sendFailureHandler = requireNonNull(handler);
+
+        return this.asSubtype();
+      }
+
+      public final B registerFailureHandler(final RegisterFailureHandler handler) {
+        this.registerFailureHandler = requireNonNull(handler);
 
         return this.asSubtype();
       }
@@ -364,8 +440,12 @@ public abstract class RegularEventListener extends AbstractEventListener {
       return requireNonNull(this.persistenceStore.get());
     }
 
-    public final Optional<SendFailureHandler> failureHandler() {
-      return fromNullable(this.failureHandler.get());
+    public final Optional<SendFailureHandler> sendFailureHandler() {
+      return fromNullable(this.sendFailureHandler.get());
+    }
+
+    public final Optional<RegisterFailureHandler> registerFailureHandler() {
+      return fromNullable(this.registerFailureHandler);
     }
 
     public final Optional<DisposalHook> disposalHook() {
@@ -398,34 +478,81 @@ public abstract class RegularEventListener extends AbstractEventListener {
     }
   }
 
+  protected static final long currentTime() {
+    return NANOSECONDS.toMillis(ticker.read());
+  }
+
   @Override
   protected final <V> V execute(final DisplayTask<V> task) {
-    this.statistics.displayTaskCount.incrementAndGet();
+    this.runtimeStatistics.displayTaskCount.incrementAndGet();
 
     return task.get(this.displayExecutor);
   }
 
   @Override
   protected final void execute(final Runnable command) {
-    this.statistics.runnableCommandCount.incrementAndGet();
+    this.runtimeStatistics.runnableCommandCount.incrementAndGet();
 
     this.sharedExecutor.execute(command);
   }
 
-  public static final long currentTime() {
-    return System.currentTimeMillis();
+  // TODO parametrize with L
+  public interface RegisterFailureHandler {
+    public void preRegisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+
+    public void postRegisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+
+    public void preUnregisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+
+    public void postUnregisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+  }
+
+  private enum PropagatingRegisterFailureHandler implements RegisterFailureHandler {
+    instance;
+
+    public void preRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+      propagate(failure);
+    }
+
+    public void postRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+      propagate(failure);
+    }
+
+    public void preUnregisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+      propagate(failure);
+    }
+
+    public void postUnregisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+      propagate(failure);
+    }
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
   }
 
   @Override
-  final void preRegisterHook() {
-    this.statistics.registrationCount.incrementAndGet();
+  protected final void preRegisterFailure(final Runnable task, final Exception failure) {
+    this.registerFailureHandler.preRegisterFailure(this, task, failure);
   }
 
   @Override
-  final void postUnregisterHook() {
-    this.statistics.unregistrationCount.incrementAndGet();
+  protected final void postRegisterFailure(final Runnable task, final Exception failure) {
+    this.registerFailureHandler.postRegisterFailure(this, task, failure);
   }
 
+  @Override
+  protected final void preUnregisterFailure(final Runnable task, final Exception failure) {
+    this.registerFailureHandler.preUnregisterFailure(this, task, failure);
+  }
+
+  @Override
+  protected final void postUnregisterFailure(final Runnable task, final Exception failure) {
+    this.registerFailureHandler.postUnregisterFailure(this, task, failure);
+  }
+
+  //TODO parametrize with L? may help with optional probing
   public interface DataInjector {
     public void inject(String path, Event data);
   }
@@ -467,17 +594,18 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
   @Override
   protected final void inject(final String path, final Event data) {
-    this.statistics.injectCount.incrementAndGet();
+    this.runtimeStatistics.injectCount.incrementAndGet();
 
     final Stopwatch watch = Stopwatch.createStarted(ticker);
 
     this.dataInjector.inject(path, data);
 
-    final long delta = watch.elapsed(NANOSECONDS);
+    final long delta = watch.elapsed(RuntimeStatistics.timeUnit);
 
-    this.statistics.injectTime.addAndGet(delta);
+    this.runtimeStatistics.injectTime.addAndGet(delta);
   }
 
+  //  TODO parametrize with L?
   public interface EventValidator {
     public void validate(String path, Event data);
   }
@@ -499,17 +627,18 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
   @Override
   protected final void validate(final String path, final Event data) {
-    this.statistics.validateCount.incrementAndGet();
+    this.runtimeStatistics.validateCount.incrementAndGet();
 
     final Stopwatch watch = Stopwatch.createStarted(ticker);
 
     this.eventValidator.validate(path, data);
 
-    final long delta = watch.elapsed(NANOSECONDS);
+    final long delta = watch.elapsed(RuntimeStatistics.timeUnit);
 
-    this.statistics.validateTime.addAndGet(delta);
+    this.runtimeStatistics.validateTime.addAndGet(delta);
   }
 
+  //TODO parametrize with L?
   public interface PersistenceStore extends AutoCloseable {
     public void persist(String path, Event data) throws Exception;
   }
@@ -541,25 +670,26 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
   @Override
   protected final void persist(final String path, final Event data) throws Exception {
-    this.statistics.persistCount.incrementAndGet();
+    this.runtimeStatistics.persistCount.incrementAndGet();
 
     final Stopwatch watch = Stopwatch.createStarted(ticker);
 
     this.persistenceStore.persist(path, data);
 
-    final long delta = watch.elapsed(NANOSECONDS);
+    final long delta = watch.elapsed(RuntimeStatistics.timeUnit);
 
-    this.statistics.persistTime.addAndGet(delta);
+    this.runtimeStatistics.persistTime.addAndGet(delta);
   }
 
+  //TODO parametrize with L
   public interface SendFailureHandler {
-    public void handleSendFailure(final String path, final Event data, final Exception failure);
+    public void handleSendFailure(RegularEventListener listener, String path, Event data, Exception failure);
   }
 
   private enum PropagatingSendFailureHandler implements SendFailureHandler {
     instance;
 
-    public void handleSendFailure(final String path, final Event data, final Exception failure) {
+    public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
       propagate(failure);
     }
 
@@ -571,16 +701,56 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
   @Override
   protected final void sendFailure(final String path, final Event data, final Exception failure) {
-    this.statistics.sendFailures.incrementAndGet();
+    this.runtimeStatistics.sendFailures.incrementAndGet();
 
-    this.failureHandler.handleSendFailure(path, data, failure);
+    this.sendFailureHandler.handleSendFailure(this, path, data, failure);
   }
 
   static String toStringHelper(final Class<?> wrapper, final Object delegate) {
     return new StringBuilder(wrapper.getClass().getSimpleName()).append("(").append(delegate).append(")").toString();
   }
 
-  private static final class Statistics {
+  protected abstract Options defaultOptions();
+
+  protected final Options customOptions() {
+    return this.optionsLoader.get();
+  }
+
+  protected final Options effectiveOptions() {
+    return compound(this.customOptions(), this.defaultOptions());
+  }
+
+  // TODO maybe make this protected and provide cleaner interface, i.e. getEffective(), getDefault(), ... also add to config
+  // TODO reload on preference change, add an internal listener here
+  private static final class OptionsLoader implements Supplier<Options> {
+    private final RegularEventListener listener;
+
+    @Nullable
+    private Options options;
+
+    OptionsLoader(final RegularEventListener listener) {
+      this.listener = requireNonNull(listener);
+    }
+
+    static Options load(final ListenerPreferences preferences, final RegularEventListener listener) {
+      Map<Class<? extends Listener>, Options> data = preferences.getListenerConfigurationData();
+      Options untrusted = data.get(listener.getClass());
+
+      return untrusted != null ? MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())) : emptyOptions();
+    }
+
+    public Options load(final ListenerPreferences preferences) {
+      return this.options = load(preferences, this.listener);
+    }
+
+    public Options get() {
+      return checkNotNullAsState(this.options, this.listener + ": Custom options requested but not loaded");
+    }
+  }
+
+  private static final class RuntimeStatistics {
+    static final TimeUnit timeUnit = NANOSECONDS;
+
     final AtomicLong registrationCount = zero();
 
     final AtomicLong unregistrationCount = zero();
@@ -589,7 +759,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
     final AtomicLong runnableCommandCount = zero();
 
-    final AtomicLong sendInvocations = zero();
+    final AtomicLong sendCalls = zero();
 
     final AtomicLong sendFailures = zero();
 
@@ -605,7 +775,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
 
     final AtomicLong persistTime = zero();
 
-    Statistics() {}
+    RuntimeStatistics() {}
 
     private static AtomicLong zero() {
       return new AtomicLong();
@@ -613,12 +783,12 @@ public abstract class RegularEventListener extends AbstractEventListener {
   }
 
   @Override
-  final void preSendHook(final String path, final Event data) {
-    this.statistics.sendInvocations.incrementAndGet();
+  final void preSend(final String path, final Event data) {
+    this.runtimeStatistics.sendCalls.incrementAndGet();
   }
 
   @Override
-  final void postSendHook(final String path, final Event data) {}
+  final void postSend(final String path, final Event data) {}
 
   protected abstract class AbstractConfigurationProbe extends InternalProbe<Content> {
     /**
@@ -638,14 +808,39 @@ public abstract class RegularEventListener extends AbstractEventListener {
       data.put(key("dataInjector"), ObjectData.of(listener.dataInjector));
       data.put(key("eventValidator"), ObjectData.of(listener.eventValidator));
       data.put(key("persistenceStore"), ObjectData.of(listener.persistenceStore));
-      data.put(key("failureHandler"), ObjectData.of(listener.failureHandler));
+      data.put(key("sendFailureHandler"), ObjectData.of(listener.sendFailureHandler));
+      data.put(key("registerFailureHandler"), ObjectData.of(listener.registerFailureHandler));
+      data.put(key("disposalHook"), ObjectData.of(listener.disposalHook));
 
       return data;
     }
   }
 
-  protected final class RegularConfigurationProbe extends AbstractConfigurationProbe {
+  protected final class RegularConfigurationProbe extends AbstractOptionsProbe {
     protected RegularConfigurationProbe() {}
+  }
+
+  protected abstract class AbstractOptionsProbe extends InternalProbe<Content> {
+    /**
+     * Constructor for use by subclasses.
+     */
+    protected AbstractOptionsProbe() {}
+
+    public Content get() {
+      RegularEventListener listener = RegularEventListener.this;
+
+      AnyStructuredData data = new AnyStructuredData();
+
+      data.put(key("options", "default"), listener.defaultOptions().toMap());
+      data.put(key("options", "custom"), listener.customOptions().toMap());
+      data.put(key("options", "effective"), listener.effectiveOptions().toMap());
+
+      return data;
+    }
+  }
+
+  protected final class RegularOptionsProbe extends AbstractOptionsProbe {
+    protected RegularOptionsProbe() {}
   }
 
   protected abstract class AbstractStatisticsProbe extends InternalProbe<Content> {
@@ -655,7 +850,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
     protected AbstractStatisticsProbe() {}
 
     public Content get() {
-      Statistics statistics = RegularEventListener.this.statistics;
+      RuntimeStatistics statistics = RegularEventListener.this.runtimeStatistics;
 
       AnyStructuredData data = new AnyStructuredData();
 
@@ -665,7 +860,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
       data.put(key("displayTaskCount"), statistics.displayTaskCount);
       data.put(key("runnableCommandCount"), statistics.runnableCommandCount);
 
-      data.put(key("sendInvocations"), statistics.sendInvocations);
+      data.put(key("sendInvocations"), statistics.sendCalls);
       data.put(key("sendFailures"), statistics.sendFailures);
 
       data.put(key("injectCount"), statistics.injectCount);
@@ -691,7 +886,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
   }
 
   public interface DisposalHook {
-    public void onDispose(Listener listener) throws Exception;
+    public void onDispose(RegularEventListener listener) throws Exception;
   }
 
   public static abstract class AbstractDisposalHook implements DisposalHook {
@@ -757,25 +952,21 @@ public abstract class RegularEventListener extends AbstractEventListener {
       public abstract DisposalHook build();
     }
 
-    public void onDispose(final Listener listener) throws Exception {
-      if (listener instanceof RegularEventListener) {
-        RegularEventListener implementation = (RegularEventListener) listener;
-
-        this.tryToClosePersistenceStore(implementation);
-        this.tryToShutdownSharedExecutor(implementation);
-        this.tryToDisposeDisplayExecutor(implementation);
-        this.tryToCloseLoggerConsole(implementation);
-      }
+    public void onDispose(final RegularEventListener listener) throws Exception {
+      this.tryToClosePersistenceStore(listener);
+      this.tryToShutdownSharedExecutor(listener);
+      this.tryToDisposeDisplayExecutor(listener);
+      this.tryToCloseLoggerConsole(listener);
     }
 
-    protected abstract void report(final Object reference, final Exception failure);
+    protected abstract void report(RegularEventListener listener, final Object subject, final Exception failure);
 
     protected final void tryToClosePersistenceStore(final RegularEventListener listener) {
       if (this.closePersistenceStore) {
         try {
           listener.persistenceStore.close();
         } catch (Exception failure) {
-          this.report(listener.persistenceStore, failure);
+          this.report(listener, listener.persistenceStore, failure);
         }
       }
     }
@@ -785,7 +976,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
         try {
           listener.sharedExecutor.shutdown();
         } catch (Exception failure) {
-          this.report(listener.sharedExecutor, failure);
+          this.report(listener, listener.sharedExecutor, failure);
         }
       }
     }
@@ -795,7 +986,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
         try {
           listener.displayExecutor.getDisplay().dispose();
         } catch (Exception failure) {
-          this.report(listener.displayExecutor.getDisplay(), failure);
+          this.report(listener, listener.displayExecutor.getDisplay(), failure);
         }
       }
     }
@@ -805,7 +996,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
         try {
           listener.pluginConsole.close();
         } catch (Exception failure) {
-          this.report(listener.pluginConsole, failure);
+          this.report(listener, listener.pluginConsole, failure);
         }
       }
     }
@@ -814,7 +1005,7 @@ public abstract class RegularEventListener extends AbstractEventListener {
   private enum IgnoringDisposalHook implements DisposalHook {
     instance;
 
-    public void onDispose(final Listener listener) {}
+    public void onDispose(final RegularEventListener listener) {}
 
     @Override
     public String toString() {
@@ -859,8 +1050,8 @@ public abstract class RegularEventListener extends AbstractEventListener {
     }
 
     @Override
-    protected void report(final Object reference, final Exception failure) {
-      this.logger.log(Level.INFO, "Unable to dispose " + reference, failure);
+    protected void report(final RegularEventListener listener, final Object subject, final Exception failure) {
+      this.logger.log(Level.INFO, listener + ": Unable to dispose " + subject, failure);
     }
   }
 
@@ -872,5 +1063,19 @@ public abstract class RegularEventListener extends AbstractEventListener {
   @Override
   protected final void onFinalUnregistration() throws Exception {
     this.disposalHook.onDispose(this);
+  }
+
+  public Options getOptions() {
+    return this.effectiveOptions();
+  }
+
+  public Options getOptions(final Scope scope) {
+    if (scope == StandardScope.DEFAULT) {
+      return this.defaultOptions();
+    } else if (scope == StandardScope.EFFECTIVE) {
+      return this.effectiveOptions();
+    }
+
+    throw new IllegalArgumentException();
   }
 }
