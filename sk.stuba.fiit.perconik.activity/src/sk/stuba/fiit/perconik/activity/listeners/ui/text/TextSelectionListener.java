@@ -48,7 +48,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
   private TextSelectionEvent lastSentSelection;
 
   public TextSelectionListener() {
-    this.watch = Stopwatch.createUnstarted();
+    this.watch = Stopwatch.createUnstarted(timeSource());
 
     PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentSelectionHandler") {
       public void run() {

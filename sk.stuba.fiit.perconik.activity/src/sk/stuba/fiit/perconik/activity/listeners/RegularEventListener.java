@@ -482,6 +482,10 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return NANOSECONDS.toMillis(ticker.read());
   }
 
+  protected static final Ticker timeSource() {
+    return ticker;
+  }
+
   @Override
   protected final <V> V execute(final DisplayTask<V> task) {
     this.runtimeStatistics.displayTaskCount.incrementAndGet();
