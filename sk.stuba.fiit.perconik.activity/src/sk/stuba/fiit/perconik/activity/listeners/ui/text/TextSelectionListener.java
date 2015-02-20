@@ -12,7 +12,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -48,7 +47,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
   private TextSelectionEvent lastSentSelection;
 
   public TextSelectionListener() {
-    this.watch = Stopwatch.createUnstarted(timeSource());
+    this.watch = this.createUnstartedStopwatch();
 
     PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentSelectionHandler") {
       public void run() {
@@ -79,11 +78,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
   }
 
   static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region, final ITextSelection selection) {
-    Event data = LocalEvent.of(time, action.getName());
-
-    put(data, editor);
-    put(data, view);
-    put(data, region);
+    Event data = build(time, action, editor, view, region);
 
     data.put(key("selection"), new TextSelectionSerializer().serialize(selection));
 
@@ -103,7 +98,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
       return;
     }
 
-    LineRegion region = LineRegion.of(view.getDocument(), selection.getOffset(), selection.getLength(), selection.getText());
+    LineRegion region = LineRegion.compute(view.getDocument(), selection.getOffset(), selection.getLength(), selection.getText());
 
     this.send(action.getPath(), build(time, action, editor, view, region, selection));
   }
@@ -139,7 +134,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
   }
 
   public void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     if (selection.isEmpty()) {
       return;

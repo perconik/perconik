@@ -72,13 +72,13 @@ public final class TestCaseListener extends CommonEventListener implements TestR
   }
 
   public void testCaseStarted(final ITestCaseElement element) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, START, element);
   }
 
   public void testCaseFinished(final ITestCaseElement element) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, FINISH, element);
   }

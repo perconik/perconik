@@ -121,25 +121,25 @@ public final class PerspectiveListener extends CommonEventListener implements sk
   }
 
   public void perspectiveOpened(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, OPEN, page, descriptor);
   }
 
   public void perspectiveClosed(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, CLOSE, page, descriptor);
   }
 
   public void perspectiveActivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, ACTIVATE, page, descriptor);
   }
 
   public void perspectiveDeactivated(final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, DEACTIVATE, page, descriptor);
   }
@@ -157,7 +157,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
   }
 
   public void perspectiveSavedAs(final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, SAVE, page, before, after);
   }

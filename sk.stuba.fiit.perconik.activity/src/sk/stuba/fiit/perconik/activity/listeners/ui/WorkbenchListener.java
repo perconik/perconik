@@ -86,7 +86,7 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
 
   public void postStartup() {
     if (this.startupProcessed.compareAndSet(false, true)) {
-      final long time = currentTime();
+      final long time = this.currentTime();
 
       this.execute(time, STARTUP, waitForWorkbench());
     }
@@ -94,7 +94,7 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     if (this.shutdownProcessed.compareAndSet(false, true)) {
-      final long time = currentTime();
+      final long time = this.currentTime();
 
       this.execute(time, SHUTDOWN, workbench);
     }

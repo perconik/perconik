@@ -74,7 +74,7 @@ public final class RefactoringHistoryListener extends AbstractRefactoringListene
   }
 
   public void historyNotification(final RefactoringHistoryEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, RefactoringEventProxy.wrap(event));
   }

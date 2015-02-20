@@ -79,19 +79,19 @@ public final class PageListener extends CommonEventListener implements sk.stuba.
   }
 
   public void pageOpened(final IWorkbenchPage page) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, OPEN, page);
   }
 
   public void pageClosed(final IWorkbenchPage page) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, CLOSE, page);
   }
 
   public void pageActivated(final IWorkbenchPage page) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, ACTIVATE, page);
   }

@@ -103,7 +103,7 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   public void notDefined(final String identifier, final NotDefinedException exception) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {
@@ -113,7 +113,7 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   public void notEnabled(final String identifier, final NotEnabledException exception) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {
@@ -123,7 +123,7 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   public void notHandled(final String identifier, final NotHandledException exception) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {
@@ -133,7 +133,7 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   public void preExecute(final String identifier, final ExecutionEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {
@@ -143,7 +143,7 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   public void postExecuteSuccess(final String identifier, final Object result) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {
@@ -153,7 +153,7 @@ public final class CommandListener extends CommonEventListener implements Comman
   }
 
   public void postExecuteFailure(final String identifier, final ExecutionException exception) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

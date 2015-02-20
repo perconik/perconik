@@ -97,49 +97,49 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
   }
 
   public void partOpened(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, OPEN, reference);
   }
 
   public void partClosed(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, CLOSE, reference);
   }
 
   public void partActivated(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, ACTIVATE, reference);
   }
 
   public void partDeactivated(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, DEACTIVATE, reference);
   }
 
   public void partVisible(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, SHOW, reference);
   }
 
   public void partHidden(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, HIDE, reference);
   }
 
   public void partBroughtToTop(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, BRING_TO_TOP, reference);
   }
 
   public void partInputChanged(final IWorkbenchPartReference reference) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, CHANGE_INPUT, reference);
   }

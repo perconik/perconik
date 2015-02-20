@@ -52,7 +52,7 @@ abstract class AbstractUndoableListener extends CommonEventListener implements O
   }
 
   public final void historyNotification(final OperationHistoryEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

@@ -73,7 +73,7 @@ public final class TextCopyListener extends AbstractTextCopyListener implements 
   }
 
   public void postExecuteSuccess(final String identifier, final Object result) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     if (!COPY.getIdentifier().equals(identifier)) {
       return;

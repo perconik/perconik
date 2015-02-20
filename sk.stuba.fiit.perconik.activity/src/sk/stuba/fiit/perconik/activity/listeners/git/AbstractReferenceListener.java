@@ -42,7 +42,7 @@ abstract class AbstractReferenceListener extends CommonEventListener implements 
   abstract void process(long time, Repository repository);
 
   public final void onRefsChanged(final RefsChangedEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

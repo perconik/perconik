@@ -39,7 +39,7 @@ abstract class AbstractResourceListener extends CommonEventListener implements R
   abstract void resolve(long time, IResourceChangeEvent event);
 
   public final void resourceChanged(final IResourceChangeEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

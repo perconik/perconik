@@ -31,7 +31,7 @@ abstract class AbstractTextCopyListener extends AbstractTextOperationListener {
     int offset = range.x;
     int length = range.y;
 
-    LineRegion region = LineRegion.of(document, offset, length, text);
+    LineRegion region = LineRegion.compute(document, offset, length, text);
     String selection = Documents.get(document, offset, length);
 
     this.process(time, action, editor, document, region, selection);

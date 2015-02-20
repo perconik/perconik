@@ -73,19 +73,19 @@ public final class CompletionSessionListener extends CommonEventListener impleme
   }
 
   public void assistSessionStarted(final ContentAssistEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, START, event);
   }
 
   public void assistSessionRestarted(final ContentAssistEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, RESTART, event);
   }
 
   public void assistSessionEnded(final ContentAssistEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, FINISH, event);
   }

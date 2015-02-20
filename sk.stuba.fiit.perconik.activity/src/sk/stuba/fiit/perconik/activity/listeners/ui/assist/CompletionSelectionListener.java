@@ -72,7 +72,7 @@ public final class CompletionSelectionListener extends CommonEventListener imple
   }
 
   public void selectionChanged(final ICompletionProposal proposal, final boolean smart) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

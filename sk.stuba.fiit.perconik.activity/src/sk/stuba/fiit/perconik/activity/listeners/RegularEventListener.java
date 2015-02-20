@@ -61,8 +61,6 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.empty
  * @since 1.0
  */
 public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
-  private static final Ticker ticker = systemTicker();
-
   /**
    * Underlying plug-in console for event logging, also aliased as {@code log}.
    */
@@ -101,6 +99,11 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final SendFailureHandler sendFailureHandler;
 
   /**
+   * Underlying time source.
+   */
+  final Ticker ticker;
+
+  /**
    * Underlying listener registration failure handler.
    */
   final RegisterFailureHandler registerFailureHandler;
@@ -129,6 +132,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
    * Constructor for use by subclasses.
    */
   protected RegularEventListener(final Configuration configuration) {
+    // TODO add to configuration
+    this.ticker = systemTicker();
+
     this.pluginConsole = requireNonNull(configuration.pluginConsole());
     this.displayExecutor = requireNonNull(configuration.diplayExecutor());
     this.sharedExecutor = requireNonNull(configuration.sharedExecutor());
@@ -478,12 +484,20 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
   }
 
-  protected static final long currentTime() {
-    return NANOSECONDS.toMillis(ticker.read());
+  protected final long currentTime() {
+    return NANOSECONDS.toMillis(this.timeSource().read());
   }
 
-  protected static final Ticker timeSource() {
-    return ticker;
+  protected final Ticker timeSource() {
+    return this.ticker;
+  }
+
+  protected final Stopwatch createStartedStopwatch() {
+    return Stopwatch.createStarted(this.ticker);
+  }
+
+  protected final Stopwatch createUnstartedStopwatch() {
+    return Stopwatch.createUnstarted(this.ticker);
   }
 
   @Override
@@ -600,7 +614,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final void inject(final String path, final Event data) {
     this.runtimeStatistics.injectCount.incrementAndGet();
 
-    final Stopwatch watch = Stopwatch.createStarted(ticker);
+    final Stopwatch watch = this.createStartedStopwatch();
 
     this.dataInjector.inject(path, data);
 
@@ -633,7 +647,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final void validate(final String path, final Event data) {
     this.runtimeStatistics.validateCount.incrementAndGet();
 
-    final Stopwatch watch = Stopwatch.createStarted(ticker);
+    final Stopwatch watch = this.createStartedStopwatch();
 
     this.eventValidator.validate(path, data);
 
@@ -676,7 +690,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final void persist(final String path, final Event data) throws Exception {
     this.runtimeStatistics.persistCount.incrementAndGet();
 
-    final Stopwatch watch = Stopwatch.createStarted(ticker);
+    final Stopwatch watch = this.createStartedStopwatch();
 
     this.persistenceStore.persist(path, data);
 

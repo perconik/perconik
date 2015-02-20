@@ -77,25 +77,25 @@ public final class LaunchListener extends CommonEventListener implements Launche
   }
 
   public void launchesAdded(final ILaunch[] launches) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, ADD, asList(launches));
   }
 
   public void launchesRemoved(final ILaunch[] launches) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, REMOVE, asList(launches));
   }
 
   public void launchesChanged(final ILaunch[] launches) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, CHANGE, asList(launches));
   }
 
   public void launchesTerminated(final ILaunch[] launches) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, TERMINATE, asList(launches));
   }

@@ -70,7 +70,7 @@ public final class CompletionListener extends CommonEventListener implements sk.
   }
 
   public void applied(final ICompletionProposal proposal) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

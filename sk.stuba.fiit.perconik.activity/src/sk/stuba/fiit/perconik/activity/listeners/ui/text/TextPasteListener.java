@@ -74,7 +74,7 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
     IDocument document = event.getDocument();
     IEditorPart editor = Editors.forDocument(document);
 
-    LineRegion region = LineRegion.of(document, event.getOffset(), event.getLength(), event.getText());
+    LineRegion region = LineRegion.compute(document, event.getOffset(), event.getLength(), event.getText());
 
     if (editor == null) {
       if (this.isLogEnabled()) {
@@ -92,7 +92,7 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
   }
 
   public void documentChanged(final DocumentEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     if (this.paste.getState() != EXECUTING) {
       if (this.isLogEnabled()) {

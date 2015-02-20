@@ -11,7 +11,7 @@ abstract class AbstractJavaElementListener extends CommonEventListener implement
   abstract void process(final long time, final ElementChangedEvent event);
 
   public final void elementChanged(final ElementChangedEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {

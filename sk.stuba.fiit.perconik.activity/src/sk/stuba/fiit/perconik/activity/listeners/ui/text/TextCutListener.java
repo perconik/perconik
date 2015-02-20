@@ -72,7 +72,7 @@ public final class TextCutListener extends AbstractTextCopyListener implements C
   }
 
   public void postExecuteSuccess(final String identifier, final Object result) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     if (!CUT.getIdentifier().equals(identifier)) {
       return;

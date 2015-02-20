@@ -72,7 +72,7 @@ public final class RefactoringOperationListener extends AbstractRefactoringListe
   }
 
   public void executionNotification(final RefactoringExecutionEvent event) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, RefactoringEventProxy.wrap(event));
   }

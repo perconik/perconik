@@ -80,25 +80,25 @@ public final class WindowListener extends CommonEventListener implements sk.stub
   }
 
   public void windowOpened(final IWorkbenchWindow window) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, OPEN, window);
   }
 
   public void windowClosed(final IWorkbenchWindow window) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, CLOSE, window);
   }
 
   public void windowActivated(final IWorkbenchWindow window) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, ACTIVATE, window);
   }
 
   public void windowDeactivated(final IWorkbenchWindow window) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, DEACTIVATE, window);
   }

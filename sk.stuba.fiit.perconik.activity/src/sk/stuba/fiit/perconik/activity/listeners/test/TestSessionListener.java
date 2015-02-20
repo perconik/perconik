@@ -72,19 +72,19 @@ public final class TestSessionListener extends CommonEventListener implements Te
   }
 
   public void sessionLaunched(final ITestRunSession session) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, LAUNCH, session);
   }
 
   public void sessionStarted(final ITestRunSession session) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, START, session);
   }
 
   public void sessionFinished(final ITestRunSession session) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(time, FINISH, session);
   }

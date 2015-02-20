@@ -105,7 +105,7 @@ public final class DebugListener extends CommonEventListener implements DebugEve
   }
 
   public void handleDebugEvents(final DebugEvent[] events) {
-    final long time = currentTime();
+    final long time = this.currentTime();
 
     this.execute(new Runnable() {
       public void run() {
