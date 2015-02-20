@@ -5,7 +5,6 @@ import org.eclipse.jface.text.IDocument;
 
 import static java.util.Objects.requireNonNull;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Throwables.propagate;
 
 public final class LineRegion {
@@ -21,10 +20,19 @@ public final class LineRegion {
     this.text = requireNonNull(text);
   }
 
-  public static LineRegion of(final IDocument document, final int offset, final int length, final String text) {
-    checkArgument(offset >= 0);
-    checkArgument(length >= 0);
+  private static LineRegion construct(final int startLine, final int startOffset, final int endLine, final int endOffset, final String text) {
+    return new LineRegion(new LinePosition(startLine, startOffset), new LinePosition(endLine, endOffset), text);
+  }
 
+  public static LineRegion compute(final IDocument document, final int offset, final int length) {
+    try {
+      return compute(document, offset, length, document.get(offset, length));
+    } catch (BadLocationException e) {
+      throw propagate(e);
+    }
+  }
+
+  public static LineRegion compute(final IDocument document, final int offset, final int length, final String text) {
     try {
       int startLine = document.getLineOfOffset(offset);
       int endLine = document.getLineOfOffset(offset + length);
@@ -39,7 +47,28 @@ public final class LineRegion {
         endOffset = 0;
       }
 
-      return new LineRegion(new LinePosition(startLine, startOffset), new LinePosition(endLine, endOffset), text);
+      return construct(startLine, startOffset, endLine, endOffset, text);
+    } catch (BadLocationException e) {
+      throw propagate(e);
+    }
+  }
+
+  public static LineRegion between(final IDocument document, final int top, final int bottom) {
+    try {
+      int offset = document.getLineOffset(top);
+      int length = document.getLineOffset(bottom) + document.getLineLength(bottom) - offset;
+
+      String text = document.get(offset, length);
+
+      return between(document, top, bottom, text);
+    } catch (BadLocationException e) {
+      throw propagate(e);
+    }
+  }
+
+  public static LineRegion between(final IDocument document, final int top, final int bottom, final String text) {
+    try {
+      return construct(top, 0, bottom, document.getLineLength(bottom), text);
     } catch (BadLocationException e) {
       throw propagate(e);
     }
