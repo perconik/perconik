@@ -19,4 +19,12 @@ public final class PluginConsoles {
   public static PluginConsole create(final Plugin plugin) {
     return new StandardPluginConsole(plugin, System.out);
   }
+
+  /**
+   * Returns silent plug-in console.
+   * @return silent plug-in console
+   */
+  public static PluginConsole silent() {
+    return SilentPluginConsole.INSTANCE;
+  }
 }
