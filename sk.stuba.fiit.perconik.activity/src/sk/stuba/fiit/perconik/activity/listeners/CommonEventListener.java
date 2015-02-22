@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableMap;
@@ -13,11 +14,16 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.Builder;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Iterables.transform;
@@ -33,6 +39,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defaultPoolSizeScalingFactor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
@@ -92,11 +99,15 @@ public abstract class CommonEventListener extends RegularEventListener {
     sharedDefaults = compound(defaults(UacaOptions.Schema.class), defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class));
   }
 
+  protected final Log log;
+
   /**
    * Constructor for use by subclasses.
    */
   protected CommonEventListener() {
     super(newConfiguration());
+
+    this.log = new Log(this);
   }
 
   static final RegularConfiguration newConfiguration() {
@@ -247,19 +258,63 @@ public abstract class CommonEventListener extends RegularEventListener {
     return builder.substring(0, builder.length() - 1);
   }
 
-  protected static final class Log {
-    private Log() {}
+  protected static abstract class ContinuousEventWindow<L extends CommonEventListener, E> extends RegularEventListener.ContinuousEventWindow<L, E> {
+    protected final String identifier;
 
-    public static SmartStringBuilder message(final String content) {
-      return SmartStringBuilder.builder(content.length()).format(content);
+    protected ContinuousEventWindow(final L listener, final String identifier, final long window) {
+      this(listener, identifier, window, TimeUnit.MILLISECONDS);
     }
 
-    public static SmartStringBuilder message(final String format, final Object ... args) {
-      return SmartStringBuilder.builder(4 * format.length()).format(format, args);
+    protected ContinuousEventWindow(final L listener, final String identifier, final long window, final TimeUnit unit) {
+      super(listener, window, unit);
+
+      this.identifier = requireNonNullOrEmpty(identifier);
+    }
+
+    @Override
+    protected void watchRunningButEventsNotContinouous() {
+      if (this.listener.log.isEnabled()) {
+        this.listener.log.print("%s: watch running but %s events not continuous", this.identifier, this.identifier);
+      }
+    }
+
+    @Override
+    protected void watchNotRunning() {
+      if (this.listener.log.isEnabled()) {
+        this.listener.log.print("%s: watch not running", this.identifier);
+      }
+    }
+
+    @Override
+    protected void watchWindowNotElapsed(final long delta) {
+      if (this.listener.log.isEnabled()) {
+        this.listener.log.print("%s: window not elapsed, %d < %d %s", this.identifier, delta, this.window, this.unit.toString().toLowerCase());
+      }
     }
   }
 
-  protected final boolean isLogEnabled() {
-    return StandardLoggingOptionsSchema.logDebug.getValue(this.effectiveOptions());
+  protected static final class Log extends ForwardingPluginConsole {
+    private final CommonEventListener listener;
+
+    Log(final CommonEventListener listener) {
+      this.listener = requireNonNull(listener);
+    }
+
+    @Override
+    protected PluginConsole delegate() {
+      return this.isEnabled() ? this.listener.pluginConsole : PluginConsoles.silent();
+    }
+
+    public static void format(final String content) {
+      SmartStringBuilder.builder(2 * content.length()).format(valueOf(content));
+    }
+
+    public static void format(final String format, final Object ... args) {
+      SmartStringBuilder.builder(4 * format.length()).format(format, args);
+    }
+
+    public boolean isEnabled() {
+      return StandardLoggingOptionsSchema.logDebug.getValue(this.listener.effectiveOptions());
+    }
   }
 }
