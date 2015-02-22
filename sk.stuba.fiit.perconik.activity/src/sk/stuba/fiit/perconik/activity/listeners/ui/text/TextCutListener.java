@@ -60,8 +60,8 @@ public final class TextCutListener extends AbstractTextCopyListener implements C
   boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
     boolean valid = !selection.isEmpty();
 
-    if (!valid && this.isLogEnabled()) {
-      Log.message("cut: editor selection not empty '%s'%n", selection).appendTo(this.log);
+    if (!valid && this.log.isEnabled()) {
+      this.log.print("cut: editor selection not empty '%s'", selection);
     }
 
     return valid;

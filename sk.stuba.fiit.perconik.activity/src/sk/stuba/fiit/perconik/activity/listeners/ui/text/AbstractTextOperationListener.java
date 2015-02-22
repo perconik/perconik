@@ -54,7 +54,7 @@ abstract class AbstractTextOperationListener extends CommonEventListener {
     content.put(key("region"), new LineRegionSerializer().serialize(region));
   }
 
-  static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
+  static final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
     Event data = LocalEvent.of(time, action.getName());
 
     put(data, editor);

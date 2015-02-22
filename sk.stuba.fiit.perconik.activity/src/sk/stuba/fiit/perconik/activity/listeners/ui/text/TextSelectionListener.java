@@ -1,11 +1,6 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.concurrent.GuardedBy;
-
-import com.google.common.base.Stopwatch;
 
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.ui.IEditorPart;
@@ -18,8 +13,6 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
-
-import static com.google.common.collect.Lists.newLinkedList;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener.Action.SELECT;
@@ -35,19 +28,10 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 public final class TextSelectionListener extends AbstractTextOperationListener implements sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
   static final long selectionEventWindow = 500;
 
-  private final Object lock = new Object();
-
-  @GuardedBy("lock")
-  private final Stopwatch watch;
-
-  @GuardedBy("lock")
-  private LinkedList<TextSelectionEvent> continuousSelections;
-
-  @GuardedBy("lock")
-  private TextSelectionEvent lastSentSelection;
+  private final TextSelectionEventProcessor processor;
 
   public TextSelectionListener() {
-    this.watch = this.createUnstartedStopwatch();
+    this.processor = new TextSelectionEventProcessor(this);
 
     PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentSelectionHandler") {
       public void run() {
@@ -103,34 +87,49 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
     this.send(action.getPath(), build(time, action, editor, view, region, selection));
   }
 
-  @GuardedBy("lock")
-  private void startWatchAndClearSelectionEvents() {
-    assert !this.watch.isRunning() && this.continuousSelections == null;
+  static final class TextSelectionEventProcessor extends ContinuousEventWindow<TextSelectionListener, TextSelectionEvent> {
+    TextSelectionEventProcessor(final TextSelectionListener listener) {
+      super(listener, "selection", selectionEventWindow);
+    }
 
-    this.continuousSelections = newLinkedList();
+    @Override
+    protected boolean accept(final LinkedList<TextSelectionEvent> sequence, final TextSelectionEvent event) {
+      boolean empty = event.isSelectionTextEmpty();
 
-    this.watch.reset().start();
+      TextSelectionEvent last = sequence.getLast();
+
+      if (empty && (last == null || last.part != event.part)) {
+        return false;
+      }
+
+      if (last != null && last.contentEquals(event)) {
+        return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    protected boolean continuous(final LinkedList<TextSelectionEvent> sequence, final TextSelectionEvent event) {
+      return sequence.getLast().isContinuousWith(event);
+    }
+
+    @Override
+    protected void process(final LinkedList<TextSelectionEvent> sequence) {
+      this.listener.handleAcceptedSelection(sequence.getLast());
+    }
   }
 
-  @GuardedBy("lock")
-  private void stopWatchAndProcessLastSelectionEvent() {
-    assert this.watch.isRunning() && this.continuousSelections != null;
-
-    this.lastSentSelection = this.continuousSelections.getLast();
-
-    selectionChanged(this.lastSentSelection);
-
-    this.continuousSelections = null;
-
-    this.watch.stop();
+  void handleAcceptedSelection(final TextSelectionEvent event) {
+    this.execute(new Runnable() {
+      public void run() {
+        process(event.time, SELECT, event.part, event.selection);
+      }
+    });
   }
 
   void handleUnsentSelectionOnUnregistration() {
-    synchronized (this.lock) {
-      if (this.watch.isRunning()) {
-        this.stopWatchAndProcessLastSelectionEvent();
-      }
-    }
+    this.processor.flush();
   }
 
   public void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
@@ -140,58 +139,6 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
       return;
     }
 
-    synchronized (this.lock) {
-      TextSelectionEvent event = new TextSelectionEvent(time, part, selection);
-
-      boolean empty = event.isSelectionTextEmpty();
-
-      if (empty && (this.lastSentSelection == null || this.lastSentSelection.part != part)) {
-        return;
-      }
-
-      if (this.lastSentSelection != null && this.lastSentSelection.contentEquals(event)) {
-        return;
-      }
-
-      if (this.watch.isRunning() && !this.continuousSelections.getLast().isContinuousWith(event)) {
-        if (this.isLogEnabled()) {
-          Log.message("selection: watch running but selection not continuous%n").appendTo(this.log);
-        }
-
-        this.stopWatchAndProcessLastSelectionEvent();
-      }
-
-      if (!this.watch.isRunning()) {
-        if (this.isLogEnabled()) {
-          Log.message("selection: watch not running%n").appendTo(this.log);
-        }
-
-        this.startWatchAndClearSelectionEvents();
-      }
-
-      long delta = this.watch.elapsed(TimeUnit.MILLISECONDS);
-
-      this.continuousSelections.add(event);
-
-      if (!empty && delta < selectionEventWindow) {
-        if (this.isLogEnabled()) {
-          Log.message("selection: ignore %d < %d%n", delta, selectionEventWindow).appendTo(this.log);
-        }
-
-        this.watch.reset().start();
-
-        return;
-      }
-
-      this.stopWatchAndProcessLastSelectionEvent();
-    }
-  }
-
-  private void selectionChanged(final TextSelectionEvent event) {
-    this.execute(new Runnable() {
-      public void run() {
-        process(event.time, SELECT, event.part, event.selection);
-      }
-    });
+    this.processor.push(new TextSelectionEvent(time, part, selection));
   }
 }

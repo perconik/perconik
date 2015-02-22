@@ -77,8 +77,8 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
     LineRegion region = LineRegion.compute(document, event.getOffset(), event.getLength(), event.getText());
 
     if (editor == null) {
-      if (this.isLogEnabled()) {
-        Log.message("paste: editor not found / documents not equal%n").appendTo(this.log);
+      if (this.log.isEnabled()) {
+        this.log.print("paste: editor not found / documents not equal");
       }
 
       return;
@@ -95,8 +95,8 @@ public final class TextPasteListener extends AbstractTextOperationListener imple
     final long time = this.currentTime();
 
     if (this.paste.getState() != EXECUTING) {
-      if (this.isLogEnabled()) {
-        Log.message("paste: not EXECUTING but %s%n", this.paste.getState()).appendTo(this.log);
+      if (this.log.isEnabled()) {
+        this.log.print("paste: not EXECUTING but %s", this.paste.getState());
       }
 
       return;

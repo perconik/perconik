@@ -1,7 +1,12 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IWorkbench;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
@@ -9,9 +14,12 @@ import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.WorkbenchSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 
+import static com.google.common.cache.CacheBuilder.newBuilder;
+
+import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextDifferenceListener.Action.DIFFERENCE;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
@@ -22,10 +30,25 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @since 1.0
  */
 @Version("0.0.0.alpha")
-public final class TextDifferenceListener extends CommonEventListener implements FileBufferListener {
+public final class TextDifferenceListener extends AbstractTextOperationListener implements DocumentListener, FileBufferListener {
+  // TODO make options out of this:
+  static final int cacheConcurrencyLevel = 4;
 
+  static final int cacheInitialCapacity = 16;
+
+  static final int differenceEventWindow = 500;
+
+  private final Cache<IDocument, String> cache;
 
   public TextDifferenceListener() {
+    CacheBuilder<Object, Object> builder = newBuilder();
+
+    builder.concurrencyLevel(cacheConcurrencyLevel);
+    builder.initialCapacity(cacheInitialCapacity);
+    builder.ticker(this.timeSource());
+    builder.weakValues();
+
+    this.cache = builder.build();
   }
 
   enum Action implements CommonEventListener.Action {
@@ -49,7 +72,11 @@ public final class TextDifferenceListener extends CommonEventListener implements
     }
   }
 
-  // TODO
+
+  // TODO implement
+
+
+
   static Event build(final long time, final Action action, final IWorkbench workbench) {
     Event data = LocalEvent.of(time, action.getName());
 
@@ -58,18 +85,26 @@ public final class TextDifferenceListener extends CommonEventListener implements
     return data;
   }
 
-  // TODO
-  void process(final long time, final Action action, final IWorkbench workbench) {
-    this.send(action.getPath(), build(time, action, workbench));
+
+
+  void process(final long time, final Action action, final DocumentEvent event) {
+    IDocument document = event.getDocument();
+
+
+
+    //this.send(action.getPath(), build(time, action, workbench));
   }
 
-  // TODO
-  void execute(final long time, final Action action, final IWorkbench workbench) {
-    this.execute(DisplayTask.of(new Runnable() {
+  public void documentAboutToBeChanged(final DocumentEvent event) {}
+
+  public void documentChanged(final DocumentEvent event) {
+    final long time = this.currentTime();
+
+    this.execute(new Runnable() {
       public void run() {
-        process(time, action, workbench);
+        process(time, DIFFERENCE, event);
       }
-    }));
+    });
   }
 
   public void bufferCreated(final IFileBuffer buffer) {}

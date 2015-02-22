@@ -1,11 +1,9 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.concurrent.GuardedBy;
-
-import com.google.common.base.Stopwatch;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IViewportListener;
@@ -19,11 +17,13 @@ import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
 import static java.util.Objects.requireNonNull;
 
 import static com.google.common.collect.Maps.newHashMap;
 
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener.Action.VIEW;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferenceEditor;
 
@@ -40,18 +40,20 @@ public final class TextViewListener extends AbstractTextOperationListener implem
   private final Object lock = new Object();
 
   @GuardedBy("lock")
-  private final Stopwatch watch;
-
-  @GuardedBy("lock")
   private final Map<ISourceViewer, IViewportListener> sourceViewerListeners;
 
-  @GuardedBy("lock")
-  private ISourceViewer lastProcessedSourceViewer;
+  private final TextViewEventProcessor processor;
 
   public TextViewListener() {
-    this.watch = this.createStartedStopwatch();
-
     this.sourceViewerListeners = newHashMap();
+
+    this.processor = new TextViewEventProcessor(this);
+
+    PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentViewHandler") {
+      public void run() {
+        handleUnsentViewOnUnregistration();
+      }
+    });
   }
 
   enum Action implements CommonEventListener.Action {
@@ -90,46 +92,8 @@ public final class TextViewListener extends AbstractTextOperationListener implem
     public void viewportChanged(final int verticalOffset) {
       final long time = currentTime();
 
-      synchronized (TextViewListener.this.lock) {
-        if (this.viewer.equals(TextViewListener.this.lastProcessedSourceViewer)) {
-          long delta = TextViewListener.this.watch.elapsed(TimeUnit.MILLISECONDS);
-
-          if (delta < viewEventWindow) {
-            if (isLogEnabled()) {
-              Log.message("view: ignore %d < %d%n", delta, viewEventWindow).appendTo(TextViewListener.this.log);
-            }
-
-            TextViewListener.this.watch.reset().start();
-
-            return;
-          }
-        } else {
-          TextViewListener.this.lastProcessedSourceViewer = this.viewer;
-        }
-      }
-
-      execute(time, VIEW, this.editor, this.viewer);
+      TextViewListener.this.processor.push(new TextViewEvent(time, this.editor, this.viewer, verticalOffset));
     }
-  }
-
-  void process(final long time, final Action action, final IEditorPart editor, final ISourceViewer viewer) {
-    IDocument document = Editors.getDocument(viewer);
-    UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
-
-    int top = viewer.getTopIndex();
-    int bottom = viewer.getBottomIndex();
-
-    LineRegion region = LineRegion.between(document, top, bottom);
-
-    this.send(action.getPath(), build(time, action, editor, view, region));
-  }
-
-  void execute(final long time, final Action action, final IEditorPart editor, final ISourceViewer viewer) {
-    this.execute(new Runnable() {
-      public void run() {
-        process(time, action, editor, viewer);
-      }
-    });
   }
 
   void hookViewportListener(final IEditorReference reference) {
@@ -158,6 +122,51 @@ public final class TextViewListener extends AbstractTextOperationListener implem
         viewer.removeViewportListener(listener);
       }
     }
+  }
+
+  void process(final long time, final Action action, final IEditorPart editor, final ISourceViewer viewer) {
+    IDocument document = Editors.getDocument(viewer);
+    UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
+
+    int top = viewer.getTopIndex();
+    int bottom = viewer.getBottomIndex();
+
+    LineRegion region = LineRegion.between(document, top, bottom);
+
+    this.send(action.getPath(), build(time, action, editor, view, region));
+  }
+
+  static final class TextViewEventProcessor extends ContinuousEventWindow<TextViewListener, TextViewEvent> {
+    protected TextViewEventProcessor(final TextViewListener listener) {
+      super(listener, "view", viewEventWindow);
+    }
+
+    @Override
+    protected boolean accept(final LinkedList<TextViewEvent> sequence, final TextViewEvent event) {
+      return event.verticalOffset != 0;
+    }
+
+    @Override
+    protected boolean continuous(final LinkedList<TextViewEvent> sequence, final TextViewEvent event) {
+      return sequence.getLast().isContinuousWith(event);
+    }
+
+    @Override
+    protected void process(final LinkedList<TextViewEvent> sequence) {
+      this.listener.handleAcceptedView(sequence.getLast());
+    }
+  }
+
+  void handleAcceptedView(final TextViewEvent event) {
+    this.execute(new Runnable() {
+      public void run() {
+        process(event.time, VIEW, event.editor, event.viewer);
+      }
+    });
+  }
+
+  void handleUnsentViewOnUnregistration() {
+    this.processor.flush();
   }
 
   public void editorOpened(final IEditorReference reference) {

@@ -13,7 +13,7 @@ final class TextSelectionEvent {
   final ITextSelection selection;
 
   TextSelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection) {
-    assert part != null && selection != null;
+    assert time >= 0L && part != null && selection != null;
 
     this.time = time;
     this.part = part;

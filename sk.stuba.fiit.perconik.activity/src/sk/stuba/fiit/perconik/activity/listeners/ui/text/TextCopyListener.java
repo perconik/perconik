@@ -61,8 +61,8 @@ public final class TextCopyListener extends AbstractTextCopyListener implements 
   boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
     boolean valid = region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection));
 
-    if (!valid && this.isLogEnabled()) {
-      Log.message("copy: clipboard content not equal to editor selection '%s' != '%s'%n", region.text, selection).appendTo(this.log);
+    if (!valid && this.log.isEnabled()) {
+      this.log.print("copy: clipboard content not equal to editor selection '%s' != '%s'", region.text, selection);
     }
 
     return valid;
