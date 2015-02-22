@@ -58,8 +58,8 @@ public final class UacaConsole extends ForwardingPluginConsole {
   }
 
   @Override
-  public void put(final String message) {
-    super.put(this.hook(message));
+  public void put(final @Nullable String message) {
+    super.put(this.hook(String.format(String.valueOf(message))));
   }
 
   @Override
@@ -68,8 +68,8 @@ public final class UacaConsole extends ForwardingPluginConsole {
   }
 
   @Override
-  public void print(final String message) {
-    super.print(this.hook(message));
+  public void print(final @Nullable String message) {
+    super.print(this.hook(String.format(String.valueOf(message))));
   }
 
   @Override

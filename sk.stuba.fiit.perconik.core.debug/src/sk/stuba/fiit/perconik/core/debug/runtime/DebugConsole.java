@@ -91,11 +91,11 @@ public final class DebugConsole implements PluginConsole {
   }
 
   private String indent(@Nullable final String message) {
-    return this.builder.lines(message).toString();
+    return this.builder.lines(String.format(String.valueOf(message))).toString();
   }
 
   private String indent(final String format, final Object ... args) {
-    return this.indent(String.format(format, args));
+    return this.builder.lines(String.format(format, args)).toString();
   }
 
   @Override
@@ -141,7 +141,7 @@ public final class DebugConsole implements PluginConsole {
   }
 
   @Override
-  public void notice(final String message) {
+  public void notice(@Nullable final String message) {
     if (this.isEnabled()) {
       this.console.notice(message);
     }
@@ -155,7 +155,7 @@ public final class DebugConsole implements PluginConsole {
   }
 
   @Override
-  public void warning(final String message) {
+  public void warning(@Nullable final String message) {
     if (this.isEnabled()) {
       this.console.warning(message);
     }
@@ -168,7 +168,7 @@ public final class DebugConsole implements PluginConsole {
     }
   }
 
-  public void error(final String message) {
+  public void error(@Nullable final String message) {
     if (this.isEnabled()) {
       this.console.error(message);
     }
@@ -180,7 +180,7 @@ public final class DebugConsole implements PluginConsole {
     }
   }
 
-  public void error(final Throwable failure, final String message) {
+  public void error(final Throwable failure, @Nullable final String message) {
     if (this.isEnabled()) {
       this.console.error(failure, message);
     }

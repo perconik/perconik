@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 final class StandardPluginConsole implements PluginConsole {
   private final Plugin plugin;
@@ -16,8 +16,8 @@ final class StandardPluginConsole implements PluginConsole {
   private final PrintStream out;
 
   StandardPluginConsole(final Plugin plugin, final PrintStream out) {
-    this.plugin = checkNotNull(plugin);
-    this.out = checkNotNull(out);
+    this.plugin = requireNonNull(plugin);
+    this.out = requireNonNull(out);
   }
 
   private void log(final Status status) {
@@ -51,51 +51,51 @@ final class StandardPluginConsole implements PluginConsole {
   }
 
   public void put(@Nullable final String message) {
-    this.out.print(message);
+    this.out.print(String.format(String.valueOf(message)));
   }
 
   public void put(final String format, final Object ... args) {
-    put(String.format(format, args));
+    this.out.print(String.format(format, args));
   }
 
   public void print(@Nullable final String message) {
-    this.out.println(message);
+    this.out.println(String.format(String.valueOf(message)));
   }
 
   public void print(final String format, final Object ... args) {
-    print(String.format(format, args));
+    this.out.println(String.format(format, args));
   }
 
-  public void notice(final String message) {
-    log(new Status(IStatus.INFO, this.getPluginId(), message));
+  public void notice(@Nullable final String message) {
+    this.log(new Status(IStatus.INFO, this.getPluginId(), String.format(String.valueOf(message))));
   }
 
   public void notice(final String format, final Object ... args) {
-    notice(String.format(format, args));
+    this.log(new Status(IStatus.INFO, this.getPluginId(), String.format(format, args)));
   }
 
-  public void warning(final String message) {
-    log(new Status(IStatus.WARNING, this.getPluginId(), message));
+  public void warning(@Nullable final String message) {
+    this.log(new Status(IStatus.WARNING, this.getPluginId(), String.format(String.valueOf(message))));
   }
 
   public void warning(final String format, final Object ... args) {
-    warning(String.format(format, args));
+    this.log(new Status(IStatus.WARNING, this.getPluginId(), String.format(format, args)));
   }
 
-  public void error(final String message) {
-    log(new Status(IStatus.ERROR, this.getPluginId(), message));
+  public void error(@Nullable final String message) {
+    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(String.valueOf(message))));
   }
 
   public void error(final String format, final Object ... args) {
-    error(String.format(format, args));
+    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(format, args)));
   }
 
-  public void error(final Throwable failure, final String message) {
-    log(new Status(IStatus.ERROR, this.getPluginId(), message, failure));
+  public void error(final Throwable failure, @Nullable final String message) {
+    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(String.valueOf(message)), failure));
   }
 
   public void error(final Throwable failure, final String format, final Object ... args) {
-    error(failure, String.format(format, args));
+    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(format, args), failure));
   }
 
   private String getPluginId() {

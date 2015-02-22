@@ -35,19 +35,19 @@ public interface PluginConsole extends Appendable, Closeable, Flushable {
 
   public void print(String format, Object ... args);
 
-  public void notice(String message);
+  public void notice(@Nullable String message);
 
   public void notice(String format, Object ... args);
 
-  public void warning(String message);
+  public void warning(@Nullable String message);
 
   public void warning(String format, Object ... args);
 
-  public void error(String message);
+  public void error(@Nullable String message);
 
   public void error(String format, Object ... args);
 
-  public void error(Throwable failure, String message);
+  public void error(Throwable failure, @Nullable String message);
 
   public void error(Throwable failure, String format, Object ... args);
 }

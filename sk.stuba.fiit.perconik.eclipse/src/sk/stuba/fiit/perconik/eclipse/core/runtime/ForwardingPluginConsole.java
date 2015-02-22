@@ -62,7 +62,7 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
     this.delegate().print(format, args);
   }
 
-  public void notice(final String message) {
+  public void notice(@Nullable final String message) {
     this.delegate().notice(message);
   }
 
@@ -70,7 +70,7 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
     this.delegate().notice(format, args);
   }
 
-  public void warning(final String message) {
+  public void warning(@Nullable final String message) {
     this.delegate().warning(message);
   }
 
@@ -78,7 +78,7 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
     this.delegate().warning(format, args);
   }
 
-  public void error(final String message) {
+  public void error(@Nullable final String message) {
     this.delegate().error(message);
   }
 
@@ -86,7 +86,7 @@ public abstract class ForwardingPluginConsole extends ForwardingObject implement
     this.delegate().error(format, args);
   }
 
-  public void error(final Throwable failure, final String message) {
+  public void error(final Throwable failure, @Nullable final String message) {
     this.delegate().error(failure, message);
   }
 
