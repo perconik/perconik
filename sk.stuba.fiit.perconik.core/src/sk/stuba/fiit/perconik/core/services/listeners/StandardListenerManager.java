@@ -37,6 +37,7 @@ final class StandardListenerManager extends AbstractListenerManager {
           if (processed.add(listener)) {
             this.unregister(listener);
           } else {
+            // TODO probably unsafe
             Resource.class.cast(resource).unregister(listener);
           }
         } catch (Exception failure) {
