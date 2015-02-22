@@ -1,12 +1,16 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 
@@ -21,6 +25,9 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
 import static java.util.Objects.requireNonNull;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Lists.newLinkedList;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_UNREGISTER;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
@@ -135,6 +142,124 @@ public abstract class AbstractEventListener implements Listener {
   }
 
   protected abstract Map<String, InternalProbe<?>> internalProbeMappings();
+
+  static abstract class ContinuousEventWindow<E> {
+    private final Object lock = new Object();
+
+    @GuardedBy("lock")
+    private final Stopwatch watch;
+
+    @GuardedBy("lock")
+    private LinkedList<E> sequence;
+
+    final long window;
+
+    final TimeUnit unit;
+
+    ContinuousEventWindow(final Stopwatch watch, final long window, final TimeUnit unit) {
+      this.watch = requireNonNull(watch);
+
+      checkArgument(window >= 0L);
+
+      this.window = window;
+      this.unit = requireNonNull(unit);
+    }
+
+    @GuardedBy("lock")
+    private void startWatchAndClearContinuousEvents() {
+      assert !this.watch.isRunning() && this.sequence == null;
+
+      this.sequence = newLinkedList();
+
+      this.watch.reset().start();
+    }
+
+    @GuardedBy("lock")
+    private void stopWatchAndProcessContinuousEvents() {
+      assert this.watch.isRunning() && this.sequence != null;
+
+      this.process(newLinkedList(this.sequence));
+
+      this.sequence = null;
+
+      this.watch.stop();
+    }
+
+    @GuardedBy("lock")
+    private void restartWatch() {
+      assert this.watch.isRunning();
+
+      this.watch.reset().start();
+    }
+
+    public final LinkedList<E> sequence() {
+      synchronized (this.lock) {
+        return newLinkedList(this.sequence);
+      }
+    }
+
+    public final void push(final E event) {
+      synchronized (this.lock) {
+        if (!this.accept(newLinkedList(this.sequence), event)) {
+          return;
+        }
+
+        if (this.watch.isRunning() && !this.continuous(newLinkedList(this.sequence), event)) {
+          this.watchRunningButEventsNotContinouous();
+          this.stopWatchAndProcessContinuousEvents();
+        }
+
+        if (!this.watch.isRunning()) {
+          this.watchNotRunning();
+          this.startWatchAndClearContinuousEvents();
+        }
+
+        long delta = this.watch.elapsed(this.unit);
+
+        this.sequence.add(event);
+
+        if (delta < this.window) {
+          this.watchWindowNotElapsed(delta);
+          this.restartWatch();
+
+          return;
+        }
+
+        this.stopWatchAndProcessContinuousEvents();
+      }
+    }
+
+    public final void flush() {
+      synchronized (this.lock) {
+        if (this.watch.isRunning()) {
+          this.stopWatchAndProcessContinuousEvents();
+        }
+      }
+    }
+
+    protected abstract boolean accept(LinkedList<E> sequence, E event);
+
+    protected abstract boolean continuous(LinkedList<E> sequence, E event);
+
+    protected abstract void process(LinkedList<E> sequence);
+
+    /**
+     * Invoked when watch running but events not continuous.
+     */
+    protected void watchRunningButEventsNotContinouous() {}
+
+    /**
+     * Invoked when watch not running.
+     */
+    protected void watchNotRunning() {}
+
+    /**
+     * Invoked when window not elapsed.
+     *
+     * @param delta elapsed time delta
+     */
+    protected void watchWindowNotElapsed(final long delta) {}
+  }
 
   protected abstract void inject(String path, Event data) throws Exception;
 
