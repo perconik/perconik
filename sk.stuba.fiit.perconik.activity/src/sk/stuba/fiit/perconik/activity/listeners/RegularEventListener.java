@@ -45,7 +45,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.base.Throwables.propagate;
-import static com.google.common.base.Ticker.systemTicker;
 import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
@@ -99,9 +98,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final SendFailureHandler sendFailureHandler;
 
   /**
-   * Underlying time source.
+   * Underlying time helper.
    */
-  final Ticker ticker;
+  final TimeHelper timeHelper;
 
   /**
    * Underlying listener registration failure handler.
@@ -124,16 +123,11 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   final DisposalHook disposalHook;
 
   /**
-   * Convenient alias for {@code pluginConsole}.
-   */
-  protected final PluginConsole log;
-
-  /**
    * Constructor for use by subclasses.
    */
   protected RegularEventListener(final Configuration configuration) {
     // TODO add to configuration
-    this.ticker = systemTicker();
+    this.timeHelper = SystemTimeHelper.instance;
 
     this.pluginConsole = requireNonNull(configuration.pluginConsole());
     this.displayExecutor = requireNonNull(configuration.diplayExecutor());
@@ -149,8 +143,6 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     this.runtimeStatistics = this.initializeRuntimeStatistics();
     this.optionsLoader = this.initializeOptionsLoader();
-
-    this.log = this.pluginConsole;
   }
 
   private DataInjector resolveDataInjector(final Configuration configuration) {
@@ -484,20 +476,41 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
   }
 
+  // TODO rename and add to configuration
+  private interface TimeHelper {
+    public long currentTime();
+
+    public Ticker timeSource();
+
+    public Stopwatch createStopwatch();
+  }
+
+  private enum SystemTimeHelper implements TimeHelper {
+    instance;
+
+    public long currentTime() {
+      return System.currentTimeMillis();
+    }
+
+    public Ticker timeSource() {
+      return Ticker.systemTicker();
+    }
+
+    public Stopwatch createStopwatch() {
+      return Stopwatch.createUnstarted(this.timeSource());
+    }
+  }
+
   protected final long currentTime() {
-    return NANOSECONDS.toMillis(this.timeSource().read());
+    return this.timeHelper.currentTime();
   }
 
   protected final Ticker timeSource() {
-    return this.ticker;
+    return this.timeHelper.timeSource();
   }
 
-  protected final Stopwatch createStartedStopwatch() {
-    return Stopwatch.createStarted(this.ticker);
-  }
-
-  protected final Stopwatch createUnstartedStopwatch() {
-    return Stopwatch.createUnstarted(this.ticker);
+  protected final Stopwatch createStopwatch() {
+    return this.timeHelper.createStopwatch();
   }
 
   @Override
@@ -614,13 +627,23 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final void inject(final String path, final Event data) {
     this.runtimeStatistics.injectCount.incrementAndGet();
 
-    final Stopwatch watch = this.createStartedStopwatch();
+    final Stopwatch watch = this.createStopwatch().start();
 
     this.dataInjector.inject(path, data);
 
     final long delta = watch.elapsed(RuntimeStatistics.timeUnit);
 
     this.runtimeStatistics.injectTime.addAndGet(delta);
+  }
+
+  protected static abstract class ContinuousEventWindow<L extends CommonEventListener, E> extends AbstractEventListener.ContinuousEventWindow<E> {
+    protected final L listener;
+
+    protected ContinuousEventWindow(final L listener, final long window, final TimeUnit unit) {
+      super(listener.createStopwatch(), window, unit);
+
+      this.listener = requireNonNull(listener);
+    }
   }
 
   //  TODO parametrize with L?
@@ -647,7 +670,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final void validate(final String path, final Event data) {
     this.runtimeStatistics.validateCount.incrementAndGet();
 
-    final Stopwatch watch = this.createStartedStopwatch();
+    final Stopwatch watch = this.createStopwatch().start();
 
     this.eventValidator.validate(path, data);
 
@@ -690,7 +713,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final void persist(final String path, final Event data) throws Exception {
     this.runtimeStatistics.persistCount.incrementAndGet();
 
-    final Stopwatch watch = this.createStartedStopwatch();
+    final Stopwatch watch = this.createStopwatch().start();
 
     this.persistenceStore.persist(path, data);
 
@@ -829,6 +852,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       data.put(key("sendFailureHandler"), ObjectData.of(listener.sendFailureHandler));
       data.put(key("registerFailureHandler"), ObjectData.of(listener.registerFailureHandler));
       data.put(key("disposalHook"), ObjectData.of(listener.disposalHook));
+
+      // TODO add TimeHelper, OptionsLoader -> add toString
 
       return data;
     }
