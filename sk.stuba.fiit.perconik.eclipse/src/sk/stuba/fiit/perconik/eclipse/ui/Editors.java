@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
@@ -96,17 +97,29 @@ public final class Editors {
   }
 
   /**
+   * Gets the text viewer from given editor.
+   * @param editor the editor, may be {@code null}
+   * @return the text viewer or {@code null} if the editor
+   *         is {@code null} or there is no text viewer
+   */
+  public static ITextViewer getTextViewer(@Nullable final IEditorPart editor) {
+    if (editor == null) {
+      return null;
+    }
+
+    Object viewer = editor.getAdapter(ITextOperationTarget.class);
+
+    return viewer instanceof ITextViewer ? (ITextViewer) viewer : null;
+  }
+
+  /**
    * Gets the source viewer from given editor.
    * @param editor the editor, may be {@code null}
    * @return the source viewer or {@code null} if the editor
    *         is {@code null} or there is no source viewer
    */
   public static ISourceViewer getSourceViewer(@Nullable final IEditorPart editor) {
-    if (editor == null) {
-      return null;
-    }
-
-    Object viewer = editor.getAdapter(ITextOperationTarget.class);
+    ITextViewer viewer = getTextViewer(editor);
 
     return viewer instanceof ISourceViewer ? (ISourceViewer) viewer : null;
   }
