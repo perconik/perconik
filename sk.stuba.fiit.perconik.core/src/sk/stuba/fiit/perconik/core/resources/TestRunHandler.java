@@ -8,32 +8,16 @@ import org.eclipse.jdt.junit.model.ITestRunSession;
 
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 enum TestRunHandler implements Handler<TestRunListener> {
   INSTANCE;
 
-  private static final class TestRunProxy extends org.eclipse.jdt.junit.TestRunListener implements TestRunListener {
+  private static final class TestRunProxy extends org.eclipse.jdt.junit.TestRunListener {
     private final TestRunListener listener;
 
     public TestRunProxy(final TestRunListener listener) {
-      this.listener = checkNotNull(listener);
-    }
-
-    public void preRegister() {
-      this.listener.preRegister();
-    }
-
-    public void postRegister() {
-      this.listener.postRegister();
-    }
-
-    public void preUnregister() {
-      this.listener.preUnregister();
-    }
-
-    public void postUnregister() {
-      this.listener.postUnregister();
+      this.listener = requireNonNull(listener);
     }
 
     @Override
