@@ -1,7 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorPart;
 
@@ -23,7 +23,7 @@ abstract class AbstractTextCopyListener extends AbstractTextOperationListener {
     TextSelectionCapture capture = this.execute(TextSelectionReader.instance);
 
     IEditorPart editor = capture.editor;
-    ISourceViewer viewer = capture.viewer;
+    ITextViewer viewer = capture.viewer;
     IDocument document = viewer.getDocument();
 
     Point range = capture.range;

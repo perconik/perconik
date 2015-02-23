@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
-import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
@@ -19,7 +19,7 @@ final class TextSelectionReader extends DisplayTask<TextSelectionCapture> {
       return null;
     }
 
-    ISourceViewer viewer = Editors.getSourceViewer(editor);
+    ITextViewer viewer = Editors.getTextViewer(editor);
 
     return new TextSelectionCapture(editor, viewer, viewer.getSelectedRange());
   }
