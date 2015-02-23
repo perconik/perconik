@@ -27,11 +27,11 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
  */
 @Version("0.0.0.alpha")
 public final class WorkbenchListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
+  // guarantees that platform startup is processed only once
+  private final AtomicBoolean startup = new AtomicBoolean(false);
 
-  // TODO remove these, add startup hook interface to env plugin
-  private final AtomicBoolean startupProcessed = new AtomicBoolean(false);
-
-  private final AtomicBoolean shutdownProcessed = new AtomicBoolean(false);
+  // guarantees that platform shutdown is processed only once
+  private final AtomicBoolean shutdown = new AtomicBoolean(false);
 
   public WorkbenchListener() {
     POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "PostStartup") {
@@ -85,17 +85,17 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   }
 
   public void postStartup() {
-    if (this.startupProcessed.compareAndSet(false, true)) {
-      final long time = this.currentTime();
+    final long time = this.currentTime();
 
+    if (this.startup.compareAndSet(false, true)) {
       this.execute(time, STARTUP, waitForWorkbench());
     }
   }
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
-    if (this.shutdownProcessed.compareAndSet(false, true)) {
-      final long time = this.currentTime();
+    final long time = this.currentTime();
 
+    if (this.shutdown.compareAndSet(false, true)) {
       this.execute(time, SHUTDOWN, workbench);
     }
 
