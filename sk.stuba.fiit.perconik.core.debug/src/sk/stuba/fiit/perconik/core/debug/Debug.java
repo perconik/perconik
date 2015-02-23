@@ -49,6 +49,8 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.TextEvent;
+import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.jface.text.contentassist.ContentAssistEvent;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.ISelection;
@@ -69,6 +71,8 @@ import org.eclipse.search.ui.SearchResultEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -467,6 +471,15 @@ public final class Debug {
 
     builder.append("length: ").appendln(length);
     builder.append("lines: ").appendln(lines);
+
+    return builder.toString();
+  }
+
+  public static String dumpDocumentChange(final IDocument before, final IDocument after) {
+    SmartStringBuilder builder = builder();
+
+    builder.appendln("before:").lines(dumpDocument(before));
+    builder.appendln("after:").lines(dumpDocument(after));
 
     return builder.toString();
   }
@@ -1243,6 +1256,44 @@ public final class Debug {
     return builder.toString();
   }
 
+  public static String dumpTextEvent(final TextEvent event) {
+    SmartStringBuilder builder = builder();
+
+    int offset = event.getOffset();
+    int length = event.getLength();
+
+    String text = event.getText();
+    String replacedText = event.getReplacedText();
+
+    boolean viewerRedrawState = event.getViewerRedrawState();
+
+    DocumentEvent documentEvent = event.getDocumentEvent();
+
+    builder.append("offset: ").appendln(offset);
+    builder.append("length: ").appendln(length);
+
+    builder.append("text: \"").append(text).appendln("\"");
+    builder.append("replaced text: \"").append(replacedText).appendln("\"");
+
+    builder.append("viewer redraw state: ").appendln(viewerRedrawState);
+
+    if (documentEvent != null) {
+      builder.appendln("document event:").lines(dumpDocumentEvent(documentEvent));
+    }
+
+    return builder.toString();
+  }
+
+  public static String dumpTextPresentation(final TextPresentation presentation) {
+    SmartStringBuilder builder = builder();
+
+    boolean empty = presentation.isEmpty();
+
+    builder.append("empty: ").appendln(empty);
+
+    return builder.toString();
+  }
+
   public static String dumpTextSelection(final ITextSelection selection) {
     SmartStringBuilder builder = builder();
 
@@ -1299,6 +1350,14 @@ public final class Debug {
     builder.append("can undo: ").appendln(undo);
 
     return builder.toString();
+  }
+
+  public static String dumpView(final IViewPart part) {
+    return dumpPart(part);
+  }
+
+  public static String dumpViewReference(final IViewReference reference) {
+    return dumpPartReference(reference);
   }
 
   public static String dumpWindow(final IWorkbenchWindow window) {

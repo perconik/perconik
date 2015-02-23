@@ -35,7 +35,12 @@ import sk.stuba.fiit.perconik.core.debug.listeners.SearchResultDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.SelectionDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.StructuredSelectionDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.TestRunDebugListener;
+import sk.stuba.fiit.perconik.core.debug.listeners.TextDebugListener;
+import sk.stuba.fiit.perconik.core.debug.listeners.TextInputDebugListener;
+import sk.stuba.fiit.perconik.core.debug.listeners.TextPresentationDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.TextSelectionDebugListener;
+import sk.stuba.fiit.perconik.core.debug.listeners.ViewDebugListener;
+import sk.stuba.fiit.perconik.core.debug.listeners.ViewportDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.WindowDebugListener;
 import sk.stuba.fiit.perconik.core.debug.listeners.WorkbenchDebugListener;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerProvider;
@@ -76,7 +81,12 @@ public final class DebugListenerProviders {
     builder.add(SelectionDebugListener.class);
     builder.add(StructuredSelectionDebugListener.class);
     builder.add(TestRunDebugListener.class);
+    builder.add(TextDebugListener.class);
+    builder.add(TextInputDebugListener.class);
+    builder.add(TextPresentationDebugListener.class);
     builder.add(TextSelectionDebugListener.class);
+    builder.add(ViewDebugListener.class);
+    builder.add(ViewportDebugListener.class);
     builder.add(WindowDebugListener.class);
     builder.add(WorkbenchDebugListener.class);
 
