@@ -7,6 +7,8 @@ import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
+
 final class DocumentHook extends InternalHook<IDocument, DocumentListener> implements EditorListener {
   DocumentHook(final DocumentListener listener) {
     super(new DocumentHandler(listener));
@@ -38,11 +40,11 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
   }
 
   public void editorOpened(final IEditorReference reference) {
-    Hooks.addNonNull(this, Editors.getDocument(Hooks.dereferenceEditor(reference)));
+    Hooks.addNonNull(this, Editors.getDocument(dereferenceEditor(reference)));
   }
 
   public void editorClosed(final IEditorReference reference) {
-    Hooks.removeNonNull(this, Editors.getDocument(Hooks.dereferenceEditor(reference)));
+    Hooks.removeNonNull(this, Editors.getDocument(dereferenceEditor(reference)));
   }
 
   public void editorActivated(final IEditorReference reference) {}

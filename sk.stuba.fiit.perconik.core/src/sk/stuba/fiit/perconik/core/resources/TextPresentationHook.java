@@ -8,6 +8,8 @@ import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.TextPresentationListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
+
 final class TextPresentationHook extends InternalHook<ITextViewer, TextPresentationListener> implements EditorListener {
   TextPresentationHook(final TextPresentationListener listener) {
     super(new TextViewerHandler(listener));
@@ -51,11 +53,11 @@ final class TextPresentationHook extends InternalHook<ITextViewer, TextPresentat
   }
 
   public void editorOpened(final IEditorReference reference) {
-    Hooks.addNonNull(this, filter(Editors.getTextViewer(Hooks.dereferenceEditor(reference))));
+    Hooks.addNonNull(this, filter(Editors.getTextViewer(dereferenceEditor(reference))));
   }
 
   public final void editorClosed(final IEditorReference reference) {
-    Hooks.removeNonNull(this, filter(Editors.getTextViewer(Hooks.dereferenceEditor(reference))));
+    Hooks.removeNonNull(this, filter(Editors.getTextViewer(dereferenceEditor(reference))));
   }
 
   public void editorActivated(final IEditorReference reference) {}

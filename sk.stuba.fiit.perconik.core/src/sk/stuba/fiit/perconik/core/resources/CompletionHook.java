@@ -11,6 +11,8 @@ import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
+
 final class CompletionHook extends InternalHook<ISourceViewer, CompletionListener> implements EditorListener {
   CompletionHook(final CompletionListener listener) {
     super(new SourceViewerHandler(listener));
@@ -88,11 +90,11 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
   }
 
   public void editorOpened(final IEditorReference reference) {
-    Hooks.addNonNull(this, filter(Editors.getSourceViewer(Hooks.dereferenceEditor(reference))));
+    Hooks.addNonNull(this, filter(Editors.getSourceViewer(dereferenceEditor(reference))));
   }
 
   public final void editorClosed(final IEditorReference reference) {
-    Hooks.removeNonNull(this, filter(Editors.getSourceViewer(Hooks.dereferenceEditor(reference))));
+    Hooks.removeNonNull(this, filter(Editors.getSourceViewer(dereferenceEditor(reference))));
   }
 
   public void editorActivated(final IEditorReference reference) {}

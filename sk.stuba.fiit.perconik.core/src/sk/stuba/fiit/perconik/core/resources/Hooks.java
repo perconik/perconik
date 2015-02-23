@@ -8,6 +8,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -17,6 +18,10 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
 import static java.util.Arrays.asList;
+
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferencePart;
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceView;
 
 final class Hooks {
   private Hooks() {}
@@ -72,7 +77,7 @@ final class Hooks {
       @Override
       public void run() {
         for (IViewReference reference: Workbenches.waitForActivePage().getViewReferences()) {
-          addNonNull(hook, reference.getPart(false));
+          addNonNull(hook, dereferencePart(reference));
         }
       }
     };
@@ -86,6 +91,19 @@ final class Hooks {
       public void run() {
         for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences()) {
           addNonNull(hook, dereferenceEditor(reference));
+        }
+      }
+    };
+
+    Display.getDefault().asyncExec(initializer);
+  }
+
+  static void addViewsAsynchronouslyTo(final Hook<IViewPart, ?> hook) {
+    final Runnable initializer = new Runnable() {
+      @Override
+      public void run() {
+        for (IViewReference reference: Workbenches.waitForActivePage().getViewReferences()) {
+          addNonNull(hook, dereferenceView(reference));
         }
       }
     };
@@ -130,9 +148,5 @@ final class Hooks {
     };
 
     Display.getDefault().asyncExec(initializer);
-  }
-
-  static IEditorPart dereferenceEditor(final IEditorReference reference) {
-    return reference.getEditor(false);
   }
 }
