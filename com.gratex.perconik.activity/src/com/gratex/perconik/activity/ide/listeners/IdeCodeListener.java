@@ -19,7 +19,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.graphics.Point;
@@ -262,11 +262,11 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
   private static final class SelectionRangeData {
     final IEditorPart editor;
 
-    final ISourceViewer viewer;
+    final ITextViewer viewer;
 
     final Point range;
 
-    SelectionRangeData(final IEditorPart editor, final ISourceViewer viewer, final Point range) {
+    SelectionRangeData(final IEditorPart editor, final ITextViewer viewer, final Point range) {
       assert editor != null && viewer != null && range != null;
 
       this.editor = editor;
@@ -292,7 +292,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
         return null;
       }
 
-      ISourceViewer viewer = Editors.getSourceViewer(editor);
+      ITextViewer viewer = Editors.getTextViewer(editor);
 
       return new SelectionRangeData(editor, viewer, viewer.getSelectedRange());
     }
@@ -343,7 +343,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     SelectionRangeData data = execute(SelectionRangeReader.instance);
 
     IEditorPart editor = data.editor;
-    ISourceViewer viewer = data.viewer;
+    ITextViewer viewer = data.viewer;
     IDocument document = viewer.getDocument();
 
     UnderlyingResource<?> resource = UnderlyingResource.from(editor);
