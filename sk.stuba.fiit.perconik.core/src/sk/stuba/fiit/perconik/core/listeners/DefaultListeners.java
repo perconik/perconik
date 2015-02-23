@@ -307,12 +307,12 @@ public final class DefaultListeners {
     registerTo(DefaultResources.getTextSelectionResource(), listener);
   }
 
-  public static void register(final ViewportListener listener) {
-    registerTo(DefaultResources.getViewportResource(), listener);
-  }
-
   public static void register(final ViewListener listener) {
     registerTo(DefaultResources.getViewResource(), listener);
+  }
+
+  public static void register(final ViewportListener listener) {
+    registerTo(DefaultResources.getViewportResource(), listener);
   }
 
   public static void register(final WindowListener listener) {
