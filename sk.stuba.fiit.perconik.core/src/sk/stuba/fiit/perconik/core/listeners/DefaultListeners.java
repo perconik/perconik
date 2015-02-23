@@ -291,8 +291,28 @@ public final class DefaultListeners {
     registerTo(DefaultResources.getTestRunResource(), listener);
   }
 
+  public static void register(final TextListener listener) {
+    registerTo(DefaultResources.getTextResource(), listener);
+  }
+
+  public static void register(final TextInputListener listener) {
+    registerTo(DefaultResources.getTextInputResource(), listener);
+  }
+
+  public static void register(final TextPresentationListener listener) {
+    registerTo(DefaultResources.getTextPresentationResource(), listener);
+  }
+
   public static void register(final TextSelectionListener listener) {
     registerTo(DefaultResources.getTextSelectionResource(), listener);
+  }
+
+  public static void register(final ViewportListener listener) {
+    registerTo(DefaultResources.getViewportResource(), listener);
+  }
+
+  public static void register(final ViewListener listener) {
+    registerTo(DefaultResources.getViewResource(), listener);
   }
 
   public static void register(final WindowListener listener) {
@@ -435,8 +455,28 @@ public final class DefaultListeners {
     unregisterFrom(DefaultResources.getTestRunResource(), listener);
   }
 
+  public static void unregister(final TextListener listener) {
+    unregisterFrom(DefaultResources.getTextResource(), listener);
+  }
+
+  public static void unregister(final TextInputListener listener) {
+    unregisterFrom(DefaultResources.getTextInputResource(), listener);
+  }
+
+  public static void unregister(final TextPresentationListener listener) {
+    unregisterFrom(DefaultResources.getTextPresentationResource(), listener);
+  }
+
   public static void unregister(final TextSelectionListener listener) {
     unregisterFrom(DefaultResources.getTextSelectionResource(), listener);
+  }
+
+  public static void unregister(final ViewListener listener) {
+    unregisterFrom(DefaultResources.getViewResource(), listener);
+  }
+
+  public static void unregister(final ViewportListener listener) {
+    unregisterFrom(DefaultResources.getViewportResource(), listener);
   }
 
   public static void unregister(final WindowListener listener) {

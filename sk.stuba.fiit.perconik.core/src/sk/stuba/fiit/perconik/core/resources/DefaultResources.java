@@ -40,7 +40,12 @@ import sk.stuba.fiit.perconik.core.listeners.SearchResultListener;
 import sk.stuba.fiit.perconik.core.listeners.SelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
+import sk.stuba.fiit.perconik.core.listeners.TextInputListener;
+import sk.stuba.fiit.perconik.core.listeners.TextListener;
+import sk.stuba.fiit.perconik.core.listeners.TextPresentationListener;
 import sk.stuba.fiit.perconik.core.listeners.TextSelectionListener;
+import sk.stuba.fiit.perconik.core.listeners.ViewListener;
+import sk.stuba.fiit.perconik.core.listeners.ViewportListener;
 import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 import sk.stuba.fiit.perconik.core.services.Services;
@@ -139,7 +144,17 @@ public final class DefaultResources {
 
   static final Resource<TestRunListener> testRun;
 
+  static final Resource<TextListener> text;
+
+  static final Resource<TextInputListener> textInput;
+
+  static final Resource<TextPresentationListener> textPresentation;
+
   static final Resource<TextSelectionListener> textSelection;
+
+  static final Resource<ViewListener> view;
+
+  static final Resource<ViewportListener> viewport;
 
   static final Resource<WindowListener> window;
 
@@ -183,7 +198,12 @@ public final class DefaultResources {
     selection = forge(SelectionListener.class, SelectionHandler.INSTANCE, builder);
     structuredSelection = forge(StructuredSelectionListener.class, StructuredSelectionHandler.INSTANCE, builder);
     testRun = forge(TestRunListener.class, TestRunHandler.INSTANCE, builder);
+    text = forge(TextListener.class, TextHandler.INSTANCE, builder);
+    textInput = forge(TextInputListener.class, TextInputHandler.INSTANCE, builder);
+    textPresentation = forge(TextPresentationListener.class, TextPresentationHandler.INSTANCE, builder);
     textSelection = forge(TextSelectionListener.class, TextSelectionHandler.INSTANCE, builder);
+    view = forge(ViewListener.class, ViewHandler.INSTANCE, builder);
+    viewport = forge(ViewportListener.class, ViewportHandler.INSTANCE, builder);
     window = forge(WindowListener.class, WindowHandler.INSTANCE, builder);
     workbench = forge(WorkbenchListener.class, WorkbenchHandler.INSTANCE, builder);
 
@@ -520,8 +540,28 @@ public final class DefaultResources {
     return DefaultResources.testRun;
   }
 
+  public static Resource<TextListener> getTextResource() {
+    return DefaultResources.text;
+  }
+
+  public static Resource<TextInputListener> getTextInputResource() {
+    return DefaultResources.textInput;
+  }
+
+  public static Resource<TextPresentationListener> getTextPresentationResource() {
+    return DefaultResources.textPresentation;
+  }
+
   public static Resource<TextSelectionListener> getTextSelectionResource() {
     return DefaultResources.textSelection;
+  }
+
+  public static Resource<ViewListener> getViewResource() {
+    return DefaultResources.view;
+  }
+
+  public static Resource<ViewportListener> getViewportResource() {
+    return DefaultResources.viewport;
   }
 
   public static Resource<WindowListener> getWindowResource() {

@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.core.resources;
 import javax.annotation.Nullable;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -85,6 +86,19 @@ final class Hooks {
       public void run() {
         for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences()) {
           addNonNull(hook, dereferenceEditor(reference));
+        }
+      }
+    };
+
+    Display.getDefault().asyncExec(initializer);
+  }
+
+  static void addTextViewersAsynchronouslyTo(final Hook<ITextViewer, ?> hook) {
+    final Runnable initializer = new Runnable() {
+      @Override
+      public void run() {
+        for (IEditorReference reference: Workbenches.waitForActivePage().getEditorReferences()) {
+          addNonNull(hook, Editors.getTextViewer(dereferenceEditor(reference)));
         }
       }
     };

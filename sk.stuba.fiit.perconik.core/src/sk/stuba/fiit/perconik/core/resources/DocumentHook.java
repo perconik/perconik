@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 final class DocumentHook extends InternalHook<IDocument, DocumentListener> implements EditorListener {
   DocumentHook(final DocumentListener listener) {
-    super(new WindowHandler(listener));
+    super(new DocumentHandler(listener));
   }
 
   static final class Support extends AbstractHookSupport<DocumentHook, IDocument, DocumentListener> {
@@ -18,8 +18,8 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
     }
   }
 
-  private static final class WindowHandler extends InternalHandler<IDocument, DocumentListener> {
-    WindowHandler(final DocumentListener listener) {
+  private static final class DocumentHandler extends InternalHandler<IDocument, DocumentListener> {
+    DocumentHandler(final DocumentListener listener) {
       super(IDocument.class, listener);
     }
 

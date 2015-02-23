@@ -10,7 +10,7 @@ enum EditorHandler implements Handler<EditorListener> {
   INSTANCE;
 
   private static final class PartFilter extends InternalFilter<EditorListener> implements PartListener {
-    public PartFilter(final EditorListener listener) {
+    PartFilter(final EditorListener listener) {
       super(listener);
     }
 

@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.listeners.WindowListener;
 
 final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implements WindowListener {
   PartHook(final PartListener listener) {
-    super(new PageHandler(listener));
+    super(new WindowHandler(listener));
   }
 
   static final class Support extends AbstractHookSupport<PartHook, IWorkbenchWindow, PartListener> {
@@ -16,8 +16,8 @@ final class PartHook extends InternalHook<IWorkbenchWindow, PartListener> implem
     }
   }
 
-  private static final class PageHandler extends InternalHandler<IWorkbenchWindow, PartListener> {
-    PageHandler(final PartListener listener) {
+  private static final class WindowHandler extends InternalHandler<IWorkbenchWindow, PartListener> {
+    WindowHandler(final PartListener listener) {
       super(IWorkbenchWindow.class, listener);
     }
 

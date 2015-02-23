@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
 final class CompletionHook extends InternalHook<ISourceViewer, CompletionListener> implements EditorListener {
   CompletionHook(final CompletionListener listener) {
-    super(new WindowHandler(listener));
+    super(new SourceViewerHandler(listener));
   }
 
   static final class Support extends AbstractHookSupport<CompletionHook, ISourceViewer, CompletionListener> {
@@ -22,8 +22,8 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
     }
   }
 
-  private static final class WindowHandler extends InternalHandler<ISourceViewer, CompletionListener> {
-    WindowHandler(final CompletionListener listener) {
+  private static final class SourceViewerHandler extends InternalHandler<ISourceViewer, CompletionListener> {
+    SourceViewerHandler(final CompletionListener listener) {
       super(ISourceViewer.class, listener);
     }
 
