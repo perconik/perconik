@@ -131,10 +131,10 @@ public final class Editors {
    *         is {@code null} or there is no text widget
    */
   public static StyledText getStyledText(@Nullable final IEditorPart editor) {
-    return getStyledText(getSourceViewer(editor));
+    return getStyledText(getTextViewer(editor));
   }
 
-  public static StyledText getStyledText(@Nullable final ISourceViewer viewer) {
+  public static StyledText getStyledText(@Nullable final ITextViewer viewer) {
     return viewer != null ? viewer.getTextWidget() : null;
   }
 
@@ -145,10 +145,10 @@ public final class Editors {
    *         is {@code null} or there is no document
    */
   public static IDocument getDocument(@Nullable final IEditorPart editor) {
-    return getDocument(getSourceViewer(editor));
+    return getDocument(getTextViewer(editor));
   }
 
-  public static IDocument getDocument(@Nullable final ISourceViewer viewer) {
+  public static IDocument getDocument(@Nullable final ITextViewer viewer) {
     return viewer != null ? viewer.getDocument() : null;
   }
 
