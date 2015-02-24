@@ -77,7 +77,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
 
-    sharedBuilder.pluginConsole(UacaConsole.getInstance());
+    sharedBuilder.pluginConsole(UacaConsole.getShared());
     sharedBuilder.persistenceStore(UacaProxySupplier.instance);
     sharedBuilder.sendFailureHandler(UacaProxySaveFailureHandler.instance);
     sharedBuilder.registerFailureHandler(UacaLoggingRegisterFailureHandler.instance);
@@ -150,10 +150,10 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     public PersistenceStore get() {
       try {
-        // TODO use custom opts
+        // TODO use custom opts, use UacaOptions.View
         return StoreWrapper.of(new UacaProxy(UacaPreferences.getShared()));
       } catch (Exception failure) {
-        UacaConsole.getInstance().error(failure, "Unable to open UACA proxy");
+        UacaConsole.getShared().error(failure, "Unable to open UACA proxy");
 
         throw propagate(failure);
       }
@@ -169,7 +169,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     instance;
 
     public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
-      UacaConsole.getInstance().error(failure, listener + ": Unable to save data at " + path + " using UACA proxy");
+      UacaConsole.getShared().error(failure, listener + ": Unable to save data at " + path + " using UACA proxy");
     }
 
     @Override
