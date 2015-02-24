@@ -55,7 +55,7 @@ public abstract class IdeListener extends Adapter {
   final IdeUacaProxy proxy;
 
   IdeListener() {
-    this.console = UacaConsole.getInstance();
+    this.console = UacaConsole.getShared();
 
     try {
       this.proxy = IdeUacaProxy.open();

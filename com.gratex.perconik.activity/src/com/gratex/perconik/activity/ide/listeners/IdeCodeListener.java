@@ -245,7 +245,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (Collections.disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
         if (Log.enabled()) {
-          Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(UacaConsole.getInstance());
+          Log.message().append("copy / cut: any of ").list(supportedTypeNames).append(" not in ").list(clipboard.getAvailableTypeNames()).appendln().appendTo(UacaConsole.getShared());
         }
 
         return null;
@@ -286,7 +286,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
       if (editor == null) {
         if (Log.enabled()) {
-          Log.message().appendln("copy / cut: no active editor found").appendTo(UacaConsole.getInstance());
+          Log.message().appendln("copy / cut: no active editor found").appendTo(UacaConsole.getShared());
         }
 
         return null;
