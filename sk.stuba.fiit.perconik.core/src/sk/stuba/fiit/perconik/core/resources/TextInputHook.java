@@ -1,11 +1,15 @@
 package sk.stuba.fiit.perconik.core.resources;
 
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextInputListener;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IEditorReference;
 
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.TextInputListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+
+import static java.util.Objects.requireNonNull;
 
 import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
 
@@ -20,17 +24,35 @@ final class TextInputHook extends InternalHook<ITextViewer, TextInputListener> i
     }
   }
 
+  private static final class TextInputListenerProxy extends AbstractListenerProxy<TextInputListener> implements ITextInputListener {
+    final ITextViewer viewer;
+
+    TextInputListenerProxy(final TextInputListener listener, final ITextViewer viewer) {
+      super(listener);
+
+      this.viewer = requireNonNull(viewer);
+    }
+
+    public void inputDocumentAboutToBeChanged(final IDocument before, final IDocument after) {
+      this.listener.inputDocumentAboutToBeChanged(this.viewer, before, after);
+    }
+
+    public void inputDocumentChanged(final IDocument before, final IDocument after) {
+      this.listener.inputDocumentChanged(this.viewer, before, after);
+    }
+  }
+
   private static final class TextViewerHandler extends InternalHandler<ITextViewer, TextInputListener> {
     TextViewerHandler(final TextInputListener listener) {
       super(ITextViewer.class, listener);
     }
 
     public void register(final ITextViewer viewer) {
-      viewer.addTextInputListener(this.listener);
+      viewer.addTextInputListener(new TextInputListenerProxy(this.listener, viewer));
     }
 
     public void unregister(final ITextViewer viewer) {
-      viewer.removeTextInputListener(this.listener);
+      viewer.removeTextInputListener(new TextInputListenerProxy(this.listener, viewer));
     }
   }
 

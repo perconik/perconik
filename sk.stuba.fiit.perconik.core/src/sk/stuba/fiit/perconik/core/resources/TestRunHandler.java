@@ -13,10 +13,10 @@ import static java.util.Objects.requireNonNull;
 enum TestRunHandler implements Handler<TestRunListener> {
   INSTANCE;
 
-  private static final class TestRunProxy extends org.eclipse.jdt.junit.TestRunListener {
-    private final TestRunListener listener;
+  private static final class TestRunListenerProxy extends org.eclipse.jdt.junit.TestRunListener {
+    final TestRunListener listener;
 
-    public TestRunProxy(final TestRunListener listener) {
+    public TestRunListenerProxy(final TestRunListener listener) {
       this.listener = requireNonNull(listener);
     }
 
@@ -51,11 +51,11 @@ enum TestRunHandler implements Handler<TestRunListener> {
         return true;
       }
 
-      if (!(o instanceof TestRunProxy)) {
+      if (!(o instanceof TestRunListenerProxy)) {
         return false;
       }
 
-      TestRunProxy other = (TestRunProxy) o;
+      TestRunListenerProxy other = (TestRunListenerProxy) o;
 
       return this.listener.equals(other.listener);
     }
@@ -72,10 +72,10 @@ enum TestRunHandler implements Handler<TestRunListener> {
   }
 
   public void register(final TestRunListener listener) {
-    JUnitCore.addTestRunListener(new TestRunProxy(listener));
+    JUnitCore.addTestRunListener(new TestRunListenerProxy(listener));
   }
 
   public void unregister(final TestRunListener listener) {
-    JUnitCore.addTestRunListener(new TestRunProxy(listener));
+    JUnitCore.addTestRunListener(new TestRunListenerProxy(listener));
   }
 }

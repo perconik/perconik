@@ -1,6 +1,8 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
 import org.eclipse.jface.text.ITextPresentationListener;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.TextPresentation;
 
 import sk.stuba.fiit.perconik.core.Listener;
 
@@ -13,5 +15,6 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @author Pavol Zbell
  * @since 1.0
  */
-public interface TextPresentationListener extends Listener, ITextPresentationListener {
+public interface TextPresentationListener extends Listener {
+  public void applyTextPresentation(ITextViewer viewer, TextPresentation textPresentation);
 }

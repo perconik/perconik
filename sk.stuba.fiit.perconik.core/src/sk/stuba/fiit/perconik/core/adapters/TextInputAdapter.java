@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.adapters;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextViewer;
 
 import sk.stuba.fiit.perconik.core.Adapter;
 import sk.stuba.fiit.perconik.core.listeners.TextInputListener;
@@ -25,7 +26,7 @@ public class TextInputAdapter extends Adapter implements TextInputListener {
    */
   protected TextInputAdapter() {}
 
-  public void inputDocumentAboutToBeChanged(final IDocument before, final IDocument after) {}
+  public void inputDocumentAboutToBeChanged(final ITextViewer viewer, final IDocument before, final IDocument after) {}
 
-  public void inputDocumentChanged(final IDocument before, final IDocument after) {}
+  public void inputDocumentChanged(final ITextViewer viewer, final IDocument before, final IDocument after) {}
 }

@@ -4,11 +4,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextInputListener;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 
-import sk.stuba.fiit.perconik.core.adapters.TextInputAdapter;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
@@ -46,10 +46,11 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
     }
   }
 
-  private final class TextInputChangeFix extends TextInputAdapter {
+  private final class TextInputChangeFix implements ITextInputListener {
     TextInputChangeFix() {}
 
-    @Override
+    public void inputDocumentAboutToBeChanged(final IDocument before, final IDocument after) {}
+
     public void inputDocumentChanged(final IDocument before, final IDocument after) {
       Hooks.removeNonNull(DocumentHook.this, before);
       Hooks.addNonNull(DocumentHook.this, after);
