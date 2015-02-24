@@ -9,8 +9,6 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 
-import static com.google.common.collect.Maps.newLinkedHashMap;
-
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.applicationUrl;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.checkConnection;
@@ -86,15 +84,7 @@ public final class UacaPreferences extends AbstractPreferences implements UacaOp
    * Returns a read only snapshot of UACA preferences.
    */
   public Map<String, Object> toMap() {
-    Map<String, Object> map = newLinkedHashMap();
-
-    map.put(applicationUrl, this.getApplicationUrl());
-    map.put(checkConnection, this.isConnectionCheckEnabled());
-    map.put(displayErrors, this.isErrorDialogEnabled());
-    map.put(logErrors, this.isErrorLogEnabled());
-    map.put(logEvents, this.isEventLogEnabled());
-
-    return map;
+    return Schema.toMap(this);
   }
 
   @Override

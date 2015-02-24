@@ -30,9 +30,9 @@ final class UacaReporter {
       Map<?, ?> requestProperties = Mapper.getShared().convertValue(request, Mapper.getMapType());
       String serializedRequest = Writer.getPretty().writeValueAsString(requestProperties);
 
-      UacaConsole.getInstance().notice(format("%s%n%s", target.getUri(), serializedRequest));
+      UacaConsole.getShared().notice(format("%s%n%s", target.getUri(), serializedRequest));
     } catch (JsonProcessingException | RuntimeException failure) {
-      UacaConsole.getInstance().error(failure, "UacaProxy: Unable to format object");
+      UacaConsole.getShared().error(failure, "UacaProxy: Unable to format object");
     }
   }
 
@@ -41,7 +41,7 @@ final class UacaReporter {
       return;
     }
 
-    UacaConsole.getInstance().error(failure, message);
+    UacaConsole.getShared().error(failure, message);
   }
 
   static void displayError(final String message, @Nullable final Exception failure) {

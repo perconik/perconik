@@ -1,9 +1,15 @@
 package com.gratex.perconik.uaca.preferences;
 
 import java.net.URL;
+import java.util.Map;
 
+import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
+
+import static java.util.Objects.requireNonNull;
+
+import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
 
@@ -28,6 +34,50 @@ public interface UacaOptions extends Options {
     public static final OptionAccessor<Boolean> logEvents = option(booleanParser(), join(qualifier, "logEvents"), false);
 
     private Schema() {}
+
+    static Map<String, Object> toMap(final UacaOptions options) {
+      Map<String, Object> map = newLinkedHashMap();
+
+      map.put(applicationUrl.getKey(), options.getApplicationUrl());
+      map.put(checkConnection.getKey(), options.isConnectionCheckEnabled());
+      map.put(displayErrors.getKey(), options.isErrorDialogEnabled());
+      map.put(logErrors.getKey(), options.isErrorLogEnabled());
+      map.put(logEvents.getKey(), options.isEventLogEnabled());
+
+      return map;
+    }
+  }
+
+  public static final class View extends AbstractOptions implements UacaOptions {
+    private final Options options;
+
+    public View(final Options options) {
+      this.options = requireNonNull(options);
+    }
+
+    public Map<String, Object> toMap() {
+      return Schema.toMap(this);
+    }
+
+    public URL getApplicationUrl() {
+      return Schema.applicationUrl.getValue(this.options);
+    }
+
+    public boolean isConnectionCheckEnabled() {
+      return Schema.checkConnection.getValue(this.options);
+    }
+
+    public boolean isErrorDialogEnabled() {
+      return Schema.displayErrors.getValue(this.options);
+    }
+
+    public boolean isErrorLogEnabled() {
+      return Schema.logErrors.getValue(this.options);
+    }
+
+    public boolean isEventLogEnabled() {
+      return Schema.logEvents.getValue(this.options);
+    }
   }
 
   public URL getApplicationUrl();

@@ -7,26 +7,38 @@ import java.util.Date;
 import javax.annotation.Nullable;
 
 import com.gratex.perconik.uaca.plugin.Activator;
+import com.gratex.perconik.uaca.preferences.UacaOptions;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
+
+import static java.util.Objects.requireNonNull;
 
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 
-public final class UacaConsole extends ForwardingPluginConsole {
-  private static final UacaConsole instance = new UacaConsole();
+public final class UacaConsole extends ForwardingPluginConsole implements Configurable {
+  private static final UacaConsole shared = new UacaConsole(UacaPreferences.getShared());
 
   private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
   private final PluginConsole delegate;
 
-  private UacaConsole() {
+  private final UacaOptions options;
+
+  private UacaConsole(final UacaOptions options) {
     this.delegate = Activator.defaultInstance().getConsole();
+    this.options = requireNonNull(options);
   }
 
-  public static UacaConsole getInstance() {
-    return instance;
+  public static UacaConsole create(final UacaOptions options) {
+    return new UacaConsole(options);
+  }
+
+  public static UacaConsole getShared() {
+    return shared;
   }
 
   @Override
@@ -75,5 +87,9 @@ public final class UacaConsole extends ForwardingPluginConsole {
   @Override
   public void print(final String format, final Object ... args) {
     super.print(this.hook(String.format(format, args)));
+  }
+
+  public Options getOptions() {
+    return this.options;
   }
 }
