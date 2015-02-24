@@ -39,6 +39,9 @@ public final class Configurables {
   @SuppressWarnings("serial")
   private static final TypeToken<OptionMapping<?>> wildcardMappingType = new TypeToken<OptionMapping<?>>() {};
 
+  @SuppressWarnings("serial")
+  private static final TypeToken<OptionAccessor<?>> wildcardAccessorType = new TypeToken<OptionAccessor<?>>() {};
+
   private Configurables() {}
 
   public static MapOptions defaults(final Class<?> schema) {
@@ -100,6 +103,30 @@ public final class Configurables {
     }
 
     return mappings;
+  }
+
+  public static Map<String, Object> values(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Map<String, Object> destination) {
+    return values(accessors, newReader(source), destination);
+  }
+
+  public static Map<String, Object> values(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final Map<String, Object> destination) {
+    for (OptionAccessor<?> accessor: accessors) {
+      destination.put(accessor.getKey(), accessor.getValue(source));
+    }
+
+    return destination;
+  }
+
+  public static Map<String, Object> rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Map<String, Object> destination) {
+    return rawValues(accessors, newReader(source), destination);
+  }
+
+  public static Map<String, Object> rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final Map<String, Object> destination) {
+    for (OptionAccessor<?> accessor: accessors) {
+      destination.put(accessor.getKey(), accessor.getRawValue(source));
+    }
+
+    return destination;
   }
 
   public static <T> OptionMapping<T> option(final String key) {
@@ -224,5 +251,9 @@ public final class Configurables {
 
   public static TypeToken<OptionMapping<?>> wildcardMappingType() {
     return wildcardMappingType;
+  }
+
+  public static TypeToken<OptionAccessor<?>> wildcardAccessorType() {
+    return wildcardAccessorType;
   }
 }
