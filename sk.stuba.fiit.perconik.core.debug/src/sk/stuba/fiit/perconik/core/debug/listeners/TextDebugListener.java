@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.debug.listeners;
 
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.TextEvent;
 
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
@@ -14,7 +15,7 @@ public final class TextDebugListener extends AbstractDebugListener implements Te
     super(console);
   }
 
-  public void textChanged(final TextEvent event) {
+  public void textChanged(final ITextViewer viewer, final TextEvent event) {
     this.printHeader("Text changed");
     this.printTextEvent(event);
   }

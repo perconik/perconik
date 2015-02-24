@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.core.debug.listeners;
 
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextViewer;
 
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
 import sk.stuba.fiit.perconik.core.debug.Debug;
@@ -14,12 +15,12 @@ public final class TextInputDebugListener extends AbstractDebugListener implemen
     super(console);
   }
 
-  public void inputDocumentAboutToBeChanged(final IDocument before, final IDocument after) {
+  public void inputDocumentAboutToBeChanged(final ITextViewer viewer, final IDocument before, final IDocument after) {
     this.printHeader("Input document about to be changed");
     this.printDocumentChange(before, after);
   }
 
-  public void inputDocumentChanged(final IDocument before, final IDocument after) {
+  public void inputDocumentChanged(final ITextViewer viewer, final IDocument before, final IDocument after) {
     this.printHeader("Input document changed");
     this.printDocumentChange(before, after);
   }

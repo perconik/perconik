@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.debug.listeners;
 
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.TextPresentation;
 
 import sk.stuba.fiit.perconik.core.debug.AbstractDebugListener;
@@ -14,7 +15,7 @@ public final class TextPresentationDebugListener extends AbstractDebugListener i
     super(console);
   }
 
-  public void applyTextPresentation(final TextPresentation presentation) {
+  public void applyTextPresentation(final ITextViewer viewer, final TextPresentation presentation) {
     this.printHeader("Text presentation about to be applied");
     this.printTextPresentation(presentation);
   }
