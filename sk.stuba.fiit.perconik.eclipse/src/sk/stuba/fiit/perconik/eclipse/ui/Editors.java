@@ -28,12 +28,26 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class Editors {
   private Editors() {}
 
+  public static IEditorPart forTextViewer(final ITextViewer viewer) {
+    for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
+      for (IWorkbenchPage page: window.getPages()) {
+        IEditorPart editor = page.getActiveEditor();
+
+        if (viewer.equals(getTextViewer(editor))) {
+          return editor;
+        }
+      }
+    }
+
+    return null;
+  }
+
   public static IEditorPart forDocument(final IDocument document) {
     for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
       for (IWorkbenchPage page: window.getPages()) {
         IEditorPart editor = page.getActiveEditor();
 
-        if (document.equals(Editors.getDocument(editor))) {
+        if (document.equals(getDocument(editor))) {
           return editor;
         }
       }
