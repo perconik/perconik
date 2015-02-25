@@ -47,7 +47,7 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
   }
 
   private String hook(final String message) {
-    if (UacaPreferences.getShared().isEventLogEnabled()) {
+    if (this.options.isEventLogEnabled()) {
       this.notice(message);
     }
 
