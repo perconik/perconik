@@ -1,9 +1,11 @@
 package sk.stuba.fiit.perconik.eclipse.jface.text;
 
 import org.eclipse.core.filebuffers.FileBuffers;
+import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.filebuffers.ITextFileBuffer;
 import org.eclipse.core.filebuffers.ITextFileBufferManager;
 import org.eclipse.core.filebuffers.LocationKind;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -27,6 +29,46 @@ public final class Documents {
     return fromPath(file.getFullPath(), LocationKind.IFILE);
   }
 
+  public static IDocument fromFileStore(final IFileStore store) {
+    ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
+
+    try {
+      manager.connectFileStore(store, null);
+    } catch (CoreException e) {
+      CoreExceptions.propagate(e);
+    }
+
+    ITextFileBuffer buffer = manager.getFileStoreTextFileBuffer(store);
+
+    try {
+      manager.disconnectFileStore(store, null);
+    } catch (CoreException e) {
+      CoreExceptions.propagate(e);
+    }
+
+    return buffer != null ? buffer.getDocument() : null;
+  }
+
+  public static IDocument fromFileBuffer(final IFileBuffer buffer) {
+    if (buffer instanceof ITextFileBuffer) {
+      return ((ITextFileBuffer) buffer).getDocument();
+    }
+
+    IFileStore store = buffer.getFileStore();
+
+    if (store != null) {
+      return fromFileStore(store);
+    }
+
+    IPath location = buffer.getLocation();
+
+    if (location != null) {
+      return fromPath(location, LocationKind.LOCATION);
+    }
+
+    return null;
+  }
+
   public static IDocument fromPath(final IPath path, final LocationKind kind) {
     ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
 
@@ -44,7 +86,7 @@ public final class Documents {
       CoreExceptions.propagate(e);
     }
 
-    return buffer.getDocument();
+    return buffer != null ? buffer.getDocument() : null;
   }
 
   public static String get(final IDocument document, final int offset, final int length) {
