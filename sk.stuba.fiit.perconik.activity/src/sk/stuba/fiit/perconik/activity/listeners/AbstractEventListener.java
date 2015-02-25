@@ -198,7 +198,7 @@ public abstract class AbstractEventListener implements Listener {
       }
     }
 
-    public final void push(final E event) {
+    final void synchronizedPush(final E event) {
       synchronized (this.lock) {
         if (!this.accept(newLinkedList(this.sequence), event)) {
           return;
@@ -229,7 +229,7 @@ public abstract class AbstractEventListener implements Listener {
       }
     }
 
-    public final void flush() {
+    final void synchronizedFlush() {
       synchronized (this.lock) {
         if (this.watch.isRunning()) {
           this.stopWatchAndProcessContinuousEvents();

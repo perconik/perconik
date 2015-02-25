@@ -261,6 +261,8 @@ public abstract class CommonEventListener extends RegularEventListener {
   protected static abstract class ContinuousEventWindow<L extends CommonEventListener, E> extends RegularEventListener.ContinuousEventWindow<L, E> {
     protected final String identifier;
 
+    protected final Log log;
+
     protected ContinuousEventWindow(final L listener, final String identifier, final long window) {
       this(listener, identifier, window, TimeUnit.MILLISECONDS);
     }
@@ -269,6 +271,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       super(listener, window, unit);
 
       this.identifier = requireNonNullOrEmpty(identifier);
+      this.log = this.listener.log;
     }
 
     @Override

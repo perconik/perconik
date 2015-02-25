@@ -61,7 +61,7 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.empty
  */
 public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
   /**
-   * Underlying plug-in console for event logging, also aliased as {@code log}.
+   * Underlying plug-in console for event logging.
    */
   protected final PluginConsole pluginConsole;
 
@@ -477,7 +477,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   }
 
   // TODO rename and add to configuration
-  private interface TimeHelper {
+  public interface TimeHelper {
     public long currentTime();
 
     public Ticker timeSource();
@@ -643,6 +643,22 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       super(listener.createStopwatch(), window, unit);
 
       this.listener = requireNonNull(listener);
+    }
+
+    public final void push(final E event) {
+      this.listener.execute(new Runnable() {
+        public void run() {
+          synchronizedPush(event);
+        }
+      });
+    }
+
+    public final void flush() {
+      this.listener.execute(new Runnable() {
+        public void run() {
+          synchronizedFlush();
+        }
+      });
     }
   }
 
@@ -1120,5 +1136,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
 
     throw new IllegalArgumentException();
+  }
+
+  public final TimeHelper getTimeHelper() {
+    return this.timeHelper;
   }
 }
