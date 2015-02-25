@@ -12,12 +12,19 @@ final class TextSelectionEvent {
 
   final ITextSelection selection;
 
+  final boolean last;
+
   TextSelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+    this(time, part, selection, false);
+  }
+
+  TextSelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection, final boolean last) {
     assert time >= 0L && part != null && selection != null;
 
     this.time = time;
     this.part = part;
     this.selection = selection;
+    this.last = last;
   }
 
   boolean contentEquals(final TextSelectionEvent other) {
@@ -25,7 +32,7 @@ final class TextSelectionEvent {
   }
 
   boolean isContinuousWith(final TextSelectionEvent other) {
-    if (this.part != other.part) {
+    if (this.last || this.part != other.part) {
       return false;
     }
 

@@ -14,7 +14,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractTextCopyListener extends AbstractTextOperationListener {
+abstract class AbstractTextCopyListener extends AbstractTextListener {
   AbstractTextCopyListener() {}
 
   final void process(final long time, final Action action) {

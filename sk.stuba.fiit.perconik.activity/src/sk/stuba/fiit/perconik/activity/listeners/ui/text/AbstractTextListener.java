@@ -26,8 +26,8 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractTextOperationListener extends CommonEventListener {
-  AbstractTextOperationListener() {}
+abstract class AbstractTextListener extends CommonEventListener {
+  AbstractTextListener() {}
 
   static final void put(final StructuredContent content, final IEditorPart editor) {
     content.put(key("editor"), new EditorSerializer().serialize(editor));
@@ -54,11 +54,18 @@ abstract class AbstractTextOperationListener extends CommonEventListener {
     content.put(key("region"), new LineRegionSerializer().serialize(region));
   }
 
-  static final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
+  static final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view) {
     Event data = LocalEvent.of(time, action.getName());
 
     put(data, editor);
     put(data, view);
+
+    return data;
+  }
+
+  static final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
+    Event data = build(time, action, editor, view);
+
     put(data, region);
 
     return data;

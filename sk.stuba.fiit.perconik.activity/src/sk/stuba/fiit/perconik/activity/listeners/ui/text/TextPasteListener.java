@@ -34,7 +34,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
  * @since 1.0
  */
 @Version("0.0.0.alpha")
-public final class TextPasteListener extends AbstractTextOperationListener implements CommandExecutionListener, DocumentListener {
+public final class TextPasteListener extends AbstractTextListener implements CommandExecutionListener, DocumentListener {
   private final CommandExecutionStateHandler paste;
 
   public TextPasteListener() {

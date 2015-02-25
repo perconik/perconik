@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @since 1.0
  */
 @Version("0.0.0.alpha")
-public final class TextSelectionListener extends AbstractTextOperationListener implements sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
+public final class TextSelectionListener extends AbstractTextListener implements sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
   static final long selectionEventWindow = 500;
 
   private final TextSelectionEventProcessor processor;
@@ -121,7 +121,7 @@ public final class TextSelectionListener extends AbstractTextOperationListener i
   }
 
   void handleAcceptedSelection(final TextSelectionEvent event) {
-    this.execute(new Runnable() {
+    execute(new Runnable() {
       public void run() {
         process(event.time, SELECT, event.part, event.selection);
       }

@@ -24,7 +24,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener
  * @since 1.0
  */
 @Version("0.0.0.alpha")
-public final class TextViewListener extends AbstractTextOperationListener implements ViewportListener {
+public final class TextViewListener extends AbstractTextListener implements ViewportListener {
   static final long viewEventWindow = 500;
 
   private final TextViewEventProcessor processor;
@@ -95,7 +95,7 @@ public final class TextViewListener extends AbstractTextOperationListener implem
   }
 
   void handleAcceptedView(final TextViewEvent event) {
-    this.execute(new Runnable() {
+    execute(new Runnable() {
       public void run() {
         process(event.time, VIEW, event.viewer);
       }
