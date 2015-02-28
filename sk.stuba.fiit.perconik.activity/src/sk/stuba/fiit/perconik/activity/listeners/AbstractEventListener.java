@@ -104,6 +104,11 @@ public abstract class AbstractEventListener implements Listener {
     public boolean remove(final AbstractEventListener listener, final Runnable task) {
       return listener.registerHooks.remove(this, requireNonNull(task));
     }
+
+    @Override
+    public String toString() {
+      return this.name().toLowerCase();
+    }
   }
 
   @Override

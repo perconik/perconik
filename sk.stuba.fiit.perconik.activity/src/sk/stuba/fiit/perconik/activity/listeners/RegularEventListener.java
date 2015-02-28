@@ -19,6 +19,10 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableMap;
 
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+
 import sk.stuba.fiit.perconik.activity.data.ObjectData;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
@@ -40,6 +44,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
 import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
@@ -67,8 +72,9 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.empty
  * @author Pavol Zbell
  * @since 1.0
  */
-// TODO maybe make GenericEventListener out of this class
 public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
+  // TODO maybe make GenericEventListener out of this class
+
   static final String internalProbeKeyPrefix = "meta";
 
   /**
@@ -157,7 +163,6 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     // note that field initialization order is significant
     this.optionsLoader = this.resolveOptionsLoader(configuration, context);
-
     this.optionsProvider = this.setupOptionsProvider(configuration.defaultOptions(context).orNull());
 
     this.timeHelper = configuration.timeHelper(context).or(SystemTimeHelper.instance);
@@ -200,10 +205,10 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
 
     if (preferences.isPresent()) {
-      return RegularOptionsLoader.of(preferences.get());
+      return UpdatingOptionsLoader.of(preferences.get(), this);
     }
 
-    return RegularOptionsLoader.of(ListenerPreferences.getShared());
+    return UpdatingOptionsLoader.of(ListenerPreferences.getShared(), this);
   }
 
   private <C> DataInjector resolveDataInjector(final Configuration<C> configuration, final C context) {
@@ -236,7 +241,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(OptionsProvider.class) {
       public void run() {
-        provider.load();
+        reloadOptions();
       }
     });
 
@@ -658,20 +663,66 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return this.optionsProvider.effectiveOptions();
   }
 
+  /**
+   * An {@code OptionsLoader} invokes this method to reload effective options.
+   */
+  protected final void reloadOptions() {
+    this.optionsProvider.load();
+    this.onOptionsReload();
+  }
+
   public interface OptionsLoader {
     public Options loadCustomOptions(RegularEventListener listener);
   }
 
-  public static abstract class AbstractOptionsLoader implements OptionsLoader {
-    /**
-     * Constructor for use by subclasses.
-     */
-    protected AbstractOptionsLoader() {}
+  public static final class UpdatingOptionsLoader implements OptionsLoader {
+    private final ListenerPreferences preferences;
 
-    protected abstract ListenerPreferences preferences();
+    final OptionsReloader reloader;
+
+    private UpdatingOptionsLoader(final ListenerPreferences preferences, final RegularEventListener listener) {
+      this.preferences = requireNonNull(preferences);
+      this.reloader = new OptionsReloader(listener);
+
+      hook(this.preferences, listener, this.reloader);
+    }
+
+    private static void hook(final ListenerPreferences preferences, final RegularEventListener listener, final OptionsReloader reloader) {
+      final IEclipsePreferences node = preferences.node();
+
+      RegistrationHook.POST_REGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
+        public void run() {
+          node.addPreferenceChangeListener(reloader);
+        }
+      });
+
+      RegistrationHook.PRE_UNREGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
+        public void run() {
+          node.removePreferenceChangeListener(reloader);
+        }
+      });
+    }
+
+    public static UpdatingOptionsLoader of(final ListenerPreferences preferences, final RegularEventListener listener) {
+      return new UpdatingOptionsLoader(preferences, listener);
+    }
+
+    private static final class OptionsReloader implements IPreferenceChangeListener {
+      private final RegularEventListener listener;
+
+      OptionsReloader(final RegularEventListener listener) {
+        this.listener = requireNonNull(listener);
+      }
+
+      public void preferenceChange(final PreferenceChangeEvent event) {
+        if (ListenerPreferences.Keys.configuration.equals(event.getKey())) {
+          this.listener.reloadOptions();
+        }
+      }
+    }
 
     public Options loadCustomOptions(final RegularEventListener listener) {
-      return this.preferences().getListenerConfigurationData().get(listener.getClass());
+      return this.preferences.getListenerConfigurationData().get(listener.getClass());
     }
 
     @Override
@@ -682,30 +733,12 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     protected ToStringHelper toStringHelper() {
       ToStringHelper helper = Objects.toStringHelper(this);
 
-      helper.add("preferences", this.preferences());
+      helper.add("preferences", this.preferences);
 
       return helper;
     }
   }
 
-  public static final class RegularOptionsLoader extends AbstractOptionsLoader {
-    private final ListenerPreferences preferences;
-
-    private RegularOptionsLoader(final ListenerPreferences preferences) {
-      this.preferences = requireNonNull(preferences);
-    }
-
-    public static RegularOptionsLoader of(final ListenerPreferences preferences) {
-      return new RegularOptionsLoader(preferences);
-    }
-
-    @Override
-    protected ListenerPreferences preferences() {
-      return this.preferences;
-    }
-  }
-
-  // TODO reload on preference change, add an internal listener here
   private static final class OptionsProvider {
     private final DefaultOptions defaults;
 
@@ -717,6 +750,11 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       this.defaults = new DefaultOptions(defaults);
       this.custom = new CustomOptions(listener);
       this.effective = new EffectiveOptions(listener);
+    }
+
+    void load() {
+      this.custom.load();
+      this.effective.load();
     }
 
     private static abstract class AbstractOptions extends ForwardingOptions {
@@ -785,11 +823,6 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
     }
 
-    void load() {
-      this.custom.load();
-      this.effective.load();
-    }
-
     Options defaultOptions() {
       return this.defaults;
     }
@@ -802,6 +835,11 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return this.effective;
     }
   }
+
+  /**
+   * Invoked always after {@code OptionsLoader} loads custom options.
+   */
+  protected void onOptionsReload() {}
 
   public interface TimeHelper {
     public long currentTime();
@@ -1158,6 +1196,27 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   @Override
   final void postSend(final String path, final Event data) {}
 
+  protected abstract class AbstractRegistrationProbe extends InternalProbe<Content> {
+    /**
+     * Constructor for use by subclasses.
+     */
+    protected AbstractRegistrationProbe() {}
+
+    public Content get() {
+      RegularEventListener listener = RegularEventListener.this;
+
+      AnyStructuredData data = new AnyStructuredData();
+
+      data.put(key("hooks"), listener.registerHooks);
+
+      return data;
+    }
+  }
+
+  protected final class RegularRegistrationProbe extends AbstractRegistrationProbe {
+    protected RegularRegistrationProbe() {}
+  }
+
   protected abstract class AbstractConfigurationProbe extends InternalProbe<Content> {
     /**
      * Constructor for use by subclasses.
@@ -1452,18 +1511,22 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     this.disposalHook.onDispose(this);
   }
 
-  public Options getOptions() {
+  public final Options getOptions() {
     return this.effectiveOptions();
   }
 
-  public Options getOptions(final Scope scope) {
+  public final Options getOptions(final Scope scope) {
     if (scope == StandardScope.DEFAULT) {
       return this.defaultOptions();
     } else if (scope == StandardScope.EFFECTIVE) {
       return this.effectiveOptions();
     }
 
-    throw new IllegalArgumentException();
+    return this.getOptionsForCustomScope(scope);
+  }
+
+  protected Options getOptionsForCustomScope(final Scope scope) {
+    throw new IllegalArgumentException(format("%s: unable to get options for %s scope", this, scope));
   }
 
   public final TimeHelper getTimeHelper() {
