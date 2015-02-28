@@ -68,11 +68,11 @@ public abstract class AbstractPreferences {
     }
   }
 
-  protected final Scope scope() {
+  public final Scope scope() {
     return this.scope;
   }
 
-  protected final IEclipsePreferences data() {
+  public final IEclipsePreferences node() {
     return this.data;
   }
 
