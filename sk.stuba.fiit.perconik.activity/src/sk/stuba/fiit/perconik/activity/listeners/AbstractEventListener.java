@@ -402,8 +402,18 @@ public abstract class AbstractEventListener implements Listener {
     abstract void unsafeDispose() throws Exception;
   }
 
+  /**
+   * Invoked automatically on workbench shutdown.
+   *
+   * <p><b>Warning:</b> users should not invoke this method directly.
+   */
   protected abstract void onWorkbenchShutdown() throws Exception;
 
+  /**
+   * Invoked automatically on final unregistration when workbench is closing.
+   *
+   * <p><b>Warning:</b> users should not invoke this method directly.
+   */
   protected abstract void onFinalUnregistration() throws Exception;
 
   @Override

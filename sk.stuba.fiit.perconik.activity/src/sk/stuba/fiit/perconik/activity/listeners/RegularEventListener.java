@@ -1501,11 +1501,21 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Current implementation does nothing.
+   */
   @Override
   protected final void onWorkbenchShutdown() throws Exception {
     // unused
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Current implementation invokes configured disposal hook.
+   */
   @Override
   protected final void onFinalUnregistration() throws Exception {
     this.disposalHook.onDispose(this);
