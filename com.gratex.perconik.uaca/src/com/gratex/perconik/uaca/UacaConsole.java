@@ -14,13 +14,15 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.util.Objects.requireNonNull;
 
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
+import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
 
 public final class UacaConsole extends ForwardingPluginConsole implements Configurable {
-  private static final UacaConsole shared = new UacaConsole(UacaPreferences.getShared());
+  private static final UacaConsole shared = new UacaConsole(UacaPreferences.getShared(), systemTimeSource());
 
   private static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -28,13 +30,20 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
 
   private final UacaOptions options;
 
-  private UacaConsole(final UacaOptions options) {
+  private final TimeSource source;
+
+  private UacaConsole(final UacaOptions options, final TimeSource source) {
     this.delegate = Activator.defaultInstance().getConsole();
     this.options = requireNonNull(options);
+    this.source = requireNonNull(source);
   }
 
   public static UacaConsole create(final UacaOptions options) {
-    return new UacaConsole(options);
+    return create(options, systemTimeSource());
+  }
+
+  public static UacaConsole create(final UacaOptions options, final TimeSource source) {
+    return new UacaConsole(options, source);
   }
 
   public static UacaConsole getShared() {
@@ -47,11 +56,13 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
   }
 
   private String hook(final String message) {
+    Date time = new Date(this.source.read());
+
     if (this.options.isEventLogEnabled()) {
       this.notice(message);
     }
 
-    return builder().format(format, new Date()).appendln().lines(message).toString();
+    return builder().format(format, time).appendln().lines(message).toString();
   }
 
   @Override
