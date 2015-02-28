@@ -1,8 +1,8 @@
 package sk.stuba.fiit.perconik.activity.plugin;
 
-import org.eclipse.core.runtime.Plugin;
-
 import org.osgi.framework.BundleContext;
+
+import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 
 /**
  * The activator class controls the plug-in life cycle.
@@ -12,7 +12,7 @@ import org.osgi.framework.BundleContext;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class Activator extends Plugin {
+public class Activator extends ExtendedPlugin {
   /**
    * The plug-in identifier.
    */
