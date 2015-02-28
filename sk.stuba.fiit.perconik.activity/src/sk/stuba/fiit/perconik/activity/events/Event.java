@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import sk.stuba.fiit.perconik.activity.data.AnnotableData;
-import sk.stuba.fiit.perconik.activity.data.AnnotationData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
+
+import static sk.stuba.fiit.perconik.activity.data.DataCollections.toAnnotationData;
 
 public class Event extends AnnotableData {
   protected long timestamp;
@@ -20,7 +21,7 @@ public class Event extends AnnotableData {
   protected Event(final long timestamp) {
     List<Annotation> annotations = Annotations.ofClass(this.getClass());
 
-    this.setAnnotations(AnnotationData.of(annotations));
+    this.setAnnotations(toAnnotationData(annotations));
     this.setTimestamp(timestamp);
   }
 

@@ -7,6 +7,8 @@ import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotables;
 
+import static sk.stuba.fiit.perconik.activity.data.DataCollections.toAnnotationData;
+
 public class AnnotableData extends AnyStructuredData {
   protected List<AnnotationData> annotations;
 
@@ -17,7 +19,7 @@ public class AnnotableData extends AnyStructuredData {
       return;
     }
 
-    this.setAnnotations(AnnotationData.of(annotable.getAnnotations()));
+    this.setAnnotations(toAnnotationData(annotable.getAnnotations()));
   }
 
   protected AnnotableData(final AnnotatedElement element) {

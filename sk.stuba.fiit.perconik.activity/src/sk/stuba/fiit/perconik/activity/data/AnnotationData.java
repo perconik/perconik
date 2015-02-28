@@ -1,13 +1,10 @@
 package sk.stuba.fiit.perconik.activity.data;
 
 import java.lang.annotation.Annotation;
-import java.util.List;
 import java.util.Map;
 
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 public class AnnotationData extends AnyStructuredData {
   protected Class<? extends Annotation> type;
@@ -30,16 +27,6 @@ public class AnnotationData extends AnyStructuredData {
 
   public static AnnotationData of(final Annotation annotation) {
     return new AnnotationData(annotation);
-  }
-
-  public static List<AnnotationData> of(final Iterable<Annotation> annotations) {
-    List<AnnotationData> data = newArrayList();
-
-    for (Annotation annotation: annotations) {
-      data.add(new AnnotationData(annotation));
-    }
-
-    return data;
   }
 
   public void setType(final Class<? extends Annotation> type) {
