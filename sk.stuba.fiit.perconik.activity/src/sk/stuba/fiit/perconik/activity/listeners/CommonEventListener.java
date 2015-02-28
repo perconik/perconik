@@ -153,6 +153,11 @@ public abstract class CommonEventListener extends RegularEventListener {
       // TODO set time source
       return UacaConsole.create(listener.getUacaOptions());
     }
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
   }
 
   private enum UacaProxySupplierFunction implements Function<CommonEventListener, PersistenceStore> {
