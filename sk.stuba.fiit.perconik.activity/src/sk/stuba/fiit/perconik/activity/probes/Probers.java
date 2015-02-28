@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executor;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 
 import sk.stuba.fiit.perconik.data.content.AnyContent;
@@ -14,16 +15,17 @@ import static java.util.Objects.requireNonNull;
 
 import static com.google.common.collect.ImmutableMap.copyOf;
 import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Maps.filterEntries;
 
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 
 public final class Probers {
   private Probers() {}
 
-  private static abstract class ImmutableProper<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
+  private static final class RegularProber<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
     final ImmutableMap<String, P> probes;
 
-    ImmutableProper(final Map<String, P> probes) {
+    RegularProber(final Map<String, P> probes) {
       this.probes = copyOf(probes);
     }
 
@@ -32,28 +34,57 @@ public final class Probers {
     }
   }
 
-  private static final class SameThreadProber<T extends AnyContent, P extends Probe<?>> extends ImmutableProper<T, P> {
-    SameThreadProber(final Map<String, P> probes) {
-      super(probes);
+  private static final class FilteringProber<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
+    final ImmutableMap<String, P> probes;
+
+    final Predicate<? super Entry<String, P>> predicate;
+
+    FilteringProber(final Map<String, P> probes, final Predicate<? super Entry<String, P>> predicate) {
+      this.probes = copyOf(probes);
+      this.predicate = requireNonNull(predicate);
+    }
+
+    public final Map<String, P> probes() {
+      return filterEntries(this.probes, this.predicate);
     }
   }
 
-  private static final class ConcurrentProber<T extends AnyContent, P extends Probe<?>> extends ImmutableProper<T, P> {
-    final ExecutorService executor;
+  private static abstract class ProberProxy<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
+    final Prober<T, P> prober;
 
-    ConcurrentProber(final Map<String, P> probes, final ExecutorService executor) {
-      super(probes);
+    public ProberProxy(final Prober<T, P> prober) {
+      this.prober = requireNonNull(prober);
+    }
+
+    public final Map<String, P> probes() {
+      return this.prober.probes();
+    }
+  }
+
+  private static final class SameThreadProber<T extends AnyContent, P extends Probe<?>> extends ProberProxy<T, P> {
+    SameThreadProber(final Prober<T, P> prober) {
+      super(prober);
+    }
+  }
+
+  private static final class ConcurrentProber<T extends AnyContent, P extends Probe<?>> extends ProberProxy<T, P> {
+    final Executor executor;
+
+    ConcurrentProber(final Prober<T, P> prober, final Executor executor) {
+      super(prober);
 
       this.executor = requireNonNull(executor);
     }
 
     @Override
     public void inject(final T content) {
-      final CountDownLatch latch = new CountDownLatch(this.probes.size());
+      final Map<String, P> probes = copyOf(this.prober.probes());
+
+      final CountDownLatch latch = new CountDownLatch(probes.size());
 
       final List<RuntimeException> failures = newLinkedList();
 
-      for (final Entry<String, P> entry: this.probes.entrySet()) {
+      for (final Entry<String, P> entry: probes.entrySet()) {
         this.executor.execute(new Runnable() {
           public void run() {
             try {
@@ -80,10 +111,18 @@ public final class Probers {
   }
 
   public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes) {
-    return new SameThreadProber<>(probes);
+    return new SameThreadProber<>(new RegularProber<T, P>(probes));
   }
 
-  public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes, final ExecutorService executor) {
-    return new ConcurrentProber<>(probes, executor);
+  public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes, final Executor executor) {
+    return new ConcurrentProber<>(new RegularProber<T, P>(probes), executor);
+  }
+
+  public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes, final Predicate<? super Entry<String, P>> predicate) {
+    return new SameThreadProber<>(new FilteringProber<T, P>(probes, predicate));
+  }
+
+  public static <T extends AnyContent, P extends Probe<?>> Prober<T, P> create(final Map<String, P> probes, final Predicate<? super Entry<String, P>> predicate, final Executor executor) {
+    return new ConcurrentProber<>(new FilteringProber<T, P>(probes, predicate), executor);
   }
 }
