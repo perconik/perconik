@@ -36,6 +36,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import sk.stuba.fiit.perconik.utilities.configuration.Scope;
 import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
 import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
+import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
@@ -529,24 +530,30 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   public interface TimeHelper {
     public long currentTime();
 
-    public Ticker timeSource();
+    public TimeSource wallTimeSource();
 
     public Stopwatch createStopwatch();
+
+    public Ticker elapsedTimeTicker();
   }
 
   private enum SystemTimeHelper implements TimeHelper {
     instance;
 
     public long currentTime() {
-      return System.currentTimeMillis();
+      return this.wallTimeSource().read();
     }
 
-    public Ticker timeSource() {
-      return Ticker.systemTicker();
+    public TimeSource wallTimeSource() {
+      return TimeSource.systemTimeSource();
     }
 
     public Stopwatch createStopwatch() {
-      return Stopwatch.createUnstarted(this.timeSource());
+      return Stopwatch.createUnstarted(this.elapsedTimeTicker());
+    }
+
+    public Ticker elapsedTimeTicker() {
+      return Ticker.systemTicker();
     }
   }
 
@@ -554,12 +561,16 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return this.timeHelper.currentTime();
   }
 
-  protected final Ticker timeSource() {
-    return this.timeHelper.timeSource();
+  protected final TimeSource wallTimeSource() {
+    return this.timeHelper.wallTimeSource();
   }
 
   protected final Stopwatch createStopwatch() {
     return this.timeHelper.createStopwatch();
+  }
+
+  protected final Ticker elapsedTimeTicker() {
+    return this.timeHelper.elapsedTimeTicker();
   }
 
   @Override

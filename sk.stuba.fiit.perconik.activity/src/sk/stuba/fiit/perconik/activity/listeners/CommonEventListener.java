@@ -78,7 +78,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
 
-    sharedBuilder.pluginConsole(UacaConsole.getShared());
+    sharedBuilder.pluginConsole(UacaConsoleSupplierFunction.instance);
     sharedBuilder.persistenceStore(UacaProxySupplierFunction.instance);
     sharedBuilder.sendFailureHandler(UacaProxySaveFailureHandler.instance);
     sharedBuilder.registerFailureHandler(UacaLoggingRegisterFailureHandler.instance);
@@ -146,6 +146,14 @@ public abstract class CommonEventListener extends RegularEventListener {
     return sharedDefaults;
   }
 
+  private enum UacaConsoleSupplierFunction implements Function<CommonEventListener, PluginConsole> {
+    instance;
+
+    public PluginConsole apply(final CommonEventListener listener) {
+      return UacaConsole.create(listener.getUacaOptions());
+    }
+  }
+
   private enum UacaProxySupplierFunction implements Function<CommonEventListener, PersistenceStore> {
     instance;
 
@@ -153,7 +161,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       try {
         return StoreWrapper.of(new UacaProxy(listener.getUacaOptions()));
       } catch (Exception failure) {
-        UacaConsole.getShared().error(failure, "Unable to open UACA proxy");
+        listener.log.error(failure, "Unable to open UACA proxy");
 
         throw propagate(failure);
       }
@@ -169,6 +177,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     instance;
 
     public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
+      // TODO use log
       UacaConsole.getShared().error(failure, listener + ": Unable to save data at " + path + " using UACA proxy");
     }
 
@@ -182,6 +191,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     instance;
 
     static void report(final RegularEventListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
+      // TODO use log
       listener.pluginConsole.error(failure, "Unexpected failure while executing %s as %s %s hook", task, listener, hook);
     }
 
@@ -214,6 +224,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       try {
         listener.persistenceStore.close();
       } catch (Exception failure) {
+        // TODO use log
         listener.pluginConsole.error(failure, listener + ": Unable to close UACA proxy");
       }
     }
