@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Supplier;
@@ -40,6 +41,7 @@ import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import static com.google.common.base.Functions.constant;
 import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -49,7 +51,6 @@ import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
-import static sk.stuba.fiit.perconik.utilities.MoreSuppliers.ofNull;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.emptyOptions;
 
@@ -61,7 +62,7 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.empty
  */
 public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
   /**
-   * Underlying plug-in console for event logging.
+   * Underlying plug-in console for logging.
    */
   protected final PluginConsole pluginConsole;
 
@@ -125,34 +126,58 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   /**
    * Constructor for use by subclasses.
    */
-  protected RegularEventListener(final Configuration configuration) {
+  protected <C> RegularEventListener(final Configuration<C> configuration) {
+    this(configuration, ofInstance((C) null));
+  }
+
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected <C> RegularEventListener(final Configuration<C> configuration, final C context) {
+    this(configuration, ofInstance(context));
+  }
+
+  private <C> RegularEventListener(final Configuration<C> configuration, final Supplier<C> supplier) {
+    final C context = this.resolveContext(configuration, supplier);
+
     // TODO add to configuration
     this.timeHelper = SystemTimeHelper.instance;
 
-    this.pluginConsole = requireNonNull(configuration.pluginConsole());
-    this.displayExecutor = requireNonNull(configuration.diplayExecutor());
-    this.sharedExecutor = requireNonNull(configuration.sharedExecutor());
-    this.persistenceStore = requireNonNull(configuration.persistenceStore());
+    this.pluginConsole = requireNonNull(configuration.pluginConsole(context));
+    this.displayExecutor = requireNonNull(configuration.diplayExecutor(context));
+    this.sharedExecutor = requireNonNull(configuration.sharedExecutor(context));
+    this.persistenceStore = requireNonNull(configuration.persistenceStore(context));
 
-    this.dataInjector = this.resolveDataInjector(configuration);
+    this.dataInjector = this.resolveDataInjector(configuration, context);
 
-    this.eventValidator = configuration.eventValidator().or(StandardEventValidator.instance);
-    this.sendFailureHandler = configuration.sendFailureHandler().or(PropagatingSendFailureHandler.instance);
-    this.registerFailureHandler = configuration.registerFailureHandler().or(PropagatingRegisterFailureHandler.instance);
-    this.disposalHook = configuration.disposalHook().or(IgnoringDisposalHook.instance);
+    this.eventValidator = configuration.eventValidator(context).or(StandardEventValidator.instance);
+    this.sendFailureHandler = configuration.sendFailureHandler(context).or(PropagatingSendFailureHandler.instance);
+    this.registerFailureHandler = configuration.registerFailureHandler(context).or(PropagatingRegisterFailureHandler.instance);
+    this.disposalHook = configuration.disposalHook(context).or(IgnoringDisposalHook.instance);
 
     this.runtimeStatistics = this.initializeRuntimeStatistics();
     this.optionsLoader = this.initializeOptionsLoader();
   }
 
-  private DataInjector resolveDataInjector(final Configuration configuration) {
-    Optional<DataInjector> injector = configuration.dataInjector();
+  private <C> C resolveContext(final Configuration<C> configuration, final Supplier<C> supplier) {
+    Class<? extends C> type = requireNonNull(configuration.contextType());
+    C context = requireNonNull(supplier).get();
+
+    try {
+      return type.cast(context == null ? this : context);
+    } catch (ClassCastException failure) {
+      throw new IllegalStateException(failure);
+    }
+  }
+
+  private <C> DataInjector resolveDataInjector(final Configuration<C> configuration, final C context) {
+    Optional<DataInjector> injector = configuration.dataInjector(context);
 
     if (injector.isPresent()) {
       return injector.get();
     }
 
-    Optional<Map<String, Probe<?>>> mappings = configuration.probeMappings();
+    Optional<Map<String, Probe<?>>> mappings = configuration.probeMappings(context);
 
     if (mappings.isPresent()) {
       Map<String, Probe<?>> mix = newHashMap(mappings.get());
@@ -161,7 +186,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
         mix.put(key("meta", entry.getKey()), InternalProbe.class.cast(entry.getValue()));
       }
 
-      Optional<ExecutorService> executor = configuration.probeExecutor();
+      Optional<ExecutorService> executor = configuration.probeExecutor(context);
 
       return executor.isPresent() ? ProbingDataInjector.of(mix, executor.get()) : ProbingDataInjector.of(mix);
     }
@@ -199,62 +224,66 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return loader;
   }
 
-  // TODO parametrize with L & rename to Setup
-  public interface Configuration {
-    public PluginConsole pluginConsole();
+  public interface Configuration<C> {
+    public Class<? extends C> contextType();
 
-    public DisplayExecutor diplayExecutor();
+    public PluginConsole pluginConsole(C context);
 
-    public ExecutorService sharedExecutor();
+    public DisplayExecutor diplayExecutor(C context);
 
-    public Optional<DataInjector> dataInjector();
+    public ExecutorService sharedExecutor(C context);
 
-    public Optional<Map<String, Probe<?>>> probeMappings();
+    public Optional<DataInjector> dataInjector(C context);
 
-    public Optional<ExecutorService> probeExecutor();
+    public Optional<Map<String, Probe<?>>> probeMappings(C context);
 
-    public Optional<EventValidator> eventValidator();
+    public Optional<ExecutorService> probeExecutor(C context);
 
-    public PersistenceStore persistenceStore();
+    public Optional<EventValidator> eventValidator(C context);
 
-    public Optional<SendFailureHandler> sendFailureHandler();
+    public PersistenceStore persistenceStore(C context);
 
-    public Optional<RegisterFailureHandler> registerFailureHandler();
+    public Optional<SendFailureHandler> sendFailureHandler(C context);
 
-    public Optional<DisposalHook> disposalHook();
+    public Optional<RegisterFailureHandler> registerFailureHandler(C context);
 
-    public interface Builder {
-      public Configuration build();
+    public Optional<DisposalHook> disposalHook(C context);
+
+    public interface Builder<C> {
+      public Configuration<C> build();
     }
   }
 
-  public static abstract class AbstractConfiguration implements Configuration {
-    private final Supplier<PluginConsole> pluginConsole;
+  public static abstract class AbstractConfiguration<C> implements Configuration<C> {
+    private final Class<? extends C> contextType;
 
-    private final Supplier<DisplayExecutor> diplayExecutor;
+    private final Function<? super C, PluginConsole> pluginConsole;
 
-    private final Supplier<ExecutorService> sharedExecutor;
+    private final Function<? super C, DisplayExecutor> diplayExecutor;
 
-    private final Supplier<DataInjector> dataInjector;
+    private final Function<? super C, ExecutorService> sharedExecutor;
 
-    private final Supplier<Map<String, Probe<?>>> probeMappings;
+    private final Function<? super C, DataInjector> dataInjector;
 
-    private final Supplier<ExecutorService> probeExecutor;
+    private final Function<? super C, Map<String, Probe<?>>> probeMappings;
 
-    private final Supplier<EventValidator> eventValidator;
+    private final Function<? super C, ExecutorService> probeExecutor;
 
-    private final Supplier<PersistenceStore> persistenceStore;
+    private final Function<? super C, EventValidator> eventValidator;
 
-    private final Supplier<SendFailureHandler> sendFailureHandler;
+    private final Function<? super C, PersistenceStore> persistenceStore;
 
-    private final RegisterFailureHandler registerFailureHandler;
+    private final Function<? super C, SendFailureHandler> sendFailureHandler;
 
-    private final DisposalHook disposalHook;
+    private final Function<? super C, RegisterFailureHandler> registerFailureHandler;
+
+    private final Function<? super C, DisposalHook> disposalHook;
 
     /**
      * Constructor for use by subclasses.
      */
-    protected AbstractConfiguration(final AbstractBuilder<?> builder) {
+    protected AbstractConfiguration(final AbstractBuilder<?, C> builder) {
+      this.contextType = requireNonNull(builder.contextType);
       this.pluginConsole = requireNonNull(builder.pluginConsole);
       this.diplayExecutor = requireNonNull(builder.diplayExecutor);
       this.sharedExecutor = requireNonNull(builder.sharedExecutor);
@@ -268,28 +297,30 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       this.disposalHook = requireNonNull(builder.disposalHook);
     }
 
-    public static abstract class AbstractBuilder<B extends AbstractBuilder<B>> implements Builder {
-      Supplier<PluginConsole> pluginConsole;
+    public static abstract class AbstractBuilder<B extends AbstractBuilder<B, C>, C> implements Builder<C> {
+      Class<? extends C> contextType;
 
-      Supplier<DisplayExecutor> diplayExecutor;
+      Function<? super C, PluginConsole> pluginConsole;
 
-      Supplier<ExecutorService> sharedExecutor;
+      Function<? super C, DisplayExecutor> diplayExecutor;
 
-      Supplier<DataInjector> dataInjector = ofNull();
+      Function<? super C, ExecutorService> sharedExecutor;
 
-      Supplier<Map<String, Probe<?>>> probeMappings = ofNull();
+      Function<? super C, DataInjector> dataInjector = constant(null);
 
-      Supplier<ExecutorService> probeExecutor = ofNull();
+      Function<? super C, Map<String, Probe<?>>> probeMappings = constant(null);
 
-      Supplier<EventValidator> eventValidator = ofNull();
+      Function<? super C, ExecutorService> probeExecutor = constant(null);
 
-      Supplier<PersistenceStore> persistenceStore;
+      Function<? super C, EventValidator> eventValidator = constant(null);
 
-      Supplier<SendFailureHandler> sendFailureHandler = ofNull();
+      Function<? super C, PersistenceStore> persistenceStore;
 
-      RegisterFailureHandler registerFailureHandler = null;
+      Function<? super C, SendFailureHandler> sendFailureHandler = constant(null);
 
-      DisposalHook disposalHook = null;
+      Function<? super C, RegisterFailureHandler> registerFailureHandler = constant(null);
+
+      Function<? super C, DisposalHook> disposalHook = constant(null);
 
       /**
        * Constructor for use by subclasses.
@@ -301,178 +332,196 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
        */
       protected abstract B asSubtype();
 
-      public final B pluginConsole(final PluginConsole console) {
-        return this.pluginConsole(ofInstance(requireNonNull(console)));
+      public final B contextType(final Class<? extends C> type) {
+        this.contextType = requireNonNull(type);
+
+        return this.asSubtype();
       }
 
-      public final B pluginConsole(final Supplier<PluginConsole> supplier) {
-        this.pluginConsole = requireNonNull(supplier);
+      public final B pluginConsole(final PluginConsole console) {
+        return this.pluginConsole(constant(requireNonNull(console)));
+      }
+
+      public final B pluginConsole(final Function<? super C, PluginConsole> relation) {
+        this.pluginConsole = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B diplayExecutor(final DisplayExecutor executor) {
-        return this.diplayExecutor(ofInstance(requireNonNull(executor)));
+        return this.diplayExecutor(constant(requireNonNull(executor)));
       }
 
-      public final B diplayExecutor(final Supplier<DisplayExecutor> supplier) {
-        this.diplayExecutor = requireNonNull(supplier);
+      public final B diplayExecutor(final Function<? super C, DisplayExecutor> relation) {
+        this.diplayExecutor = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B sharedExecutor(final ExecutorService executor) {
-        return this.sharedExecutor(ofInstance(requireNonNull(executor)));
+        return this.sharedExecutor(constant(requireNonNull(executor)));
       }
 
-      public final B sharedExecutor(final Supplier<ExecutorService> supplier) {
-        this.sharedExecutor = requireNonNull(supplier);
+      public final B sharedExecutor(final Function<? super C, ExecutorService> relation) {
+        this.sharedExecutor = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B dataInjector(final DataInjector injector) {
-        return this.dataInjector(ofInstance(requireNonNull(injector)));
+        return this.dataInjector(constant(requireNonNull(injector)));
       }
 
-      public final B dataInjector(final Supplier<DataInjector> supplier) {
-        this.dataInjector = requireNonNull(supplier);
+      public final B dataInjector(final Function<? super C, DataInjector> relation) {
+        this.dataInjector = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B probeMappings(final Map<String, Probe<?>> probes) {
-        return this.probeMappings(ofInstance(requireNonNull(probes)));
+        return this.probeMappings(constant(requireNonNull(probes)));
       }
 
-      public final B probeMappings(final Supplier<Map<String, Probe<?>>> supplier) {
-        this.probeMappings = requireNonNull(supplier);
+      public final B probeMappings(final Function<? super C, Map<String, Probe<?>>> relation) {
+        this.probeMappings = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B probeExecutor(final ExecutorService executor) {
-        return this.probeExecutor(ofInstance(requireNonNull(executor)));
+        return this.probeExecutor(constant(requireNonNull(executor)));
       }
 
-      public final B probeExecutor(final Supplier<ExecutorService> supplier) {
-        this.probeExecutor = requireNonNull(supplier);
+      public final B probeExecutor(final Function<? super C, ExecutorService> relation) {
+        this.probeExecutor = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B eventValidator(final EventValidator validator) {
-        return this.eventValidator(ofInstance(requireNonNull(validator)));
+        return this.eventValidator(constant(requireNonNull(validator)));
       }
 
-      public final B eventValidator(final Supplier<EventValidator> supplier) {
-        this.eventValidator = requireNonNull(supplier);
+      public final B eventValidator(final Function<? super C, EventValidator> relation) {
+        this.eventValidator = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B persistenceStore(final PersistenceStore store) {
-        return this.persistenceStore(ofInstance(requireNonNull(store)));
+        return this.persistenceStore(constant(requireNonNull(store)));
       }
 
-      public final B persistenceStore(final Supplier<PersistenceStore> supplier) {
-        this.persistenceStore = requireNonNull(supplier);
+      public final B persistenceStore(final Function<? super C, PersistenceStore> relation) {
+        this.persistenceStore = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B sendFailureHandler(final SendFailureHandler handler) {
-        return this.sendFailureHandler(ofInstance(requireNonNull(handler)));
+        return this.sendFailureHandler(constant(requireNonNull(handler)));
       }
 
-      public final B sendFailureHandler(final Supplier<SendFailureHandler> handler) {
-        this.sendFailureHandler = requireNonNull(handler);
+      public final B sendFailureHandler(final Function<? super C, SendFailureHandler> relation) {
+        this.sendFailureHandler = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B registerFailureHandler(final RegisterFailureHandler handler) {
-        this.registerFailureHandler = requireNonNull(handler);
+        return this.registerFailureHandler(constant(requireNonNull(handler)));
+      }
+
+      public final B registerFailureHandler(final Function<? super C, RegisterFailureHandler> relation) {
+        this.registerFailureHandler = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
       public final B disposalHook(final DisposalHook hook) {
-        this.disposalHook = requireNonNull(hook);
+        return this.disposalHook(constant(requireNonNull(hook)));
+      }
+
+      public final B disposalHook(final Function<? super C, DisposalHook> relation) {
+        this.disposalHook = requireNonNull(relation);
 
         return this.asSubtype();
       }
 
-      public abstract Configuration build();
+      public abstract Configuration<C> build();
     }
 
-    public final PluginConsole pluginConsole() {
-      return requireNonNull(this.pluginConsole.get());
+    public final Class<? extends C> contextType() {
+      return this.contextType;
     }
 
-    public final DisplayExecutor diplayExecutor() {
-      return requireNonNull(this.diplayExecutor.get());
+    public final PluginConsole pluginConsole(final C context) {
+      return requireNonNull(this.pluginConsole.apply(context));
     }
 
-    public final ExecutorService sharedExecutor() {
-      return requireNonNull(this.sharedExecutor.get());
+    public final DisplayExecutor diplayExecutor(final C context) {
+      return requireNonNull(this.diplayExecutor.apply(context));
     }
 
-    public final Optional<DataInjector> dataInjector() {
-      return fromNullable(this.dataInjector.get());
+    public final ExecutorService sharedExecutor(final C context) {
+      return requireNonNull(this.sharedExecutor.apply(context));
     }
 
-    public final Optional<Map<String, Probe<?>>> probeMappings() {
-      return fromNullable(this.probeMappings.get());
+    public final Optional<DataInjector> dataInjector(final C context) {
+      return fromNullable(this.dataInjector.apply(context));
     }
 
-    public final Optional<ExecutorService> probeExecutor() {
-      return fromNullable(this.probeExecutor.get());
+    public final Optional<Map<String, Probe<?>>> probeMappings(final C context) {
+      return fromNullable(this.probeMappings.apply(context));
     }
 
-    public final Optional<EventValidator> eventValidator() {
-      return fromNullable(this.eventValidator.get());
+    public final Optional<ExecutorService> probeExecutor(final C context) {
+      return fromNullable(this.probeExecutor.apply(context));
     }
 
-    public final PersistenceStore persistenceStore() {
-      return requireNonNull(this.persistenceStore.get());
+    public final Optional<EventValidator> eventValidator(final C context) {
+      return fromNullable(this.eventValidator.apply(context));
     }
 
-    public final Optional<SendFailureHandler> sendFailureHandler() {
-      return fromNullable(this.sendFailureHandler.get());
+    public final PersistenceStore persistenceStore(final C context) {
+      return requireNonNull(this.persistenceStore.apply(context));
     }
 
-    public final Optional<RegisterFailureHandler> registerFailureHandler() {
-      return fromNullable(this.registerFailureHandler);
+    public final Optional<SendFailureHandler> sendFailureHandler(final C context) {
+      return fromNullable(this.sendFailureHandler.apply(context));
     }
 
-    public final Optional<DisposalHook> disposalHook() {
-      return fromNullable(this.disposalHook);
+    public final Optional<RegisterFailureHandler> registerFailureHandler(final C context) {
+      return fromNullable(this.registerFailureHandler.apply(context));
+    }
+
+    public final Optional<DisposalHook> disposalHook(final C context) {
+      return fromNullable(this.disposalHook.apply(context));
     }
   }
 
-  public static final class RegularConfiguration extends AbstractConfiguration {
-    RegularConfiguration(final Builder builder) {
+  public static final class RegularConfiguration<C> extends AbstractConfiguration<C> {
+    RegularConfiguration(final Builder<C> builder) {
       super(builder);
     }
 
-    public static final class Builder extends AbstractBuilder<Builder> {
+    public static final class Builder<C> extends AbstractBuilder<Builder<C>, C> {
       public Builder() {
       }
 
       @Override
-      protected Builder asSubtype() {
+      protected Builder<C> asSubtype() {
         return this;
       }
 
       @Override
-      public RegularConfiguration build() {
-        return new RegularConfiguration(this);
+      public RegularConfiguration<C> build() {
+        return new RegularConfiguration<>(this);
       }
     }
 
-    public static Builder builder() {
-      return new Builder();
+    public static <C> Builder<C> builder() {
+      return new Builder<>();
     }
   }
 
@@ -944,6 +993,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return emptyMap();
   }
 
+  // TODO parametrize?
   public interface DisposalHook {
     public void onDispose(RegularEventListener listener) throws Exception;
   }

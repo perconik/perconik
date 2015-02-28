@@ -3,12 +3,11 @@ package sk.stuba.fiit.perconik.activity.listeners;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.base.Supplier;
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 
 import com.gratex.perconik.uaca.UacaConsole;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
-import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.Builder;
@@ -67,18 +66,20 @@ public abstract class CommonEventListener extends RegularEventListener {
 
   protected static final String qualifier = join(PLUGIN_ID, "preferences");
 
-  private static final Builder sharedBuilder;
+  private static final Builder<CommonEventListener> sharedBuilder;
 
   private static final Options sharedDefaults;
 
   static {
     sharedBuilder = builder();
 
+    sharedBuilder.contextType(CommonEventListener.class);
+
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
 
     sharedBuilder.pluginConsole(UacaConsole.getShared());
-    sharedBuilder.persistenceStore(UacaProxySupplier.instance);
+    sharedBuilder.persistenceStore(UacaProxySupplierFunction.instance);
     sharedBuilder.sendFailureHandler(UacaProxySaveFailureHandler.instance);
     sharedBuilder.registerFailureHandler(UacaLoggingRegisterFailureHandler.instance);
     sharedBuilder.disposalHook(UacaProxyDisposalHook.instance);
@@ -110,7 +111,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     this.log = new Log(this);
   }
 
-  static final RegularConfiguration newConfiguration() {
+  static final Configuration<CommonEventListener> newConfiguration() {
     return sharedBuilder.build();
   }
 
@@ -145,13 +146,12 @@ public abstract class CommonEventListener extends RegularEventListener {
     return sharedDefaults;
   }
 
-  private enum UacaProxySupplier implements Supplier<PersistenceStore> {
+  private enum UacaProxySupplierFunction implements Function<CommonEventListener, PersistenceStore> {
     instance;
 
-    public PersistenceStore get() {
+    public PersistenceStore apply(final CommonEventListener listener) {
       try {
-        // TODO use custom opts, use UacaOptions.View
-        return StoreWrapper.of(new UacaProxy(UacaPreferences.getShared()));
+        return StoreWrapper.of(new UacaProxy(listener.getUacaOptions()));
       } catch (Exception failure) {
         UacaConsole.getShared().error(failure, "Unable to open UACA proxy");
 
@@ -319,5 +319,9 @@ public abstract class CommonEventListener extends RegularEventListener {
     public boolean isEnabled() {
       return StandardLoggingOptionsSchema.logDebug.getValue(this.listener.effectiveOptions());
     }
+  }
+
+  final UacaOptions getUacaOptions() {
+    return UacaOptions.View.of(this.getOptions());
   }
 }
