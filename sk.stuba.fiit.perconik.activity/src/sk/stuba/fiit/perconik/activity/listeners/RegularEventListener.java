@@ -40,6 +40,7 @@ import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import static com.google.common.base.Functions.constant;
@@ -50,7 +51,9 @@ import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Maps.newHashMap;
 
+import static sk.stuba.fiit.perconik.activity.plugin.Activator.defaultInstance;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.emptyOptions;
@@ -62,6 +65,18 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.empty
  * @since 1.0
  */
 public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
+  static final String internalProbeKeyPrefix = "meta";
+
+  /**
+   * Underlying listener options holder.
+   */
+  protected final OptionsLoader optionsLoader;
+
+  /**
+   * Underlying time helper.
+   */
+  protected final TimeHelper timeHelper;
+
   /**
    * Underlying plug-in console for logging.
    */
@@ -100,24 +115,14 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   protected final SendFailureHandler sendFailureHandler;
 
   /**
-   * Underlying time helper.
-   */
-  final TimeHelper timeHelper;
-
-  /**
-   * Underlying listener registration failure handler.
-   */
-  final RegisterFailureHandler registerFailureHandler;
-
-  /**
    * Underlying listener statistics.
    */
   final RuntimeStatistics runtimeStatistics;
 
   /**
-   * Underlying listener options holder.
+   * Underlying listener registration failure handler.
    */
-  final OptionsLoader optionsLoader;
+  final RegisterFailureHandler registerFailureHandler;
 
   /**
    * Underlying listener disposal hook.
@@ -141,23 +146,56 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   private <C> RegularEventListener(final Configuration<C> configuration, final Supplier<C> supplier) {
     final C context = this.resolveContext(configuration, supplier);
 
-    // TODO add to configuration
-    this.timeHelper = SystemTimeHelper.instance;
+    // note that field initialization order is significant
+    this.optionsLoader = this.initializeOptionsLoader(configuration, context);
 
-    this.pluginConsole = requireNonNull(configuration.pluginConsole(context));
-    this.displayExecutor = requireNonNull(configuration.diplayExecutor(context));
-    this.sharedExecutor = requireNonNull(configuration.sharedExecutor(context));
-    this.persistenceStore = requireNonNull(configuration.persistenceStore(context));
+    this.timeHelper = configuration.timeHelper(context).or(SystemTimeHelper.instance);
+    this.pluginConsole = configuration.pluginConsole(context).or(defaultInstance().getConsole());
+
+    this.displayExecutor = configuration.diplayExecutor(context).or(defaultSynchronous());
+    this.sharedExecutor = configuration.sharedExecutor(context).or(newSingleThreadExecutor());
 
     this.dataInjector = this.resolveDataInjector(configuration, context);
 
     this.eventValidator = configuration.eventValidator(context).or(StandardEventValidator.instance);
+    this.persistenceStore = configuration.persistenceStore(context).or(VoidPersistenceStore.instance);
     this.sendFailureHandler = configuration.sendFailureHandler(context).or(PropagatingSendFailureHandler.instance);
-    this.registerFailureHandler = configuration.registerFailureHandler(context).or(PropagatingRegisterFailureHandler.instance);
-    this.disposalHook = configuration.disposalHook(context).or(IgnoringDisposalHook.instance);
 
     this.runtimeStatistics = this.initializeRuntimeStatistics();
-    this.optionsLoader = this.initializeOptionsLoader();
+
+    this.registerFailureHandler = configuration.registerFailureHandler(context).or(PropagatingRegisterFailureHandler.instance);
+    this.disposalHook = configuration.disposalHook(context).or(IgnoringDisposalHook.instance);
+  }
+
+  // TODO config -> ? super C
+  private <C> OptionsLoader initializeOptionsLoader(final Configuration<C> configuration, final C context) {
+    final OptionsLoader loader = new OptionsLoader(this);
+
+    RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(OptionsLoader.class) {
+      public void run() {
+        loader.load(ListenerPreferences.getShared());
+      }
+    });
+
+    return loader;
+  }
+
+  private RuntimeStatistics initializeRuntimeStatistics() {
+    final RuntimeStatistics statistics = new RuntimeStatistics();
+
+    RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(RuntimeStatistics.class) {
+      public void run() {
+        statistics.registrationCount.incrementAndGet();
+      }
+    });
+
+    RegistrationHook.POST_UNREGISTER.add(this, new NamedRunnable(RuntimeStatistics.class) {
+      public void run() {
+        statistics.unregistrationCount.incrementAndGet();
+      }
+    });
+
+    return statistics;
   }
 
   private <C> C resolveContext(final Configuration<C> configuration, final Supplier<C> supplier) {
@@ -184,7 +222,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       Map<String, Probe<?>> mix = newHashMap(mappings.get());
 
       for (Entry<String, InternalProbe<?>> entry: this.internalProbeMappings().entrySet()) {
-        mix.put(key("meta", entry.getKey()), InternalProbe.class.cast(entry.getValue()));
+        mix.put(key(internalProbeKeyPrefix, entry.getKey()), InternalProbe.class.cast(entry.getValue()));
       }
 
       Optional<ExecutorService> executor = configuration.probeExecutor(context);
@@ -195,44 +233,18 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return NoDataInjector.instance;
   }
 
-  private RuntimeStatistics initializeRuntimeStatistics() {
-    final RuntimeStatistics statistics = new RuntimeStatistics();
-
-    RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(RuntimeStatistics.class) {
-      public void run() {
-        statistics.registrationCount.incrementAndGet();
-      }
-    });
-
-    RegistrationHook.POST_UNREGISTER.add(this, new NamedRunnable(RuntimeStatistics.class) {
-      public void run() {
-        statistics.unregistrationCount.incrementAndGet();
-      }
-    });
-
-    return statistics;
-  }
-
-  private OptionsLoader initializeOptionsLoader() {
-    final OptionsLoader loader = new OptionsLoader(this);
-
-    RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(OptionsLoader.class) {
-      public void run() {
-        loader.load(ListenerPreferences.getShared());
-      }
-    });
-
-    return loader;
-  }
-
   public interface Configuration<C> {
     public Class<? extends C> contextType();
 
-    public PluginConsole pluginConsole(C context);
+    public Optional<OptionsLoader> optionsLoader(C context);
 
-    public DisplayExecutor diplayExecutor(C context);
+    public Optional<TimeHelper> timeHelper(C context);
 
-    public ExecutorService sharedExecutor(C context);
+    public Optional<PluginConsole> pluginConsole(C context);
+
+    public Optional<DisplayExecutor> diplayExecutor(C context);
+
+    public Optional<ExecutorService> sharedExecutor(C context);
 
     public Optional<DataInjector> dataInjector(C context);
 
@@ -242,7 +254,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     public Optional<EventValidator> eventValidator(C context);
 
-    public PersistenceStore persistenceStore(C context);
+    public Optional<PersistenceStore> persistenceStore(C context);
 
     public Optional<SendFailureHandler> sendFailureHandler(C context);
 
@@ -257,6 +269,10 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
   public static abstract class AbstractConfiguration<C> implements Configuration<C> {
     private final Class<? extends C> contextType;
+
+    private final Function<? super C, OptionsLoader> optionsLoader;
+
+    private final Function<? super C, TimeHelper> timeHelper;
 
     private final Function<? super C, PluginConsole> pluginConsole;
 
@@ -285,6 +301,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
      */
     protected AbstractConfiguration(final AbstractBuilder<?, C> builder) {
       this.contextType = requireNonNull(builder.contextType);
+      this.optionsLoader = requireNonNull(builder.optionsLoader);
+      this.timeHelper = requireNonNull(builder.timeHelper);
       this.pluginConsole = requireNonNull(builder.pluginConsole);
       this.diplayExecutor = requireNonNull(builder.diplayExecutor);
       this.sharedExecutor = requireNonNull(builder.sharedExecutor);
@@ -301,11 +319,15 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     public static abstract class AbstractBuilder<B extends AbstractBuilder<B, C>, C> implements Builder<C> {
       Class<? extends C> contextType;
 
-      Function<? super C, PluginConsole> pluginConsole;
+      Function<? super C, OptionsLoader> optionsLoader = constant(null);
 
-      Function<? super C, DisplayExecutor> diplayExecutor;
+      Function<? super C, TimeHelper> timeHelper = constant(null);
 
-      Function<? super C, ExecutorService> sharedExecutor;
+      Function<? super C, PluginConsole> pluginConsole = constant(null);
+
+      Function<? super C, DisplayExecutor> diplayExecutor = constant(null);
+
+      Function<? super C, ExecutorService> sharedExecutor = constant(null);
 
       Function<? super C, DataInjector> dataInjector = constant(null);
 
@@ -315,7 +337,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
       Function<? super C, EventValidator> eventValidator = constant(null);
 
-      Function<? super C, PersistenceStore> persistenceStore;
+      Function<? super C, PersistenceStore> persistenceStore = constant(null);
 
       Function<? super C, SendFailureHandler> sendFailureHandler = constant(null);
 
@@ -335,6 +357,26 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
       public final B contextType(final Class<? extends C> type) {
         this.contextType = requireNonNull(type);
+
+        return this.asSubtype();
+      }
+
+      public final B optionsLoader(final OptionsLoader loader) {
+        return this.optionsLoader(constant(requireNonNull(loader)));
+      }
+
+      public final B optionsLoader(final Function<? super C, OptionsLoader> relation) {
+        this.optionsLoader = requireNonNull(relation);
+
+        return this.asSubtype();
+      }
+
+      public final B timeHelper(final TimeHelper helper) {
+        return this.timeHelper(constant(requireNonNull(helper)));
+      }
+
+      public final B timeHelper(final Function<? super C, TimeHelper> relation) {
+        this.timeHelper = requireNonNull(relation);
 
         return this.asSubtype();
       }
@@ -456,16 +498,24 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return this.contextType;
     }
 
-    public final PluginConsole pluginConsole(final C context) {
-      return requireNonNull(this.pluginConsole.apply(context));
+    public final Optional<OptionsLoader> optionsLoader(final C context) {
+      return fromNullable(this.optionsLoader.apply(context));
     }
 
-    public final DisplayExecutor diplayExecutor(final C context) {
-      return requireNonNull(this.diplayExecutor.apply(context));
+    public final Optional<TimeHelper> timeHelper(final C context) {
+      return fromNullable(this.timeHelper.apply(context));
     }
 
-    public final ExecutorService sharedExecutor(final C context) {
-      return requireNonNull(this.sharedExecutor.apply(context));
+    public final Optional<PluginConsole> pluginConsole(final C context) {
+      return fromNullable(this.pluginConsole.apply(context));
+    }
+
+    public final Optional<DisplayExecutor> diplayExecutor(final C context) {
+      return fromNullable(this.diplayExecutor.apply(context));
+    }
+
+    public final Optional<ExecutorService> sharedExecutor(final C context) {
+      return fromNullable(this.sharedExecutor.apply(context));
     }
 
     public final Optional<DataInjector> dataInjector(final C context) {
@@ -484,8 +534,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return fromNullable(this.eventValidator.apply(context));
     }
 
-    public final PersistenceStore persistenceStore(final C context) {
-      return requireNonNull(this.persistenceStore.apply(context));
+    public final Optional<PersistenceStore> persistenceStore(final C context) {
+      return fromNullable(this.persistenceStore.apply(context));
     }
 
     public final Optional<SendFailureHandler> sendFailureHandler(final C context) {
@@ -526,7 +576,44 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
   }
 
-  // TODO rename and add to configuration
+  protected abstract Options defaultOptions();
+
+  protected final Options customOptions() {
+    return this.optionsLoader.get();
+  }
+
+  protected final Options effectiveOptions() {
+    return compound(this.customOptions(), this.defaultOptions());
+  }
+
+  // TODO maybe make this protected and provide cleaner interface, i.e. getEffective(), getDefault()
+  // TODO reload on preference change, add an internal listener here
+  private static final class OptionsLoader implements Supplier<Options> {
+    private final RegularEventListener listener;
+
+    @Nullable
+    private Options options;
+
+    OptionsLoader(final RegularEventListener listener) {
+      this.listener = requireNonNull(listener);
+    }
+
+    static Options load(final ListenerPreferences preferences, final RegularEventListener listener) {
+      Map<Class<? extends Listener>, Options> data = preferences.getListenerConfigurationData();
+      Options untrusted = data.get(listener.getClass());
+
+      return untrusted != null ? MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())) : emptyOptions();
+    }
+
+    public Options load(final ListenerPreferences preferences) {
+      return this.options = load(preferences, this.listener);
+    }
+
+    public Options get() {
+      return checkNotNullAsState(this.options, this.listener + ": Custom options requested but not loaded");
+    }
+  }
+
   public interface TimeHelper {
     public long currentTime();
 
@@ -760,6 +847,14 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     public void persist(String path, Event data) throws Exception;
   }
 
+  private enum VoidPersistenceStore implements PersistenceStore {
+    instance;
+
+    public void persist(final String path, final Event data) {}
+
+    public void close() {}
+  }
+
   public static final class StoreWrapper implements PersistenceStore {
     private final Store<? super Event> store;
 
@@ -825,44 +920,6 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
   static String toStringHelper(final Class<?> wrapper, final Object delegate) {
     return new StringBuilder(wrapper.getClass().getSimpleName()).append("(").append(delegate).append(")").toString();
-  }
-
-  protected abstract Options defaultOptions();
-
-  protected final Options customOptions() {
-    return this.optionsLoader.get();
-  }
-
-  protected final Options effectiveOptions() {
-    return compound(this.customOptions(), this.defaultOptions());
-  }
-
-  // TODO maybe make this protected and provide cleaner interface, i.e. getEffective(), getDefault(), ... also add to config
-  // TODO reload on preference change, add an internal listener here
-  private static final class OptionsLoader implements Supplier<Options> {
-    private final RegularEventListener listener;
-
-    @Nullable
-    private Options options;
-
-    OptionsLoader(final RegularEventListener listener) {
-      this.listener = requireNonNull(listener);
-    }
-
-    static Options load(final ListenerPreferences preferences, final RegularEventListener listener) {
-      Map<Class<? extends Listener>, Options> data = preferences.getListenerConfigurationData();
-      Options untrusted = data.get(listener.getClass());
-
-      return untrusted != null ? MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())) : emptyOptions();
-    }
-
-    public Options load(final ListenerPreferences preferences) {
-      return this.options = load(preferences, this.listener);
-    }
-
-    public Options get() {
-      return checkNotNullAsState(this.options, this.listener + ": Custom options requested but not loaded");
-    }
   }
 
   private static final class RuntimeStatistics {
