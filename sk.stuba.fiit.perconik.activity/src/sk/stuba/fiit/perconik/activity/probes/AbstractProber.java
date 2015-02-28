@@ -2,7 +2,8 @@ package sk.stuba.fiit.perconik.activity.probes;
 
 import java.util.Map.Entry;
 
-import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
 
 import sk.stuba.fiit.perconik.data.content.AnyContent;
 
@@ -36,10 +37,14 @@ public abstract class AbstractProber<T extends AnyContent, P extends Probe<?>> i
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder(this.getClass().getName()).append("(");
+    return this.toStringHelper().toString();
+  }
 
-    Joiner.on(",").withKeyValueSeparator("=").appendTo(builder, this.probes());
+  protected ToStringHelper toStringHelper() {
+    ToStringHelper helper = Objects.toStringHelper(this);
 
-    return builder.append(")").toString();
+    helper.add("probes", this.probes());
+
+    return helper;
   }
 }

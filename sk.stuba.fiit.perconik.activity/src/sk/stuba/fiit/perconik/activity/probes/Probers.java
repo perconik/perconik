@@ -6,6 +6,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 
@@ -47,6 +49,15 @@ public final class Probers {
     public final Map<String, P> probes() {
       return filterEntries(this.probes, this.predicate);
     }
+
+    @Override
+    protected ToStringHelper toStringHelper() {
+      ToStringHelper helper = super.toStringHelper();
+
+      helper.add("predicate", this.predicate);
+
+      return helper;
+    }
   }
 
   private static abstract class ProberProxy<T extends AnyContent, P extends Probe<?>> extends AbstractProber<T, P> {
@@ -58,6 +69,15 @@ public final class Probers {
 
     public final Map<String, P> probes() {
       return this.prober.probes();
+    }
+
+    @Override
+    protected ToStringHelper toStringHelper() {
+      ToStringHelper helper = Objects.toStringHelper(this);
+
+      helper.add("proxy", this.prober);
+
+      return helper;
     }
   }
 
@@ -107,6 +127,15 @@ public final class Probers {
       if (!failures.isEmpty()) {
         throw initializeSuppressor(new ProbingException(), failures);
       }
+    }
+
+    @Override
+    protected ToStringHelper toStringHelper() {
+      ToStringHelper helper = super.toStringHelper();
+
+      helper.add("executor", this.executor);
+
+      return helper;
     }
   }
 
