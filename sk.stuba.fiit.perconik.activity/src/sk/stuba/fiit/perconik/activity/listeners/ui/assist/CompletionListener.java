@@ -6,6 +6,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionListener.Action.APPLY;
@@ -18,6 +19,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class CompletionListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.CompletionListener {
   public CompletionListener() {}
 

@@ -12,6 +12,7 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.command.CommandSerializer;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState;
@@ -33,6 +34,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class CommandListener extends CommonEventListener implements CommandExecutionListener {
   public CommandListener() {}
 

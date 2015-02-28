@@ -14,8 +14,8 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Unsupported
 @Version("0.0.0.alpha")
+@Unsupported
 public final class SearchResultListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.SearchResultListener {
   public SearchResultListener() {}
 

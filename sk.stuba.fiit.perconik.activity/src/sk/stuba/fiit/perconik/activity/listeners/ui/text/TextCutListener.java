@@ -9,6 +9,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
@@ -24,6 +25,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener.
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class TextCutListener extends AbstractTextCopyListener implements CommandExecutionListener {
   public TextCutListener() {}
 

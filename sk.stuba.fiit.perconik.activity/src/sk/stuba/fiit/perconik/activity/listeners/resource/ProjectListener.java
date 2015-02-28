@@ -14,6 +14,7 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.resource.ProjectSerializer;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaFlag;
 import sk.stuba.fiit.perconik.eclipse.core.resources.ResourceDeltaKind;
@@ -39,6 +40,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.resources.ResourceEventType.PR
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class ProjectListener extends AbstractResourceListener {
   static final Set<ResourceEventType> resourceEventTypes = ImmutableSet.of(PRE_BUILD, PRE_CLOSE, PRE_DELETE, POST_CHANGE);
 

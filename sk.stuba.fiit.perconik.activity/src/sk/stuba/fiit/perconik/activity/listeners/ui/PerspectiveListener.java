@@ -10,6 +10,7 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PerspectiveDescriptorSerializer;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -28,6 +29,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class PerspectiveListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   public PerspectiveListener() {}
 

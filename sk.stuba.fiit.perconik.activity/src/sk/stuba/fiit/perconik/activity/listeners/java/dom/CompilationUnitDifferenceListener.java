@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
 import sk.stuba.fiit.perconik.core.java.dom.CompilationUnits;
@@ -38,6 +39,7 @@ import static sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementEventType.POST_
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class CompilationUnitDifferenceListener extends AbstractNodeDifferenceListener<URI, CompilationUnit, ASTNode> {
   static final Set<JavaElementEventType> javaElementEventTypes = ImmutableSet.of(POST_CHANGE, POST_RECONCILE);
 

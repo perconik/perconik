@@ -5,6 +5,7 @@ import com.google.common.base.Optional;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringEventProxy;
@@ -25,6 +26,7 @@ import static sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.Refact
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class RefactoringOperationListener extends AbstractRefactoringListener implements RefactoringExecutionListener {
   public RefactoringOperationListener() {}
 

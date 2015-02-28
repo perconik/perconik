@@ -9,6 +9,7 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -29,6 +30,7 @@ import static sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories.getBranche
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class BranchListener extends AbstractReferenceListener {
   private final RepositorySetCache<Set<String>> cache;
 

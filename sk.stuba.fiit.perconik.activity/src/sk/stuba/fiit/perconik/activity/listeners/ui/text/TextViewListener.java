@@ -7,6 +7,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.ViewportListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
@@ -24,6 +25,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener
  * @since 1.0
  */
 @Version("0.0.0.alpha")
+@Unsupported
 public final class TextViewListener extends AbstractTextListener implements ViewportListener {
   static final long viewEventWindow = 500;
 
