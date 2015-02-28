@@ -1,6 +1,9 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import java.util.List;
+
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
@@ -65,6 +68,10 @@ public abstract class AbstractPreferences {
 
     public static final String join(final String ... parts) {
       return Joiner.on(separator).join(parts);
+    }
+
+    public static final List<String> split(final String key) {
+      return Splitter.on(separator).splitToList(key);
     }
   }
 
