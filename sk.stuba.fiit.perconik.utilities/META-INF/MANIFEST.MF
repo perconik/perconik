@@ -14,7 +14,8 @@ Export-Package: sk.stuba.fiit.perconik.utilities,
  sk.stuba.fiit.perconik.utilities.reflect,
  sk.stuba.fiit.perconik.utilities.reflect.accessor,
  sk.stuba.fiit.perconik.utilities.reflect.annotation,
- sk.stuba.fiit.perconik.utilities.reflect.resolver
+ sk.stuba.fiit.perconik.utilities.reflect.resolver,
+ sk.stuba.fiit.perconik.utilities.time
 Require-Bundle: sk.stuba.fiit.perconik.libraries;bundle-version="0.8.0"
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Bundle-ActivationPolicy: lazy
