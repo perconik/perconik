@@ -1,14 +1,21 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 
 import com.gratex.perconik.uaca.UacaConsole;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 
+import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
+import sk.stuba.fiit.perconik.activity.data.platform.StandardPlatformProbe;
+import sk.stuba.fiit.perconik.activity.data.process.StandardProcessProbe;
+import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.Builder;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
@@ -24,6 +31,7 @@ import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Maps.newHashMap;
@@ -38,12 +46,14 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defaultPoolSizeScalingFactor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.mappings;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 
@@ -54,12 +64,6 @@ import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.boole
  * @since 1.0
  */
 public abstract class CommonEventListener extends RegularEventListener {
-  // TODO need to resolve 2 problems:
-  //   - prober needs to filter probes by listener's options
-  //   - listener needs to initialize proxy via options
-  // solution probably lies in injecting 'this' listener into every part of construction
-  // via current Configuration mechanism
-
   static final float sharedExecutorPoolSizeScalingFactor = defaultPoolSizeScalingFactor();
 
   static final float probeExecutorPoolSizeScalingFactor = 0.5f;
@@ -68,12 +72,12 @@ public abstract class CommonEventListener extends RegularEventListener {
 
   private static final Builder<CommonEventListener> sharedBuilder;
 
-  private static final Options sharedDefaults;
-
   static {
     sharedBuilder = builder();
 
     sharedBuilder.contextType(CommonEventListener.class);
+
+    sharedBuilder.defaultOptions(compound(defaults(UacaOptions.Schema.class), defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class)));
 
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
@@ -81,23 +85,21 @@ public abstract class CommonEventListener extends RegularEventListener {
     sharedBuilder.pluginConsole(UacaConsoleSupplierFunction.instance);
     sharedBuilder.persistenceStore(UacaProxySupplierFunction.instance);
     sharedBuilder.sendFailureHandler(UacaProxySaveFailureHandler.instance);
-    sharedBuilder.registerFailureHandler(UacaLoggingRegisterFailureHandler.instance);
-    sharedBuilder.disposalHook(UacaProxyDisposalHook.instance);
 
     Map<String, Probe<?>> probes = newHashMap();
 
-    key("remove-this");// TODO enable probes
-    //probes.put(key("monitor", "core"), new StandardCoreProbe());
-    //probes.put(key("monitor", "management"), new StandardManagementProbe());// TODO ?
-    //probes.put(key("monitor", "platform"), new StandardPlatformProbe());
-    //probes.put(key("monitor", "system"), new StandardSystemProbe());
-    //probes.put(key("monitor", "process"), new StandardProcessProbe());
+    probes.put(key("monitor", "core"), new StandardCoreProbe());
+    //probes.put(key("monitor", "management"), new StandardManagementProbe());// TODO
+    probes.put(key("monitor", "platform"), new StandardPlatformProbe());
+    probes.put(key("monitor", "process"), new StandardProcessProbe());
+    probes.put(key("monitor", "system"), new StandardSystemProbe());
 
     sharedBuilder.probeMappings(probes);
+    sharedBuilder.probeFilter(ProbingOptionsFilterSupplierFunction.instance);
     sharedBuilder.probeExecutor(newLimitedThreadPool(probeExecutorPoolSizeScalingFactor));
 
-
-    sharedDefaults = compound(defaults(UacaOptions.Schema.class), defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class));
+    sharedBuilder.registerFailureHandler(UacaLoggingRegisterFailureHandler.instance);
+    sharedBuilder.disposalHook(UacaProxyDisposalHook.instance);
   }
 
   protected final Log log;
@@ -126,24 +128,44 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     public static final OptionAccessor<Boolean> monitorSystem = option(booleanParser(), join(qualifier, "monitor", "system"), true);
 
-    public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "monitor", "configuration"), true);
+    public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), true);
 
-    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "monitor", "options"), true);
+    public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), true);
 
-    public static final OptionAccessor<Boolean> listenerStatistics = option(booleanParser(), join(qualifier, "monitor", "statistics"), true);
+    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), true);
+
+    public static final OptionAccessor<Boolean> listenerStatistics = option(booleanParser(), join(qualifier, "listener", "statistics"), true);
+
+    static final ImmutableMap<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor;
+
+    static {
+      @SuppressWarnings("serial")
+      TypeToken<OptionAccessor<Boolean>> type = new TypeToken<OptionAccessor<Boolean>>() {};
+
+      Map<String, OptionAccessor<Boolean>> map = newHashMap();
+
+      for (OptionAccessor<Boolean> accessor: mappings(StandardProbingOptionsSchema.class, type)) {
+        String key = optionKeyToInternalProbeKey(accessor.getKey());
+
+        checkState(!map.containsKey(key), "%s: internal probe key conflict detected on %s", StandardProbingOptionsSchema.class, key);
+
+        map.put(key, accessor);
+      }
+
+      probeKeyToOptionAccessor = ImmutableMap.copyOf(map);
+    }
 
     private StandardProbingOptionsSchema() {}
+
+    public static String optionKeyToInternalProbeKey(final String key) {
+      return key.replace(qualifier, internalProbeKeyPrefix);
+    }
   }
 
   protected static final class StandardLoggingOptionsSchema {
     public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), true);
 
     private StandardLoggingOptionsSchema() {}
-  }
-
-  @Override
-  protected Options defaultOptions() {
-    return sharedDefaults;
   }
 
   private enum UacaConsoleSupplierFunction implements Function<CommonEventListener, PluginConsole> {
@@ -167,7 +189,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       try {
         return StoreWrapper.of(new UacaProxy(listener.getUacaOptions()));
       } catch (Exception failure) {
-        listener.log.error(failure, "Unable to open UACA proxy");
+        listener.log.error(failure, "%s: unable to open UACA proxy", listener);
 
         throw propagate(failure);
       }
@@ -184,7 +206,7 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
       // TODO use log
-      UacaConsole.getShared().error(failure, listener + ": Unable to save data at " + path + " using UACA proxy");
+      listener.pluginConsole.error(failure, "%s: unable to save data at %s using UACA proxy", listener, path);
     }
 
     @Override
@@ -198,7 +220,7 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     static void report(final RegularEventListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
       // TODO use log
-      listener.pluginConsole.error(failure, "Unexpected failure while executing %s as %s %s hook", task, listener, hook);
+      listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
     }
 
     public void preRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
@@ -231,7 +253,7 @@ public abstract class CommonEventListener extends RegularEventListener {
         listener.persistenceStore.close();
       } catch (Exception failure) {
         // TODO use log
-        listener.pluginConsole.error(failure, listener + ": Unable to close UACA proxy");
+        listener.pluginConsole.error(failure, "%s: unable to close UACA proxy", listener);
       }
     }
 
@@ -245,12 +267,60 @@ public abstract class CommonEventListener extends RegularEventListener {
   protected final Map<String, InternalProbe<?>> internalProbeMappings() {
     ImmutableMap.Builder<String, InternalProbe<?>> builder = ImmutableMap.builder();
 
-    // TODO enable probes
-    //builder.put(key("listener", "configuration"), new RegularConfigurationProbe());
-    //builder.put(key("listener", "options"), new RegularOptionsProbe());
-    //builder.put(key("listener", "statistics"), new RegularStatisticsProbe());
+    builder.put(key("listener", "registration"), new RegularRegistrationProbe());
+    builder.put(key("listener", "configuration"), new RegularConfigurationProbe());
+    builder.put(key("listener", "options"), new RegularOptionsProbe());
+    builder.put(key("listener", "statistics"), new RegularStatisticsProbe());
 
     return builder.build();
+  }
+
+  private enum ProbingOptionsFilterSupplierFunction implements Function<CommonEventListener, Predicate<Entry<String, Probe<?>>>> {
+    instance;
+
+    public Predicate<Entry<String, Probe<?>>> apply(final CommonEventListener listener) {
+      return new ProbingOptionsFilter(listener);
+    }
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
+  }
+
+  private static final class ProbingOptionsFilter implements Predicate<Entry<String, Probe<?>>> {
+    private final CommonEventListener listener;
+
+    private final Options options;
+
+    private final Map<String, OptionAccessor<Boolean>> accessors;
+
+    ProbingOptionsFilter(final CommonEventListener listener) {
+      this.listener = requireNonNull(listener);
+      this.accessors = requireNonNull(listener.probeKeyToOptionAccessor());
+      this.options = requireNonNull(listener.effectiveOptions());
+    }
+
+    public boolean apply(final Entry<String, Probe<?>> entry) {
+      String key = entry.getKey();
+
+      OptionAccessor<Boolean> accessor = this.accessors.get(key);
+
+      checkNotNullAsState(accessor, "%s: no accessor found for %s option", this.listener, key);
+
+      return accessor.getValue(this.options);
+    }
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
+  }
+
+  protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
+    this.log.notice("%s: computing probe key to option accessor map", this);
+
+    return StandardProbingOptionsSchema.probeKeyToOptionAccessor;
   }
 
   public interface Action {

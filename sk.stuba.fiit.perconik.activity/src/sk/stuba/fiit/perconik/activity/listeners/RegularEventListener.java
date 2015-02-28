@@ -14,10 +14,13 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ListMultimap;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
@@ -59,6 +62,7 @@ import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Maps.newHashMap;
 
+import static sk.stuba.fiit.perconik.activity.data.DataCollections.toObjectData;
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.defaultInstance;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
@@ -228,9 +232,18 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
         mix.put(key(internalProbeKeyPrefix, entry.getKey()), InternalProbe.class.cast(entry.getValue()));
       }
 
+      Optional<Predicate<Entry<String, Probe<?>>>> filter = configuration.probeFilter(context);
       Optional<ExecutorService> executor = configuration.probeExecutor(context);
 
-      return executor.isPresent() ? ProbingDataInjector.of(mix, executor.get()) : ProbingDataInjector.of(mix);
+      if (filter.isPresent() && executor.isPresent()) {
+        return ProbingDataInjector.of(Probers.create(mix, filter.get(), executor.get()));
+      } else if (filter.isPresent()) {
+        return ProbingDataInjector.of(Probers.create(mix, filter.get()));
+      } else if (executor.isPresent()) {
+        return ProbingDataInjector.of(Probers.create(mix, executor.get()));
+      }
+
+      return ProbingDataInjector.of(Probers.create(mix));
     }
 
     return NoDataInjector.instance;
@@ -285,6 +298,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     public Optional<Map<String, Probe<?>>> probeMappings(C context);
 
+    public Optional<Predicate<Entry<String, Probe<?>>>> probeFilter(C context);
+
     public Optional<ExecutorService> probeExecutor(C context);
 
     public Optional<DataInjector> dataInjector(C context);
@@ -323,6 +338,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     private final Function<? super C, ? extends Map<String, Probe<?>>> probeMappings;
 
+    private final Function<? super C, ? extends Predicate<Entry<String, Probe<?>>>> probeFilter;
+
     private final Function<? super C, ? extends ExecutorService> probeExecutor;
 
     private final Function<? super C, ? extends DataInjector> dataInjector;
@@ -350,6 +367,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       this.diplayExecutor = requireNonNull(builder.diplayExecutor);
       this.sharedExecutor = requireNonNull(builder.sharedExecutor);
       this.probeMappings = requireNonNull(builder.probeMappings);
+      this.probeFilter = requireNonNull(builder.probeFilter);
       this.probeExecutor = requireNonNull(builder.probeExecutor);
       this.dataInjector = requireNonNull(builder.dataInjector);
       this.eventValidator = requireNonNull(builder.eventValidator);
@@ -377,6 +395,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       Function<? super C, ? extends ExecutorService> sharedExecutor = constant(null);
 
       Function<? super C, ? extends Map<String, Probe<?>>> probeMappings = constant(null);
+
+      Function<? super C, ? extends Predicate<Entry<String, Probe<?>>>> probeFilter = constant(null);
 
       Function<? super C, ? extends ExecutorService> probeExecutor = constant(null);
 
@@ -484,6 +504,16 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
       public final B probeMappings(final Function<? super C, ? extends Map<String, Probe<?>>> relation) {
         this.probeMappings = requireNonNull(relation);
+
+        return this.asSubtype();
+      }
+
+      public final B probeFilter(final Predicate<Entry<String, Probe<?>>> filter) {
+        return this.probeFilter(constant(requireNonNull(filter)));
+      }
+
+      public final B probeFilter(final Function<? super C, ? extends Predicate<Entry<String, Probe<?>>>> relation) {
+        this.probeFilter = requireNonNull(relation);
 
         return this.asSubtype();
       }
@@ -597,6 +627,10 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return fromNullable((Map<String, Probe<?>>) this.probeMappings.apply(context));
     }
 
+    public final Optional<Predicate<Entry<String, Probe<?>>>> probeFilter(final C context) {
+      return fromNullable((Predicate<Entry<String, Probe<?>>>) this.probeFilter.apply(context));
+    }
+
     public final Optional<ExecutorService> probeExecutor(final C context) {
       return fromNullable((ExecutorService) this.probeExecutor.apply(context));
     }
@@ -651,20 +685,45 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
   }
 
+  /**
+   * Returns an immutable snapshot of default options.
+   * Snapshot is taken from configuration on listener creation.
+   *
+   * <p><b>Note:</b> always returns the same instance.
+   */
   protected final Options defaultOptions() {
     return this.optionsProvider.defaultOptions();
   }
 
+  /**
+   * Returns an updating view of custom options.
+   * Updates are dependent on configured {@link OptionsLoader}.
+   *
+   * <p><b>Note:</b> always returns the same instance.
+   *
+   * @see #reloadOptions()
+   */
   protected final Options customOptions() {
     return this.optionsProvider.customOptions();
   }
 
+  /**
+   * Returns an updating view of effective options.
+   * Updates are dependent on configured {@link OptionsLoader}.
+   *
+   * <p><b>Note:</b> always returns the same instance.
+   *
+   * @see #reloadOptions()
+   */
   protected final Options effectiveOptions() {
     return this.optionsProvider.effectiveOptions();
   }
 
   /**
    * An {@code OptionsLoader} invokes this method to reload effective options.
+   * Always invokes {@link #onOptionsReload()} after reloading options.
+   *
+   * @see #onOptionsReload()
    */
   protected final void reloadOptions() {
     this.optionsProvider.load();
@@ -837,7 +896,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   }
 
   /**
-   * Invoked always after {@code OptionsLoader} loads custom options.
+   * Invoked always after {@link OptionsLoader} loads custom options.
+   *
+   * @see #reloadOptions()
    */
   protected void onOptionsReload() {}
 
@@ -978,14 +1039,6 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     private ProbingDataInjector(final Prober<? super Event, Probe<?>> prober) {
       this.prober = requireNonNull(prober);
-    }
-
-    public static ProbingDataInjector of(final Map<String, Probe<?>> probes) {
-      return new ProbingDataInjector(Probers.create(probes));
-    }
-
-    public static ProbingDataInjector of(final Map<String, Probe<?>> probes, final ExecutorService executor) {
-      return new ProbingDataInjector(Probers.create(probes, executor));
     }
 
     public static ProbingDataInjector of(final Prober<? super Event, Probe<?>> prober) {
@@ -1202,12 +1255,19 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
      */
     protected AbstractRegistrationProbe() {}
 
+    private void put(final AnyStructuredData data, final RegistrationHook hook, final ListMultimap<RegistrationHook, Runnable> tasks) {
+      data.put(key("hooks", hook.toString()), toObjectData(tasks.get(hook)));
+    }
+
     public Content get() {
-      RegularEventListener listener = RegularEventListener.this;
+      ListMultimap<RegistrationHook, Runnable> tasks = ArrayListMultimap.create(RegularEventListener.this.registerHooks);
 
       AnyStructuredData data = new AnyStructuredData();
 
-      data.put(key("hooks"), listener.registerHooks);
+      put(data, RegistrationHook.PRE_REGISTER, tasks);
+      put(data, RegistrationHook.POST_REGISTER, tasks);
+      put(data, RegistrationHook.PRE_UNREGISTER, tasks);
+      put(data, RegistrationHook.POST_UNREGISTER, tasks);
 
       return data;
     }
@@ -1514,7 +1574,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   /**
    * {@inheritDoc}
    *
-   * <p>Current implementation invokes configured disposal hook.
+   * <p>Current implementation invokes configured {@link DisposalHook}.
    */
   @Override
   protected final void onFinalUnregistration() throws Exception {
