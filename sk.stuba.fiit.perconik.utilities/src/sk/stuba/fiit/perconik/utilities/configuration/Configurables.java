@@ -16,7 +16,9 @@ import com.google.common.reflect.TypeToken;
 
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
+import static java.util.Objects.requireNonNull;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.asList;
@@ -75,6 +77,8 @@ public final class Configurables {
   }
 
   public static <T extends OptionMapping<?>> List<T> mappings(final Class<?> schema, final TypeToken<T> type) {
+    requireNonNull(type);
+
     List<T> mappings = newArrayList();
 
     for (Field field: schema.getFields()) {
@@ -90,6 +94,8 @@ public final class Configurables {
 
       try {
         OptionMapping<?> mapping = (OptionMapping<?>) field.get(null);
+
+        checkState(mapping != null, "%s.%s is null", schema.getName(), field.getName());
 
         if (type.isAssignableFrom(mapping.getClass())) {
           @SuppressWarnings("unchecked")
