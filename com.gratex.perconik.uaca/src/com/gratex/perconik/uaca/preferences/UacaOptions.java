@@ -29,8 +29,6 @@ public interface UacaOptions extends Options {
   public static final class Schema {
     static final String qualifier = join(PLUGIN_ID, "preferences");
 
-    public static final ImmutableList<OptionAccessor<?>> accessors = copyOf(mappings(Schema.class, wildcardAccessorType()));
-
     public static final OptionAccessor<URL> applicationUrl = option(urlParser(), join(qualifier, "applicationUrl"), newUrl("http://localhost:16375"));
 
     public static final OptionAccessor<Boolean> checkConnection = option(booleanParser(), join(qualifier, "checkConnection"), true);
@@ -41,10 +39,16 @@ public interface UacaOptions extends Options {
 
     public static final OptionAccessor<Boolean> logEvents = option(booleanParser(), join(qualifier, "logEvents"), false);
 
+    static final ImmutableList<OptionAccessor<?>> accessors = copyOf(mappings(Schema.class, wildcardAccessorType()));
+
     private Schema() {}
 
     static Map<String, Object> toMap(final UacaOptions options) {
       return rawValues(accessors, options, Maps.<String, Object>newLinkedHashMap());
+    }
+
+    public static ImmutableList<OptionAccessor<?>> accessors() {
+      return accessors;
     }
   }
 

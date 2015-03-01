@@ -19,8 +19,6 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvent
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
 public final class UacaPreferences extends AbstractPreferences implements UacaOptions {
-
-
   private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
 
   private final ScopedPreferenceStore store;
