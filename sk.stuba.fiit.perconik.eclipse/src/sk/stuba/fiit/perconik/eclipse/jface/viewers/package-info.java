@@ -6,4 +6,3 @@
 package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
