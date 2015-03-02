@@ -289,7 +289,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     if (dialog.getReturnCode() == Window.OK) {
       Entry<String, Object> result = this.entryDialog.getEntry();
 
-      if (entry != null) {
+      if (result != null) {
         this.map.put(result.getKey(), result.getValue());
 
         this.updateTable();
