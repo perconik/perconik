@@ -118,9 +118,9 @@ public abstract class CommonEventListener extends RegularEventListener {
   }
 
   protected static final class StandardProbingOptionsSchema {
-    public static final OptionAccessor<Boolean> monitorCore = option(booleanParser(), join(qualifier, "monitor", "core"), true);
+    public static final OptionAccessor<Boolean> monitorCore = option(booleanParser(), join(qualifier, "monitor", "core"), false);
 
-    // TODO public static final OptionAccessor<Boolean> monitorManagement = option(booleanParser(), join(qualifier, "monitor", "management"), true);
+    // TODO public static final OptionAccessor<Boolean> monitorManagement = option(booleanParser(), join(qualifier, "monitor", "management"), false);
 
     public static final OptionAccessor<Boolean> monitorPlatform = option(booleanParser(), join(qualifier, "monitor", "platform"), true);
 
@@ -128,11 +128,13 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     public static final OptionAccessor<Boolean> monitorSystem = option(booleanParser(), join(qualifier, "monitor", "system"), true);
 
-    public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), true);
+    public static final OptionAccessor<Boolean> listenerInstance = option(booleanParser(), join(qualifier, "listener", "instance"), true);
 
-    public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), true);
+    public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), false);
 
-    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), true);
+    public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), false);
+
+    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), false);
 
     public static final OptionAccessor<Boolean> listenerStatistics = option(booleanParser(), join(qualifier, "listener", "statistics"), true);
 
@@ -264,9 +266,10 @@ public abstract class CommonEventListener extends RegularEventListener {
   }
 
   @Override
-  protected final Map<String, InternalProbe<?>> internalProbeMappings() {
+  protected Map<String, InternalProbe<?>> internalProbeMappings() {
     ImmutableMap.Builder<String, InternalProbe<?>> builder = ImmutableMap.builder();
 
+    builder.put(key("listener", "instance"), new RegularInstanceProbe());
     builder.put(key("listener", "registration"), new RegularRegistrationProbe());
     builder.put(key("listener", "configuration"), new RegularConfigurationProbe());
     builder.put(key("listener", "options"), new RegularOptionsProbe());
@@ -317,9 +320,8 @@ public abstract class CommonEventListener extends RegularEventListener {
     }
   }
 
+  // TODO
   protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
-    this.log.notice("%s: computing probe key to option accessor map", this);
-
     return StandardProbingOptionsSchema.probeKeyToOptionAccessor;
   }
 

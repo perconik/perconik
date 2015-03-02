@@ -1249,6 +1249,21 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   @Override
   final void postSend(final String path, final Event data) {}
 
+  protected abstract class AbstractInstanceProbe extends InternalProbe<Content> {
+    /**
+     * Constructor for use by subclasses.
+     */
+    protected AbstractInstanceProbe() {}
+
+    public Content get() {
+      return ObjectData.of(RegularEventListener.this);
+    }
+  }
+
+  protected final class RegularInstanceProbe extends AbstractInstanceProbe {
+    protected RegularInstanceProbe() {}
+  }
+
   protected abstract class AbstractRegistrationProbe extends InternalProbe<Content> {
     /**
      * Constructor for use by subclasses.
@@ -1288,7 +1303,6 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
       AnyStructuredData data = new AnyStructuredData();
 
-      data.put(key("instance"), ObjectData.of(listener));
       data.put(key("optionsLoader"), ObjectData.of(listener.optionsLoader));
       data.put(key("timeHelper"), ObjectData.of(listener.timeHelper));
       data.put(key("pluginConsole"), ObjectData.of(listener.pluginConsole));
