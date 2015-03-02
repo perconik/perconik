@@ -1,20 +1,22 @@
 package sk.stuba.fiit.perconik.core.services;
 
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-
-import sk.stuba.fiit.perconik.utilities.MoreStrings;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
+import static java.util.Collections.sort;
+
+import static com.google.common.base.Functions.compose;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
+
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringComparator;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringFunction;
 
 /**
  * An abstract implementation of {@link Service}
@@ -39,17 +41,11 @@ public abstract class AbstractService extends com.google.common.util.concurrent.
 
       builder.append(this.toString()).append(" must be in state ");
 
-      final Function<State, String> toLowerCase = new Function<State, String>() {
-        public String apply(@Nonnull final State state) {
-          return state.toString().toLowerCase();
-        }
-      };
-
       List<State> list = newArrayList(states);
 
-      Collections.sort(list, MoreStrings.toStringComparator());
+      sort(list, toStringComparator());
 
-      builder.list(Lists.transform(list, toLowerCase));
+      builder.list(transform(list, compose(toStringFunction(), toLowerCaseFunction())));
 
       throw new IllegalStateException(builder.toString());
     }
