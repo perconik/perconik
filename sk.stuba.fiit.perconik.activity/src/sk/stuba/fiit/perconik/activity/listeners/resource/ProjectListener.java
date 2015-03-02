@@ -167,6 +167,7 @@ public final class ProjectListener extends AbstractResourceListener {
           break;
 
         default:
+          break;
       }
 
       return false;

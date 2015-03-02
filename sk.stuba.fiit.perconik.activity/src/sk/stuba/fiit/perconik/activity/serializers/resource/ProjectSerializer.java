@@ -45,7 +45,9 @@ public final class ProjectSerializer extends AbstractResourceSerializer<IProject
 
           StructuredContent natureContent = newStructuredContent();
 
-          natureContent.put(key("class"), nature.getClass().getName());
+          if (nature != null) {
+            natureContent.put(key("class"), nature.getClass().getName());
+          }
 
           natureContent.put(key("identifier"), identifier);
           natureContent.put(key("label"), descriptor.getLabel());

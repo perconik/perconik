@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
@@ -173,7 +175,7 @@ public abstract class CommonEventListener extends RegularEventListener {
   private enum UacaConsoleSupplierFunction implements Function<CommonEventListener, PluginConsole> {
     instance;
 
-    public PluginConsole apply(final CommonEventListener listener) {
+    public PluginConsole apply(@Nonnull final CommonEventListener listener) {
       // TODO set time source
       return UacaConsole.create(listener.getUacaOptions());
     }
@@ -281,7 +283,7 @@ public abstract class CommonEventListener extends RegularEventListener {
   private enum ProbingOptionsFilterSupplierFunction implements Function<CommonEventListener, Predicate<Entry<String, Probe<?>>>> {
     instance;
 
-    public Predicate<Entry<String, Probe<?>>> apply(final CommonEventListener listener) {
+    public Predicate<Entry<String, Probe<?>>> apply(@Nonnull final CommonEventListener listener) {
       return new ProbingOptionsFilter(listener);
     }
 
@@ -304,7 +306,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       this.options = requireNonNull(listener.effectiveOptions());
     }
 
-    public boolean apply(final Entry<String, Probe<?>> entry) {
+    public boolean apply(@Nonnull final Entry<String, Probe<?>> entry) {
       String key = entry.getKey();
 
       OptionAccessor<Boolean> accessor = this.accessors.get(key);
