@@ -13,7 +13,6 @@ import com.gratex.perconik.uaca.preferences.UacaPreferences;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
-import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.util.Objects.requireNonNull;
@@ -100,7 +99,7 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
     super.print(this.hook(String.format(format, args)));
   }
 
-  public Options getOptions() {
+  public UacaOptions getOptions() {
     return this.options;
   }
 }
