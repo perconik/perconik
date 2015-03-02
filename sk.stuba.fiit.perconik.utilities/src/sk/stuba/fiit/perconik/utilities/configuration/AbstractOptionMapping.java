@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.configuration;
 
+import javax.annotation.Nullable;
+
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
 
 public abstract class AbstractOptionMapping<T> implements OptionMapping<T> {
@@ -11,12 +13,13 @@ public abstract class AbstractOptionMapping<T> implements OptionMapping<T> {
   /**
    * Default value, may be {@code null}.
    */
+  @Nullable
   protected final T defaultValue;
 
   /**
    * Constructor for use by subclasses.
    */
-  protected AbstractOptionMapping(final String key, final T defaultValue) {
+  protected AbstractOptionMapping(final String key, @Nullable final T defaultValue) {
     this.key = requireNonNullOrEmpty(key);
     this.defaultValue = defaultValue;
   }

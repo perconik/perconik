@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 /**
  * TODO
  *
@@ -46,7 +48,7 @@ public interface Options {
    * @throws UnsupportedOperationException if the options
    *         instance does not support putting new values
    */
-  public Object put(String key, Object value);
+  public Object put(String key, @Nullable Object value);
 
   /**
    * Returns the value to which the specified key is mapped, or {@code null} by default.

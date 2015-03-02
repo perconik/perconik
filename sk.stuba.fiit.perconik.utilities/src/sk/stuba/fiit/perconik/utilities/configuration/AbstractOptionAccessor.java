@@ -10,7 +10,7 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
   /**
    * Constructor for use by subclasses.
    */
-  protected AbstractOptionAccessor(final String key, final T defaultValue) {
+  protected AbstractOptionAccessor(final String key, @Nullable final T defaultValue) {
     super(key, defaultValue);
   }
 

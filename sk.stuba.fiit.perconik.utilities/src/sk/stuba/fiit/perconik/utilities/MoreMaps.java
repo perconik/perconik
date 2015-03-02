@@ -9,6 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -140,7 +142,7 @@ public final class MoreMaps {
   private enum ToKeyFunction implements Function<Entry<Object, Object>, Object> {
     INSTANCE;
 
-    public Object apply(final Entry<Object, Object> entry) {
+    public Object apply(@Nonnull final Entry<Object, Object> entry) {
       return entry.getKey();
     }
   }
@@ -148,7 +150,7 @@ public final class MoreMaps {
   private enum ToValueFunction implements Function<Entry<Object, Object>, Object> {
     INSTANCE;
 
-    public Object apply(final Entry<Object, Object> entry) {
+    public Object apply(@Nonnull final Entry<Object, Object> entry) {
       return entry.getValue();
     }
   }

@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ForwardingMap;
 
 import static java.util.Objects.requireNonNull;
@@ -36,7 +38,7 @@ public abstract class AbstractMapOptions extends ForwardingMap<String, Object> i
   }
 
   @Override
-  public abstract Object put(final String key, final Object value);
+  public abstract Object put(final String key, @Nullable final Object value);
 
   @Override
   public void putAll(final Map<? extends String, ?> map) {

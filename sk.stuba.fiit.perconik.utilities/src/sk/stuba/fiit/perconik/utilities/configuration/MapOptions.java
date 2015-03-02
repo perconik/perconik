@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
@@ -93,7 +95,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     }
 
     @Override
-    public Object put(final String key, final Object value) {
+    public Object put(final String key, @Nullable final Object value) {
       return this.putter.put(this.map, key, value);
     }
 
@@ -163,7 +165,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     }
 
     @Override
-    public Object put(final String key, final Object value) {
+    public Object put(final String key, @Nullable final Object value) {
       return this.putter.put(this.map, key, value);
     }
 

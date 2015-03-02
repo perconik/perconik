@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Equivalence;
@@ -201,7 +202,7 @@ public final class Configurables {
     final Set<Equivalence.Wrapper<String>> matches = newHashSet(keyEquivalence, matchingKeys);
 
     return new Predicate<Entry<String, Object>>() {
-      public boolean apply(final Entry<String, Object> rawOption) {
+      public boolean apply(@Nonnull final Entry<String, Object> rawOption) {
         return matches.contains(keyEquivalence.wrap(rawOption.getKey()));
       }
     };
@@ -227,7 +228,7 @@ public final class Configurables {
     final Map<Equivalence.Wrapper<String>, Object> matches = newHashMap(keyEquivalence, matchingRawOptions.entrySet());
 
     return new Predicate<Entry<String, Object>>() {
-      public boolean apply(final Entry<String, Object> rawOption) {
+      public boolean apply(@Nonnull final Entry<String, Object> rawOption) {
         Object value = matches.get(keyEquivalence.wrap(rawOption.getKey()));
 
         return valueEquivalence.equivalent(rawOption.getValue(), value);
