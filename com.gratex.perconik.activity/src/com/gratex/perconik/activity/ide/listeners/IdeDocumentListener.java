@@ -227,6 +227,7 @@ public final class IdeDocumentListener extends IdeListener implements EditorList
           break;
 
         default:
+          break;
       }
 
       return false;

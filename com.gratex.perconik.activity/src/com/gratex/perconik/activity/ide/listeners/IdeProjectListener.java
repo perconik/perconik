@@ -181,6 +181,7 @@ public final class IdeProjectListener extends IdeListener implements ResourceLis
           break;
 
         default:
+          break;
       }
 
       return false;
