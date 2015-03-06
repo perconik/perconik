@@ -4,12 +4,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import sk.stuba.fiit.perconik.core.Resource;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
-import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
-import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 
 import static java.util.Objects.requireNonNull;
 
@@ -156,11 +153,7 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
     Map<String, Options> options = newHashMap();
 
     for (ResourcePersistenceData data: this.getDefaultRegistrations()) {
-      Resource<?> resource = data.getResource();
-
-      if (resource instanceof ScopedConfigurable) {
-        options.put(data.getResourceName(), ((ScopedConfigurable) resource).getOptions(StandardScope.DEFAULT));
-      }
+      this.putDefaultOptionsIfPresent(options, data.getResourceName(), data.getResource());
     }
 
     return options;

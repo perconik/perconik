@@ -3,13 +3,20 @@ package sk.stuba.fiit.perconik.core.preferences;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableMap;
+
 import org.osgi.service.prefs.BackingStoreException;
 
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
+import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
+import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
+
+import static java.util.Objects.requireNonNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,6 +35,14 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
   abstract Set<R> castRegistrations(Object object);
 
   abstract Map<K, Options> castOptions(Object object);
+
+  final void putDefaultOptionsIfPresent(final Map<K, Options> options, final K key, final Object object) {
+    if (object instanceof ScopedConfigurable) {
+      Options untrusted = requireNonNull(((ScopedConfigurable) object).getOptions(StandardScope.DEFAULT));
+
+      options.put(key, MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())));
+    }
+  }
 
   final void setRegistrations(final String key, final Set<R> registrations) {
     try {

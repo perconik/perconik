@@ -8,8 +8,6 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
-import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
-import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 
 import static java.util.Objects.requireNonNull;
 
@@ -156,11 +154,7 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
     Map<Class<? extends Listener>, Options> options = newHashMap();
 
     for (ListenerPersistenceData data: this.getDefaultRegistrations()) {
-      Listener listener = data.getListener();
-
-      if (listener instanceof ScopedConfigurable) {
-        options.put(data.getListenerClass(), ((ScopedConfigurable) listener).getOptions(StandardScope.DEFAULT));
-      }
+      this.putDefaultOptionsIfPresent(options, data.getListenerClass(), data.getListener());
     }
 
     return options;
