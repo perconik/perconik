@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.reflect.TypeToken;
 
 import com.gratex.perconik.uaca.UacaConsole;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
@@ -26,6 +25,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
@@ -55,7 +55,6 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defa
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.mappings;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 
@@ -143,12 +142,9 @@ public abstract class CommonEventListener extends RegularEventListener {
     static final ImmutableMap<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor;
 
     static {
-      @SuppressWarnings("serial")
-      TypeToken<OptionAccessor<Boolean>> type = new TypeToken<OptionAccessor<Boolean>>() {};
-
       Map<String, OptionAccessor<Boolean>> map = newHashMap();
 
-      for (OptionAccessor<Boolean> accessor: mappings(StandardProbingOptionsSchema.class, type)) {
+      for (OptionAccessor<Boolean> accessor: Configurables.accessors(StandardProbingOptionsSchema.class, Boolean.class)) {
         String key = optionKeyToInternalProbeKey(accessor.getKey());
 
         checkState(!map.containsKey(key), "%s: internal probe key conflict detected on %s", StandardProbingOptionsSchema.class, key);
@@ -311,7 +307,7 @@ public abstract class CommonEventListener extends RegularEventListener {
 
       OptionAccessor<Boolean> accessor = this.accessors.get(key);
 
-      checkNotNullAsState(accessor, "%s: no accessor found for %s option", this.listener, key);
+      checkNotNullAsState(accessor, "%s: no accessor found for %s option, available accessors %s", this.listener, key, this.accessors);
 
       return accessor.getValue(this.options);
     }
@@ -322,8 +318,9 @@ public abstract class CommonEventListener extends RegularEventListener {
     }
   }
 
-  // TODO
   protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
+    requireNonNull(this.optionsProvider);
+
     return StandardProbingOptionsSchema.probeKeyToOptionAccessor;
   }
 

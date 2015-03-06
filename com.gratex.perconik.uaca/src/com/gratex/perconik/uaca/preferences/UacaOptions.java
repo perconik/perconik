@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 
 import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptions;
+import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
@@ -17,10 +18,8 @@ import static com.google.common.collect.ImmutableList.copyOf;
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
 
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.mappings;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawValues;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.wildcardAccessorType;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.urlParser;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
@@ -39,7 +38,7 @@ public interface UacaOptions extends Options {
 
     public static final OptionAccessor<Boolean> logEvents = option(booleanParser(), join(qualifier, "logEvents"), false);
 
-    static final ImmutableList<OptionAccessor<?>> accessors = copyOf(mappings(Schema.class, wildcardAccessorType()));
+    static final ImmutableList<OptionAccessor<?>> accessors = copyOf(Configurables.accessors(Schema.class));
 
     private Schema() {}
 

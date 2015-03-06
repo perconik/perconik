@@ -229,6 +229,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       Map<String, Probe<?>> mix = newHashMap(mappings.get());
 
       for (Entry<String, InternalProbe<?>> entry: this.internalProbeMappings().entrySet()) {
+        // potentially unsafe raw cast to InternalProbe is correct and safe in this case
         mix.put(key(internalProbeKeyPrefix, entry.getKey()), InternalProbe.class.cast(entry.getValue()));
       }
 
