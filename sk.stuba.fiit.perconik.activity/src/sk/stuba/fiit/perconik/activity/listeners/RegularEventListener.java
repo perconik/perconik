@@ -874,7 +874,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
 
       final void load() {
-        this.delegate = compound(this.listener.effectiveOptions(), this.listener.defaultOptions());
+        this.delegate = compound(this.listener.customOptions(), this.listener.defaultOptions());
       }
 
       @Override
