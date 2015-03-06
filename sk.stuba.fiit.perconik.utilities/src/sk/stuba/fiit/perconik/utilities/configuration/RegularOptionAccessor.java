@@ -2,15 +2,13 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 
 import javax.annotation.Nullable;
 
-import static java.util.Objects.requireNonNull;
-
 final class RegularOptionAccessor<T> extends AbstractOptionAccessor<T> {
-  private final OptionParser<? extends T> parser;
+  private final OptionParser<T> parser;
 
-  RegularOptionAccessor(final OptionParser<? extends T> parser, final String key, @Nullable final T defaultValue) {
-    super(key, defaultValue);
+  RegularOptionAccessor(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
+    super(parser.type(), key, defaultValue);
 
-    this.parser = requireNonNull(parser);
+    this.parser = parser;
   }
 
   @Override

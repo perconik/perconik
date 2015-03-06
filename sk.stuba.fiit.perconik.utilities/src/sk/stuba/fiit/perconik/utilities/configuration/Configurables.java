@@ -10,15 +10,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Equivalence;
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.reflect.TypeParameter;
 import com.google.common.reflect.TypeToken;
+
+import sk.stuba.fiit.perconik.utilities.Optionals;
 
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
-import static java.util.Objects.requireNonNull;
 
+import static com.google.common.base.Optional.absent;
+import static com.google.common.base.Optional.of;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.base.Throwables.propagate;
@@ -51,11 +57,11 @@ public final class Configurables {
     return defaults(mappings(schema));
   }
 
-  public static MapOptions defaults(final Class<?> schema, final Class<? extends OptionMapping<?>> type) {
+  public static MapOptions defaults(final Class<?> schema, final Class<?> type) {
     return defaults(mappings(schema, type));
   }
 
-  public static MapOptions defaults(final Class<?> schema, final TypeToken<? extends OptionMapping<?>> type) {
+  public static MapOptions defaults(final Class<?> schema, final TypeToken<?> type) {
     return defaults(mappings(schema, type));
   }
 
@@ -70,17 +76,19 @@ public final class Configurables {
   }
 
   public static List<OptionMapping<?>> mappings(final Class<?> schema) {
-    return mappings(schema, wildcardMappingType);
+    return mappings(schema, Optionals.<OptionMapping<?>, OptionMapping<?>>fromNonnullFunction());
   }
 
-  public static <T extends OptionMapping<?>> List<T> mappings(final Class<?> schema, final Class<T> type) {
+  public static <T> List<OptionMapping<T>> mappings(final Class<?> schema, final Class<T> type) {
     return mappings(schema, TypeToken.of(type));
   }
 
-  public static <T extends OptionMapping<?>> List<T> mappings(final Class<?> schema, final TypeToken<T> type) {
-    requireNonNull(type);
+  public static <T> List<OptionMapping<T>> mappings(final Class<?> schema, final TypeToken<T> type) {
+    return mappings(schema, mappingFunction(mappingOf(type), type));
+  }
 
-    List<T> mappings = newArrayList();
+  public static <M extends OptionMapping<?>> List<M> mappings(final Class<?> schema, final Function<? super OptionMapping<?>, Optional<M>> function) {
+    List<M> mappings = newArrayList();
 
     for (Field field: schema.getFields()) {
       int modifiers = field.getModifiers();
@@ -98,11 +106,10 @@ public final class Configurables {
 
         checkState(mapping != null, "%s.%s is null", schema.getName(), field.getName());
 
-        if (type.isAssignableFrom(mapping.getClass())) {
-          @SuppressWarnings("unchecked")
-          T cast = (T) mapping;
+        Optional<? extends M> result = function.apply(mapping);
 
-          mappings.add(cast);
+        if (result.isPresent()) {
+          mappings.add(result.get());
         }
       } catch (IllegalAccessException failure) {
         propagate(failure);
@@ -110,6 +117,39 @@ public final class Configurables {
     }
 
     return mappings;
+  }
+
+  public static List<OptionAccessor<?>> accessors(final Class<?> schema) {
+    // potentially unsafe raw cast to List is correct and safe in this case
+    return List.class.cast(accessors(schema, Object.class));
+  }
+
+  public static <T> List<OptionAccessor<T>> accessors(final Class<?> schema, final Class<T> type) {
+    return accessors(schema, TypeToken.of(type));
+  }
+
+  public static <T> List<OptionAccessor<T>> accessors(final Class<?> schema, final TypeToken<T> type) {
+    return mappings(schema, mappingFunction(accessorOf(type), type));
+  }
+
+  public static <M extends OptionMapping<T>, T> Function<OptionMapping<?>, Optional<M>> mappingFunction(final TypeToken<M> map, final Class<T> type) {
+    return mappingFunction(map, TypeToken.of(type));
+  }
+
+  public static <M extends OptionMapping<T>, T> Function<OptionMapping<?>, Optional<M>> mappingFunction(final TypeToken<M> map, final TypeToken<T> type) {
+    return new Function<OptionMapping<?>, Optional<M>>() {
+      public Optional<M> apply(@Nonnull final OptionMapping<?> raw) {
+        if (map.getRawType().isInstance(raw) && type.isAssignableFrom(raw.getType())) {
+          // cast is safe since types were checked already
+          @SuppressWarnings("unchecked")
+          M mapping = (M) raw;
+
+          return of(mapping);
+        }
+
+        return absent();
+      }
+    };
   }
 
   public static Map<String, Object> values(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Map<String, Object> destination) {
@@ -136,23 +176,23 @@ public final class Configurables {
     return destination;
   }
 
-  public static <T> OptionMapping<T> option(final String key) {
-    return option(key, null);
+  public static <T> OptionMapping<T> option(final TypeToken<T> type, final String key) {
+    return option(type, key, null);
   }
 
-  public static <T> OptionMapping<T> option(final String key, @Nullable final T defaultValue) {
-    return new SimpleOptionMapping<>(key, defaultValue);
+  public static <T> OptionMapping<T> option(final TypeToken<T> type, final String key, @Nullable final T defaultValue) {
+    return new SimpleOptionMapping<>(type, key, defaultValue);
   }
 
-  public static <T> OptionAccessor<T> option(final OptionParser<? extends T> parser, final String key) {
+  public static <T> OptionAccessor<T> option(final OptionParser<T> parser, final String key) {
     return option(parser, key, null);
   }
 
-  public static <T> OptionAccessor<T> option(final OptionParser<? extends T> parser, final String key, @Nullable final T defaultValue) {
+  public static <T> OptionAccessor<T> option(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
     return new RegularOptionAccessor<>(parser, key, defaultValue);
   }
 
-  public static <T> OptionAccessor<T> option(final OptionParser<? extends T> parser, final OptionMapping<T> mapping) {
+  public static <T> OptionAccessor<T> option(final OptionParser<T> parser, final OptionMapping<T> mapping) {
     return new RegularOptionAccessor<>(parser, mapping.getKey(), mapping.getDefaultValue());
   }
 
@@ -250,6 +290,28 @@ public final class Configurables {
 
   public static Map<String, Object> customRawOptions(final Map<String, Object> rawOptions, final Map<String, Object> parentRawOptions, final Equivalence<String> keyEquivalence, final Equivalence<Object> valueEquivalence) {
     return filterEntries(rawOptions, not(rawOptionMatcher(keyEquivalence, valueEquivalence, parentRawOptions)));
+  }
+
+  public static <T> TypeToken<OptionMapping<T>> mappingOf(final Class<T> type) {
+    return mappingOf(TypeToken.of(type));
+  }
+
+  public static <T> TypeToken<OptionMapping<T>> mappingOf(final TypeToken<T> type) {
+    @SuppressWarnings("serial")
+    TypeToken<OptionMapping<T>> token = new TypeToken<OptionMapping<T>>() {}.where(new TypeParameter<T>() {}, type);
+
+    return token;
+  }
+
+  public static <T> TypeToken<OptionAccessor<T>> accessorOf(final Class<T> type) {
+    return accessorOf(TypeToken.of(type));
+  }
+
+  public static <T> TypeToken<OptionAccessor<T>> accessorOf(final TypeToken<T> type) {
+    @SuppressWarnings("serial")
+    TypeToken<OptionAccessor<T>> token = new TypeToken<OptionAccessor<T>>() {}.where(new TypeParameter<T>() {}, type);
+
+    return token;
   }
 
   public static TypeToken<Entry<String, Object>> rawOptionType() {

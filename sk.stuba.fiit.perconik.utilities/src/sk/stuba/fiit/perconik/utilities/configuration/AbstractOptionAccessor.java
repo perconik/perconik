@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 
 import javax.annotation.Nullable;
 
+import com.google.common.reflect.TypeToken;
+
 import static sk.stuba.fiit.perconik.utilities.MoreObjects.firstNonNullOrNull;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newReader;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newWriter;
@@ -10,8 +12,8 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
   /**
    * Constructor for use by subclasses.
    */
-  protected AbstractOptionAccessor(final String key, @Nullable final T defaultValue) {
-    super(key, defaultValue);
+  protected AbstractOptionAccessor(final TypeToken<T> type, final String key, @Nullable final T defaultValue) {
+    super(type, key, defaultValue);
   }
 
   protected abstract OptionParser<? extends T> parser();
@@ -58,6 +60,6 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
   }
 
   public OptionMapping<T> toMapping() {
-    return new SimpleOptionMapping<>(this.key, this.defaultValue);
+    return new SimpleOptionMapping<>(this.type, this.key, this.defaultValue);
   }
 }
