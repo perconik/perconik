@@ -50,6 +50,7 @@ import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
+import sk.stuba.fiit.perconik.utilities.configuration.MapOptions.Putter;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.lang.String.format;
@@ -447,9 +448,19 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     requireNonNull(map);
 
     if (options != null) {
-      options.fromMap(map);
+      try {
+        options.fromMap(map);
 
-      return options;
+        return options;
+      } catch (UnsupportedOperationException e) {
+        // ignore
+      }
+
+      if (options instanceof MapOptions) {
+        Putter putter = ((MapOptions) options).putter();
+
+        return MapOptions.from(map, putter);
+      }
     }
 
     return MapOptions.from(map);
