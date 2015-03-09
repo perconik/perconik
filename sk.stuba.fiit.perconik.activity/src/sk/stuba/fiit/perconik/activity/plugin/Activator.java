@@ -12,7 +12,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
  * @author Pavol Zbell
  * @since 1.0
  */
-public class Activator extends ExtendedPlugin {
+public final class Activator extends ExtendedPlugin {
   /**
    * The plug-in identifier.
    */
@@ -36,6 +36,12 @@ public class Activator extends ExtendedPlugin {
     return plugin;
   }
 
+
+  /**
+   * Starts this plug-in.
+   *
+   * <p><b>Warning:</b> Users must never explicitly call this method.
+   */
   @Override
   public void start(final BundleContext context) throws Exception {
     super.start(context);
@@ -43,6 +49,12 @@ public class Activator extends ExtendedPlugin {
     plugin = this;
   }
 
+
+  /**
+   * Stops this plug-in.
+   *
+   * <p><b>Warning:</b> Users must never explicitly call this method.
+   */
   @Override
   public void stop(final BundleContext context) throws Exception {
     plugin = null;

@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.environment.Environment;
 
-import static sk.stuba.fiit.perconik.core.plugin.Activator.waitForExtensions;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.awaitServices;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -65,7 +65,7 @@ public final class Activator extends ExtendedPlugin {
     public void earlyStartup() {
       final Runnable wait = new Runnable() {
         public final void run() {
-          waitForExtensions();
+          awaitServices();
 
           DebugResources.printRegistrations();
           DebugListeners.printRegistrations();
@@ -76,6 +76,11 @@ public final class Activator extends ExtendedPlugin {
     }
   }
 
+  /**
+   * Starts this plug-in.
+   *
+   * <p><b>Warning:</b> Users must never explicitly call this method.
+   */
   @Override
   public void start(final BundleContext context) throws Exception {
     if (Environment.debug) {
@@ -91,6 +96,11 @@ public final class Activator extends ExtendedPlugin {
     }
   }
 
+  /**
+   * Stops this plug-in.
+   *
+   * <p><b>Warning:</b> Users must never explicitly call this method.
+   */
   @Override
   public void stop(final BundleContext context) throws Exception {
     if (Environment.debug) {
