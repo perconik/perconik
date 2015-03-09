@@ -13,41 +13,41 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServiceFactory;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceServices;
 
-final class ResourceExtentionProcessor extends AbstractExtensionProcessor<ResolvedResources> {
+final class ResourceExtentionProcessor extends AbstractExtensionProcessor<ResourceServiceSetup> {
   ResourceExtentionProcessor() {
     super(ExtensionPoints.resourcesPoint, ExtensionPoints.resourcesTypes);
   }
 
   @Override
-  ResolvedResources processExtensions() {
+  ResourceServiceSetup processExtensions() {
     ResourceService service;
 
     boolean serviceSupplied = this.atLeastOneSupplied(ResourceServiceFactory.class);
-    boolean serviceComponentsSupplied = this.atLeastOneSupplied(ResourceProviderFactory.class, ResourceManagerFactory.class);
+    boolean componentsSupplied = this.atLeastOneSupplied(ResourceProviderFactory.class, ResourceManagerFactory.class);
 
     if (serviceSupplied) {
-      if (serviceComponentsSupplied) {
+      if (componentsSupplied) {
         this.console().warning("Custom %s supplied, custom supplied components ignored", "resource service");
       }
 
-      service = this.processResourceServiceFactories(this.getExtensions(ResourceServiceFactory.class));
-    } else if (serviceComponentsSupplied) {
+      service = this.resolveResourceServiceFactories(this.getExtensions(ResourceServiceFactory.class));
+    } else if (componentsSupplied) {
       ResourceService.Builder builder = ResourceServices.builder();
 
-      builder.provider(this.processResourceProviderFactories(this.getExtensions(ResourceProviderFactory.class)));
-      builder.manager(this.processResourceManagerFactories(this.getExtensions(ResourceManagerFactory.class)));
+      builder.provider(this.resolveResourceProviderFactories(this.getExtensions(ResourceProviderFactory.class)));
+      builder.manager(this.resolveResourceManagerFactories(this.getExtensions(ResourceManagerFactory.class)));
 
       service = builder.build();
     } else {
       service = DefaultResources.getDefaultResourceService();
     }
 
-    ResourceNamesSupplier supplier = this.processResourceNamesSuppliers(this.getExtensions(ResourceNamesSupplier.class));
+    ResourceNamesSupplier supplier = this.resolveResourceNamesSuppliers(this.getExtensions(ResourceNamesSupplier.class));
 
-    return new ResolvedResources(service, supplier);
+    return new ResourceServiceSetup(service, supplier);
   }
 
-  private ResourceService processResourceServiceFactories(final List<ResourceServiceFactory> factories) {
+  private ResourceService resolveResourceServiceFactories(final List<ResourceServiceFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "resource service")) {
       return DefaultResources.getDefaultResourceService();
     }
@@ -55,7 +55,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createResourceService(factories.get(0));
   }
 
-  private ResourceProvider processResourceProviderFactories(final List<ResourceProviderFactory> factories) {
+  private ResourceProvider resolveResourceProviderFactories(final List<ResourceProviderFactory> factories) {
     ResourceProvider provider = DefaultResources.getDefaultResourceProvider();
 
     for (ResourceProviderFactory factory: factories) {
@@ -65,7 +65,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return provider;
   }
 
-  private ResourceManager processResourceManagerFactories(final List<ResourceManagerFactory> factories) {
+  private ResourceManager resolveResourceManagerFactories(final List<ResourceManagerFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "resource manager")) {
       return DefaultResources.getDefaultResourceManager();
     }
@@ -73,7 +73,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createResourceManager(factories.get(0));
   }
 
-  private ResourceNamesSupplier processResourceNamesSuppliers(final List<ResourceNamesSupplier> suppliers) {
+  private ResourceNamesSupplier resolveResourceNamesSuppliers(final List<ResourceNamesSupplier> suppliers) {
     if (this.emptyWithNotice(suppliers, "registered resources")) {
       return DefaultResources.getDefaultResourceNamesSupplier();
     }

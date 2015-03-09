@@ -2,16 +2,9 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
-import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
-import sk.stuba.fiit.perconik.core.Listeners;
-import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
-import sk.stuba.fiit.perconik.core.Resources;
 import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
-import sk.stuba.fiit.perconik.core.services.Services;
 
-import static sk.stuba.fiit.perconik.core.plugin.Activator.defaultConsole;
+import static java.util.Arrays.asList;
 
 final class ServicesLoader {
   private final ResourceExtentionProcessor resources;
@@ -23,28 +16,40 @@ final class ServicesLoader {
     this.listeners = new ListenerExtentionProcessor();
   }
 
-  List<ResolvedService<?>> load() {
-    ResolvedResources resource = this.resources.process();
-    ResolvedListeners listener = this.listeners.process();
-
-    List<ResolvedService<?>> data = ImmutableList.of(resource, listener);
-
-    Services.setResourceService(resource.service);
-    Services.setListenerService(listener.service);
-
+  private static void startServices() {
     ServiceSnapshot.take().servicesInStartOrder().startSynchronously();
+  }
 
-    try {
-      Resources.registerAll(resource.supplier);
-      Listeners.registerAll(listener.supplier);
-    } catch (ResourceRegistrationException failure) {
-      defaultConsole().error(failure, "Unexpected error during initial registration of resources");
-    } catch (ListenerRegistrationException failure) {
-      defaultConsole().error(failure, "Unexpected error during initial registration of listeners");
-    } catch (Exception failure) {
-      defaultConsole().error(failure, "Unexpected error during initial registration of resources and listeners");
-    }
+  private static void stopServices() {
+    ServiceSnapshot.take().servicesInStopOrder().stopSynchronously();
+  }
 
-    return data;
+  List<ServiceSetup<?>> load(final Runnable hook) {
+    ResourceServiceSetup resourceSetup = this.resources.process();
+    ListenerServiceSetup listenerSetup = this.listeners.process();
+
+    resourceSetup.setService();
+    listenerSetup.setService();
+
+    hook.run();
+
+    startServices();
+
+    resourceSetup.registerObjects();
+    listenerSetup.registerObjects();
+
+    return asList(resourceSetup, listenerSetup);
+  }
+
+  List<ServiceSetup<?>> unload() {
+    ResourceServiceSetup resources = this.resources.process();
+    ListenerServiceSetup listeners = this.listeners.process();
+
+    stopServices();
+
+    listeners.unsetService();
+    resources.unsetService();
+
+    return asList(resources, listeners);
   }
 }

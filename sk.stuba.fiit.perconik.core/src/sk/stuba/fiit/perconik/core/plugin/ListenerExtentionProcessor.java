@@ -13,41 +13,41 @@ import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServiceFactory;
 import sk.stuba.fiit.perconik.core.services.listeners.ListenerServices;
 
-final class ListenerExtentionProcessor extends AbstractExtensionProcessor<ResolvedListeners> {
+final class ListenerExtentionProcessor extends AbstractExtensionProcessor<ListenerServiceSetup> {
   ListenerExtentionProcessor() {
     super(ExtensionPoints.listenersPoint, ExtensionPoints.listenersTypes);
   }
 
   @Override
-  ResolvedListeners processExtensions() {
+  ListenerServiceSetup processExtensions() {
     ListenerService service;
 
     boolean serviceSupplied = this.atLeastOneSupplied(ListenerServiceFactory.class);
-    boolean serviceComponentsSupplied = this.atLeastOneSupplied(ListenerProviderFactory.class, ListenerManagerFactory.class);
+    boolean componentsSupplied = this.atLeastOneSupplied(ListenerProviderFactory.class, ListenerManagerFactory.class);
 
     if (serviceSupplied) {
-      if (serviceComponentsSupplied) {
+      if (componentsSupplied) {
         this.console().warning("Custom %s supplied, custom supplied components ignored", "listener service");
       }
 
-      service = this.processListenerServiceFactories(this.getExtensions(ListenerServiceFactory.class));
-    } else if (serviceComponentsSupplied) {
+      service = this.resolveListenerServiceFactories(this.getExtensions(ListenerServiceFactory.class));
+    } else if (componentsSupplied) {
       ListenerService.Builder builder = ListenerServices.builder();
 
-      builder.provider(this.processListenerProviderFactories(this.getExtensions(ListenerProviderFactory.class)));
-      builder.manager(this.processListenerManagerFactories(this.getExtensions(ListenerManagerFactory.class)));
+      builder.provider(this.resolveListenerProviderFactories(this.getExtensions(ListenerProviderFactory.class)));
+      builder.manager(this.resolveListenerManagerFactories(this.getExtensions(ListenerManagerFactory.class)));
 
       service = builder.build();
     } else {
       service = DefaultListeners.getDefaultListenerService();
     }
 
-    ListenerClassesSupplier supplier = this.processListenerClassesSuppliers(this.getExtensions(ListenerClassesSupplier.class));
+    ListenerClassesSupplier supplier = this.resolveListenerClassesSuppliers(this.getExtensions(ListenerClassesSupplier.class));
 
-    return new ResolvedListeners(service, supplier);
+    return new ListenerServiceSetup(service, supplier);
   }
 
-  private ListenerService processListenerServiceFactories(final List<ListenerServiceFactory> factories) {
+  private ListenerService resolveListenerServiceFactories(final List<ListenerServiceFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "listener service")) {
       return DefaultListeners.getDefaultListenerService();
     }
@@ -55,7 +55,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createListenerService(factories.get(0));
   }
 
-  private ListenerProvider processListenerProviderFactories(final List<ListenerProviderFactory> factories) {
+  private ListenerProvider resolveListenerProviderFactories(final List<ListenerProviderFactory> factories) {
     ListenerProvider provider = DefaultListeners.getDefaultListenerProvider();
 
     for (ListenerProviderFactory factory: factories) {
@@ -65,7 +65,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return provider;
   }
 
-  private ListenerManager processListenerManagerFactories(final List<ListenerManagerFactory> factories) {
+  private ListenerManager resolveListenerManagerFactories(final List<ListenerManagerFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "listener manager")) {
       return DefaultListeners.getDefaultListenerManager();
     }
@@ -73,7 +73,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Resolv
     return this.createListenerManager(factories.get(0));
   }
 
-  private ListenerClassesSupplier processListenerClassesSuppliers(final List<ListenerClassesSupplier> suppliers) {
+  private ListenerClassesSupplier resolveListenerClassesSuppliers(final List<ListenerClassesSupplier> suppliers) {
     if (this.emptyWithNotice(suppliers, "registered listeners")) {
       return DefaultListeners.getDefaultListenerClassesSupplier();
     }

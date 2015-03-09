@@ -21,9 +21,9 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Lists.newArrayListWithCapacity;
 
@@ -113,7 +113,7 @@ abstract class AbstractExtensionProcessor<T> {
 
     SafeBlock(final Object object) {
       this.processor = AbstractExtensionProcessor.this;
-      this.object = checkNotNull(object);
+      this.object = requireNonNull(object);
     }
 
     public final void execute() {
@@ -133,7 +133,7 @@ abstract class AbstractExtensionProcessor<T> {
     SafeGet(final Object object, final Class<R> type) {
       super(object);
 
-      this.type = checkNotNull(type);
+      this.type = requireNonNull(type);
     }
 
     public final void run() throws Exception {
@@ -192,7 +192,7 @@ abstract class AbstractExtensionProcessor<T> {
     return false;
   }
 
-  private final <E> Class<E> checkType(final Class<E> type) {
+  private final <E> Class<E> requireType(final Class<E> type) {
     checkArgument(this.types.contains(type));
 
     return type;
@@ -211,7 +211,7 @@ abstract class AbstractExtensionProcessor<T> {
   }
 
   final <E> List<E> getExtensions(final Class<E> type) {
-    List<?> extensions = this.extensions.get(this.checkType(type));
+    List<?> extensions = this.extensions.get(this.requireType(type));
 
     List<E> result = newArrayListWithCapacity(extensions.size());
 
