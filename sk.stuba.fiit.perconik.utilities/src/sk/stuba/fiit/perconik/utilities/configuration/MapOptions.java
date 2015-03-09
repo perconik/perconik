@@ -245,4 +245,8 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
   }
 
   abstract Object writeReplace();
+
+  public Putter putter() {
+    return this.putter;
+  }
 }
