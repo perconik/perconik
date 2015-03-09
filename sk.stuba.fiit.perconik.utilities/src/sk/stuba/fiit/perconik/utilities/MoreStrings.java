@@ -129,7 +129,11 @@ public final class MoreStrings {
     return asList(s.split(lineSeparatorRegex));
   }
 
-  public static String requireNonNullOrEmpty(final String s) {
+  public static String firstNonNullOrEmpty(@Nullable final String first, @Nullable final String second) {
+    return !isNullOrEmpty(first) ? first : requireNonNullOrEmpty(second);
+  }
+
+  public static String requireNonNullOrEmpty(@Nullable final String s) {
     checkArgument(!s.isEmpty());
 
     return s;
@@ -255,19 +259,19 @@ public final class MoreStrings {
     return result;
   }
 
-  public static String toLowerCase(final Object o) {
+  public static String toLowerCase(@Nullable final Object o) {
     return valueOf(o).toLowerCase();
   }
 
-  public static String toLowerCase(final Object o, final Locale locale) {
+  public static String toLowerCase(@Nullable final Object o, final Locale locale) {
     return valueOf(o).toLowerCase(locale);
   }
 
-  public static String toLowerCaseFirst(final Object o) {
+  public static String toLowerCaseFirst(@Nullable final Object o) {
     return toLowerCaseFirst(valueOf(o));
   }
 
-  public static String toLowerCaseFirst(final Object o, final Locale locale) {
+  public static String toLowerCaseFirst(@Nullable final Object o, final Locale locale) {
     return toLowerCaseFirst(valueOf(o), locale);
   }
 
@@ -279,19 +283,19 @@ public final class MoreStrings {
     return s.toLowerCase(locale).charAt(0) + s.substring(1);
   }
 
-  public static String toUpperCase(final Object o) {
+  public static String toUpperCase(@Nullable final Object o) {
     return valueOf(o).toUpperCase();
   }
 
-  public static String toUpperCase(final Object o, final Locale locale) {
+  public static String toUpperCase(@Nullable final Object o, final Locale locale) {
     return valueOf(o).toUpperCase(locale);
   }
 
-  public static String toUpperCaseFirst(final Object o) {
+  public static String toUpperCaseFirst(@Nullable final Object o) {
     return toUpperCaseFirst(valueOf(o));
   }
 
-  public static String toUpperCaseFirst(final Object o, final Locale locale) {
+  public static String toUpperCaseFirst(@Nullable final Object o, final Locale locale) {
     return toUpperCaseFirst(valueOf(o), locale);
   }
 
@@ -306,7 +310,7 @@ public final class MoreStrings {
   private enum ToLowerCaseFunction implements Function<Object, String> {
     INSTANCE;
 
-    public String apply(final Object o) {
+    public String apply(@Nullable final Object o) {
       return String.valueOf(o).toLowerCase();
     }
   }
@@ -320,7 +324,7 @@ public final class MoreStrings {
       this.locale = requireNonNull(locale);
     }
 
-    public String apply(final Object o) {
+    public String apply(@Nullable final Object o) {
       return valueOf(o).toLowerCase(this.locale);
     }
   }
@@ -328,7 +332,7 @@ public final class MoreStrings {
   private enum ToUpperCaseFunction implements Function<Object, String> {
     INSTANCE;
 
-    public String apply(final Object o) {
+    public String apply(@Nullable final Object o) {
       return String.valueOf(o).toUpperCase();
     }
   }
@@ -342,7 +346,7 @@ public final class MoreStrings {
       this.locale = requireNonNull(locale);
     }
 
-    public String apply(final Object o) {
+    public String apply(@Nullable final Object o) {
       return valueOf(o).toUpperCase(this.locale);
     }
   }
