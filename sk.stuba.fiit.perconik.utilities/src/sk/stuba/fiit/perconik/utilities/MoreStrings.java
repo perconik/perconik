@@ -14,6 +14,7 @@ import com.google.common.base.Predicate;
 
 import jersey.repackaged.com.google.common.collect.Lists;
 
+import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
@@ -158,6 +159,18 @@ public final class MoreStrings {
     return IsNullOrEmptyPredicate.INSTANCE;
   }
 
+  private enum IsWhitespacePredicate implements Predicate<String> {
+    INSTANCE;
+
+    public boolean apply(final String s) {
+      return isWhitespace(s);
+    }
+  }
+
+  public static Predicate<String> isWhitespacePredicate() {
+    return IsWhitespacePredicate.INSTANCE;
+  }
+
   public static String toDefaultString(final Object o) {
     return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
   }
@@ -190,42 +203,20 @@ public final class MoreStrings {
     }
   }
 
-  private static abstract class ToStringLocalizedComparator<T> implements Comparator<T>, Serializable {
+  private static final class ToStringComparatorWithLocale<T> implements Comparator<T>, Serializable {
     private static final long serialVersionUID = 0L;
 
-    ToStringLocalizedComparator() {}
+    private final Locale locale;
 
-    static final class Default extends ToStringLocalizedComparator<Object> {
-      private static final long serialVersionUID = 0L;
-
-      static final Default INSTANCE = new Default();
-
-      private Default() {}
-
-      @Override
-      Collator collator() {
-        return Collator.getInstance();
-      }
+    ToStringComparatorWithLocale(final Locale locale) {
+      this.locale = requireNonNull(locale);
     }
 
-    static final class Regular<T> extends ToStringLocalizedComparator<T> {
-      private static final long serialVersionUID = 0L;
-
-      private final Locale locale;
-
-      Regular(final Locale locale) {
-        this.locale = requireNonNull(locale);
-      }
-
-      @Override
-      Collator collator() {
-        return Collator.getInstance(this.locale);
-      }
+    Collator collator() {
+      return Collator.getInstance(this.locale);
     }
 
-    abstract Collator collator();
-
-    public final int compare(final Object a, final Object b) {
+    public final int compare(final T a, final T b) {
       return this.collator().compare(a.toString(), b.toString());
     }
   }
@@ -237,15 +228,8 @@ public final class MoreStrings {
     return comparator;
   }
 
-  public static <T> Comparator<T> toStringLocalizedComparator() {
-    @SuppressWarnings("unchecked")
-    Comparator<T> comparator = (Comparator<T>) ToStringLocalizedComparator.Default.INSTANCE;
-
-    return comparator;
-  }
-
-  public static <T> Comparator<T> toStringLocalizedComparator(final Locale locale) {
-    return new ToStringLocalizedComparator.Regular<>(locale);
+  public static <T> Comparator<T> toStringComparator(final Locale locale) {
+    return new ToStringComparatorWithLocale<>(locale);
   }
 
   public static String toStringFallback(final Object o) {
@@ -271,12 +255,52 @@ public final class MoreStrings {
     return result;
   }
 
+  public static String toLowerCase(final Object o) {
+    return valueOf(o).toLowerCase();
+  }
+
+  public static String toLowerCase(final Object o, final Locale locale) {
+    return valueOf(o).toLowerCase(locale);
+  }
+
+  public static String toLowerCaseFirst(final Object o) {
+    return toLowerCaseFirst(valueOf(o));
+  }
+
+  public static String toLowerCaseFirst(final Object o, final Locale locale) {
+    return toLowerCaseFirst(valueOf(o), locale);
+  }
+
   public static String toLowerCaseFirst(final String s) {
     return Character.toLowerCase(s.charAt(0)) + s.substring(1);
   }
 
+  public static String toLowerCaseFirst(final String s, final Locale locale) {
+    return s.toLowerCase(locale).charAt(0) + s.substring(1);
+  }
+
+  public static String toUpperCase(final Object o) {
+    return valueOf(o).toUpperCase();
+  }
+
+  public static String toUpperCase(final Object o, final Locale locale) {
+    return valueOf(o).toUpperCase(locale);
+  }
+
+  public static String toUpperCaseFirst(final Object o) {
+    return toUpperCaseFirst(valueOf(o));
+  }
+
+  public static String toUpperCaseFirst(final Object o, final Locale locale) {
+    return toUpperCaseFirst(valueOf(o), locale);
+  }
+
   public static String toUpperCaseFirst(final String s) {
     return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+  }
+
+  public static String toUpperCaseFirst(final String s, final Locale locale) {
+    return s.toUpperCase(locale).charAt(0) + s.substring(1);
   }
 
   private enum ToLowerCaseFunction implements Function<Object, String> {
@@ -284,6 +308,20 @@ public final class MoreStrings {
 
     public String apply(final Object o) {
       return String.valueOf(o).toLowerCase();
+    }
+  }
+
+  private static final class ToLowerCaseFunctionWithLocale<T> implements Function<T, String>, Serializable {
+    private static final long serialVersionUID = 0L;
+
+    private final Locale locale;
+
+    ToLowerCaseFunctionWithLocale(final Locale locale) {
+      this.locale = requireNonNull(locale);
+    }
+
+    public String apply(final Object o) {
+      return valueOf(o).toLowerCase(this.locale);
     }
   }
 
@@ -295,6 +333,20 @@ public final class MoreStrings {
     }
   }
 
+  private static final class ToUpperCaseFunctionWithLocale<T> implements Function<T, String>, Serializable {
+    private static final long serialVersionUID = 0L;
+
+    private final Locale locale;
+
+    ToUpperCaseFunctionWithLocale(final Locale locale) {
+      this.locale = requireNonNull(locale);
+    }
+
+    public String apply(final Object o) {
+      return valueOf(o).toUpperCase(this.locale);
+    }
+  }
+
   public static <T> Function<T, String> toLowerCaseFunction() {
     @SuppressWarnings("unchecked")
     Function<T, String> result = (Function<T, String>) ToLowerCaseFunction.INSTANCE;
@@ -302,10 +354,18 @@ public final class MoreStrings {
     return result;
   }
 
+  public static <T> Function<T, String> toLowerCaseFunction(final Locale locale) {
+    return new ToLowerCaseFunctionWithLocale<>(locale);
+  }
+
   public static <T> Function<T, String> toUpperCaseFunction() {
     @SuppressWarnings("unchecked")
     Function<T, String> result = (Function<T, String>) ToUpperCaseFunction.INSTANCE;
 
     return result;
+  }
+
+  public static <T> Function<T, String> toUpperCaseFunction(final Locale locale) {
+    return new ToUpperCaseFunctionWithLocale<>(locale);
   }
 }
