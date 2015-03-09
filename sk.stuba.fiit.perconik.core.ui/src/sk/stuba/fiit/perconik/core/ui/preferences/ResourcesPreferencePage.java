@@ -26,7 +26,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.osgi.framework.Versions.toVersion;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringComparator;
 
 /**
  * Resources preference page.
@@ -69,13 +69,13 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
     TableColumn versionColumn = Tables.createColumn(table, layout, "Version", gc, 1);
     TableColumn notesColumn = Tables.createColumn(table, layout, "Notes", gc, 1);
 
-    LocalSetTableSorter resourceSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
+    LocalSetTableSorter resourceSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
       public String apply(final ResourcePersistenceData data) {
         return data.getResourceName();
       }
     }));
 
-    LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
+    LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
       public String apply(final ResourcePersistenceData data) {
         return data.getListenerType().getName();
       }
@@ -87,7 +87,7 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
       }
     }).compound(resourceSorter.getComparator()));
 
-    LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
+    LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
       public String apply(final ResourcePersistenceData data) {
         return ((ResourceLabelProvider) ResourcesPreferencePage.this.tableViewer.getLabelProvider()).getNotes(data);
       }
@@ -133,13 +133,13 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
         ResourcePersistenceData data = (ResourcePersistenceData) a;
         ResourcePersistenceData other = (ResourcePersistenceData) b;
 
-        int result = toStringLocalizedComparator().compare(data.getResourceName(), other.getResourceName());
+        int result = toStringComparator().compare(data.getResourceName(), other.getResourceName());
 
         if (result != 0) {
           return result;
         }
 
-        return toStringLocalizedComparator().compare(data.getListenerType().getName(), other.getListenerType().getName());
+        return toStringComparator().compare(data.getListenerType().getName(), other.getListenerType().getName());
       }
 
       return super.compare(viewer, a, b);

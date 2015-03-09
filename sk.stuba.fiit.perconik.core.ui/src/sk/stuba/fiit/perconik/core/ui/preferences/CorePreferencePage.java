@@ -1,0 +1,533 @@
+package sk.stuba.fiit.perconik.core.ui.preferences;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Optional;
+import com.google.common.base.StandardSystemProperty;
+import com.google.common.util.concurrent.Service.State;
+
+import org.eclipse.core.runtime.IProduct;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.DialogSettings;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.dialogs.StatusDialog;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+
+import sk.stuba.fiit.perconik.core.Nameable;
+import sk.stuba.fiit.perconik.core.services.Service;
+import sk.stuba.fiit.perconik.core.services.ServiceListener;
+import sk.stuba.fiit.perconik.core.services.Services;
+import sk.stuba.fiit.perconik.core.services.listeners.ListenerService;
+import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
+import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.core.runtime.Products;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
+import sk.stuba.fiit.perconik.environment.Environment;
+import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
+import sk.stuba.fiit.perconik.ui.utilities.Buttons;
+import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+
+import static java.lang.Integer.toHexString;
+import static java.lang.String.format;
+import static java.lang.System.identityHashCode;
+import static java.lang.Thread.sleep;
+import static java.util.Collections.emptyMap;
+import static java.util.Objects.requireNonNull;
+
+import static com.google.common.base.Optional.absent;
+import static com.google.common.base.Optional.of;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
+
+import static sk.stuba.fiit.perconik.core.plugin.Activator.awaitServices;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.defaultInstance;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.loadServices;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.loadedServices;
+import static sk.stuba.fiit.perconik.core.plugin.Activator.unloadServices;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.firstNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.optionEquivalence;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawOptionType;
+
+public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
+  static final long stateTransitionDisplayPause = 500;
+
+  Button load;
+
+  Button unload;
+
+  DetailsDialog detailsDialog;
+
+  Label resourceLabel;
+
+  Label listenerLabel;
+
+  Button resourceButton;
+
+  Button listenerButton;
+
+  public CorePreferencePage() {}
+
+  @Override
+  protected Control createContents(final Composite parent) {
+    this.initializeDialogUnits(parent);
+    this.noDefaultAndApplyButton();
+
+    Composite composite = new Composite(parent, SWT.NONE);
+    GridLayout layout = new GridLayout();
+    layout.marginWidth = 0;
+    layout.marginHeight = this.convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+    layout.horizontalSpacing = this.convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+    layout.verticalSpacing = this.convertVerticalDLUsToPixels(10);
+    composite.setLayout(layout);
+
+    Group environmentGroup = createGroup(composite, "Environment");
+
+    this.createLabel(environmentGroup, environmentText());
+
+    Optional<ResourceService> resourceService = resourceService();
+    Optional<ListenerService> listenerService = listenerService();
+
+    this.detailsDialog = new DetailsDialog(this.getShell());
+
+    Group resourceGroup = createGroup(composite, "Resource Service");
+    Group listenerGroup = createGroup(composite, "Listener Service");
+
+    this.resourceLabel = this.createLabel(resourceGroup, toState(resourceService));
+    this.listenerLabel = this.createLabel(listenerGroup, toState(listenerService));
+
+    this.resourceButton = createButton(resourceGroup);
+    this.listenerButton = createButton(listenerGroup);
+
+    this.resourceButton.addListener(SWT.Selection, new WidgetListener() {
+      public void handleEvent(final Event event) {
+        DetailsDialog dialog = CorePreferencePage.this.detailsDialog;
+
+        dialog.setTitle("Resource Service Details");
+        dialog.setComponents(toResourceComponents(resourceService()));
+
+        dialog.open();
+      }
+    });
+
+    this.listenerButton.addListener(SWT.Selection, new WidgetListener() {
+      public void handleEvent(final Event event) {
+        DetailsDialog dialog = CorePreferencePage.this.detailsDialog;
+
+        dialog.setTitle("Listener Service Details");
+        dialog.setComponents(toListenerComponents(listenerService()));
+
+        dialog.open();
+      }
+    });
+
+    Dialog.applyDialogFont(composite);
+
+    return composite;
+  }
+
+  protected static Group createGroup(final Composite parent, final String title) {
+    Group group = new Group(parent, SWT.NONE);
+
+    group.setLayout(new GridLayout(2, false));
+    group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    group.setText(title);
+
+    return group;
+  }
+
+  protected Label createLabel(final Composite parent, final String text) {
+    Label label = new Label(parent, SWT.WRAP);
+    GridData data = new GridData(GridData.FILL, GridData.CENTER, true, false);
+
+    data.widthHint = this.convertVerticalDLUsToPixels(50);
+
+    label.setLayoutData(data);
+    label.setText(text);
+
+    return label;
+  }
+
+  protected static Button createButton(final Composite parent) {
+    Button button = new Button(parent, SWT.PUSH);
+
+    button.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, false, false));
+    button.setText("Details");
+
+    return button;
+  }
+
+  @Override
+  protected void contributeButtons(final Composite parent) {
+    ((GridLayout) parent.getLayout()).numColumns += 2;
+
+    this.load = Buttons.create(parent, "Load", new WidgetListener() {
+      public void handleEvent(final Event event) {
+        performLoad();
+      }
+    });
+
+    this.unload = Buttons.create(parent, "Unload", new WidgetListener() {
+      public void handleEvent(final Event event) {
+        performUnload();
+      }
+    });
+
+    this.registerServiceStateListeners();
+    this.updateButtons();
+  }
+
+  static String environmentText() {
+    SmartStringBuilder text = new SmartStringBuilder();
+
+    IProduct product = Platform.getProduct();
+
+    text.format("%s %s%n", product.getName(), Products.getVersion(product));
+    text.format("%s %s%n", StandardSystemProperty.JAVA_VM_NAME.value(), Environment.getJavaVersion());
+    text.format("PerConIK Core %s%n", defaultInstance().getBundle().getVersion());
+    text.format("Debug plug-in %s%n", Environment.debug ? "enabled" : "disabled");
+
+    return text.toString();
+  }
+
+  static Optional<ResourceService> resourceService() {
+    try {
+      return of(Services.getResourceService());
+    } catch (UnsupportedOperationException e) {
+      return absent();
+    }
+  }
+
+  static Optional<ListenerService> listenerService() {
+    try {
+      return of(Services.getListenerService());
+    } catch (UnsupportedOperationException e) {
+      return absent();
+    }
+  }
+
+  static abstract class ServiceStateListener<S extends Service> extends ServiceListener {
+    final S service;
+
+    ServiceStateListener(final S service) {
+      this.service = requireNonNull(service);
+    }
+  }
+
+  void registerServiceStateListeners() {
+    Optional<ResourceService> resourceService = resourceService();
+    Optional<ListenerService> listenerService = listenerService();
+
+    if (resourceService.isPresent()) {
+      resourceService.get().addListener(new ServiceStateListener<ResourceService>(resourceService.get()) {
+        @Override
+        protected void transit(final State from, final State to, @Nullable final Throwable failure) {
+          setResourceTransition(from, to);
+
+          try {
+            sleep(stateTransitionDisplayPause);
+          } catch (InterruptedException e) {
+            // ignore
+          }
+        }
+      }, sameThreadExecutor());
+    }
+
+    if (listenerService.isPresent()) {
+      listenerService.get().addListener(new ServiceStateListener<ListenerService>(listenerService.get()) {
+        @Override
+        protected void transit(final State from, final State to, @Nullable final Throwable failure) {
+          setListenerTransition(from, to);
+
+          try {
+            sleep(stateTransitionDisplayPause);
+          } catch (InterruptedException e) {
+            // ignore
+          }
+        }
+      }, sameThreadExecutor());
+    }
+  }
+
+  void updateStates() {
+    this.setResourceState(resourceService());
+    this.setListenerState(listenerService());
+  }
+
+  void updateButtons() {
+    boolean loaded = loadedServices();
+
+    this.load.setEnabled(!loaded);
+    this.unload.setEnabled(loaded);
+
+    this.resourceButton.setEnabled(loaded);
+    this.listenerButton.setEnabled(loaded);
+  }
+
+  void performLoad() {
+    assert loadedServices() == false;
+
+    this.load.setEnabled(false);
+
+    try {
+      loadServices(new Runnable() {
+        public void run() {
+          registerServiceStateListeners();
+        }
+      });
+
+      awaitServices();
+    } catch (Exception failure) {
+      this.handleFailure(failure);
+    }
+
+    this.updateStates();
+    this.updateButtons();
+  }
+
+  void performUnload() {
+    assert loadedServices() == true;
+
+    this.unload.setEnabled(false);
+
+    try {
+      unloadServices();
+    } catch (Exception failure) {
+      this.handleFailure(failure);
+    }
+
+    this.updateStates();
+    this.updateButtons();
+  }
+
+  void handleFailure(final Exception failure) {
+    String title = "Core Services";
+    String message = firstNonNullOrEmpty(failure.getMessage(), "Unexpected failure") + ".";
+
+    openError(this.getShell(), title, message + " See error log for more details.");
+
+    Activator.defaultInstance().getConsole().error(failure, message);
+  }
+
+  static final class DetailsDialog extends StatusDialog {
+    Map<String, Nameable> components;
+
+    CheckboxTableViewer tableViewer;
+
+    DetailsDialog(final Shell parent) {
+      super(parent);
+    }
+
+    @Override
+    protected Control createDialogArea(final Composite parent) {
+      Composite composite = new Composite(parent, SWT.NONE);
+
+      GridLayout parentLayout = new GridLayout();
+      parentLayout.numColumns = 1;
+      parentLayout.marginHeight = 5;
+      parentLayout.marginWidth = 5;
+      composite.setLayout(parentLayout);
+      composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+      Composite tableComposite = new Composite(parent, SWT.NONE);
+      TableColumnLayout tableLayout = new TableColumnLayout();
+
+      GridData tableGrid = new GridData(GridData.FILL_BOTH);
+      tableGrid.widthHint = 360;
+      tableGrid.heightHint = this.convertHeightInCharsToPixels(10);
+      tableComposite.setLayout(tableLayout);
+      tableComposite.setLayoutData(tableGrid);
+
+      Table table = Tables.create(tableComposite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
+
+      GC gc = new GC(this.getShell());
+      gc.setFont(JFaceResources.getDialogFont());
+
+      Tables.createColumn(table, tableLayout, "Component", gc, 1);
+      Tables.createColumn(table, tableLayout, "Implementation", gc, 4);
+      Tables.createColumn(table, tableLayout, "Name", gc, 4);
+      Tables.createColumn(table, tableLayout, "Hash", gc, 1);
+      Tables.createColumn(table, tableLayout, "Identity", gc, 1);
+
+      gc.dispose();
+
+      this.tableViewer = new CustomTableViewer(table);
+
+      this.tableViewer.setComparer(ElementComparers.fromEquivalence(rawOptionType(), optionEquivalence()));
+      this.tableViewer.setContentProvider(new MapContentProvider());
+      this.tableViewer.setLabelProvider(new ComponentLabelProvider());
+
+      this.updateTable();
+
+      Dialog.applyDialogFont(composite);
+
+      return composite;
+    }
+
+    final class ComponentLabelProvider extends LabelProvider implements ITableLabelProvider {
+      ComponentLabelProvider() {}
+
+      public String getColumnText(final Object element, final int column) {
+        Entry<?, ?> entry = (Entry<?, ?>) element;
+        String type = entry.getKey().toString();
+        Nameable object = (Nameable) entry.getValue();
+
+        switch (column) {
+          case 0:
+            return type;
+
+          case 1:
+            return object.getClass().getName();
+
+          case 2:
+            return object.getName();
+
+          case 3:
+            return toHexString(object.hashCode());
+
+          case 4:
+            return toHexString(identityHashCode(object));
+
+          default:
+            throw new IllegalStateException();
+        }
+      }
+
+      public Image getColumnImage(final Object element, final int columnIndex) {
+        return null;
+      }
+    }
+
+    void updateTable() {
+      this.tableViewer.setInput(this.components);
+      this.tableViewer.refresh();
+    }
+
+    void setComponents(final Map<String, Nameable> components) {
+      this.components = requireNonNull(components);
+    }
+
+    @Override
+    protected IDialogSettings getDialogBoundsSettings() {
+      return DialogSettings.getOrCreateSection(Activator.defaultInstance().getDialogSettings(), DetailsDialog.class.getName());
+    }
+
+    @Override
+    public boolean isHelpAvailable() {
+      return false;
+    }
+
+    @Override
+    protected boolean isResizable() {
+      return true;
+    }
+  }
+
+  static Map<String, Nameable> toResourceComponents(final Optional<? extends ResourceService> service) {
+    if (service.isPresent()) {
+      return toResourceComponents(service.get());
+    }
+
+    return emptyMap();
+  }
+
+  static Map<String, Nameable> toResourceComponents(final ResourceService service) {
+    Map<String, Nameable> components = newHashMap();
+
+    components.put("service", service);
+
+    if (service.state() == State.RUNNING) {
+      components.put("provider", service.getResourceProvider());
+      components.put("manager", service.getResourceManager());
+    }
+
+    return components;
+  }
+
+  static Map<String, Nameable> toListenerComponents(final Optional<? extends ListenerService> service) {
+    if (service.isPresent()) {
+      return toListenerComponents(service.get());
+    }
+
+    return emptyMap();
+  }
+
+  static Map<String, Nameable> toListenerComponents(final ListenerService service) {
+    Map<String, Nameable> components = newHashMap();
+
+    components.put("service", service);
+
+    if (service.state() == State.RUNNING) {
+      components.put("provider", service.getListenerProvider());
+      components.put("manager", service.getListenerManager());
+    }
+
+    return components;
+  }
+
+  static String toState(final Optional<? extends Service> service) {
+    return service.isPresent() ? toState(service.get()) : "Unresolved setup";
+  }
+
+  static String toState(final Service service) {
+    boolean loaded = loadedServices();
+
+    return format("%s and %s…", loaded ? "Loaded" : "Unloaded", toLowerCase(service.state()));
+  }
+
+  static String toTransition(final State from, final State to) {
+    boolean loaded = loadedServices();
+
+    return format("%s and in transition from %s to %s…", loaded ? "Loaded" : "Unloaded", toLowerCase(from), toLowerCase(to));
+  }
+
+  void setResourceState(final Optional<ResourceService> service) {
+    if (!this.resourceLabel.isDisposed()) {
+      this.resourceLabel.setText(toState(service));
+    }
+  }
+
+  void setListenerState(final Optional<ListenerService> service) {
+    if (!this.listenerLabel.isDisposed()) {
+      this.listenerLabel.setText(toState(service));
+    }
+  }
+
+  void setResourceTransition(final State from, final State to) {
+    if (!this.resourceLabel.isDisposed()) {
+      this.resourceLabel.setText(toTransition(from, to));
+    }
+  }
+
+  void setListenerTransition(final State from, final State to) {
+    if (!this.listenerLabel.isDisposed()) {
+      this.listenerLabel.setText(toTransition(from, to));
+    }
+  }
+}

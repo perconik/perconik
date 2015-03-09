@@ -7,6 +7,12 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="sk.stuba.fiit.perconik.ui.preferences.main"
+            class="sk.stuba.fiit.perconik.core.ui.preferences.CorePreferencePage"
+            id="sk.stuba.fiit.perconik.core.ui.preferences"
+            name="Core">
+      </page>
+      <page
+            category="sk.stuba.fiit.perconik.ui.preferences.main"
             class="sk.stuba.fiit.perconik.core.ui.preferences.ResourcesPreferencePage"
             id="sk.stuba.fiit.perconik.core.ui.preferences.resources"
             name="Resources">

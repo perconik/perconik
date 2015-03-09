@@ -27,7 +27,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.osgi.framework.Versions.toVersion;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringComparator;
 
 /**
  * Listeners preference page.
@@ -69,7 +69,7 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
     TableColumn versionColumn = Tables.createColumn(table, layout, "Version", gc, 1);
     TableColumn notesColumn = Tables.createColumn(table, layout, "Notes", gc, 1);
 
-    LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
+    LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
       public String apply(final ListenerPersistenceData data) {
         return data.getListenerClass().getName();
       }
@@ -81,7 +81,7 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
       }
     }).compound(listenerSorter.getComparator()));
 
-    LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
+    LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
       public String apply(final ListenerPersistenceData data) {
         return ((ListenerLabelProvider) ListenersPreferencePage.this.tableViewer.getLabelProvider()).getNotes(data);
       }
@@ -123,7 +123,7 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
         ListenerPersistenceData data = (ListenerPersistenceData) a;
         ListenerPersistenceData other = (ListenerPersistenceData) b;
 
-        return toStringLocalizedComparator().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
+        return toStringComparator().compare(data.getListenerClass().getName(), other.getListenerClass().getName());
       }
 
       return super.compare(viewer, a, b);

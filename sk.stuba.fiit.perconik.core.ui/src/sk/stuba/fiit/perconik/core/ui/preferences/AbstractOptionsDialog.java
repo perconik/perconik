@@ -66,7 +66,7 @@ import static org.eclipse.jface.dialogs.IDialogConstants.CANCEL_LABEL;
 import static org.eclipse.jface.dialogs.IDialogConstants.PROCEED_LABEL;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringLocalizedComparator;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringComparator;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toUpperCaseFirst;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.customRawOptions;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.inheritedRawOptions;
@@ -152,8 +152,8 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
 
     gc.dispose();
 
-    LocalMapTableSorter keySorter = new LocalMapTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, String>toKeyFunction()));
-    LocalMapTableSorter valueSorter = new LocalMapTableSorter(table, Ordering.from(toStringLocalizedComparator()).onResultOf(MoreMaps.<Entry<String, Object>, Object>toValueFunction()).compound(keySorter.getComparator()));
+    LocalMapTableSorter keySorter = new LocalMapTableSorter(table, Ordering.from(toStringComparator()).onResultOf(MoreMaps.<Entry<String, Object>, String>toKeyFunction()));
+    LocalMapTableSorter valueSorter = new LocalMapTableSorter(table, Ordering.from(toStringComparator()).onResultOf(MoreMaps.<Entry<String, Object>, Object>toValueFunction()).compound(keySorter.getComparator()));
 
     keySorter.attach(keyColumn);
     valueSorter.attach(valueColumn);
