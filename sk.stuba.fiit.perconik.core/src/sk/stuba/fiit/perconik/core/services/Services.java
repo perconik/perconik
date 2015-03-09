@@ -68,6 +68,20 @@ public final class Services {
   }
 
   /**
+   * Unsets the resource service.
+   */
+  public static void unsetResourceService() {
+    Internals.unsetApi(ResourceService.class);
+  }
+
+  /**
+   * Unsets the listener service.
+   */
+  public static void unsetListenerService() {
+    Internals.unsetApi(ListenerService.class);
+  }
+
+  /**
    * Returns the currently active resource service.
    */
   public static ResourceService getResourceService() {

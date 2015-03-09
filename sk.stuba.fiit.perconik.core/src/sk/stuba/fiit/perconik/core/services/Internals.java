@@ -6,7 +6,9 @@ import java.util.Set;
 import com.google.common.base.Supplier;
 import com.google.common.collect.MapMaker;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
+
+import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.collect.Sets.newHashSet;
 
 final class Internals {
@@ -14,28 +16,16 @@ final class Internals {
 
   private Internals() {}
 
-  private static final class ImmutableReference<T> implements Supplier<T> {
-    private final T object;
-
-    ImmutableReference(final T object) {
-      this.object = object;
-    }
-
-    public T get() {
-      return this.object;
-    }
-  }
-
   static <T> void setApi(final Class<T> api, final T implementation) {
-    checkNotNull(implementation);
-
-    suppliers.put(api, new ImmutableReference<>(implementation));
+    suppliers.put(requireNonNull(api), ofInstance(requireNonNull(implementation)));
   }
 
   static <T> void setApi(final Class<T> api, final Supplier<T> supplier) {
-    checkNotNull(supplier);
+    suppliers.put(requireNonNull(api), requireNonNull(supplier));
+  }
 
-    suppliers.put(api, supplier);
+  static <T> void unsetApi(final Class<T> api) {
+    suppliers.remove(requireNonNull(api));
   }
 
   static <T> T getApi(final Class<T> api) {
@@ -45,17 +35,19 @@ final class Internals {
       return implementation;
     }
 
-    throw new UnsupportedOperationException("Unable to get implementation for " + api);
+    throw new UnsupportedOperationException("Unable to get implementation of " + api);
   }
 
-  static <T> Set<T> getApis(final Class<T> superclass) {
+  static <T> Set<T> getApis(final Class<T> type) {
+    requireNonNull(type);
+
     Set<T> implementations = newHashSet();
 
     for (Supplier<?> supplier: suppliers.values()) {
       Object implementation = supplier.get();
 
-      if (superclass.isInstance(implementation)) {
-        implementations.add(superclass.cast(implementation));
+      if (type.isInstance(implementation)) {
+        implementations.add(type.cast(implementation));
       }
     }
 
