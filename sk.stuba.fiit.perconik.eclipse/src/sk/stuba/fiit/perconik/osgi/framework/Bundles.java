@@ -3,8 +3,6 @@ package sk.stuba.fiit.perconik.osgi.framework;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Iterables;
-
 import org.eclipse.core.runtime.Platform;
 
 import org.osgi.framework.Bundle;
@@ -16,7 +14,8 @@ import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import static java.util.Arrays.asList;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.Lists.newArrayListWithCapacity;
+
+import static sk.stuba.fiit.perconik.utilities.MoreLists.newArrayListSuitableFor;
 
 /**
  * Static utility methods pertaining to {@code Bundle} instances.
@@ -48,7 +47,7 @@ public final class Bundles {
   }
 
   public static List<Bundle> forNames(final Iterable<String> names) throws BundleNotFoundException {
-    List<Bundle> bundles = newArrayListWithCapacity(Iterables.size(names));
+    List<Bundle> bundles = newArrayListSuitableFor(names);
 
     for (String name: names) {
       bundles.add(forName(name));
@@ -66,7 +65,7 @@ public final class Bundles {
   }
 
   public static List<ClassResolver> newClassResolvers(final Iterable<Bundle> bundles) {
-    List<ClassResolver> resolvers = newArrayListWithCapacity(Iterables.size(bundles));
+    List<ClassResolver> resolvers = newArrayListSuitableFor(bundles);
 
     for (Bundle bundle: bundles) {
       resolvers.add(newClassResolver(bundle));
