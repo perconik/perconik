@@ -20,7 +20,7 @@ final class Internals {
     suppliers.put(requireNonNull(api), ofInstance(requireNonNull(implementation)));
   }
 
-  static <T> void setApi(final Class<T> api, final Supplier<T> supplier) {
+  static <T> void setApi(final Class<T> api, final Supplier<? extends T> supplier) {
     suppliers.put(requireNonNull(api), requireNonNull(supplier));
   }
 
@@ -29,10 +29,10 @@ final class Internals {
   }
 
   static <T> T getApi(final Class<T> api) {
-    T implementation = api.cast(suppliers.get(api).get());
+    Supplier<?> supplier = suppliers.get(api);
 
-    if (implementation != null) {
-      return implementation;
+    if (supplier != null) {
+      return requireNonNull(api.cast(supplier.get()));
     }
 
     throw new UnsupportedOperationException("Unable to get implementation of " + api);
