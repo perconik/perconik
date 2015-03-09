@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 
 import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
@@ -14,12 +13,12 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import static java.util.Objects.requireNonNull;
 
 import static com.google.common.collect.ImmutableList.copyOf;
+import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
 
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawValues;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.urlParser;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
@@ -43,7 +42,15 @@ public interface UacaOptions extends Options {
     private Schema() {}
 
     static Map<String, Object> toMap(final UacaOptions options) {
-      return rawValues(accessors, options, Maps.<String, Object>newLinkedHashMap());
+      Map<String, Object> map = newLinkedHashMap();
+
+      map.put(applicationUrl.getKey(), options.getApplicationUrl());
+      map.put(checkConnection.getKey(), options.isConnectionCheckEnabled());
+      map.put(displayErrors.getKey(), options.isErrorDialogEnabled());
+      map.put(logErrors.getKey(), options.isErrorLogEnabled());
+      map.put(logEvents.getKey(), options.isEventLogEnabled());
+
+      return map;
     }
 
     public static ImmutableList<OptionAccessor<?>> accessors() {
