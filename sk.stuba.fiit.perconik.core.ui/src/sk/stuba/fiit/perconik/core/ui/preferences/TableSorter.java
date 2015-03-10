@@ -18,12 +18,14 @@ import static java.util.Objects.requireNonNull;
 import static com.google.common.collect.Lists.newArrayList;
 
 abstract class TableSorter<T> {
-  private static final String key = TableSorter.class.getName();
+  static final String key = TableSorter.class.getName();
 
   private final Table table;
 
   @Nullable
   private final Comparator<? super T> comparator;
+
+  private boolean enabled;
 
   TableSorter(final Table table) {
     this(table, null);
@@ -32,6 +34,7 @@ abstract class TableSorter<T> {
   TableSorter(final Table table, @Nullable final Comparator<? super T> comparator) {
     this.table = requireNonNull(table);
     this.comparator = comparator;
+    this.enabled = true;
   }
 
   final class Handle implements Listener {
@@ -49,6 +52,7 @@ abstract class TableSorter<T> {
 
     void detach(final TableColumn column) {
       column.removeListener(SWT.Selection, this);
+      column.setData(key, null);
     }
   }
 
@@ -65,15 +69,19 @@ abstract class TableSorter<T> {
     return handle;
   }
 
-  static void attachedSort(final TableColumn column, final SortDirection direction) {
-    ((TableSorter<?>) column.getData(key)).sort(column, direction);
+  private static TableSorter<?> fetch(final TableColumn column) {
+    return ((TableSorter<?>) column.getData(key));
   }
 
-  static void automaticSort(final Table table) {
+  static final void attachedSort(final TableColumn column, final SortDirection direction) {
+    fetch(column).sort(column, direction);
+  }
+
+  static final void automaticSort(final Table table) {
     automaticSort(table, table.getColumn(0), SortDirection.UP);
   }
 
-  static void automaticSort(final Table table, final TableColumn defaultColumn, final SortDirection defaultDirection) {
+  static final void automaticSort(final Table table, final TableColumn defaultColumn, final SortDirection defaultDirection) {
     TableColumn column = table.getSortColumn();
     SortDirection direction = SortDirection.valueOf(table.getSortDirection());
 
@@ -86,7 +94,25 @@ abstract class TableSorter<T> {
     table.setSortDirection(direction.getValue());
   }
 
+  static final void enable(final Table table, final boolean value) {
+    for (TableColumn column: table.getColumns()) {
+      TableSorter<?> sorter = fetch(column);
+
+      if (sorter != null) {
+        sorter.setEnabled(value);
+      }
+    }
+  }
+
+  static final void enable(final TableColumn column, final boolean value) {
+    fetch(column).setEnabled(value);
+  }
+
   final void sort(final TableColumn column, final SortDirection direction) {
+    if (!this.isEnabled()) {
+      return;
+    }
+
     List<T> data = newArrayList(this.loadData());
 
     this.directionSort(data, direction, this.comparator);
@@ -109,6 +135,10 @@ abstract class TableSorter<T> {
 
   abstract void updateData(Iterable<? extends T> data);
 
+  final void setEnabled(final boolean value) {
+    this.enabled = value;
+  }
+
   final Table getTable() {
     return this.table;
   }
@@ -116,5 +146,9 @@ abstract class TableSorter<T> {
   @Nullable
   final Comparator<? super T> getComparator() {
     return this.comparator;
+  }
+
+  final boolean isEnabled() {
+    return this.enabled;
   }
 }
