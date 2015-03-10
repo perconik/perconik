@@ -95,6 +95,13 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
   public CorePreferencePage() {}
 
   @Override
+  public final void createControl(final Composite parent) {
+    super.createControl(parent);
+
+    this.updatePage();
+  }
+
+  @Override
   protected Control createContents(final Composite parent) {
     this.initializeDialogUnits(parent);
     this.noDefaultAndApplyButton();
@@ -208,8 +215,8 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
 
     IProduct product = Platform.getProduct();
 
-    text.format("%s %s%n", product.getName(), Products.getVersion(product));
     text.format("%s %s%n", StandardSystemProperty.JAVA_VM_NAME.value(), Environment.getJavaVersion());
+    text.format("%s %s%n", product.getName(), Products.getVersion(product));
     text.format("PerConIK Core %s%n", defaultInstance().getBundle().getVersion());
     text.format("Debug plug-in %s%n", Environment.debug ? "enabled" : "disabled");
 
@@ -275,6 +282,20 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
     }
   }
 
+  void updatePage() {
+    this.updateMessage();
+    this.updateStates();
+    this.updateButtons();
+  }
+
+  void updateMessage() {
+    if (loadedServices()) {
+      this.setErrorMessage(null);
+    } else {
+      this.setErrorMessage("Core services not loaded");
+    }
+  }
+
   void updateStates() {
     this.setResourceState(resourceService());
     this.setListenerState(listenerService());
@@ -307,8 +328,7 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
       this.handleFailure(failure);
     }
 
-    this.updateStates();
-    this.updateButtons();
+    this.updatePage();
   }
 
   void performUnload() {
@@ -322,8 +342,7 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
       this.handleFailure(failure);
     }
 
-    this.updateStates();
-    this.updateButtons();
+    this.updatePage();
   }
 
   void handleFailure(final Exception failure) {
@@ -529,5 +548,14 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
     if (!this.listenerLabel.isDisposed()) {
       this.listenerLabel.setText(toTransition(from, to));
     }
+  }
+
+  @Override
+  public Control getControl() {
+    if (!loadedServices() && this.isContentsCreated()) {
+      this.updatePage();
+    }
+
+    return super.getControl();
   }
 }

@@ -248,14 +248,24 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   final void updateTable() {
+    assert this.tableViewer != null;
+
     this.tableViewer.setInput(this.map);
     this.tableViewer.refresh();
-    this.tableViewer.setAllGrayed(false);
-    this.tableViewer.setGrayedElements(this.inheritedOptions().entrySet().toArray());
+
+    if (this.map != null) {
+      this.tableViewer.setAllGrayed(false);
+      this.tableViewer.setGrayedElements(this.inheritedOptions().entrySet().toArray());
+    }
   }
 
   final void sortTable() {
-    TableSorter.automaticSort(this.tableViewer.getTable());
+    assert this.tableViewer != null;
+
+    Table table = this.tableViewer.getTable();
+
+    TableSorter.enable(table, this.map != null);
+    TableSorter.automaticSort(table);
   }
 
   class LocalMapTableSorter extends MapTableSorter<String, Object> {

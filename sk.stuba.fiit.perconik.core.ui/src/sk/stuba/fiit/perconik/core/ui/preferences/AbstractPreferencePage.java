@@ -63,6 +63,7 @@ import static org.eclipse.jface.dialogs.IDialogConstants.PROCEED_LABEL;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 import static org.eclipse.jface.dialogs.MessageDialog.openInformation;
 
+import static sk.stuba.fiit.perconik.core.plugin.Activator.loadedServices;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toUpperCaseFirst;
 
 /**
@@ -116,6 +117,13 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   final R cast(final Object o) {
     return this.type().cast(o);
+  }
+
+  @Override
+  public final void createControl(final Composite parent) {
+    super.createControl(parent);
+
+    this.performRefresh();
   }
 
   @Override
@@ -254,9 +262,6 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     this.optionsDialog = this.createOptionsDialog();
 
-    this.loadInternal(this.sharedPreferences());
-    this.performRefresh();
-
     Dialog.applyDialogFont(composite);
 
     innerParent.layout();
@@ -322,7 +327,42 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     this.tableViewer.setChecked(registration, status);
   }
 
+  final void updatePage() {
+    this.updateMessage();
+    this.updateTable();
+    this.sortTable();
+    this.updateButtons();
+  }
+
+  final void updateMessage() {
+    if (loadedServices()) {
+      this.setErrorMessage(null);
+    } else {
+      this.setErrorMessage("Core services not loaded");
+    }
+  }
+
   final void updateButtons() {
+    if (!loadedServices()) {
+      this.getApplyButton().setEnabled(false);
+      this.getDefaultsButton().setEnabled(false);
+
+      this.addButton.setEnabled(false);
+      this.removeButton.setEnabled(false);
+
+      this.registerButton.setEnabled(false);
+      this.unregisterButton.setEnabled(false);
+
+      this.importButton.setEnabled(false);
+      this.exportButton.setEnabled(false);
+
+      this.refreshButton.setEnabled(true);
+      this.optionsButton.setEnabled(false);
+      this.notesButton.setEnabled(false);
+
+      return;
+    }
+
     IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
 
     int selectionCount = selection.size();
@@ -344,28 +384,44 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
       }
     }
 
+    this.getApplyButton().setEnabled(true);
+    this.getDefaultsButton().setEnabled(true);
+
+    this.addButton.setEnabled(true);
     this.removeButton.setEnabled(selectionCount > 0 && selectionCount <= itemCount);
 
     this.registerButton.setEnabled(registrable);
     this.unregisterButton.setEnabled(unregistrable);
 
+    this.importButton.setEnabled(true);
     this.exportButton.setEnabled(selectionCount > 0);
 
+    this.refreshButton.setEnabled(true);
     this.optionsButton.setEnabled(selectionCount == 1 && !this.restoreOptions.get());
     this.notesButton.setEnabled(selectionCount == 1);
   }
 
   final void updateTable() {
+    assert this.tableViewer != null;
+
     this.tableViewer.setInput(this.registrations);
     this.tableViewer.refresh();
-    this.tableViewer.setAllChecked(false);
-    this.tableViewer.setAllGrayed(false);
-    this.tableViewer.setCheckedElements(this.checkedData().toArray());
-    this.tableViewer.setGrayedElements(this.unknownData().toArray());
+
+    if (this.registrations != null) {
+      this.tableViewer.setAllChecked(false);
+      this.tableViewer.setAllGrayed(false);
+      this.tableViewer.setCheckedElements(this.checkedData().toArray());
+      this.tableViewer.setGrayedElements(this.unknownData().toArray());
+    }
   }
 
   final void sortTable() {
-    TableSorter.automaticSort(this.tableViewer.getTable());
+    assert this.tableViewer != null;
+
+    Table table = this.tableViewer.getTable();
+
+    TableSorter.enable(table, this.registrations != null);
+    TableSorter.automaticSort(table);
   }
 
   class LocalSetTableSorter extends SetTableSorter<R> {
@@ -447,6 +503,14 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   }
 
   void performRefresh() {
+    if (this.registrations == null) {
+      this.loadInternal(this.sharedPreferences());
+    }
+
+    if (!loadedServices()) {
+      return;
+    }
+
     for (R registration: newLinkedHashSet(this.registrations)) {
       this.updateData(registration, registration.isRegistered());
     }
@@ -518,9 +582,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     this.restoreOptions.set(dialog.getToggleState());
 
-    this.updateTable();
-    this.sortTable();
-    this.updateButtons();
+    this.updatePage();
 
     super.performDefaults();
   }
@@ -537,22 +599,28 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   abstract void save() throws BackingStoreException;
 
   private void applyInternal() {
+    if (!loadedServices()) {
+      return;
+    }
+
     this.apply();
 
-    this.updateTable();
-    this.sortTable();
-    this.updateButtons();
+    this.updatePage();
   }
 
   private void loadInternal(final P preferences) {
-    this.load(preferences);
+    if (loadedServices()) {
+      this.load(preferences);
+    }
 
-    this.updateTable();
-    this.sortTable();
-    this.updateButtons();
+    this.updatePage();
   }
 
   private void saveInternal() {
+    if (!loadedServices()) {
+      return;
+    }
+
     try {
       this.save();
     } catch (BackingStoreException failure) {
@@ -571,5 +639,17 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   final P getPreferences() {
     return this.preferences;
+  }
+
+  @Override
+  public Control getControl() {
+    if (!loadedServices() && this.isContentsCreated()) {
+      this.preferences = null;
+      this.registrations = null;
+
+      this.updatePage();
+    }
+
+    return super.getControl();
   }
 }
