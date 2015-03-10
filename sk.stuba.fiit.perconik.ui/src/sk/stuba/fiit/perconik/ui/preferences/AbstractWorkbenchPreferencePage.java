@@ -8,4 +8,8 @@ public abstract class AbstractWorkbenchPreferencePage extends PreferencePage imp
   protected AbstractWorkbenchPreferencePage() {}
 
   public void init(final IWorkbench workbench) {}
+
+  protected boolean isContentsCreated() {
+    return this.isControlCreated() && this.getApplyButton() != null;
+  }
 }
