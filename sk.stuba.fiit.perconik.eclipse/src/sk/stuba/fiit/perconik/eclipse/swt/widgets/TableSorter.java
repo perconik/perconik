@@ -60,7 +60,7 @@ public abstract class TableSorter<T> {
 
     public Handle attach(final TableColumn column) {
       column.addListener(SWT.Selection, this.switcher);
-      column.setData(key, this);
+      column.setData(key, TableSorter.this);
 
       return this;
     }
