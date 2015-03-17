@@ -67,4 +67,5 @@ Export-Package: sk.stuba.fiit.perconik.activity,
  sk.stuba.fiit.perconik.activity.serializers.ui.assist,
  sk.stuba.fiit.perconik.activity.serializers.ui.selection,
  sk.stuba.fiit.perconik.activity.serializers.ui.text,
- sk.stuba.fiit.perconik.activity.uaca
+ sk.stuba.fiit.perconik.activity.uaca,
+ sk.stuba.fiit.perconik.activity.ui.preferences
