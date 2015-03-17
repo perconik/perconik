@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.swt.widgets;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-abstract class TableSorter<T> {
+public abstract class TableSorter<T> {
   static final String key = TableSorter.class.getName();
 
   private final Table table;
@@ -27,61 +27,73 @@ abstract class TableSorter<T> {
 
   private boolean enabled;
 
-  TableSorter(final Table table) {
+  protected TableSorter(final Table table) {
     this(table, null);
   }
 
-  TableSorter(final Table table, @Nullable final Comparator<? super T> comparator) {
+  protected TableSorter(final Table table, @Nullable final Comparator<? super T> comparator) {
     this.table = requireNonNull(table);
     this.comparator = comparator;
     this.enabled = true;
   }
 
-  final class Handle implements Listener {
-    private SortDirection direction;
+  public final class Handle {
+    private final Switcher switcher;
 
     Handle(final SortDirection direction) {
-      this.direction = requireNonNull(direction);
+      this.switcher = new Switcher(direction);
     }
 
-    public void handleEvent(final Event event) {
-      sort((TableColumn) event.widget, this.direction);
+    private final class Switcher implements Listener {
+      SortDirection direction;
 
-      this.direction = this.direction.opposite();
+      Switcher(final SortDirection direction) {
+        this.direction = requireNonNull(direction);
+      }
+
+      public void handleEvent(final Event event) {
+        sort((TableColumn) event.widget, this.direction);
+
+        this.direction = this.direction.opposite();
+      }
     }
 
-    void detach(final TableColumn column) {
-      column.removeListener(SWT.Selection, this);
+    public Handle attach(final TableColumn column) {
+      column.addListener(SWT.Selection, this.switcher);
+      column.setData(key, this);
+
+      return this;
+    }
+
+    public Handle detach(final TableColumn column) {
+      column.removeListener(SWT.Selection, this.switcher);
       column.setData(key, null);
+
+      return this;
     }
   }
 
-  final Handle attach(final TableColumn column) {
+  public final Handle attach(final TableColumn column) {
     return this.attach(column, SortDirection.UP);
   }
 
-  final Handle attach(final TableColumn column, final SortDirection direction) {
-    Handle handle = new Handle(direction);
-
-    column.addListener(SWT.Selection, handle);
-    column.setData(key, this);
-
-    return handle;
+  public final Handle attach(final TableColumn column, final SortDirection direction) {
+    return new Handle(direction).attach(column);
   }
 
   private static TableSorter<?> fetch(final TableColumn column) {
     return ((TableSorter<?>) column.getData(key));
   }
 
-  static final void attachedSort(final TableColumn column, final SortDirection direction) {
+  private static final void attachedSort(final TableColumn column, final SortDirection direction) {
     fetch(column).sort(column, direction);
   }
 
-  static final void automaticSort(final Table table) {
+  public static final void automaticSort(final Table table) {
     automaticSort(table, table.getColumn(0), SortDirection.UP);
   }
 
-  static final void automaticSort(final Table table, final TableColumn defaultColumn, final SortDirection defaultDirection) {
+  public static final void automaticSort(final Table table, final TableColumn defaultColumn, final SortDirection defaultDirection) {
     TableColumn column = table.getSortColumn();
     SortDirection direction = SortDirection.valueOf(table.getSortDirection());
 
@@ -94,7 +106,7 @@ abstract class TableSorter<T> {
     table.setSortDirection(direction.getValue());
   }
 
-  static final void enable(final Table table, final boolean value) {
+  public static final void enable(final Table table, final boolean value) {
     for (TableColumn column: table.getColumns()) {
       TableSorter<?> sorter = fetch(column);
 
@@ -104,11 +116,11 @@ abstract class TableSorter<T> {
     }
   }
 
-  static final void enable(final TableColumn column, final boolean value) {
+  public static final void enable(final TableColumn column, final boolean value) {
     fetch(column).setEnabled(value);
   }
 
-  final void sort(final TableColumn column, final SortDirection direction) {
+  public final void sort(final TableColumn column, final SortDirection direction) {
     if (!this.isEnabled()) {
       return;
     }
@@ -131,24 +143,24 @@ abstract class TableSorter<T> {
     }
   }
 
-  abstract Iterable<T> loadData();
+  public abstract Iterable<T> loadData();
 
-  abstract void updateData(Iterable<? extends T> data);
+  public abstract void updateData(Iterable<? extends T> data);
 
-  final void setEnabled(final boolean value) {
+  public final void setEnabled(final boolean value) {
     this.enabled = value;
   }
 
-  final Table getTable() {
+  public final Table getTable() {
     return this.table;
   }
 
   @Nullable
-  final Comparator<? super T> getComparator() {
+  public final Comparator<? super T> getComparator() {
     return this.comparator;
   }
 
-  final boolean isEnabled() {
+  public final boolean isEnabled() {
     return this.enabled;
   }
 }

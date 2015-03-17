@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.swt.widgets;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -13,22 +13,22 @@ import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static sk.stuba.fiit.perconik.utilities.MoreMaps.putAll;
 
-abstract class MapTableSorter<K, V> extends TableSorter<Entry<K, V>> {
-  MapTableSorter(final Table table) {
+public abstract class MapTableSorter<K, V> extends TableSorter<Entry<K, V>> {
+  protected MapTableSorter(final Table table) {
     super(table);
   }
 
-  MapTableSorter(final Table table, @Nullable final Comparator<? super Entry<K, V>> comparator) {
+  protected MapTableSorter(final Table table, @Nullable final Comparator<? super Entry<K, V>> comparator) {
     super(table, comparator);
   }
 
   @Override
-  final Set<Entry<K, V>> loadData() {
+  public final Set<Entry<K, V>> loadData() {
     return this.loadMap().entrySet();
   }
 
   @Override
-  final void updateData(final Iterable<? extends Entry<K, V>> data) {
+  public final void updateData(final Iterable<? extends Entry<K, V>> data) {
     Map<K, V> update = newLinkedHashMap();
 
     putAll(update, data);
@@ -36,7 +36,7 @@ abstract class MapTableSorter<K, V> extends TableSorter<Entry<K, V>> {
     this.updateMap(update);
   }
 
-  abstract Map<K, V> loadMap();
+  protected abstract Map<K, V> loadMap();
 
-  abstract void updateMap(Map<K, V> map);
+  protected abstract void updateMap(Map<K, V> map);
 }
