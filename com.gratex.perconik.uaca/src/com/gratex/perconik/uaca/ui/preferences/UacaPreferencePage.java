@@ -1,4 +1,4 @@
-package com.gratex.perconik.uaca.ui;
+package com.gratex.perconik.uaca.ui.preferences;
 
 import com.google.common.base.Preconditions;
 
@@ -17,7 +17,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
-import sk.stuba.fiit.perconik.ui.utilities.Widgets;
+import sk.stuba.fiit.perconik.ui.Widgets;
 
 public final class UacaPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
   private BooleanFieldEditor logErrors;

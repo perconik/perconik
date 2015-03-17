@@ -13,8 +13,8 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="sk.stuba.fiit.perconik.ui.preferences.main"
-            class="com.gratex.perconik.uaca.ui.UacaPreferencePage"
-            id="com.gratex.perconik.activity.ui.preferences.client"
+            class="com.gratex.perconik.uaca.ui.preferences.UacaPreferencePage"
+            id="com.gratex.perconik.uaca.ui.preferences"
             name="UACA">
       </page>
    </extension>
