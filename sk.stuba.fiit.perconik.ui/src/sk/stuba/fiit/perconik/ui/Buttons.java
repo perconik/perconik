@@ -15,30 +15,31 @@ import static java.lang.Math.max;
 public final class Buttons {
   private Buttons() {}
 
-  public static Button create(final Composite parent, final String text, final WidgetListener listener) {
+  public static Button createRegular(final Composite parent, final String text, final WidgetListener listener) {
     Button button = new Button(parent, SWT.PUSH);
 
     button.setText(text);
-    button.setLayoutData(getGridData(button));
+    button.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, false, false));
     button.addListener(SWT.Selection, listener);
 
     return button;
   }
 
-  public static void setDialogFont(final Button button) {
-    button.setFont(JFaceResources.getDialogFont());
-  }
-
-  public static GridData getGridData(final Button button) {
+  public static Button createCentering(final Composite parent, final String text, final WidgetListener listener) {
+    Button button = new Button(parent, SWT.PUSH);
     GridData data = new GridData(GridData.FILL_HORIZONTAL);
 
-    data.widthHint = getWidthHint(button);
+    data.widthHint = computeWidthHint(button);
 
-    return data;
+    button.setText(text);
+    button.setLayoutData(data);
+    button.addListener(SWT.Selection, listener);
+
+    return button;
   }
 
-  public static int getWidthHint(final Button button) {
-    setDialogFont(button);
+  public static int computeWidthHint(final Button button) {
+    button.setFont(JFaceResources.getDialogFont());
 
     int width = new PixelConverter(button).convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
 

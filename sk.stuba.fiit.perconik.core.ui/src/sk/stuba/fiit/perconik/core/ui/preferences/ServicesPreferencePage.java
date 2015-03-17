@@ -48,6 +48,9 @@ import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapContentProvider;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.ui.Buttons;
+import sk.stuba.fiit.perconik.ui.Groups;
+import sk.stuba.fiit.perconik.ui.Labels;
+import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
@@ -115,25 +118,27 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     layout.verticalSpacing = this.convertVerticalDLUsToPixels(10);
     composite.setLayout(layout);
 
-    Group environmentGroup = createGroup(composite, "Environment");
+    Group environmentGroup = Groups.create(composite, "Environment");
 
-    this.createLabel(environmentGroup, environmentText());
+    environmentGroup.setLayout(new GridLayout(2, false));
+
+    Labels.create(environmentGroup, environmentText());
 
     Optional<ResourceService> resourceService = resourceService();
     Optional<ListenerService> listenerService = listenerService();
 
     this.detailsDialog = new DetailsDialog(this.getShell());
 
-    Group resourceGroup = createGroup(composite, "Resource Service");
-    Group listenerGroup = createGroup(composite, "Listener Service");
+    Group resourceGroup = Groups.create(composite, "Resource Service");
+    Group listenerGroup = Groups.create(composite, "Listener Service");
 
-    this.resourceLabel = this.createLabel(resourceGroup, toState(resourceService));
-    this.listenerLabel = this.createLabel(listenerGroup, toState(listenerService));
+    resourceGroup.setLayout(new GridLayout(2, false));
+    listenerGroup.setLayout(new GridLayout(2, false));
 
-    this.resourceButton = createButton(resourceGroup);
-    this.listenerButton = createButton(listenerGroup);
+    this.resourceLabel = Labels.create(resourceGroup, toState(resourceService));
+    this.listenerLabel = Labels.create(listenerGroup, toState(listenerService));
 
-    this.resourceButton.addListener(SWT.Selection, new WidgetListener() {
+    this.resourceButton = Buttons.createRegular(resourceGroup, "Details", new WidgetListener() {
       public void handleEvent(final Event event) {
         DetailsDialog dialog = ServicesPreferencePage.this.detailsDialog;
 
@@ -144,7 +149,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
       }
     });
 
-    this.listenerButton.addListener(SWT.Selection, new WidgetListener() {
+    this.listenerButton = Buttons.createRegular(listenerGroup, "Details", new WidgetListener() {
       public void handleEvent(final Event event) {
         DetailsDialog dialog = ServicesPreferencePage.this.detailsDialog;
 
@@ -160,48 +165,17 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     return composite;
   }
 
-  protected static Group createGroup(final Composite parent, final String title) {
-    Group group = new Group(parent, SWT.NONE);
-
-    group.setLayout(new GridLayout(2, false));
-    group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-    group.setText(title);
-
-    return group;
-  }
-
-  protected Label createLabel(final Composite parent, final String text) {
-    Label label = new Label(parent, SWT.WRAP);
-    GridData data = new GridData(GridData.FILL, GridData.CENTER, true, false);
-
-    data.widthHint = this.convertVerticalDLUsToPixels(50);
-
-    label.setLayoutData(data);
-    label.setText(text);
-
-    return label;
-  }
-
-  protected static Button createButton(final Composite parent) {
-    Button button = new Button(parent, SWT.PUSH);
-
-    button.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, false, false));
-    button.setText("Details");
-
-    return button;
-  }
-
   @Override
   protected void contributeButtons(final Composite parent) {
     ((GridLayout) parent.getLayout()).numColumns += 2;
 
-    this.load = Buttons.create(parent, "Load", new WidgetListener() {
+    this.load = Buttons.createCentering(parent, "Load", new WidgetListener() {
       public void handleEvent(final Event event) {
         performLoad();
       }
     });
 
-    this.unload = Buttons.create(parent, "Unload", new WidgetListener() {
+    this.unload = Buttons.createCentering(parent, "Unload", new WidgetListener() {
       public void handleEvent(final Event event) {
         performUnload();
       }
@@ -389,11 +363,11 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
       GC gc = new GC(this.getShell());
       gc.setFont(JFaceResources.getDialogFont());
 
-      Tables.createColumn(table, tableLayout, "Component", gc, 1);
-      Tables.createColumn(table, tableLayout, "Implementation", gc, 4);
-      Tables.createColumn(table, tableLayout, "Name", gc, 4);
-      Tables.createColumn(table, tableLayout, "Hash", gc, 1);
-      Tables.createColumn(table, tableLayout, "Identity", gc, 1);
+      TableColumns.create(table, tableLayout, "Component", gc, 1);
+      TableColumns.create(table, tableLayout, "Implementation", gc, 4);
+      TableColumns.create(table, tableLayout, "Name", gc, 4);
+      TableColumns.create(table, tableLayout, "Hash", gc, 1);
+      TableColumns.create(table, tableLayout, "Identity", gc, 1);
 
       gc.dispose();
 

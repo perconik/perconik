@@ -50,7 +50,7 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.TableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.Buttons;
 import sk.stuba.fiit.perconik.ui.Tables;
-import sk.stuba.fiit.perconik.ui.Widgets;
+import sk.stuba.fiit.perconik.ui.Labels;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
@@ -202,61 +202,61 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     parentLayout.marginWidth = 0;
     buttons.setLayout(parentLayout);
 
-    this.addButton = Buttons.create(buttons, "Add", new WidgetListener() {
+    this.addButton = Buttons.createCentering(buttons, "Add", new WidgetListener() {
       public void handleEvent(final Event e) {
         performAdd();
       }
     });
 
-    this.removeButton = Buttons.create(buttons, "Remove", new WidgetListener() {
+    this.removeButton = Buttons.createCentering(buttons, "Remove", new WidgetListener() {
       public void handleEvent(final Event e) {
         performRemove();
       }
     });
 
-    Widgets.createButtonSeparator(buttons);
+    Labels.createButtonSeparator(buttons);
 
-    this.registerButton = Buttons.create(buttons, "Register", new WidgetListener() {
+    this.registerButton = Buttons.createCentering(buttons, "Register", new WidgetListener() {
       public void handleEvent(final Event e) {
         performRegister();
       }
     });
 
-    this.unregisterButton = Buttons.create(buttons, "Unregister", new WidgetListener() {
+    this.unregisterButton = Buttons.createCentering(buttons, "Unregister", new WidgetListener() {
       public void handleEvent(final Event e) {
         performUnregister();
       }
     });
 
-    Widgets.createButtonSeparator(buttons);
+    Labels.createButtonSeparator(buttons);
 
-    this.importButton = Buttons.create(buttons, "Import", new WidgetListener() {
+    this.importButton = Buttons.createCentering(buttons, "Import", new WidgetListener() {
       public void handleEvent(final Event e) {
         performImport();
       }
     });
 
-    this.exportButton = Buttons.create(buttons, "Export", new WidgetListener() {
+    this.exportButton = Buttons.createCentering(buttons, "Export", new WidgetListener() {
       public void handleEvent(final Event e) {
         performExport();
       }
     });
 
-    Widgets.createButtonSeparator(buttons);
+    Labels.createButtonSeparator(buttons);
 
-    this.refreshButton = Buttons.create(buttons, "Refresh", new WidgetListener() {
+    this.refreshButton = Buttons.createCentering(buttons, "Refresh", new WidgetListener() {
       public void handleEvent(final Event e) {
         performRefresh();
       }
     });
 
-    this.optionsButton = Buttons.create(buttons, "Options", new WidgetListener() {
+    this.optionsButton = Buttons.createCentering(buttons, "Options", new WidgetListener() {
       public void handleEvent(final Event e) {
         performOptions();
       }
     });
 
-    this.notesButton = Buttons.create(buttons, "Notes", new WidgetListener() {
+    this.notesButton = Buttons.createCentering(buttons, "Notes", new WidgetListener() {
       public void handleEvent(final Event e) {
         performNotes();
       }

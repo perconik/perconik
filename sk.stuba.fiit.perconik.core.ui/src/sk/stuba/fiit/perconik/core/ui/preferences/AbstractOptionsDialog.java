@@ -50,8 +50,9 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.MapTableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.TableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.Buttons;
+import sk.stuba.fiit.perconik.ui.Labels;
+import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.ui.Tables;
-import sk.stuba.fiit.perconik.ui.Widgets;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
@@ -152,8 +153,8 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     GC gc = new GC(this.getShell());
     gc.setFont(JFaceResources.getDialogFont());
 
-    TableColumn keyColumn = Tables.createColumn(table, tableLayout, "Key", gc, 1);
-    TableColumn valueColumn = Tables.createColumn(table, tableLayout, "Value", gc, 1);
+    TableColumn keyColumn = TableColumns.create(table, tableLayout, "Key", gc, 1);
+    TableColumn valueColumn = TableColumns.create(table, tableLayout, "Value", gc, 1);
 
     gc.dispose();
 
@@ -189,27 +190,27 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     parentLayout.marginWidth = 0;
     buttons.setLayout(parentLayout);
 
-    this.addButton = Buttons.create(buttons, "Add", new WidgetListener() {
+    this.addButton = Buttons.createCentering(buttons, "Add", new WidgetListener() {
       public void handleEvent(final Event e) {
         performAdd();
       }
     });
 
-    this.updateButton = Buttons.create(buttons, "Update", new WidgetListener() {
+    this.updateButton = Buttons.createCentering(buttons, "Update", new WidgetListener() {
       public void handleEvent(final Event e) {
         performUpdate();
       }
     });
 
-    this.removeButton = Buttons.create(buttons, "Remove", new WidgetListener() {
+    this.removeButton = Buttons.createCentering(buttons, "Remove", new WidgetListener() {
       public void handleEvent(final Event e) {
         performRemove();
       }
     });
 
-    Widgets.createButtonSeparator(buttons);
+    Labels.createButtonSeparator(buttons);
 
-    this.restoreButton = Buttons.create(buttons, "Restore", new WidgetListener() {
+    this.restoreButton = Buttons.createCentering(buttons, "Restore", new WidgetListener() {
       public void handleEvent(final Event e) {
         performRestore();
       }

@@ -21,7 +21,7 @@ import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.SortingViewerComparator;
-import sk.stuba.fiit.perconik.ui.Tables;
+import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
@@ -65,9 +65,9 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
 
   @Override
   protected void createTableColumns(final Table table, final TableColumnLayout layout, final GC gc) {
-    TableColumn listenerColumn = Tables.createColumn(table, layout, "Listener implementation", gc, 4);
-    TableColumn versionColumn = Tables.createColumn(table, layout, "Version", gc, 1);
-    TableColumn notesColumn = Tables.createColumn(table, layout, "Notes", gc, 1);
+    TableColumn listenerColumn = TableColumns.create(table, layout, "Listener implementation", gc, 4);
+    TableColumn versionColumn = TableColumns.create(table, layout, "Version", gc, 1);
+    TableColumn notesColumn = TableColumns.create(table, layout, "Notes", gc, 1);
 
     LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
       public String apply(final ListenerPersistenceData data) {
