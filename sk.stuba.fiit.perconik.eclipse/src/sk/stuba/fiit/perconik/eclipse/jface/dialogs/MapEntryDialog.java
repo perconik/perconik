@@ -39,14 +39,12 @@ public class MapEntryDialog<K, V> extends StatusDialog {
 
   private Text valueText;
 
-  protected MapEntryDialog(final Shell parent) {
+  public MapEntryDialog(final Shell parent) {
     this(parent, StringEntryConverter.<K, V>create());
   }
 
-  protected MapEntryDialog(final Shell parent, final EntryConverter<K, V> converter) {
+  public MapEntryDialog(final Shell parent, final EntryConverter<K, V> converter) {
     super(parent);
-
-    this.setTitle("Option Dialog");
 
     this.converter = requireNonNull(converter);
   }
