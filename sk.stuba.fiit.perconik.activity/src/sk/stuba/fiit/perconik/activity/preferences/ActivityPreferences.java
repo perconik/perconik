@@ -1,11 +1,21 @@
 package sk.stuba.fiit.perconik.activity.preferences;
 
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener.StandardLoggingOptionsSchema;
+import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener.StandardProbingOptionsSchema;
+import sk.stuba.fiit.perconik.activity.plugin.Activator;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.util.Objects.requireNonNull;
+
+import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
+import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.defaultOptions;
 import static sk.stuba.fiit.perconik.core.plugin.Activator.classResolver;
-import static sk.stuba.fiit.perconik.core.preferences.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
 
 /**
  * Activity preferences. Supports both <i>default</i>
@@ -47,12 +57,12 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
     public void initializeDefaultPreferences() {
       ActivityPreferences preferences = ActivityPreferences.getDefault();
 
-      // TODO
+      preferences.setDefaultOptions(defaultOptions());
     }
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
-    public static final String configuration = join(qualifier, "configuration");
+    public static final String defaultOptions = join(qualifier, "defaultOptions");
   }
 
   /**
@@ -69,5 +79,54 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
     return new ActivityPreferences(Scope.CONFIGURATION);
   }
 
-  // TODO
+  static Options defaultOptions() {
+    return compound(defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class));
+  }
+
+  private static void reportFailure(final Throwable failure) {
+    Activator.defaultInstance().getConsole().error(failure, toString(failure));
+  }
+
+  /**
+   * Sets default activity listener options.
+   * @param options default activity listener options
+   * @throws ClassCastException if options type is invalid
+   * @throws NullPointerException if options is {@code null}
+   */
+  public void setDefaultOptions(final Options options) {
+    try {
+      this.putObject(defaultOptions, requireNonNull(options));
+    } catch (RuntimeException e) {
+      reportFailure(e);
+    }
+  }
+
+  /**
+   * Gets default activity listener options.
+   * @throws ClassCastException if options type is invalid
+   * @throws IllegalStateException if options is {@code null}
+   */
+  public Options getDefaultOptions() {
+    if (this.scope() == Scope.DEFAULT) {
+      return checkNotNullAsState(defaultOptions());
+    }
+
+    try {
+      return Options.class.cast(checkNotNullAsState(this.getObject(defaultOptions)));
+    } catch (RuntimeException e) {
+      reportFailure(e);
+
+      Options options = checkNotNullAsState(defaultOptions());
+
+      this.setDefaultOptions(options);
+
+      try {
+        this.synchronize();
+      } catch (RuntimeException x) {
+        reportFailure(x);
+      }
+
+      return options;
+    }
+  }
 }

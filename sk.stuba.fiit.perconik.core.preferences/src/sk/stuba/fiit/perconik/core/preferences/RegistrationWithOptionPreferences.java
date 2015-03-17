@@ -5,8 +5,6 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
 
-import org.osgi.service.prefs.BackingStoreException;
-
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.preferences.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
@@ -28,8 +26,8 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
     super(scope, qualifier, classResolver());
   }
 
-  private static void reportFailure(final Throwable failure, final String format, final Object ... args) {
-    PluginConsoles.create(Activator.defaultInstance()).error(failure, format, args);
+  private static void reportFailure(final Throwable failure) {
+    PluginConsoles.create(Activator.defaultInstance()).error(failure, toString(failure));
   }
 
   abstract Set<R> castRegistrations(Object object);
@@ -48,7 +46,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
     try {
       this.putObject(key, this.castRegistrations(checkNotNull(registrations)));
     } catch (RuntimeException e) {
-      reportFailure(e, "Unable to write registrations under key %s", key);
+      reportFailure(e);
     }
   }
 
@@ -56,7 +54,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
     try {
       this.putObject(key, this.castOptions(checkNotNull(options)));
     } catch (RuntimeException e) {
-      reportFailure(e, "Unable to write options under key %s", key);
+      reportFailure(e);
     }
   }
 
@@ -68,7 +66,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
     try {
       return this.castRegistrations(checkNotNullAsState(this.getObject(key)));
     } catch (RuntimeException e) {
-      reportFailure(e, "Unable to read registrations under key %s", key);
+      reportFailure(e);
 
       Set<R> registrations = checkNotNullAsState(this.getDefaultRegistrations());
 
@@ -76,8 +74,8 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
       try {
         this.synchronize();
-      } catch (BackingStoreException x) {
-        reportFailure(x, "Unable to synchronize registrations under key %s", key);
+      } catch (RuntimeException x) {
+        reportFailure(x);
       }
 
       return registrations;
@@ -92,7 +90,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
     try {
       return this.castOptions(checkNotNullAsState(this.getObject(key)));
     } catch (RuntimeException e) {
-      reportFailure(e, "Unable to read options under key %s", key);
+      reportFailure(e);
 
       Map<K, Options> options = checkNotNullAsState(this.getDefaultOptions());
 
@@ -100,8 +98,8 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
       try {
         this.synchronize();
-      } catch (BackingStoreException x) {
-        reportFailure(x, "Unable to synchronize options under key %s", key);
+      } catch (RuntimeException x) {
+        reportFailure(x);
       }
 
       return options;

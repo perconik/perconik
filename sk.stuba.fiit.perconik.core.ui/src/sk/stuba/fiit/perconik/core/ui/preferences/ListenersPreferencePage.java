@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import org.osgi.framework.Version;
-import org.osgi.service.prefs.BackingStoreException;
 
 import jersey.repackaged.com.google.common.collect.Maps;
 
@@ -178,7 +177,7 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
   }
 
   @Override
-  void save() throws BackingStoreException {
+  void save() {
     this.getPreferences().flush();
   }
 

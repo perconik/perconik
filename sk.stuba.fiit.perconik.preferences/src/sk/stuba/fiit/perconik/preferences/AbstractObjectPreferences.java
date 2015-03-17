@@ -5,6 +5,8 @@ import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
 import static java.util.Objects.requireNonNull;
 
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.firstNonNullOrEmpty;
+
 public abstract class AbstractObjectPreferences extends AbstractPreferences {
   final ClassResolver resolver;
 
@@ -28,6 +30,10 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
     } catch (Exception e) {
       throw new RuntimeException("Unable to write object under key " + key + " to byte array", e);
     }
+  }
+
+  protected static final String toString(final Throwable failure) {
+    return firstNonNullOrEmpty(failure.getMessage(), "Unknown serialization error");
   }
 
   protected final void putObject(final String key, final Object value) {

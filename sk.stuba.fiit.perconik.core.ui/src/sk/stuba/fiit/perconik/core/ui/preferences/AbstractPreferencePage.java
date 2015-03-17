@@ -38,8 +38,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 
-import org.osgi.service.prefs.BackingStoreException;
-
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
@@ -596,7 +594,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   abstract void load(P preferences);
 
-  abstract void save() throws BackingStoreException;
+  abstract void save();
 
   private void applyInternal() {
     if (!loadedServices()) {
@@ -623,7 +621,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     try {
       this.save();
-    } catch (BackingStoreException failure) {
+    } catch (RuntimeException failure) {
       String title = "Preferences";
       String message = "Failed to save preferences.";
 

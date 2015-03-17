@@ -12,8 +12,6 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 
-import org.osgi.service.prefs.BackingStoreException;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractPreferences {
@@ -83,15 +81,27 @@ public abstract class AbstractPreferences {
     return this.data;
   }
 
-  public final void synchronize() throws BackingStoreException {
-    this.data.sync();
+  public final void synchronize() {
+    try {
+      this.data.sync();
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to synchronize preferences", e);
+    }
   }
 
-  public final void clear() throws BackingStoreException {
-    this.data.clear();
+  public final void clear() {
+    try {
+      this.data.clear();
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to clear preferences", e);
+    }
   }
 
-  public final void flush() throws BackingStoreException {
-    this.data.flush();
+  public final void flush() {
+    try {
+      this.data.flush();
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to flush preferences", e);
+    }
   }
 }
