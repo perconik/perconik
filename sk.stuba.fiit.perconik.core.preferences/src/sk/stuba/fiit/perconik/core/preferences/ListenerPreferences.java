@@ -20,7 +20,7 @@ import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 
 /**
  * Listener preferences. Supports both <i>default</i>
- * and <i>instance</i> (actually used and stored) scopes.
+ * and <i>configuration</i> (actually used and stored) scopes.
  *
  * @author Pavol Zbell
  * @since 1.0
