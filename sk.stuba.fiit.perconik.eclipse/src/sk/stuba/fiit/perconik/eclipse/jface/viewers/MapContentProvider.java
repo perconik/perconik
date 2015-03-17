@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 
 import java.util.Map;
 
@@ -7,10 +7,10 @@ import org.eclipse.jface.viewers.Viewer;
 
 import static java.util.Collections.emptyMap;
 
-final class MapContentProvider implements IStructuredContentProvider {
-  private Map<?, ?> data;
+public class MapContentProvider implements IStructuredContentProvider {
+  protected Map<?, ?> data;
 
-  MapContentProvider() {
+  public MapContentProvider() {
     this.data = emptyMap();
   }
 

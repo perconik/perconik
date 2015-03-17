@@ -1,9 +1,9 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 
 import org.eclipse.jface.viewers.ViewerComparator;
 
-abstract class SortingViewerComparator extends ViewerComparator {
-  SortingViewerComparator() {}
+public class SortingViewerComparator extends ViewerComparator {
+  public SortingViewerComparator() {}
 
   @Override
   public boolean isSorterProperty(final Object element, final String property) {

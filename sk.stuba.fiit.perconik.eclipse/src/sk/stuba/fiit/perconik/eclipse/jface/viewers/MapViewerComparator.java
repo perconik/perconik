@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 
 import java.util.Map.Entry;
 
@@ -7,8 +7,8 @@ import org.eclipse.jface.viewers.ViewerComparator;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringComparator;
 
-final class MapViewerComparator extends ViewerComparator {
-  MapViewerComparator() {}
+public class MapViewerComparator extends ViewerComparator {
+  public MapViewerComparator() {}
 
   @Override
   public int compare(final Viewer viewer, final Object a, final Object b) {

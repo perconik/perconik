@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 
 import java.util.Map.Entry;
 
@@ -8,8 +8,8 @@ import org.eclipse.swt.graphics.Image;
 
 import static java.lang.String.valueOf;
 
-final class MapLabelProvider extends LabelProvider implements ITableLabelProvider {
-  MapLabelProvider() {}
+public class MapLabelProvider extends LabelProvider implements ITableLabelProvider {
+  public MapLabelProvider() {}
 
   public String getColumnText(final Object element, final int column) {
     Entry<?, ?> entry = (Entry<?, ?>) element;

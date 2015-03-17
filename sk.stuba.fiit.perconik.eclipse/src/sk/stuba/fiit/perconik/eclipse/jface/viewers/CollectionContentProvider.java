@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.core.ui.preferences;
+package sk.stuba.fiit.perconik.eclipse.jface.viewers;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,10 +8,10 @@ import org.eclipse.jface.viewers.Viewer;
 
 import static java.util.Collections.emptyList;
 
-final class CollectionContentProvider implements IStructuredContentProvider {
-  private Collection<?> data;
+public class CollectionContentProvider implements IStructuredContentProvider {
+  protected Collection<?> data;
 
-  CollectionContentProvider() {
+  public CollectionContentProvider() {
     this.data = emptyList();
   }
 
