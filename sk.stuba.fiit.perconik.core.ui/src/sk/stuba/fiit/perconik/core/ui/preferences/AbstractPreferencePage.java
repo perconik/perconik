@@ -46,10 +46,10 @@ import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
+import sk.stuba.fiit.perconik.ui.Buttons;
+import sk.stuba.fiit.perconik.ui.Tables;
+import sk.stuba.fiit.perconik.ui.Widgets;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
-import sk.stuba.fiit.perconik.ui.utilities.Buttons;
-import sk.stuba.fiit.perconik.ui.utilities.Tables;
-import sk.stuba.fiit.perconik.ui.utilities.Widgets;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 import static java.lang.String.format;

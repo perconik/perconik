@@ -21,7 +21,7 @@ import sk.stuba.fiit.perconik.core.ResourceNotRegistredException;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
-import sk.stuba.fiit.perconik.ui.utilities.Tables;
+import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;

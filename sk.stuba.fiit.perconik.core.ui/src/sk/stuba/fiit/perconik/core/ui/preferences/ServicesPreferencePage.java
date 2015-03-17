@@ -46,9 +46,9 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.Products;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.environment.Environment;
+import sk.stuba.fiit.perconik.ui.Buttons;
+import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
-import sk.stuba.fiit.perconik.ui.utilities.Buttons;
-import sk.stuba.fiit.perconik.ui.utilities.Tables;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 
 import static java.lang.Integer.toHexString;
@@ -75,7 +75,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.optionEquivalence;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawOptionType;
 
-public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
+public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePage {
   static final long stateTransitionDisplayPause = 500;
 
   Button load;
@@ -92,7 +92,7 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
 
   Button listenerButton;
 
-  public CorePreferencePage() {}
+  public ServicesPreferencePage() {}
 
   @Override
   public final void createControl(final Composite parent) {
@@ -134,7 +134,7 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
 
     this.resourceButton.addListener(SWT.Selection, new WidgetListener() {
       public void handleEvent(final Event event) {
-        DetailsDialog dialog = CorePreferencePage.this.detailsDialog;
+        DetailsDialog dialog = ServicesPreferencePage.this.detailsDialog;
 
         dialog.setTitle("Resource Service Details");
         dialog.setComponents(toResourceComponents(resourceService()));
@@ -145,7 +145,7 @@ public final class CorePreferencePage extends AbstractWorkbenchPreferencePage {
 
     this.listenerButton.addListener(SWT.Selection, new WidgetListener() {
       public void handleEvent(final Event event) {
-        DetailsDialog dialog = CorePreferencePage.this.detailsDialog;
+        DetailsDialog dialog = ServicesPreferencePage.this.detailsDialog;
 
         dialog.setTitle("Listener Service Details");
         dialog.setComponents(toListenerComponents(listenerService()));

@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.ui.utilities;
+package sk.stuba.fiit.perconik.ui;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;

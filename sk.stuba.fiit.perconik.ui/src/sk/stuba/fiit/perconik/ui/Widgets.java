@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.ui.utilities;
+package sk.stuba.fiit.perconik.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
