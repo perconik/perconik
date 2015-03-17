@@ -43,6 +43,10 @@ import sk.stuba.fiit.perconik.core.persistence.AnnotableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.CollectionContentProvider;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.SortingViewerComparator;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.SetTableSorter;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.TableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.Buttons;
 import sk.stuba.fiit.perconik.ui.Tables;
@@ -428,12 +432,12 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     }
 
     @Override
-    final Set<R> loadSet() {
+    protected final Set<R> loadSet() {
       return AbstractPreferencePage.this.registrations;
     }
 
     @Override
-    final void updateSet(final Set<R> set) {
+    protected final void updateSet(final Set<R> set) {
       AbstractPreferencePage.this.registrations = set;
 
       updateTable();

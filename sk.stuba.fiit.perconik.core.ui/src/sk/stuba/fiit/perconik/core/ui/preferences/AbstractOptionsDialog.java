@@ -42,7 +42,12 @@ import sk.stuba.fiit.perconik.core.Registrable;
 import sk.stuba.fiit.perconik.core.persistence.Registration;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.StatusSeverity;
+import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MapEntryDialog;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapContentProvider;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapLabelProvider;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.MapTableSorter;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.TableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.Buttons;
 import sk.stuba.fiit.perconik.ui.Tables;
@@ -210,7 +215,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       }
     });
 
-    this.entryDialog = MapEntryDialog.forObjectEntry(this.getShell());
+    this.entryDialog = new CustomMapEntryDialog<>(this.getShell());
 
     this.loadInternal(this.preferences, this.registration);
 
@@ -274,12 +279,12 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     }
 
     @Override
-    final Map<String, Object> loadMap() {
+    protected final Map<String, Object> loadMap() {
       return AbstractOptionsDialog.this.map;
     }
 
     @Override
-    final void updateMap(final Map<String, Object> map) {
+    protected final void updateMap(final Map<String, Object> map) {
       AbstractOptionsDialog.this.map = map;
 
       updateTable();

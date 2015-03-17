@@ -44,6 +44,7 @@ import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.Products;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapContentProvider;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.ui.Buttons;

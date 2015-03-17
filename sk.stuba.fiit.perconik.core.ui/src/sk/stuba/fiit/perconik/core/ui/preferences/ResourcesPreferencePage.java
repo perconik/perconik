@@ -19,6 +19,7 @@ import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.core.persistence.Registrations;
 import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.core.preferences.ResourcePreferences;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.SortingViewerComparator;
 import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
