@@ -1,4 +1,4 @@
-package com.gratex.perconik.uaca.ui;
+package com.gratex.perconik.uaca.ui.preferences;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;

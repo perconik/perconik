@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 import com.gratex.perconik.uaca.preferences.UacaPreferences.Keys;
-import com.gratex.perconik.uaca.ui.UacaMessageDialogs;
+import com.gratex.perconik.uaca.ui.preferences.UacaMessageDialogs;
 
 import sk.stuba.fiit.perconik.data.bind.Mapper;
 import sk.stuba.fiit.perconik.data.bind.Writer;

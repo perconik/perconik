@@ -45,6 +45,7 @@ import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.Products;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapContentProvider;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.RegularTableViewer;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.environment.Environment;
 import sk.stuba.fiit.perconik.ui.Buttons;
@@ -371,7 +372,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
 
       gc.dispose();
 
-      this.tableViewer = new CustomTableViewer(table);
+      this.tableViewer = new RegularTableViewer(table);
 
       this.tableViewer.setComparer(ElementComparers.fromEquivalence(rawOptionType(), optionEquivalence()));
       this.tableViewer.setContentProvider(new MapContentProvider());

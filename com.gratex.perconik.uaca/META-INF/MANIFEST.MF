@@ -20,5 +20,4 @@ Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak Unive
 Export-Package: com.gratex.perconik.uaca,
  com.gratex.perconik.uaca.plugin,
  com.gratex.perconik.uaca.preferences,
- com.gratex.perconik.uaca.ui,
  com.gratex.perconik.uaca.ui.preferences

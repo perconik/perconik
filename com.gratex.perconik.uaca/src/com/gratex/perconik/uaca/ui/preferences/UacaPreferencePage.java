@@ -17,7 +17,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEditor;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
-import sk.stuba.fiit.perconik.ui.Widgets;
+import sk.stuba.fiit.perconik.ui.Labels;
 
 public final class UacaPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
   private BooleanFieldEditor logErrors;
@@ -49,7 +49,7 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
   protected void createFieldEditors() {
     this.uacaUrl = new UrlFieldEditor(Keys.applicationUrl, "URL:", this.getFieldEditorParent());
 
-    Widgets.createFieldSeparator(this.getFieldEditorParent());
+    Labels.createFieldSeparator(this.getFieldEditorParent());
 
     this.checkConnection = new ExtendedBooleanFieldEditor(Keys.checkConnection, "Verify service connection on confirmation", this.getFieldEditorParent());
     this.displayErrors = new ExtendedBooleanFieldEditor(Keys.displayErrors, "Display warning on service failure", this.getFieldEditorParent());

@@ -46,6 +46,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MapEntryDialog;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapContentProvider;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.MapLabelProvider;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.RegularTableViewer;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.MapTableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.TableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
@@ -164,7 +165,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     keySorter.attach(keyColumn);
     valueSorter.attach(valueColumn);
 
-    this.tableViewer = new CustomTableViewer(table);
+    this.tableViewer = new RegularTableViewer(table);
 
     this.tableViewer.setComparer(ElementComparers.fromEquivalence(rawOptionType(), optionEquivalence()));
     this.tableViewer.setContentProvider(new MapContentProvider());
@@ -274,18 +275,18 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     TableSorter.automaticSort(table);
   }
 
-  class LocalMapTableSorter extends MapTableSorter<String, Object> {
+  final class LocalMapTableSorter extends MapTableSorter<String, Object> {
     LocalMapTableSorter(final Table table, @Nullable final Comparator<Entry<String, Object>> comparator) {
       super(table, comparator);
     }
 
     @Override
-    protected final Map<String, Object> loadMap() {
+    protected Map<String, Object> loadMap() {
       return AbstractOptionsDialog.this.map;
     }
 
     @Override
-    protected final void updateMap(final Map<String, Object> map) {
+    protected void updateMap(final Map<String, Object> map) {
       AbstractOptionsDialog.this.map = map;
 
       updateTable();
@@ -300,6 +301,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     MapEntryDialog<String, Object> dialog = this.entryDialog;
 
     dialog.setEntry(entry);
+    dialog.setTitle("Option dialog");
 
     dialog.open();
 

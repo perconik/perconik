@@ -44,13 +44,14 @@ import sk.stuba.fiit.perconik.core.persistence.MarkableRegistration;
 import sk.stuba.fiit.perconik.core.persistence.RegistrationMarker;
 import sk.stuba.fiit.perconik.core.ui.plugin.Activator;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.CollectionContentProvider;
+import sk.stuba.fiit.perconik.eclipse.jface.viewers.RegularTableViewer;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.SortingViewerComparator;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.SetTableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.TableSorter;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.WidgetListener;
 import sk.stuba.fiit.perconik.ui.Buttons;
-import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.ui.Labels;
+import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
@@ -169,7 +170,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
     gc.dispose();
 
-    this.tableViewer = new CustomTableViewer(table);
+    this.tableViewer = new RegularTableViewer(table);
 
     this.tableViewer.setContentProvider(new CollectionContentProvider());
     this.tableViewer.setLabelProvider(this.createContentProvider());
@@ -426,18 +427,18 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     TableSorter.automaticSort(table);
   }
 
-  class LocalSetTableSorter extends SetTableSorter<R> {
+  final class LocalSetTableSorter extends SetTableSorter<R> {
     LocalSetTableSorter(final Table table, @Nullable final Comparator<? super R> comparator) {
       super(table, comparator);
     }
 
     @Override
-    protected final Set<R> loadSet() {
+    protected Set<R> loadSet() {
       return AbstractPreferencePage.this.registrations;
     }
 
     @Override
-    protected final void updateSet(final Set<R> set) {
+    protected void updateSet(final Set<R> set) {
       AbstractPreferencePage.this.registrations = set;
 
       updateTable();
