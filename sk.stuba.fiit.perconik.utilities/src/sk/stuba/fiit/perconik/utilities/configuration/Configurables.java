@@ -1,6 +1,7 @@
 package sk.stuba.fiit.perconik.utilities.configuration;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -236,6 +237,14 @@ public final class Configurables {
 
   public static Options compound(final Iterable<? extends Options> options) {
     return new CompoundOptions(options);
+  }
+
+  public static Options fromMap(@Nullable final Map<String, Object> map) {
+    return map != null ? MapOptions.from(map) : emptyOptions();
+  }
+
+  public static Map<String, Object> toMap(@Nullable final Options options) {
+    return options != null ? options.toMap() : Collections.<String, Object>emptyMap();
   }
 
   static Predicate<Entry<String, Object>> rawOptionKeyMatcher(final Equivalence<String> keyEquivalence, final Iterable<String> matchingKeys) {
