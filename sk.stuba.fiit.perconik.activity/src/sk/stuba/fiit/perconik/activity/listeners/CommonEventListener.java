@@ -179,7 +179,7 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     public PersistenceStore apply(final CommonEventListener listener) {
       try {
-        return StoreWrapper.of(new UacaProxy(listener.getUacaOptions()));
+        return StoreWrapper.of(new UacaProxy(listener.getUacaOptions(), listener.wallTimeSource()));
       } catch (Exception failure) {
         listener.log.error(failure, "%s: unable to open UACA proxy", listener);
 

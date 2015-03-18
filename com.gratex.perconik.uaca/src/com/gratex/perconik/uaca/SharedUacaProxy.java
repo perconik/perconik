@@ -13,7 +13,7 @@ import com.gratex.perconik.uaca.preferences.UacaOptions;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
-import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
@@ -22,21 +22,27 @@ import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
-import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.applicationUrl;
-
-import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
+import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
 
 public class SharedUacaProxy extends AbstractUacaProxy {
   private static final ExecutorService sharedExecutor = PlatformExecutors.newLimitedThreadPool();
 
-  protected final Options options;
+  private final UacaReporter reporter;
+
+  protected final UacaOptions options;
 
   public SharedUacaProxy() {
     this(UacaPreferences.getShared());
   }
 
-  public SharedUacaProxy(final Options options) {
+  public SharedUacaProxy(final UacaOptions options) {
+    this(options, systemTimeSource());
+  }
+
+  public SharedUacaProxy(final UacaOptions options, final TimeSource source) {
     this.options = requireNonNull(options);
+
+    this.reporter = new UacaReporter(options, source);
   }
 
   public static final void checkConnection(final String url) {
@@ -54,16 +60,12 @@ public class SharedUacaProxy extends AbstractUacaProxy {
 
   @Override
   protected URL url() {
-    if (this.options instanceof UacaOptions) {
-      return ((UacaOptions) this.options).getApplicationUrl();
-    }
-
-    return newUrl(this.options.toMap().get(applicationUrl).toString());
+    return this.options.getApplicationUrl();
   }
 
   @Override
   protected void filterRequest(final WebTarget target, @Nullable final Object request) {
-    UacaReporter.logRequest(target, request);
+    this.reporter.logRequest(target, request);
   }
 
   @Override
@@ -80,7 +82,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
 
   @Override
   protected void reportFailure(final String message, final Exception failure) {
-    UacaReporter.logError(message, failure);
-    UacaReporter.displayError(message, failure);
+    this.reporter.logError(message, failure);
+    this.reporter.displayError(message, failure);
   }
 }
