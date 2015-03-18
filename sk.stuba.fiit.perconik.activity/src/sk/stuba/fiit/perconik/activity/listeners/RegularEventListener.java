@@ -55,6 +55,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import static com.google.common.base.Functions.constant;
+import static com.google.common.base.Objects.toStringHelper;
 import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -1230,7 +1231,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   }
 
   static String toStringDelegate(final Class<?> wrapper, final Object delegate) {
-    return new StringBuilder(wrapper.getClass().getSimpleName()).append("(").append(delegate).append(")").toString();
+    return toStringHelper(wrapper).add("delegate", delegate).toString();
   }
 
   private static final class RuntimeStatistics {
@@ -1360,9 +1361,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
       AnyStructuredData data = new AnyStructuredData();
 
-      data.put(key("options", "default"), listener.defaultOptions().toMap());
-      data.put(key("options", "custom"), listener.customOptions().toMap());
-      data.put(key("options", "effective"), listener.effectiveOptions().toMap());
+      data.put(key("default"), listener.defaultOptions().toMap());
+      data.put(key("custom"), listener.customOptions().toMap());
+      data.put(key("effective"), listener.effectiveOptions().toMap());
 
       return data;
     }
