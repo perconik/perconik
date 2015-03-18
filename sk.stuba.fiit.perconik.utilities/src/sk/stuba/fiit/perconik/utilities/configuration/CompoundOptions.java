@@ -33,7 +33,7 @@ final class CompoundOptions extends AbstractOptions implements Serializable {
 
   @Override
   public Object get(final String key) {
-    for (Options options: this.options) {
+    for (Options options: this.options.reverse()) {
       Object result = options.get(key);
 
       if (result != null) {
