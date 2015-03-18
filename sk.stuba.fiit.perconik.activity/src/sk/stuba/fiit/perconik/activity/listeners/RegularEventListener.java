@@ -1345,7 +1345,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
   }
 
-  protected final class RegularConfigurationProbe extends AbstractOptionsProbe {
+  protected final class RegularConfigurationProbe extends AbstractConfigurationProbe {
     protected RegularConfigurationProbe() {}
   }
 
