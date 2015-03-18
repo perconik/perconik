@@ -73,15 +73,15 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
   static Event build(final long time, final Action action, final IWorkbenchPartReference reference) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("part"), new PartReferenceSerializer(TREE).serialize(reference));
+    data.put(key("reference"), new PartReferenceSerializer(TREE).serialize(reference));
 
     IWorkbenchPage page = reference.getPage();
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
 
-    data.put(key("part", "page"), identifyObject(page));
-    data.put(key("part", "page", "window"), identifyObject(window));
-    data.put(key("part", "page", "window", "workbench"), identifyObject(workbench));
+    data.put(key("reference", "page"), identifyObject(page));
+    data.put(key("reference", "page", "window"), identifyObject(window));
+    data.put(key("reference", "page", "window", "workbench"), identifyObject(workbench));
 
     return data;
   }
