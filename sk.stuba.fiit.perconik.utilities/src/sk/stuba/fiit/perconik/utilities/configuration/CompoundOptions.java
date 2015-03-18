@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Maps.newLinkedHashMap;
 
 final class CompoundOptions extends AbstractOptions implements Serializable {
   private static final long serialVersionUID = 0L;
@@ -21,13 +22,13 @@ final class CompoundOptions extends AbstractOptions implements Serializable {
   }
 
   public Map<String, Object> toMap() {
-    Map<String, Object> map = newHashMap();
+    Map<String, Object> map = newLinkedHashMap();
 
     for (Options options: this.options) {
       map.putAll(options.toMap());
     }
 
-    return map;
+    return ImmutableMap.copyOf(map);
   }
 
   @Override
