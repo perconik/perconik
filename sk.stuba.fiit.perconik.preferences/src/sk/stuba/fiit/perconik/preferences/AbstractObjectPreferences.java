@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.preferences;
 
+import com.google.common.base.Objects.ToStringHelper;
+
 import sk.stuba.fiit.perconik.utilities.io.Serialization;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
@@ -42,5 +44,10 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
 
   protected final Object getObject(final String key) {
     return fromBytes(key, this.data.getByteArray(key, null), this.resolver);
+  }
+
+  @Override
+  protected ToStringHelper toStringHelper() {
+    return super.toStringHelper().add("resolver", this.resolver);
   }
 }

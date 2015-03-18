@@ -35,7 +35,7 @@ public final class ActivityPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   @Override
-  protected Control createContents(final Composite parent) {
+  protected Control createContent(final Composite parent) {
     this.initializeDialogUnits(parent);
     this.noDefaultAndApplyButton();
 
@@ -68,6 +68,7 @@ public final class ActivityPreferencePage extends AbstractWorkbenchPreferencePag
 
   void updatePage() {
     this.updateMessage();
+    this.updateButtons();
   }
 
   void updateMessage() {
@@ -93,13 +94,13 @@ public final class ActivityPreferencePage extends AbstractWorkbenchPreferencePag
     dialog.open();
 
     if (dialog.getReturnCode() == Window.OK) {
-      dialog.apply();
+      dialog.configure();
     }
   }
 
   @Override
   public Control getControl() {
-    if (!loadedServices() && this.isContentsCreated()) {
+    if (this.isContentCreated()) {
       this.updatePage();
     }
 

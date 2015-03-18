@@ -6,6 +6,9 @@
          name="PerConIK Preferences"
          point="org.eclipse.core.runtime.preferences">
       <initializer
+            class="sk.stuba.fiit.perconik.preferences.MainPreferences$Initializer">
+      </initializer>
+      <initializer
             class="sk.stuba.fiit.perconik.core.preferences.ResourcePreferences$Initializer">
       </initializer>
       <initializer

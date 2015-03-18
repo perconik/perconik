@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.activity.preferences;
 
+import com.gratex.perconik.uaca.preferences.UacaPreferences;
+
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener.StandardLoggingOptionsSchema;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener.StandardProbingOptionsSchema;
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
@@ -10,7 +12,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import static java.util.Objects.requireNonNull;
 
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
-import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.defaultOptions;
+import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.listenerDefaultOptions;
 import static sk.stuba.fiit.perconik.core.plugin.Activator.classResolver;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
@@ -57,12 +59,12 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
     public void initializeDefaultPreferences() {
       ActivityPreferences preferences = ActivityPreferences.getDefault();
 
-      preferences.setDefaultOptions(defaultOptions());
+      preferences.setListenerDefaultOptions(defaultOptions());
     }
   }
 
   public static final class Keys extends AbstractPreferences.Keys {
-    public static final String defaultOptions = join(qualifier, "defaultOptions");
+    public static final String listenerDefaultOptions = join(qualifier, "listeners", "defaultOptions");
   }
 
   /**
@@ -80,7 +82,7 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
   }
 
   static Options defaultOptions() {
-    return compound(defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class));
+    return compound(UacaPreferences.getShared(), defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class));
   }
 
   private static void reportFailure(final Throwable failure) {
@@ -93,9 +95,9 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
    * @throws ClassCastException if options type is invalid
    * @throws NullPointerException if options is {@code null}
    */
-  public void setDefaultOptions(final Options options) {
+  public void setListenerDefaultOptions(final Options options) {
     try {
-      this.putObject(defaultOptions, requireNonNull(options));
+      this.putObject(listenerDefaultOptions, requireNonNull(options));
     } catch (RuntimeException e) {
       reportFailure(e);
     }
@@ -106,19 +108,19 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
    * @throws ClassCastException if options type is invalid
    * @throws IllegalStateException if options is {@code null}
    */
-  public Options getDefaultOptions() {
+  public Options getListenerDefaultOptions() {
     if (this.scope() == Scope.DEFAULT) {
       return checkNotNullAsState(defaultOptions());
     }
 
     try {
-      return Options.class.cast(checkNotNullAsState(this.getObject(defaultOptions)));
+      return Options.class.cast(checkNotNullAsState(this.getObject(listenerDefaultOptions)));
     } catch (RuntimeException e) {
       reportFailure(e);
 
       Options options = checkNotNullAsState(defaultOptions());
 
-      this.setDefaultOptions(options);
+      this.setListenerDefaultOptions(options);
 
       try {
         this.synchronize();

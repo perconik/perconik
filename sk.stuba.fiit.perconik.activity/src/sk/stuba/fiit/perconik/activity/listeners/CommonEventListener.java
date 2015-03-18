@@ -44,6 +44,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.Re
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.builder;
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
+import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
@@ -53,8 +54,6 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defaultPoolSizeScalingFactor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 
@@ -77,8 +76,6 @@ public abstract class CommonEventListener extends RegularEventListener {
     sharedBuilder = builder();
 
     sharedBuilder.contextType(CommonEventListener.class);
-
-    sharedBuilder.defaultOptions(compound(defaults(UacaOptions.Schema.class), defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class)));
 
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
@@ -118,7 +115,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     return sharedBuilder.build();
   }
 
-  protected static final class StandardProbingOptionsSchema {
+  public static final class StandardProbingOptionsSchema {
     public static final OptionAccessor<Boolean> monitorCore = option(booleanParser(), join(qualifier, "monitor", "core"), false);
 
     // TODO public static final OptionAccessor<Boolean> monitorManagement = option(booleanParser(), join(qualifier, "monitor", "management"), false);
@@ -145,7 +142,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       Map<String, OptionAccessor<Boolean>> map = newHashMap();
 
       for (OptionAccessor<Boolean> accessor: Configurables.accessors(StandardProbingOptionsSchema.class, Boolean.class)) {
-        String key = optionKeyToInternalProbeKey(accessor.getKey());
+        String key = accessor.getKey();
 
         checkState(!map.containsKey(key), "%s: internal probe key conflict detected on %s", StandardProbingOptionsSchema.class, key);
 
@@ -156,13 +153,9 @@ public abstract class CommonEventListener extends RegularEventListener {
     }
 
     private StandardProbingOptionsSchema() {}
-
-    public static String optionKeyToInternalProbeKey(final String key) {
-      return key.replace(qualifier, internalProbeKeyPrefix);
-    }
   }
 
-  protected static final class StandardLoggingOptionsSchema {
+  public static final class StandardLoggingOptionsSchema {
     public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), true);
 
     private StandardLoggingOptionsSchema() {}
@@ -172,8 +165,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     instance;
 
     public PluginConsole apply(@Nonnull final CommonEventListener listener) {
-      // TODO set time source
-      return UacaConsole.create(listener.getUacaOptions());
+      return UacaConsole.create(listener.getUacaOptions(), listener.wallTimeSource());
     }
 
     @Override
@@ -303,7 +295,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     }
 
     public boolean apply(@Nonnull final Entry<String, Probe<?>> entry) {
-      String key = entry.getKey();
+      String key = probeKeyToOptionKey(entry.getKey());
 
       OptionAccessor<Boolean> accessor = this.accessors.get(key);
 
@@ -316,6 +308,10 @@ public abstract class CommonEventListener extends RegularEventListener {
     public String toString() {
       return this.getClass().getSimpleName();
     }
+  }
+
+  protected static String probeKeyToOptionKey(final String key) {
+    return qualifier + separator + key.replace(internalProbeKeyPrefix + separator, "");
   }
 
   protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
@@ -385,15 +381,18 @@ public abstract class CommonEventListener extends RegularEventListener {
   }
 
   protected static final class Log extends ForwardingPluginConsole {
-    private final CommonEventListener listener;
+    private final Options options;
+
+    private final PluginConsole console;
 
     Log(final CommonEventListener listener) {
-      this.listener = requireNonNull(listener);
+      this.options = requireNonNull(listener.effectiveOptions());
+      this.console = requireNonNull(listener.pluginConsole);
     }
 
     @Override
     protected PluginConsole delegate() {
-      return this.isEnabled() ? this.listener.pluginConsole : PluginConsoles.silent();
+      return this.isEnabled() ? this.console : PluginConsoles.silent();
     }
 
     public static void format(final String content) {
@@ -405,7 +404,7 @@ public abstract class CommonEventListener extends RegularEventListener {
     }
 
     public boolean isEnabled() {
-      return StandardLoggingOptionsSchema.logDebug.getValue(this.listener.effectiveOptions());
+      return StandardLoggingOptionsSchema.logDebug.getValue(this.options);
     }
   }
 

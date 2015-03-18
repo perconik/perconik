@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChange
 
 import sk.stuba.fiit.perconik.activity.data.ObjectData;
 import sk.stuba.fiit.perconik.activity.events.Event;
+import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.probes.Prober;
 import sk.stuba.fiit.perconik.activity.probes.Probers;
@@ -167,7 +168,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     // note that field initialization order is significant
     this.optionsLoader = this.resolveOptionsLoader(configuration, context);
-    this.optionsProvider = this.setupOptionsProvider(configuration.defaultOptions(context).orNull());
+    this.optionsProvider = this.setupOptionsProvider();
 
     this.timeHelper = configuration.timeHelper(context).or(SystemTimeHelper.instance);
     this.pluginConsole = configuration.pluginConsole(context).or(defaultInstance().getConsole());
@@ -200,19 +201,18 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
   private <C> OptionsLoader resolveOptionsLoader(final Configuration<C> configuration, final C context) {
     Optional<OptionsLoader> loader = configuration.optionsLoader(context);
-    Optional<ListenerPreferences> preferences = configuration.listenerPreferences(context);
+
+    Optional<ActivityPreferences> activity = configuration.activityPreferences(context);
+    Optional<ListenerPreferences> listener = configuration.listenerPreferences(context);
 
     if (loader.isPresent()) {
-      checkState(!preferences.isPresent(), "%s: custom options loader configured but listener preferences also present", this);
+      checkState(!activity.isPresent(), "%s: options loader configured but activity preferences also present", this);
+      checkState(!listener.isPresent(), "%s: options loader configured but listener preferences also present", this);
 
       return loader.get();
     }
 
-    if (preferences.isPresent()) {
-      return UpdatingOptionsLoader.of(preferences.get(), this);
-    }
-
-    return UpdatingOptionsLoader.of(ListenerPreferences.getShared(), this);
+    return UpdatingOptionsLoader.of(this, activity.or(ActivityPreferences.getShared()), listener.or(ListenerPreferences.getShared()));
   }
 
   private <C> DataInjector resolveDataInjector(final Configuration<C> configuration, final C context) {
@@ -250,8 +250,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     return NoDataInjector.instance;
   }
 
-  private OptionsProvider setupOptionsProvider(@Nullable final Options defaults) {
-    final OptionsProvider provider = new OptionsProvider(this, defaults);
+  private OptionsProvider setupOptionsProvider() {
+    final OptionsProvider provider = new OptionsProvider();
 
     RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(OptionsProvider.class) {
       public void run() {
@@ -283,7 +283,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   public interface Configuration<C> {
     public Class<? extends C> contextType();
 
-    public Optional<Options> defaultOptions(C context);
+    public Optional<ActivityPreferences> activityPreferences(C context);
 
     public Optional<ListenerPreferences> listenerPreferences(C context);
 
@@ -323,7 +323,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   public static abstract class AbstractConfiguration<C> implements Configuration<C> {
     private final Class<? extends C> contextType;
 
-    private final Function<? super C, ? extends Options> defaultOptions;
+    private final Function<? super C, ? extends ActivityPreferences> activityPreferences;
 
     private final Function<? super C, ? extends ListenerPreferences> listenerPreferences;
 
@@ -360,7 +360,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
      */
     protected AbstractConfiguration(final AbstractBuilder<?, C> builder) {
       this.contextType = requireNonNull(builder.contextType);
-      this.defaultOptions = requireNonNull(builder.defaultOptions);
+      this.activityPreferences = requireNonNull(builder.activityPreferences);
       this.listenerPreferences = requireNonNull(builder.listenerPreferences);
       this.optionsLoader = requireNonNull(builder.optionsLoader);
       this.timeHelper = requireNonNull(builder.timeHelper);
@@ -381,7 +381,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     public static abstract class AbstractBuilder<B extends AbstractBuilder<B, C>, C> implements Builder<C> {
       Class<? extends C> contextType;
 
-      Function<? super C, ? extends Options> defaultOptions = constant(null);
+      Function<? super C, ? extends ActivityPreferences> activityPreferences = constant(null);
 
       Function<? super C, ? extends ListenerPreferences> listenerPreferences = constant(null);
 
@@ -429,12 +429,12 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
         return this.asSubtype();
       }
 
-      public final B defaultOptions(final Options options) {
-        return this.defaultOptions(constant(requireNonNull(options)));
+      public final B activityPreferences(final ActivityPreferences preferences) {
+        return this.activityPreferences(constant(requireNonNull(preferences)));
       }
 
-      public final B defaultOptions(final Function<? super C, ? extends Options> relation) {
-        this.defaultOptions = requireNonNull(relation);
+      public final B activityPreferences(final Function<? super C, ? extends ActivityPreferences> relation) {
+        this.activityPreferences = requireNonNull(relation);
 
         return this.asSubtype();
       }
@@ -596,8 +596,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return this.contextType;
     }
 
-    public final Optional<Options> defaultOptions(final C context) {
-      return fromNullable((Options) this.defaultOptions.apply(context));
+    public final Optional<ActivityPreferences> activityPreferences(final C context) {
+      return fromNullable((ActivityPreferences) this.activityPreferences.apply(context));
     }
 
     public final Optional<ListenerPreferences> listenerPreferences(final C context) {
@@ -687,13 +687,13 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   }
 
   /**
-   * Returns an immutable snapshot of default options.
-   * Snapshot is taken from configuration on listener creation.
+   * Returns an updating view of default options.
+   * Updates are dependent on configured {@link OptionsLoader}.
    *
    * <p><b>Note:</b> always returns the same instance.
    */
   protected final Options defaultOptions() {
-    return this.optionsProvider.defaultOptions();
+    return this.optionsProvider.defaultOptions(this.optionsLoader, this);
   }
 
   /**
@@ -705,7 +705,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
    * @see #reloadOptions()
    */
   protected final Options customOptions() {
-    return this.optionsProvider.customOptions();
+    return this.optionsProvider.customOptions(this.optionsLoader, this);
   }
 
   /**
@@ -717,7 +717,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
    * @see #reloadOptions()
    */
   protected final Options effectiveOptions() {
-    return this.optionsProvider.effectiveOptions();
+    return this.optionsProvider.effectiveOptions(this.optionsLoader, this);
   }
 
   /**
@@ -727,44 +727,62 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
    * @see #onOptionsReload()
    */
   protected final void reloadOptions() {
-    this.optionsProvider.load();
+    this.reloadOptions(this.optionsProvider);
+  }
+
+  private final void reloadOptions(final OptionsProvider provider) {
+    checkNotNullAsState(this.optionsLoader, "%s: Options loader not initialized", this);
+
+    provider.reload(this.optionsLoader, this);
+
     this.onOptionsReload();
   }
 
   public interface OptionsLoader {
+    public Options loadDefaultOptions(RegularEventListener listener);
+
     public Options loadCustomOptions(RegularEventListener listener);
   }
 
   public static final class UpdatingOptionsLoader implements OptionsLoader {
-    private final ListenerPreferences preferences;
+    private final ActivityPreferences defaults;
+
+    private final ListenerPreferences custom;
 
     final OptionsReloader reloader;
 
-    private UpdatingOptionsLoader(final ListenerPreferences preferences, final RegularEventListener listener) {
-      this.preferences = requireNonNull(preferences);
+    private UpdatingOptionsLoader(final RegularEventListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
+      this.defaults = requireNonNull(defaults);
+      this.custom = requireNonNull(custom);
+
       this.reloader = new OptionsReloader(listener);
 
-      hook(this.preferences, listener, this.reloader);
+      this.hook(listener);
     }
 
-    private static void hook(final ListenerPreferences preferences, final RegularEventListener listener, final OptionsReloader reloader) {
-      final IEclipsePreferences node = preferences.node();
+    private void hook(final RegularEventListener listener) {
+      final IEclipsePreferences defaults = this.defaults.node();
+      final IEclipsePreferences custom = this.custom.node();
 
-      RegistrationHook.POST_REGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
+      final OptionsReloader reloader = this.reloader;
+
+      RegistrationHook.PRE_REGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
         public void run() {
-          node.addPreferenceChangeListener(reloader);
+          defaults.addPreferenceChangeListener(reloader);
+          custom.addPreferenceChangeListener(reloader);
         }
       });
 
-      RegistrationHook.PRE_UNREGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
+      RegistrationHook.POST_UNREGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
         public void run() {
-          node.removePreferenceChangeListener(reloader);
+          defaults.removePreferenceChangeListener(reloader);
+          custom.removePreferenceChangeListener(reloader);
         }
       });
     }
 
-    public static UpdatingOptionsLoader of(final ListenerPreferences preferences, final RegularEventListener listener) {
-      return new UpdatingOptionsLoader(preferences, listener);
+    public static UpdatingOptionsLoader of(final RegularEventListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
+      return new UpdatingOptionsLoader(listener, defaults, custom);
     }
 
     private static final class OptionsReloader implements IPreferenceChangeListener {
@@ -775,14 +793,20 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
 
       public void preferenceChange(final PreferenceChangeEvent event) {
-        if (ListenerPreferences.Keys.configuration.equals(event.getKey())) {
+        String key = event.getKey();
+
+        if (ActivityPreferences.Keys.listenerDefaultOptions.equals(key) || ListenerPreferences.Keys.configuration.equals(key)) {
           this.listener.reloadOptions();
         }
       }
     }
 
+    public Options loadDefaultOptions(final RegularEventListener listener) {
+      return this.defaults.getListenerDefaultOptions();
+    }
+
     public Options loadCustomOptions(final RegularEventListener listener) {
-      return this.preferences.getListenerConfigurationData().get(listener.getClass());
+      return this.custom.getListenerConfigurationData().get(listener.getClass());
     }
 
     @Override
@@ -793,7 +817,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     protected ToStringHelper toStringHelper() {
       ToStringHelper helper = Objects.toStringHelper(this);
 
-      helper.add("preferences", this.preferences);
+      helper.add("default", this.defaults);
+      helper.add("custom", this.custom);
 
       return helper;
     }
@@ -806,22 +831,44 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     private final EffectiveOptions effective;
 
-    OptionsProvider(final RegularEventListener listener, final Options defaults) {
-      this.defaults = new DefaultOptions(defaults);
-      this.custom = new CustomOptions(listener);
-      this.effective = new EffectiveOptions(listener);
+    OptionsProvider() {
+      this.defaults = new DefaultOptions();
+      this.custom = new CustomOptions();
+      this.effective = new EffectiveOptions();
     }
 
-    void load() {
-      this.custom.load();
-      this.effective.load();
+    private static Options ensureLoaded(final LoadingOptions options, final OptionsLoader loader, final RegularEventListener listener) {
+      if (options.delegate == null) {
+        options.load(loader, listener);
+      }
+
+      return options;
     }
 
-    private static abstract class AbstractOptions extends ForwardingOptions {
-      AbstractOptions() {}
+    void reload(final OptionsLoader loader, final RegularEventListener listener) {
+      requireNonNull(loader);
+      requireNonNull(listener);
 
-      static Options secure(@Nullable final Options untrusted) {
+      this.defaults.load(loader, listener);
+      this.custom.load(loader, listener);
+      this.effective.load(loader, listener);
+    }
+
+    private static abstract class LoadingOptions extends ForwardingOptions {
+      @Nullable
+      Options delegate;
+
+      LoadingOptions() {}
+
+      static final Options secure(@Nullable final Options untrusted) {
         return untrusted != null ? MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())) : emptyOptions();
+      }
+
+      abstract void load(OptionsLoader loader, RegularEventListener listener);
+
+      @Override
+      protected final Options delegate() {
+        return checkNotNullAsState(this.delegate);
       }
 
       @Override
@@ -830,74 +877,52 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
     }
 
-    private static final class DefaultOptions extends AbstractOptions {
-      private final Options delegate;
-
-      DefaultOptions(final Options untrusted) {
-        this.delegate = secure(untrusted);
-      }
+    private static final class DefaultOptions extends LoadingOptions {
+      DefaultOptions() {}
 
       @Override
-      protected Options delegate() {
-        return this.delegate;
+      void load(final OptionsLoader loader, final RegularEventListener listener) {
+        // TODO to secure defaults one needs to properly listen to UacaPreferences.getShared() changes
+
+        Options defaults = ActivityPreferences.getDefault().getListenerDefaultOptions();
+
+        this.delegate = compound(defaults, secure(loader.loadDefaultOptions(listener)));
       }
     }
 
-    private static final class CustomOptions extends AbstractOptions {
-      private final RegularEventListener listener;
-
-      @Nullable
-      private Options delegate;
-
-      CustomOptions(final RegularEventListener listener) {
-        this.listener = requireNonNull(listener);
-      }
-
-      void load() {
-        this.delegate = secure(this.listener.optionsLoader.loadCustomOptions(this.listener));
-      }
+    private static final class CustomOptions extends LoadingOptions {
+      CustomOptions() {}
 
       @Override
-      protected Options delegate() {
-        return checkNotNullAsState(this.delegate, "%s: Custom options requested but not loaded by %s yet", this.listener, this.listener.optionsLoader);
+      void load(final OptionsLoader loader, final RegularEventListener listener) {
+        this.delegate = secure(loader.loadCustomOptions(listener));
       }
     }
 
-    private static final class EffectiveOptions extends AbstractOptions {
-      private final RegularEventListener listener;
-
-      @Nullable
-      private Options delegate;
-
-      EffectiveOptions(final RegularEventListener listener) {
-        this.listener = requireNonNull(listener);
-      }
-
-      final void load() {
-        this.delegate = compound(this.listener.customOptions(), this.listener.defaultOptions());
-      }
+    private static final class EffectiveOptions extends LoadingOptions {
+      EffectiveOptions() {}
 
       @Override
-      protected Options delegate() {
-        return this.delegate;
+      final void load(final OptionsLoader loader, final RegularEventListener listener) {
+        this.delegate = compound(listener.defaultOptions(), listener.customOptions());
       }
     }
 
-    Options defaultOptions() {
-      return this.defaults;
+    Options defaultOptions(final OptionsLoader loader, final RegularEventListener listener) {
+      return ensureLoaded(this.defaults, loader, listener);
     }
 
-    Options customOptions() {
-      return this.custom;
+    Options customOptions(final OptionsLoader loader, final RegularEventListener listener) {
+      return ensureLoaded(this.custom, loader, listener);
     }
 
-    Options effectiveOptions() {
-      return this.effective;
+    Options effectiveOptions(final OptionsLoader loader, final RegularEventListener listener) {
+      return ensureLoaded(this.effective, loader, listener);
     }
   }
 
   /**
-   * Invoked always after {@link OptionsLoader} loads custom options.
+   * Invoked always after {@link OptionsLoader} loads any options.
    *
    * @see #reloadOptions()
    */

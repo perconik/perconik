@@ -130,7 +130,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   }
 
   @Override
-  protected final Control createContents(final Composite parent) {
+  protected final Control createContent(final Composite parent) {
     Composite composite = new Composite(parent, SWT.NONE);
 
     GridLayout parentLayout = new GridLayout();
@@ -646,9 +646,13 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
 
   @Override
   public Control getControl() {
-    if (!loadedServices() && this.isContentsCreated()) {
-      this.preferences = null;
-      this.registrations = null;
+    if (this.isContentCreated()) {
+      if (loadedServices()) {
+        this.performRefresh();
+      } else {
+        this.preferences = null;
+        this.registrations = null;
+      }
 
       this.updatePage();
     }

@@ -52,10 +52,12 @@ import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.utilities.MoreMaps;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
+import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -64,8 +66,11 @@ import static org.eclipse.jface.dialogs.IDialogConstants.CANCEL_LABEL;
 import static org.eclipse.jface.dialogs.IDialogConstants.PROCEED_LABEL;
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
+import static sk.stuba.fiit.perconik.core.plugin.Activator.loadedServices;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringComparator;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.customRawOptions;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.emptyOptions;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.inheritedRawOptions;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.knownRawOptions;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.optionEquivalence;
@@ -215,19 +220,19 @@ final class DefaultOptionsDialog extends StatusDialog {
   }
 
   Map<String, Object> knownDefaultOptions() {
-    return knownRawOptions(this.map, toMap(defaultPreferences().getDefaultOptions()).keySet());
+    return knownRawOptions(this.map, toMap(defaultPreferences().getListenerDefaultOptions()).keySet());
   }
 
   Map<String, Object> unknownDefaultOptions() {
-    return unknownRawOptions(this.map, toMap(defaultPreferences().getDefaultOptions()).keySet());
+    return unknownRawOptions(this.map, toMap(defaultPreferences().getListenerDefaultOptions()).keySet());
   }
 
   Map<String, Object> inheritedDefaultOptions() {
-    return inheritedRawOptions(this.map, toMap(defaultPreferences().getDefaultOptions()));
+    return inheritedRawOptions(this.map, toMap(defaultPreferences().getListenerDefaultOptions()));
   }
 
   Map<String, Object> customDefaultOptions() {
-    return customRawOptions(this.map, toMap(defaultPreferences().getDefaultOptions()));
+    return customRawOptions(this.map, toMap(defaultPreferences().getListenerDefaultOptions()));
   }
 
   void updateButtons() {
@@ -356,7 +361,7 @@ final class DefaultOptionsDialog extends StatusDialog {
       return;
     }
 
-    Map<String, Object> defaults = defaultPreferences().getDefaultOptions().toMap();
+    Map<String, Object> defaults = defaultPreferences().getListenerDefaultOptions().toMap();
 
     if (!dialog.getToggleState()) {
       IStructuredSelection selection = (IStructuredSelection) this.tableViewer.getSelection();
@@ -381,11 +386,16 @@ final class DefaultOptionsDialog extends StatusDialog {
     this.updateButtons();
   }
 
-  void apply() {
+  void configure() {
+    this.apply();
+    this.save();
+  }
+
+  private void apply() {
     try {
       ActivityPreferences preferences = this.getActivityPreferences();
 
-      preferences.setDefaultOptions(MapOptions.from(this.customDefaultOptions()));
+      preferences.setListenerDefaultOptions(MapOptions.from(this.customDefaultOptions()));
     } catch (RuntimeException failure) {
       String title = "Default Listener Options";
       String message = "Failed to apply default listener options.";
@@ -399,7 +409,7 @@ final class DefaultOptionsDialog extends StatusDialog {
     }
   }
 
-  void load(final ActivityPreferences preferences) {
+  private void load(final ActivityPreferences preferences) {
     this.setActivityPreferences(preferences);
 
     this.updateTable();
@@ -407,9 +417,30 @@ final class DefaultOptionsDialog extends StatusDialog {
     this.updateButtons();
   }
 
+  private void save() {
+    if (!loadedServices()) {
+      return;
+    }
+
+    try {
+      this.getActivityPreferences().flush();
+    } catch (RuntimeException failure) {
+      String title = "Preferences";
+      String message = "Failed to save preferences.";
+
+      openError(this.getShell(), title, message + " See error log for more details.");
+
+      Activator.defaultInstance().getConsole().error(failure, message);
+    }
+  }
+
   public void setActivityPreferences(final ActivityPreferences preferences) {
     this.preferences = requireNonNull(preferences);
-    this.map = toMap(preferences.getDefaultOptions());
+
+    Options defaults = defaultPreferences().getListenerDefaultOptions();
+    Options custom = firstNonNull(preferences.getListenerDefaultOptions(), emptyOptions());
+
+    this.map = compound(defaults, custom).toMap();
   }
 
   public ActivityPreferences getActivityPreferences() {

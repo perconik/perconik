@@ -107,7 +107,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   @Override
-  protected Control createContents(final Composite parent) {
+  protected Control createContent(final Composite parent) {
     this.initializeDialogUnits(parent);
     this.noDefaultAndApplyButton();
 
@@ -528,7 +528,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
 
   @Override
   public Control getControl() {
-    if (!loadedServices() && this.isContentsCreated()) {
+    if (this.isContentCreated()) {
       this.updatePage();
     }
 

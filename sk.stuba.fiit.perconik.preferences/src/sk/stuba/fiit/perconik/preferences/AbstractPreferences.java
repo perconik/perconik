@@ -3,6 +3,8 @@ package sk.stuba.fiit.perconik.preferences;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Splitter;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -103,5 +105,19 @@ public abstract class AbstractPreferences {
     } catch (Exception e) {
       throw new RuntimeException("Unable to flush preferences", e);
     }
+  }
+
+  @Override
+  public String toString() {
+    return this.toStringHelper().toString();
+  }
+
+  protected ToStringHelper toStringHelper() {
+    ToStringHelper helper = Objects.toStringHelper(this);
+
+    helper.add("scope", this.scope);
+    helper.add("data", this.data);
+
+    return helper;
   }
 }

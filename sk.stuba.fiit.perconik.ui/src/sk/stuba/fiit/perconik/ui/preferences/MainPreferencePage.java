@@ -27,7 +27,7 @@ public final class MainPreferencePage extends AbstractWorkbenchPreferencePage {
   }
 
   @Override
-  protected Control createContents(final Composite parent) {
+  protected Control createContent(final Composite parent) {
     return parent;
   }
 
