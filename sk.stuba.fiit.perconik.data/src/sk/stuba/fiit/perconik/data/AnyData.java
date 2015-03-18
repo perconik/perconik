@@ -7,8 +7,10 @@ import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import sk.stuba.fiit.perconik.data.type.content.AnyContentDeserializer;
+import sk.stuba.fiit.perconik.data.type.content.AnyContentKeySerializer;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.newLinkedHashMap;
@@ -37,6 +39,7 @@ public class AnyData extends Data {
   }
 
   @JsonAnyGetter
+  @JsonSerialize(keyUsing = AnyContentKeySerializer.class)
   public Map<String, Object> any() {
     return this.other;
   }
