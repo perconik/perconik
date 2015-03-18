@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 
+import com.google.common.base.Optional;
+
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
@@ -17,15 +19,22 @@ import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
+import static com.google.common.base.Optional.fromNullable;
+import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
+
 import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
 
 public class SharedUacaProxy extends AbstractUacaProxy {
-  private static final ExecutorService sharedExecutor = PlatformExecutors.newLimitedThreadPool();
+  private static final String connectionCheckPath = "ide/checkin";
+
+  private static final long executorTerminationTimeout = NANOSECONDS.convert(8, SECONDS);
 
   private final UacaReporter reporter;
 
@@ -46,16 +55,35 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   }
 
   public static final void checkConnection(final String url) {
-    newClient().target(url).path("ide/checkin").request().options().close();
+    newClient().target(url).path(connectionCheckPath).request().options().close();
   }
 
   public static final void checkConnection(final URL url) {
     checkConnection(url.toString());
   }
 
+  private static final class SharedExecutor {
+    @Nullable
+    private static ExecutorService instance;
+
+    private SharedExecutor() {}
+
+    synchronized static ExecutorService toExecute() {
+      if (instance == null || instance.isShutdown()) {
+        instance = PlatformExecutors.newLimitedThreadPool();
+      }
+
+      return instance;
+    }
+
+    synchronized static Optional<ExecutorService> toClose() {
+      return fromNullable(instance);
+    }
+  }
+
   @Override
   protected final ExecutorService executor() {
-    return sharedExecutor;
+    return SharedExecutor.toExecute();
   }
 
   @Override
@@ -84,5 +112,14 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   protected void reportFailure(final String message, final Exception failure) {
     this.reporter.logError(message, failure);
     this.reporter.displayError(message, failure);
+  }
+
+  @Override
+  protected final void preClose() throws Exception {
+    Optional<ExecutorService> executor = SharedExecutor.toClose();
+
+    if (executor.isPresent()) {
+      shutdownAndAwaitTermination(executor.get(), executorTerminationTimeout, NANOSECONDS);
+    }
   }
 }
