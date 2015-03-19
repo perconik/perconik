@@ -16,7 +16,7 @@ public abstract class NamedRunnable implements Runnable {
   }
 
   protected NamedRunnable(final Class<?> identity, final String name) {
-    this(ofInstance(identity.getName() + "." + requireNonNullOrEmpty(name)));
+    this(ofInstance(identity.getName() + "$" + requireNonNullOrEmpty(name)));
   }
 
   protected NamedRunnable(final String name) {
