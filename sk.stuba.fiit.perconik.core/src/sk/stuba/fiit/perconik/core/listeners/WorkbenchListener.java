@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.listeners;
 
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
 
 import sk.stuba.fiit.perconik.core.Listener;
@@ -14,4 +15,5 @@ import sk.stuba.fiit.perconik.core.Listener;
  * @since 1.0
  */
 public interface WorkbenchListener extends Listener, IWorkbenchListener {
+  public void postStartup(IWorkbench workbench);
 }

@@ -25,6 +25,8 @@ public class WorkbenchAdapter extends Adapter implements WorkbenchListener {
    */
   protected WorkbenchAdapter() {}
 
+  public void postStartup(final IWorkbench workbench) {}
+
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     return true;
   }

@@ -6,14 +6,18 @@ import java.util.Set;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.IWorkbench;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 import sk.stuba.fiit.perconik.core.ListenerRegistrationException;
+import sk.stuba.fiit.perconik.core.Listeners;
 import sk.stuba.fiit.perconik.core.ResourceRegistrationException;
+import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.osgi.framework.BundleNotFoundException;
 import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
@@ -25,6 +29,8 @@ import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.util.concurrent.Runnables.doNothing;
+
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
 /**
  * The <code>Activator</code> class controls the plug-in life cycle.
@@ -205,6 +211,7 @@ public final class Activator extends ExtendedPlugin {
     public void earlyStartup() {
       try {
         loadServices();
+        dispatchPostStartup();
       } catch (ResourceRegistrationException failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of resources");
       } catch (ListenerRegistrationException failure) {
@@ -212,6 +219,18 @@ public final class Activator extends ExtendedPlugin {
       } catch (Exception failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of resources and listeners");
       }
+    }
+
+    private static void dispatchPostStartup() {
+      DisplayExecutor.defaultAsynchronous().execute(new Runnable() {
+        public void run() {
+          IWorkbench workbench = waitForWorkbench();
+
+          for (WorkbenchListener listener: Listeners.registered(WorkbenchListener.class)) {
+            listener.postStartup(workbench);
+          }
+        }
+      });
     }
   }
 
