@@ -25,6 +25,6 @@ public final class UacaProxy extends SharedUacaProxy implements Store<Object> {
   }
 
   public void save(final String path, @Nullable final Object resource) {
-    this.send("generic/event", UacaDataWrapper.of(path, resource));
+    this.send("generic/event", UacaEvent.of(path, resource));
   }
 }

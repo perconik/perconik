@@ -12,7 +12,7 @@ import sk.stuba.fiit.perconik.data.bind.NamingStrategy.Default;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 
 @JsonNaming(Default.class)
-public class UacaDataWrapper extends AnyStructuredData {
+public class UacaEvent extends AnyStructuredData {
   public static final URI eventTypeUriPrefix = newUri("http://perconik.gratex.com/useractivity/event");
 
   protected URI eventTypeUri;
@@ -20,10 +20,10 @@ public class UacaDataWrapper extends AnyStructuredData {
   @Nullable
   protected Object data;
 
-  public UacaDataWrapper() {}
+  public UacaEvent() {}
 
-  public static UacaDataWrapper of(final String path, @Nullable final Object data) {
-    UacaDataWrapper wrapper = new UacaDataWrapper();
+  public static UacaEvent of(final String path, @Nullable final Object data) {
+    UacaEvent wrapper = new UacaEvent();
 
     wrapper.eventTypeUri = newUri(eventTypeUriPrefix + "/" + path);
     wrapper.data = data;
