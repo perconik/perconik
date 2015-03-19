@@ -23,6 +23,7 @@ import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.Objects.requireNonNull;
 
@@ -160,6 +161,10 @@ public abstract class AbstractEventListener implements Listener {
     final long window;
 
     final TimeUnit unit;
+
+    ContinuousEventWindow(final Stopwatch watch, final TimeValue window) {
+      this(watch, window.duration(), window.unit());
+    }
 
     ContinuousEventWindow(final Stopwatch watch, final long window, final TimeUnit unit) {
       this.watch = requireNonNull(watch);

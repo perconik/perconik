@@ -14,10 +14,14 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
 /**
  * TODO
@@ -28,7 +32,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 @Version("0.0.0.alpha")
 @Unsupported
 public final class TextSelectionListener extends AbstractTextListener implements sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
-  static final long selectionEventWindow = 500;
+  static final TimeValue selectionEventWindow = of(500, MILLISECONDS);
 
   private final TextSelectionEventProcessor processor;
 

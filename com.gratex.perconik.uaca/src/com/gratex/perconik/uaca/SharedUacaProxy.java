@@ -15,11 +15,11 @@ import com.gratex.perconik.uaca.preferences.UacaOptions;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
@@ -29,12 +29,13 @@ import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 
+import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
 
 public class SharedUacaProxy extends AbstractUacaProxy {
   private static final String connectionCheckPath = "ide/checkin";
 
-  private static final long executorTerminationTimeout = NANOSECONDS.convert(8, SECONDS);
+  private static final TimeValue executorTerminationTimeout = of(8, SECONDS);
 
   private final UacaReporter reporter;
 
@@ -119,7 +120,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     Optional<ExecutorService> executor = SharedExecutor.toClose();
 
     if (executor.isPresent()) {
-      shutdownAndAwaitTermination(executor.get(), executorTerminationTimeout, NANOSECONDS);
+      shutdownAndAwaitTermination(executor.get(), executorTerminationTimeout.duration(), executorTerminationTimeout.unit());
     }
   }
 }

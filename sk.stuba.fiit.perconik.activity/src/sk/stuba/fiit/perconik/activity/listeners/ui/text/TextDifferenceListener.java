@@ -22,12 +22,16 @@ import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static com.google.common.cache.CacheBuilder.newBuilder;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextDifferenceListener.Action.DIFFERENCE;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferenceEditor;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
 /**
  * TODO
@@ -38,7 +42,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 @Version("0.0.0.alpha")
 @Unsupported
 public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, EditorListener, FileBufferListener {
-  static final int differenceEventWindow = 500;
+  static final TimeValue differenceEventWindow = of(500, MILLISECONDS);
 
   // TODO make options out of this:
   static final int cacheConcurrencyLevel = 4;

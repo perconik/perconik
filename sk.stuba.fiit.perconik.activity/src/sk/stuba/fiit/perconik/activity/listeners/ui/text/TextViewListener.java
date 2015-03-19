@@ -14,9 +14,13 @@ import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener.Action.VIEW;
+import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
 /**
  * TODO
@@ -27,7 +31,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener
 @Version("0.0.0.alpha")
 @Unsupported
 public final class TextViewListener extends AbstractTextListener implements ViewportListener {
-  static final long viewEventWindow = 500;
+  static final TimeValue viewEventWindow = of(500, MILLISECONDS);
 
   private final TextViewEventProcessor processor;
 

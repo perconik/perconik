@@ -25,6 +25,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
@@ -347,8 +348,8 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     protected final Log log;
 
-    protected ContinuousEventWindow(final L listener, final String identifier, final long window) {
-      this(listener, identifier, window, TimeUnit.MILLISECONDS);
+    protected ContinuousEventWindow(final L listener, final String identifier, final TimeValue window) {
+      this(listener, identifier, window.duration(), window.unit());
     }
 
     protected ContinuousEventWindow(final L listener, final String identifier, final long window, final TimeUnit unit) {
