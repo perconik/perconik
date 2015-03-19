@@ -5,7 +5,7 @@ import org.eclipse.ltk.core.refactoring.resource.DeleteResourcesDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
@@ -14,7 +14,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.refactor.MoveResources
 import static sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorSerializer.putRefactoringDescriptor;
 import static sk.stuba.fiit.perconik.activity.serializers.refactor.RenameResourceDescriptorSerializer.putRenameResourceDescriptor;
 
-abstract class AbstractRefactoringDescriptorSerializer<T extends RefactoringDescriptor> extends AbstractConfigurableSerializer<T> {
+abstract class AbstractRefactoringDescriptorSerializer<T extends RefactoringDescriptor> extends AbstractConfigurableMultiSerializer<T> {
   AbstractRefactoringDescriptorSerializer(final Option ... options) {
     super(options);
   }

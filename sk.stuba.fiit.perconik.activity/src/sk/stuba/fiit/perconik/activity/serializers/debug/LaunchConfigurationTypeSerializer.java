@@ -2,13 +2,13 @@ package sk.stuba.fiit.perconik.activity.serializers.debug;
 
 import org.eclipse.debug.core.ILaunchConfigurationType;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class LaunchConfigurationTypeSerializer extends AbstractConfigurableSerializer<ILaunchConfigurationType> {
+public final class LaunchConfigurationTypeSerializer extends AbstractConfigurableMultiSerializer<ILaunchConfigurationType> {
   public LaunchConfigurationTypeSerializer(final Option ... options) {
     super(options);
   }

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static java.util.Arrays.asList;
@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class UndoableOperationSerializer extends AbstractConfigurableSerializer<IUndoableOperation> {
+public final class UndoableOperationSerializer extends AbstractConfigurableMultiSerializer<IUndoableOperation> {
   public UndoableOperationSerializer(final Option ... options) {
     super(options);
   }

@@ -5,7 +5,7 @@ import java.util.Set;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.Launch;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static java.util.Arrays.asList;
@@ -13,7 +13,7 @@ import static java.util.Arrays.asList;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class LaunchSerializer extends AbstractConfigurableSerializer<ILaunch> {
+public final class LaunchSerializer extends AbstractConfigurableMultiSerializer<ILaunch> {
   public LaunchSerializer(final Option ... options) {
     super(options);
   }

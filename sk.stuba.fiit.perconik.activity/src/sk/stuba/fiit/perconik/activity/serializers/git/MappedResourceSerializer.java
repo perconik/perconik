@@ -4,7 +4,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 import sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories;
 
@@ -13,7 +13,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializ
 import static sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer.putRepositoryRemotes;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class MappedResourceSerializer extends AbstractConfigurableSerializer<IResource> {
+public final class MappedResourceSerializer extends AbstractConfigurableMultiSerializer<IResource> {
   public MappedResourceSerializer(final Option ... options) {
     super(options);
   }

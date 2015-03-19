@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IClassFile;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.resource.FileSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.resource.PathSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
@@ -14,7 +14,7 @@ import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingResource;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class UnderlyingResourceSerializer extends AbstractConfigurableSerializer<UnderlyingResource<?>> {
+public final class UnderlyingResourceSerializer extends AbstractConfigurableMultiSerializer<UnderlyingResource<?>> {
   public UnderlyingResourceSerializer(final Option ... options) {
     super(options);
   }

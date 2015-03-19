@@ -6,7 +6,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.resource.FileSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.resource.ProjectSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.resource.ResourceSerializer;
@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class LaunchConfigurationSerializer extends AbstractConfigurableSerializer<ILaunchConfiguration> {
+public final class LaunchConfigurationSerializer extends AbstractConfigurableMultiSerializer<ILaunchConfiguration> {
   public LaunchConfigurationSerializer(final Option ... options) {
     super(options);
   }

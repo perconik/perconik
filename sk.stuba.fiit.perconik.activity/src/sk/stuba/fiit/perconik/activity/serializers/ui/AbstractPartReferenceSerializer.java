@@ -4,7 +4,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
@@ -12,7 +12,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.ui.EditorReferenceSeri
 import static sk.stuba.fiit.perconik.activity.serializers.ui.PartReferenceSerializer.putPartReference;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.ViewReferenceSerializer.putViewReference;
 
-abstract class AbstractPartReferenceSerializer<T extends IWorkbenchPartReference> extends AbstractConfigurableSerializer<T> {
+abstract class AbstractPartReferenceSerializer<T extends IWorkbenchPartReference> extends AbstractConfigurableMultiSerializer<T> {
   AbstractPartReferenceSerializer(final Option ... options) {
     super(options);
   }

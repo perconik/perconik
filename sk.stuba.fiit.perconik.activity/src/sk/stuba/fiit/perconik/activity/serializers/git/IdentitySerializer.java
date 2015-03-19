@@ -4,12 +4,12 @@ import java.util.TimeZone;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class IdentitySerializer extends AbstractConfigurableSerializer<PersonIdent> {
+public final class IdentitySerializer extends AbstractConfigurableMultiSerializer<PersonIdent> {
   public IdentitySerializer(final Option ... options) {
     super(options);
   }

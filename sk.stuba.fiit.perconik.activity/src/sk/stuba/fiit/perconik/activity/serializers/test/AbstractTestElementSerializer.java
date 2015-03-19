@@ -6,7 +6,7 @@ import org.eclipse.jdt.junit.model.ITestElementContainer;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 import org.eclipse.jdt.junit.model.ITestSuiteElement;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
@@ -16,7 +16,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.test.TestElementSerial
 import static sk.stuba.fiit.perconik.activity.serializers.test.TestRunSessionSerializer.putTestRunSession;
 import static sk.stuba.fiit.perconik.activity.serializers.test.TestSuiteElementSerializer.putTestSuiteElement;
 
-abstract class AbstractTestElementSerializer<T extends ITestElement> extends AbstractConfigurableSerializer<T> {
+abstract class AbstractTestElementSerializer<T extends ITestElement> extends AbstractConfigurableMultiSerializer<T> {
   AbstractTestElementSerializer(final Option ... options) {
     super(options);
   }

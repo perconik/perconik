@@ -7,13 +7,13 @@ import org.eclipse.core.commands.ITypedParameter;
 import org.eclipse.core.commands.ParameterType;
 import org.eclipse.core.commands.ParameterValuesException;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class ParameterSerializer extends AbstractConfigurableSerializer<IParameter> {
+public final class ParameterSerializer extends AbstractConfigurableMultiSerializer<IParameter> {
   public ParameterSerializer(final Option ... options) {
     super(options);
   }

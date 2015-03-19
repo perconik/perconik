@@ -2,12 +2,12 @@ package sk.stuba.fiit.perconik.activity.serializers.resource;
 
 import org.eclipse.core.runtime.IPath;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class PathSerializer extends AbstractConfigurableSerializer<IPath> {
+public final class PathSerializer extends AbstractConfigurableMultiSerializer<IPath> {
   public PathSerializer(final Option ... options) {
     super(options);
   }

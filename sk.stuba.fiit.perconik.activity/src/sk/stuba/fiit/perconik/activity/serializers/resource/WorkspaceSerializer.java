@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -18,7 +18,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.Serializations.newStru
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class WorkspaceSerializer extends AbstractConfigurableSerializer<IWorkspace> {
+public final class WorkspaceSerializer extends AbstractConfigurableMultiSerializer<IWorkspace> {
   public WorkspaceSerializer(final Option ... options) {
     super(options);
   }

@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.activity.serializers.ui.text;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class LineRegionSerializer extends AbstractConfigurableSerializer<LineRegion> {
+public final class LineRegionSerializer extends AbstractConfigurableMultiSerializer<LineRegion> {
   public LineRegionSerializer(final Option ... options) {
     super(options);
   }

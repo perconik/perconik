@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static java.util.Arrays.asList;
@@ -13,7 +13,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identif
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class WindowSerializer extends AbstractConfigurableSerializer<IWorkbenchWindow> {
+public final class WindowSerializer extends AbstractConfigurableMultiSerializer<IWorkbenchWindow> {
   public WindowSerializer(final Option ... options) {
     super(options);
   }

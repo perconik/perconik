@@ -3,14 +3,14 @@ package sk.stuba.fiit.perconik.activity.serializers.command;
 import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.commands.operations.ObjectUndoContext;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class UndoContextSerializer extends AbstractConfigurableSerializer<IUndoContext> {
+public final class UndoContextSerializer extends AbstractConfigurableMultiSerializer<IUndoContext> {
   public UndoContextSerializer(final Option ... options) {
     super(options);
   }

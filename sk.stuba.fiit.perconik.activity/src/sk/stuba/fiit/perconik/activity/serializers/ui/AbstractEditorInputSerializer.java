@@ -5,7 +5,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IURIEditorInput;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
@@ -14,7 +14,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.ui.FileEditorInputSeri
 import static sk.stuba.fiit.perconik.activity.serializers.ui.PathEditorInputSerializer.putPathEditorInput;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.UriEditorInputSerializer.putUriEditorInput;
 
-abstract class AbstractEditorInputSerializer<T extends IEditorInput> extends AbstractConfigurableSerializer<T> {
+abstract class AbstractEditorInputSerializer<T extends IEditorInput> extends AbstractConfigurableMultiSerializer<T> {
   AbstractEditorInputSerializer(final Option ... options) {
     super(options);
   }

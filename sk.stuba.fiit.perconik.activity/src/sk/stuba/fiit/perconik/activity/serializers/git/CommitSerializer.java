@@ -6,7 +6,7 @@ import java.util.Set;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -15,7 +15,7 @@ import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.newStructuredContent;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class CommitSerializer extends AbstractConfigurableSerializer<RevCommit> {
+public final class CommitSerializer extends AbstractConfigurableMultiSerializer<RevCommit> {
   public CommitSerializer(final Option ... options) {
     super(options);
   }

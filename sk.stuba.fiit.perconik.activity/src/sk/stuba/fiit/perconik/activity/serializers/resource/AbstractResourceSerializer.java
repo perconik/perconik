@@ -7,7 +7,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.git.MappedResourceSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -20,7 +20,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.resource.ResourceSeria
 import static sk.stuba.fiit.perconik.activity.serializers.resource.RootSerializer.putRoot;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-abstract class AbstractResourceSerializer<T extends IResource> extends AbstractConfigurableSerializer<T> {
+abstract class AbstractResourceSerializer<T extends IResource> extends AbstractConfigurableMultiSerializer<T> {
   AbstractResourceSerializer(final Option ... options) {
     super(options);
   }

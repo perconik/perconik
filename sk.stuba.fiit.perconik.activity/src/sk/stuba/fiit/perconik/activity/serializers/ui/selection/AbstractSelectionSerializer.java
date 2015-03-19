@@ -6,7 +6,7 @@ import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
@@ -16,7 +16,7 @@ import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.Structure
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer.putBlockTextSelection;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer.putTextSelection;
 
-abstract class AbstractSelectionSerializer<T extends ISelection> extends AbstractConfigurableSerializer<T> {
+abstract class AbstractSelectionSerializer<T extends ISelection> extends AbstractConfigurableMultiSerializer<T> {
   AbstractSelectionSerializer(final Option ... options) {
     super(options);
   }

@@ -2,13 +2,13 @@ package sk.stuba.fiit.perconik.activity.serializers.debug;
 
 import org.eclipse.debug.core.model.IProcess;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class ProcessSerializer extends AbstractConfigurableSerializer<IProcess> {
+public final class ProcessSerializer extends AbstractConfigurableMultiSerializer<IProcess> {
   public ProcessSerializer(final Option ... options) {
     super(options);
   }

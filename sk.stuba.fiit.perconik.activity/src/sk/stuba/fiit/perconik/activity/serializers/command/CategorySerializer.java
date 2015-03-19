@@ -3,13 +3,13 @@ package sk.stuba.fiit.perconik.activity.serializers.command;
 import org.eclipse.core.commands.Category;
 import org.eclipse.core.commands.common.NotDefinedException;
 
-import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
-public final class CategorySerializer extends AbstractConfigurableSerializer<Category> {
+public final class CategorySerializer extends AbstractConfigurableMultiSerializer<Category> {
   public CategorySerializer(final Option ... options) {
     super(options);
   }
