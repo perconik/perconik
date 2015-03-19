@@ -40,6 +40,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeUnits;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.configuration.ForwardingOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
@@ -1268,12 +1269,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     RuntimeStatistics() {}
 
-    static AtomicLong zero() {
+    private static AtomicLong zero() {
       return new AtomicLong();
-    }
-
-    static String timeValue(final Number time) {
-      return TimeValue.toString(time, timeUnit);
     }
   }
 
@@ -1403,13 +1400,15 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       data.put(key("sendFailures"), statistics.sendFailures);
 
       data.put(key("injectCount"), statistics.injectCount);
-      data.put(key("injectTime"), RuntimeStatistics.timeValue(statistics.injectTime));
+      data.put(key("injectTime"), statistics.injectTime);
 
       data.put(key("validateCount"), statistics.validateCount);
-      data.put(key("validateTime"), RuntimeStatistics.timeValue(statistics.validateTime));
+      data.put(key("validateTime"), statistics.validateTime);
 
       data.put(key("persistCount"), statistics.persistCount);
-      data.put(key("persistTime"), RuntimeStatistics.timeValue(statistics.persistTime));
+      data.put(key("persistTime"), statistics.persistTime);
+
+      data.put(key("timeUnit"), TimeUnits.toString(RuntimeStatistics.timeUnit));
 
       return data;
     }
