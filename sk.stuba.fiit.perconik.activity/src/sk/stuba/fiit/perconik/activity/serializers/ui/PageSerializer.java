@@ -34,7 +34,7 @@ public final class PageSerializer extends AbstractConfigurableMultiSerializer<IW
 
     if (options.contains(StandardOption.TREE)) {
       content.put(key("activePart"), identifyObject(page.getActivePartReference()));
-      content.put(key("parts"), new PartReferenceSerializer(options).serialize(concat(asList(page.getViewReferences()), asList(page.getEditorReferences()))));
+      content.put(key("references"), new PartReferenceSerializer(options).serialize(concat(asList(page.getViewReferences()), asList(page.getEditorReferences()))));
 
       try {
         content.put(key("selection"), identifyObject(page.getSelection()));
