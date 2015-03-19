@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.activity.uaca;
 
 import java.net.URI;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
@@ -15,11 +17,12 @@ public class UacaDataWrapper extends AnyStructuredData {
 
   protected URI eventTypeUri;
 
+  @Nullable
   protected Object data;
 
   public UacaDataWrapper() {}
 
-  public static UacaDataWrapper of(final String path, final Object data) {
+  public static UacaDataWrapper of(final String path, @Nullable final Object data) {
     UacaDataWrapper wrapper = new UacaDataWrapper();
 
     wrapper.eventTypeUri = newUri(eventTypeUriPrefix + "/" + path);
@@ -32,7 +35,7 @@ public class UacaDataWrapper extends AnyStructuredData {
     this.eventTypeUri = eventTypeUri;
   }
 
-  public void setData(final Object data) {
+  public void setData(@Nullable final Object data) {
     this.data = data;
   }
 
