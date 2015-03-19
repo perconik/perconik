@@ -432,6 +432,8 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
     this.preClose();
   }
 
+  public void postStartup(final IWorkbench workbench) {}
+
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     this.preUnregister();
 

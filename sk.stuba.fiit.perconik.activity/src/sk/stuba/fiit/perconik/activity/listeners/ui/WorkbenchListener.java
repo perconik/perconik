@@ -8,17 +8,13 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.WorkbenchSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_REGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener.Action.SHUTDOWN;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener.Action.STARTUP;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
 /**
  * TODO
@@ -26,8 +22,7 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class WorkbenchListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
   // guarantees that platform startup is processed only once
   private final AtomicBoolean startup = new AtomicBoolean(false);
@@ -35,13 +30,7 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   // guarantees that platform shutdown is processed only once
   private final AtomicBoolean shutdown = new AtomicBoolean(false);
 
-  public WorkbenchListener() {
-    POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "PostStartup") {
-      public void run() {
-        postStartup();
-      }
-    });
-  }
+  public WorkbenchListener() {}
 
   enum Action implements CommonEventListener.Action {
     STARTUP,
@@ -86,23 +75,23 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
     }));
   }
 
-  public void postStartup() {
+  public void postStartup(final IWorkbench workbench) {
     final long time = this.currentTime();
 
     if (this.startup.compareAndSet(false, true)) {
-      this.execute(time, STARTUP, waitForWorkbench());
+      this.execute(time, STARTUP, workbench);
     }
   }
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+    return true;
+  }
+
+  public void postShutdown(final IWorkbench workbench) {
     final long time = this.currentTime();
 
     if (this.shutdown.compareAndSet(false, true)) {
       this.execute(time, SHUTDOWN, workbench);
     }
-
-    return true;
   }
-
-  public void postShutdown(final IWorkbench workbench) {}
 }

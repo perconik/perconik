@@ -14,6 +14,11 @@ public final class WorkbenchDebugListener extends AbstractDebugListener implemen
     super(console);
   }
 
+  public void postStartup(final IWorkbench workbench) {
+    this.printHeader("Workbench post startup");
+    this.printWorkbench(workbench);
+  }
+
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
     this.printHeader("Workbench pre shutdown");
     this.printWorkbench(workbench);
