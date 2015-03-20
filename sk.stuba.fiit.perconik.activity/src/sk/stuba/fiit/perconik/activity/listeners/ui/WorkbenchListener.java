@@ -1,7 +1,5 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.eclipse.ui.IWorkbench;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
@@ -22,14 +20,8 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.1.alpha")
+@Version("0.0.2.alpha")
 public final class WorkbenchListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
-  // guarantees that platform startup is processed only once
-  private final AtomicBoolean startup = new AtomicBoolean(false);
-
-  // guarantees that platform shutdown is processed only once
-  private final AtomicBoolean shutdown = new AtomicBoolean(false);
-
   public WorkbenchListener() {}
 
   enum Action implements CommonEventListener.Action {
@@ -78,19 +70,21 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   public void postStartup(final IWorkbench workbench) {
     final long time = this.currentTime();
 
-    if (this.startup.compareAndSet(false, true)) {
+    if (WorkbenchState.STARTUP.canProcess()) {
       this.execute(time, STARTUP, workbench);
     }
   }
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+    // ignore
+
     return true;
   }
 
   public void postShutdown(final IWorkbench workbench) {
     final long time = this.currentTime();
 
-    if (this.shutdown.compareAndSet(false, true)) {
+    if (WorkbenchState.SHUTDOWN.canProcess()) {
       this.execute(time, SHUTDOWN, workbench);
     }
   }
