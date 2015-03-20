@@ -14,10 +14,16 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
+
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActiveWindow;
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActiveWindow;
 
 /**
  * Static utility methods pertaining to Eclipse editors.
@@ -72,12 +78,28 @@ public final class Editors {
     };
   }
 
+  public static Supplier<IEditorPart> activeEditorSupplier(@Nullable final IWorkbenchWindow window) {
+    return new Supplier<IEditorPart>() {
+      public IEditorPart get() {
+        return getActiveEditor(window);
+      }
+    };
+  }
+
+  public static Supplier<IEditorPart> activeEditorSupplier(@Nullable final IWorkbench workbench) {
+    return new Supplier<IEditorPart>() {
+      public IEditorPart get() {
+        return getActiveEditor(workbench);
+      }
+    };
+  }
+
   /**
    * Gets the active editor.
    * @return the active editor or {@code null} if there is no active editor
    */
   public static IEditorPart getActiveEditor() {
-    return getActiveEditor(Workbenches.getActivePage());
+    return getActiveEditor(getActivePage());
   }
 
   /**
@@ -88,6 +110,26 @@ public final class Editors {
    */
   public static IEditorPart getActiveEditor(@Nullable final IWorkbenchPage page) {
     return page != null ? page.getActiveEditor() : null;
+  }
+
+  /**
+   * Gets the currently active editor.
+   * @param window the window, may be {@code null}
+   * @return the active editor or {@code null} if the window
+   *         is {@code null} or there is no active editor
+   */
+  public static IEditorPart getActiveEditor(@Nullable final IWorkbenchWindow window) {
+    return getActiveEditor(getActivePage(window));
+  }
+
+  /**
+   * Gets the currently active editor.
+   * @param workbench the workbench, may be {@code null}
+   * @return the active editor or {@code null} if the workbench
+   *         is {@code null} or there is no active editor
+   */
+  public static IEditorPart getActiveEditor(@Nullable final IWorkbench workbench) {
+    return getActiveEditor(getActiveWindow(workbench));
   }
 
   public static IResource getResource(@Nullable final IEditorPart editor) {
@@ -182,12 +224,32 @@ public final class Editors {
    * @see #getActiveEditor(IWorkbenchPage)
    */
   public static IEditorPart waitForActiveEditor(final IWorkbenchPage page) {
-    checkNotNull(page);
+    requireNonNull(page);
 
     IEditorPart editor;
 
     while ((editor = getActiveEditor(page)) == null) {}
 
     return editor;
+  }
+
+  /**
+   * Waits for the currently active editor.
+   * This method blocks until there is an active editor.
+   * @param window the window, can not be {@code null}
+   * @see #getActiveEditor(IWorkbenchWindow)
+   */
+  public static IEditorPart waitForActiveEditor(final IWorkbenchWindow window) {
+    return waitForActiveEditor(waitForActivePage(window));
+  }
+
+  /**
+   * Waits for the currently active editor.
+   * This method blocks until there is an active editor.
+   * @param workbench the workbench, can not be {@code null}
+   * @see #getActiveEditor(IWorkbench)
+   */
+  public static IEditorPart waitForActiveEditor(final IWorkbench workbench) {
+    return waitForActiveEditor(waitForActiveWindow(workbench));
   }
 }

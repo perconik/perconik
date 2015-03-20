@@ -13,7 +13,7 @@ import org.eclipse.ui.PlatformUI;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.plugin.Activator;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Static utility methods pertaining to Eclipse workbench.
@@ -140,6 +140,16 @@ public final class Workbenches {
   }
 
   /**
+   * Gets the currently active page.
+   * @param workbench the workbench, may be {@code null}
+   * @return the active page or {@code null} if the workbench
+   *         is {@code null} or there is no active page
+   */
+  public static IWorkbenchPage getActivePage(@Nullable final IWorkbench workbench) {
+    return getActivePage(getActiveWindow(workbench));
+  }
+
+  /**
    * Gets the currently active part.
    * @return the active part or {@code null} if there is no active page
    */
@@ -159,6 +169,26 @@ public final class Workbenches {
     }
 
     return page.getActivePart();
+  }
+
+  /**
+   * Gets the currently active part.
+   * @param window the window, may be {@code null}
+   * @return the active part or {@code null} if the window
+   *         is {@code null} or there is no active part
+   */
+  public static IWorkbenchPart getActivePart(@Nullable final IWorkbenchWindow window) {
+    return getActivePart(getActivePage(window));
+  }
+
+  /**
+   * Gets the currently active part.
+   * @param workbench the workbench, may be {@code null}
+   * @return the active part or {@code null} if the workbench
+   *         is {@code null} or there is no active part
+   */
+  public static IWorkbenchPart getActivePart(@Nullable final IWorkbench workbench) {
+    return getActivePart(getActiveWindow(workbench));
   }
 
   /**
@@ -190,7 +220,7 @@ public final class Workbenches {
    * @see #getActiveWindow(IWorkbench)
    */
   public static IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench) {
-    checkNotNull(workbench);
+    requireNonNull(workbench);
 
     IWorkbenchWindow window;
 
@@ -215,13 +245,23 @@ public final class Workbenches {
    * @see #getActivePage(IWorkbenchWindow)
    */
   public static IWorkbenchPage waitForActivePage(final IWorkbenchWindow window) {
-    checkNotNull(window);
+    requireNonNull(window);
 
     IWorkbenchPage page;
 
     while ((page = getActivePage(window)) == null) {}
 
     return page;
+  }
+
+  /**
+   * Waits for the currently active page.
+   * This method blocks until there is an active page.
+   * @param workbench the workbench, can not be {@code null}
+   * @see #getActivePage(IWorkbench)
+   */
+  public static IWorkbenchPage waitForActivePage(final IWorkbench workbench) {
+    return waitForActivePage(waitForActiveWindow(workbench));
   }
 
   /**
@@ -240,12 +280,32 @@ public final class Workbenches {
    * @see #getActivePart(IWorkbenchPage)
    */
   public static IWorkbenchPart waitForActivePart(final IWorkbenchPage page) {
-    checkNotNull(page);
+    requireNonNull(page);
 
     IWorkbenchPart part;
 
     while ((part = getActivePart(page)) == null) {}
 
     return part;
+  }
+
+  /**
+   * Waits for the currently active part.
+   * This method blocks until there is an active part.
+   * @param window the window, can not be {@code null}
+   * @see #getActivePart(IWorkbenchWindow)
+   */
+  public static IWorkbenchPart waitForActivePart(final IWorkbenchWindow window) {
+    return waitForActivePart(waitForActivePage(window));
+  }
+
+  /**
+   * Waits for the currently active part.
+   * This method blocks until there is an active part.
+   * @param workbench the workbench, can not be {@code null}
+   * @see #getActivePart(IWorkbench)
+   */
+  public static IWorkbenchPart waitForActivePart(final IWorkbench workbench) {
+    return waitForActivePart(waitForActivePage(workbench));
   }
 }
