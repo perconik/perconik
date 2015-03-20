@@ -7,6 +7,7 @@ import com.google.common.base.Supplier;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -64,6 +65,14 @@ public final class Workbenches {
     };
   }
 
+  public static Supplier<IWorkbenchPage> activePageSupplier(@Nullable final IWorkbench workbench) {
+    return new Supplier<IWorkbenchPage>() {
+      public IWorkbenchPage get() {
+        return getActivePage(workbench);
+      }
+    };
+  }
+
   public static Supplier<IWorkbenchPart> activePartSupplier() {
     return new Supplier<IWorkbenchPart>() {
       public IWorkbenchPart get() {
@@ -80,6 +89,54 @@ public final class Workbenches {
     };
   }
 
+  public static Supplier<IWorkbenchPart> activePartSupplier(@Nullable final IWorkbenchWindow window) {
+    return new Supplier<IWorkbenchPart>() {
+      public IWorkbenchPart get() {
+        return getActivePart(window);
+      }
+    };
+  }
+
+  public static Supplier<IWorkbenchPart> activePartSupplier(@Nullable final IWorkbench workbench) {
+    return new Supplier<IWorkbenchPart>() {
+      public IWorkbenchPart get() {
+        return getActivePart(workbench);
+      }
+    };
+  }
+
+  public static Supplier<IWorkbenchPartReference> activePartReferenceSupplier() {
+    return new Supplier<IWorkbenchPartReference>() {
+      public IWorkbenchPartReference get() {
+        return getActivePartReference();
+      }
+    };
+  }
+
+  public static Supplier<IWorkbenchPartReference> activePartReferenceSupplier(@Nullable final IWorkbenchPage page) {
+    return new Supplier<IWorkbenchPartReference>() {
+      public IWorkbenchPartReference get() {
+        return getActivePartReference(page);
+      }
+    };
+  }
+
+  public static Supplier<IWorkbenchPartReference> activePartReferenceSupplier(@Nullable final IWorkbenchWindow window) {
+    return new Supplier<IWorkbenchPartReference>() {
+      public IWorkbenchPartReference get() {
+        return getActivePartReference(window);
+      }
+    };
+  }
+
+  public static Supplier<IWorkbenchPartReference> activePartReferenceSupplier(@Nullable final IWorkbench workbench) {
+    return new Supplier<IWorkbenchPartReference>() {
+      public IWorkbenchPartReference get() {
+        return getActivePartReference(workbench);
+      }
+    };
+  }
+
   /**
    * Gets the workbench.
    * @return the workbench or {@code null} if it has not been created yet
@@ -88,7 +145,7 @@ public final class Workbenches {
     try {
       return PlatformUI.getWorkbench();
     } catch (IllegalStateException e) {
-      PluginConsoles.create(Activator.defaultInstance()).error("Workbench has not been created yet.", e);
+      PluginConsoles.create(Activator.defaultInstance()).error("Workbench has not been created yet", e);
 
       return null;
     }
@@ -107,7 +164,7 @@ public final class Workbenches {
    * Gets the currently active window.
    * @param workbench the workbench, may be {@code null}
    * @return the active window or {@code null} if the workbench
-   *         is {@code null} or if called from a non-UI thread
+   *         is {@code null} or there is no active window
    */
   public static IWorkbenchWindow getActiveWindow(@Nullable final IWorkbench workbench) {
     if (workbench == null) {
@@ -189,6 +246,48 @@ public final class Workbenches {
    */
   public static IWorkbenchPart getActivePart(@Nullable final IWorkbench workbench) {
     return getActivePart(getActiveWindow(workbench));
+  }
+
+  /**
+   * Gets the currently active part reference.
+   * @return the active part reference or {@code null} if there is no active page
+   */
+  public static IWorkbenchPartReference getActivePartReference() {
+    return getActivePartReference(getActivePage());
+  }
+
+  /**
+   * Gets the currently active part reference.
+   * @param page the page, may be {@code null}
+   * @return the active part reference or {@code null} if the page
+   *         is {@code null} or there is no active part reference
+   */
+  public static IWorkbenchPartReference getActivePartReference(@Nullable final IWorkbenchPage page) {
+    if (page == null) {
+      return null;
+    }
+
+    return page.getActivePartReference();
+  }
+
+  /**
+   * Gets the currently active part reference.
+   * @param window the window, may be {@code null}
+   * @return the active part reference or {@code null} if the window
+   *         is {@code null} or there is no active part reference
+   */
+  public static IWorkbenchPartReference getActivePartReference(@Nullable final IWorkbenchWindow window) {
+    return getActivePartReference(getActivePage(window));
+  }
+
+  /**
+   * Gets the currently active part reference.
+   * @param workbench the workbench, may be {@code null}
+   * @return the active part reference or {@code null} if the workbench
+   *         is {@code null} or there is no active part reference
+   */
+  public static IWorkbenchPartReference getActivePartReference(@Nullable final IWorkbench workbench) {
+    return getActivePartReference(getActiveWindow(workbench));
   }
 
   /**
@@ -307,5 +406,50 @@ public final class Workbenches {
    */
   public static IWorkbenchPart waitForActivePart(final IWorkbench workbench) {
     return waitForActivePart(waitForActivePage(workbench));
+  }
+
+  /**
+   * Waits for the currently active part reference.
+   * This method blocks until there is an active part reference.
+   * @see #getActivePart()
+   */
+  public static IWorkbenchPartReference waitForActivePartReference() {
+    return waitForActivePartReference(waitForActivePage());
+  }
+
+  /**
+   * Waits for the currently active part reference.
+   * This method blocks until there is an active part reference.
+   * @param page the page, can not be {@code null}
+   * @see #getActivePartReference(IWorkbenchPage)
+   */
+  public static IWorkbenchPartReference waitForActivePartReference(final IWorkbenchPage page) {
+    requireNonNull(page);
+
+    IWorkbenchPartReference part;
+
+    while ((part = getActivePartReference(page)) == null) {}
+
+    return part;
+  }
+
+  /**
+   * Waits for the currently active part reference.
+   * This method blocks until there is an active part reference.
+   * @param window the window, can not be {@code null}
+   * @see #getActivePartReference(IWorkbenchWindow)
+   */
+  public static IWorkbenchPartReference waitForActivePartReference(final IWorkbenchWindow window) {
+    return waitForActivePartReference(waitForActivePage(window));
+  }
+
+  /**
+   * Waits for the currently active part reference.
+   * This method blocks until there is an active part reference.
+   * @param workbench the workbench, can not be {@code null}
+   * @see #getActivePartReference(IWorkbench)
+   */
+  public static IWorkbenchPartReference waitForActivePartReference(final IWorkbench workbench) {
+    return waitForActivePartReference(waitForActivePage(workbench));
   }
 }

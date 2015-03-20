@@ -13,14 +13,17 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import static java.util.Objects.requireNonNull;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePartReference;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActiveWindow;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActivePage;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActiveWindow;
@@ -94,6 +97,38 @@ public final class Editors {
     };
   }
 
+  public static Supplier<IEditorReference> activeEditorReferenceSupplier() {
+    return new Supplier<IEditorReference>() {
+      public IEditorReference get() {
+        return getActiveEditorReference();
+      }
+    };
+  }
+
+  public static Supplier<IEditorReference> activeEditorReferenceSupplier(@Nullable final IWorkbenchPage page) {
+    return new Supplier<IEditorReference>() {
+      public IEditorReference get() {
+        return getActiveEditorReference(page);
+      }
+    };
+  }
+
+  public static Supplier<IEditorReference> activeEditorReferenceSupplier(@Nullable final IWorkbenchWindow window) {
+    return new Supplier<IEditorReference>() {
+      public IEditorReference get() {
+        return getActiveEditorReference(window);
+      }
+    };
+  }
+
+  public static Supplier<IEditorReference> activeEditorReferenceSupplier(@Nullable final IWorkbench workbench) {
+    return new Supplier<IEditorReference>() {
+      public IEditorReference get() {
+        return getActiveEditorReference(workbench);
+      }
+    };
+  }
+
   /**
    * Gets the active editor.
    * @return the active editor or {@code null} if there is no active editor
@@ -130,6 +165,46 @@ public final class Editors {
    */
   public static IEditorPart getActiveEditor(@Nullable final IWorkbench workbench) {
     return getActiveEditor(getActiveWindow(workbench));
+  }
+
+  /**
+   * Gets the active editor reference.
+   * @return the active editor reference or {@code null} if there is no active editor reference
+   */
+  public static IEditorReference getActiveEditorReference() {
+    return getActiveEditorReference(getActivePage());
+  }
+
+  /**
+   * Gets the currently active editor reference.
+   * @param page the page, may be {@code null}
+   * @return the active editor reference or {@code null} if the page
+   *         is {@code null} or there is no active editor reference
+   */
+  public static IEditorReference getActiveEditorReference(@Nullable final IWorkbenchPage page) {
+    IWorkbenchPartReference reference = getActivePartReference(page);
+
+    return reference instanceof IEditorReference ? (IEditorReference) reference : null;
+  }
+
+  /**
+   * Gets the currently active editor reference.
+   * @param window the window, may be {@code null}
+   * @return the active editor reference or {@code null} if the window
+   *         is {@code null} or there is no active editor reference
+   */
+  public static IEditorReference getActiveEditorReference(@Nullable final IWorkbenchWindow window) {
+    return getActiveEditorReference(getActivePage(window));
+  }
+
+  /**
+   * Gets the currently active editor reference.
+   * @param workbench the workbench, may be {@code null}
+   * @return the active editor reference or {@code null} if the workbench
+   *         is {@code null} or there is no active editor reference
+   */
+  public static IEditorReference getActiveEditorReference(@Nullable final IWorkbench workbench) {
+    return getActiveEditorReference(getActiveWindow(workbench));
   }
 
   public static IResource getResource(@Nullable final IEditorPart editor) {
@@ -214,7 +289,7 @@ public final class Editors {
    * @see #getActiveEditor()
    */
   public static IEditorPart waitForActiveEditor() {
-    return waitForActiveEditor(Workbenches.waitForActivePage());
+    return waitForActiveEditor(waitForActivePage());
   }
 
   /**
@@ -251,5 +326,50 @@ public final class Editors {
    */
   public static IEditorPart waitForActiveEditor(final IWorkbench workbench) {
     return waitForActiveEditor(waitForActiveWindow(workbench));
+  }
+
+  /**
+   * Waits for the currently active editor reference.
+   * This method blocks until there is an active editor reference.
+   * @see #getActiveEditor()
+   */
+  public static IEditorReference waitForActiveEditorReference() {
+    return waitForActiveEditorReference(waitForActivePage());
+  }
+
+  /**
+   * Waits for the currently active editor reference.
+   * This method blocks until there is an active editor reference.
+   * @param page the page, can not be {@code null}
+   * @see #getActiveEditor(IWorkbenchPage)
+   */
+  public static IEditorReference waitForActiveEditorReference(final IWorkbenchPage page) {
+    requireNonNull(page);
+
+    IEditorReference editor;
+
+    while ((editor = getActiveEditorReference(page)) == null) {}
+
+    return editor;
+  }
+
+  /**
+   * Waits for the currently active editor reference.
+   * This method blocks until there is an active editor reference.
+   * @param window the window, can not be {@code null}
+   * @see #getActiveEditor(IWorkbenchWindow)
+   */
+  public static IEditorReference waitForActiveEditorReference(final IWorkbenchWindow window) {
+    return waitForActiveEditorReference(waitForActivePage(window));
+  }
+
+  /**
+   * Waits for the currently active editor reference.
+   * This method blocks until there is an active editor reference.
+   * @param workbench the workbench, can not be {@code null}
+   * @see #getActiveEditor(IWorkbench)
+   */
+  public static IEditorReference waitForActiveEditorReference(final IWorkbench workbench) {
+    return waitForActiveEditorReference(waitForActiveWindow(workbench));
   }
 }
