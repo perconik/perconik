@@ -211,13 +211,18 @@ public final class Activator extends ExtendedPlugin {
     public void earlyStartup() {
       try {
         loadServices();
-        dispatchPostStartup();
       } catch (ResourceRegistrationException failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of resources");
       } catch (ListenerRegistrationException failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of listeners");
       } catch (Exception failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of resources and listeners");
+      }
+
+      try {
+        dispatchPostStartup();
+      } catch (Exception failure) {
+        defaultConsole().error(failure, "Unexpected error during post startup event dispatch");
       }
     }
 
@@ -227,7 +232,11 @@ public final class Activator extends ExtendedPlugin {
           IWorkbench workbench = waitForWorkbench();
 
           for (WorkbenchListener listener: Listeners.registered(WorkbenchListener.class)) {
-            listener.postStartup(workbench);
+            try {
+              listener.postStartup(workbench);
+            } catch (Exception failure) {
+              defaultConsole().error(failure, "Unexpected error during post startup event dispatch on %s", listener);
+            }
           }
         }
       });
