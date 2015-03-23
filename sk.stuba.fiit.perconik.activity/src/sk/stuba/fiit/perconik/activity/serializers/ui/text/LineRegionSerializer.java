@@ -16,10 +16,10 @@ public final class LineRegionSerializer extends AbstractConfigurableMultiSeriali
   }
 
   static void putLineRegion(final StructuredContent content, final LineRegion region) {
-    content.put(key("start", "length"), region.start.line);
+    content.put(key("start", "line"), region.start.line);
     content.put(key("start", "offset"), region.start.offset);
 
-    content.put(key("end", "length"), region.end.line);
+    content.put(key("end", "line"), region.end.line);
     content.put(key("end", "offset"), region.end.offset);
 
     content.put(key("text"), region.text);
