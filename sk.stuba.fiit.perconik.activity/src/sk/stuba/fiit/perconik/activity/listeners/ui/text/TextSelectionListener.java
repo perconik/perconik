@@ -67,8 +67,8 @@ public final class TextSelectionListener extends AbstractTextListener implements
     }
   }
 
-  static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region, final ITextSelection selection) {
-    Event data = build(time, action, editor, view, region);
+  Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region, final ITextSelection selection) {
+    Event data = this.build(time, action, editor, view, region);
 
     data.put(key("selection"), new TextSelectionSerializer().serialize(selection));
 
@@ -90,7 +90,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
     LineRegion region = LineRegion.compute(view.getDocument(), selection.getOffset(), selection.getLength(), selection.getText());
 
-    this.send(action.getPath(), build(time, action, editor, view, region, selection));
+    this.send(action.getPath(), this.build(time, action, editor, view, region, selection));
   }
 
   static final class TextSelectionEventProcessor extends ContinuousEventWindow<TextSelectionListener, TextSelectionEvent> {

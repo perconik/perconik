@@ -76,7 +76,7 @@ public final class TextViewListener extends AbstractTextListener implements View
 
     LineRegion region = LineRegion.between(document, top, bottom);
 
-    this.send(action.getPath(), build(time, action, editor, view, region));
+    this.send(action.getPath(), this.build(time, action, editor, view, region));
   }
 
   static final class TextViewEventProcessor extends ContinuousEventWindow<TextViewListener, TextViewEvent> {

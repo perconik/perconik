@@ -37,8 +37,6 @@ abstract class AbstractTextCopyListener extends AbstractTextListener {
     this.process(time, action, editor, document, region, selection);
   }
 
-  abstract boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection);
-
   final void process(final long time, final Action action, final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
     if (!this.validate(editor, document, region, selection)) {
       return;
@@ -46,4 +44,6 @@ abstract class AbstractTextCopyListener extends AbstractTextListener {
 
     this.process(time, action, editor, document, region);
   }
+
+  abstract boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection);
 }

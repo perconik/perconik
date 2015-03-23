@@ -9,7 +9,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
@@ -25,8 +24,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class TextCopyListener extends AbstractTextCopyListener implements CommandExecutionListener {
   public TextCopyListener() {}
 
@@ -61,7 +59,7 @@ public final class TextCopyListener extends AbstractTextCopyListener implements 
 
   @Override
   boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
-    boolean valid = region.text != null && !(region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection));
+    boolean valid = region.text != null && (region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection));
 
     if (!valid && this.log.isEnabled()) {
       this.log.print("%s: clipboard content not equal to editor selection '%s' != '%s'", "copy", region.text, selection);

@@ -77,8 +77,8 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     }
   }
 
-  static Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final String before, final String after) {
-    Event data = build(time, action, editor, view);
+  Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final String before, final String after) {
+    Event data = this.build(time, action, editor, view);
 
     data.put(key("before"), before);
     data.put(key("after"), after);
@@ -91,7 +91,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     IEditorPart editor = Editors.forDocument(document);
     UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
 
-    this.send(action.getPath(), build(time, action, editor, view, before, after));
+    this.send(action.getPath(), this.build(time, action, editor, view, before, after));
   }
 
   static final class TextDocumentEventProcessor extends ContinuousEventWindow<TextDifferenceListener, TextDocumentEvent> {

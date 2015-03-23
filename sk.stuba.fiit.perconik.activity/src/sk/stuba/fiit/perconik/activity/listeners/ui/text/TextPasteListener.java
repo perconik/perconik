@@ -10,7 +10,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
@@ -35,8 +34,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class TextPasteListener extends AbstractTextListener implements CommandExecutionListener, DocumentListener {
   private final CommandExecutionStateHandler paste;
 

@@ -17,6 +17,7 @@ import sk.stuba.fiit.perconik.data.content.StructuredContent;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
@@ -29,8 +30,8 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 abstract class AbstractTextListener extends CommonEventListener {
   AbstractTextListener() {}
 
-  static final void put(final StructuredContent content, final IEditorPart editor) {
-    content.put(key("editor"), new EditorSerializer().serialize(editor));
+  private void put(final StructuredContent content, final IEditorPart editor) {
+    content.put(key("editor"), this.execute(asDisplayTask(new EditorSerializer(), editor)));
 
     IEditorSite site = editor.getEditorSite();
 
@@ -45,28 +46,30 @@ abstract class AbstractTextListener extends CommonEventListener {
     }
   }
 
-  static final void put(final StructuredContent content, final UnderlyingView<?> view) {
+  @SuppressWarnings("static-method")
+  private void put(final StructuredContent content, final UnderlyingView<?> view) {
     content.put(key("document"), identifyObject(view.getDocument()));
     content.put(key("resource"), new UnderlyingResourceSerializer().serialize(view.getResource()));
   }
 
-  static final void put(final StructuredContent content, final LineRegion region) {
+  @SuppressWarnings("static-method")
+  private void put(final StructuredContent content, final LineRegion region) {
     content.put(key("region"), new LineRegionSerializer().serialize(region));
   }
 
-  static final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view) {
+  final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view) {
     Event data = LocalEvent.of(time, action.getName());
 
-    put(data, editor);
-    put(data, view);
+    this.put(data, editor);
+    this.put(data, view);
 
     return data;
   }
 
-  static final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
+  final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
     Event data = build(time, action, editor, view);
 
-    put(data, region);
+    this.put(data, region);
 
     return data;
   }
@@ -74,6 +77,6 @@ abstract class AbstractTextListener extends CommonEventListener {
   final void process(final long time, final Action action, final IEditorPart editor, final IDocument document, final LineRegion region) {
     UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
 
-    this.send(action.getPath(), build(time, action, editor, view, region));
+    this.send(action.getPath(), this.build(time, action, editor, view, region));
   }
 }
