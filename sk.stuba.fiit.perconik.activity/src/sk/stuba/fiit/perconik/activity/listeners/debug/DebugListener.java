@@ -98,7 +98,7 @@ public final class DebugListener extends CommonEventListener implements DebugEve
     Optional<Action> option = fromKind(valueOf(event.getKind()));
 
     if (!option.isPresent()) {
-      this.log.error("%s unable to resolve action for event kind %s", this, event.getKind());
+      this.log.error("%s: unable to resolve action for event kind %s", this, event.getKind());
     }
 
     Action action = option.get();

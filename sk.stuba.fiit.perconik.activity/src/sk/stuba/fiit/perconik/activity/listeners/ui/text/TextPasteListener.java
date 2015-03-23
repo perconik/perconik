@@ -27,6 +27,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.SUCCEEDED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNDEFINED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.UNHANDLED;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
 
 /**
  * TODO
@@ -80,7 +81,7 @@ public final class TextPasteListener extends AbstractTextListener implements Com
 
     if (editor == null) {
       if (this.log.isEnabled()) {
-        this.log.print("paste: editor not found / documents not equal");
+        this.log.print("%s: editor not found / documents not equal", "paste");
       }
 
       return;
@@ -98,7 +99,7 @@ public final class TextPasteListener extends AbstractTextListener implements Com
 
     if (this.paste.getState() != EXECUTING) {
       if (this.log.isEnabled()) {
-        this.log.print("paste: not EXECUTING but %s", this.paste.getState());
+        this.log.print("%s: not executing but %s", "paste", toLowerCase(this.paste.getState()));
       }
 
       return;

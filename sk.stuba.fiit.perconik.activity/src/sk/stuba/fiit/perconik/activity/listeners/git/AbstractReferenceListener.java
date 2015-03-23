@@ -24,7 +24,6 @@ abstract class AbstractReferenceListener extends CommonEventListener implements 
         loadRepositories();
       }
     });
-
   }
 
   final void loadRepositories() {
@@ -32,7 +31,7 @@ abstract class AbstractReferenceListener extends CommonEventListener implements 
       try {
         this.loadRepository(repository);
       } catch (RuntimeException failure) {
-        this.log.error(failure, "%s cache initialization failure while reading %s", this, repository);
+        this.log.error(failure, "%s: cache initialization failure while reading %s", this, repository);
       }
     }
   }

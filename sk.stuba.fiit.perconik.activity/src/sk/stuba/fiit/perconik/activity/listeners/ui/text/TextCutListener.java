@@ -63,7 +63,7 @@ public final class TextCutListener extends AbstractTextCopyListener implements C
     boolean valid = !selection.isEmpty();
 
     if (!valid && this.log.isEnabled()) {
-      this.log.print("cut: editor selection not empty '%s'", selection);
+      this.log.print("%s: editor selection not empty '%s'", "cut", selection);
     }
 
     return valid;
