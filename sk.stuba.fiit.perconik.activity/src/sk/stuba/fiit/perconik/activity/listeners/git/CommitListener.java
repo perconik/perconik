@@ -8,7 +8,6 @@ import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.CommitSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
 import static sk.stuba.fiit.perconik.activity.listeners.git.CommitListener.Action.COMMIT;
@@ -22,8 +21,7 @@ import static sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories.getMostRec
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class CommitListener extends AbstractReferenceListener {
   private final RepositoryMapCache<String, String> cache;
 
@@ -33,7 +31,7 @@ public final class CommitListener extends AbstractReferenceListener {
 
   @Override
   void loadRepository(final Repository repository) {
-    this.cache.update(repository, getFullBranch(repository), getMostRecentCommit(repository).getName());
+    this.cache.load(repository, getFullBranch(repository), getMostRecentCommit(repository).getName());
   }
 
   enum Action implements CommonEventListener.Action {
@@ -70,7 +68,18 @@ public final class CommitListener extends AbstractReferenceListener {
   void process(final long time, final Repository repository) {
     RevCommit commit = getMostRecentCommit(repository);
 
-    if (this.cache.updated(repository, getFullBranch(repository), commit.getName())) {
+    String branch = getFullBranch(repository);
+    String name = commit.getName();
+
+    // exits on successful load, e.g. on branch switch
+
+    if (this.cache.load(repository, branch, name)) {
+      return;
+    }
+
+    // processes on successful update, i.e. on update of previously loaded branch
+
+    if (this.cache.update(repository, branch, name) != null) {
       this.send(COMMIT.getPath(), build(time, COMMIT, repository, commit));
     }
   }

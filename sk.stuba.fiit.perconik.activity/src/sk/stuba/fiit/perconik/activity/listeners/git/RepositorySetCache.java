@@ -11,11 +11,16 @@ final class RepositorySetCache<E> {
     this.map = new RepositoryMapCache<>();
   }
 
+  boolean load(final Repository repository, final E value) {
+    return this.map.load(repository, key, value);
+  }
+
   E update(final Repository repository, final E value) {
     return this.map.update(repository, key, value);
   }
 
-  boolean updated(final Repository repository, final E value) {
-    return this.map.updated(repository, key, value);
+  @Override
+  public String toString() {
+    return this.map.toString();
   }
 }

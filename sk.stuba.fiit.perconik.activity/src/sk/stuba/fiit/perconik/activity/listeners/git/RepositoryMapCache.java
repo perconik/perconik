@@ -18,11 +18,18 @@ final class RepositoryMapCache<K, V> {
     this.map = newConcurrentMap();
   }
 
-  V update(final Repository repository, final K key, final V value) {
-    return this.map.replace(immutableEntry(repository.getDirectory(), key), requireNonNull(value));
+  boolean load(final Repository repository, final K key, final V value) {
+    return this.map.putIfAbsent(immutableEntry(repository.getDirectory(), key), requireNonNull(value)) == null;
   }
 
-  boolean updated(final Repository repository, final K key, final V value) {
-    return this.update(repository, key, value) != null;
+  V update(final Repository repository, final K key, final V value) {
+    V previous = this.map.replace(immutableEntry(repository.getDirectory(), key), requireNonNull(value));
+
+    return !value.equals(previous) ? previous : null;
+  }
+
+  @Override
+  public String toString() {
+    return this.map.toString();
   }
 }
