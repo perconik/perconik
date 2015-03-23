@@ -4,7 +4,7 @@ import java.util.Set;
 
 import static com.google.common.collect.ImmutableSet.copyOf;
 
-public abstract class AbstractConfigurableMultiSerializer<T> extends AbstractMultiSerializer<T> implements ConfigurableSerializer {
+public abstract class AbstractConfigurableMultiSerializer<T> extends AbstractMultiSerializer<T> implements ConfigurableSerializer<T> {
   protected final Set<Option> options;
 
   protected AbstractConfigurableMultiSerializer(final Option ... options) {
