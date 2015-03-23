@@ -104,7 +104,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
       builder.concurrencyLevel(cacheConcurrencyLevel);
       builder.initialCapacity(cacheInitialCapacity);
-      builder.ticker(this.listener.getTimeHelper().elapsedTimeTicker());
+      builder.ticker(this.listener.getTimeContext().elapsedTimeTicker());
       builder.weakValues();
 
       this.cache = builder.build();

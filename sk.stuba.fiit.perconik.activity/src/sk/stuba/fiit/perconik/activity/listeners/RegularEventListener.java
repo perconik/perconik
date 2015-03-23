@@ -96,9 +96,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   final OptionsProvider optionsProvider;
 
   /**
-   * Underlying time helper.
+   * Underlying time context.
    */
-  protected final TimeHelper timeHelper;
+  protected final TimeContext timeContext;
 
   /**
    * Underlying plug-in console for logging.
@@ -173,7 +173,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     this.optionsLoader = this.resolveOptionsLoader(configuration, context);
     this.optionsProvider = this.setupOptionsProvider();
 
-    this.timeHelper = configuration.timeHelper(context).or(SystemTimeHelper.instance);
+    this.timeContext = configuration.timeContext(context).or(SystemTimeContext.instance);
     this.pluginConsole = configuration.pluginConsole(context).or(defaultInstance().getConsole());
 
     this.displayExecutor = configuration.diplayExecutor(context).or(defaultSynchronous());
@@ -292,7 +292,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     public Optional<OptionsLoader> optionsLoader(C context);
 
-    public Optional<TimeHelper> timeHelper(C context);
+    public Optional<TimeContext> timeContext(C context);
 
     public Optional<PluginConsole> pluginConsole(C context);
 
@@ -332,7 +332,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     private final Function<? super C, ? extends OptionsLoader> optionsLoader;
 
-    private final Function<? super C, ? extends TimeHelper> timeHelper;
+    private final Function<? super C, ? extends TimeContext> timeContext;
 
     private final Function<? super C, ? extends PluginConsole> pluginConsole;
 
@@ -366,7 +366,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       this.activityPreferences = requireNonNull(builder.activityPreferences);
       this.listenerPreferences = requireNonNull(builder.listenerPreferences);
       this.optionsLoader = requireNonNull(builder.optionsLoader);
-      this.timeHelper = requireNonNull(builder.timeHelper);
+      this.timeContext = requireNonNull(builder.timeContext);
       this.pluginConsole = requireNonNull(builder.pluginConsole);
       this.diplayExecutor = requireNonNull(builder.diplayExecutor);
       this.sharedExecutor = requireNonNull(builder.sharedExecutor);
@@ -390,7 +390,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
       Function<? super C, ? extends OptionsLoader> optionsLoader = constant(null);
 
-      Function<? super C, ? extends TimeHelper> timeHelper = constant(null);
+      Function<? super C, ? extends TimeContext> timeContext = constant(null);
 
       Function<? super C, ? extends PluginConsole> pluginConsole = constant(null);
 
@@ -462,12 +462,12 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
         return this.asSubtype();
       }
 
-      public final B timeHelper(final TimeHelper helper) {
-        return this.timeHelper(constant(requireNonNull(helper)));
+      public final B timeContext(final TimeContext context) {
+        return this.timeContext(constant(requireNonNull(context)));
       }
 
-      public final B timeHelper(final Function<? super C, ? extends TimeHelper> relation) {
-        this.timeHelper = requireNonNull(relation);
+      public final B timeContext(final Function<? super C, ? extends TimeContext> relation) {
+        this.timeContext = requireNonNull(relation);
 
         return this.asSubtype();
       }
@@ -611,8 +611,8 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return fromNullable((OptionsLoader) this.optionsLoader.apply(context));
     }
 
-    public final Optional<TimeHelper> timeHelper(final C context) {
-      return fromNullable((TimeHelper) this.timeHelper.apply(context));
+    public final Optional<TimeContext> timeContext(final C context) {
+      return fromNullable((TimeContext) this.timeContext.apply(context));
     }
 
     public final Optional<PluginConsole> pluginConsole(final C context) {
@@ -931,7 +931,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
    */
   protected void onOptionsReload() {}
 
-  public interface TimeHelper {
+  public interface TimeContext {
     public long currentTime();
 
     public TimeSource wallTimeSource();
@@ -941,7 +941,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     public Ticker elapsedTimeTicker();
   }
 
-  private enum SystemTimeHelper implements TimeHelper {
+  private enum SystemTimeContext implements TimeContext {
     instance;
 
     public long currentTime() {
@@ -967,19 +967,19 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   }
 
   protected final long currentTime() {
-    return this.timeHelper.currentTime();
+    return this.timeContext.currentTime();
   }
 
   protected final TimeSource wallTimeSource() {
-    return this.timeHelper.wallTimeSource();
+    return this.timeContext.wallTimeSource();
   }
 
   protected final Stopwatch createStopwatch() {
-    return this.timeHelper.createStopwatch();
+    return this.timeContext.createStopwatch();
   }
 
   protected final Ticker elapsedTimeTicker() {
-    return this.timeHelper.elapsedTimeTicker();
+    return this.timeContext.elapsedTimeTicker();
   }
 
   @Override
@@ -1337,7 +1337,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       AnyStructuredData data = new AnyStructuredData();
 
       data.put(key("optionsLoader"), ObjectData.of(listener.optionsLoader));
-      data.put(key("timeHelper"), ObjectData.of(listener.timeHelper));
+      data.put(key("timeContext"), ObjectData.of(listener.timeContext));
       data.put(key("pluginConsole"), ObjectData.of(listener.pluginConsole));
       data.put(key("displayExecutor"), ObjectData.of(listener.displayExecutor));
       data.put(key("sharedExecutor"), ObjectData.of(listener.sharedExecutor));
@@ -1648,7 +1648,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     throw new IllegalArgumentException(format("%s: unable to get options for %s scope", this, scope));
   }
 
-  public final TimeHelper getTimeHelper() {
-    return this.timeHelper;
+  public final TimeContext getTimeContext() {
+    return this.timeContext;
   }
 }
