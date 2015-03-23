@@ -76,7 +76,7 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
     ITextViewer viewer = Editors.getTextViewer(editor);
     IDocument document = Editors.getDocument(viewer);
 
-    if (viewer != null && document != null) {
+    if (viewer != null) {
       synchronized (this.fixes) {
         if (!this.fixes.containsKey(viewer)) {
           TextInputChangeFix fix = new TextInputChangeFix();
@@ -87,7 +87,7 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
         }
       }
 
-      this.add(document);
+      Hooks.addNonNull(DocumentHook.this, document);
     }
   }
 
@@ -100,13 +100,13 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
       synchronized (this.fixes) {
         TextInputChangeFix fix = this.fixes.remove(viewer);
 
-        viewer.removeTextInputListener(fix);
+        if (fix != null) {
+          viewer.removeTextInputListener(fix);
+        }
       }
     }
 
-    if (document != null) {
-      this.remove(document);
-    }
+    Hooks.removeNonNull(DocumentHook.this, document);
   }
 
   public void editorActivated(final IEditorReference reference) {}
