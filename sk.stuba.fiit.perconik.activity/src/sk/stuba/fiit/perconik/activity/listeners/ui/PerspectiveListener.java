@@ -10,7 +10,6 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PerspectiveDescriptorSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -28,9 +27,13 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class PerspectiveListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
+  // TODO document lifecycle: click eclipse start, click open perspective B, deactivate(A), activate(B), open(B),
+  // click close B, deactivate(B), activate(A), close(B)
+
+  // TODO SAVE does not work, even for debug listener
+
   public PerspectiveListener() {}
 
   enum Action implements CommonEventListener.Action {
@@ -90,8 +93,8 @@ public final class PerspectiveListener extends CommonEventListener implements sk
 
     PerspectiveDescriptorSerializer serializer = new PerspectiveDescriptorSerializer();
 
-    data.put(key("before"), serializer.serialize(before));
-    data.put(key("after"), serializer.serialize(after));
+    data.put(key("perspective", "before"), serializer.serialize(before));
+    data.put(key("perspective", "after"), serializer.serialize(after));
 
     putPageIdentity(data, page);
 
