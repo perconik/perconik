@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui;
 
+import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
@@ -9,7 +10,6 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartReferenceSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.ACTIVATE;
@@ -21,8 +21,10 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.H
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.OPEN;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.SHOW;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
 
 /**
  * TODO
@@ -30,8 +32,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.2.alpha")
 public final class PartListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PartListener {
   public PartListener() {}
 
@@ -70,10 +71,10 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
     }
   }
 
-  static Event build(final long time, final Action action, final IWorkbenchPartReference reference) {
+  Event build(final long time, final Action action, final IWorkbenchPartReference reference) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("reference"), new PartReferenceSerializer(TREE).serialize(reference));
+    data.put(key("reference"), this.execute(asDisplayTask(new PartReferenceSerializer(TREE), reference)));
 
     IWorkbenchPage page = reference.getPage();
     IWorkbenchWindow window = page.getWorkbenchWindow();
@@ -83,14 +84,28 @@ public final class PartListener extends CommonEventListener implements sk.stuba.
     data.put(key("reference", "page", "window"), identifyObject(window));
     data.put(key("reference", "page", "window", "workbench"), identifyObject(workbench));
 
+    IPerspectiveDescriptor descriptor = page.getPerspective();
+
+    data.put(key("reference", "page", "perspective"), identifyObject(descriptor));
+
     return data;
   }
 
   void process(final long time, final Action action, final IWorkbenchPartReference reference) {
-    this.send(action.getPath(), build(time, action, reference));
+    this.send(action.getPath(), this.build(time, action, reference));
   }
 
   void execute(final long time, final Action action, final IWorkbenchPartReference reference) {
+    IWorkbench workbench = reference.getPage().getWorkbenchWindow().getWorkbench();
+
+    if (workbench.isClosing() && (action == CLOSE || action == DEACTIVATE || action == HIDE)) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: workbench is closing, %1$s %s event not processed", "part", toLowerCase(action));
+      }
+
+      return;
+    }
+
     this.execute(new Runnable() {
       public void run() {
         process(time, action, reference);

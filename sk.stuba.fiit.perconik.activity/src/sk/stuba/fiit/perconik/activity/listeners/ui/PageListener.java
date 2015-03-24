@@ -8,15 +8,16 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PageListener.Action.ACTIVATE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PageListener.Action.CLOSE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PageListener.Action.OPEN;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
 
 /**
  * TODO
@@ -24,8 +25,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.2.alpha")
 public final class PageListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PageListener {
   public PageListener() {}
 
@@ -54,10 +54,10 @@ public final class PageListener extends CommonEventListener implements sk.stuba.
     }
   }
 
-  static Event build(final long time, final Action action, final IWorkbenchPage page) {
+  Event build(final long time, final Action action, final IWorkbenchPage page) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("page"), new PageSerializer(TREE).serialize(page));
+    data.put(key("page"), this.execute(asDisplayTask(new PageSerializer(TREE), page)));
 
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
@@ -69,10 +69,20 @@ public final class PageListener extends CommonEventListener implements sk.stuba.
   }
 
   void process(final long time, final Action action, final IWorkbenchPage page) {
-    this.send(action.getPath(), build(time, action, page));
+    this.send(action.getPath(), this.build(time, action, page));
   }
 
   void execute(final long time, final Action action, final IWorkbenchPage page) {
+    IWorkbenchWindow window = page.getWorkbenchWindow();
+
+    if ((window.getWorkbench().isClosing() || window.getShell() == null) && action == CLOSE) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: workbench is closing, %1$s %s event not processed", "page", toLowerCase(action));
+      }
+
+      return;
+    }
+
     this.execute(new Runnable() {
       public void run() {
         process(time, action, page);

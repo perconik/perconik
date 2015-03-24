@@ -20,7 +20,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.4.alpha")
 public final class WorkbenchListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
   public WorkbenchListener() {}
 
@@ -60,6 +60,9 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   }
 
   void execute(final long time, final Action action, final IWorkbench workbench) {
+    // execute in display task as soon as possible,
+    // otherwise some widgets may be disposed
+
     this.execute(DisplayTask.of(new Runnable() {
       public void run() {
         process(time, action, workbench);
@@ -70,9 +73,7 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   public void postStartup(final IWorkbench workbench) {
     final long time = this.currentTime();
 
-    if (WorkbenchState.STARTUP.canProcess()) {
-      this.execute(time, STARTUP, workbench);
-    }
+    this.execute(time, STARTUP, workbench);
   }
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
@@ -84,8 +85,6 @@ public final class WorkbenchListener extends CommonEventListener implements sk.s
   public void postShutdown(final IWorkbench workbench) {
     final long time = this.currentTime();
 
-    if (WorkbenchState.SHUTDOWN.canProcess()) {
-      this.execute(time, SHUTDOWN, workbench);
-    }
+    this.execute(time, SHUTDOWN, workbench);
   }
 }
