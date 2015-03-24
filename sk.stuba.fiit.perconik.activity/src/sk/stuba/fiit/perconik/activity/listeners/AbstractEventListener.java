@@ -2,6 +2,7 @@ package sk.stuba.fiit.perconik.activity.listeners;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
+import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -156,7 +158,7 @@ public abstract class AbstractEventListener implements Listener {
     private final Stopwatch watch;
 
     @GuardedBy("lock")
-    private LinkedList<E> sequence;
+    private List<E> sequence;
 
     final long window;
 
@@ -168,6 +170,7 @@ public abstract class AbstractEventListener implements Listener {
 
     ContinuousEventWindow(final Stopwatch watch, final long window, final TimeUnit unit) {
       this.watch = requireNonNull(watch);
+      this.sequence = newLinkedList();
 
       checkArgument(window >= 0L);
 
@@ -177,7 +180,7 @@ public abstract class AbstractEventListener implements Listener {
 
     @GuardedBy("lock")
     private void startWatchAndClearContinuousEvents() {
-      assert !this.watch.isRunning() && this.sequence == null;
+      assert !this.watch.isRunning() && this.sequence.isEmpty();
 
       this.sequence = newLinkedList();
 
@@ -186,11 +189,11 @@ public abstract class AbstractEventListener implements Listener {
 
     @GuardedBy("lock")
     private void stopWatchAndProcessContinuousEvents() {
-      assert this.watch.isRunning() && this.sequence != null;
+      assert this.watch.isRunning() && !this.sequence.isEmpty();
 
       this.process(newLinkedList(this.sequence));
 
-      this.sequence = null;
+      this.sequence = emptyList();
 
       this.watch.stop();
     }
@@ -210,11 +213,13 @@ public abstract class AbstractEventListener implements Listener {
 
     final void synchronizedPush(final E event) {
       synchronized (this.lock) {
-        if (!this.accept(newLinkedList(this.sequence), event)) {
+        LinkedList<E> sequence = newLinkedList(this.sequence);
+
+        if (!this.accept(sequence, event)) {
           return;
         }
 
-        if (this.watch.isRunning() && !this.continuous(newLinkedList(this.sequence), event)) {
+        if (this.watch.isRunning() && !this.continuous(sequence, event)) {
           this.watchRunningButEventsNotContinouous();
           this.stopWatchAndProcessContinuousEvents();
         }
