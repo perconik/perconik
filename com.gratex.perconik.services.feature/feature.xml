@@ -32,6 +32,10 @@ THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRES
       <update label="PerConIK Eclipse Integration" url="http://perconik.github.io/update"/>
    </url>
 
+   <includes
+         id="com.gratex.perconik.uaca.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.gratex.perconik.services"
          download-size="0"

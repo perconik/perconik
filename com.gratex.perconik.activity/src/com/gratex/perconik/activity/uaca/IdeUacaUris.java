@@ -2,20 +2,22 @@ package com.gratex.perconik.activity.uaca;
 
 import javax.ws.rs.core.UriBuilder;
 
+import com.gratex.perconik.uaca.GenericUacaEventConstants;
+
 public final class IdeUacaUris {
   private static final String application = "eclipse";
 
-  private final static String base = "http://perconik.gratex.com/useractivity/enum";
+  private final static UriBuilder baseTypeUri = UriBuilder.fromUri(GenericUacaEventConstants.EVENT_TYPE_URI_PREFIX).path("enum");
 
-  private final static UriBuilder codeElementTypeUri = UriBuilder.fromPath(base).path("idecodeelementevent/codeelementtype").fragment("{type}");
+  private final static UriBuilder codeElementTypeUri = baseTypeUri.clone().path("idecodeelementevent/codeelementtype").fragment("{type}");
 
-  private final static UriBuilder stateChangeTypeUri = UriBuilder.fromPath(base).path("idestatechangeevent/statetype/{idename}").fragment("{type}");
+  private final static UriBuilder stateChangeTypeUri = baseTypeUri.clone().path("idestatechangeevent/statetype/{idename}").fragment("{type}");
 
-  private final static UriBuilder lookinTypeUri = UriBuilder.fromPath(base).path("idefindevent/lookintype/{idename}").fragment("{type}");
+  private final static UriBuilder lookinTypeUri = baseTypeUri.clone().path("idefindevent/lookintype/{idename}").fragment("{type}");
 
-  private final static UriBuilder patternSyntaxTypeUri = UriBuilder.fromPath(base).path("idefindevent/patternsyntaxtype/{idename}").fragment("{type}");
+  private final static UriBuilder patternSyntaxTypeUri = baseTypeUri.clone().path("idefindevent/patternsyntaxtype/{idename}").fragment("{type}");
 
-  private final static UriBuilder rcsServerTypeUri = UriBuilder.fromPath(base).path("rcsserver/type").fragment("{type}");
+  private final static UriBuilder rcsServerTypeUri = baseTypeUri.clone().path("rcsserver/type").fragment("{type}");
 
   private IdeUacaUris() {}
 

@@ -4,9 +4,9 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class IdeEventData {
-  public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+import com.gratex.perconik.uaca.GenericUacaEventConstants;
 
+public class IdeEventData {
   private Date timestamp;
 
   /**
@@ -76,7 +76,7 @@ public class IdeEventData {
     this.solutionName = solutionName;
   }
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = TIMESTAMP_FORMAT)
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = GenericUacaEventConstants.TIMESTAMP_PATTERN)
   public Date getTimestamp() {
     return this.timestamp;
   }
