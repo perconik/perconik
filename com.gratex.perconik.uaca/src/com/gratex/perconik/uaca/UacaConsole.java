@@ -57,10 +57,6 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
   private String hook(final String message) {
     Date time = new Date(this.source.read());
 
-    if (this.options.isEventLogEnabled()) {
-      this.notice(message);
-    }
-
     return builder().format(format, time).appendln().lines(message).toString();
   }
 
