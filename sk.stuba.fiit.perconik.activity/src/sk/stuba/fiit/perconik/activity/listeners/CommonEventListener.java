@@ -133,7 +133,7 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), false);
 
-    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), false);
+    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), true);
 
     public static final OptionAccessor<Boolean> listenerStatistics = option(booleanParser(), join(qualifier, "listener", "statistics"), true);
 
@@ -157,7 +157,7 @@ public abstract class CommonEventListener extends RegularEventListener {
   }
 
   public static final class StandardLoggingOptionsSchema {
-    public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), true);
+    public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), false);
 
     private StandardLoggingOptionsSchema() {}
   }
