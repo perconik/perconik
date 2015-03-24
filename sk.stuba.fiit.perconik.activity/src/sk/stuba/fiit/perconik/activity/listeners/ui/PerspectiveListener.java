@@ -9,6 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PerspectiveDescriptorSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
@@ -18,6 +19,8 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.A
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.Action.DEACTIVATE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.Action.OPEN;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.Action.SAVE;
+import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
@@ -27,7 +30,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.1.alpha")
+@Version("0.0.2.alpha")
 public final class PerspectiveListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   // TODO document lifecycle: click eclipse start, click open perspective B, deactivate(A), activate(B), open(B),
   // click close B, deactivate(B), activate(A), close(B)
@@ -65,11 +68,11 @@ public final class PerspectiveListener extends CommonEventListener implements sk
     }
   }
 
-  private static void putPageIdentity(final StructuredContent content, final IWorkbenchPage page) {
+  private void put(final StructuredContent content, final IWorkbenchPage page) {
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
 
-    content.put(key("page"), identifyObject(page));
+    content.put(key("page"), this.execute(asDisplayTask(new PageSerializer(TREE), page)));
     content.put(key("page", "window"), identifyObject(window));
     content.put(key("page", "window", "workbench"), identifyObject(workbench));
 
@@ -78,17 +81,17 @@ public final class PerspectiveListener extends CommonEventListener implements sk
     content.put(key("page", "perspective"), identifyObject(descriptor));
   }
 
-  static Event build(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
+  Event build(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor descriptor) {
     Event data = LocalEvent.of(time, action.getName());
 
     data.put(key("perspective"), new PerspectiveDescriptorSerializer().serialize(descriptor));
 
-    putPageIdentity(data, page);
+    this.put(data, page);
 
     return data;
   }
 
-  static Event build(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {
+  Event build(final long time, final Action action, final IWorkbenchPage page, final IPerspectiveDescriptor before, final IPerspectiveDescriptor after) {
     Event data = LocalEvent.of(time, action.getName());
 
     PerspectiveDescriptorSerializer serializer = new PerspectiveDescriptorSerializer();
@@ -96,7 +99,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
     data.put(key("perspective", "before"), serializer.serialize(before));
     data.put(key("perspective", "after"), serializer.serialize(after));
 
-    putPageIdentity(data, page);
+    this.put(data, page);
 
     return data;
   }
