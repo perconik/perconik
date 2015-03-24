@@ -182,7 +182,7 @@ public abstract class CommonEventListener extends RegularEventListener {
       try {
         return StoreWrapper.of(new UacaProxy(listener.getUacaOptions(), listener.wallTimeSource()));
       } catch (Exception failure) {
-        listener.log.error(failure, "%s: unable to open UACA proxy", listener);
+        listener.pluginConsole.error(failure, "%s: unable to open UACA proxy", listener);
 
         throw propagate(failure);
       }
@@ -198,7 +198,6 @@ public abstract class CommonEventListener extends RegularEventListener {
     instance;
 
     public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
-      // TODO use log
       listener.pluginConsole.error(failure, "%s: unable to save data at %s using UACA proxy", listener, path);
     }
 
@@ -212,7 +211,6 @@ public abstract class CommonEventListener extends RegularEventListener {
     instance;
 
     static void report(final RegularEventListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
-      // TODO use log
       listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
     }
 
@@ -245,7 +243,6 @@ public abstract class CommonEventListener extends RegularEventListener {
       try {
         listener.persistenceStore.close();
       } catch (Exception failure) {
-        // TODO use log
         listener.pluginConsole.error(failure, "%s: unable to close UACA proxy", listener);
       }
     }
@@ -361,22 +358,22 @@ public abstract class CommonEventListener extends RegularEventListener {
 
     @Override
     protected void watchRunningButEventsNotContinouous() {
-      if (this.listener.log.isEnabled()) {
-        this.listener.log.print("%s: watch running but %s events not continuous", this.identifier, this.identifier);
+      if (this.log.isEnabled()) {
+        this.log.print("%s: watch running but %s events not continuous", this.identifier, this.identifier);
       }
     }
 
     @Override
     protected void watchNotRunning() {
-      if (this.listener.log.isEnabled()) {
-        this.listener.log.print("%s: watch not running", this.identifier);
+      if (this.log.isEnabled()) {
+        this.log.print("%s: watch not running", this.identifier);
       }
     }
 
     @Override
     protected void watchWindowNotElapsed(final long delta) {
-      if (this.listener.log.isEnabled()) {
-        this.listener.log.print("%s: window not elapsed, %d < %d %s", this.identifier, delta, this.window, this.unit.toString().toLowerCase());
+      if (this.log.isEnabled()) {
+        this.log.print("%s: window not elapsed, %d < %d %s", this.identifier, delta, this.window, this.unit.toString().toLowerCase());
       }
     }
   }
