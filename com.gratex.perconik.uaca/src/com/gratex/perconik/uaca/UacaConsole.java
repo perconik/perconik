@@ -57,7 +57,7 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
   private String hook(final String message) {
     Date time = new Date(this.source.read());
 
-    return builder().format(format, time).appendln().lines(message).toString();
+    return builder().format(format, time).append(" ").append(message).toString();
   }
 
   @Override
