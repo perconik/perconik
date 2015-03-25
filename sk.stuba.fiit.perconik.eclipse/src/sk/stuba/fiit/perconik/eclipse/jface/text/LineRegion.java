@@ -42,7 +42,7 @@ public final class LineRegion {
 
       String delimeter = document.getLineDelimiter(endLine);
 
-      if (delimeter != null && text.endsWith(delimeter)) {
+      if (delimeter != null && text.endsWith(delimeter) && endOffset != 0) {
         endLine ++;
         endOffset = 0;
       }
