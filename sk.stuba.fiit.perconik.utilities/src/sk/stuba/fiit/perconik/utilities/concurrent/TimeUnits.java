@@ -13,6 +13,14 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public final class TimeUnits {
   private TimeUnits() {}
 
+  public static TimeUnit lesser(final TimeUnit a, final TimeUnit b) {
+    return a.compareTo(b) < 0 ? a : b;
+  }
+
+  public static TimeUnit greater(final TimeUnit a, final TimeUnit b) {
+    return a.compareTo(b) > 0 ? a : b;
+  }
+
   public static TimeUnit fromString(final String unit) {
     switch (unit) {
       case "ns":
