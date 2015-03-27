@@ -9,7 +9,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
@@ -42,7 +42,7 @@ public final class TextPasteListener extends AbstractTextListener implements Com
     this.paste = CommandExecutionStateHandler.of(PASTE.getIdentifier());
   }
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     PASTE("org.eclipse.ui.edit.paste");
 
     private final String identifier;

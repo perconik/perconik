@@ -8,7 +8,7 @@ import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorProxySerializer;
 import sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractRefactoringListener extends CommonEventListener {
+abstract class AbstractRefactoringListener extends ActivityEventListener {
   AbstractRefactoringListener() {}
 
   static final void put(final StructuredContent content, final RefactoringEventProxy<?> event) {

@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.CoreException;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.resource.ProjectSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -49,7 +49,7 @@ public final class ProjectListener extends AbstractResourceListener {
   // TODO test DELETE vs REMOVE
   // TODO figure out how to distinguish CREATE from ADD
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     ADD,
 
     REMOVE,

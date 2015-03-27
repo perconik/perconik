@@ -13,7 +13,7 @@ import org.eclipse.jdt.core.ElementChangedEvent;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.java.JavaElements;
@@ -90,7 +90,7 @@ public final class CompilationUnitDifferenceListener extends AbstractNodeDiffere
     }
   }
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     ;
 
     private final String name;

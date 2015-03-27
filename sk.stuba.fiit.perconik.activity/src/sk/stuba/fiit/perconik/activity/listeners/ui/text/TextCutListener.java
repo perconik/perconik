@@ -8,7 +8,7 @@ import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
@@ -27,7 +27,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener.
 public final class TextCutListener extends AbstractTextCopyListener implements CommandExecutionListener {
   public TextCutListener() {}
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     CUT("org.eclipse.ui.edit.cut");
 
     private final String identifier;

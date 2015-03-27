@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PerspectiveDescriptorSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -31,7 +31,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @since 1.0
  */
 @Version("0.0.2.alpha")
-public final class PerspectiveListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
+public final class PerspectiveListener extends ActivityEventListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   // TODO document lifecycle: click eclipse start, click open perspective B, deactivate(A), activate(B), open(B),
   // click close B, deactivate(B), activate(A), close(B)
 
@@ -39,7 +39,7 @@ public final class PerspectiveListener extends CommonEventListener implements sk
 
   public PerspectiveListener() {}
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     OPEN,
 
     CLOSE,

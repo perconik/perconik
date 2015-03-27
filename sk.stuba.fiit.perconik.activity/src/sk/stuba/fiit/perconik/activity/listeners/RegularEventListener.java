@@ -1095,7 +1095,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     this.runtimeStatistics.injectTime.addAndGet(delta);
   }
 
-  protected static abstract class ContinuousEventProcessor<L extends CommonEventListener, E> extends AbstractEventListener.ContinuousEventProcessor<E> {
+  protected static abstract class ContinuousEventProcessor<L extends ActivityEventListener, E> extends AbstractEventListener.ContinuousEventProcessor<E> {
     protected final L listener;
 
     protected ContinuousEventProcessor(final L listener, final long pause, final long window, final TimeUnit unit) {

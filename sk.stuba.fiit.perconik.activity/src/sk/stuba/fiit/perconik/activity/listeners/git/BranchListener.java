@@ -7,7 +7,7 @@ import org.eclipse.jgit.lib.Repository;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
@@ -41,7 +41,7 @@ public final class BranchListener extends AbstractReferenceListener {
     this.cache.load(repository, newHashSet(toNames(getBranches(repository))));
   }
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     CREATE,
 
     DELETE;

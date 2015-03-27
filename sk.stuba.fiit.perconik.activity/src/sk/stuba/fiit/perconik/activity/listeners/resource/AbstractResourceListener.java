@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.activity.listeners.resource;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.core.listeners.ResourceListener;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -15,7 +15,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractResourceListener extends CommonEventListener implements ResourceListener {
+abstract class AbstractResourceListener extends ActivityEventListener implements ResourceListener {
   AbstractResourceListener() {}
 
   static final void put(final StructuredContent content, final ResourceEventVisit visit) {

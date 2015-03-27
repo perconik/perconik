@@ -16,7 +16,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
@@ -59,7 +59,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     this.processor = new TextDocumentEventProcessor(this);
   }
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     DIFFERENCE;
 
     private final String name;

@@ -6,7 +6,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -26,10 +26,10 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  * @since 1.0
  */
 @Version("0.0.2.alpha")
-public final class PageListener extends CommonEventListener implements sk.stuba.fiit.perconik.core.listeners.PageListener {
+public final class PageListener extends ActivityEventListener implements sk.stuba.fiit.perconik.core.listeners.PageListener {
   public PageListener() {}
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     OPEN,
 
     CLOSE,

@@ -6,7 +6,7 @@ import org.eclipse.debug.core.ILaunch;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
 import sk.stuba.fiit.perconik.activity.serializers.debug.LaunchSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -28,10 +28,10 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  */
 @Version("0.0.0.alpha")
 @Unsupported
-public final class LaunchListener extends CommonEventListener implements LaunchesListener {
+public final class LaunchListener extends ActivityEventListener implements LaunchesListener {
   public LaunchListener() {}
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityEventListener.Action {
     ADD,
 
     REMOVE,
