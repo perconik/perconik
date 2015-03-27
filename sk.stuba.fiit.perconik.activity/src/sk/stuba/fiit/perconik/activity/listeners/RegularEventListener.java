@@ -41,7 +41,6 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeUnits;
-import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.configuration.ForwardingOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
@@ -670,8 +669,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
 
     public static final class Builder<C> extends AbstractBuilder<Builder<C>, C> {
-      public Builder() {
-      }
+      public Builder() {}
 
       @Override
       protected Builder<C> asSubtype() {
@@ -1097,19 +1095,16 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     this.runtimeStatistics.injectTime.addAndGet(delta);
   }
 
-  protected static abstract class ContinuousEventWindow<L extends CommonEventListener, E> extends AbstractEventListener.ContinuousEventWindow<E> {
+  protected static abstract class ContinuousEventProcessor<L extends CommonEventListener, E> extends AbstractEventListener.ContinuousEventProcessor<E> {
     protected final L listener;
 
-    protected ContinuousEventWindow(final L listener, final TimeValue window) {
-      this(listener, window.duration(), window.unit());
-    }
-
-    protected ContinuousEventWindow(final L listener, final long window, final TimeUnit unit) {
-      super(listener.createStopwatch(), window, unit);
+    protected ContinuousEventProcessor(final L listener, final long pause, final long window, final TimeUnit unit) {
+      super(listener.createStopwatch(), pause, window, unit);
 
       this.listener = requireNonNull(listener);
     }
 
+    @Override
     public final void push(final E event) {
       this.listener.execute(new Runnable() {
         public void run() {
@@ -1118,6 +1113,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       });
     }
 
+    @Override
     public final void flush() {
       this.listener.execute(new Runnable() {
         public void run() {
@@ -1580,8 +1576,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     public static final class Builder extends AbstractBuilder<Builder> {
       Logger logger;
 
-      protected Builder() {
-      }
+      protected Builder() {}
 
       @Override
       protected Builder asSubtype() {

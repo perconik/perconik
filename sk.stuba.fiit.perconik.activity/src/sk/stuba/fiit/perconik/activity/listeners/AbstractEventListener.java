@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -24,12 +26,12 @@ import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
-import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Lists.newLinkedList;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_UNREGISTER;
@@ -151,7 +153,9 @@ public abstract class AbstractEventListener implements Listener {
 
   protected abstract Map<String, InternalProbe<?>> internalProbeMappings();
 
-  static abstract class ContinuousEventWindow<E> {
+  public static abstract class ContinuousEventProcessor<E> {
+    private static final long UNSET = -1L;
+
     private final Object lock = new Object();
 
     @GuardedBy("lock")
@@ -160,40 +164,46 @@ public abstract class AbstractEventListener implements Listener {
     @GuardedBy("lock")
     private List<E> sequence;
 
+    @GuardedBy("lock")
+    private long total;
+
+    final long pause;
+
     final long window;
 
     final TimeUnit unit;
 
-    ContinuousEventWindow(final Stopwatch watch, final TimeValue window) {
-      this(watch, window.duration(), window.unit());
-    }
-
-    ContinuousEventWindow(final Stopwatch watch, final long window, final TimeUnit unit) {
+    protected ContinuousEventProcessor(final Stopwatch watch, final long pause, final long window, final TimeUnit unit) {
       this.watch = requireNonNull(watch);
       this.sequence = newLinkedList();
+      this.total = UNSET;
 
+      checkArgument(pause >= 0L);
       checkArgument(window >= 0L);
 
+      this.pause = pause;
       this.window = window;
       this.unit = requireNonNull(unit);
     }
 
     @GuardedBy("lock")
     private void startWatchAndClearContinuousEvents() {
-      assert !this.watch.isRunning() && this.sequence.isEmpty();
+      assert !this.watch.isRunning() && this.sequence.isEmpty() && this.total == UNSET;
 
       this.sequence = newLinkedList();
+      this.total = 0L;
 
       this.watch.reset().start();
     }
 
     @GuardedBy("lock")
     private void stopWatchAndProcessContinuousEvents() {
-      assert this.watch.isRunning() && !this.sequence.isEmpty();
+      assert this.watch.isRunning() && !this.sequence.isEmpty() && this.total != UNSET;
 
       this.process(newLinkedList(this.sequence));
 
       this.sequence = emptyList();
+      this.total = UNSET;
 
       this.watch.stop();
     }
@@ -205,11 +215,9 @@ public abstract class AbstractEventListener implements Listener {
       this.watch.reset().start();
     }
 
-    public final LinkedList<E> sequence() {
-      synchronized (this.lock) {
-        return newLinkedList(this.sequence);
-      }
-    }
+    public abstract void push(E event);
+
+    public abstract void flush();
 
     final void synchronizedPush(final E event) {
       synchronized (this.lock) {
@@ -230,16 +238,18 @@ public abstract class AbstractEventListener implements Listener {
         }
 
         long delta = this.watch.elapsed(this.unit);
+        long total = this.total += delta;
 
         this.sequence.add(event);
 
-        if (delta < this.window) {
-          this.watchWindowNotElapsed(delta);
+        if (delta < this.pause && total < this.window) {
+          this.watchTimeNotElapsed(delta);
           this.restartWatch();
 
           return;
         }
 
+        this.watchTimeElapsedAndAboutToProcess(delta);
         this.stopWatchAndProcessContinuousEvents();
       }
     }
@@ -252,28 +262,107 @@ public abstract class AbstractEventListener implements Listener {
       }
     }
 
+    public final LinkedList<E> sequence() {
+      synchronized (this.lock) {
+        return newLinkedList(this.sequence);
+      }
+    }
+
+    /**
+     * Returns maximal between continuous event pause.
+     */
+    public final long pause() {
+      return this.pause;
+    }
+
+    /**
+     * Returns maximal continuous event time window.
+     */
+    public final long window() {
+      return this.window;
+    }
+
+    /**
+     * Returns common time unit for both pause and window.
+     */
+    public final TimeUnit unit() {
+      return this.unit;
+    }
+
+    /**
+     * Determines whether specified event is suitable for further processing.
+     *
+     * @param sequence possibly empty continuous event sequence
+     * @param event potential event to further process
+     */
     protected abstract boolean accept(LinkedList<E> sequence, E event);
 
+    /**
+     * Determines whether specified event is continuous to the event sequence.
+     *
+     * @param sequence non-empty continuous event sequence
+     * @param event potential event sequence candidate
+     */
     protected abstract boolean continuous(LinkedList<E> sequence, E event);
 
+    /**
+     * Processes continuous event sequence.
+     *
+     * @param sequence non-empty continuous event sequence
+     */
     protected abstract void process(LinkedList<E> sequence);
 
     /**
-     * Invoked when watch running but events not continuous.
+     * Returns total elapsed window time.
+     *
+     * @throws IllegalStateException if watch not running
+     */
+    protected final long total() {
+      long total = this.total;
+
+      checkState(total >= 0L);
+
+      return total;
+    }
+
+    /**
+     * Invoked when watch running but events not continuous so about to be processed.
      */
     protected void watchRunningButEventsNotContinouous() {}
 
     /**
-     * Invoked when watch not running.
+     * Invoked when watch not running and about to start.
      */
     protected void watchNotRunning() {}
 
     /**
-     * Invoked when window not elapsed.
+     * Invoked when watch time not elapsed and about to wait for next event push.
      *
-     * @param delta elapsed time delta
+     * @param delta elapsed time delta lesser than pause
      */
-    protected void watchWindowNotElapsed(final long delta) {}
+    protected void watchTimeNotElapsed(final long delta) {}
+
+    /**
+     * Invoked when watch time elapsed and continuous events about to be processed.
+     *
+     * @param delta elapsed time delta greater or equal to pause
+     */
+    protected void watchTimeElapsedAndAboutToProcess(final long delta) {}
+
+    @Override
+    public String toString() {
+      return this.toStringHelper().toString();
+    }
+
+    protected ToStringHelper toStringHelper() {
+      ToStringHelper helper = Objects.toStringHelper(this);
+
+      helper.add("pause", this.pause);
+      helper.add("window", this.window);
+      helper.add("unit", this.unit);
+
+      return helper;
+    }
   }
 
   protected abstract void inject(String path, Event data) throws Exception;

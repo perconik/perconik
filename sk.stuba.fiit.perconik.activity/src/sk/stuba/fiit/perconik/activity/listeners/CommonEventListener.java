@@ -25,14 +25,17 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeUnits;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Throwables.propagate;
@@ -340,40 +343,55 @@ public abstract class CommonEventListener extends RegularEventListener {
     return builder.substring(0, builder.length() - 1);
   }
 
-  protected static abstract class ContinuousEventWindow<L extends CommonEventListener, E> extends RegularEventListener.ContinuousEventWindow<L, E> {
+  protected static abstract class ContinuousEventProcessor<L extends CommonEventListener, E> extends RegularEventListener.ContinuousEventProcessor<L, E> {
     protected final String identifier;
 
     protected final Log log;
 
-    protected ContinuousEventWindow(final L listener, final String identifier, final TimeValue window) {
-      this(listener, identifier, window.duration(), window.unit());
-    }
-
-    protected ContinuousEventWindow(final L listener, final String identifier, final long window, final TimeUnit unit) {
-      super(listener, window, unit);
+    protected ContinuousEventProcessor(final L listener, final String identifier, final long pause, final long window, final TimeUnit unit) {
+      super(listener, pause, window, unit);
 
       this.identifier = requireNonNullOrEmpty(identifier);
       this.log = this.listener.log;
     }
 
+    protected ContinuousEventProcessor(final L listener, final String identifier, final TimeValue pause, final TimeValue window) {
+      this(listener, identifier, pause.durationToMillis(), window.durationToMillis(), MILLISECONDS);
+    }
+
+    protected String formatElapsedTime(final long delta, final long total) {
+      return format("pause %s, window %s", formatTimeComparison(delta, this.pause), formatTimeComparison(total, this.window));
+    }
+
+    protected String formatTimeComparison(final long value, final long limit) {
+      return format("%d %s %d%s", value, value < limit ? "<" : ">=", limit, TimeUnits.toString(this.unit));
+    }
+
     @Override
     protected void watchRunningButEventsNotContinouous() {
       if (this.log.isEnabled()) {
-        this.log.print("%s: watch running but %s events not continuous", this.identifier, this.identifier);
+        this.log.print("%s: watch running but %1$s events not continuous -> process", this.identifier);
       }
     }
 
     @Override
     protected void watchNotRunning() {
       if (this.log.isEnabled()) {
-        this.log.print("%s: watch not running", this.identifier);
+        this.log.print("%s: watch not running -> clear", this.identifier);
       }
     }
 
     @Override
-    protected void watchWindowNotElapsed(final long delta) {
+    protected void watchTimeNotElapsed(final long delta) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: window not elapsed, %d < %d %s", this.identifier, delta, this.window, this.unit.toString().toLowerCase());
+        this.log.print("%s: %s -> wait", this.identifier, this.formatElapsedTime(delta, this.total()));
+      }
+    }
+
+    @Override
+    protected void watchTimeElapsedAndAboutToProcess(final long delta) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: %s -> process", this.identifier, this.formatElapsedTime(delta, this.total()));
       }
     }
   }
