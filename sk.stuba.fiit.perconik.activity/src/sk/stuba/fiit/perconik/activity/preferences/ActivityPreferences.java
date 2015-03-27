@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.activity.preferences;
 
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener.StandardLoggingOptionsSchema;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener.StandardProbingOptionsSchema;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardLoggingOptionsSchema;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardProbingOptionsSchema;
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;

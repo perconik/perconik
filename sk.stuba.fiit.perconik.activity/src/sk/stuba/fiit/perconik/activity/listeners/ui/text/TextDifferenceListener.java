@@ -16,7 +16,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
@@ -41,7 +41,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.1.alpha")
+@Version("0.0.2.alpha")
 public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, FileBufferListener {
   static final TimeValue differenceEventPause = of(500, MILLISECONDS);
 
@@ -53,13 +53,13 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
   static final long cacheMaximumSize = 128;
 
-  private final TextDocumentEventProcessor processor;
+  private final TextDocumentEvents events;
 
   public TextDifferenceListener() {
-    this.processor = new TextDocumentEventProcessor(this);
+    this.events = new TextDocumentEvents(this);
   }
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     DIFFERENCE;
 
     private final String name;
@@ -97,10 +97,10 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     this.send(action.getPath(), this.build(time, action, editor, view, before, after));
   }
 
-  static final class TextDocumentEventProcessor extends ContinuousEventProcessor<TextDifferenceListener, TextDocumentEvent> {
+  static final class TextDocumentEvents extends ContinuousEvent<TextDifferenceListener, TextDocumentEvent> {
     final Cache<IDocument, String> cache;
 
-    TextDocumentEventProcessor(final TextDifferenceListener listener) {
+    TextDocumentEvents(final TextDifferenceListener listener) {
       super(listener, "difference", differenceEventPause, differenceEventWindow);
 
       CacheBuilder<Object, Object> builder = newBuilder();
@@ -221,19 +221,19 @@ public final class TextDifferenceListener extends AbstractTextListener implement
   }
 
   void handleUnsentDifferenceOnUnregistration() {
-    this.processor.flush();
+    this.events.flush();
   }
 
   public void documentAboutToBeChanged(final DocumentEvent event) {
     IDocument document = event.getDocument();
 
-    this.processor.update(document, document.get(), false);
+    this.events.update(document, document.get(), false);
   }
 
   public void documentChanged(final DocumentEvent event) {
     final long time = this.currentTime();
 
-    this.processor.push(new TextDocumentEvent(time, event));
+    this.events.push(new TextDocumentEvent(time, event));
   }
 
   public void bufferCreated(final IFileBuffer buffer) {
@@ -277,7 +277,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
       return;
     }
 
-    this.processor.push(new TextDocumentEvent(time, document, true));
+    this.events.push(new TextDocumentEvent(time, document, true));
   }
 
   public void underlyingFileMoved(final IFileBuffer buffer, final IPath path) {

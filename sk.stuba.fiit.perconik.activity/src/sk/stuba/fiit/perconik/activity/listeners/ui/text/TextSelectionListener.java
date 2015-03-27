@@ -7,9 +7,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
@@ -17,8 +16,9 @@ import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
@@ -29,15 +29,16 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.2.alpha")
 public final class TextSelectionListener extends AbstractTextListener implements sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
-  static final TimeValue selectionEventWindow = of(500, MILLISECONDS);
+  static final TimeValue selectionEventPause = of(500, MILLISECONDS);
 
-  private final TextSelectionEventProcessor processor;
+  static final TimeValue selectionEventWindow = of(10, SECONDS);
+
+  private final TextSelectionEvents events;
 
   public TextSelectionListener() {
-    this.processor = new TextSelectionEventProcessor(this);
+    this.events = new TextSelectionEvents(this);
 
     PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentSelectionHandler") {
       public void run() {
@@ -46,7 +47,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
     });
   }
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityListener.Action {
     SELECT;
 
     private final String name;
@@ -93,22 +94,26 @@ public final class TextSelectionListener extends AbstractTextListener implements
     this.send(action.getPath(), this.build(time, action, editor, view, region, selection));
   }
 
-  static final class TextSelectionEventProcessor extends ContinuousEventWindow<TextSelectionListener, TextSelectionEvent> {
-    TextSelectionEventProcessor(final TextSelectionListener listener) {
-      super(listener, "selection", selectionEventWindow);
+  static final class TextSelectionEvents extends ContinuousEvent<TextSelectionListener, TextSelectionEvent> {
+    TextSelectionEvents(final TextSelectionListener listener) {
+      super(listener, "selection", selectionEventPause, selectionEventWindow);
     }
 
     @Override
     protected boolean accept(final LinkedList<TextSelectionEvent> sequence, final TextSelectionEvent event) {
       boolean empty = event.isSelectionTextEmpty();
 
+      if (sequence.isEmpty()) {
+        return !empty;
+      }
+
       TextSelectionEvent last = sequence.getLast();
 
-      if (empty && (last == null || last.part != event.part)) {
+      if (empty && last.part != event.part) {
         return false;
       }
 
-      if (last != null && last.contentEquals(event)) {
+      if (last.contentEquals(event)) {
         return false;
       }
 
@@ -135,7 +140,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
   }
 
   void handleUnsentSelectionOnUnregistration() {
-    this.processor.flush();
+    this.events.flush();
   }
 
   public void selectionChanged(final IWorkbenchPart part, final ITextSelection selection) {
@@ -145,6 +150,6 @@ public final class TextSelectionListener extends AbstractTextListener implements
       return;
     }
 
-    this.processor.push(new TextSelectionEvent(time, part, selection));
+    this.events.push(new TextSelectionEvent(time, part, selection));
   }
 }

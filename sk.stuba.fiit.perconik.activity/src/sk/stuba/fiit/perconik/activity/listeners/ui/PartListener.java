@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartReferenceSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -33,10 +33,10 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  * @since 1.0
  */
 @Version("0.0.2.alpha")
-public final class PartListener extends ActivityEventListener implements sk.stuba.fiit.perconik.core.listeners.PartListener {
+public final class PartListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.PartListener {
   public PartListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     OPEN,
 
     CLOSE,

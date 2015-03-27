@@ -9,7 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.EditorSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractTextListener extends ActivityEventListener {
+abstract class AbstractTextListener extends ActivityListener {
   AbstractTextListener() {}
 
   final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view) {

@@ -5,7 +5,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.WindowSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -26,12 +26,12 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  * @since 1.0
  */
 @Version("0.0.3.alpha")
-public final class WindowListener extends ActivityEventListener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
+public final class WindowListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
   // TODO looks like open / close are never fired by eclipse
 
   public WindowListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     OPEN,
 
     CLOSE,

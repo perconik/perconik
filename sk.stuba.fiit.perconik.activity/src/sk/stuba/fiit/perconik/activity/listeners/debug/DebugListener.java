@@ -6,7 +6,7 @@ import org.eclipse.debug.core.DebugEvent;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
@@ -29,10 +29,10 @@ import static sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind.valueOf;
  */
 @Version("0.0.0.alpha")
 @Unsupported
-public final class DebugListener extends ActivityEventListener implements DebugEventsListener {
+public final class DebugListener extends ActivityListener implements DebugEventsListener {
   public DebugListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     CREATE,
 
     SUSPEND,

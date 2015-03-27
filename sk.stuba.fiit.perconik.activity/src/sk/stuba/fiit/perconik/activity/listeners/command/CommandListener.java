@@ -10,7 +10,7 @@ import org.eclipse.core.commands.common.NotDefinedException;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.command.CommandSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -35,10 +35,10 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
  */
 @Version("0.0.0.alpha")
 @Unsupported
-public final class CommandListener extends ActivityEventListener implements CommandExecutionListener {
+public final class CommandListener extends ActivityListener implements CommandExecutionListener {
   public CommandListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     EXECUTE;
 
     private final String name;

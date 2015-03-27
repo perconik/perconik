@@ -8,7 +8,7 @@ import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
@@ -28,7 +28,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
 public final class TextCopyListener extends AbstractTextCopyListener implements CommandExecutionListener {
   public TextCopyListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     COPY("org.eclipse.ui.edit.copy");
 
     private final String identifier;

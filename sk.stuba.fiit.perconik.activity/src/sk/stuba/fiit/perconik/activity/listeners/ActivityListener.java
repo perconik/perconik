@@ -18,7 +18,7 @@ import sk.stuba.fiit.perconik.activity.data.platform.StandardPlatformProbe;
 import sk.stuba.fiit.perconik.activity.data.process.StandardProcessProbe;
 import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.activity.events.Event;
-import sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.Builder;
+import sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.Builder;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
@@ -42,11 +42,11 @@ import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Maps.newHashMap;
 
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_REGISTER;
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_UNREGISTER;
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_REGISTER;
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
-import static sk.stuba.fiit.perconik.activity.listeners.RegularEventListener.RegularConfiguration.builder;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_REGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_UNREGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_REGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_UNREGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.builder;
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
@@ -67,19 +67,19 @@ import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.boole
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ActivityEventListener extends RegularEventListener {
+public abstract class ActivityListener extends RegularListener {
   static final float sharedExecutorPoolSizeScalingFactor = defaultPoolSizeScalingFactor();
 
   static final float probeExecutorPoolSizeScalingFactor = 0.5f;
 
   protected static final String qualifier = join(PLUGIN_ID, "preferences");
 
-  private static final Builder<ActivityEventListener> sharedBuilder;
+  private static final Builder<ActivityListener> sharedBuilder;
 
   static {
     sharedBuilder = builder();
 
-    sharedBuilder.contextType(ActivityEventListener.class);
+    sharedBuilder.contextType(ActivityListener.class);
 
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
@@ -109,13 +109,13 @@ public abstract class ActivityEventListener extends RegularEventListener {
   /**
    * Constructor for use by subclasses.
    */
-  protected ActivityEventListener() {
+  protected ActivityListener() {
     super(newConfiguration());
 
     this.log = new Log(this);
   }
 
-  static final Configuration<ActivityEventListener> newConfiguration() {
+  static final Configuration<ActivityListener> newConfiguration() {
     return sharedBuilder.build();
   }
 
@@ -165,10 +165,10 @@ public abstract class ActivityEventListener extends RegularEventListener {
     private StandardLoggingOptionsSchema() {}
   }
 
-  private enum UacaConsoleSupplierFunction implements Function<ActivityEventListener, PluginConsole> {
+  private enum UacaConsoleSupplierFunction implements Function<ActivityListener, PluginConsole> {
     instance;
 
-    public PluginConsole apply(@Nonnull final ActivityEventListener listener) {
+    public PluginConsole apply(@Nonnull final ActivityListener listener) {
       return UacaConsole.create(listener.getUacaOptions(), listener.wallTimeSource());
     }
 
@@ -178,10 +178,10 @@ public abstract class ActivityEventListener extends RegularEventListener {
     }
   }
 
-  private enum UacaProxySupplierFunction implements Function<ActivityEventListener, PersistenceStore> {
+  private enum UacaProxySupplierFunction implements Function<ActivityListener, PersistenceStore> {
     instance;
 
-    public PersistenceStore apply(final ActivityEventListener listener) {
+    public PersistenceStore apply(final ActivityListener listener) {
       try {
         return StoreWrapper.of(new UacaProxy(listener.getUacaOptions(), listener.wallTimeSource()));
       } catch (Exception failure) {
@@ -200,7 +200,7 @@ public abstract class ActivityEventListener extends RegularEventListener {
   private enum UacaProxySaveFailureHandler implements SendFailureHandler {
     instance;
 
-    public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
+    public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
       listener.pluginConsole.error(failure, "%s: unable to save data at %s using UACA proxy", listener, path);
     }
 
@@ -213,23 +213,23 @@ public abstract class ActivityEventListener extends RegularEventListener {
   private enum UacaLoggingRegisterFailureHandler implements RegisterFailureHandler {
     instance;
 
-    static void report(final RegularEventListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
+    static void report(final RegularListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
       listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
     }
 
-    public void preRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void preRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       report(listener, PRE_REGISTER, task, failure);
     }
 
-    public void postRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void postRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       report(listener, POST_REGISTER, task, failure);
     }
 
-    public void preUnregisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void preUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       report(listener, PRE_UNREGISTER, task, failure);
     }
 
-    public void postUnregisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void postUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       report(listener, POST_UNREGISTER, task, failure);
     }
 
@@ -242,7 +242,7 @@ public abstract class ActivityEventListener extends RegularEventListener {
   private enum UacaProxyDisposalHook implements DisposalHook {
     instance;
 
-    public void onDispose(final RegularEventListener listener) {
+    public void onDispose(final RegularListener listener) {
       try {
         listener.persistenceStore.close();
       } catch (Exception failure) {
@@ -269,10 +269,10 @@ public abstract class ActivityEventListener extends RegularEventListener {
     return builder.build();
   }
 
-  private enum ProbingOptionsFilterSupplierFunction implements Function<ActivityEventListener, Predicate<Entry<String, Probe<?>>>> {
+  private enum ProbingOptionsFilterSupplierFunction implements Function<ActivityListener, Predicate<Entry<String, Probe<?>>>> {
     instance;
 
-    public Predicate<Entry<String, Probe<?>>> apply(@Nonnull final ActivityEventListener listener) {
+    public Predicate<Entry<String, Probe<?>>> apply(@Nonnull final ActivityListener listener) {
       return new ProbingOptionsFilter(listener);
     }
 
@@ -283,13 +283,13 @@ public abstract class ActivityEventListener extends RegularEventListener {
   }
 
   private static final class ProbingOptionsFilter implements Predicate<Entry<String, Probe<?>>> {
-    private final ActivityEventListener listener;
+    private final ActivityListener listener;
 
     private final Options options;
 
     private final Map<String, OptionAccessor<Boolean>> accessors;
 
-    ProbingOptionsFilter(final ActivityEventListener listener) {
+    ProbingOptionsFilter(final ActivityListener listener) {
       this.listener = requireNonNull(listener);
       this.accessors = requireNonNull(listener.probeKeyToOptionAccessor());
       this.options = requireNonNull(listener.effectiveOptions());
@@ -343,19 +343,19 @@ public abstract class ActivityEventListener extends RegularEventListener {
     return builder.substring(0, builder.length() - 1);
   }
 
-  protected static abstract class ContinuousEventProcessor<L extends ActivityEventListener, E> extends RegularEventListener.ContinuousEventProcessor<L, E> {
+  protected static abstract class ContinuousEvent<L extends ActivityListener, E> extends RegularListener.ContinuousEvent<L, E> {
     protected final String identifier;
 
     protected final Log log;
 
-    protected ContinuousEventProcessor(final L listener, final String identifier, final long pause, final long window, final TimeUnit unit) {
+    protected ContinuousEvent(final L listener, final String identifier, final long pause, final long window, final TimeUnit unit) {
       super(listener, pause, window, unit);
 
       this.identifier = requireNonNullOrEmpty(identifier);
       this.log = this.listener.log;
     }
 
-    protected ContinuousEventProcessor(final L listener, final String identifier, final TimeValue pause, final TimeValue window) {
+    protected ContinuousEvent(final L listener, final String identifier, final TimeValue pause, final TimeValue window) {
       this(listener, identifier, pause.durationToMillis(), window.durationToMillis(), MILLISECONDS);
     }
 
@@ -401,7 +401,7 @@ public abstract class ActivityEventListener extends RegularEventListener {
 
     private final PluginConsole console;
 
-    Log(final ActivityEventListener listener) {
+    Log(final ActivityListener listener) {
       this.options = requireNonNull(listener.effectiveOptions());
       this.console = requireNonNull(listener.pluginConsole);
     }

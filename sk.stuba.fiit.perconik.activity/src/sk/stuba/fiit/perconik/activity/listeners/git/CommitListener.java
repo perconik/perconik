@@ -5,7 +5,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.CommitSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -34,7 +34,7 @@ public final class CommitListener extends AbstractReferenceListener {
     this.cache.load(repository, getFullBranch(repository), getMostRecentCommit(repository).getName());
   }
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     COMMIT;
 
     private final String name;

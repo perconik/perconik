@@ -5,7 +5,7 @@ import org.eclipse.jdt.junit.model.ITestRunSession;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.test.TestCaseElementSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -25,10 +25,10 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  */
 @Version("0.0.0.alpha")
 @Unsupported
-public final class TestCaseListener extends ActivityEventListener implements TestRunListener {
+public final class TestCaseListener extends ActivityListener implements TestRunListener {
   public TestCaseListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     START,
 
     FINISH;

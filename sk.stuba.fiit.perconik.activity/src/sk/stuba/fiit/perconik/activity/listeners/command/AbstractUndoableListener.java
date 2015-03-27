@@ -6,7 +6,7 @@ import org.eclipse.core.commands.operations.OperationHistoryEvent;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.command.UndoableOperationSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.runtime.StatusSerializer;
 import sk.stuba.fiit.perconik.core.listeners.OperationHistoryListener;
@@ -22,7 +22,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractUndoableListener extends ActivityEventListener implements OperationHistoryListener {
+abstract class AbstractUndoableListener extends ActivityListener implements OperationHistoryListener {
   AbstractUndoableListener() {}
 
   static final void put(final StructuredContent content, final OperationHistoryEvent event) {

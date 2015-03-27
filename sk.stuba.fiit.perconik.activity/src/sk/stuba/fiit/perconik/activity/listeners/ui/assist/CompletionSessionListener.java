@@ -5,7 +5,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -23,10 +23,10 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  */
 @Version("0.0.0.alpha")
 @Unsupported
-public final class CompletionSessionListener extends ActivityEventListener implements sk.stuba.fiit.perconik.core.listeners.CompletionListener {
+public final class CompletionSessionListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.CompletionListener {
   public CompletionSessionListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     START,
 
     RESTART,

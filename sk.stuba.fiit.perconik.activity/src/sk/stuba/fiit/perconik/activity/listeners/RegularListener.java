@@ -79,8 +79,8 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.empty
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class RegularEventListener extends AbstractEventListener implements ScopedConfigurable {
-  // TODO maybe make GenericEventListener out of this class
+public abstract class RegularListener extends AbstractListener implements ScopedConfigurable {
+  // TODO maybe make GenericListener out of this class
 
   static final String internalProbeKeyPrefix = "meta";
 
@@ -154,18 +154,18 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   /**
    * Constructor for use by subclasses.
    */
-  protected <C> RegularEventListener(final Configuration<C> configuration) {
+  protected <C> RegularListener(final Configuration<C> configuration) {
     this(configuration, ofInstance((C) null));
   }
 
   /**
    * Constructor for use by subclasses.
    */
-  protected <C> RegularEventListener(final Configuration<C> configuration, final C context) {
+  protected <C> RegularListener(final Configuration<C> configuration, final C context) {
     this(configuration, ofInstance(context));
   }
 
-  private <C> RegularEventListener(final Configuration<C> configuration, final Supplier<? extends C> supplier) {
+  private <C> RegularListener(final Configuration<C> configuration, final Supplier<? extends C> supplier) {
     final C context = this.resolveContext(configuration, supplier);
 
     // note that field initialization order is significant
@@ -740,9 +740,9 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   }
 
   public interface OptionsLoader {
-    public Options loadDefaultOptions(RegularEventListener listener);
+    public Options loadDefaultOptions(RegularListener listener);
 
-    public Options loadCustomOptions(RegularEventListener listener);
+    public Options loadCustomOptions(RegularListener listener);
   }
 
   public static final class UpdatingOptionsLoader implements OptionsLoader {
@@ -752,7 +752,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
     final OptionsReloader reloader;
 
-    private UpdatingOptionsLoader(final RegularEventListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
+    private UpdatingOptionsLoader(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
       this.defaults = requireNonNull(defaults);
       this.custom = requireNonNull(custom);
 
@@ -761,7 +761,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       this.hook(listener);
     }
 
-    private void hook(final RegularEventListener listener) {
+    private void hook(final RegularListener listener) {
       final IEclipsePreferences defaults = this.defaults.node();
       final IEclipsePreferences custom = this.custom.node();
 
@@ -782,14 +782,14 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       });
     }
 
-    public static UpdatingOptionsLoader of(final RegularEventListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
+    public static UpdatingOptionsLoader of(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
       return new UpdatingOptionsLoader(listener, defaults, custom);
     }
 
     private static final class OptionsReloader implements IPreferenceChangeListener {
-      private final RegularEventListener listener;
+      private final RegularListener listener;
 
-      OptionsReloader(final RegularEventListener listener) {
+      OptionsReloader(final RegularListener listener) {
         this.listener = requireNonNull(listener);
       }
 
@@ -802,11 +802,11 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
     }
 
-    public Options loadDefaultOptions(final RegularEventListener listener) {
+    public Options loadDefaultOptions(final RegularListener listener) {
       return this.defaults.getListenerDefaultOptions();
     }
 
-    public Options loadCustomOptions(final RegularEventListener listener) {
+    public Options loadCustomOptions(final RegularListener listener) {
       return this.custom.getListenerConfigurationData().get(listener.getClass());
     }
 
@@ -838,7 +838,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       this.effective = new EffectiveOptions();
     }
 
-    private static Options ensureLoaded(final LoadingOptions options, final OptionsLoader loader, final RegularEventListener listener) {
+    private static Options ensureLoaded(final LoadingOptions options, final OptionsLoader loader, final RegularListener listener) {
       if (options.delegate == null) {
         options.load(loader, listener);
       }
@@ -846,7 +846,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       return options;
     }
 
-    void reload(final OptionsLoader loader, final RegularEventListener listener) {
+    void reload(final OptionsLoader loader, final RegularListener listener) {
       requireNonNull(loader);
       requireNonNull(listener);
 
@@ -865,7 +865,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
         return untrusted != null ? MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())) : emptyOptions();
       }
 
-      abstract void load(OptionsLoader loader, RegularEventListener listener);
+      abstract void load(OptionsLoader loader, RegularListener listener);
 
       @Override
       protected final Options delegate() {
@@ -882,7 +882,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       DefaultOptions() {}
 
       @Override
-      void load(final OptionsLoader loader, final RegularEventListener listener) {
+      void load(final OptionsLoader loader, final RegularListener listener) {
         // TODO to secure defaults one needs to properly listen to UacaPreferences.getShared() changes
 
         Options defaults = ActivityPreferences.getDefault().getListenerDefaultOptions();
@@ -895,7 +895,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       CustomOptions() {}
 
       @Override
-      void load(final OptionsLoader loader, final RegularEventListener listener) {
+      void load(final OptionsLoader loader, final RegularListener listener) {
         this.delegate = secure(loader.loadCustomOptions(listener));
       }
     }
@@ -904,20 +904,20 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       EffectiveOptions() {}
 
       @Override
-      final void load(final OptionsLoader loader, final RegularEventListener listener) {
+      final void load(final OptionsLoader loader, final RegularListener listener) {
         this.delegate = compound(listener.defaultOptions(), listener.customOptions());
       }
     }
 
-    Options defaultOptions(final OptionsLoader loader, final RegularEventListener listener) {
+    Options defaultOptions(final OptionsLoader loader, final RegularListener listener) {
       return ensureLoaded(this.defaults, loader, listener);
     }
 
-    Options customOptions(final OptionsLoader loader, final RegularEventListener listener) {
+    Options customOptions(final OptionsLoader loader, final RegularListener listener) {
       return ensureLoaded(this.custom, loader, listener);
     }
 
-    Options effectiveOptions(final OptionsLoader loader, final RegularEventListener listener) {
+    Options effectiveOptions(final OptionsLoader loader, final RegularListener listener) {
       return ensureLoaded(this.effective, loader, listener);
     }
   }
@@ -996,31 +996,31 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
   // TODO parametrize?
   public interface RegisterFailureHandler {
-    public void preRegisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+    public void preRegisterFailure(RegularListener listener, Runnable task, Exception failure);
 
-    public void postRegisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+    public void postRegisterFailure(RegularListener listener, Runnable task, Exception failure);
 
-    public void preUnregisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+    public void preUnregisterFailure(RegularListener listener, Runnable task, Exception failure);
 
-    public void postUnregisterFailure(RegularEventListener listener, Runnable task, Exception failure);
+    public void postUnregisterFailure(RegularListener listener, Runnable task, Exception failure);
   }
 
   private enum PropagatingRegisterFailureHandler implements RegisterFailureHandler {
     instance;
 
-    public void preRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void preRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       propagate(failure);
     }
 
-    public void postRegisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void postRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       propagate(failure);
     }
 
-    public void preUnregisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void preUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       propagate(failure);
     }
 
-    public void postUnregisterFailure(final RegularEventListener listener, final Runnable task, final Exception failure) {
+    public void postUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
       propagate(failure);
     }
 
@@ -1095,10 +1095,10 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     this.runtimeStatistics.injectTime.addAndGet(delta);
   }
 
-  protected static abstract class ContinuousEventProcessor<L extends ActivityEventListener, E> extends AbstractEventListener.ContinuousEventProcessor<E> {
+  protected static abstract class ContinuousEvent<L extends ActivityListener, E> extends AbstractListener.ContinuousEvent<E> {
     protected final L listener;
 
-    protected ContinuousEventProcessor(final L listener, final long pause, final long window, final TimeUnit unit) {
+    protected ContinuousEvent(final L listener, final long pause, final long window, final TimeUnit unit) {
       super(listener.createStopwatch(), pause, window, unit);
 
       this.listener = requireNonNull(listener);
@@ -1209,13 +1209,13 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
   //TODO parametrize with L
   public interface SendFailureHandler {
-    public void handleSendFailure(RegularEventListener listener, String path, Event data, Exception failure);
+    public void handleSendFailure(RegularListener listener, String path, Event data, Exception failure);
   }
 
   private enum PropagatingSendFailureHandler implements SendFailureHandler {
     instance;
 
-    public void handleSendFailure(final RegularEventListener listener, final String path, final Event data, final Exception failure) {
+    public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
       propagate(failure);
     }
 
@@ -1285,7 +1285,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     protected AbstractInstanceProbe() {}
 
     public Content get() {
-      return ObjectData.of(RegularEventListener.this);
+      return ObjectData.of(RegularListener.this);
     }
   }
 
@@ -1304,7 +1304,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
 
     public Content get() {
-      ListMultimap<RegistrationHook, Runnable> tasks = ArrayListMultimap.create(RegularEventListener.this.registerHooks);
+      ListMultimap<RegistrationHook, Runnable> tasks = ArrayListMultimap.create(RegularListener.this.registerHooks);
 
       AnyStructuredData data = new AnyStructuredData();
 
@@ -1328,7 +1328,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     protected AbstractConfigurationProbe() {}
 
     public Content get() {
-      RegularEventListener listener = RegularEventListener.this;
+      RegularListener listener = RegularListener.this;
 
       AnyStructuredData data = new AnyStructuredData();
 
@@ -1359,7 +1359,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     protected AbstractOptionsProbe() {}
 
     public Content get() {
-      RegularEventListener listener = RegularEventListener.this;
+      RegularListener listener = RegularListener.this;
 
       AnyStructuredData data = new AnyStructuredData();
 
@@ -1382,7 +1382,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     protected AbstractStatisticsProbe() {}
 
     public Content get() {
-      RuntimeStatistics statistics = RegularEventListener.this.runtimeStatistics;
+      RuntimeStatistics statistics = RegularListener.this.runtimeStatistics;
 
       AnyStructuredData data = new AnyStructuredData();
 
@@ -1421,7 +1421,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
 
   // TODO parametrize?
   public interface DisposalHook {
-    public void onDispose(RegularEventListener listener) throws Exception;
+    public void onDispose(RegularListener listener) throws Exception;
   }
 
   public static abstract class AbstractDisposalHook implements DisposalHook {
@@ -1487,16 +1487,16 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       public abstract DisposalHook build();
     }
 
-    public void onDispose(final RegularEventListener listener) throws Exception {
+    public void onDispose(final RegularListener listener) throws Exception {
       this.tryToClosePersistenceStore(listener);
       this.tryToShutdownSharedExecutor(listener);
       this.tryToDisposeDisplayExecutor(listener);
       this.tryToCloseLoggerConsole(listener);
     }
 
-    protected abstract void report(RegularEventListener listener, final Object subject, final Exception failure);
+    protected abstract void report(RegularListener listener, final Object subject, final Exception failure);
 
-    protected final void tryToClosePersistenceStore(final RegularEventListener listener) {
+    protected final void tryToClosePersistenceStore(final RegularListener listener) {
       if (this.closePersistenceStore) {
         try {
           listener.persistenceStore.close();
@@ -1506,7 +1506,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
     }
 
-    protected final void tryToShutdownSharedExecutor(final RegularEventListener listener) {
+    protected final void tryToShutdownSharedExecutor(final RegularListener listener) {
       if (this.shutdownSharedExecutor) {
         try {
           listener.sharedExecutor.shutdown();
@@ -1516,7 +1516,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
     }
 
-    protected final void tryToDisposeDisplayExecutor(final RegularEventListener listener) {
+    protected final void tryToDisposeDisplayExecutor(final RegularListener listener) {
       if (this.disposeDisplayExecutor) {
         try {
           listener.displayExecutor.getDisplay().dispose();
@@ -1526,7 +1526,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
       }
     }
 
-    protected final void tryToCloseLoggerConsole(final RegularEventListener listener) {
+    protected final void tryToCloseLoggerConsole(final RegularListener listener) {
       if (this.closeLoggerConsole) {
         try {
           listener.pluginConsole.close();
@@ -1556,7 +1556,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
   private enum IgnoringDisposalHook implements DisposalHook {
     instance;
 
-    public void onDispose(final RegularEventListener listener) {}
+    public void onDispose(final RegularListener listener) {}
 
     @Override
     public String toString() {
@@ -1600,7 +1600,7 @@ public abstract class RegularEventListener extends AbstractEventListener impleme
     }
 
     @Override
-    protected void report(final RegularEventListener listener, final Object subject, final Exception failure) {
+    protected void report(final RegularListener listener, final Object subject, final Exception failure) {
       this.logger.log(Level.INFO, listener + ": Unable to dispose " + subject, failure);
     }
   }

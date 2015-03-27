@@ -6,8 +6,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.IEditorPart;
 
-import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.ViewportListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
@@ -18,7 +17,7 @@ import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.PRE_UNREGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener.Action.VIEW;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
@@ -28,15 +27,16 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.2.alpha")
 public final class TextViewListener extends AbstractTextListener implements ViewportListener {
-  static final TimeValue viewEventWindow = of(500, MILLISECONDS);
+  static final TimeValue viewEventPause = of(500, MILLISECONDS);
 
-  private final TextViewEventProcessor processor;
+  static final TimeValue viewEventWindow = of(1000, MILLISECONDS);
+
+  private final TextViewEvents events;
 
   public TextViewListener() {
-    this.processor = new TextViewEventProcessor(this);
+    this.events = new TextViewEvents(this);
 
     PRE_UNREGISTER.add(this, new NamedRunnable(this.getClass(), "UnsentViewHandler") {
       public void run() {
@@ -45,7 +45,7 @@ public final class TextViewListener extends AbstractTextListener implements View
     });
   }
 
-  enum Action implements CommonEventListener.Action {
+  enum Action implements ActivityListener.Action {
     VIEW;
 
     private final String name;
@@ -79,9 +79,9 @@ public final class TextViewListener extends AbstractTextListener implements View
     this.send(action.getPath(), this.build(time, action, editor, view, region));
   }
 
-  static final class TextViewEventProcessor extends ContinuousEventWindow<TextViewListener, TextViewEvent> {
-    protected TextViewEventProcessor(final TextViewListener listener) {
-      super(listener, "view", viewEventWindow);
+  static final class TextViewEvents extends ContinuousEvent<TextViewListener, TextViewEvent> {
+    protected TextViewEvents(final TextViewListener listener) {
+      super(listener, "view", viewEventPause, viewEventPause);
     }
 
     @Override
@@ -109,12 +109,12 @@ public final class TextViewListener extends AbstractTextListener implements View
   }
 
   void handleUnsentViewOnUnregistration() {
-    this.processor.flush();
+    this.events.flush();
   }
 
   public void viewportChanged(final ITextViewer viewer, final int verticalOffset) {
     final long time = this.currentTime();
 
-    this.processor.push(new TextViewEvent(time, viewer, verticalOffset));
+    this.events.push(new TextViewEvent(time, viewer, verticalOffset));
   }
 }

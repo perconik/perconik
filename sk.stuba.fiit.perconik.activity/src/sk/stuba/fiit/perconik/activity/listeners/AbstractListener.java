@@ -34,7 +34,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Lists.newLinkedList;
 
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractEventListener.RegistrationHook.POST_UNREGISTER;
+import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_UNREGISTER;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
@@ -44,13 +44,13 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class AbstractEventListener implements Listener {
+public abstract class AbstractListener implements Listener {
   final ListMultimap<RegistrationHook, Runnable> registerHooks;
 
   /**
    * Constructor for use by subclasses.
    */
-  protected AbstractEventListener() {
+  protected AbstractListener() {
     this.registerHooks = LinkedListMultimap.create(RegistrationHook.values().length);
 
     Disposer.OnWorkbenchShutdown.activate(this);
@@ -64,33 +64,33 @@ public abstract class AbstractEventListener implements Listener {
   public enum RegistrationHook {
     PRE_REGISTER {
       @Override
-      void handle(final AbstractEventListener listener, final Runnable task, final Exception failure) {
+      void handle(final AbstractListener listener, final Runnable task, final Exception failure) {
         listener.preRegisterFailure(task, failure);
       }
     },
 
     POST_REGISTER {
       @Override
-      void handle(final AbstractEventListener listener, final Runnable task, final Exception failure) {
+      void handle(final AbstractListener listener, final Runnable task, final Exception failure) {
         listener.postRegisterFailure(task, failure);
       }
     },
 
     PRE_UNREGISTER {
       @Override
-      void handle(final AbstractEventListener listener, final Runnable task, final Exception failure) {
+      void handle(final AbstractListener listener, final Runnable task, final Exception failure) {
         listener.preUnregisterFailure(task, failure);
       }
     },
 
     POST_UNREGISTER {
       @Override
-      void handle(final AbstractEventListener listener, final Runnable task, final Exception failure) {
+      void handle(final AbstractListener listener, final Runnable task, final Exception failure) {
         listener.postUnregisterFailure(task, failure);
       }
     };
 
-    void on(final AbstractEventListener listener) {
+    void on(final AbstractListener listener) {
       for (Runnable task: listener.registerHooks.get(this)) {
         try {
           task.run();
@@ -100,13 +100,13 @@ public abstract class AbstractEventListener implements Listener {
       }
     }
 
-    abstract void handle(AbstractEventListener listener, Runnable task, Exception failure);
+    abstract void handle(AbstractListener listener, Runnable task, Exception failure);
 
-    public boolean add(final AbstractEventListener listener, final Runnable task) {
+    public boolean add(final AbstractListener listener, final Runnable task) {
       return listener.registerHooks.put(this, requireNonNull(task));
     }
 
-    public boolean remove(final AbstractEventListener listener, final Runnable task) {
+    public boolean remove(final AbstractListener listener, final Runnable task) {
       return listener.registerHooks.remove(this, requireNonNull(task));
     }
 
@@ -153,7 +153,7 @@ public abstract class AbstractEventListener implements Listener {
 
   protected abstract Map<String, InternalProbe<?>> internalProbeMappings();
 
-  public static abstract class ContinuousEventProcessor<E> {
+  public static abstract class ContinuousEvent<E> {
     private static final long UNSET = -1L;
 
     private final Object lock = new Object();
@@ -173,7 +173,7 @@ public abstract class AbstractEventListener implements Listener {
 
     final TimeUnit unit;
 
-    protected ContinuousEventProcessor(final Stopwatch watch, final long pause, final long window, final TimeUnit unit) {
+    protected ContinuousEvent(final Stopwatch watch, final long pause, final long window, final TimeUnit unit) {
       this.watch = requireNonNull(watch);
       this.sequence = newLinkedList();
       this.total = UNSET;
@@ -428,18 +428,18 @@ public abstract class AbstractEventListener implements Listener {
   private static abstract class Disposer {
     private static final Logger logger = Logger.getLogger(Disposer.class.getName());
 
-    final AbstractEventListener listener;
+    final AbstractListener listener;
 
-    Disposer(final AbstractEventListener listener) {
+    Disposer(final AbstractListener listener) {
       this.listener = requireNonNull(listener);
     }
 
     private static final class OnWorkbenchShutdown extends Disposer implements IWorkbenchListener {
-      private OnWorkbenchShutdown(final AbstractEventListener listener) {
+      private OnWorkbenchShutdown(final AbstractListener listener) {
         super(listener);
       }
 
-      static void activate(final AbstractEventListener listener) {
+      static void activate(final AbstractListener listener) {
         final OnWorkbenchShutdown disposer = new OnWorkbenchShutdown(listener);
 
         final Runnable activation = new NamedRunnable(OnWorkbenchShutdown.class) {
@@ -466,11 +466,11 @@ public abstract class AbstractEventListener implements Listener {
     }
 
     private static final class OnFinalUnregistration extends Disposer {
-      private OnFinalUnregistration(final AbstractEventListener listener) {
+      private OnFinalUnregistration(final AbstractListener listener) {
         super(listener);
       }
 
-      static void activate(final AbstractEventListener listener) {
+      static void activate(final AbstractListener listener) {
         final OnFinalUnregistration disposer = new OnFinalUnregistration(listener);
 
         final Runnable activation = new NamedRunnable(OnFinalUnregistration.class) {

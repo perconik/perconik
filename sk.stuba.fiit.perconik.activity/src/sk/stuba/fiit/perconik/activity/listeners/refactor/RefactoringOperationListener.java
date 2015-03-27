@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.RefactoringExecutionListener;
@@ -30,7 +30,7 @@ import static sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.Refact
 public final class RefactoringOperationListener extends AbstractRefactoringListener implements RefactoringExecutionListener {
   public RefactoringOperationListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     EXECUTE(PERFORMED),
 
     UNDO(UNDONE),

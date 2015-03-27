@@ -4,7 +4,7 @@ import org.eclipse.search.ui.SearchResultEvent;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -16,10 +16,10 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
  */
 @Version("0.0.0.alpha")
 @Unsupported
-public final class SearchResultListener extends ActivityEventListener implements sk.stuba.fiit.perconik.core.listeners.SearchResultListener {
+public final class SearchResultListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.SearchResultListener {
   public SearchResultListener() {}
 
-  enum Action implements ActivityEventListener.Action {
+  enum Action implements ActivityListener.Action {
     ADD,
 
     REMOVE,

@@ -2,10 +2,10 @@ package sk.stuba.fiit.perconik.activity.listeners.java.dom;
 
 import org.eclipse.jdt.core.ElementChangedEvent;
 
-import sk.stuba.fiit.perconik.activity.listeners.ActivityEventListener;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.listeners.JavaElementListener;
 
-abstract class AbstractJavaElementListener extends ActivityEventListener implements JavaElementListener {
+abstract class AbstractJavaElementListener extends ActivityListener implements JavaElementListener {
   AbstractJavaElementListener() {}
 
   abstract void process(final long time, final ElementChangedEvent event);
