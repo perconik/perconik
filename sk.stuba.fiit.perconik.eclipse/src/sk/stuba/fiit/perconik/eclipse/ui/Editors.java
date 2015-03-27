@@ -38,12 +38,24 @@ public final class Editors {
   private Editors() {}
 
   public static IEditorPart forTextViewer(final ITextViewer viewer) {
+    return forTextViewer(viewer, false);
+  }
+
+  public static IEditorPart forTextViewer(final ITextViewer viewer, final boolean restore) {
     for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
       for (IWorkbenchPage page: window.getPages()) {
         IEditorPart editor = page.getActiveEditor();
 
         if (viewer.equals(getTextViewer(editor))) {
           return editor;
+        }
+
+        for (IEditorReference reference: page.getEditorReferences()) {
+          editor = reference.getEditor(restore);
+
+          if (viewer.equals(getTextViewer(editor))) {
+            return editor;
+          }
         }
       }
     }
@@ -52,12 +64,24 @@ public final class Editors {
   }
 
   public static IEditorPart forDocument(final IDocument document) {
+    return forDocument(document, false);
+  }
+
+  public static IEditorPart forDocument(final IDocument document, final boolean restore) {
     for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
       for (IWorkbenchPage page: window.getPages()) {
         IEditorPart editor = page.getActiveEditor();
 
         if (document.equals(getDocument(editor))) {
           return editor;
+        }
+
+        for (IEditorReference reference: page.getEditorReferences()) {
+          editor = reference.getEditor(restore);
+
+          if (document.equals(getDocument(editor))) {
+            return editor;
+          }
         }
       }
     }
