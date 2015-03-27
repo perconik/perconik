@@ -108,7 +108,7 @@ public final class TimeValue implements Comparable<TimeValue>, Serializable {
   }
 
   public TimeValue convert(final TimeUnit unit) {
-    return new TimeValue(unit.convert(this.duration, this.unit), unit);
+    return this.unit == unit ? this : new TimeValue(unit.convert(this.duration, this.unit), unit);
   }
 
   public void timedWait(final Object o) throws InterruptedException {
@@ -158,7 +158,7 @@ public final class TimeValue implements Comparable<TimeValue>, Serializable {
   }
 
   public TimeValue duration(final long duration) {
-    return new TimeValue(duration, this.unit);
+    return this.duration == duration ? this : new TimeValue(duration, this.unit);
   }
 
   public long durationToNanos() {
@@ -194,7 +194,7 @@ public final class TimeValue implements Comparable<TimeValue>, Serializable {
   }
 
   public TimeValue unit(final TimeUnit unit) {
-    return of(this.duration, unit);
+    return this.unit == unit ? this : of(this.duration, unit);
   }
 
   @Override
@@ -203,30 +203,30 @@ public final class TimeValue implements Comparable<TimeValue>, Serializable {
   }
 
   public TimeValue toNanos() {
-    return of(this.durationToNanos(), NANOSECONDS);
+    return this.unit == NANOSECONDS ? this : of(this.durationToNanos(), NANOSECONDS);
   }
 
   public TimeValue toMicros() {
-    return of(this.durationToMicros(), MICROSECONDS);
+    return this.unit == MICROSECONDS ? this : of(this.durationToMicros(), MICROSECONDS);
   }
 
   public TimeValue toMillis() {
-    return of(this.durationToMillis(), MILLISECONDS);
+    return this.unit == MILLISECONDS ? this : of(this.durationToMillis(), MILLISECONDS);
   }
 
   public TimeValue toSeconds() {
-    return of(this.durationToSeconds(), SECONDS);
+    return this.unit == SECONDS ? this : of(this.durationToSeconds(), SECONDS);
   }
 
   public TimeValue toMinutes() {
-    return of(this.durationToMinutes(), MINUTES);
+    return this.unit == MINUTES ? this : of(this.durationToMinutes(), MINUTES);
   }
 
   public TimeValue toHours() {
-    return of(this.durationToHours(), HOURS);
+    return this.unit == HOURS ? this : of(this.durationToHours(), HOURS);
   }
 
   public TimeValue toDays() {
-    return of(this.durationToDays(), DAYS);
+    return this.unit == DAYS ? this : of(this.durationToDays(), DAYS);
   }
 }
