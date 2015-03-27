@@ -1,23 +1,24 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentMap;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalCause;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.CommonEventListener;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
@@ -25,12 +26,13 @@ import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static com.google.common.cache.CacheBuilder.newBuilder;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextDifferenceListener.Action.DIFFERENCE;
-import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferenceEditor;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
 /**
@@ -39,21 +41,22 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
-public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, EditorListener, FileBufferListener {
-  static final TimeValue differenceEventWindow = of(500, MILLISECONDS);
+@Version("0.0.1.alpha")
+public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, FileBufferListener {
+  static final TimeValue differenceEventPause = of(500, MILLISECONDS);
 
-  // TODO make options out of this:
+  static final TimeValue differenceEventWindow = of(10, SECONDS);
+
   static final int cacheConcurrencyLevel = 4;
 
   static final int cacheInitialCapacity = 16;
+
+  static final long cacheMaximumSize = 128;
 
   private final TextDocumentEventProcessor processor;
 
   public TextDifferenceListener() {
     this.processor = new TextDocumentEventProcessor(this);
-
   }
 
   enum Action implements CommonEventListener.Action {
@@ -80,8 +83,8 @@ public final class TextDifferenceListener extends AbstractTextListener implement
   Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final String before, final String after) {
     Event data = this.build(time, action, editor, view);
 
-    data.put(key("before"), before);
-    data.put(key("after"), after);
+    data.put(key("text", "before"), before);
+    data.put(key("text", "after"), after);
 
     return data;
   }
@@ -94,20 +97,64 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     this.send(action.getPath(), this.build(time, action, editor, view, before, after));
   }
 
-  static final class TextDocumentEventProcessor extends ContinuousEventWindow<TextDifferenceListener, TextDocumentEvent> {
+  static final class TextDocumentEventProcessor extends ContinuousEventProcessor<TextDifferenceListener, TextDocumentEvent> {
     final Cache<IDocument, String> cache;
 
     TextDocumentEventProcessor(final TextDifferenceListener listener) {
-      super(listener, "difference", differenceEventWindow);
+      super(listener, "difference", differenceEventPause, differenceEventWindow);
 
       CacheBuilder<Object, Object> builder = newBuilder();
 
       builder.concurrencyLevel(cacheConcurrencyLevel);
       builder.initialCapacity(cacheInitialCapacity);
+      builder.maximumSize(cacheMaximumSize);
       builder.ticker(this.listener.getTimeContext().elapsedTimeTicker());
-      builder.weakValues();
+      builder.weakKeys();
+
+      final Log log = this.log;
+
+      builder.removalListener(new RemovalListener<IDocument, String>() {
+        @SuppressWarnings({"synthetic-access", "unqualified-field-access"})
+        public void onRemoval(final RemovalNotification<IDocument, String> notification) {
+          if (log.isEnabled()) {
+            IDocument document = notification.getKey();
+            RemovalCause cause = notification.getCause();
+
+            if (cause != RemovalCause.EXPLICIT && cause != RemovalCause.REPLACED) {
+              log.print("%s: document %x removed (%s) from cache", identifier, document.hashCode(), toLowerCase(cause));
+            }
+          }
+        }
+      });
 
       this.cache = builder.build();
+    }
+
+    boolean update(final IDocument document, final String text, final boolean force) {
+      ConcurrentMap<IDocument, String> map = this.cache.asMap();
+
+      String previous;
+
+      boolean result;
+
+      if (force) {
+        previous = map.put(document, text);
+        result = !text.equals(previous);
+      } else {
+        previous = map.putIfAbsent(document, text);
+        result = previous == null;
+      }
+
+      if (result) {
+        if (this.log.isEnabled()) {
+          String operation = force && previous != null ? "updated" : "put";
+          String forced = force ? " (forced)" : "";
+
+          this.log.print("%s: document %x of %d characters %s in cache%s", this.identifier, document.hashCode(), text.length(), operation, forced);
+        }
+      }
+
+      return result;
     }
 
     @Override
@@ -117,11 +164,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
         String text = document.get();
 
-        this.cache.put(document, text);
-
-        if (this.log.isEnabled()) {
-          this.log.print("%s: sequence empty, document %x with text %x of %d characters put in cache", this.identifier, document.hashCode(), text.hashCode(), text.length());
-        }
+        this.update(document, text, false);
       }
 
       return true;
@@ -146,6 +189,8 @@ public final class TextDifferenceListener extends AbstractTextListener implement
           this.log.print("%s: original text for document %x not cached, nothing to process", this.identifier, document.hashCode());
         }
 
+        this.update(document, after, true);
+
         return;
       }
 
@@ -158,8 +203,10 @@ public final class TextDifferenceListener extends AbstractTextListener implement
       }
 
       if (this.log.isEnabled()) {
-        this.log.print("%s: document %x texts not equal, processing difference", this.identifier, document.hashCode());
+        this.log.print("%s: document %x texts not equal -> difference", this.identifier, document.hashCode());
       }
+
+      this.update(document, after, true);
 
       this.listener.handleAcceptedDifference(sequence.getLast(), before, after);
     }
@@ -178,50 +225,15 @@ public final class TextDifferenceListener extends AbstractTextListener implement
   }
 
   public void documentAboutToBeChanged(final DocumentEvent event) {
-    // ignore
+    IDocument document = event.getDocument();
+
+    this.processor.update(document, document.get(), false);
   }
 
   public void documentChanged(final DocumentEvent event) {
     final long time = this.currentTime();
 
     this.processor.push(new TextDocumentEvent(time, event));
-  }
-
-  public void editorOpened(final IEditorReference reference) {
-    // ignore
-  }
-
-  public void editorClosed(final IEditorReference reference) {
-    final long time = this.currentTime();
-
-    IEditorPart editor = dereferenceEditor(reference);
-    IDocument document = Editors.getDocument(editor);
-
-    this.processor.push(new TextDocumentEvent(time, document, true));
-  }
-
-  public void editorActivated(final IEditorReference reference) {
-    // ignore
-  }
-
-  public void editorDeactivated(final IEditorReference reference) {
-    // ignore
-  }
-
-  public void editorVisible(final IEditorReference reference) {
-    // ignore
-  }
-
-  public void editorHidden(final IEditorReference reference) {
-    // ignore
-  }
-
-  public void editorBroughtToTop(final IEditorReference reference) {
-    // ignore
-  }
-
-  public void editorInputChanged(final IEditorReference reference) {
-    // ignore
   }
 
   public void bufferCreated(final IFileBuffer buffer) {
