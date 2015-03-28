@@ -35,6 +35,8 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  */
 @Version("0.0.4.alpha")
 public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener {
+  // TODO fails on shutdown if both this and text selection listener are processing pending events
+
   // TODO note that event generated while workbench.isClosing do not have part.viewer field since the viewer is already disposed
   // TODO note that this listener does not handle viewport changes in consoles
 
@@ -203,6 +205,14 @@ public final class TextViewListener extends AbstractTextListener implements Part
 
     IWorkbenchPart part = dereferencePart(reference);
     ITextViewer viewer = Parts.getTextViewer(part);
+
+    if (viewer == null) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: viewer not found for %s -> ignore", "view", part);
+      }
+
+      return;
+    }
 
     LineRegion region = this.region(viewer);
     int verticalOffset = this.verticalOffset(viewer);

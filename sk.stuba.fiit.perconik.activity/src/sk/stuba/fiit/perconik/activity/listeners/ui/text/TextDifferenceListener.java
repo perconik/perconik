@@ -195,7 +195,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
       if (before == null) {
         if (this.log.isEnabled()) {
-          this.log.print("%s: original text for document %x not cached, nothing to process", this.identifier, document.hashCode());
+          this.log.print("%s: text for document %x not cached, nothing to process", this.identifier, document.hashCode());
         }
 
         this.update(document, after, true);
@@ -282,7 +282,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
     if (document == null) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: document not found for %s", "difference", buffer);
+        this.log.print("%s: document not found for %s -> ignore", "difference", buffer);
       }
 
       return;
