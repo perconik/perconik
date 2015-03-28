@@ -3,18 +3,18 @@ package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 import java.util.LinkedList;
 
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
+import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.ViewportListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
@@ -22,9 +22,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_REGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener.Action.VIEW;
-import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferenceEditor;
+import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferencePart;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
-import static sk.stuba.fiit.perconik.eclipse.ui.Editors.waitForActiveEditorReference;
+import static sk.stuba.fiit.perconik.eclipse.ui.Parts.waitForActivePartReference;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
 /**
@@ -33,9 +33,10 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
-public final class TextViewListener extends AbstractTextListener implements EditorListener, ViewportListener {
-  // TODO note that event generated while workbench.isClosing do not have editor.viewer field since the viewer is already disposed
+@Version("0.0.4.alpha")
+public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener {
+  // TODO note that event generated while workbench.isClosing do not have part.viewer field since the viewer is already disposed
+  // TODO note that this listener does not handle viewport changes in consoles
 
   static final TimeValue viewEventPause = of(250, MILLISECONDS);
 
@@ -46,12 +47,12 @@ public final class TextViewListener extends AbstractTextListener implements Edit
   public TextViewListener() {
     this.events = new TextViewEvents(this);
 
-    // ensures that a user-to-editor view is initiated on active editor
+    // ensures that a user-to-part view is initiated on active part
     // right after the workbench starts, i.e. this listener is registered
 
-    POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "ActiveEditorViewEventGenerator") {
+    POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "ActivePartViewEventGenerator") {
       public void run() {
-        generateActiveEditorViewEvent();
+        generateActivePartViewEvent();
       }
     });
   }
@@ -77,8 +78,8 @@ public final class TextViewListener extends AbstractTextListener implements Edit
     }
   }
 
-  Event build(final long time, final Action action, final LinkedList<TextViewEvent> sequence, final IEditorPart editor, final LineRegion region) {
-    Event data = super.build(time, action, editor);
+  Event build(final long time, final Action action, final LinkedList<TextViewEvent> sequence, final IWorkbenchPart part, final LineRegion region) {
+    Event data = super.build(time, action, part);
 
     data.put(key("view", "events", "first", "timestamp"), sequence.getFirst().time);
     data.put(key("view", "events", "first", "raw"), new LineRegionSerializer().serialize(sequence.getFirst().region));
@@ -94,11 +95,11 @@ public final class TextViewListener extends AbstractTextListener implements Edit
   }
 
   void process(final long time, final Action action, final LinkedList<TextViewEvent> sequence, final ITextViewer viewer) {
-    IEditorPart editor = Editors.forTextViewer(viewer);
+    IWorkbenchPart part = Parts.forTextViewer(viewer);
 
     LineRegion region = sequence.getLast().region;
 
-    this.send(action.getPath(), this.build(time, action, sequence, editor, region));
+    this.send(action.getPath(), this.build(time, action, sequence, part, region));
   }
 
   static final class TextViewEvents extends ContinuousEvent<TextViewListener, TextViewEvent> {
@@ -122,10 +123,10 @@ public final class TextViewListener extends AbstractTextListener implements Edit
     }
   }
 
-  void generateActiveEditorViewEvent() {
+  void generateActivePartViewEvent() {
     this.execute(DisplayTask.of(new Runnable() {
       public void run() {
-        viewportChanged(waitForActiveEditorReference());
+        viewportChanged(waitForActivePartReference());
       }
     }));
   }
@@ -159,49 +160,49 @@ public final class TextViewListener extends AbstractTextListener implements Edit
     });
   }
 
-  public void editorOpened(final IEditorReference reference) {
+  public void partOpened(final IWorkbenchPartReference reference) {
     // ignore
   }
 
-  public void editorClosed(final IEditorReference reference) {
+  public void partClosed(final IWorkbenchPartReference reference) {
     // ignore
   }
 
-  public void editorActivated(final IEditorReference reference) {
-    // ensures that a viewport change is always generated on editor activation,
-    // this catches every user-to-editor view, as a side effect it breaks event continuation
+  public void partActivated(final IWorkbenchPartReference reference) {
+    // ensures that a viewport change is always generated on part activation,
+    // this catches every user-to-part view, as a side effect it breaks event continuation
 
     this.viewportChanged(reference);
   }
 
-  public void editorDeactivated(final IEditorReference reference) {
-    // ensures that pending events are flushed on editor deactivation, this primarily handles
-    // proper user-to-editor view on shutdown, as a side effect it breaks event continuation
+  public void partDeactivated(final IWorkbenchPartReference reference) {
+    // ensures that pending events are flushed on part deactivation, this primarily handles
+    // proper user-to-part view on shutdown, as a side effect it breaks event continuation
 
     this.events.flush();
   }
 
-  public void editorVisible(final IEditorReference reference) {
+  public void partVisible(final IWorkbenchPartReference reference) {
     // ignore
   }
 
-  public void editorHidden(final IEditorReference reference) {
+  public void partHidden(final IWorkbenchPartReference reference) {
     // ignore
   }
 
-  public void editorBroughtToTop(final IEditorReference reference) {
+  public void partBroughtToTop(final IWorkbenchPartReference reference) {
     // ignore
   }
 
-  public void editorInputChanged(final IEditorReference reference) {
+  public void partInputChanged(final IWorkbenchPartReference reference) {
     // ignore
   }
 
-  public void viewportChanged(final IEditorReference reference) {
+  public void viewportChanged(final IWorkbenchPartReference reference) {
     final long time = this.currentTime();
 
-    IEditorPart editor = dereferenceEditor(reference);
-    ITextViewer viewer = Editors.getTextViewer(editor);
+    IWorkbenchPart part = dereferencePart(reference);
+    ITextViewer viewer = Parts.getTextViewer(part);
 
     LineRegion region = this.region(viewer);
     int verticalOffset = this.verticalOffset(viewer);
