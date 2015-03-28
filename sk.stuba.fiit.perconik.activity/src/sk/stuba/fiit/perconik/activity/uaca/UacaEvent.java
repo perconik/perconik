@@ -17,7 +17,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 import static com.gratex.perconik.uaca.GenericUacaEventConstants.EVENT_TYPE_URI_PREFIX;
 import static com.gratex.perconik.uaca.GenericUacaEventConstants.TIMESTAMP_PATTERN;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 
 @JsonNaming(Default.class)
@@ -34,7 +34,7 @@ public class UacaEvent extends AnyStructuredData {
   public UacaEvent() {}
 
   public static URI newEventTypeUri(final String path) {
-    return newUri(EVENT_TYPE_URI_PREFIX + "/event/" + requireNonNullOrEmpty(path));
+    return newUri(EVENT_TYPE_URI_PREFIX + "/event/" + checkNotNullOrEmpty(path));
   }
 
   public static UacaEvent of(final String path, @Nullable final Object data) {

@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
@@ -47,7 +47,7 @@ public final class UndoableOperationListener extends AbstractUndoableListener {
     private Action(final OperationHistoryEventType type) {
       this.name = actionName("eclipse", "command", "operation", this);
       this.path = actionPath(this.name);
-      this.type = requireNonNull(type);
+      this.type = checkNotNull(type);
     }
 
     static Optional<Action> fromType(final OperationHistoryEventType type) {

@@ -30,7 +30,7 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Lists.newLinkedList;
 
@@ -47,7 +47,7 @@ final class CompilationUnitDifferencer<N extends ASTNode> implements NodeDiffere
   private NodeDeltaSet.Builder<N> builder;
 
   CompilationUnitDifferencer(final Function<? super CompilationUnit, ? extends Iterable<? extends N>> collector) {
-    this.collector = requireNonNull(collector);
+    this.collector = checkNotNull(collector);
   }
 
   public NodeDeltaSet<N> difference(final CompilationUnit original, final CompilationUnit revised) {

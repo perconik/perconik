@@ -7,7 +7,7 @@ import com.google.common.base.Supplier;
 
 import org.eclipse.swt.widgets.Display;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Throwables.propagate;
 
@@ -15,7 +15,7 @@ public abstract class DisplayExecutor implements Executor {
   final Display display;
 
   DisplayExecutor(final Display display) {
-    this.display = requireNonNull(display);
+    this.display = checkNotNull(display);
   }
 
   public static DisplayExecutor defaultAsynchronous() {
@@ -69,7 +69,7 @@ public abstract class DisplayExecutor implements Executor {
       private V result;
 
       Call(final Callable<V> callable) {
-        this.callable = requireNonNull(callable);
+        this.callable = checkNotNull(callable);
       }
 
       public void run() {

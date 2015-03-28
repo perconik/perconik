@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.eclipse.jface.text;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Throwables.propagate;
 
@@ -15,9 +15,9 @@ public final class LineRegion {
   public final String text;
 
   public LineRegion(final LinePosition start, final LinePosition end, final String text) {
-    this.start = requireNonNull(start);
-    this.end = requireNonNull(end);
-    this.text = requireNonNull(text);
+    this.start = checkNotNull(start);
+    this.end = checkNotNull(end);
+    this.text = checkNotNull(text);
   }
 
   private static LineRegion construct(final int startLine, final int startOffset, final int endLine, final int endOffset, final String text) {

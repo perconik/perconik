@@ -11,7 +11,7 @@ import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringEv
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringEventType;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.activity.listeners.refactor.RefactoringHistoryListener.Action.fromType;
 import static sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringHistoryEventType.ADDED;
@@ -48,7 +48,7 @@ public final class RefactoringHistoryListener extends AbstractRefactoringListene
     private Action(final RefactoringHistoryEventType type) {
       this.name = actionName("eclipse", "refactor", "history", this);
       this.path = actionPath(this.name);
-      this.type = requireNonNull(type);
+      this.type = checkNotNull(type);
     }
 
     static Optional<Action> fromType(final RefactoringEventType type) {

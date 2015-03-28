@@ -2,13 +2,13 @@ package sk.stuba.fiit.perconik.core.resources;
 
 import javax.annotation.Nullable;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 abstract class AbstractListenerProxy<L> {
   final L listener;
 
   AbstractListenerProxy(final L listener) {
-    this.listener = requireNonNull(listener);
+    this.listener = checkNotNull(listener);
   }
 
   @Override

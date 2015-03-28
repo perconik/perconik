@@ -15,7 +15,7 @@ import com.google.common.reflect.TypeToken;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Throwables.propagate;
@@ -30,7 +30,7 @@ public final class OptionParsers {
     INSTANCE;
 
     public Object parse(final Object object) {
-      return requireNonNull(object);
+      return checkNotNull(object);
     }
 
     public TypeToken<Object> type() {
@@ -400,7 +400,7 @@ public final class OptionParsers {
     private final ClassResolver resolver;
 
     ClassParser(final ClassResolver resolver) {
-      this.resolver = requireNonNull(resolver);
+      this.resolver = checkNotNull(resolver);
     }
 
     public Class<?> parse(final Object object) {

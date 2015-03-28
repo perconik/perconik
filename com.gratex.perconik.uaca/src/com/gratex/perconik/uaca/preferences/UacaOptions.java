@@ -10,7 +10,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.Maps.newLinkedHashMap;
@@ -62,7 +62,7 @@ public interface UacaOptions extends Options {
     private final Options options;
 
     private View(final Options options) {
-      this.options = requireNonNull(options);
+      this.options = checkNotNull(options);
     }
 
     public static UacaOptions of(final Options options) {

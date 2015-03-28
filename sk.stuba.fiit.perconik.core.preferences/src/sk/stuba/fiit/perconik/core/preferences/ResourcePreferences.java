@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.persistence.data.ResourcePersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Maps.newHashMap;
 
@@ -84,10 +84,10 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
 
   @Override
   Set<ResourcePersistenceData> castRegistrations(final Object object) {
-    Set<ResourcePersistenceData> registrations = Set.class.cast(requireNonNull(object));
+    Set<ResourcePersistenceData> registrations = Set.class.cast(checkNotNull(object));
 
     for (Object element: registrations) {
-      ResourcePersistenceData.class.cast(requireNonNull(element));
+      ResourcePersistenceData.class.cast(checkNotNull(element));
     }
 
     return registrations;
@@ -95,11 +95,11 @@ public final class ResourcePreferences extends RegistrationWithOptionPreferences
 
   @Override
   Map<String, Options> castOptions(final Object object) {
-    Map<String, Options> options = Map.class.cast(requireNonNull(object));
+    Map<String, Options> options = Map.class.cast(checkNotNull(object));
 
     for (Entry<String, Options> entry: options.entrySet()) {
-      String.class.cast(requireNonNull(entry.getKey()));
-      Options.class.cast(requireNonNull(entry.getValue()));
+      String.class.cast(checkNotNull(entry.getKey()));
+      Options.class.cast(checkNotNull(entry.getValue()));
     }
 
     return options;

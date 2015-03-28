@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences.Keys.listenerDefaultOptions;
@@ -97,7 +97,7 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
    */
   public void setListenerDefaultOptions(final Options options) {
     try {
-      this.putObject(listenerDefaultOptions, requireNonNull(options));
+      this.putObject(listenerDefaultOptions, checkNotNull(options));
     } catch (RuntimeException e) {
       reportFailure(e);
     }

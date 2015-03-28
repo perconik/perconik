@@ -7,7 +7,7 @@ import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @deprecated Use {@link sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView} instead.
@@ -19,8 +19,8 @@ final class UnderlyingContent<R> {
   final UnderlyingResource<R> resource;
 
   private UnderlyingContent(final IDocument document, final UnderlyingResource<R> resource) {
-    this.document = requireNonNull(document);
-    this.resource = requireNonNull(resource);
+    this.document = checkNotNull(document);
+    this.resource = checkNotNull(resource);
   }
 
   public static UnderlyingContent<?> from(@Nullable final IEditorPart editor) {

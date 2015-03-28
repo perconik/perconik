@@ -16,8 +16,8 @@ import static com.google.common.collect.Iterators.filter;
 import static com.google.common.collect.Lists.asList;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.isNullOrEmptyPredicate;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
 
 public class StructuredContents {
   private static final Joiner joiner = Joiner.on(separator);
@@ -29,7 +29,7 @@ public class StructuredContents {
   private StructuredContents() {}
 
   public static String key(final String component) {
-    return requireNonNullOrEmpty(component);
+    return checkNotNullOrEmpty(component);
   }
 
   public static String key(final String first, final String second, final String ... rest) {
@@ -41,11 +41,11 @@ public class StructuredContents {
   }
 
   public static String key(final Iterable<String> components) {
-    return requireNonNullOrEmpty(joiner.join(filter(components, filter)));
+    return checkNotNullOrEmpty(joiner.join(filter(components, filter)));
   }
 
   public static String key(final Iterator<String> components) {
-    return requireNonNullOrEmpty(joiner.join(filter(components, filter)));
+    return checkNotNullOrEmpty(joiner.join(filter(components, filter)));
   }
 
   public static List<String> sequence(final CharSequence key) {

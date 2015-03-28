@@ -16,7 +16,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
@@ -307,7 +307,7 @@ public final class Views {
    * @see #getActiveView(IWorkbenchPage)
    */
   public static IViewPart waitForActiveView(final IWorkbenchPage page) {
-    requireNonNull(page);
+    checkNotNull(page);
 
     IViewPart view;
 
@@ -352,7 +352,7 @@ public final class Views {
    * @see #getActiveView(IWorkbenchPage)
    */
   public static IViewReference waitForActiveViewReference(final IWorkbenchPage page) {
-    requireNonNull(page);
+    checkNotNull(page);
 
     IViewReference view;
 

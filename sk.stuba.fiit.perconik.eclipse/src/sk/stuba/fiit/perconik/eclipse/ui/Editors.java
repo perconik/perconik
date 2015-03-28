@@ -19,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
@@ -326,7 +326,7 @@ public final class Editors {
    * @see #getActiveEditor(IWorkbenchPage)
    */
   public static IEditorPart waitForActiveEditor(final IWorkbenchPage page) {
-    requireNonNull(page);
+    checkNotNull(page);
 
     IEditorPart editor;
 
@@ -371,7 +371,7 @@ public final class Editors {
    * @see #getActiveEditor(IWorkbenchPage)
    */
   public static IEditorReference waitForActiveEditorReference(final IWorkbenchPage page) {
-    requireNonNull(page);
+    checkNotNull(page);
 
     IEditorReference editor;
 

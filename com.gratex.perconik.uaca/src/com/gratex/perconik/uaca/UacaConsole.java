@@ -15,7 +15,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurable;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.utilities.SmartStringBuilder.builder;
 import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
@@ -33,8 +33,8 @@ public final class UacaConsole extends ForwardingPluginConsole implements Config
 
   private UacaConsole(final UacaOptions options, final TimeSource source) {
     this.delegate = Activator.defaultInstance().getConsole();
-    this.options = requireNonNull(options);
-    this.source = requireNonNull(source);
+    this.options = checkNotNull(options);
+    this.source = checkNotNull(source);
   }
 
   public static UacaConsole create(final UacaOptions options) {

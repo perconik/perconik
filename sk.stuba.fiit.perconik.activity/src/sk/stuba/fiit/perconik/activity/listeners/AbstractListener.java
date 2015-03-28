@@ -28,7 +28,7 @@ import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 
 import static java.util.Collections.emptyList;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -103,11 +103,11 @@ public abstract class AbstractListener implements Listener {
     abstract void handle(AbstractListener listener, Runnable task, Exception failure);
 
     public boolean add(final AbstractListener listener, final Runnable task) {
-      return listener.registerHooks.put(this, requireNonNull(task));
+      return listener.registerHooks.put(this, checkNotNull(task));
     }
 
     public boolean remove(final AbstractListener listener, final Runnable task) {
-      return listener.registerHooks.remove(this, requireNonNull(task));
+      return listener.registerHooks.remove(this, checkNotNull(task));
     }
 
     @Override
@@ -174,7 +174,7 @@ public abstract class AbstractListener implements Listener {
     final TimeUnit unit;
 
     protected ContinuousEvent(final Stopwatch watch, final long pause, final long window, final TimeUnit unit) {
-      this.watch = requireNonNull(watch);
+      this.watch = checkNotNull(watch);
       this.sequence = newLinkedList();
       this.total = UNSET;
 
@@ -183,7 +183,7 @@ public abstract class AbstractListener implements Listener {
 
       this.pause = pause;
       this.window = window;
-      this.unit = requireNonNull(unit);
+      this.unit = checkNotNull(unit);
     }
 
     @GuardedBy("lock")
@@ -431,7 +431,7 @@ public abstract class AbstractListener implements Listener {
     final AbstractListener listener;
 
     Disposer(final AbstractListener listener) {
-      this.listener = requireNonNull(listener);
+      this.listener = checkNotNull(listener);
     }
 
     private static final class OnWorkbenchShutdown extends Disposer implements IWorkbenchListener {

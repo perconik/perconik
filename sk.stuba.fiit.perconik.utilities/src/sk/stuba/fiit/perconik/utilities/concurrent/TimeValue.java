@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 import static java.lang.Long.compare;
 import static java.lang.Long.parseLong;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
@@ -31,7 +31,7 @@ public final class TimeValue implements Comparable<TimeValue>, Serializable {
   }
 
   public static TimeValue of(final long duration, final TimeUnit unit) {
-    return new TimeValue(duration, requireNonNull(unit));
+    return new TimeValue(duration, checkNotNull(unit));
   }
 
   public static TimeValue fromString(final String value) {

@@ -1,12 +1,12 @@
 package sk.stuba.fiit.perconik.utilities.configuration;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class RegularOptionsWriter extends AbstractOptionsWriter {
   private final Options options;
 
   RegularOptionsWriter(final Options options) {
-    this.options = requireNonNull(options);
+    this.options = checkNotNull(options);
   }
 
   @Override

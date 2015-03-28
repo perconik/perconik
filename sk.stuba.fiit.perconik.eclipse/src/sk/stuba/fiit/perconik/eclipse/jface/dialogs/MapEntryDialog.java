@@ -19,12 +19,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.collect.Maps.immutableEntry;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 
 public class MapEntryDialog<K, V> extends StatusDialog {
   private final EntryConverter<K, V> converter;
@@ -46,7 +46,7 @@ public class MapEntryDialog<K, V> extends StatusDialog {
   public MapEntryDialog(final Shell parent, final EntryConverter<K, V> converter) {
     super(parent);
 
-    this.converter = requireNonNull(converter);
+    this.converter = checkNotNull(converter);
   }
 
   public interface EntryConverter<K, V> {
@@ -89,7 +89,7 @@ public class MapEntryDialog<K, V> extends StatusDialog {
 
     @Override
     protected String textToKey(@Nullable final Object original, @Nullable final String text) {
-      return requireNonNullOrEmpty(text);
+      return checkNotNullOrEmpty(text);
     }
 
     @Override

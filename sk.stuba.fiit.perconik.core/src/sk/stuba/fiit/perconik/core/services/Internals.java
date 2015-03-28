@@ -6,7 +6,7 @@ import java.util.Set;
 import com.google.common.base.Supplier;
 import com.google.common.collect.MapMaker;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.collect.Sets.newHashSet;
@@ -17,29 +17,29 @@ final class Internals {
   private Internals() {}
 
   static <T> void setApi(final Class<T> api, final T implementation) {
-    suppliers.put(requireNonNull(api), ofInstance(requireNonNull(implementation)));
+    suppliers.put(checkNotNull(api), ofInstance(checkNotNull(implementation)));
   }
 
   static <T> void setApi(final Class<T> api, final Supplier<? extends T> supplier) {
-    suppliers.put(requireNonNull(api), requireNonNull(supplier));
+    suppliers.put(checkNotNull(api), checkNotNull(supplier));
   }
 
   static <T> void unsetApi(final Class<T> api) {
-    suppliers.remove(requireNonNull(api));
+    suppliers.remove(checkNotNull(api));
   }
 
   static <T> T getApi(final Class<T> api) {
     Supplier<?> supplier = suppliers.get(api);
 
     if (supplier != null) {
-      return requireNonNull(api.cast(supplier.get()));
+      return checkNotNull(api.cast(supplier.get()));
     }
 
     throw new UnsupportedOperationException("Unable to get implementation of " + api);
   }
 
   static <T> Set<T> getApis(final Class<T> type) {
-    requireNonNull(type);
+    checkNotNull(type);
 
     Set<T> implementations = newHashSet();
 

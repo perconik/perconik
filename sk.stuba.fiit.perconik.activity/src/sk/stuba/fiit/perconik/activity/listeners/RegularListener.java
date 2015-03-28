@@ -51,7 +51,7 @@ import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyMap;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -191,8 +191,8 @@ public abstract class RegularListener extends AbstractListener implements Scoped
   }
 
   private <C> C resolveContext(final Configuration<C> configuration, final Supplier<? extends C> supplier) {
-    Class<? extends C> type = requireNonNull(configuration.contextType());
-    C context = requireNonNull(supplier).get();
+    Class<? extends C> type = checkNotNull(configuration.contextType());
+    C context = checkNotNull(supplier).get();
 
     try {
       return type.cast(context == null ? this : context);
@@ -361,23 +361,23 @@ public abstract class RegularListener extends AbstractListener implements Scoped
      * Constructor for use by subclasses.
      */
     protected AbstractConfiguration(final AbstractBuilder<?, C> builder) {
-      this.contextType = requireNonNull(builder.contextType);
-      this.activityPreferences = requireNonNull(builder.activityPreferences);
-      this.listenerPreferences = requireNonNull(builder.listenerPreferences);
-      this.optionsLoader = requireNonNull(builder.optionsLoader);
-      this.timeContext = requireNonNull(builder.timeContext);
-      this.pluginConsole = requireNonNull(builder.pluginConsole);
-      this.diplayExecutor = requireNonNull(builder.diplayExecutor);
-      this.sharedExecutor = requireNonNull(builder.sharedExecutor);
-      this.probeMappings = requireNonNull(builder.probeMappings);
-      this.probeFilter = requireNonNull(builder.probeFilter);
-      this.probeExecutor = requireNonNull(builder.probeExecutor);
-      this.dataInjector = requireNonNull(builder.dataInjector);
-      this.eventValidator = requireNonNull(builder.eventValidator);
-      this.persistenceStore = requireNonNull(builder.persistenceStore);
-      this.sendFailureHandler = requireNonNull(builder.sendFailureHandler);
-      this.registerFailureHandler = requireNonNull(builder.registerFailureHandler);
-      this.disposalHook = requireNonNull(builder.disposalHook);
+      this.contextType = checkNotNull(builder.contextType);
+      this.activityPreferences = checkNotNull(builder.activityPreferences);
+      this.listenerPreferences = checkNotNull(builder.listenerPreferences);
+      this.optionsLoader = checkNotNull(builder.optionsLoader);
+      this.timeContext = checkNotNull(builder.timeContext);
+      this.pluginConsole = checkNotNull(builder.pluginConsole);
+      this.diplayExecutor = checkNotNull(builder.diplayExecutor);
+      this.sharedExecutor = checkNotNull(builder.sharedExecutor);
+      this.probeMappings = checkNotNull(builder.probeMappings);
+      this.probeFilter = checkNotNull(builder.probeFilter);
+      this.probeExecutor = checkNotNull(builder.probeExecutor);
+      this.dataInjector = checkNotNull(builder.dataInjector);
+      this.eventValidator = checkNotNull(builder.eventValidator);
+      this.persistenceStore = checkNotNull(builder.persistenceStore);
+      this.sendFailureHandler = checkNotNull(builder.sendFailureHandler);
+      this.registerFailureHandler = checkNotNull(builder.registerFailureHandler);
+      this.disposalHook = checkNotNull(builder.disposalHook);
     }
 
     public static abstract class AbstractBuilder<B extends AbstractBuilder<B, C>, C> implements Builder<C> {
@@ -426,167 +426,167 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       protected abstract B asSubtype();
 
       public final B contextType(final Class<? extends C> type) {
-        this.contextType = requireNonNull(type);
+        this.contextType = checkNotNull(type);
 
         return this.asSubtype();
       }
 
       public final B activityPreferences(final ActivityPreferences preferences) {
-        return this.activityPreferences(constant(requireNonNull(preferences)));
+        return this.activityPreferences(constant(checkNotNull(preferences)));
       }
 
       public final B activityPreferences(final Function<? super C, ? extends ActivityPreferences> relation) {
-        this.activityPreferences = requireNonNull(relation);
+        this.activityPreferences = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B listenerPreferences(final ListenerPreferences preferences) {
-        return this.listenerPreferences(constant(requireNonNull(preferences)));
+        return this.listenerPreferences(constant(checkNotNull(preferences)));
       }
 
       public final B listenerPreferences(final Function<? super C, ? extends ListenerPreferences> relation) {
-        this.listenerPreferences = requireNonNull(relation);
+        this.listenerPreferences = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B optionsLoader(final OptionsLoader loader) {
-        return this.optionsLoader(constant(requireNonNull(loader)));
+        return this.optionsLoader(constant(checkNotNull(loader)));
       }
 
       public final B optionsLoader(final Function<? super C, ? extends OptionsLoader> relation) {
-        this.optionsLoader = requireNonNull(relation);
+        this.optionsLoader = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B timeContext(final TimeContext context) {
-        return this.timeContext(constant(requireNonNull(context)));
+        return this.timeContext(constant(checkNotNull(context)));
       }
 
       public final B timeContext(final Function<? super C, ? extends TimeContext> relation) {
-        this.timeContext = requireNonNull(relation);
+        this.timeContext = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B pluginConsole(final PluginConsole console) {
-        return this.pluginConsole(constant(requireNonNull(console)));
+        return this.pluginConsole(constant(checkNotNull(console)));
       }
 
       public final B pluginConsole(final Function<? super C, ? extends PluginConsole> relation) {
-        this.pluginConsole = requireNonNull(relation);
+        this.pluginConsole = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B diplayExecutor(final DisplayExecutor executor) {
-        return this.diplayExecutor(constant(requireNonNull(executor)));
+        return this.diplayExecutor(constant(checkNotNull(executor)));
       }
 
       public final B diplayExecutor(final Function<? super C, ? extends DisplayExecutor> relation) {
-        this.diplayExecutor = requireNonNull(relation);
+        this.diplayExecutor = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B sharedExecutor(final ExecutorService executor) {
-        return this.sharedExecutor(constant(requireNonNull(executor)));
+        return this.sharedExecutor(constant(checkNotNull(executor)));
       }
 
       public final B sharedExecutor(final Function<? super C, ? extends ExecutorService> relation) {
-        this.sharedExecutor = requireNonNull(relation);
+        this.sharedExecutor = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B probeMappings(final Map<String, Probe<?>> probes) {
-        return this.probeMappings(constant(requireNonNull(probes)));
+        return this.probeMappings(constant(checkNotNull(probes)));
       }
 
       public final B probeMappings(final Function<? super C, ? extends Map<String, Probe<?>>> relation) {
-        this.probeMappings = requireNonNull(relation);
+        this.probeMappings = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B probeFilter(final Predicate<Entry<String, Probe<?>>> filter) {
-        return this.probeFilter(constant(requireNonNull(filter)));
+        return this.probeFilter(constant(checkNotNull(filter)));
       }
 
       public final B probeFilter(final Function<? super C, ? extends Predicate<Entry<String, Probe<?>>>> relation) {
-        this.probeFilter = requireNonNull(relation);
+        this.probeFilter = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B probeExecutor(final ExecutorService executor) {
-        return this.probeExecutor(constant(requireNonNull(executor)));
+        return this.probeExecutor(constant(checkNotNull(executor)));
       }
 
       public final B probeExecutor(final Function<? super C, ? extends ExecutorService> relation) {
-        this.probeExecutor = requireNonNull(relation);
+        this.probeExecutor = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B dataInjector(final DataInjector injector) {
-        return this.dataInjector(constant(requireNonNull(injector)));
+        return this.dataInjector(constant(checkNotNull(injector)));
       }
 
       public final B dataInjector(final Function<? super C, ? extends DataInjector> relation) {
-        this.dataInjector = requireNonNull(relation);
+        this.dataInjector = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B eventValidator(final EventValidator validator) {
-        return this.eventValidator(constant(requireNonNull(validator)));
+        return this.eventValidator(constant(checkNotNull(validator)));
       }
 
       public final B eventValidator(final Function<? super C, ? extends EventValidator> relation) {
-        this.eventValidator = requireNonNull(relation);
+        this.eventValidator = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B persistenceStore(final PersistenceStore store) {
-        return this.persistenceStore(constant(requireNonNull(store)));
+        return this.persistenceStore(constant(checkNotNull(store)));
       }
 
       public final B persistenceStore(final Function<? super C, ? extends PersistenceStore> relation) {
-        this.persistenceStore = requireNonNull(relation);
+        this.persistenceStore = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B sendFailureHandler(final SendFailureHandler handler) {
-        return this.sendFailureHandler(constant(requireNonNull(handler)));
+        return this.sendFailureHandler(constant(checkNotNull(handler)));
       }
 
       public final B sendFailureHandler(final Function<? super C, ? extends SendFailureHandler> relation) {
-        this.sendFailureHandler = requireNonNull(relation);
+        this.sendFailureHandler = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B registerFailureHandler(final RegisterFailureHandler handler) {
-        return this.registerFailureHandler(constant(requireNonNull(handler)));
+        return this.registerFailureHandler(constant(checkNotNull(handler)));
       }
 
       public final B registerFailureHandler(final Function<? super C, ? extends RegisterFailureHandler> relation) {
-        this.registerFailureHandler = requireNonNull(relation);
+        this.registerFailureHandler = checkNotNull(relation);
 
         return this.asSubtype();
       }
 
       public final B disposalHook(final DisposalHook hook) {
-        return this.disposalHook(constant(requireNonNull(hook)));
+        return this.disposalHook(constant(checkNotNull(hook)));
       }
 
       public final B disposalHook(final Function<? super C, ? extends DisposalHook> relation) {
-        this.disposalHook = requireNonNull(relation);
+        this.disposalHook = checkNotNull(relation);
 
         return this.asSubtype();
       }
@@ -753,8 +753,8 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     final OptionsReloader reloader;
 
     private UpdatingOptionsLoader(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
-      this.defaults = requireNonNull(defaults);
-      this.custom = requireNonNull(custom);
+      this.defaults = checkNotNull(defaults);
+      this.custom = checkNotNull(custom);
 
       this.reloader = new OptionsReloader(listener);
 
@@ -790,7 +790,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       private final RegularListener listener;
 
       OptionsReloader(final RegularListener listener) {
-        this.listener = requireNonNull(listener);
+        this.listener = checkNotNull(listener);
       }
 
       public void preferenceChange(final PreferenceChangeEvent event) {
@@ -847,8 +847,8 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     void reload(final OptionsLoader loader, final RegularListener listener) {
-      requireNonNull(loader);
-      requireNonNull(listener);
+      checkNotNull(loader);
+      checkNotNull(listener);
 
       this.defaults.load(loader, listener);
       this.custom.load(loader, listener);
@@ -1065,7 +1065,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     private final Prober<? super Event, Probe<?>> prober;
 
     private ProbingDataInjector(final Prober<? super Event, Probe<?>> prober) {
-      this.prober = requireNonNull(prober);
+      this.prober = checkNotNull(prober);
     }
 
     public static ProbingDataInjector of(final Prober<? super Event, Probe<?>> prober) {
@@ -1101,7 +1101,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     protected ContinuousEvent(final L listener, final long pause, final long window, final TimeUnit unit) {
       super(listener.createStopwatch(), pause, window, unit);
 
-      this.listener = requireNonNull(listener);
+      this.listener = checkNotNull(listener);
     }
 
     @Override
@@ -1173,7 +1173,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     private final Store<? super Event> store;
 
     private StoreWrapper(final Store<? super Event> store) {
-      this.store = requireNonNull(store);
+      this.store = checkNotNull(store);
     }
 
     public static StoreWrapper of(final Store<? super Event> store) {
@@ -1570,7 +1570,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     BasicDisposalHook(final Builder builder) {
       super(builder);
 
-      this.logger = requireNonNull(builder.logger);
+      this.logger = checkNotNull(builder.logger);
     }
 
     public static final class Builder extends AbstractBuilder<Builder> {
@@ -1584,7 +1584,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       }
 
       public Builder logger(final Logger logger) {
-        this.logger = requireNonNull(logger);
+        this.logger = checkNotNull(logger);
 
         return this;
       }

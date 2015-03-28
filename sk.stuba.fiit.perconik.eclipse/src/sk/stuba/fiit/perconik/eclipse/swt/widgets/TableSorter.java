@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -32,7 +32,7 @@ public abstract class TableSorter<T> {
   }
 
   protected TableSorter(final Table table, @Nullable final Comparator<? super T> comparator) {
-    this.table = requireNonNull(table);
+    this.table = checkNotNull(table);
     this.comparator = comparator;
     this.enabled = true;
   }
@@ -48,7 +48,7 @@ public abstract class TableSorter<T> {
       SortDirection direction;
 
       Switcher(final SortDirection direction) {
-        this.direction = requireNonNull(direction);
+        this.direction = checkNotNull(direction);
       }
 
       public void handleEvent(final Event event) {

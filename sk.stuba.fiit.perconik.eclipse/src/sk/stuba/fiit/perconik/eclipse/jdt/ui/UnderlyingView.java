@@ -7,7 +7,7 @@ import org.eclipse.ui.IEditorPart;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class UnderlyingView<R> {
   private final IDocument document;
@@ -15,8 +15,8 @@ public final class UnderlyingView<R> {
   private final UnderlyingResource<R> resource;
 
   private UnderlyingView(final IDocument document, final UnderlyingResource<R> resource) {
-    this.document = requireNonNull(document);
-    this.resource = requireNonNull(resource);
+    this.document = checkNotNull(document);
+    this.resource = checkNotNull(resource);
   }
 
   public static UnderlyingView<?> from(@Nullable final IEditorPart editor) {

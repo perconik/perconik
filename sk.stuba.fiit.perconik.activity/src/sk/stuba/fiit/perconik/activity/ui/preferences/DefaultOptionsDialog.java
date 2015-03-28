@@ -55,7 +55,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -332,7 +332,7 @@ final class DefaultOptionsDialog extends StatusDialog {
       Object key = ((Entry<?, ?>) item).getKey();
 
       if (!known.contains(key)) {
-        requireNonNull(this.map.remove(key));
+        checkNotNull(this.map.remove(key));
       } else {
         locked.add(key.toString());
       }
@@ -435,7 +435,7 @@ final class DefaultOptionsDialog extends StatusDialog {
   }
 
   public void setActivityPreferences(final ActivityPreferences preferences) {
-    this.preferences = requireNonNull(preferences);
+    this.preferences = checkNotNull(preferences);
 
     Options defaults = defaultPreferences().getListenerDefaultOptions();
     Options custom = firstNonNull(preferences.getListenerDefaultOptions(), emptyOptions());

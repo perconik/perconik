@@ -7,7 +7,7 @@ import com.google.common.base.Supplier;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
@@ -76,7 +76,7 @@ public final class Windows {
    * @see #getActiveWindow(IWorkbench)
    */
   public static IWorkbenchWindow waitForActiveWindow(final IWorkbench workbench) {
-    requireNonNull(workbench);
+    checkNotNull(workbench);
 
     IWorkbenchWindow window;
 

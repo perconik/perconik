@@ -13,7 +13,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCopyListener.Action.COPY;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSeparators;
@@ -38,7 +38,7 @@ public final class TextCopyListener extends AbstractTextClipboardListener implem
     private final String path;
 
     private Action(final String identifier) {
-      this.identifier = requireNonNull(identifier);
+      this.identifier = checkNotNull(identifier);
 
       this.name = actionName("eclipse", "text", this);
       this.path = actionPath(this.name);

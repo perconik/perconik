@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.TextInputListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.core.resources.Ui.dereferencePart;
 
@@ -30,7 +30,7 @@ final class TextInputHook extends InternalHook<ITextViewer, TextInputListener> i
     TextInputListenerProxy(final TextInputListener listener, final ITextViewer viewer) {
       super(listener);
 
-      this.viewer = requireNonNull(viewer);
+      this.viewer = checkNotNull(viewer);
     }
 
     public void inputDocumentAboutToBeChanged(final IDocument before, final IDocument after) {

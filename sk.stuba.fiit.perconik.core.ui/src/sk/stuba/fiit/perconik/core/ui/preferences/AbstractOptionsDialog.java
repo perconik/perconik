@@ -61,7 +61,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.MapOptions.Putter;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Maps.immutableEntry;
@@ -341,7 +341,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       Object key = ((Entry<?, ?>) item).getKey();
 
       if (!known.contains(key)) {
-        requireNonNull(this.map.remove(key));
+        checkNotNull(this.map.remove(key));
       } else {
         locked.add(key.toString());
       }
@@ -463,7 +463,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   static final Options writeToOptions(@Nullable final Options options, final Map<String, Object> map) {
-    requireNonNull(map);
+    checkNotNull(map);
 
     if (options != null) {
       try {
@@ -485,11 +485,11 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
   }
 
   final void setPreferences(final P preferences) {
-    this.preferences = requireNonNull(preferences);
+    this.preferences = checkNotNull(preferences);
   }
 
   final void setRegistration(final R registration) {
-    this.registration = requireNonNull(registration);
+    this.registration = checkNotNull(registration);
   }
 
   final P getPreferences() {

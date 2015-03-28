@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Supplier;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Objects.equal;
 
@@ -26,7 +26,7 @@ public final class Probes {
     private T value;
 
     CachedProbe(final Probe<T> delegate) {
-      this.delegate = requireNonNull(delegate);
+      this.delegate = checkNotNull(delegate);
       this.probed = new AtomicBoolean(false);
     }
 
@@ -53,7 +53,7 @@ public final class Probes {
     private final Object mutex;
 
     SynchronizedProbe(final Probe<T> delegate, final Object mutex) {
-      this.delegate = requireNonNull(delegate);
+      this.delegate = checkNotNull(delegate);
       this.mutex = (mutex == null) ? this : mutex;
     }
 
@@ -138,7 +138,7 @@ public final class Probes {
     private final Supplier<T> supplier;
 
     SupplierProbe(final Supplier<T> supplier) {
-      this.supplier = requireNonNull(supplier);
+      this.supplier = checkNotNull(supplier);
     }
 
     @Override

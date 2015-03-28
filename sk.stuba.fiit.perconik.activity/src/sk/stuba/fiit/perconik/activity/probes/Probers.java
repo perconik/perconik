@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableMap;
 
 import sk.stuba.fiit.perconik.data.content.AnyContent;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.ImmutableMap.copyOf;
 import static com.google.common.collect.Lists.newLinkedList;
@@ -43,7 +43,7 @@ public final class Probers {
 
     FilteringProber(final Map<String, P> probes, final Predicate<? super Entry<String, P>> predicate) {
       this.probes = copyOf(probes);
-      this.predicate = requireNonNull(predicate);
+      this.predicate = checkNotNull(predicate);
     }
 
     public final Map<String, P> probes() {
@@ -64,7 +64,7 @@ public final class Probers {
     final Prober<T, P> prober;
 
     public ProberProxy(final Prober<T, P> prober) {
-      this.prober = requireNonNull(prober);
+      this.prober = checkNotNull(prober);
     }
 
     public final Map<String, P> probes() {
@@ -93,7 +93,7 @@ public final class Probers {
     ConcurrentProber(final Prober<T, P> prober, final Executor executor) {
       super(prober);
 
-      this.executor = requireNonNull(executor);
+      this.executor = checkNotNull(executor);
     }
 
     @Override

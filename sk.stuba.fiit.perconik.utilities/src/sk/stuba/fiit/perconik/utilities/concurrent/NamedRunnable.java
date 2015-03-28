@@ -2,11 +2,11 @@ package sk.stuba.fiit.perconik.utilities.concurrent;
 
 import com.google.common.base.Supplier;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Suppliers.ofInstance;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 
 public abstract class NamedRunnable implements Runnable {
   private final Supplier<String> toString;
@@ -16,7 +16,7 @@ public abstract class NamedRunnable implements Runnable {
   }
 
   protected NamedRunnable(final Class<?> identity, final String name) {
-    this(ofInstance(identity.getName() + "$" + requireNonNullOrEmpty(name)));
+    this(ofInstance(identity.getName() + "$" + checkNotNullOrEmpty(name)));
   }
 
   protected NamedRunnable(final String name) {
@@ -24,11 +24,11 @@ public abstract class NamedRunnable implements Runnable {
   }
 
   protected NamedRunnable(final Supplier<String> supplier) {
-    this.toString = requireNonNull(supplier);
+    this.toString = checkNotNull(supplier);
   }
 
   @Override
   public final String toString() {
-    return requireNonNullOrEmpty(this.toString.get());
+    return checkNotNullOrEmpty(this.toString.get());
   }
 }

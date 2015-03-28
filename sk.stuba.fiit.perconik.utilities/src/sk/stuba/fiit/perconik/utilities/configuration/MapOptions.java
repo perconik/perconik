@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
@@ -28,7 +28,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
   MapOptions(final Map<String, Object> map, final Putter putter) {
     super(map);
 
-    this.putter = requireNonNull(putter);
+    this.putter = checkNotNull(putter);
   }
 
   public static MapOptions empty() {
@@ -200,7 +200,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     instance;
 
     public Object put(final Map<String, Object> map, final String key, final Object value) {
-      requireNonNull(map);
+      checkNotNull(map);
 
       try {
         return map.put(key, value);

@@ -7,7 +7,7 @@ import com.google.common.reflect.TypeToken;
 
 import org.eclipse.jface.viewers.IElementComparer;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class ElementComparers {
   private ElementComparers() {}
@@ -20,8 +20,8 @@ public final class ElementComparers {
     final Equivalence<T> equivalence;
 
     EquivalenceElementComparer(final TypeToken<T> type, final Equivalence<T> equivalence) {
-      this.type = requireNonNull(type);
-      this.equivalence = requireNonNull(equivalence);
+      this.type = checkNotNull(type);
+      this.equivalence = checkNotNull(equivalence);
     }
 
     // casts are unsafe but proper equivalence should fail on incorrectly typed objects
@@ -45,8 +45,8 @@ public final class ElementComparers {
     final IElementComparer comparer;
 
     ElementComparerEquivalence(final TypeToken<T> type, final IElementComparer comparer) {
-      this.type = requireNonNull(type);
-      this.comparer = requireNonNull(comparer);
+      this.type = checkNotNull(type);
+      this.comparer = checkNotNull(comparer);
     }
 
     @Override

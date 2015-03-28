@@ -61,7 +61,7 @@ import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
 import static java.lang.Thread.sleep;
 import static java.util.Collections.emptyMap;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
@@ -219,7 +219,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     final S service;
 
     ServiceStateListener(final S service) {
-      this.service = requireNonNull(service);
+      this.service = checkNotNull(service);
     }
   }
 
@@ -425,7 +425,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     }
 
     void setComponents(final Map<String, Nameable> components) {
-      this.components = requireNonNull(components);
+      this.components = checkNotNull(components);
     }
 
     @Override

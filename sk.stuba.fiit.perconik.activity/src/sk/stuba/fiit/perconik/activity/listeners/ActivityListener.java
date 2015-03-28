@@ -34,7 +34,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static com.google.common.base.Preconditions.checkState;
@@ -54,7 +54,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defaultPoolSizeScalingFactor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
@@ -290,9 +290,9 @@ public abstract class ActivityListener extends RegularListener {
     private final Map<String, OptionAccessor<Boolean>> accessors;
 
     ProbingOptionsFilter(final ActivityListener listener) {
-      this.listener = requireNonNull(listener);
-      this.accessors = requireNonNull(listener.probeKeyToOptionAccessor());
-      this.options = requireNonNull(listener.effectiveOptions());
+      this.listener = checkNotNull(listener);
+      this.accessors = checkNotNull(listener.probeKeyToOptionAccessor());
+      this.options = checkNotNull(listener.effectiveOptions());
     }
 
     public boolean apply(@Nonnull final Entry<String, Probe<?>> entry) {
@@ -316,7 +316,7 @@ public abstract class ActivityListener extends RegularListener {
   }
 
   protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
-    requireNonNull(this.optionsProvider);
+    checkNotNull(this.optionsProvider);
 
     return StandardProbingOptionsSchema.probeKeyToOptionAccessor;
   }
@@ -351,7 +351,7 @@ public abstract class ActivityListener extends RegularListener {
     protected ContinuousEvent(final L listener, final String identifier, final long pause, final long window, final TimeUnit unit) {
       super(listener, pause, window, unit);
 
-      this.identifier = requireNonNullOrEmpty(identifier);
+      this.identifier = checkNotNullOrEmpty(identifier);
       this.log = this.listener.log;
     }
 
@@ -402,8 +402,8 @@ public abstract class ActivityListener extends RegularListener {
     private final PluginConsole console;
 
     Log(final ActivityListener listener) {
-      this.options = requireNonNull(listener.effectiveOptions());
-      this.console = requireNonNull(listener.pluginConsole);
+      this.options = checkNotNull(listener.effectiveOptions());
+      this.console = checkNotNull(listener.pluginConsole);
     }
 
     @Override

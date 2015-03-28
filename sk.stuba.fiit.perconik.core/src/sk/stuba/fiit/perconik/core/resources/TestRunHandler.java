@@ -8,7 +8,7 @@ import org.eclipse.jdt.junit.model.ITestRunSession;
 
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 enum TestRunHandler implements Handler<TestRunListener> {
   INSTANCE;
@@ -17,7 +17,7 @@ enum TestRunHandler implements Handler<TestRunListener> {
     final TestRunListener listener;
 
     public TestRunListenerProxy(final TestRunListener listener) {
-      this.listener = requireNonNull(listener);
+      this.listener = checkNotNull(listener);
     }
 
     @Override

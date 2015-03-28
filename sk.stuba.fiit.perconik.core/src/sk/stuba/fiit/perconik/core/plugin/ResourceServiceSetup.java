@@ -5,7 +5,7 @@ import sk.stuba.fiit.perconik.core.services.Services;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceNamesSupplier;
 import sk.stuba.fiit.perconik.core.services.resources.ResourceService;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class ResourceServiceSetup extends ServiceSetup<ResourceService> {
   final ResourceNamesSupplier supplier;
@@ -13,7 +13,7 @@ final class ResourceServiceSetup extends ServiceSetup<ResourceService> {
   ResourceServiceSetup(final ResourceService service, final ResourceNamesSupplier supplier) {
     super(service);
 
-    this.supplier = requireNonNull(supplier);
+    this.supplier = checkNotNull(supplier);
   }
 
   @Override

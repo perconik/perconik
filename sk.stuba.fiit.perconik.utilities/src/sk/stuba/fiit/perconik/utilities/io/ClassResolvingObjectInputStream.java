@@ -7,7 +7,7 @@ import java.io.ObjectStreamClass;
 
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 
@@ -17,7 +17,7 @@ public class ClassResolvingObjectInputStream extends ObjectInputStream {
   public ClassResolvingObjectInputStream(final ClassResolver resolver, final InputStream in) throws IOException {
     super(in);
 
-    this.resolver = requireNonNull(resolver);
+    this.resolver = checkNotNull(resolver);
   }
 
   @Override

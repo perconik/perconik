@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Widget;
 
 import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers.toEquivalence;
 import static sk.stuba.fiit.perconik.utilities.MoreSets.newHashSet;
@@ -48,7 +48,7 @@ public class RegularTableViewer extends CheckboxTableViewer {
 
   @Override
   public boolean setGrayed(final Object element, final boolean state) {
-    Widget widget = this.findItem(requireNonNull(element));
+    Widget widget = this.findItem(checkNotNull(element));
 
     if (widget instanceof TableItem) {
       TableItem item = (TableItem) widget;

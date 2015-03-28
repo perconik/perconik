@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDeltaSet;
 import sk.stuba.fiit.perconik.core.java.dom.difference.NodeDifferencer;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 abstract class AbstractNodeDifferenceListener<T, N extends ASTNode, R extends ASTNode> extends AbstractCachingNodeListener<T, N> {
   final NodeDifferencer<? super N, R> differencer;
@@ -16,7 +16,7 @@ abstract class AbstractNodeDifferenceListener<T, N extends ASTNode, R extends AS
   AbstractNodeDifferenceListener(final DifferenceConfiguration<T, N, R> configuration) {
     super(configuration);
 
-    this.differencer = requireNonNull(configuration.differencer);
+    this.differencer = checkNotNull(configuration.differencer);
   }
 
   static class DifferenceConfiguration<T, N extends ASTNode, R extends ASTNode> extends CachingConfiguration<T, N> {
@@ -25,7 +25,7 @@ abstract class AbstractNodeDifferenceListener<T, N extends ASTNode, R extends AS
     DifferenceConfiguration() {}
 
     final void differencer(final NodeDifferencer<? super N, R> differencer) {
-      this.differencer = requireNonNull(differencer);
+      this.differencer = checkNotNull(differencer);
     }
   }
 

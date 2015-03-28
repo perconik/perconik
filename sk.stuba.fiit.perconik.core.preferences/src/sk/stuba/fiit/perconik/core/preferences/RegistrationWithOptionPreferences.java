@@ -14,7 +14,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.Options;
 import sk.stuba.fiit.perconik.utilities.configuration.ScopedConfigurable;
 import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -36,7 +36,7 @@ abstract class RegistrationWithOptionPreferences<R extends Registration, K> exte
 
   final void putDefaultOptionsIfPresent(final Map<K, Options> options, final K key, final Object object) {
     if (object instanceof ScopedConfigurable) {
-      Options untrusted = requireNonNull(((ScopedConfigurable) object).getOptions(StandardScope.DEFAULT));
+      Options untrusted = checkNotNull(((ScopedConfigurable) object).getOptions(StandardScope.DEFAULT));
 
       options.put(key, MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())));
     }

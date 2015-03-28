@@ -5,7 +5,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * TODO
@@ -17,7 +17,7 @@ public abstract class ParametricResourceEventResolver<P> extends ResourceEventRe
   private final P parameter;
 
   protected ParametricResourceEventResolver(final P parameter) {
-    this.parameter = requireNonNull(parameter);
+    this.parameter = checkNotNull(parameter);
   }
 
   @Override

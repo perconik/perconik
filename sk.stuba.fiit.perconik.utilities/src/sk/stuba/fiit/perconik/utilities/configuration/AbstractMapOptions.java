@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ForwardingMap;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * TODO
@@ -21,7 +21,7 @@ public abstract class AbstractMapOptions extends ForwardingMap<String, Object> i
    * Constructor for use by subclasses.
    */
   protected AbstractMapOptions(final Map<String, Object> map) {
-    this.map = requireNonNull(map);
+    this.map = checkNotNull(map);
   }
 
   /**

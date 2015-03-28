@@ -16,7 +16,7 @@ import sk.stuba.fiit.perconik.data.bind.Writer;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -26,7 +26,7 @@ final class UacaReporter {
   final UacaOptions options;
 
   UacaReporter(final UacaOptions options, final TimeSource source) {
-    this.options = requireNonNull(options);
+    this.options = checkNotNull(options);
 
     this.console = UacaConsole.create(options, source);
   }

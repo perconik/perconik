@@ -5,7 +5,7 @@ import com.google.common.base.Objects.ToStringHelper;
 import sk.stuba.fiit.perconik.utilities.io.Serialization;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.firstNonNullOrEmpty;
 
@@ -15,7 +15,7 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
   public AbstractObjectPreferences(final Scope scope, final String qualifier, final ClassResolver resolver) {
     super(scope, qualifier);
 
-    this.resolver = requireNonNull(resolver);
+    this.resolver = checkNotNull(resolver);
   }
 
   static final Object fromBytes(final String key, final byte[] value, final ClassResolver resolver) {

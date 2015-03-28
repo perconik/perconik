@@ -8,7 +8,7 @@ import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.ViewportListener;
 import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.core.resources.Ui.dereferencePart;
 
@@ -29,7 +29,7 @@ final class ViewportHook extends InternalHook<ITextViewer, ViewportListener> imp
     ViewportListenerProxy(final ViewportListener listener, final ITextViewer viewer) {
       super(listener);
 
-      this.viewer = requireNonNull(viewer);
+      this.viewer = checkNotNull(viewer);
     }
 
     public void viewportChanged(final int verticalOffset) {

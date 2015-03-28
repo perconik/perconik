@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.reflect.TypeToken;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.requireNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 
 public abstract class AbstractOptionMapping<T> implements OptionMapping<T> {
   /**
@@ -29,8 +29,8 @@ public abstract class AbstractOptionMapping<T> implements OptionMapping<T> {
    * Constructor for use by subclasses.
    */
   protected AbstractOptionMapping(final TypeToken<T> type, final String key, @Nullable final T defaultValue) {
-    this.type = requireNonNull(type);
-    this.key = requireNonNullOrEmpty(key);
+    this.type = checkNotNull(type);
+    this.key = checkNotNullOrEmpty(key);
     this.defaultValue = defaultValue;
   }
 

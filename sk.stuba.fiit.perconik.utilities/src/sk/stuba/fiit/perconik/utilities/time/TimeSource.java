@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Ticker;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A time source; returns a time value representing the number of milliseconds
@@ -45,7 +45,7 @@ public abstract class TimeSource {
     final Ticker ticker;
 
     TickerTimeSource(final Ticker ticker) {
-      this.ticker = requireNonNull(ticker);
+      this.ticker = checkNotNull(ticker);
     }
 
     @Override
@@ -58,7 +58,7 @@ public abstract class TimeSource {
     final TimeSource source;
 
     TimeSourceTicker(final TimeSource source) {
-      this.source = requireNonNull(source);
+      this.source = checkNotNull(source);
     }
 
     @Override

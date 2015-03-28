@@ -21,7 +21,7 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.environment.Environment;
 
 import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -113,7 +113,7 @@ abstract class AbstractExtensionProcessor<T> {
 
     SafeBlock(final Object object) {
       this.processor = AbstractExtensionProcessor.this;
-      this.object = requireNonNull(object);
+      this.object = checkNotNull(object);
     }
 
     public final void execute() {
@@ -133,7 +133,7 @@ abstract class AbstractExtensionProcessor<T> {
     SafeGet(final Object object, final Class<R> type) {
       super(object);
 
-      this.type = requireNonNull(type);
+      this.type = checkNotNull(type);
     }
 
     public final void run() throws Exception {

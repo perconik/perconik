@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class StandardPluginConsole implements PluginConsole {
   private final Plugin plugin;
@@ -16,8 +16,8 @@ final class StandardPluginConsole implements PluginConsole {
   private final PrintStream out;
 
   StandardPluginConsole(final Plugin plugin, final PrintStream out) {
-    this.plugin = requireNonNull(plugin);
-    this.out = requireNonNull(out);
+    this.plugin = checkNotNull(plugin);
+    this.out = checkNotNull(out);
   }
 
   private void log(final Status status) {

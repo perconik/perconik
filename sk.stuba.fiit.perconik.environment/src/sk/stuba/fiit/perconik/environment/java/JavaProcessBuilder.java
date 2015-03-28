@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import com.google.common.base.Joiner;
 
 import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -28,8 +28,8 @@ public abstract class JavaProcessBuilder {
   final List<String> arguments;
 
   JavaProcessBuilder(final Path java, final String target) {
-    this.java = requireNonNull(java);
-    this.target = requireNonNull(target);
+    this.java = checkNotNull(java);
+    this.target = checkNotNull(target);
     this.options = newArrayList();
     this.arguments = newArrayList();
   }
@@ -42,11 +42,11 @@ public abstract class JavaProcessBuilder {
   }
 
   public static JavaProcessBuilder forClass(final String name) {
-    return new ClassTarget(Defaults.java, requireNonNullOrEmpty(name));
+    return new ClassTarget(Defaults.java, checkNotNullOrEmpty(name));
   }
 
   public static JavaProcessBuilder forClass(final String name, final Path java) {
-    return new ClassTarget(java, requireNonNullOrEmpty(name));
+    return new ClassTarget(java, checkNotNullOrEmpty(name));
   }
 
   public static JavaProcessBuilder forJar(final Path jar) {
@@ -83,11 +83,11 @@ public abstract class JavaProcessBuilder {
   abstract void addTarget(List<String> command);
 
   void addOption(final String value) {
-    this.options.add("-" + requireNonNullOrEmpty(value));
+    this.options.add("-" + checkNotNullOrEmpty(value));
   }
 
   void addOptionWithArgument(final String name, final Object argument) {
-    this.options.add("-" + requireNonNullOrEmpty(name));
+    this.options.add("-" + checkNotNullOrEmpty(name));
 
     String value = argument.toString();
 
@@ -97,15 +97,15 @@ public abstract class JavaProcessBuilder {
   }
 
   void addNonStandardOption(final String value) {
-    this.options.add("-X" + requireNonNullOrEmpty(value));
+    this.options.add("-X" + checkNotNullOrEmpty(value));
   }
 
   void addSystemProperty(final String name, final Object value) {
-    this.options.add("-D" + requireNonNullOrEmpty(name) + "=" + value.toString());
+    this.options.add("-D" + checkNotNullOrEmpty(name) + "=" + value.toString());
   }
 
   void addArgument(final Object value) {
-    this.arguments.add(requireNonNullOrEmpty(value.toString()));
+    this.arguments.add(checkNotNullOrEmpty(value.toString()));
   }
 
   public JavaProcessBuilder option(final String value) {
@@ -190,7 +190,7 @@ public abstract class JavaProcessBuilder {
     return this;
   }
 
-  private static String requireNonNullOrEmpty(final String value) {
+  private static String checkNotNullOrEmpty(final String value) {
     checkArgument(!isNullOrEmpty(value));
 
     return value;

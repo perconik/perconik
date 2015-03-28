@@ -56,7 +56,7 @@ import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
@@ -637,7 +637,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
   }
 
   final void setPreferences(final P preferences) {
-    this.preferences = requireNonNull(preferences);
+    this.preferences = checkNotNull(preferences);
   }
 
   final P getPreferences() {

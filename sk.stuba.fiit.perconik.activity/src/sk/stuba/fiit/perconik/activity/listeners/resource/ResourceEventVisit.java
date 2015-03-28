@@ -5,7 +5,7 @@ import com.google.common.base.Optional;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Optional.fromNullable;
 
@@ -39,10 +39,10 @@ final class ResourceEventVisit {
   }
 
   static ResourceEventVisit of(final ResourceEventInput input, final IResourceDelta delta) {
-    return new ResourceEventVisit(requireNonNull(input), fromNullable(delta), Optional.<IResource>absent());
+    return new ResourceEventVisit(checkNotNull(input), fromNullable(delta), Optional.<IResource>absent());
   }
 
   static ResourceEventVisit of(final ResourceEventInput input, final IResource resource) {
-    return new ResourceEventVisit(requireNonNull(input), Optional.<IResourceDelta>absent(), fromNullable(resource));
+    return new ResourceEventVisit(checkNotNull(input), Optional.<IResourceDelta>absent(), fromNullable(resource));
   }
 }

@@ -8,7 +8,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Windows.getActiveWindow;
 import static sk.stuba.fiit.perconik.eclipse.ui.Windows.waitForActiveWindow;
@@ -94,7 +94,7 @@ public final class Pages {
    * @see #getActivePage(IWorkbenchWindow)
    */
   public static IWorkbenchPage waitForActivePage(final IWorkbenchWindow window) {
-    requireNonNull(window);
+    checkNotNull(window);
 
     IWorkbenchPage page;
 

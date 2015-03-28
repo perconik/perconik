@@ -5,13 +5,13 @@ import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.history.RefactoringHistoryEvent;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class RefactoringEventProxy<E> {
   final E raw;
 
   RefactoringEventProxy(final E raw) {
-    this.raw = requireNonNull(raw);
+    this.raw = checkNotNull(raw);
   }
 
   public static final RefactoringEventProxy<RefactoringExecutionEvent> wrap(final RefactoringExecutionEvent event) {

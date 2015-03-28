@@ -23,7 +23,7 @@ import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
@@ -132,7 +132,7 @@ public final class Activator extends ExtendedPlugin {
   public static void loadServices(final Runnable hook) {
     Activator plugin = defaultInstance();
 
-    requireNonNull(plugin, "Default instance not available");
+    checkNotNull(plugin, "Default instance not available");
 
     synchronized (plugin) {
       if (plugin.loaded) {
@@ -156,7 +156,7 @@ public final class Activator extends ExtendedPlugin {
   public static void unloadServices() {
     Activator plugin = defaultInstance();
 
-    requireNonNull(plugin, "Default instance not available");
+    checkNotNull(plugin, "Default instance not available");
 
     synchronized (plugin) {
       if (!plugin.loaded) {

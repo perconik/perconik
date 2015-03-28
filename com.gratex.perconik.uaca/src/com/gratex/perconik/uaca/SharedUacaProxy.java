@@ -19,7 +19,7 @@ import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
@@ -50,7 +50,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   }
 
   public SharedUacaProxy(final UacaOptions options, final TimeSource source) {
-    this.options = requireNonNull(options);
+    this.options = checkNotNull(options);
 
     this.reporter = new UacaReporter(options, source);
   }

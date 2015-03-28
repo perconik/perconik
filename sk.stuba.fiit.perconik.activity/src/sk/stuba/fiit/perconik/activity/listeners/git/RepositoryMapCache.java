@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.jgit.lib.Repository;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newConcurrentMap;
@@ -19,11 +19,11 @@ final class RepositoryMapCache<K, V> {
   }
 
   boolean load(final Repository repository, final K key, final V value) {
-    return this.map.putIfAbsent(immutableEntry(repository.getDirectory(), key), requireNonNull(value)) == null;
+    return this.map.putIfAbsent(immutableEntry(repository.getDirectory(), key), checkNotNull(value)) == null;
   }
 
   V update(final Repository repository, final K key, final V value) {
-    V previous = this.map.replace(immutableEntry(repository.getDirectory(), key), requireNonNull(value));
+    V previous = this.map.replace(immutableEntry(repository.getDirectory(), key), checkNotNull(value));
 
     return !value.equals(previous) ? previous : null;
   }

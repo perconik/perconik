@@ -9,7 +9,7 @@ import sk.stuba.fiit.perconik.core.persistence.data.ListenerPersistenceData;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.collect.Maps.newHashMap;
 
@@ -85,10 +85,10 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
 
   @Override
   Set<ListenerPersistenceData> castRegistrations(final Object object) {
-    Set<ListenerPersistenceData> registrations = Set.class.cast(requireNonNull(object));
+    Set<ListenerPersistenceData> registrations = Set.class.cast(checkNotNull(object));
 
     for (Object element: registrations) {
-      ListenerPersistenceData.class.cast(requireNonNull(element));
+      ListenerPersistenceData.class.cast(checkNotNull(element));
     }
 
     return registrations;
@@ -96,11 +96,11 @@ public final class ListenerPreferences extends RegistrationWithOptionPreferences
 
   @Override
   Map<Class<? extends Listener>, Options> castOptions(final Object object) {
-    Map<Class<? extends Listener>, Options> options = Map.class.cast(requireNonNull(object));
+    Map<Class<? extends Listener>, Options> options = Map.class.cast(checkNotNull(object));
 
     for (Entry<Class<? extends Listener>, Options> entry: options.entrySet()) {
-      Class.class.cast(requireNonNull(entry.getKey())).asSubclass(Listener.class);
-      Options.class.cast(requireNonNull(entry.getValue()));
+      Class.class.cast(checkNotNull(entry.getKey())).asSubclass(Listener.class);
+      Options.class.cast(checkNotNull(entry.getValue()));
     }
 
     return options;
