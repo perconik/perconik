@@ -31,7 +31,7 @@ import sk.stuba.fiit.perconik.eclipse.core.resources.Projects;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.eclipse.ui.Pages;
 
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayListWithCapacity;
@@ -235,7 +235,7 @@ public final class IdeFindListener extends IdeListener implements SearchQueryLis
   }
 
   void process(final long time, final ISearchQuery query) {
-    IWorkbenchPage page = execute(DisplayTask.of(Workbenches.activePageSupplier()));
+    IWorkbenchPage page = execute(DisplayTask.of(Pages.activePageSupplier()));
 
     IProject project = Projects.fromPage(page);
 

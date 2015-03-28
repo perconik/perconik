@@ -41,7 +41,7 @@ import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionStateHandler;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.eclipse.ui.Windows;
 
 import static java.util.Arrays.asList;
 
@@ -241,7 +241,7 @@ public final class IdeCodeListener extends IdeListener implements CommandExecuti
 
     @Override
     public String call() {
-      Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
+      Clipboard clipboard = new Clipboard(Windows.getActiveWindow().getShell().getDisplay());
 
       if (Collections.disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
         if (Log.enabled()) {
