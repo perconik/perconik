@@ -6,7 +6,7 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -23,7 +23,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener.
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.1.alpha")
+@Version("0.0.2.alpha")
 public final class TextCutListener extends AbstractTextCopyListener implements CommandExecutionListener {
   public TextCutListener() {}
 
@@ -57,11 +57,11 @@ public final class TextCutListener extends AbstractTextCopyListener implements C
   }
 
   @Override
-  boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection) {
+  boolean validate(final IWorkbenchPart part, final IDocument document, final LineRegion region, final String selection) {
     boolean valid = selection.isEmpty();
 
     if (!valid && this.log.isEnabled()) {
-      this.log.print("%s: editor selection not empty '%s'", "cut", selection);
+      this.log.print("%s: part selection not empty '%s'", "cut", selection);
     }
 
     return valid;
