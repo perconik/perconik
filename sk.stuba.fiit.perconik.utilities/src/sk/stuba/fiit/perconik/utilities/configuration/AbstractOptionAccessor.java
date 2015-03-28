@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.reflect.TypeToken;
 
-import static sk.stuba.fiit.perconik.utilities.MoreObjects.firstNonNullOrNull;
+import static sk.stuba.fiit.perconik.utilities.Nullables.firstNonNullOrNull;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newReader;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newWriter;
 
