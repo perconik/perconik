@@ -74,6 +74,14 @@ public final class LineRegion {
     }
   }
 
+  public LineRegion normalize() {
+    if (this.start.line <= this.end.line) {
+      return this;
+    }
+
+    return new LineRegion(this.end, this.start, this.text);
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
