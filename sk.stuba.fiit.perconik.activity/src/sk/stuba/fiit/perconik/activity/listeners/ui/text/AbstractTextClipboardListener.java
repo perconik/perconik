@@ -14,13 +14,21 @@ import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
  * @author Pavol Zbell
  * @since 1.0
  */
-abstract class AbstractTextCopyListener extends AbstractTextListener {
-  AbstractTextCopyListener() {}
+abstract class AbstractTextClipboardListener extends AbstractTextListener {
+  AbstractTextClipboardListener() {}
 
   final void process(final long time, final Action action) {
     String text = this.execute(ClipboardReader.instance);
 
     TextSelectionCapture capture = this.execute(TextSelectionReader.instance);
+
+    if (capture == null) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: unable to capture content", "clipboard");
+      }
+
+      return;
+    }
 
     IWorkbenchPart part = capture.part;
     ITextViewer viewer = capture.viewer;

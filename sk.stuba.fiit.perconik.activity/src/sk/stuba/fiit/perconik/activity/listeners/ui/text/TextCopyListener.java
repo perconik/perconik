@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * @since 1.0
  */
 @Version("0.0.2.alpha")
-public final class TextCopyListener extends AbstractTextCopyListener implements CommandExecutionListener {
+public final class TextCopyListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextCopyListener() {}
 
   enum Action implements ActivityListener.Action {

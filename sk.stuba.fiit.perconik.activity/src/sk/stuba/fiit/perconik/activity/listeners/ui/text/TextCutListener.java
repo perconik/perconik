@@ -24,7 +24,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener.
  * @since 1.0
  */
 @Version("0.0.2.alpha")
-public final class TextCutListener extends AbstractTextCopyListener implements CommandExecutionListener {
+public final class TextCutListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextCutListener() {}
 
   enum Action implements ActivityListener.Action {
@@ -58,7 +58,7 @@ public final class TextCutListener extends AbstractTextCopyListener implements C
 
   @Override
   boolean validate(final IWorkbenchPart part, final IDocument document, final LineRegion region, final String selection) {
-    boolean valid = selection.isEmpty();
+    boolean valid = region.text != null && selection.isEmpty();
 
     if (!valid && this.log.isEnabled()) {
       this.log.print("%s: part selection not empty '%s'", "cut", selection);
