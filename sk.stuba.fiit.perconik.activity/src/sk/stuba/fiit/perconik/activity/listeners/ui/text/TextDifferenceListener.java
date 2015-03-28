@@ -13,7 +13,7 @@ import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPart;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
@@ -21,7 +21,7 @@ import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -40,7 +40,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, FileBufferListener {
   // TODO note that difference must be initiated by user after startup to be sent on shutdown
 
@@ -81,8 +81,8 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     }
   }
 
-  Event build(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final IEditorPart editor, final String before, final String after) {
-    Event data = this.build(time, action, editor);
+  Event build(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final IWorkbenchPart part, final String before, final String after) {
+    Event data = this.build(time, action, part);
 
     data.put(key("difference", "events", "first", "timestamp"), sequence.getFirst().time);
 
@@ -98,9 +98,9 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
   void process(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final String before, final String after) {
     IDocument document = sequence.getLast().document;
-    IEditorPart editor = Editors.forDocument(document);
+    IWorkbenchPart part = Parts.forDocument(document);
 
-    this.send(action.getPath(), this.build(time, action, sequence, editor, before, after));
+    this.send(action.getPath(), this.build(time, action, sequence, part, before, after));
   }
 
   static final class TextDocumentEvents extends ContinuousEvent<TextDifferenceListener, TextDocumentEvent> {
@@ -280,11 +280,15 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     IDocument document = Documents.fromFileBuffer(buffer);
 
     if (document == null) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: document not found for %s", "difference", buffer);
+      }
+
       return;
     }
 
     // ensures that difference events are forced to process on document save,
-    // as a side effect this also handles correct shutdown behavior
+    // as a side effect this also partially handles correct shutdown behavior
 
     this.events.push(new TextDocumentEvent(time, document, true));
   }
