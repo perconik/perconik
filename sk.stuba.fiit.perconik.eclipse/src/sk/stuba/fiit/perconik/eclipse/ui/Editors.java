@@ -43,19 +43,29 @@ public final class Editors {
   public static IEditorPart forTextViewer(final ITextViewer viewer, final boolean restore) {
     for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
       for (IWorkbenchPage page: window.getPages()) {
-        IEditorPart editor = page.getActiveEditor();
+        IEditorPart editor = forTextViewer(page, viewer, restore);
 
-        if (viewer.equals(getTextViewer(editor))) {
+        if (editor != null) {
           return editor;
         }
+      }
+    }
 
-        for (IEditorReference reference: page.getEditorReferences()) {
-          editor = reference.getEditor(restore);
+    return null;
+  }
 
-          if (viewer.equals(getTextViewer(editor))) {
-            return editor;
-          }
-        }
+  static IEditorPart forTextViewer(final IWorkbenchPage page, final ITextViewer viewer, final boolean restore) {
+    IEditorPart editor = page.getActiveEditor();
+
+    if (viewer.equals(getTextViewer(editor))) {
+      return editor;
+    }
+
+    for (IEditorReference reference: page.getEditorReferences()) {
+      editor = reference.getEditor(restore);
+
+      if (viewer.equals(getTextViewer(editor))) {
+        return editor;
       }
     }
 
@@ -69,19 +79,29 @@ public final class Editors {
   public static IEditorPart forDocument(final IDocument document, final boolean restore) {
     for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
       for (IWorkbenchPage page: window.getPages()) {
-        IEditorPart editor = page.getActiveEditor();
+        IEditorPart editor = forDocument(page, document, restore);
 
-        if (document.equals(getDocument(editor))) {
+        if (editor != null) {
           return editor;
         }
+      }
+    }
 
-        for (IEditorReference reference: page.getEditorReferences()) {
-          editor = reference.getEditor(restore);
+    return null;
+  }
 
-          if (document.equals(getDocument(editor))) {
-            return editor;
-          }
-        }
+  static IEditorPart forDocument(final IWorkbenchPage page, final IDocument document, final boolean restore) {
+    IEditorPart editor = page.getActiveEditor();
+
+    if (document.equals(getDocument(editor))) {
+      return editor;
+    }
+
+    for (IEditorReference reference: page.getEditorReferences()) {
+      editor = reference.getEditor(restore);
+
+      if (document.equals(getDocument(editor))) {
+        return editor;
       }
     }
 

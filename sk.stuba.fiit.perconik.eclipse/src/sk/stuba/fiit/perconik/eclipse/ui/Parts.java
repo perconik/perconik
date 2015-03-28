@@ -30,6 +30,54 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Windows.getActiveWindow;
 public final class Parts {
   private Parts() {}
 
+  public static IWorkbenchPart forTextViewer(final ITextViewer viewer) {
+    return forTextViewer(viewer, false);
+  }
+
+  public static IWorkbenchPart forTextViewer(final ITextViewer viewer, final boolean restore) {
+    for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
+      for (IWorkbenchPage page: window.getPages()) {
+        IWorkbenchPart editor = Editors.forTextViewer(page, viewer, restore);
+
+        if (editor != null) {
+          return editor;
+        }
+
+        IWorkbenchPart view = Views.forTextViewer(page, viewer, restore);
+
+        if (view != null) {
+          return view;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  public static IWorkbenchPart forDocument(final IDocument document) {
+    return forDocument(document, false);
+  }
+
+  public static IWorkbenchPart forDocument(final IDocument document, final boolean restore) {
+    for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
+      for (IWorkbenchPage page: window.getPages()) {
+        IWorkbenchPart editor = Editors.forDocument(page, document, restore);
+
+        if (editor != null) {
+          return editor;
+        }
+
+        IWorkbenchPart view = Views.forDocument(page, document, restore);
+
+        if (view != null) {
+          return view;
+        }
+      }
+    }
+
+    return null;
+  }
+
   public static Supplier<IWorkbenchPart> activePartSupplier() {
     return new Supplier<IWorkbenchPart>() {
       public IWorkbenchPart get() {

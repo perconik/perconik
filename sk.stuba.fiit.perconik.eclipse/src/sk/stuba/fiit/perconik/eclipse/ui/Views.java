@@ -4,6 +4,10 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Supplier;
 
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
@@ -30,6 +34,78 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Windows.waitForActiveWindow;
  */
 public final class Views {
   private Views() {}
+
+  public static IViewPart forTextViewer(final ITextViewer viewer) {
+    return forTextViewer(viewer, false);
+  }
+
+  public static IViewPart forTextViewer(final ITextViewer viewer, final boolean restore) {
+    for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
+      for (IWorkbenchPage page: window.getPages()) {
+        IViewPart view = forTextViewer(page, viewer, restore);
+
+        if (view != null) {
+          return view;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  static IViewPart forTextViewer(final IWorkbenchPage page, final ITextViewer viewer, final boolean restore) {
+    IViewPart view = getActiveView(page);
+
+    if (viewer.equals(getTextViewer(view))) {
+      return view;
+    }
+
+    for (IViewReference reference: page.getViewReferences()) {
+      view = reference.getView(restore);
+
+      if (viewer.equals(getTextViewer(view))) {
+        return view;
+      }
+    }
+
+    return null;
+  }
+
+  public static IViewPart forDocument(final IDocument document) {
+    return forDocument(document, false);
+  }
+
+  public static IViewPart forDocument(final IDocument document, final boolean restore) {
+    for (IWorkbenchWindow window: Workbenches.getWorkbench().getWorkbenchWindows()) {
+      for (IWorkbenchPage page: window.getPages()) {
+        IViewPart view = forDocument(page, document, restore);
+
+        if (view != null) {
+          return view;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  static IViewPart forDocument(final IWorkbenchPage page, final IDocument document, final boolean restore) {
+    IViewPart view = getActiveView(page);
+
+    if (document.equals(getDocument(view))) {
+      return view;
+    }
+
+    for (IViewReference reference: page.getViewReferences()) {
+      view = reference.getView(restore);
+
+      if (document.equals(getDocument(view))) {
+        return view;
+      }
+    }
+
+    return null;
+  }
 
   public static Supplier<IViewPart> activeViewSupplier() {
     return new Supplier<IViewPart>() {
@@ -173,6 +249,46 @@ public final class Views {
    */
   public static IViewReference getActiveViewReference(@Nullable final IWorkbench workbench) {
     return getActiveViewReference(getActiveWindow(workbench));
+  }
+
+  /**
+   * Gets the text viewer from given view.
+   * @param view the view, may be {@code null}
+   * @return the text viewer or {@code null} if the view
+   *         is {@code null} or there is no text viewer
+   */
+  public static ITextViewer getTextViewer(@Nullable final IViewPart view) {
+    return Parts.getTextViewer(view);
+  }
+
+  /**
+   * Gets the source viewer from given view.
+   * @param view the view, may be {@code null}
+   * @return the source viewer or {@code null} if the view
+   *         is {@code null} or there is no source viewer
+   */
+  public static ISourceViewer getSourceViewer(@Nullable final IViewPart view) {
+    return Parts.getSourceViewer(view);
+  }
+
+  /**
+   * Gets the text widget from given view.
+   * @param view the view, may be {@code null}
+   * @return the text widget or {@code null} if the view
+   *         is {@code null} or there is no text widget
+   */
+  public static StyledText getStyledText(@Nullable final IViewPart view) {
+    return Parts.getStyledText(view);
+  }
+
+  /**
+   * Gets the input document from given view.
+   * @param view the view, may be {@code null}
+   * @return the document or {@code null} if the view
+   *         is {@code null} or there is no document
+   */
+  public static IDocument getDocument(@Nullable final IViewPart view) {
+    return Parts.getDocument(view);
   }
 
   /**
