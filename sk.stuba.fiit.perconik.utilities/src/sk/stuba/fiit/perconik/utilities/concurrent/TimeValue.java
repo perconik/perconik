@@ -54,7 +54,7 @@ public final class TimeValue implements Comparable<TimeValue>, Serializable {
 
       if (last == 'n') {
         return new TimeValue(parseLong(part), NANOSECONDS);
-      } else if (last == 'µ') {
+      } else if (last == '\u00b5') {
         return new TimeValue(parseLong(part), MILLISECONDS);
       } else if (last == 'm') {
         return new TimeValue(parseLong(part), MICROSECONDS);

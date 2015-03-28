@@ -26,7 +26,7 @@ public final class TimeUnits {
       case "ns":
         return NANOSECONDS;
 
-      case "µs":
+      case "\u00b5s":
         return MICROSECONDS;
 
       case "ms":
@@ -55,7 +55,7 @@ public final class TimeUnits {
         return "ns";
 
       case MICROSECONDS:
-        return "µs";
+        return "\u00b5s";
 
       case MILLISECONDS:
         return "ms";
