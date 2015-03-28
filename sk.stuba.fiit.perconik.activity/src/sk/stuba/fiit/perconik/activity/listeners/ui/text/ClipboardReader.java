@@ -8,7 +8,7 @@ import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.eclipse.ui.Windows;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.disjoint;
@@ -22,7 +22,7 @@ final class ClipboardReader extends DisplayTask<String> {
 
   @Override
   public String call() {
-    Clipboard clipboard = new Clipboard(Workbenches.getActiveWindow().getShell().getDisplay());
+    Clipboard clipboard = new Clipboard(Windows.getActiveWindow().getShell().getDisplay());
 
     if (disjoint(supportedTypeNames, asList(clipboard.getAvailableTypeNames()))) {
       return null;

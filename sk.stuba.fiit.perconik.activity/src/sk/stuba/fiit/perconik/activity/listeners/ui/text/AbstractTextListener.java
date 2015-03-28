@@ -1,18 +1,16 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
-import sk.stuba.fiit.perconik.activity.serializers.ui.EditorSerializer;
+import sk.stuba.fiit.perconik.activity.serializers.ui.PartSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
-import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
@@ -28,39 +26,35 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 abstract class AbstractTextListener extends ActivityListener {
   AbstractTextListener() {}
 
-  final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view) {
-    assert UnderlyingView.from(editor).equals(view);
-
+  final Event build(final long time, final Action action, final IWorkbenchPart part) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("editor"), this.execute(asDisplayTask(new EditorSerializer(), editor)));
+    data.put(key("part"), this.execute(asDisplayTask(new PartSerializer(), part)));
 
-    IEditorSite site = editor.getEditorSite();
+    IWorkbenchPartSite site = part.getSite();
 
     if (site != null) {
       IWorkbenchPage page = site.getPage();
       IWorkbenchWindow window = page.getWorkbenchWindow();
       IWorkbench workbench = window.getWorkbench();
 
-      data.put(key("editor", "page"), identifyObject(page));
-      data.put(key("editor", "page", "window"), identifyObject(window));
-      data.put(key("editor", "page", "window", "workbench"), identifyObject(workbench));
+      data.put(key("part", "page"), identifyObject(page));
+      data.put(key("part", "page", "window"), identifyObject(window));
+      data.put(key("part", "page", "window", "workbench"), identifyObject(workbench));
     }
 
     return data;
   }
 
-  final Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final LineRegion region) {
-    Event data = build(time, action, editor, view);
+  final Event build(final long time, final Action action, final IWorkbenchPart part, final LineRegion region) {
+    Event data = this.build(time, action, part);
 
     data.put(key("region"), new LineRegionSerializer().serialize(region));
 
     return data;
   }
 
-  final void process(final long time, final Action action, final IEditorPart editor, final IDocument document, final LineRegion region) {
-    UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
-
-    this.send(action.getPath(), this.build(time, action, editor, view, region));
+  final void process(final long time, final Action action, final IWorkbenchPart part, final LineRegion region) {
+    this.send(action.getPath(), this.build(time, action, part, region));
   }
 }

@@ -14,12 +14,11 @@ final class TextSelectionReader extends DisplayTask<TextSelectionCapture> {
   @Override
   public TextSelectionCapture call() {
     IEditorPart editor = Editors.getActiveEditor();
+    ITextViewer viewer = Editors.getTextViewer(editor);
 
-    if (editor == null) {
+    if (editor == null || viewer == null) {
       return null;
     }
-
-    ITextViewer viewer = Editors.getTextViewer(editor);
 
     return new TextSelectionCapture(editor, viewer, viewer.getSelectedRange());
   }

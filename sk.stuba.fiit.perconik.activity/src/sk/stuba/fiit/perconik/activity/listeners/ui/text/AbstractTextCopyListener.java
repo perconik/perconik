@@ -22,6 +22,10 @@ abstract class AbstractTextCopyListener extends AbstractTextListener {
 
     TextSelectionCapture capture = this.execute(TextSelectionReader.instance);
 
+    if (capture == null) {
+      return;
+    }
+
     IEditorPart editor = capture.editor;
     ITextViewer viewer = capture.viewer;
     IDocument document = viewer.getDocument();
@@ -31,7 +35,7 @@ abstract class AbstractTextCopyListener extends AbstractTextListener {
     int offset = range.x;
     int length = range.y;
 
-    LineRegion region = LineRegion.compute(document, offset, length, text);
+    LineRegion region = LineRegion.compute(document, offset, length, text).normalize();
     String selection = Documents.get(document, offset, length);
 
     this.process(time, action, editor, document, region, selection);
@@ -42,7 +46,7 @@ abstract class AbstractTextCopyListener extends AbstractTextListener {
       return;
     }
 
-    this.process(time, action, editor, document, region);
+    this.process(time, action, editor, region);
   }
 
   abstract boolean validate(final IEditorPart editor, final IDocument document, final LineRegion region, final String selection);

@@ -20,7 +20,6 @@ import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
-import sk.stuba.fiit.perconik.eclipse.jdt.ui.UnderlyingView;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.ui.Editors;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
@@ -41,8 +40,10 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.3.alpha")
 public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, FileBufferListener {
+  // TODO note that difference must be initiated by user after startup to be sent on shutdown
+
   static final TimeValue differenceEventPause = of(500, MILLISECONDS);
 
   static final TimeValue differenceEventWindow = of(10, SECONDS);
@@ -80,21 +81,26 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     }
   }
 
-  Event build(final long time, final Action action, final IEditorPart editor, final UnderlyingView<?> view, final String before, final String after) {
-    Event data = this.build(time, action, editor, view);
+  Event build(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final IEditorPart editor, final String before, final String after) {
+    Event data = this.build(time, action, editor);
 
-    data.put(key("text", "before"), before);
-    data.put(key("text", "after"), after);
+    data.put(key("difference", "events", "first", "timestamp"), sequence.getFirst().time);
+
+    data.put(key("difference", "events", "last", "timestamp"), sequence.getLast().time);
+
+    data.put(key("difference", "events", "count"), sequence.size());
+
+    data.put(key("difference", "text", "before"), before);
+    data.put(key("difference", "text", "after"), after);
 
     return data;
   }
 
-  void process(final long time, final Action action, final TextDocumentEvent event, final String before, final String after) {
-    IDocument document = event.document;
+  void process(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final String before, final String after) {
+    IDocument document = sequence.getLast().document;
     IEditorPart editor = Editors.forDocument(document);
-    UnderlyingView<?> view = UnderlyingView.resolve(document, editor);
 
-    this.send(action.getPath(), this.build(time, action, editor, view, before, after));
+    this.send(action.getPath(), this.build(time, action, sequence, editor, before, after));
   }
 
   static final class TextDocumentEvents extends ContinuousEvent<TextDifferenceListener, TextDocumentEvent> {
@@ -179,7 +185,9 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     protected void process(final LinkedList<TextDocumentEvent> sequence) {
       assert sequence.getFirst().document.equals(sequence.getLast().document);
 
-      IDocument document = sequence.getLast().document;
+      TextDocumentEvent last = sequence.getLast();
+
+      IDocument document = last.document;
 
       String before = this.cache.getIfPresent(document);
       String after = document.get();
@@ -208,20 +216,18 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
       this.update(document, after, true);
 
-      this.listener.handleAcceptedDifference(sequence.getLast(), before, after);
+      this.listener.handleDocumentEvents(sequence, before, after);
     }
   }
 
-  void handleAcceptedDifference(final TextDocumentEvent event, final String before, final String after) {
+  void handleDocumentEvents(final LinkedList<TextDocumentEvent> sequence, final String before, final String after) {
     this.execute(new Runnable() {
       public void run() {
-        process(event.time, DIFFERENCE, event, before, after);
+        TextDocumentEvent event = sequence.getLast();
+
+        process(event.time, DIFFERENCE, sequence, before, after);
       }
     });
-  }
-
-  void handleUnsentDifferenceOnUnregistration() {
-    this.events.flush();
   }
 
   public void documentAboutToBeChanged(final DocumentEvent event) {
@@ -276,6 +282,9 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     if (document == null) {
       return;
     }
+
+    // ensures that difference events are forced to process on document save,
+    // as a side effect this also handles correct shutdown behavior
 
     this.events.push(new TextDocumentEvent(time, document, true));
   }

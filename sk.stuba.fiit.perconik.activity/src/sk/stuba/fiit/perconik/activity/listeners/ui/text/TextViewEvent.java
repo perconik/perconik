@@ -2,29 +2,35 @@ package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
 import org.eclipse.jface.text.ITextViewer;
 
-final class TextViewEvent {
-  final long time;
+import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
+import static com.google.common.collect.Range.closed;
+
+final class TextViewEvent extends AbstractTextEvent {
   final ITextViewer viewer;
+
+  final LineRegion region;
 
   final int verticalOffset;
 
-  final boolean last;
+  TextViewEvent(final long time, final ITextViewer viewer, final LineRegion region, final int verticalOffset) {
+    super(time);
 
-  TextViewEvent(final long time, final ITextViewer viewer, final int verticalOffset) {
-    this(time, viewer, verticalOffset, false);
-  }
+    assert viewer != null && region != null;
 
-  TextViewEvent(final long time, final ITextViewer viewer, final int verticalOffset, final boolean last) {
-    assert time >= 0L && viewer != null;
-
-    this.time = time;
     this.viewer = viewer;
+    this.region = region;
     this.verticalOffset = verticalOffset;
-    this.last = last;
   }
 
   boolean isContinuousWith(final TextViewEvent other) {
-    return !this.last && this.viewer.equals(other.viewer);
+    if (!this.viewer.equals(other.viewer)) {
+      return false;
+    }
+
+    LineRegion a = this.region;
+    LineRegion b = other.region;
+
+    return closed(a.start.line, a.end.line).isConnected(closed(b.start.line, b.end.line));
   }
 }

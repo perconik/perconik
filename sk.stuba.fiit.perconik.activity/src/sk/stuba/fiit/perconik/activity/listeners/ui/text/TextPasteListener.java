@@ -34,7 +34,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.1.alpha")
+@Version("0.0.2.alpha")
 public final class TextPasteListener extends AbstractTextListener implements CommandExecutionListener, DocumentListener {
   private final CommandExecutionStateHandler paste;
 
@@ -75,7 +75,7 @@ public final class TextPasteListener extends AbstractTextListener implements Com
     IDocument document = event.getDocument();
     IEditorPart editor = Editors.forDocument(document);
 
-    LineRegion region = LineRegion.compute(document, event.getOffset(), event.getLength(), event.getText());
+    LineRegion region = LineRegion.compute(document, event.getOffset(), event.getLength(), event.getText()).normalize();
 
     if (editor == null) {
       if (this.log.isEnabled()) {
@@ -85,7 +85,7 @@ public final class TextPasteListener extends AbstractTextListener implements Com
       return;
     }
 
-    this.process(time, action, editor, document, region);
+    this.process(time, action, editor, region);
   }
 
   public void documentAboutToBeChanged(final DocumentEvent event) {
