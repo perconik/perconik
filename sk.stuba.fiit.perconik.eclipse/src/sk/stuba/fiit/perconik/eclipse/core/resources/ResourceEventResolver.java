@@ -53,7 +53,7 @@ public abstract class ResourceEventResolver implements IResourceVisitor, IResour
   /**
    * Visits supplied resource.
    *
-   * <p>Invokes {@link #resolveResource(resource)} and returns the computed result.
+   * <p>Invokes {@link #resolveResource resolveResource(resource)} and returns the computed result.
    *
    * @return {@code true} if the resource's members should
    *         be visited, {@code false} if they should be skipped

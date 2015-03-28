@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 
 import sk.stuba.fiit.perconik.utilities.constant.IntegralConstant;
@@ -23,7 +22,7 @@ public enum RefactoringFlag implements IntegralConstant {
   BREAKING_CHANGE(RefactoringDescriptor.BREAKING_CHANGE),
 
   /**
-   * @see ASTNode#RefactoringDescriptor
+   * @see RefactoringDescriptor#MULTI_CHANGE
    */
   MULTI_CHANGE(RefactoringDescriptor.MULTI_CHANGE),
 

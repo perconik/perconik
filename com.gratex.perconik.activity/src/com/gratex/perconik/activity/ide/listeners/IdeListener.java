@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import org.eclipse.ui.IWorkbench;
 
 import com.gratex.perconik.activity.uaca.IdeUacaProxy;
+import com.gratex.perconik.services.uaca.ide.IdeEventData;
 import com.gratex.perconik.uaca.UacaConsole;
 
 import sk.stuba.fiit.perconik.core.Adapter;
@@ -18,7 +19,7 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
 
 /**
  * A base class for all IDE listeners. This listener documents available
- * data in data transfer objects of type {@link IdeEventRequest} being
+ * data in data transfer objects of type {@link IdeEventData} being
  * a common base for all other data transfer object types.
  *
  * <p>Data available in a {@code BaseIdeEventRequest}:
