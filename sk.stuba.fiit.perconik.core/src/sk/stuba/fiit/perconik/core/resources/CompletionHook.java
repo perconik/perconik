@@ -5,15 +5,15 @@ import org.eclipse.jface.text.source.ContentAssistantFacade;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.ISourceViewerExtension3;
 import org.eclipse.jface.text.source.ISourceViewerExtension4;
-import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPartReference;
 
 import sk.stuba.fiit.perconik.core.listeners.CompletionListener;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.core.listeners.PartListener;
+import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 
-import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferencePart;
 
-final class CompletionHook extends InternalHook<ISourceViewer, CompletionListener> implements EditorListener {
+final class CompletionHook extends InternalHook<ISourceViewer, CompletionListener> implements PartListener {
   CompletionHook(final CompletionListener listener) {
     super(new SourceViewerHandler(listener));
   }
@@ -89,23 +89,23 @@ final class CompletionHook extends InternalHook<ISourceViewer, CompletionListene
     return null;
   }
 
-  public void editorOpened(final IEditorReference reference) {
-    Hooks.addNonNull(this, filter(Editors.getSourceViewer(dereferenceEditor(reference))));
+  public void partOpened(final IWorkbenchPartReference reference) {
+    Hooks.addNonNull(this, filter(Parts.getSourceViewer(dereferencePart(reference))));
   }
 
-  public final void editorClosed(final IEditorReference reference) {
-    Hooks.removeNonNull(this, filter(Editors.getSourceViewer(dereferenceEditor(reference))));
+  public final void partClosed(final IWorkbenchPartReference reference) {
+    Hooks.removeNonNull(this, filter(Parts.getSourceViewer(dereferencePart(reference))));
   }
 
-  public void editorActivated(final IEditorReference reference) {}
+  public void partActivated(final IWorkbenchPartReference reference) {}
 
-  public void editorDeactivated(final IEditorReference reference) {}
+  public void partDeactivated(final IWorkbenchPartReference reference) {}
 
-  public void editorVisible(final IEditorReference reference) {}
+  public void partVisible(final IWorkbenchPartReference reference) {}
 
-  public void editorHidden(final IEditorReference reference) {}
+  public void partHidden(final IWorkbenchPartReference reference) {}
 
-  public void editorBroughtToTop(final IEditorReference reference) {}
+  public void partBroughtToTop(final IWorkbenchPartReference reference) {}
 
-  public void editorInputChanged(final IEditorReference reference) {}
+  public void partInputChanged(final IWorkbenchPartReference reference) {}
 }

@@ -6,18 +6,18 @@ import java.util.Map.Entry;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextInputListener;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
-import sk.stuba.fiit.perconik.core.listeners.EditorListener;
-import sk.stuba.fiit.perconik.eclipse.ui.Editors;
+import sk.stuba.fiit.perconik.core.listeners.PartListener;
+import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 
 import static com.google.common.collect.Maps.newHashMap;
 
-import static sk.stuba.fiit.perconik.core.resources.Ui.dereferenceEditor;
+import static sk.stuba.fiit.perconik.core.resources.Ui.dereferencePart;
 
-final class DocumentHook extends InternalHook<IDocument, DocumentListener> implements EditorListener {
+final class DocumentHook extends InternalHook<IDocument, DocumentListener> implements PartListener {
   private final Map<ITextViewer, TextInputChangeFix> fixes;
 
   DocumentHook(final DocumentListener listener) {
@@ -71,10 +71,10 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
     }
   }
 
-  public void editorOpened(final IEditorReference reference) {
-    IEditorPart editor = dereferenceEditor(reference);
-    ITextViewer viewer = Editors.getTextViewer(editor);
-    IDocument document = Editors.getDocument(viewer);
+  public void partOpened(final IWorkbenchPartReference reference) {
+    IWorkbenchPart part = dereferencePart(reference);
+    ITextViewer viewer = Parts.getTextViewer(part);
+    IDocument document = Parts.getDocument(viewer);
 
     if (viewer != null) {
       synchronized (this.fixes) {
@@ -91,10 +91,10 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
     }
   }
 
-  public void editorClosed(final IEditorReference reference) {
-    IEditorPart editor = dereferenceEditor(reference);
-    ITextViewer viewer = Editors.getTextViewer(editor);
-    IDocument document = Editors.getDocument(viewer);
+  public void partClosed(final IWorkbenchPartReference reference) {
+    IWorkbenchPart part = dereferencePart(reference);
+    ITextViewer viewer = Parts.getTextViewer(part);
+    IDocument document = Parts.getDocument(viewer);
 
     if (viewer != null) {
       synchronized (this.fixes) {
@@ -109,15 +109,15 @@ final class DocumentHook extends InternalHook<IDocument, DocumentListener> imple
     Hooks.removeNonNull(DocumentHook.this, document);
   }
 
-  public void editorActivated(final IEditorReference reference) {}
+  public void partActivated(final IWorkbenchPartReference reference) {}
 
-  public void editorDeactivated(final IEditorReference reference) {}
+  public void partDeactivated(final IWorkbenchPartReference reference) {}
 
-  public void editorVisible(final IEditorReference reference) {}
+  public void partVisible(final IWorkbenchPartReference reference) {}
 
-  public void editorHidden(final IEditorReference reference) {}
+  public void partHidden(final IWorkbenchPartReference reference) {}
 
-  public void editorBroughtToTop(final IEditorReference reference) {}
+  public void partBroughtToTop(final IWorkbenchPartReference reference) {}
 
-  public void editorInputChanged(final IEditorReference reference) {}
+  public void partInputChanged(final IWorkbenchPartReference reference) {}
 }
