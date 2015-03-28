@@ -14,12 +14,13 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import static java.util.Objects.requireNonNull;
 
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePage;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePart;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePartReference;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActiveWindow;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActivePage;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActiveWindow;
+import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Parts.getActivePart;
+import static sk.stuba.fiit.perconik.eclipse.ui.Parts.getActivePartReference;
+import static sk.stuba.fiit.perconik.eclipse.ui.Windows.getActiveWindow;
+import static sk.stuba.fiit.perconik.eclipse.ui.Windows.waitForActiveWindow;
+
 
 /**
  * Static utility methods pertaining to Eclipse views.

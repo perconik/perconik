@@ -7,7 +7,6 @@ import com.google.common.base.Supplier;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.custom.StyledText;
@@ -22,11 +21,11 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import static java.util.Objects.requireNonNull;
 
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePage;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActivePartReference;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getActiveWindow;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActivePage;
-import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForActiveWindow;
+import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
+import static sk.stuba.fiit.perconik.eclipse.ui.Parts.getActivePartReference;
+import static sk.stuba.fiit.perconik.eclipse.ui.Windows.getActiveWindow;
+import static sk.stuba.fiit.perconik.eclipse.ui.Windows.waitForActiveWindow;
 
 /**
  * Static utility methods pertaining to Eclipse editors.
@@ -258,13 +257,7 @@ public final class Editors {
    *         is {@code null} or there is no text viewer
    */
   public static ITextViewer getTextViewer(@Nullable final IEditorPart editor) {
-    if (editor == null) {
-      return null;
-    }
-
-    Object viewer = editor.getAdapter(ITextOperationTarget.class);
-
-    return viewer instanceof ITextViewer ? (ITextViewer) viewer : null;
+    return Parts.getTextViewer(editor);
   }
 
   /**
@@ -274,9 +267,7 @@ public final class Editors {
    *         is {@code null} or there is no source viewer
    */
   public static ISourceViewer getSourceViewer(@Nullable final IEditorPart editor) {
-    ITextViewer viewer = getTextViewer(editor);
-
-    return viewer instanceof ISourceViewer ? (ISourceViewer) viewer : null;
+    return Parts.getSourceViewer(editor);
   }
 
   /**
@@ -286,11 +277,7 @@ public final class Editors {
    *         is {@code null} or there is no text widget
    */
   public static StyledText getStyledText(@Nullable final IEditorPart editor) {
-    return getStyledText(getTextViewer(editor));
-  }
-
-  public static StyledText getStyledText(@Nullable final ITextViewer viewer) {
-    return viewer != null ? viewer.getTextWidget() : null;
+    return Parts.getStyledText(editor);
   }
 
   /**
@@ -300,11 +287,7 @@ public final class Editors {
    *         is {@code null} or there is no document
    */
   public static IDocument getDocument(@Nullable final IEditorPart editor) {
-    return getDocument(getTextViewer(editor));
-  }
-
-  public static IDocument getDocument(@Nullable final ITextViewer viewer) {
-    return viewer != null ? viewer.getDocument() : null;
+    return Parts.getDocument(editor);
   }
 
   /**
