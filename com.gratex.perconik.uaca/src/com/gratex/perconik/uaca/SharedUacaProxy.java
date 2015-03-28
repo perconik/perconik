@@ -19,7 +19,6 @@ import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
@@ -27,6 +26,7 @@ import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
 import static com.google.common.base.Optional.fromNullable;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;

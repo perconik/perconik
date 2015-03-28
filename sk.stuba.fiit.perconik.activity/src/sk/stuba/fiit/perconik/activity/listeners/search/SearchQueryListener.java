@@ -49,8 +49,6 @@ public final class SearchQueryListener extends ActivityListener implements sk.st
   static Event build(final long time, final Action action) {
     Event data = LocalEvent.of(time, action.getName());
 
-
-
     return data;
   }
 

@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 
 import static java.lang.Long.compare;
 import static java.lang.Long.parseLong;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MICROSECONDS;
@@ -17,6 +16,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class TimeValue implements Comparable<TimeValue>, Serializable {
   private static final long serialVersionUID = 0L;

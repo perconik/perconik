@@ -49,8 +49,6 @@ public final class SearchResultListener extends ActivityListener implements sk.s
   static Event build(final long time, final Action action) {
     Event data = LocalEvent.of(time, action.getName());
 
-
-
     return data;
   }
 
@@ -66,6 +64,5 @@ public final class SearchResultListener extends ActivityListener implements sk.s
     });
   }
 
-  public void searchResultChanged(final SearchResultEvent event) {
-  }
+  public void searchResultChanged(final SearchResultEvent event) {}
 }

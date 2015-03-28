@@ -17,7 +17,7 @@ final class EGitAccess {
 
   static RepositoryMapping getMapping(final IResource resource) {
     GitProjectData data = getProjectData(resource.getProject());
-  
+
     return data != null ? data.getRepositoryMapping(resource) : null;
   }
 

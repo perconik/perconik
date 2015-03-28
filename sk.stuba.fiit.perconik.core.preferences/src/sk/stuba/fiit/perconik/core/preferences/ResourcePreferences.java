@@ -9,7 +9,6 @@ import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.collect.Maps.newHashMap;
 
 import static sk.stuba.fiit.perconik.core.preferences.ResourcePreferences.Keys.configuration;

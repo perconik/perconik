@@ -23,6 +23,5 @@ public final class PathEditorInputSerializer extends AbstractEditorInputSerializ
   }
 
   @Override
-  protected void put(final StructuredContent content, final IPathEditorInput input) {
-  }
+  protected void put(final StructuredContent content, final IPathEditorInput input) {}
 }

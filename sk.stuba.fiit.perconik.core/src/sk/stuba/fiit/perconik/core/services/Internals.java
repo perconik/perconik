@@ -7,7 +7,6 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.MapMaker;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.collect.Sets.newHashSet;
 

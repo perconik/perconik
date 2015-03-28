@@ -7,6 +7,6 @@ import sk.stuba.fiit.perconik.data.bind.Mapper;
 
 public class MapperProvider extends JacksonJsonProvider {
   public MapperProvider() {
-    super(Mapper.getShared(), new Annotations[] { Annotations.JACKSON });
+    super(Mapper.getShared(), new Annotations[] {Annotations.JACKSON});
   }
 }

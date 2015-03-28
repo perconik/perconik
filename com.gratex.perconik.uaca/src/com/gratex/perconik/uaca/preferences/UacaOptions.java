@@ -11,7 +11,6 @@ import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 

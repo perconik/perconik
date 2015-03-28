@@ -5,9 +5,8 @@ import com.google.common.base.Optional;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Optional.fromNullable;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 final class ResourceEventVisit {
   /**

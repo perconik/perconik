@@ -11,10 +11,9 @@ import org.eclipse.jdt.core.IJavaElementDelta;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.fromNullable;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag.AST_AFFECTED;
 import static sk.stuba.fiit.perconik.eclipse.jdt.core.JavaElementDeltaFlag.setOf;

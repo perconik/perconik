@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 import com.google.common.base.Joiner;
 
 import static java.util.Arrays.asList;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.newArrayListWithCapacity;
@@ -37,8 +37,7 @@ public abstract class JavaProcessBuilder {
   public static final class Defaults {
     public static final Path java = Paths.get("java");
 
-    private Defaults() {
-    }
+    private Defaults() {}
   }
 
   public static JavaProcessBuilder forClass(final String name) {

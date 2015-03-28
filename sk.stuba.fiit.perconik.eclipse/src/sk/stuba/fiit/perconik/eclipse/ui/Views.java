@@ -25,7 +25,6 @@ import static sk.stuba.fiit.perconik.eclipse.ui.Parts.getActivePartReference;
 import static sk.stuba.fiit.perconik.eclipse.ui.Windows.getActiveWindow;
 import static sk.stuba.fiit.perconik.eclipse.ui.Windows.waitForActiveWindow;
 
-
 /**
  * Static utility methods pertaining to Eclipse views.
  *

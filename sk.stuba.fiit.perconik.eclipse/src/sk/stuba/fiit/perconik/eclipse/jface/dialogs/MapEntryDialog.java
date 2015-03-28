@@ -20,7 +20,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.collect.Maps.immutableEntry;
 

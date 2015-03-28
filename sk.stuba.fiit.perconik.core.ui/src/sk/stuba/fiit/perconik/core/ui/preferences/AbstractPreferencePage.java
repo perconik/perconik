@@ -56,8 +56,8 @@ import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 import static java.lang.String.format;
-import static com.google.common.base.Preconditions.checkNotNull;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
@@ -575,7 +575,7 @@ abstract class AbstractPreferencePage<P, R extends AnnotableRegistration & Marka
     String message = format("PerConIK Core is about to restore default state of %s registrations. Configured options are not restored by default, see options dialog to restore effective options individually.", this.name());
     String toggle = format("Restore configured options for all %s", pluralize(this.name()));
 
-    MessageDialogWithToggle dialog = new MessageDialogWithToggle(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { PROCEED_LABEL, CANCEL_LABEL }, 1, toggle, false);
+    MessageDialogWithToggle dialog = new MessageDialogWithToggle(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] {PROCEED_LABEL, CANCEL_LABEL}, 1, toggle, false);
 
     if (dialog.open() == 1) {
       return;

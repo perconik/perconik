@@ -9,14 +9,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Supplier;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Objects.equal;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public final class Probes {
   private Probes() {}
 
-  private static final class CachedProbe<T> extends ForwardingProbe<T> implements Serializable  {
+  private static final class CachedProbe<T> extends ForwardingProbe<T> implements Serializable {
     private static final long serialVersionUID = 0L;
 
     private final Probe<T> delegate;
@@ -45,7 +44,7 @@ public final class Probes {
     }
   }
 
-  private static final class SynchronizedProbe<T> implements Probe<T>, Serializable  {
+  private static final class SynchronizedProbe<T> implements Probe<T>, Serializable {
     private static final long serialVersionUID = 0L;
 
     private final Probe<T> delegate;

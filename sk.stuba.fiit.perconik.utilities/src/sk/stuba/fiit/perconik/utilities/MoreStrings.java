@@ -16,9 +16,9 @@ import jersey.repackaged.com.google.common.collect.Lists;
 
 import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
 

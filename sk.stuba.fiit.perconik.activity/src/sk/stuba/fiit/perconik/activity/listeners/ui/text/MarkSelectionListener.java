@@ -44,8 +44,6 @@ public final class MarkSelectionListener extends ActivityListener implements sk.
   static Event build(final long time, final Action action) {
     Event data = LocalEvent.of(time, action.getName());
 
-
-
     return data;
   }
 
@@ -61,6 +59,5 @@ public final class MarkSelectionListener extends ActivityListener implements sk.
     });
   }
 
-  public void selectionChanged(final IWorkbenchPart part, final IMarkSelection selection) {
-  }
+  public void selectionChanged(final IWorkbenchPart part, final IMarkSelection selection) {}
 }

@@ -5,8 +5,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy.PropertyNamingStrat
 public abstract class NamingStrategy extends PropertyNamingStrategyBase {
   private static final long serialVersionUID = 0L;
 
-  NamingStrategy() {
-  }
+  NamingStrategy() {}
 
   public static final class Default extends NamingStrategy {
     private static final long serialVersionUID = 0L;

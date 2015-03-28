@@ -44,8 +44,6 @@ public final class StructuredSelectionListener extends ActivityListener implemen
   static Event build(final long time, final Action action) {
     Event data = LocalEvent.of(time, action.getName());
 
-
-
     return data;
   }
 
@@ -61,6 +59,5 @@ public final class StructuredSelectionListener extends ActivityListener implemen
     });
   }
 
-  public void selectionChanged(final IWorkbenchPart part, final IStructuredSelection selection) {
-  }
+  public void selectionChanged(final IWorkbenchPart part, final IStructuredSelection selection) {}
 }

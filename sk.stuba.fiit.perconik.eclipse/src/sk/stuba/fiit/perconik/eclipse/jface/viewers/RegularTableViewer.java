@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Widget;
 
 import static java.util.Arrays.asList;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.eclipse.jface.viewers.ElementComparers.toEquivalence;

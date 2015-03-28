@@ -16,8 +16,8 @@ import sk.stuba.fiit.perconik.data.bind.Writer;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
-import static com.google.common.base.Preconditions.checkNotNull;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 final class UacaReporter {

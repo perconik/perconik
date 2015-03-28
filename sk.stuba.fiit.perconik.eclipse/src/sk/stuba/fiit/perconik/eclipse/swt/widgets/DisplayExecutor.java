@@ -8,7 +8,6 @@ import com.google.common.base.Supplier;
 import org.eclipse.swt.widgets.Display;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Throwables.propagate;
 
 public abstract class DisplayExecutor implements Executor {

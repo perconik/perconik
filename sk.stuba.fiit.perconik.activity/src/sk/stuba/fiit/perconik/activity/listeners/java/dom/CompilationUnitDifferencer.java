@@ -30,8 +30,8 @@ import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.NodeType;
 import sk.stuba.fiit.perconik.eclipse.jdt.core.dom.TreeApiLevel;
 
 import static java.lang.String.format;
-import static com.google.common.base.Preconditions.checkNotNull;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newLinkedList;
 
 import static sk.stuba.fiit.perconik.core.java.dom.MatchingNode.unwrap;

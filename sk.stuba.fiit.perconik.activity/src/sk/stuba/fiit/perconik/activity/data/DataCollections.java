@@ -23,31 +23,31 @@ public class DataCollections {
 
   public static List<ClassData> toClassData(final Iterable<? extends Class<?>> types) {
     List<ClassData> data = newArrayListSuitableFor(types);
-  
+
     for (Class<?> type: types) {
       data.add(ClassData.of(type));
     }
-  
+
     return data;
   }
 
   public static List<AnnotationData> toAnnotationData(final Iterable<? extends Annotation> annotations) {
     List<AnnotationData> data = newArrayListSuitableFor(annotations);
-  
+
     for (Annotation annotation: annotations) {
       data.add(AnnotationData.of(annotation));
     }
-  
+
     return data;
   }
 
   public static List<AnnotableData> toAnnotableData(final Iterable<? extends Annotable> annotables) {
     List<AnnotableData> data = newArrayListSuitableFor(annotables);
-  
+
     for (Annotable annotable: annotables) {
       data.add(AnnotableData.of(annotable));
     }
-  
+
     return data;
   }
 

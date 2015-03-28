@@ -16,8 +16,6 @@ import sk.stuba.fiit.perconik.utilities.configuration.StandardScope;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import static sk.stuba.fiit.perconik.core.plugin.Activator.classResolver;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 

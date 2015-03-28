@@ -9,10 +9,9 @@ import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.activity.listeners.command.UndoableHistoryListener.Action.fromType;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType.OPERATION_ADDED;

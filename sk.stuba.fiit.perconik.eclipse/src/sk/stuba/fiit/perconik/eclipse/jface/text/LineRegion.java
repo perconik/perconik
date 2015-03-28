@@ -4,7 +4,6 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Throwables.propagate;
 
 public final class LineRegion {

@@ -57,8 +57,7 @@ public final class ProjectSerializer extends AbstractResourceSerializer<IProject
           natures.add(natureContent);
         }
       }
-    }
-    catch (CoreException ignore) {}
+    } catch (CoreException ignore) {}
 
     try {
       IProjectDescription description = project.getDescription();

@@ -61,10 +61,10 @@ import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
 import static java.lang.Thread.sleep;
 import static java.util.Collections.emptyMap;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 

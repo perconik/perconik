@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.eclipse.jgit.lib.Repository;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.newConcurrentMap;
 

@@ -14,7 +14,6 @@ import com.google.common.collect.ImmutableMap;
 import sk.stuba.fiit.perconik.data.content.AnyContent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.collect.ImmutableMap.copyOf;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Maps.filterEntries;

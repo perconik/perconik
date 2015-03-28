@@ -114,7 +114,6 @@ public final class CompilationUnitDifferenceListener extends AbstractNodeDiffere
   @Override
   void process(final long time, final ElementChangedEvent event, final URI key, final CompilationUnit original, final CompilationUnit revised, final NodeDeltaSet<ASTNode> difference) {
 
-
     // TODO serialize only stuff that can not be recomputed from supplied arguments later
   }
 

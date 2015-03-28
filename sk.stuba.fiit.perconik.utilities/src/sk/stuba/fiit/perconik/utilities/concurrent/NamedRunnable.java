@@ -3,7 +3,6 @@ package sk.stuba.fiit.perconik.utilities.concurrent;
 import com.google.common.base.Supplier;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.base.Suppliers.ofInstance;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;

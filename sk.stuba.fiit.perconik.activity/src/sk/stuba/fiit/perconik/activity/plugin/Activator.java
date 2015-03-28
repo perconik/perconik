@@ -36,7 +36,6 @@ public final class Activator extends UserInterfacePlugin {
     return plugin;
   }
 
-
   /**
    * Starts this plug-in.
    *
@@ -48,7 +47,6 @@ public final class Activator extends UserInterfacePlugin {
 
     plugin = this;
   }
-
 
   /**
    * Stops this plug-in.

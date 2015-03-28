@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import sk.stuba.fiit.perconik.eclipse.swt.SortDirection;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-
 import static com.google.common.collect.Lists.newArrayList;
 
 public abstract class TableSorter<T> {
