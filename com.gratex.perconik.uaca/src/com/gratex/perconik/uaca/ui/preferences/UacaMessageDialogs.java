@@ -9,7 +9,7 @@ import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.eclipse.ui.Windows;
 
 public final class UacaMessageDialogs {
   private UacaMessageDialogs() {}
@@ -21,7 +21,7 @@ public final class UacaMessageDialogs {
   public static void openError(final String key, final String message, final String toggle) {
     final Runnable dialog = new Runnable() {
       public void run() {
-        IWorkbenchWindow window = Workbenches.getActiveWindow();
+        IWorkbenchWindow window = Windows.getActiveWindow();
 
         Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell();
 
