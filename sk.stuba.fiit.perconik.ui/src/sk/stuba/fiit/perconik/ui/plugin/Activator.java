@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import org.osgi.framework.BundleContext;
 
-import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
+import sk.stuba.fiit.perconik.eclipse.ui.Windows;
 import sk.stuba.fiit.perconik.eclipse.ui.plugin.UserInterfacePlugin;
 import sk.stuba.fiit.perconik.environment.java.JavaVerificationException;
 import sk.stuba.fiit.perconik.osgi.framework.Versions;
@@ -89,7 +89,7 @@ public final class Activator extends UserInterfacePlugin {
     } catch (final JavaVerificationException e) {
       final Runnable dialog = new Runnable() {
         public final void run() {
-          IWorkbenchWindow window = Workbenches.getActiveWindow();
+          IWorkbenchWindow window = Windows.getActiveWindow();
 
           Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell();
 
