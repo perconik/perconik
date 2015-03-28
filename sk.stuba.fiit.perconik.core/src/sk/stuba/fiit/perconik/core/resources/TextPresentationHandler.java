@@ -9,10 +9,10 @@ enum TextPresentationHandler implements Handler<TextPresentationListener> {
   private final Support support = new Support();
 
   public void register(final TextPresentationListener listener) {
-    this.support.hook(DefaultResources.getEditorResource(), listener);
+    this.support.hook(DefaultResources.getPartResource(), listener);
   }
 
   public void unregister(final TextPresentationListener listener) {
-    this.support.unhook(DefaultResources.getEditorResource(), listener);
+    this.support.unhook(DefaultResources.getPartResource(), listener);
   }
 }

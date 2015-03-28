@@ -9,10 +9,10 @@ enum DocumentHandler implements Handler<DocumentListener> {
   private final Support support = new Support();
 
   public void register(final DocumentListener listener) {
-    this.support.hook(DefaultResources.getEditorResource(), listener);
+    this.support.hook(DefaultResources.getPartResource(), listener);
   }
 
   public void unregister(final DocumentListener listener) {
-    this.support.unhook(DefaultResources.getEditorResource(), listener);
+    this.support.unhook(DefaultResources.getPartResource(), listener);
   }
 }

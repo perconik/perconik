@@ -9,10 +9,10 @@ enum ViewportHandler implements Handler<ViewportListener> {
   private final Support support = new Support();
 
   public void register(final ViewportListener listener) {
-    this.support.hook(DefaultResources.getEditorResource(), listener);
+    this.support.hook(DefaultResources.getPartResource(), listener);
   }
 
   public void unregister(final ViewportListener listener) {
-    this.support.unhook(DefaultResources.getEditorResource(), listener);
+    this.support.unhook(DefaultResources.getPartResource(), listener);
   }
 }
