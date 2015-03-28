@@ -1115,11 +1115,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
 
     @Override
     public final void flush() {
-      this.listener.execute(new Runnable() {
-        public void run() {
-          synchronizedFlush();
-        }
-      });
+      this.synchronizedFlush();
     }
   }
 
