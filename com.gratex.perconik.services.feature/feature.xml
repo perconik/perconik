@@ -2,7 +2,7 @@
 <feature
       id="com.gratex.perconik.services.feature"
       label="PerConIK Gratex Services"
-      version="0.15.1.qualifier"
+      version="0.16.0.qualifier"
       provider-name="Gratex International">
 
    <description>
