@@ -19,6 +19,7 @@
     <module>../sk.stuba.fiit.perconik.core.feature</module>
 
     <module>../sk.stuba.fiit.perconik.activity</module>
+    <module>../sk.stuba.fiit.perconik.activity.debug</module>
 
     <module>../sk.stuba.fiit.perconik.core</module>
     <module>../sk.stuba.fiit.perconik.core.debug</module>
