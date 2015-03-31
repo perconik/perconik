@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: PerConIK Core Model
+Bundle-Name: PerConIK Core
 Bundle-SymbolicName: sk.stuba.fiit.perconik.core;singleton:=true
 Bundle-Version: 0.15.1.qualifier
 Bundle-Activator: sk.stuba.fiit.perconik.core.plugin.Activator

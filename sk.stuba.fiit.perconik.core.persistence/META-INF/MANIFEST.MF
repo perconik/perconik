@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: PerConIK Core Persistence Model
+Bundle-Name: PerConIK Core Persistence
 Bundle-SymbolicName: sk.stuba.fiit.perconik.core.persistence;singleton:=true
 Bundle-Version: 0.4.4.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
