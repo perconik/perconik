@@ -1,5 +1,6 @@
 package com.gratex.perconik.uaca.preferences;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Map;
 
@@ -57,7 +58,9 @@ public interface UacaOptions extends Options {
     }
   }
 
-  public static final class View extends AbstractOptions implements UacaOptions {
+  public static final class View extends AbstractOptions implements Serializable, UacaOptions {
+    private static final long serialVersionUID = 0L;
+
     private final Options options;
 
     private View(final Options options) {

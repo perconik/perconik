@@ -1,5 +1,8 @@
 package com.gratex.perconik.uaca.preferences;
 
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Map;
 
@@ -16,9 +19,12 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.displayE
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logErrors;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvents;
 
+import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
-public final class UacaPreferences extends AbstractPreferences implements UacaOptions {
+public final class UacaPreferences extends AbstractPreferences implements Serializable, UacaOptions {
+  private static final long serialVersionUID = -9108586744508719837L;
+
   private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
 
   private final ScopedPreferenceStore store;
@@ -69,6 +75,45 @@ public final class UacaPreferences extends AbstractPreferences implements UacaOp
    */
   public static UacaPreferences getShared() {
     return shared;
+  }
+
+  private static final class SerializationProxy<E extends Enum<E>> implements Serializable {
+    private static final long serialVersionUID = -2729263083624118286L;
+
+    private final Scope scope;
+
+    SerializationProxy(final UacaPreferences preferences) {
+      this.scope = preferences.scope();
+    }
+
+    private Object readResolve() throws InvalidObjectException {
+      try {
+        switch (this.scope) {
+          case CONFIGURATION:
+            return getShared();
+
+          case DEFAULT:
+            return getDefault();
+
+          case INSTANCE:
+            throw new IllegalStateException("Instance scope not supported");
+
+          default:
+            return new IllegalStateException("Unknow scope " + this.scope);
+        }
+      } catch (Exception e) {
+        throw initializeCause(new InvalidObjectException("Unknown deserialization error"), e);
+      }
+    }
+  }
+
+  @SuppressWarnings({"static-method", "unused"})
+  private void readObject(final ObjectInputStream in) throws InvalidObjectException {
+    throw new InvalidObjectException("Serialization proxy required");
+  }
+
+  private Object writeReplace() {
+    return new SerializationProxy<>(this);
   }
 
   /**
