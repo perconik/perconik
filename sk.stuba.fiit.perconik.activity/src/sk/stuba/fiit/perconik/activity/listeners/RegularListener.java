@@ -165,6 +165,12 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     this(configuration, ofInstance(context));
   }
 
+  // TODO note that if C is this instance (which actually always is) great care must be taken
+  // when accessing fields during object construction, since they may be uninitialized;
+  // this behavior should be well documented (or refactored and documented) as well as
+  // field initialization order; for example one can not read dataInjector while configuring
+  // sharedExecutor
+
   private <C> RegularListener(final Configuration<C> configuration, final Supplier<? extends C> supplier) {
     final C context = this.resolveContext(configuration, supplier);
 
