@@ -259,7 +259,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
   }
 
   private OptionsProvider setupOptionsProvider() {
-    final OptionsProvider provider = new OptionsProvider();
+    final OptionsProvider provider = new LazyOptionsProvider(this.optionsLoader, this);
 
     RegistrationHook.PRE_REGISTER.add(this, new NamedRunnable(OptionsProvider.class) {
       public void run() {
@@ -831,28 +831,34 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
   }
 
-  private static final class OptionsProvider {
+  private static interface OptionsProvider {
+    public Options defaultOptions(OptionsLoader loader, RegularListener listener);
+
+    public Options customOptions(OptionsLoader loader, RegularListener listener);
+
+    public Options effectiveOptions(OptionsLoader loader, RegularListener listener);
+
+    public void reload(OptionsLoader loader, RegularListener listener);
+  }
+
+  // TODO OptionsProvider must be as lazy as possible: options can not be loaded and effectively
+  // used (but can be referenced) during listener construction since an infinite loop may occur
+  // (defaults require listener instance and listener instance requires defaults, hence the loop)
+
+  private static final class LazyOptionsProvider implements OptionsProvider {
     private final DefaultOptions defaults;
 
     private final CustomOptions custom;
 
     private final EffectiveOptions effective;
 
-    OptionsProvider() {
-      this.defaults = new DefaultOptions();
-      this.custom = new CustomOptions();
-      this.effective = new EffectiveOptions();
+    LazyOptionsProvider(final OptionsLoader loader, final RegularListener listener) {
+      this.defaults = new DefaultOptions(loader, listener);
+      this.custom = new CustomOptions(loader, listener);
+      this.effective = new EffectiveOptions(loader, listener);
     }
 
-    private static Options ensureLoaded(final LoadingOptions options, final OptionsLoader loader, final RegularListener listener) {
-      if (options.delegate == null) {
-        options.load(loader, listener);
-      }
-
-      return options;
-    }
-
-    void reload(final OptionsLoader loader, final RegularListener listener) {
+    public void reload(final OptionsLoader loader, final RegularListener listener) {
       checkNotNull(loader);
       checkNotNull(listener);
 
@@ -862,10 +868,17 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     private static abstract class LoadingOptions extends ForwardingOptions {
+      private final OptionsLoader loader;
+
+      private final RegularListener listener;
+
       @Nullable
       Options delegate;
 
-      LoadingOptions() {}
+      LoadingOptions(final OptionsLoader loader, final RegularListener listener) {
+        this.loader = checkNotNull(loader);
+        this.listener = checkNotNull(listener);
+      }
 
       static final Options secure(@Nullable final Options untrusted) {
         return untrusted != null ? MapOptions.from(ImmutableMap.copyOf(untrusted.toMap())) : emptyOptions();
@@ -875,6 +888,10 @@ public abstract class RegularListener extends AbstractListener implements Scoped
 
       @Override
       protected final Options delegate() {
+        if (this.delegate == null) {
+          this.load(this.loader, this.listener);
+        }
+
         return checkNotNullAsState(this.delegate);
       }
 
@@ -885,7 +902,9 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     private static final class DefaultOptions extends LoadingOptions {
-      DefaultOptions() {}
+      DefaultOptions(final OptionsLoader loader, final RegularListener listener) {
+        super(loader, listener);
+      }
 
       @Override
       void load(final OptionsLoader loader, final RegularListener listener) {
@@ -898,7 +917,9 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     private static final class CustomOptions extends LoadingOptions {
-      CustomOptions() {}
+      CustomOptions(final OptionsLoader loader, final RegularListener listener) {
+        super(loader, listener);
+      }
 
       @Override
       void load(final OptionsLoader loader, final RegularListener listener) {
@@ -907,7 +928,9 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     private static final class EffectiveOptions extends LoadingOptions {
-      EffectiveOptions() {}
+      EffectiveOptions(final OptionsLoader loader, final RegularListener listener) {
+        super(loader, listener);
+      }
 
       @Override
       final void load(final OptionsLoader loader, final RegularListener listener) {
@@ -915,16 +938,16 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       }
     }
 
-    Options defaultOptions(final OptionsLoader loader, final RegularListener listener) {
-      return ensureLoaded(this.defaults, loader, listener);
+    public Options defaultOptions(final OptionsLoader loader, final RegularListener listener) {
+      return this.defaults;
     }
 
-    Options customOptions(final OptionsLoader loader, final RegularListener listener) {
-      return ensureLoaded(this.custom, loader, listener);
+    public Options customOptions(final OptionsLoader loader, final RegularListener listener) {
+      return this.custom;
     }
 
-    Options effectiveOptions(final OptionsLoader loader, final RegularListener listener) {
-      return ensureLoaded(this.effective, loader, listener);
+    public Options effectiveOptions(final OptionsLoader loader, final RegularListener listener) {
+      return this.effective;
     }
   }
 
