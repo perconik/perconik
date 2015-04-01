@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.ui.IWorkbench;
 
 import sk.stuba.fiit.perconik.activity.events.Event;
@@ -20,7 +22,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.4.alpha")
+@Version("0.0.5.alpha")
 public final class WorkbenchListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
   public WorkbenchListener() {}
 
@@ -33,9 +35,17 @@ public final class WorkbenchListener extends ActivityListener implements sk.stub
 
     private final String path;
 
+    private final AtomicBoolean done;
+
     private Action() {
       this.name = actionName("eclipse", "workbench", this);
       this.path = actionPath(this.name);
+
+      this.done = new AtomicBoolean(false);
+    }
+
+    public boolean canProcess() {
+      return this.done.compareAndSet(false, true);
     }
 
     public String getName() {
@@ -44,6 +54,10 @@ public final class WorkbenchListener extends ActivityListener implements sk.stub
 
     public String getPath() {
       return this.path;
+    }
+
+    public boolean isProcessed() {
+      return this.done.get();
     }
   }
 
@@ -73,7 +87,9 @@ public final class WorkbenchListener extends ActivityListener implements sk.stub
   public void postStartup(final IWorkbench workbench) {
     final long time = this.currentTime();
 
-    this.execute(time, STARTUP, workbench);
+    if (STARTUP.canProcess()) {
+      this.execute(time, STARTUP, workbench);
+    }
   }
 
   public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
@@ -85,6 +101,16 @@ public final class WorkbenchListener extends ActivityListener implements sk.stub
   public void postShutdown(final IWorkbench workbench) {
     final long time = this.currentTime();
 
-    this.execute(time, SHUTDOWN, workbench);
+    if (SHUTDOWN.canProcess()) {
+      this.execute(time, SHUTDOWN, workbench);
+    }
+  }
+
+  public static boolean isStartupProcessed() {
+    return STARTUP.isProcessed();
+  }
+
+  public static boolean isShutdownProcessed() {
+    return SHUTDOWN.isProcessed();
   }
 }
