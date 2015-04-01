@@ -59,14 +59,15 @@ import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
-import static java.lang.Thread.sleep;
 import static java.util.Collections.emptyMap;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
@@ -81,7 +82,7 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.optio
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawOptionType;
 
 public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePage {
-  static final long stateTransitionDisplayPause = 500;
+  static final long stateTransitionDisplayPause = 200;
 
   Button load;
 
@@ -233,11 +234,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
         protected void transit(final State from, final State to, @Nullable final Throwable failure) {
           setResourceTransition(from, to);
 
-          try {
-            sleep(stateTransitionDisplayPause);
-          } catch (InterruptedException e) {
-            // ignore
-          }
+          sleepUninterruptibly(stateTransitionDisplayPause, MILLISECONDS);
         }
       }, sameThreadExecutor());
     }
@@ -248,11 +245,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
         protected void transit(final State from, final State to, @Nullable final Throwable failure) {
           setListenerTransition(from, to);
 
-          try {
-            sleep(stateTransitionDisplayPause);
-          } catch (InterruptedException e) {
-            // ignore
-          }
+          sleepUninterruptibly(stateTransitionDisplayPause, MILLISECONDS);
         }
       }, sameThreadExecutor());
     }
