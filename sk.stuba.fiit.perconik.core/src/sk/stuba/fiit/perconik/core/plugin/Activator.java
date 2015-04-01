@@ -9,6 +9,7 @@ import com.google.common.base.Stopwatch;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 
@@ -28,15 +29,20 @@ import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
+import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.util.concurrent.Runnables.doNothing;
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
@@ -247,36 +253,55 @@ public final class Activator extends ExtendedPlugin {
       try {
         loadServices(doNothing(), timeout);
       } catch (ResourceRegistrationException failure) {
-        defaultConsole().error(failure, "Unexpected error during initial registration of resources");
+        reportFailure(failure, "Unexpected error during initial registration of resources");
       } catch (ListenerRegistrationException failure) {
-        defaultConsole().error(failure, "Unexpected error during initial registration of listeners");
+        reportFailure(failure, "Unexpected error during initial registration of listeners");
       } catch (TimeoutException failure) {
-        defaultConsole().error(failure, "Unexpected timeout while loading services");
+        reportFailure(failure, "Unexpected timeout while loading services");
       } catch (Throwable failure) {
-        defaultConsole().error(failure, "Unexpected error while loading services");
+        reportFailure(failure, "Unexpected error while loading services");
       }
 
       try {
         dispatchPostStartup();
       } catch (Exception failure) {
-        defaultConsole().error(failure, "Unexpected error during post startup event dispatch");
+        reportFailure(failure, "Unexpected error during post startup event dispatch");
       }
     }
 
     private static void dispatchPostStartup() {
       DisplayExecutor.defaultAsynchronous().execute(new Runnable() {
         public void run() {
+          List<Throwable> failures = newLinkedList();
+
           IWorkbench workbench = waitForWorkbench();
 
           for (WorkbenchListener listener: Listeners.registered(WorkbenchListener.class)) {
             try {
               listener.postStartup(workbench);
-            } catch (Exception failure) {
+            } catch (Throwable failure) {
+              failures.add(failure);
+
               defaultConsole().error(failure, "Unexpected error during post startup event dispatch on %s", listener);
             }
           }
+
+          checkState(failures.isEmpty());
         }
       });
+    }
+
+    private static void reportFailure(final Throwable failure, final String description) {
+      DisplayExecutor.defaultAsynchronous().execute(new Runnable() {
+        public void run() {
+          String title = "PerConIK Core";
+          String message = format("%s, core plug-in may not be properly active.", description);
+
+          openError(Display.getDefault().getActiveShell(), title, message + " See error log for more details.");
+        }
+      });
+
+      defaultInstance().getConsole().error(failure, description);
     }
   }
 
