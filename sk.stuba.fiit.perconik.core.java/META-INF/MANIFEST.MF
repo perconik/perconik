@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PerConIK Core Java Model Extensions
 Bundle-SymbolicName: sk.stuba.fiit.perconik.core.java;singleton:=true
-Bundle-Version: 0.8.2.qualifier
+Bundle-Version: 0.8.3.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
@@ -12,9 +12,9 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.8.0",
  org.eclipse.jdt.ui;bundle-version="3.8.0",
  org.eclipse.jface;bundle-version="3.8.0",
  org.eclipse.ui.workbench;bundle-version="3.8.0",
- sk.stuba.fiit.perconik.eclipse;bundle-version="0.16.1",
+ sk.stuba.fiit.perconik.eclipse;bundle-version="0.17.0",
  sk.stuba.fiit.perconik.libraries;bundle-version="0.8.1",
- sk.stuba.fiit.perconik.utilities;bundle-version="0.13.1"
+ sk.stuba.fiit.perconik.utilities;bundle-version="0.14.0"
 Export-Package: sk.stuba.fiit.perconik.core.java,
  sk.stuba.fiit.perconik.core.java.dom,
  sk.stuba.fiit.perconik.core.java.dom.compatibility,
