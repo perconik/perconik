@@ -7,7 +7,12 @@ import org.eclipse.ui.commands.ICommandService;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
 /**
  * Static utility methods pertaining to Eclipse commands.
@@ -47,7 +52,7 @@ public final class Commands {
    * @see #getCommandService()
    */
   public static ICommandService waitForCommandService() {
-    return waitForCommandService(Workbenches.waitForWorkbench());
+    return waitForCommandService(waitForWorkbench());
   }
 
   /**
@@ -61,7 +66,9 @@ public final class Commands {
 
     ICommandService service;
 
-    while ((service = getCommandService(workbench)) == null) {}
+    while ((service = getCommandService(workbench)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return service;
   }

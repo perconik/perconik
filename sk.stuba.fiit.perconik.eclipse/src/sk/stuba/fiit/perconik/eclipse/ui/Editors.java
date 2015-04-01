@@ -19,7 +19,10 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
@@ -330,7 +333,9 @@ public final class Editors {
 
     IEditorPart editor;
 
-    while ((editor = getActiveEditor(page)) == null) {}
+    while ((editor = getActiveEditor(page)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return editor;
   }
@@ -375,7 +380,9 @@ public final class Editors {
 
     IEditorReference editor;
 
-    while ((editor = getActiveEditorReference(page)) == null) {}
+    while ((editor = getActiveEditorReference(page)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return editor;
   }

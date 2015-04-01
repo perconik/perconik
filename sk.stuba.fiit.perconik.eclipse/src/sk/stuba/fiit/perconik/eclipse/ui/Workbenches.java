@@ -8,6 +8,10 @@ import org.eclipse.ui.PlatformUI;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
 import sk.stuba.fiit.perconik.environment.plugin.Activator;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+
 /**
  * Static utility methods pertaining to Eclipse workbench.
  *
@@ -47,7 +51,9 @@ public final class Workbenches {
   public static IWorkbench waitForWorkbench() {
     IWorkbench workbench;
 
-    while ((workbench = getWorkbench()) == null) {}
+    while ((workbench = getWorkbench()) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return workbench;
   }
