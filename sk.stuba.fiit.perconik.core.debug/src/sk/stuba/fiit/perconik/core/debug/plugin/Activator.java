@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.debug.plugin;
 
+import java.util.concurrent.TimeoutException;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 
@@ -9,6 +11,9 @@ import sk.stuba.fiit.perconik.core.debug.DebugListeners;
 import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
 import sk.stuba.fiit.perconik.environment.Environment;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static sk.stuba.fiit.perconik.core.plugin.Activator.awaitServices;
 
@@ -53,6 +58,8 @@ public final class Activator extends ExtendedPlugin {
    * @since 1.0
    */
   public static final class Startup implements IStartup {
+    static final TimeValue timeout = TimeValue.of(12, SECONDS);
+
     /**
      * The constructor.
      */
@@ -65,10 +72,14 @@ public final class Activator extends ExtendedPlugin {
     public void earlyStartup() {
       final Runnable wait = new Runnable() {
         public final void run() {
-          awaitServices();
+          try {
+            awaitServices(timeout);
 
-          DebugResources.printRegistrations();
-          DebugListeners.printRegistrations();
+            DebugResources.printRegistrations();
+            DebugListeners.printRegistrations();
+          } catch (TimeoutException failure) {
+            defaultInstance().getConsole().error(failure, "Unable to print registrations, await services timed out");
+          }
         }
       };
 

@@ -3,12 +3,19 @@ package sk.stuba.fiit.perconik.core.services;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Service.State;
+
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Lists.asList;
@@ -24,6 +31,8 @@ import static com.google.common.collect.Lists.newArrayList;
  * @since 1.0
  */
 public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
+  // TODO remove and replace it with ServiceManager or use ServiceManager internally
+
   private final Set<S> services;
 
   ServiceGroup(final Iterable<S> services) {
@@ -65,8 +74,6 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     return new ServiceGroup<>(asList(first, second, rest));
   }
 
-  // TODO add 4 copyOf methods like in ImmutableSet
-
   @Override
   protected Set<S> delegate() {
     return this.services;
@@ -79,6 +86,27 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     }
   }
 
+  public void startSynchronously(final long timeout, final TimeUnit unit) throws TimeoutException {
+    long slice = NANOSECONDS.convert(timeout, unit);
+
+    Stopwatch stopwatch = Stopwatch.createStarted();
+
+    for (S service: this.services) {
+      service.startAsync();
+      service.awaitRunning(slice, NANOSECONDS);
+
+      slice -= stopwatch.elapsed(NANOSECONDS);
+
+      if (slice < 0) {
+        throw new TimeoutException();
+      }
+    }
+  }
+
+  public void startSynchronously(final TimeValue timeout) throws TimeoutException {
+    startSynchronously(timeout.duration(), timeout.unit());
+  }
+
   public void stopSynchronously() {
     for (S service: this.services) {
       service.stopAsync();
@@ -86,32 +114,25 @@ public final class ServiceGroup<S extends Service> extends ForwardingSet<S> {
     }
   }
 
-  public ServiceGroup<S> startAsynchronously() {
-    for (S service: this.services) {
-      service.startAsync();
-    }
+  public void stopSynchronously(final long timeout, final TimeUnit unit) throws TimeoutException {
+    long slice = NANOSECONDS.convert(timeout, unit);
 
-    return this;
-  }
+    Stopwatch stopwatch = Stopwatch.createStarted();
 
-  public ServiceGroup<S> stopAsynchronously() {
     for (S service: this.services) {
       service.stopAsync();
-    }
+      service.awaitTerminated(slice, NANOSECONDS);
 
-    return this;
+      slice -= stopwatch.elapsed(NANOSECONDS);
+
+      if (slice < 0) {
+        throw new TimeoutException();
+      }
+    }
   }
 
-  public void awaitRunning() {
-    for (S service: this.services) {
-      service.awaitRunning();
-    }
-  }
-
-  public void awaitTerminated() {
-    for (S service: this.services) {
-      service.awaitTerminated();
-    }
+  public void stopSynchronously(final TimeValue timeout) throws TimeoutException {
+    stopSynchronously(timeout.duration(), timeout.unit());
   }
 
   public Map<S, State> states() {

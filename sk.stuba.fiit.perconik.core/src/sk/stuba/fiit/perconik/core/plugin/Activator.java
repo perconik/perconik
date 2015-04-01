@@ -2,6 +2,10 @@ package sk.stuba.fiit.perconik.core.plugin;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import com.google.common.base.Stopwatch;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -20,10 +24,12 @@ import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.osgi.framework.BundleNotFoundException;
 import sk.stuba.fiit.perconik.osgi.framework.Bundles;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.propagate;
@@ -120,18 +126,13 @@ public final class Activator extends ExtendedPlugin {
 
   /**
    * Processes supplied extensions, loads and starts core services.
-   * @throws Throwable if an error occurred
-   */
-  public static void loadServices() {
-    loadServices(doNothing());
-  }
-
-  /**
-   * Processes supplied extensions, loads and starts core services.
    * @param action executed after services load prior to start, not {@code null}
-   * @throws Throwable if an error occurred
+   * @param timeout the maximum time to load
+   * @param unit the time unit of the timeout argument
+   * @throws RuntimeException if an error occurred
+   * @throws TimeoutException if the load timed out
    */
-  public static void loadServices(final Runnable hook) {
+  public static void loadServices(final Runnable hook, final long timeout, final TimeUnit unit) throws TimeoutException {
     Activator plugin = defaultInstance();
 
     checkNotNull(plugin, "Default instance not available");
@@ -142,20 +143,29 @@ public final class Activator extends ExtendedPlugin {
       }
 
       try {
-        new ServicesLoader().load(hook);
+        new ServicesLoader().load(hook, timeout, unit);
 
         plugin.loaded = true;
+      } catch (TimeoutException failure) {
+        throw failure;
       } catch (Throwable failure) {
         propagate(failure);
       }
     }
   }
 
+  public static void loadServices(final Runnable hook, final TimeValue timeout) throws TimeoutException {
+    loadServices(hook, timeout.duration(), timeout.unit());
+  }
+
   /**
    * Processes supplied extensions, stops and unloads core services.
-   * @throws Throwable if an error occurred
+   * @param timeout the maximum time to unload
+   * @param unit the time unit of the timeout argument
+   * @throws RuntimeException if an error occurred
+   * @throws TimeoutException if the unload timed out
    */
-  public static void unloadServices() {
+  public static void unloadServices(final long timeout, final TimeUnit unit) throws TimeoutException {
     Activator plugin = defaultInstance();
 
     checkNotNull(plugin, "Default instance not available");
@@ -166,13 +176,19 @@ public final class Activator extends ExtendedPlugin {
       }
 
       try {
-        new ServicesLoader().unload();
+        new ServicesLoader().unload(timeout, unit);
 
         plugin.loaded = false;
+      } catch (TimeoutException failure) {
+        throw failure;
       } catch (Throwable failure) {
         propagate(failure);
       }
     }
+  }
+
+  public static void unloadServices(final TimeValue timeout) throws TimeoutException {
+    unloadServices(timeout.duration(), timeout.unit());
   }
 
   /**
@@ -188,11 +204,24 @@ public final class Activator extends ExtendedPlugin {
   /**
    * Waits blocking until all supplied extensions
    * are processed, core services loaded and started.
+   * @param timeout the maximum time to wait
+   * @param unit the time unit of the timeout argument
+   * @throws TimeoutException if the wait timed out
    */
-  public static void awaitServices() {
+  public static void awaitServices(final long timeout, final TimeUnit unit) throws TimeoutException {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+
     while (!loadedServices()) {
+      if (stopwatch.elapsed(unit) > timeout) {
+        throw new TimeoutException();
+      }
+
       sleepUninterruptibly(20, MILLISECONDS);
     }
+  }
+
+  public static void awaitServices(final TimeValue timeout) throws TimeoutException {
+    awaitServices(timeout.duration(), timeout.unit());
   }
 
   /**
@@ -204,6 +233,8 @@ public final class Activator extends ExtendedPlugin {
    * @since 1.0
    */
   public static final class Startup implements IStartup {
+    static final TimeValue timeout = TimeValue.of(8, SECONDS);
+
     /**
      * The constructor.
      */
@@ -214,13 +245,15 @@ public final class Activator extends ExtendedPlugin {
      */
     public void earlyStartup() {
       try {
-        loadServices();
+        loadServices(doNothing(), timeout);
       } catch (ResourceRegistrationException failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of resources");
       } catch (ListenerRegistrationException failure) {
         defaultConsole().error(failure, "Unexpected error during initial registration of listeners");
-      } catch (Exception failure) {
-        defaultConsole().error(failure, "Unexpected error during initial registration of resources and listeners");
+      } catch (TimeoutException failure) {
+        defaultConsole().error(failure, "Unexpected timeout while loading services");
+      } catch (Throwable failure) {
+        defaultConsole().error(failure, "Unexpected error while loading services");
       }
 
       try {
@@ -270,7 +303,11 @@ public final class Activator extends ExtendedPlugin {
   public void stop(final BundleContext context) throws Exception {
     synchronized (this) {
       if (loadedServices()) {
-        unloadServices();
+        try {
+          unloadServices(16, SECONDS);
+        } catch (TimeoutException failure) {
+          defaultConsole().error(failure, "Unexpected timeout while unloading services");
+        }
       }
     }
 
