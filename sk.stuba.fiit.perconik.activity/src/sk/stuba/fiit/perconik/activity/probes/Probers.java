@@ -17,6 +17,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableMap.copyOf;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Maps.filterEntries;
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 
@@ -117,11 +118,7 @@ public final class Probers {
         });
       }
 
-      try {
-        latch.await();
-      } catch (InterruptedException e) {
-        Thread.currentThread().interrupt();
-      }
+      awaitUninterruptibly(latch);
 
       if (!failures.isEmpty()) {
         throw initializeSuppressor(new ProbingException(), failures);
