@@ -23,11 +23,14 @@ import sk.stuba.fiit.perconik.osgi.framework.Bundles;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.util.concurrent.Runnables.doNothing;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
@@ -187,7 +190,9 @@ public final class Activator extends ExtendedPlugin {
    * are processed, core services loaded and started.
    */
   public static void awaitServices() {
-    while (!loadedServices()) {}
+    while (!loadedServices()) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
   }
 
   /**
