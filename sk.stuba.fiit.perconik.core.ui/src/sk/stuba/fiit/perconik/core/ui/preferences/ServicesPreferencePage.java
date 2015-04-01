@@ -304,7 +304,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
 
   void performLoad() {
     try {
-      checkState(loadedServices() == true, "Services already loaded");
+      checkState(loadedServices() == false, "Services already loaded");
 
       this.load.setEnabled(false);
 
@@ -332,7 +332,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
 
   void performUnload() {
     try {
-      checkState(loadedServices() == false, "Services already unloaded");
+      checkState(loadedServices() == true, "Services already unloaded");
 
       this.unload.setEnabled(false);
 
