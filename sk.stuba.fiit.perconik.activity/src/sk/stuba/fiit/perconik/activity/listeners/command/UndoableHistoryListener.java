@@ -5,7 +5,6 @@ import com.google.common.base.Optional;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationHistoryEventType;
 
@@ -26,8 +25,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationH
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class UndoableHistoryListener extends AbstractUndoableListener {
   public UndoableHistoryListener() {}
 
