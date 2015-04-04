@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.utilities;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.collect.ObjectArrays.newArray;
+
 /**
  * Static utility methods for unsorted and preferably small arrays.
  * Methods in this class use basic and very simple algorithms for
@@ -12,19 +14,10 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 public final class MoreArrays {
-  private static Object[] EMPTY = {};
-
   private MoreArrays() {}
 
-  public static <T> T[] nullToEmpty(@Nullable final T[] array) {
-    if (array != null) {
-      return array;
-    }
-
-    @SuppressWarnings("unchecked")
-    T[] empty = (T[]) EMPTY;
-
-    return empty;
+  public static <T> T[] nullToEmpty(final Class<T> type, @Nullable final T[] array) {
+    return array == null ? newArray(type, 0) : array;
   }
 
   public static <T> T[] emptyToNull(@Nullable final T[] array) {
