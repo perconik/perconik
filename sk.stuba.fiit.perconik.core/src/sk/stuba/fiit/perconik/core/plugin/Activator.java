@@ -166,12 +166,13 @@ public final class Activator extends ExtendedPlugin {
 
   /**
    * Processes supplied extensions, stops and unloads core services.
+   * @param action executed after services stop prior to unload, not {@code null}
    * @param timeout the maximum time to unload
    * @param unit the time unit of the timeout argument
    * @throws RuntimeException if an error occurred
    * @throws TimeoutException if the unload timed out
    */
-  public static void unloadServices(final long timeout, final TimeUnit unit) throws TimeoutException {
+  public static void unloadServices(final Runnable hook, final long timeout, final TimeUnit unit) throws TimeoutException {
     Activator plugin = defaultInstance();
 
     checkNotNull(plugin, "Default instance not available");
@@ -182,7 +183,7 @@ public final class Activator extends ExtendedPlugin {
       }
 
       try {
-        new ServicesLoader().unload(timeout, unit);
+        new ServicesLoader().unload(hook, timeout, unit);
 
         plugin.loaded = false;
       } catch (TimeoutException failure) {
@@ -193,8 +194,8 @@ public final class Activator extends ExtendedPlugin {
     }
   }
 
-  public static void unloadServices(final TimeValue timeout) throws TimeoutException {
-    unloadServices(timeout.duration(), timeout.unit());
+  public static void unloadServices(final Runnable hook, final TimeValue timeout) throws TimeoutException {
+    unloadServices(hook, timeout.duration(), timeout.unit());
   }
 
   /**
@@ -329,7 +330,7 @@ public final class Activator extends ExtendedPlugin {
     synchronized (this) {
       if (loadedServices()) {
         try {
-          unloadServices(16, SECONDS);
+          unloadServices(doNothing(), 16, SECONDS);
         } catch (TimeoutException failure) {
           defaultConsole().error(failure, "Unexpected timeout while unloading services");
         }

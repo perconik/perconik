@@ -8,6 +8,8 @@ import sk.stuba.fiit.perconik.core.services.ServiceSnapshot;
 
 import static java.util.Arrays.asList;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 final class ServicesLoader {
   private final ResourceExtentionProcessor resources;
 
@@ -27,6 +29,9 @@ final class ServicesLoader {
   }
 
   List<ServiceSetup<?>> load(final Runnable hook, final long timeout, final TimeUnit unit) throws TimeoutException {
+    checkNotNull(hook);
+    checkNotNull(unit);
+
     ResourceServiceSetup resourceSetup = this.resources.process();
     ListenerServiceSetup listenerSetup = this.listeners.process();
 
@@ -43,11 +48,16 @@ final class ServicesLoader {
     return asList(resourceSetup, listenerSetup);
   }
 
-  List<ServiceSetup<?>> unload(final long timeout, final TimeUnit unit) throws TimeoutException {
+  List<ServiceSetup<?>> unload(final Runnable hook, final long timeout, final TimeUnit unit) throws TimeoutException {
+    checkNotNull(hook);
+    checkNotNull(unit);
+
     ResourceServiceSetup resources = this.resources.process();
     ListenerServiceSetup listeners = this.listeners.process();
 
     stopServices(timeout, unit);
+
+    hook.run();
 
     listeners.unsetService();
     resources.unsetService();

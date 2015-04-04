@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.base.StandardSystemProperty;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.Service.State;
 
 import org.eclipse.core.runtime.IProduct;
@@ -70,6 +71,7 @@ import static com.google.common.base.Optional.of;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Sets.immutableEnumSet;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
@@ -93,6 +95,8 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   static final TimeValue unloadServicesTimeout = TimeValue.of(16, SECONDS);
 
   static final TimeValue stateTransitionDisplayPause = TimeValue.of(200, MILLISECONDS);
+
+  static final ImmutableSet<State> terminalStates = immutableEnumSet(State.TERMINATED, State.FAILED);
 
   Button load;
 
@@ -273,6 +277,8 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     }
   }
 
+  void unregisterServiceStateListeners() {}
+
   void updatePage() {
     this.updateMessage();
     this.updateStates();
@@ -336,7 +342,11 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
 
       this.unload.setEnabled(false);
 
-      unloadServices(unloadServicesTimeout);
+      unloadServices(new Runnable() {
+        public void run() {
+          unregisterServiceStateListeners();
+        }
+      }, unloadServicesTimeout);
     } catch (TimeoutException failure) {
       this.handleTimeout(failure, "unloading");
     } catch (Throwable failure) {
@@ -521,13 +531,15 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   static String toState(final Optional<? extends Service> service) {
-    return service.isPresent() ? toState(service.get()) : "Unresolved setup";
+    return service.isPresent() ? toState(service.get()) : "Unresolved setup.";
   }
 
   static String toState(final Service service) {
     boolean loaded = loadedServices();
 
-    return format("%s and %s…", loaded ? "Loaded" : "Unloaded", toLowerCase(service.state()));
+    State state = service.state();
+
+    return format("%s and %s%s", loaded ? "Loaded" : "Unloaded", toLowerCase(state), terminalStates.contains(state) ? '.' : '…');
   }
 
   static String toTransition(final State from, final State to) {
