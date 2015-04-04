@@ -12,7 +12,28 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 public final class MoreArrays {
+  private static Object[] EMPTY = {};
+
   private MoreArrays() {}
+
+  public static <T> T[] nullToEmpty(@Nullable final T[] array) {
+    if (array != null) {
+      return array;
+    }
+
+    @SuppressWarnings("unchecked")
+    T[] empty = (T[]) EMPTY;
+
+    return empty;
+  }
+
+  public static <T> T[] emptyToNull(@Nullable final T[] array) {
+    return isNullOrEmpty(array) ? null : array;
+  }
+
+  public static <T> boolean isNullOrEmpty(@Nullable final T[] array) {
+    return array == null || array.length == 0;
+  }
 
   public static boolean contains(final Object[] a, @Nullable final Object key) {
     return search(a, key) >= 0;
