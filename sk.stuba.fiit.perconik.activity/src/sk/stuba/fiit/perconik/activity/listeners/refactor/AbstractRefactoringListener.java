@@ -34,14 +34,13 @@ abstract class AbstractRefactoringListener extends ActivityListener {
     content.put(key("service"), identifyObject(event.getHistoryService()));
 
     RefactoringDescriptorProxy proxy = event.getDescriptor();
-
-    content.put(key("refactoring", "proxy"), new RefactoringDescriptorProxySerializer().serialize(proxy));
-
     RefactoringDescriptor descriptor = proxy.requestDescriptor(null);
 
     if (descriptor != null) {
       content.put(key("refactoring"), new RefactoringDescriptorSerializer().serialize(descriptor));
     }
+
+    content.put(key("refactoring", "proxy"), new RefactoringDescriptorProxySerializer().serialize(proxy));
   }
 
   static final Event build(final long time, final Action action, final RefactoringEventProxy<?> event) {
