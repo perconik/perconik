@@ -8,7 +8,10 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Windows.getActiveWindow;
 import static sk.stuba.fiit.perconik.eclipse.ui.Windows.waitForActiveWindow;
@@ -98,7 +101,9 @@ public final class Pages {
 
     IWorkbenchPage page;
 
-    while ((page = getActivePage(window)) == null) {}
+    while ((page = getActivePage(window)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return page;
   }

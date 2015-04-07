@@ -2,7 +2,10 @@ package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
 import java.util.LinkedList;
 
+import com.google.common.base.Stopwatch;
+
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 
@@ -12,19 +15,21 @@ import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.ViewportListener;
+import sk.stuba.fiit.perconik.core.listeners.WorkbenchListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.eclipse.ui.Parts;
-import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_REGISTER;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+
+import static sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener.isStartupProcessed;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener.Action.VIEW;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferencePart;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
-import static sk.stuba.fiit.perconik.eclipse.ui.Parts.waitForActivePartReference;
+import static sk.stuba.fiit.perconik.eclipse.ui.Parts.activePartReferenceSupplier;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
 /**
@@ -33,12 +38,14 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.4.alpha")
-public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener {
+@Version("0.0.5.alpha")
+public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener, WorkbenchListener {
   // TODO fails on shutdown if both this and text selection listener are processing pending events
 
   // TODO note that event generated while workbench.isClosing do not have part.viewer field since the viewer is already disposed
   // TODO note that this listener does not handle viewport changes in consoles
+
+  static final TimeValue generateActivePartViewEventTimeout = of(2000, MILLISECONDS);
 
   static final TimeValue viewEventPause = of(250, MILLISECONDS);
 
@@ -48,15 +55,6 @@ public final class TextViewListener extends AbstractTextListener implements Part
 
   public TextViewListener() {
     this.events = new TextViewEvents(this);
-
-    // ensures that a user-to-part view is initiated on active part
-    // right after the workbench starts, i.e. this listener is registered
-
-    POST_REGISTER.add(this, new NamedRunnable(this.getClass(), "ActivePartViewEventGenerator") {
-      public void run() {
-        generateActivePartViewEvent();
-      }
-    });
   }
 
   enum Action implements ActivityListener.Action {
@@ -126,11 +124,36 @@ public final class TextViewListener extends AbstractTextListener implements Part
   }
 
   void generateActivePartViewEvent() {
-    this.execute(DisplayTask.of(new Runnable() {
+    // generates active part view event only after an active part is available,
+    // and workbench startup event is processed or a certain amount of time passed
+
+    final IWorkbenchPartReference reference = this.execute(DisplayTask.of(activePartReferenceSupplier()));
+
+    final Log log = this.log;
+
+    this.execute(new Runnable() {
       public void run() {
-        viewportChanged(waitForActivePartReference());
+        Stopwatch stopwatch = getTimeContext().createStopwatch().start();
+        TimeValue timeout = generateActivePartViewEventTimeout.convert(MILLISECONDS);
+
+        if (log.isEnabled()) {
+          log.print("%s: generate active part view event -> wait (timeout %s)", "view", timeout);
+        }
+
+        boolean done = false;
+        long delta = 0L;
+
+        while (!(done = isStartupProcessed()) && (delta = stopwatch.elapsed(timeout.unit())) < timeout.duration()) {
+          sleepUninterruptibly(20, MILLISECONDS);
+        }
+
+        if (log.isEnabled()) {
+          log.print("%s: generate active part view event -> process (startup %s, elapse %s)", "view", done, timeout.duration(delta));
+        }
+
+        viewportChanged(reference);
       }
-    }));
+    });
   }
 
   void handleViewEvents(final LinkedList<TextViewEvent> sequence) {
@@ -226,5 +249,22 @@ public final class TextViewListener extends AbstractTextListener implements Part
     LineRegion region = this.region(viewer);
 
     this.events.push(new TextViewEvent(time, viewer, region, verticalOffset));
+  }
+
+  public void postStartup(final IWorkbench workbench) {
+    // ensures that a user-to-part view is initiated on active part
+    // right after the workbench starts, i.e. this listener is registered
+
+    this.generateActivePartViewEvent();
+  }
+
+  public boolean preShutdown(final IWorkbench workbench, final boolean forced) {
+    // ignore
+
+    return true;
+  }
+
+  public void postShutdown(final IWorkbench workbench) {
+    // ignore
   }
 }

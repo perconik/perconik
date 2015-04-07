@@ -7,7 +7,10 @@ import com.google.common.base.Supplier;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.getWorkbench;
 import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
@@ -80,7 +83,9 @@ public final class Windows {
 
     IWorkbenchWindow window;
 
-    while ((window = getActiveWindow(workbench)) == null) {}
+    while ((window = getActiveWindow(workbench)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return window;
   }

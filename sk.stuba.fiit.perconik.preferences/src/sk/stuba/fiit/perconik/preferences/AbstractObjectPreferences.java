@@ -5,9 +5,12 @@ import com.google.common.base.Objects.ToStringHelper;
 import sk.stuba.fiit.perconik.utilities.io.Serialization;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 
+import static java.lang.String.format;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.firstNonNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toDefaultString;
 
 public abstract class AbstractObjectPreferences extends AbstractPreferences {
   final ClassResolver resolver;
@@ -22,7 +25,7 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
     try {
       return Serialization.fromBytes(value, resolver);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to read object under key " + key + " from byte array", e);
+      throw new RuntimeException(format("Unable to read object under key %s from byte array", key), e);
     }
   }
 
@@ -30,7 +33,7 @@ public abstract class AbstractObjectPreferences extends AbstractPreferences {
     try {
       return Serialization.toBytes(value);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to write object under key " + key + " to byte array", e);
+      throw new RuntimeException(format("Unable to write object %s under key %s to byte array", toDefaultString(value), key), e);
     }
   }
 

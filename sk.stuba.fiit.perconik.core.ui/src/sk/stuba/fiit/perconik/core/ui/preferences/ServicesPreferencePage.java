@@ -2,11 +2,13 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeoutException;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.base.StandardSystemProperty;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.Service.State;
 
 import org.eclipse.core.runtime.IProduct;
@@ -55,18 +57,23 @@ import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.ui.Tables;
 import sk.stuba.fiit.perconik.ui.preferences.AbstractWorkbenchPreferencePage;
 import sk.stuba.fiit.perconik.utilities.SmartStringBuilder;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
-import static java.lang.Thread.sleep;
 import static java.util.Collections.emptyMap;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Sets.immutableEnumSet;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
@@ -81,7 +88,15 @@ import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.optio
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.rawOptionType;
 
 public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePage {
-  static final long stateTransitionDisplayPause = 500;
+  static final TimeValue awaitServicesTimeout = TimeValue.of(12, SECONDS);
+
+  static final TimeValue loadServicesTimeout = TimeValue.of(8, SECONDS);
+
+  static final TimeValue unloadServicesTimeout = TimeValue.of(16, SECONDS);
+
+  static final TimeValue stateTransitionDisplayPause = TimeValue.of(200, MILLISECONDS);
+
+  static final ImmutableSet<State> terminalStates = immutableEnumSet(State.TERMINATED, State.FAILED);
 
   Button load;
 
@@ -228,35 +243,41 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     Optional<ListenerService> listenerService = listenerService();
 
     if (resourceService.isPresent()) {
-      resourceService.get().addListener(new ServiceStateListener<ResourceService>(resourceService.get()) {
+      ResourceService service = resourceService.get();
+
+      service.addListener(new ServiceStateListener<ResourceService>(service) {
         @Override
         protected void transit(final State from, final State to, @Nullable final Throwable failure) {
-          setResourceTransition(from, to);
+          Optional<ResourceService> service = resourceService();
 
-          try {
-            sleep(stateTransitionDisplayPause);
-          } catch (InterruptedException e) {
-            // ignore
+          if (service.isPresent() && identityHashCode(service.get()) == identityHashCode(this.service)) {
+            setResourceTransition(from, to);
+
+            sleepUninterruptibly(stateTransitionDisplayPause.duration(), stateTransitionDisplayPause.unit());
           }
         }
       }, sameThreadExecutor());
     }
 
     if (listenerService.isPresent()) {
-      listenerService.get().addListener(new ServiceStateListener<ListenerService>(listenerService.get()) {
+      ListenerService service = listenerService.get();
+
+      service.addListener(new ServiceStateListener<ListenerService>(service) {
         @Override
         protected void transit(final State from, final State to, @Nullable final Throwable failure) {
-          setListenerTransition(from, to);
+          Optional<ListenerService> service = listenerService();
 
-          try {
-            sleep(stateTransitionDisplayPause);
-          } catch (InterruptedException e) {
-            // ignore
+          if (service.isPresent() && identityHashCode(service.get()) == identityHashCode(this.service)) {
+            setListenerTransition(from, to);
+
+            sleepUninterruptibly(stateTransitionDisplayPause.duration(), stateTransitionDisplayPause.unit());
           }
         }
       }, sameThreadExecutor());
     }
   }
+
+  void unregisterServiceStateListeners() {}
 
   void updatePage() {
     this.updateMessage();
@@ -288,19 +309,27 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   void performLoad() {
-    assert loadedServices() == false;
-
-    this.load.setEnabled(false);
-
     try {
-      loadServices(new Runnable() {
-        public void run() {
-          registerServiceStateListeners();
-        }
-      });
+      checkState(loadedServices() == false, "Services already loaded");
 
-      awaitServices();
-    } catch (Exception failure) {
+      this.load.setEnabled(false);
+
+      try {
+        loadServices(new Runnable() {
+          public void run() {
+            registerServiceStateListeners();
+          }
+        }, loadServicesTimeout);
+
+        try {
+          awaitServices(awaitServicesTimeout);
+        } catch (TimeoutException failure) {
+          this.handleTimeout(failure, "awaiting");
+        }
+      } catch (TimeoutException failure) {
+        this.handleTimeout(failure, "loading");
+      }
+    } catch (RuntimeException failure) {
       this.handleFailure(failure);
     }
 
@@ -308,20 +337,35 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   void performUnload() {
-    assert loadedServices() == true;
-
-    this.unload.setEnabled(false);
-
     try {
-      unloadServices();
-    } catch (Exception failure) {
+      checkState(loadedServices() == true, "Services already unloaded");
+
+      this.unload.setEnabled(false);
+
+      unloadServices(new Runnable() {
+        public void run() {
+          unregisterServiceStateListeners();
+        }
+      }, unloadServicesTimeout);
+    } catch (TimeoutException failure) {
+      this.handleTimeout(failure, "unloading");
+    } catch (Throwable failure) {
       this.handleFailure(failure);
     }
 
     this.updatePage();
   }
 
-  void handleFailure(final Exception failure) {
+  void handleTimeout(final TimeoutException failure, final String action) {
+    String title = "Core Services";
+    String message = format("Unexpected timeout while %s services.", action);
+
+    openError(this.getShell(), title, message + " See error log for more details.");
+
+    Activator.defaultInstance().getConsole().error(failure, message);
+  }
+
+  void handleFailure(final Throwable failure) {
     String title = "Core Services";
     String message = firstNonNullOrEmpty(failure.getMessage(), "Unexpected failure") + ".";
 
@@ -487,13 +531,15 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   static String toState(final Optional<? extends Service> service) {
-    return service.isPresent() ? toState(service.get()) : "Unresolved setup";
+    return service.isPresent() ? toState(service.get()) : "Unresolved setup.";
   }
 
   static String toState(final Service service) {
     boolean loaded = loadedServices();
 
-    return format("%s and %s…", loaded ? "Loaded" : "Unloaded", toLowerCase(service.state()));
+    State state = service.state();
+
+    return format("%s and %s%s", loaded ? "Loaded" : "Unloaded", toLowerCase(state), terminalStates.contains(state) ? '.' : '…');
   }
 
   static String toTransition(final State from, final State to) {

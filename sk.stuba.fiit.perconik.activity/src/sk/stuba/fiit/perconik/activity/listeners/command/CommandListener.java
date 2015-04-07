@@ -12,7 +12,6 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.command.CommandSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState;
@@ -33,8 +32,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class CommandListener extends ActivityListener implements CommandExecutionListener {
   public CommandListener() {}
 
@@ -88,6 +86,10 @@ public final class CommandListener extends ActivityListener implements CommandEx
     Event data = build(time, action, identifier, state);
 
     data.put(key("execution", "result"), identifyObject(result));
+
+    if (result != null) {
+      data.put(key("execution", "result", "description"), result.toString());
+    }
 
     return data;
   }

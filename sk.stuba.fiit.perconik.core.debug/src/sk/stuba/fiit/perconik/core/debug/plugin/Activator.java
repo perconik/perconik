@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.core.debug.plugin;
 
+import java.util.concurrent.TimeoutException;
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 
@@ -8,7 +10,14 @@ import org.osgi.framework.BundleContext;
 import sk.stuba.fiit.perconik.core.debug.DebugListeners;
 import sk.stuba.fiit.perconik.core.debug.DebugResources;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ExtendedPlugin;
+import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;
 import sk.stuba.fiit.perconik.environment.Environment;
+import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+
+import static java.lang.String.format;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.core.plugin.Activator.awaitServices;
 
@@ -53,6 +62,8 @@ public final class Activator extends ExtendedPlugin {
    * @since 1.0
    */
   public static final class Startup implements IStartup {
+    static final TimeValue timeout = TimeValue.of(12, SECONDS);
+
     /**
      * The constructor.
      */
@@ -63,16 +74,25 @@ public final class Activator extends ExtendedPlugin {
      * then prints registration maps on the debug console.
      */
     public void earlyStartup() {
-      final Runnable wait = new Runnable() {
+      final Runnable activation = new Runnable() {
         public final void run() {
-          awaitServices();
+          try {
+            awaitServices(timeout);
 
-          DebugResources.printRegistrations();
-          DebugListeners.printRegistrations();
+            DebugResources.printRegistrations();
+            DebugListeners.printRegistrations();
+          } catch (TimeoutException failure) {
+            String title = "PerConIK Core Debug";
+            String message = format("Unexpected timeout while awaiting services, debug plug-in may not be properly active.");
+
+            openError(Display.getDefault().getActiveShell(), title, message + " See error log for more details.");
+
+            defaultInstance().getConsole().error(failure, "Unable to print registrations, awaiting services timed out");
+          }
         }
       };
 
-      Display.getDefault().asyncExec(wait);
+      DisplayExecutor.defaultAsynchronous().execute(activation);
     }
   }
 

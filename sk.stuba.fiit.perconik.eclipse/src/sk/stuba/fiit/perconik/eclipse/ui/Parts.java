@@ -15,7 +15,10 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
@@ -302,7 +305,9 @@ public final class Parts {
 
     IWorkbenchPart part;
 
-    while ((part = getActivePart(page)) == null) {}
+    while ((part = getActivePart(page)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return part;
   }
@@ -347,7 +352,9 @@ public final class Parts {
 
     IWorkbenchPartReference part;
 
-    while ((part = getActivePartReference(page)) == null) {}
+    while ((part = getActivePartReference(page)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return part;
   }

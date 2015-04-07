@@ -7,7 +7,12 @@ import org.eclipse.ui.handlers.IHandlerService;
 
 import sk.stuba.fiit.perconik.eclipse.ui.Workbenches;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+
+import static sk.stuba.fiit.perconik.eclipse.ui.Workbenches.waitForWorkbench;
 
 /**
  * Static utility methods pertaining to Eclipse command handlers.
@@ -47,7 +52,7 @@ public final class Handlers {
    * @see #getHandlerService()
    */
   public static IHandlerService waitForHandlerService() {
-    return waitForHandlerService(Workbenches.waitForWorkbench());
+    return waitForHandlerService(waitForWorkbench());
   }
 
   /**
@@ -61,7 +66,9 @@ public final class Handlers {
 
     IHandlerService service;
 
-    while ((service = getHandlerService(workbench)) == null) {}
+    while ((service = getHandlerService(workbench)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return service;
   }

@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.activity.serializers.command;
 import java.util.Set;
 
 import org.eclipse.core.commands.Command;
+import org.eclipse.core.commands.IParameter;
 import org.eclipse.core.commands.common.NotDefinedException;
 
 import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
@@ -12,6 +13,7 @@ import static java.util.Arrays.asList;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+import static sk.stuba.fiit.perconik.utilities.MoreArrays.nullToEmpty;
 
 public final class CommandSerializer extends AbstractConfigurableMultiSerializer<Command> {
   public CommandSerializer(final Option ... options) {
@@ -35,7 +37,7 @@ public final class CommandSerializer extends AbstractConfigurableMultiSerializer
     } catch (NotDefinedException ignore) {}
 
     try {
-      content.put(key("parameters"), new ParameterSerializer(options).serialize(asList(command.getParameters())));
+      content.put(key("parameters"), new ParameterSerializer(options).serialize(asList(nullToEmpty(IParameter.class, command.getParameters()))));
     } catch (NotDefinedException ignore) {}
 
     try {

@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.activity.serializers.refactor;
 
+import org.eclipse.jdt.core.refactoring.descriptors.JavaRefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.DeleteResourcesDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
@@ -10,6 +11,7 @@ import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.activity.serializers.refactor.DeleteResourcesDescriptorSerializer.putDeleteResourcesDescriptor;
+import static sk.stuba.fiit.perconik.activity.serializers.refactor.JavaRefactoringDescriptorSerializer.putJavaRefactoringDescriptor;
 import static sk.stuba.fiit.perconik.activity.serializers.refactor.MoveResourcesDescriptorSerializer.putMoveResourcesDescriptor;
 import static sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorSerializer.putRefactoringDescriptor;
 import static sk.stuba.fiit.perconik.activity.serializers.refactor.RenameResourceDescriptorSerializer.putRenameResourceDescriptor;
@@ -38,6 +40,10 @@ abstract class AbstractRefactoringDescriptorSerializer<T extends RefactoringDesc
 
     if (descriptor instanceof DeleteResourcesDescriptor) {
       putDeleteResourcesDescriptor(content, (DeleteResourcesDescriptor) descriptor, this.options);
+    }
+
+    if (descriptor instanceof JavaRefactoringDescriptor) {
+      putJavaRefactoringDescriptor(content, (JavaRefactoringDescriptor) descriptor, this.options);
     }
   }
 }

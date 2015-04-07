@@ -16,7 +16,10 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.getActivePage;
 import static sk.stuba.fiit.perconik.eclipse.ui.Pages.waitForActivePage;
@@ -310,7 +313,9 @@ public final class Views {
 
     IViewPart view;
 
-    while ((view = getActiveView(page)) == null) {}
+    while ((view = getActiveView(page)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return view;
   }
@@ -355,7 +360,9 @@ public final class Views {
 
     IViewReference view;
 
-    while ((view = getActiveViewReference(page)) == null) {}
+    while ((view = getActiveViewReference(page)) == null) {
+      sleepUninterruptibly(20, MILLISECONDS);
+    }
 
     return view;
   }

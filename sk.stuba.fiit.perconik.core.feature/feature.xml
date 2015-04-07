@@ -2,22 +2,22 @@
 <feature
       id="sk.stuba.fiit.perconik.core.feature"
       label="PerConIK Eclipse Platform Core"
-      version="0.19.0.qualifier"
+      version="0.21.1.qualifier"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
-   <description>
-      PerConIK Core for Eclipse Platform
+   <description url="http://perconik.github.io">
+      PerConIK Eclipse Platform Core
    </description>
 
    <copyright url="http://perconik.fiit.stuba.sk">
-      Copyright (c) 2013 Faculty of Informatics and Information Technologies,
+      Copyright (c) 2015 Faculty of Informatics and Information Technologies,
 Slovak University of Technology in Bratislava.
    </copyright>
 
    <license url="http://opensource.org/licenses/MIT">
       The MIT License (MIT)
 
-Copyright (c) 2014 Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
+Copyright (c) 2015 Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 
 Acknowledgement. This Software is the partial result of the Research and Development Operational Programme for the project Research of methods for acquisition, analysis and personalized conveying of information and knowledge, ITMS 26240220039, co-funded by the ERDF.
 

@@ -4,13 +4,13 @@
   <parent>
     <groupId>perconik</groupId>
     <artifactId>perconik</artifactId>
-    <version>0.20.0-SNAPSHOT</version>
+    <version>0.22.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
   <groupId>sk.stuba.fiit.perconik</groupId>
   <artifactId>sk.stuba.fiit.perconik</artifactId>
-  <version>0.18.0-SNAPSHOT</version>
+  <version>0.20.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -19,6 +19,7 @@
     <module>../sk.stuba.fiit.perconik.core.feature</module>
 
     <module>../sk.stuba.fiit.perconik.activity</module>
+    <module>../sk.stuba.fiit.perconik.activity.debug</module>
 
     <module>../sk.stuba.fiit.perconik.core</module>
     <module>../sk.stuba.fiit.perconik.core.debug</module>
