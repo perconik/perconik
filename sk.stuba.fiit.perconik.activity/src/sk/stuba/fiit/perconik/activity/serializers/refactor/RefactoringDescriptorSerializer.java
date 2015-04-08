@@ -1,5 +1,9 @@
 package sk.stuba.fiit.perconik.activity.serializers.refactor;
 
+import java.util.Map;
+
+import org.eclipse.ltk.core.refactoring.RefactoringContribution;
+import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
@@ -28,5 +32,13 @@ public final class RefactoringDescriptorSerializer extends AbstractRefactoringDe
     content.put(key("flags"), transform(RefactoringFlag.setOf(descriptor.getFlags()), toLowerCaseFunction()));
 
     content.put(key("project", "name"), descriptor.getProject());
+
+    RefactoringContribution contribution = RefactoringCore.getRefactoringContribution(descriptor.getID());
+
+    if (contribution != null) {
+      Map<String, String> arguments = contribution.retrieveArgumentMap(descriptor);
+
+      content.put(key("arguments"), arguments);
+    }
   }
 }

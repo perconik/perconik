@@ -15,7 +15,8 @@ public final class JavaRefactoringDescriptorSerializer extends AbstractRefactori
     super(options);
   }
 
-  // TODO put significant fields of JavaRefactoringDescriptor into content here
   @SuppressWarnings("unused")
-  static void putJavaRefactoringDescriptor(final StructuredContent content, final JavaRefactoringDescriptor descriptor, final Set<Option> options) {}
+  static void putJavaRefactoringDescriptor(final StructuredContent content, final JavaRefactoringDescriptor descriptor, final Set<Option> options) {
+    // significant refactoring data stored in arguments map are already serialized via RefactoringDescriptorSerializer
+  }
 }
