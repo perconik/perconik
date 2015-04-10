@@ -2,7 +2,7 @@
 <feature
       id="sk.stuba.fiit.perconik.feature"
       label="PerConIK Eclipse Platform Utilities"
-      version="0.17.0.qualifier"
+      version="0.18.0.qualifier"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description url="http://perconik.github.io">
