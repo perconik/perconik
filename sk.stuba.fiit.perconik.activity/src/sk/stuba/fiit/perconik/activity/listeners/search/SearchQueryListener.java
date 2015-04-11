@@ -5,8 +5,16 @@ import org.eclipse.search.ui.ISearchQuery;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
+import sk.stuba.fiit.perconik.activity.serializers.search.SearchQuerySerializer;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
+
+import static sk.stuba.fiit.perconik.activity.listeners.search.SearchQueryListener.Action.ADD;
+import static sk.stuba.fiit.perconik.activity.listeners.search.SearchQueryListener.Action.FINISH;
+import static sk.stuba.fiit.perconik.activity.listeners.search.SearchQueryListener.Action.REMOVE;
+import static sk.stuba.fiit.perconik.activity.listeners.search.SearchQueryListener.Action.START;
+import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
+import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 /**
  * TODO
@@ -46,29 +54,47 @@ public final class SearchQueryListener extends ActivityListener implements sk.st
     }
   }
 
-  static Event build(final long time, final Action action) {
+  static Event build(final long time, final Action action, final ISearchQuery query) {
     Event data = LocalEvent.of(time, action.getName());
+
+    data.put(key("query"), new SearchQuerySerializer(TREE).serialize(query));
 
     return data;
   }
 
-  void process(final long time, final Action action) {
-    this.send(action.getPath(), build(time, action));
+  void process(final long time, final Action action, final ISearchQuery query) {
+    this.send(action.getPath(), build(time, action, query));
   }
 
-  void execute(final long time, final Action action) {
+  void execute(final long time, final Action action, final ISearchQuery query) {
     this.execute(new Runnable() {
       public void run() {
-        process(time, action);
+        process(time, action, query);
       }
     });
   }
 
-  public void queryAdded(final ISearchQuery query) {}
+  public void queryAdded(final ISearchQuery query) {
+    long time = currentTime();
 
-  public void queryRemoved(final ISearchQuery query) {}
+    this.execute(time, ADD, query);
+  }
 
-  public void queryStarting(final ISearchQuery query) {}
+  public void queryRemoved(final ISearchQuery query) {
+    long time = currentTime();
 
-  public void queryFinished(final ISearchQuery query) {}
+    this.execute(time, REMOVE, query);
+  }
+
+  public void queryStarting(final ISearchQuery query) {
+    long time = currentTime();
+
+    this.execute(time, START, query);
+  }
+
+  public void queryFinished(final ISearchQuery query) {
+    long time = currentTime();
+
+    this.execute(time, FINISH, query);
+  }
 }
