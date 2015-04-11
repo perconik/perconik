@@ -7,14 +7,14 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-public enum WorkbenchReferencePolicy {
+public enum DereferencePolicy {
   DEFAULT(false),
 
   RESTORE(true);
 
   private final boolean restore;
 
-  private WorkbenchReferencePolicy(final boolean restore) {
+  private DereferencePolicy(final boolean restore) {
     this.restore = restore;
   }
 
