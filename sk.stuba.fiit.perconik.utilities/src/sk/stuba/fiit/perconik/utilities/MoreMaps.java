@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -14,7 +15,11 @@ import javax.annotation.Nonnull;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.base.Supplier;
 import com.google.common.collect.Maps;
+
+import static java.util.Arrays.asList;
 
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 
@@ -97,10 +102,14 @@ public final class MoreMaps {
     return flatten(map, joiner, result, (String) null);
   }
 
+  public static Map<String, Object> flatten(final Map<?, Object> map, final Joiner joiner, final Supplier<? extends Map<String, Object>> supplier) {
+    return flatten(map, joiner, supplier.get());
+  }
+
   @SuppressWarnings("unchecked")
   private static Map<String, Object> flatten(final Map<?, Object> map, final Joiner joiner, final Map<String, Object> result, final String prefix) {
     for (Entry<?, Object> entry: map.entrySet()) {
-      String key = joiner.join(prefix, entry.getKey());
+      String key = prefix != null ? joiner.join(prefix, entry.getKey()) : joiner.join(asList(entry.getKey()));
       Object value = entry.getValue();
 
       if (value instanceof Map) {
@@ -111,6 +120,67 @@ public final class MoreMaps {
     }
 
     return result;
+  }
+
+  public static Map<String, Object> structure(final Map<?, ?> map) {
+    return structure(map, Splitter.on(".").trimResults().omitEmptyStrings());
+  }
+
+  public static Map<String, Object> structure(final Map<?, ?> map, final Splitter splitter) {
+    return structure(map, splitter, new Supplier<Map<String, Object>>() {
+      public Map<String, Object> get() {
+        return Maps.newLinkedHashMap();
+      }
+    });
+  }
+
+  public static Map<String, Object> structure(final Map<?, ?> map, final Splitter splitter, final Supplier<? extends Map<String, Object>> supplier) {
+    Map<String, Object> result = supplier.get();
+
+    for (Entry<?, ?> entry: map.entrySet()) {
+      Object value = entry.getValue();
+
+      if (value instanceof Map) {
+        value = structure((Map<?, ?>) value, splitter, supplier);
+      }
+
+      List<String> keys = splitter.splitToList(entry.getKey().toString());
+
+      int last = keys.size() - 1;
+
+      Map<String, Object> submap;
+
+      if (last == 0) {
+        submap = result;
+      } else {
+        submap = substructure(result, keys.subList(0, last), supplier);
+      }
+
+      submap.put(keys.get(last), value);
+    }
+
+    return result;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Map<String, Object> substructure(final Map<String, Object> map, final Iterable<String> keys, final Supplier<? extends Map<String, Object>> supplier) {
+    Map<String, Object> submap = map;
+
+    for (String key: keys) {
+      Object value = submap.get(key);
+
+      if (value instanceof Map) {
+        submap = (Map<String, Object>) value;
+      } else {
+        Map<String, Object> link = supplier.get();
+
+        submap.put(key, link);
+
+        submap = link;
+      }
+    }
+
+    return submap;
   }
 
   public static <K, V> void putAll(final Map<K, V> map, final Iterable<? extends Entry<? extends K, ? extends V>> entries) {
