@@ -10,8 +10,8 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ForwardingMap;
-import com.google.common.collect.Maps;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -224,11 +224,11 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   }
 
   public AnyData flatten() {
-    return new AnyData(MoreMaps.flatten(this.toMap(), Joiner.on(separator), Maps.<String, Object>newLinkedHashMap()));
+    return new AnyData(MoreMaps.flatten(this.toMap(), Joiner.on(separator)));
   }
 
   public AnyStructuredData structure() {
-    return new AnyStructuredData(this.toMap());
+    return new AnyStructuredData(MoreMaps.structure(this.toMap(), Splitter.on(separator)));
   }
 
   public AnyStructuredData merge(final Content content) {
