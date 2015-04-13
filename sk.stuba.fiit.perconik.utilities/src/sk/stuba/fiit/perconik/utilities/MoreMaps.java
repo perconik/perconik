@@ -209,6 +209,22 @@ public final class MoreMaps {
     }
   }
 
+  public static Map<String, Object> toProperties(final Map<?, ?> map) {
+    return toProperties(map, Maps.<String, Object>newLinkedHashMap());
+  }
+
+  public static Map<String, Object> toProperties(final Map<?, ?> map, final Map<String, Object> result) {
+    for (Entry<?, ?> entry: map.entrySet()) {
+      result.put(entry.getKey().toString(), entry.getValue());
+    }
+
+    return result;
+  }
+
+  public static Map<String, Object> toProperties(final Map<?, ?> map, final Supplier<? extends Map<String, Object>> supplier) {
+    return toProperties(map, supplier.get());
+  }
+
   private enum ToKeyFunction implements Function<Entry<Object, Object>, Object> {
     INSTANCE;
 
