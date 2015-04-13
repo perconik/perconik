@@ -8,9 +8,13 @@ import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import com.gratex.perconik.uaca.GenericUacaEventConstants;
+
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.bind.NamingStrategy.Default;
+import sk.stuba.fiit.perconik.data.content.Content;
+import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
@@ -33,10 +37,6 @@ public class UacaEvent extends AnyStructuredData {
 
   public UacaEvent() {}
 
-  public static URI newEventTypeUri(final String path) {
-    return newUri(EVENT_TYPE_URI_PREFIX + "/event/" + checkNotNullOrEmpty(path));
-  }
-
   public static UacaEvent of(final String path, @Nullable final Object data) {
     UacaEvent event = new UacaEvent();
 
@@ -44,10 +44,32 @@ public class UacaEvent extends AnyStructuredData {
       event.timestamp = new Date(((Event) data).getTimestamp());
     }
 
-    event.eventTypeUri = newEventTypeUri(path);
-    event.data = data;
+    event.eventTypeUri = eventTypeUri(path);
+    event.data = normalizeData(data);
 
     return event;
+  }
+
+  /**
+   * Creates UACA compatible event type URI for specified path. Each URI is prefixed with
+   * an {@link GenericUacaEventConstants#EVENT_TYPE_URI_PREFIX EVENT_TYPE_URI_PREFIX}.
+   */
+  public static URI eventTypeUri(final String path) {
+    return newUri(EVENT_TYPE_URI_PREFIX + "/event/" + checkNotNullOrEmpty(path));
+  }
+
+  /**
+   * Normalizes event data according to UACA restrictions. Each data of type {@link Content}
+   * must be fully structured since UACA does not permit dot characters in JSON field names.
+   */
+  public static Object normalizeData(final Object data) {
+    if (data instanceof StructuredContent) {
+      return ((StructuredContent) data).structure();
+    } else if (data instanceof Content) {
+      return new AnyStructuredData().merge((Content) data);
+    }
+
+    return data;
   }
 
   public void setTimestamp(@Nullable final Date timestamp) {
