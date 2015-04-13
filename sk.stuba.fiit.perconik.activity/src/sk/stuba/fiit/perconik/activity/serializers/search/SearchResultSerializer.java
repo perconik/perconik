@@ -8,6 +8,7 @@ import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.IFileMatchAdapter;
 import org.eclipse.search.ui.text.MatchFilter;
 
+import sk.stuba.fiit.perconik.activity.serializers.resource.FileSerializer;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
@@ -62,7 +63,7 @@ public final class SearchResultSerializer extends AbstractSearchResultSerializer
         elementContent.put(key("matches"), new MatchSerializer(options).serialize(asList(text.getMatches(element))));
 
         if (adapter != null) {
-          elementContent.put(key("file"), adapter.getFile(element));
+          elementContent.put(key("file"), new FileSerializer(options).serialize(adapter.getFile(element)));
         }
 
         elements.add(elementContent);
