@@ -107,7 +107,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
         this.map.put(component, data);
       }
 
-      return data.structure().put(key, value);
+      return data.internal().put(key, value);
     }
 
     Object remove(Iterator<String> key) {
@@ -122,7 +122,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       Object value = this.map.get(component);
 
       if (value instanceof AnyStructuredData) {
-        return ((AnyStructuredData) value).structure().remove(key);
+        return ((AnyStructuredData) value).internal().remove(key);
       }
 
       return null;
@@ -140,7 +140,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       Object value = this.map.get(component);
 
       if (value instanceof AnyStructuredData) {
-        return ((AnyStructuredData) value).structure().contains(key);
+        return ((AnyStructuredData) value).internal().contains(key);
       }
 
       return false;
@@ -156,7 +156,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
       }
 
       if (value instanceof AnyStructuredData) {
-        return ((AnyStructuredData) value).structure().get(key);
+        return ((AnyStructuredData) value).internal().get(key);
       }
 
       return null;
@@ -219,32 +219,38 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
     }
   }
 
-  final Structure structure() {
+  final Structure internal() {
     return (Structure) this.other;
   }
 
-  public Map<String, Object> flatten() {
-    return MoreMaps.flatten(this.toMap(), Joiner.on(separator), Maps.<String, Object>newLinkedHashMap());
+  public AnyData flatten() {
+    return new AnyData(MoreMaps.flatten(this.toMap(), Joiner.on(separator), Maps.<String, Object>newLinkedHashMap()));
   }
 
-  public void merge(final Content content) {
-    this.merge(content.toMap());
+  public AnyStructuredData structure() {
+    return new AnyStructuredData(this.toMap());
   }
 
-  public void merge(final Map<String, Object> content) {
-    this.merge(content.entrySet());
+  public AnyStructuredData merge(final Content content) {
+    return this.merge(content.toMap());
   }
 
-  public void merge(final Iterable<Entry<String, Object>> content) {
-    this.merge(content.iterator());
+  public AnyStructuredData merge(final Map<String, Object> content) {
+    return this.merge(content.entrySet());
   }
 
-  public void merge(final Iterator<Entry<String, Object>> content) {
+  public AnyStructuredData merge(final Iterable<? extends Entry<String, Object>> content) {
+    return this.merge(content.iterator());
+  }
+
+  public AnyStructuredData merge(final Iterator<? extends Entry<String, Object>> content) {
     while (content.hasNext()) {
       Entry<String, Object> entry = content.next();
 
       this.put(entry.getKey(), entry.getValue());
     }
+
+    return this;
   }
 
   @JsonAnySetter
@@ -259,7 +265,7 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   }
 
   public void put(final Iterator<String> key, final Object value) {
-    this.structure().put(key, value);
+    this.internal().put(key, value);
   }
 
   @Override
@@ -276,6 +282,6 @@ public class AnyStructuredData extends AnyData implements AnyStructuredContent {
   }
 
   public Object get(final Iterator<String> key) {
-    return this.structure().get(key);
+    return this.internal().get(key);
   }
 }

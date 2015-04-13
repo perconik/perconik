@@ -9,15 +9,17 @@ import javax.annotation.Nullable;
 public interface StructuredContent extends Content {
   public static final String separator = ".";
 
-  public Map<String, Object> flatten();
+  public Content flatten();
 
-  public void merge(Content content);
+  public Content structure();
 
-  public void merge(Map<String, Object> content);
+  public Content merge(Content content);
 
-  public void merge(Iterable<Entry<String, Object>> content);
+  public Content merge(Map<String, Object> content);
 
-  public void merge(Iterator<Entry<String, Object>> content);
+  public Content merge(Iterable<? extends Entry<String, Object>> content);
+
+  public Content merge(Iterator<? extends Entry<String, Object>> content);
 
   public void put(String key, @Nullable Object value);
 
