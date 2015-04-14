@@ -9,12 +9,12 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
-import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializers.asDisplayTask;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 /**
@@ -29,7 +29,7 @@ abstract class AbstractTextListener extends ActivityListener {
   final Event build(final long time, final Action action, final IWorkbenchPart part) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("part"), this.execute(Serializers.asDisplayTask(new PartSerializer(), part)));
+    data.put(key("part"), this.execute(asDisplayTask(new PartSerializer(), part)));
 
     IWorkbenchPartSite site = part.getSite();
 

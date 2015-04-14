@@ -10,7 +10,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
-import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelectionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -19,6 +18,7 @@ import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.selection.ElementSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializers.asDisplayTask;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 /**
@@ -55,7 +55,7 @@ public final class ElementSelectionListener extends ActivityListener implements 
   Event build(final long time, final Action action, final IWorkbenchPart part) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("part"), this.execute(Serializers.asDisplayTask(new PartSerializer(), part)));
+    data.put(key("part"), this.execute(asDisplayTask(new PartSerializer(), part)));
 
     IWorkbenchPartSite site = part.getSite();
 

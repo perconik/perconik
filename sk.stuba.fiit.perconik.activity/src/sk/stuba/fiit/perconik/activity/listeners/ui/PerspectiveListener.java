@@ -9,7 +9,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
-import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PerspectiveDescriptorSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
@@ -22,6 +21,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.A
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.Action.SAVE;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializers.asDisplayTask;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 /**
@@ -72,7 +72,7 @@ public final class PerspectiveListener extends ActivityListener implements sk.st
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
 
-    content.put(key("page"), this.execute(Serializers.asDisplayTask(new PageSerializer(TREE), page)));
+    content.put(key("page"), this.execute(asDisplayTask(new PageSerializer(TREE), page)));
     content.put(key("page", "window"), identifyObject(window));
     content.put(key("page", "window", "workbench"), identifyObject(workbench));
 
