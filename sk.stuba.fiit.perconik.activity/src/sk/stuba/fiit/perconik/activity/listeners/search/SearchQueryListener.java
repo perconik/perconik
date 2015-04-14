@@ -6,7 +6,6 @@ import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.search.SearchQuerySerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
 import static sk.stuba.fiit.perconik.activity.listeners.search.SearchQueryListener.Action.ADD;
@@ -22,8 +21,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class SearchQueryListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.SearchQueryListener {
   public SearchQueryListener() {}
 

@@ -10,7 +10,6 @@ import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ObjectIdentitySerializer;
 import sk.stuba.fiit.perconik.activity.serializers.search.SearchResultSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchEventKind;
@@ -29,8 +28,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class SearchResultListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.SearchResultListener {
   public SearchResultListener() {}
 
