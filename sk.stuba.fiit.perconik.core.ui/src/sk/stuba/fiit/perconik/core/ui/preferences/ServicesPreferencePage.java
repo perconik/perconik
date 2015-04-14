@@ -311,7 +311,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   void performLoad() {
-    final Map<String, Map<String, Nameable>> snapshot = ComponentsHelper.snapshot();
+    final Map<String, Map<String, Nameable>> snapshot = ComponentsReporter.snapshot();
 
     try {
       checkState(loadedServices() == false, "Services already loaded");
@@ -335,7 +335,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   void performUnload() {
-    final Map<String, Map<String, Nameable>> snapshot = ComponentsHelper.snapshot();
+    final Map<String, Map<String, Nameable>> snapshot = ComponentsReporter.snapshot();
 
     try {
       checkState(loadedServices() == true, "Services already unloaded");
@@ -357,11 +357,11 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   private void handleTimeout(final TimeoutException failure, final String action, final Map<String, Map<String, Nameable>> before) {
-    final Map<String, Map<String, Nameable>> after = ComponentsHelper.snapshot();
+    final Map<String, Map<String, Nameable>> after = ComponentsReporter.snapshot();
 
     String title = "Core Services";
     String message = format("Unexpected timeout while %s services.", action);
-    String description = format("%s%n%n%s", message, ComponentsHelper.message(action, before, after));
+    String description = format("%s%n%n%s", message, ComponentsReporter.message(action, before, after));
 
     openError(this.getShell(), title, message + " See error log for more details.");
 
@@ -369,19 +369,19 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   private void handleFailure(final Throwable failure, final String action, final Map<String, Map<String, Nameable>> before) {
-    final Map<String, Map<String, Nameable>> after = ComponentsHelper.snapshot();
+    final Map<String, Map<String, Nameable>> after = ComponentsReporter.snapshot();
 
     String title = "Core Services";
     String message = firstNonNullOrEmpty(failure.getMessage(), "Unexpected failure") + ".";
-    String description = format("%s%n%n%s", message, ComponentsHelper.message(action, before, after));
+    String description = format("%s%n%n%s", message, ComponentsReporter.message(action, before, after));
 
     openError(this.getShell(), title, message + " See error log for more details.");
 
     Activator.defaultInstance().getConsole().error(failure, description);
   }
 
-  static final class ComponentsHelper {
-    private ComponentsHelper() {}
+  static final class ComponentsReporter {
+    private ComponentsReporter() {}
 
     static Map<String, Map<String, Nameable>> snapshot() {
       ImmutableMap.Builder<String, Map<String, Nameable>> builder = ImmutableMap.builder();
@@ -426,7 +426,13 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
         builder.append("implementation: ").appendln(component.getClass().getName());
         builder.append("name: ").appendln(component.getName());
         builder.append("hash: ").appendln(toHexString(component.hashCode()));
-        builder.append("identity: ").appendln(toHexString(identityHashCode(component))).untab();
+        builder.append("identity: ").appendln(toHexString(identityHashCode(component)));
+
+        if (component instanceof Service) {
+          builder.append("state: ").appendln(toLowerCase(((Service) component).state()));
+        }
+
+        builder.untab();
       }
 
       return builder.toString();
