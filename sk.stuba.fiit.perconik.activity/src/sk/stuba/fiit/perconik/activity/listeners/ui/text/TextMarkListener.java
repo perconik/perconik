@@ -26,6 +26,8 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 @Version("0.0.0.alpha")
 @Unsupported
 public final class TextMarkListener extends AbstractTextListener implements MarkSelectionListener {
+  // TODO figure out how this is triggered in eclipse, then test and enable
+
   static final String selectionEventType = "mark";
 
   public TextMarkListener() {}

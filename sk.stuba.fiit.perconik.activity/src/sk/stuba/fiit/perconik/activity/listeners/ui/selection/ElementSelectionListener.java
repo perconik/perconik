@@ -13,7 +13,6 @@ import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelectionSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 
@@ -28,8 +27,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class ElementSelectionListener extends ActivityListener implements StructuredSelectionListener {
   public ElementSelectionListener() {}
 
@@ -77,7 +75,7 @@ public final class ElementSelectionListener extends ActivityListener implements 
   Event build(final long time, final Action action, final IWorkbenchPart part, final IStructuredSelection selection) {
     Event data = this.build(time, action, part);
 
-    data.put(key("selection", "raw"), new StructuredSelectionSerializer(TREE).serialize(selection));
+    data.put(key("selection"), new StructuredSelectionSerializer(TREE).serialize(selection));
 
     return data;
   }
