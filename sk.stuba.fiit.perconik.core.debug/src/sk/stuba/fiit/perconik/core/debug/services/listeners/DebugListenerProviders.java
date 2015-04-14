@@ -96,7 +96,7 @@ public final class DebugListenerProviders {
   private DebugListenerProviders() {}
 
   public static DebugListenerProvider create() {
-    return create(ListenerProviders.getSystemProvider());
+    return create(ListenerProviders.superListenerProvider());
   }
 
   public static DebugListenerProvider create(final ListenerProvider parent) {

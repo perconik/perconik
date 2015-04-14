@@ -9,7 +9,7 @@ public final class DebugResourceProviders {
   private DebugResourceProviders() {}
 
   public static DebugResourceProvider create() {
-    return create(ResourceProviders.getSystemProvider());
+    return create(ResourceProviders.superResourceProvider());
   }
 
   public static DebugResourceProvider create(final ResourceProvider parent) {
