@@ -11,13 +11,14 @@ import org.eclipse.core.commands.common.NotDefinedException;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
+import sk.stuba.fiit.perconik.activity.serializers.ObjectDescriptionSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.command.CommandSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState;
 
 import static sk.stuba.fiit.perconik.activity.listeners.command.CommandListener.Action.EXECUTE;
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.describeObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.DISABLED;
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.EXECUTING;
@@ -74,8 +75,8 @@ public final class CommandListener extends ActivityListener implements CommandEx
 
     Event data = build(time, action, identifier, state);
 
-    data.put(key("execution", "parameters"), identifyObject(execution.getParameters()));
-    data.put(key("execution", "trigger"), identifyObject(execution.getTrigger()));
+    data.put(key("execution", "parameters"), new ObjectDescriptionSerializer().serialize(execution.getParameters()));
+    data.put(key("execution", "trigger"), describeObject(execution.getTrigger()));
 
     data.put(key("command"), new CommandSerializer().serialize(execution.getCommand()));
 
@@ -85,11 +86,7 @@ public final class CommandListener extends ActivityListener implements CommandEx
   static Event build(final long time, final Action action, final String identifier, final CommandExecutionState state, @Nullable final Object result) {
     Event data = build(time, action, identifier, state);
 
-    data.put(key("execution", "result"), identifyObject(result));
-
-    if (result != null) {
-      data.put(key("execution", "result", "description"), result.toString());
-    }
+    data.put(key("execution", "result"), describeObject(result));
 
     return data;
   }

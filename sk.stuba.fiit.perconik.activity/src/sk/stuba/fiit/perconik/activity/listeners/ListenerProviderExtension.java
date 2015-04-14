@@ -29,11 +29,11 @@ import sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSelectionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSessionListener;
-import sk.stuba.fiit.perconik.activity.listeners.ui.selection.StructuredSelectionListener;
-import sk.stuba.fiit.perconik.activity.listeners.ui.text.MarkSelectionListener;
+import sk.stuba.fiit.perconik.activity.listeners.ui.selection.ElementSelectionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCopyListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextDifferenceListener;
+import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextMarkListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextPasteListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextViewListener;
@@ -55,15 +55,15 @@ public final class ListenerProviderExtension implements ListenerProviderFactory 
 
     builder.add(PerspectiveListener.class);
 
+    builder.add(ElementSelectionListener.class);
+
     builder.add(TextCopyListener.class);
     builder.add(TextCutListener.class);
     builder.add(TextDifferenceListener.class);
+    builder.add(TextMarkListener.class);
     builder.add(TextPasteListener.class);
     builder.add(TextSelectionListener.class);
     builder.add(TextViewListener.class);
-
-    builder.add(MarkSelectionListener.class);
-    builder.add(StructuredSelectionListener.class);
 
     builder.add(CommandListener.class);
     builder.add(UndoableOperationListener.class);

@@ -7,7 +7,7 @@ import org.eclipse.search.ui.text.Match;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 import sk.stuba.fiit.perconik.eclipse.search.ui.text.MatchUnit;
 
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.describeObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 public final class MatchSerializer extends AbstractMatchSerializer<Match> {
@@ -25,7 +25,7 @@ public final class MatchSerializer extends AbstractMatchSerializer<Match> {
 
     content.put(key("unit"), MatchUnit.valueOf(match.getBaseUnit()).toString().toLowerCase());
 
-    content.put(key("element"), identifyObject(match.getElement()));
+    content.put(key("element"), describeObject(match.getElement()));
 
     content.put(key("isFiltered"), match.isFiltered());
   }

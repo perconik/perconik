@@ -6,6 +6,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
+import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.WindowSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -14,7 +15,6 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.WindowListener.Action
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WindowListener.Action.DEACTIVATE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WindowListener.Action.OPEN;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
@@ -61,7 +61,7 @@ public final class WindowListener extends ActivityListener implements sk.stuba.f
   Event build(final long time, final Action action, final IWorkbenchWindow window) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("window"), this.execute(asDisplayTask(new WindowSerializer(TREE), window)));
+    data.put(key("window"), this.execute(Serializers.asDisplayTask(new WindowSerializer(TREE), window)));
 
     IWorkbench workbench = window.getWorkbench();
 

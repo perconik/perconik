@@ -2,7 +2,7 @@ package sk.stuba.fiit.perconik.activity.serializers.ui.selection;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import sk.stuba.fiit.perconik.activity.serializers.ObjectIdentitySerializer;
+import sk.stuba.fiit.perconik.activity.serializers.ObjectDescriptionSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
@@ -17,6 +17,6 @@ public final class StructuredSelectionSerializer extends AbstractSelectionSerial
   }
 
   static void putStructuredSelection(final StructuredContent content, final IStructuredSelection selection) {
-    content.put(key("elements"), new ObjectIdentitySerializer().serialize(selection.toList()));
+    content.put(key("elements"), new ObjectDescriptionSerializer().serialize(selection.toList()));
   }
 }

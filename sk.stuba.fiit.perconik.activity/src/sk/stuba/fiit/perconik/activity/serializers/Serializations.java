@@ -6,9 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
-import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
-import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
@@ -44,16 +42,26 @@ public final class Serializations {
     return content;
   }
 
+  public static StructuredContent describeObject(@Nullable final Object object) {
+    if (object == null) {
+      return null;
+    }
+
+    StructuredContent content = newStructuredContent();
+
+    putObjectDescription(content, object);
+
+    return content;
+  }
+
   public static void putObjectIdentity(final StructuredContent content, final Object object) {
     content.put(key("class"), object.getClass().getName());
     content.put(key("hash"), object.hashCode());
   }
 
-  public static <T> DisplayTask<Content> asDisplayTask(final Serializer<? super T> serializer, @Nullable final T object) {
-    return new DisplayTask<Content>() {
-      public Content call() throws Exception {
-        return serializer.serialize(object);
-      }
-    };
+  public static void putObjectDescription(final StructuredContent content, final Object object) {
+    putObjectIdentity(content, object);
+
+    content.put(key("string"), object.toString());
   }
 }

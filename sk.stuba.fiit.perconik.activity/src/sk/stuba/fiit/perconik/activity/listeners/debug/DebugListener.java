@@ -16,7 +16,7 @@ import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 
 import static sk.stuba.fiit.perconik.activity.listeners.debug.DebugListener.Action.fromKind;
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.describeObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind.valueOf;
 
@@ -87,7 +87,7 @@ public final class DebugListener extends ActivityListener implements DebugEvents
     data.put(key("debug", "isStepStart"), event.isStepStart());
     data.put(key("debug", "isEvaluation"), event.isEvaluation());
 
-    data.put(key("debug", "data"), identifyObject(event.getData()));
+    data.put(key("debug", "data"), describeObject(event.getData()));
 
     return data;
   }

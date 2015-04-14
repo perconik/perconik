@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.activity.serializers.ui.selection;
 import org.eclipse.jface.viewers.TreePath;
 
 import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
-import sk.stuba.fiit.perconik.activity.serializers.ObjectIdentitySerializer;
+import sk.stuba.fiit.perconik.activity.serializers.ObjectDescriptionSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 import sk.stuba.fiit.perconik.eclipse.jface.viewers.TreePaths;
 
@@ -19,7 +19,7 @@ public final class TreePathSerializer extends AbstractConfigurableMultiSerialize
   }
 
   static void putTreePath(final StructuredContent content, final TreePath path) {
-    content.put(key("segments"), new ObjectIdentitySerializer().serialize(TreePaths.segments(path)));
+    content.put(key("segments"), new ObjectDescriptionSerializer().serialize(TreePaths.segments(path)));
   }
 
   @Override

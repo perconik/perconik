@@ -39,6 +39,8 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
   // TODO note that select must be initiated by user after startup to be sent on shutdown
 
+  static final String selectionEventType = "text";
+
   static final TimeValue selectionEventPause = of(500L, MILLISECONDS);
 
   static final TimeValue selectionEventWindow = of(10L, SECONDS);
@@ -74,6 +76,8 @@ public final class TextSelectionListener extends AbstractTextListener implements
     assert sequence.getLast().selection.equals(selection);
 
     Event data = this.build(time, action, part);
+
+    data.put(key("selection", "type"), selectionEventType);
 
     data.put(key("selection", "events", "first", "timestamp"), sequence.getFirst().time);
     data.put(key("selection", "events", "first", "raw"), new TextSelectionSerializer().serialize(sequence.getFirst().selection));

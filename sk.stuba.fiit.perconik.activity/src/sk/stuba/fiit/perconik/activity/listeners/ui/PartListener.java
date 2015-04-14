@@ -9,6 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
+import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartReferenceSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -21,7 +22,6 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.H
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.OPEN;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.SHOW;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
@@ -74,7 +74,7 @@ public final class PartListener extends ActivityListener implements sk.stuba.fii
   Event build(final long time, final Action action, final IWorkbenchPartReference reference) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("reference"), this.execute(asDisplayTask(new PartReferenceSerializer(TREE), reference)));
+    data.put(key("reference"), this.execute(Serializers.asDisplayTask(new PartReferenceSerializer(TREE), reference)));
 
     IWorkbenchPage page = reference.getPage();
     IWorkbenchWindow window = page.getWorkbenchWindow();

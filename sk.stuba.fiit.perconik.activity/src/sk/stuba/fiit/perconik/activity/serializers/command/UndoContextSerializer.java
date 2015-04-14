@@ -6,7 +6,7 @@ import org.eclipse.core.commands.operations.ObjectUndoContext;
 import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
+import static sk.stuba.fiit.perconik.activity.serializers.Serializations.describeObject;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
@@ -23,7 +23,7 @@ public final class UndoContextSerializer extends AbstractConfigurableMultiSerial
     content.put(key("label"), context.getLabel());
 
     if (context instanceof ObjectUndoContext) {
-      content.put(key("object"), identifyObject(((ObjectUndoContext) context).getObject()));
+      content.put(key("object"), describeObject(((ObjectUndoContext) context).getObject()));
     }
   }
 

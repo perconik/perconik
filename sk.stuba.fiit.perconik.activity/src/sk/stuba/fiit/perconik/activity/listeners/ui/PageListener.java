@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
+import sk.stuba.fiit.perconik.activity.serializers.Serializers;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 
@@ -14,7 +15,6 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.PageListener.Action.A
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PageListener.Action.CLOSE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PageListener.Action.OPEN;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
@@ -57,7 +57,7 @@ public final class PageListener extends ActivityListener implements sk.stuba.fii
   Event build(final long time, final Action action, final IWorkbenchPage page) {
     Event data = LocalEvent.of(time, action.getName());
 
-    data.put(key("page"), this.execute(asDisplayTask(new PageSerializer(TREE), page)));
+    data.put(key("page"), this.execute(Serializers.asDisplayTask(new PageSerializer(TREE), page)));
 
     IWorkbenchWindow window = page.getWorkbenchWindow();
     IWorkbench workbench = window.getWorkbench();
