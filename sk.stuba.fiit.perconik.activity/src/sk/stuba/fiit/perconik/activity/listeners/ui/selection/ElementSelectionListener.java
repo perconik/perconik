@@ -27,7 +27,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.3.alpha")
 public final class ElementSelectionListener extends ActivityListener implements StructuredSelectionListener {
   public ElementSelectionListener() {}
 
@@ -75,7 +75,7 @@ public final class ElementSelectionListener extends ActivityListener implements 
   Event build(final long time, final Action action, final IWorkbenchPart part, final IStructuredSelection selection) {
     Event data = this.build(time, action, part);
 
-    data.put(key("selection"), new StructuredSelectionSerializer(TREE).serialize(selection));
+    data.merge(new StructuredSelectionSerializer(TREE).serialize(selection));
 
     return data;
   }

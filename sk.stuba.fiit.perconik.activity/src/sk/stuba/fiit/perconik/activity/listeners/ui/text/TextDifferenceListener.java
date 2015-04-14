@@ -40,7 +40,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.5.alpha")
+@Version("0.0.6.alpha")
 public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, FileBufferListener {
   // TODO note that difference must be initiated by user after startup to be sent on shutdown
   // TODO note that this listener does not handle text differences in consoles
@@ -85,14 +85,14 @@ public final class TextDifferenceListener extends AbstractTextListener implement
   Event build(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final IWorkbenchPart part, final String before, final String after) {
     Event data = this.build(time, action, part);
 
-    data.put(key("difference", "events", "first", "timestamp"), sequence.getFirst().time);
+    data.put(key("sequence", "first", "timestamp"), sequence.getFirst().time);
 
-    data.put(key("difference", "events", "last", "timestamp"), sequence.getLast().time);
+    data.put(key("sequence", "last", "timestamp"), sequence.getLast().time);
 
-    data.put(key("difference", "events", "count"), sequence.size());
+    data.put(key("sequence", "count"), sequence.size());
 
-    data.put(key("difference", "text", "before"), before);
-    data.put(key("difference", "text", "after"), after);
+    data.put(key("text", "before"), before);
+    data.put(key("text", "after"), after);
 
     return data;
   }

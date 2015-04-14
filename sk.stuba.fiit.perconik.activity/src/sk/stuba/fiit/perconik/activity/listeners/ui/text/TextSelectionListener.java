@@ -12,7 +12,6 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer;
-import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
@@ -33,13 +32,11 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.5.alpha")
+@Version("0.0.6.alpha")
 public final class TextSelectionListener extends AbstractTextListener implements PartListener, sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
   // TODO fails on shutdown if both this and text view listener are processing pending events
 
   // TODO note that select must be initiated by user after startup to be sent on shutdown
-
-  static final String selectionEventType = "text";
 
   static final TimeValue selectionEventPause = of(500L, MILLISECONDS);
 
@@ -75,19 +72,15 @@ public final class TextSelectionListener extends AbstractTextListener implements
   Event build(final long time, final Action action, final LinkedList<TextSelectionEvent> sequence, final IWorkbenchPart part, final ITextSelection selection, final LineRegion region) {
     assert sequence.getLast().selection.equals(selection);
 
-    Event data = this.build(time, action, part);
+    Event data = this.build(time, action, part, region);
 
-    data.put(key("selection", "type"), selectionEventType);
+    data.put(key("sequence", "first", "timestamp"), sequence.getFirst().time);
+    data.put(key("sequence", "first", "raw"), new TextSelectionSerializer().serialize(sequence.getFirst().selection));
 
-    data.put(key("selection", "events", "first", "timestamp"), sequence.getFirst().time);
-    data.put(key("selection", "events", "first", "raw"), new TextSelectionSerializer().serialize(sequence.getFirst().selection));
+    data.put(key("sequence", "last", "timestamp"), sequence.getLast().time);
+    data.put(key("sequence", "last", "raw"), new TextSelectionSerializer().serialize(sequence.getLast().selection));
 
-    data.put(key("selection", "events", "last", "timestamp"), sequence.getLast().time);
-    data.put(key("selection", "events", "last", "raw"), new TextSelectionSerializer().serialize(sequence.getLast().selection));
-
-    data.put(key("selection", "events", "count"), sequence.size());
-
-    data.put(key("selection", "region"), new LineRegionSerializer().serialize(region));
+    data.put(key("sequence", "count"), sequence.size());
 
     return data;
   }

@@ -7,13 +7,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.MarkSelectionSerializer;
-import sk.stuba.fiit.perconik.activity.serializers.ui.text.LineRegionSerializer;
-import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 
-import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextMarkListener.Action.SELECT;
+import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextMarkListener.Action.MARK;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
@@ -23,17 +21,15 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.0.alpha")
-@Unsupported
+@Version("0.0.1.alpha")
 public final class TextMarkListener extends AbstractTextListener implements MarkSelectionListener {
-  // TODO figure out how this is triggered in eclipse, then test and enable
-
-  static final String selectionEventType = "mark";
+  // TODO note that mark selection is generated only on incremental search (ctrl + j)
+  //      or for marked regions used in Emacs style editing
 
   public TextMarkListener() {}
 
   enum Action implements ActivityListener.Action {
-    SELECT;
+    MARK;
 
     private final String name;
 
@@ -54,16 +50,9 @@ public final class TextMarkListener extends AbstractTextListener implements Mark
   }
 
   Event build(final long time, final Action action, final IWorkbenchPart part, final IMarkSelection selection, final LineRegion region) {
-    Event data = this.build(time, action, part);
+    Event data = this.build(time, action, part, region);
 
-    data.put(key("selection", "type"), selectionEventType);
-
-    data.put(key("selection", "events", "first", "timestamp"), time);
-    data.put(key("selection", "events", "first", "raw"), new MarkSelectionSerializer(TREE).serialize(selection));
-
-    data.put(key("selection", "events", "last"), data.get(key("selection", "events", "first")));
-
-    data.put(key("selection", "region"), new LineRegionSerializer().serialize(region));
+    data.put(key("mark"), new MarkSelectionSerializer(TREE).serialize(selection));
 
     return data;
   }
@@ -87,6 +76,6 @@ public final class TextMarkListener extends AbstractTextListener implements Mark
   public void selectionChanged(final IWorkbenchPart part, final IMarkSelection selection) {
     final long time = this.currentTime();
 
-    this.execute(time, SELECT, part, selection);
+    this.execute(time, MARK, part, selection);
   }
 }

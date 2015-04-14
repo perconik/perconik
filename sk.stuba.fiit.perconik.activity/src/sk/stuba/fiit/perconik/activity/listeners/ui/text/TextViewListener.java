@@ -38,7 +38,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.6.alpha")
+@Version("0.0.7.alpha")
 public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener, WorkbenchListener {
   // TODO fails on shutdown if both this and text selection listener are processing pending events
 
@@ -79,17 +79,15 @@ public final class TextViewListener extends AbstractTextListener implements Part
   }
 
   Event build(final long time, final Action action, final LinkedList<TextViewEvent> sequence, final IWorkbenchPart part, final LineRegion region) {
-    Event data = super.build(time, action, part);
+    Event data = super.build(time, action, part, region);
 
-    data.put(key("view", "events", "first", "timestamp"), sequence.getFirst().time);
-    data.put(key("view", "events", "first", "raw"), new LineRegionSerializer().serialize(sequence.getFirst().region));
+    data.put(key("sequence", "first", "timestamp"), sequence.getFirst().time);
+    data.put(key("sequence", "first", "raw"), new LineRegionSerializer().serialize(sequence.getFirst().region));
 
-    data.put(key("view", "events", "last", "timestamp"), sequence.getLast().time);
-    data.put(key("view", "events", "last", "raw"), new LineRegionSerializer().serialize(sequence.getLast().region));
+    data.put(key("sequence", "last", "timestamp"), sequence.getLast().time);
+    data.put(key("sequence", "last", "raw"), new LineRegionSerializer().serialize(sequence.getLast().region));
 
-    data.put(key("view", "events", "count"), sequence.size());
-
-    data.put(key("view", "region"), new LineRegionSerializer().serialize(region));
+    data.put(key("sequence", "count"), sequence.size());
 
     return data;
   }
