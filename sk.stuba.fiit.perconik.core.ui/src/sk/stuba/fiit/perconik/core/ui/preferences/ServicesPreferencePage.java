@@ -598,7 +598,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
 
     State state = service.state();
 
-    return format("%s and %s%s", loaded ? "Loaded" : "Unloaded", toLowerCase(state), terminalStates.contains(state) ? '.' : '…');
+    return format("%s and %s%s", loaded ? "Loaded" : "Unloaded", toLowerCase(state), terminalStates.contains(state) ? '.' : '\u2026');
   }
 
   static String toTransition(final State from, final State to) {
