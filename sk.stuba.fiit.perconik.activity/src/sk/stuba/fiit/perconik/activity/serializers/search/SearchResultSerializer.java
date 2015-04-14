@@ -17,7 +17,6 @@ import static java.util.Arrays.asList;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
-import static sk.stuba.fiit.perconik.activity.serializers.Serializations.newStructuredContent;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 
 public final class SearchResultSerializer extends AbstractSearchResultSerializer<ISearchResult> {
@@ -58,7 +57,7 @@ public final class SearchResultSerializer extends AbstractSearchResultSerializer
       List<Content> elements = newArrayListWithExpectedSize(128);
 
       for (Object element: text.getElements()) {
-        StructuredContent elementContent = newStructuredContent();
+        StructuredContent elementContent = identifyObject(element);
 
         elementContent.put(key("matches"), new MatchSerializer(options).serialize(asList(text.getMatches(element))));
 
