@@ -2,12 +2,14 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
 import com.google.common.base.StandardSystemProperty;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.Service.State;
 
@@ -309,34 +311,32 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
   }
 
   void performLoad() {
+    final Map<String, Map<String, Nameable>> snapshot = ComponentsHelper.snapshot();
+
     try {
       checkState(loadedServices() == false, "Services already loaded");
 
       this.load.setEnabled(false);
 
-      try {
-        loadServices(new Runnable() {
-          public void run() {
-            registerServiceStateListeners();
-          }
-        }, loadServicesTimeout);
-
-        try {
-          awaitServices(awaitServicesTimeout);
-        } catch (TimeoutException failure) {
-          this.handleTimeout(failure, "awaiting");
+      loadServices(new Runnable() {
+        public void run() {
+          registerServiceStateListeners();
         }
-      } catch (TimeoutException failure) {
-        this.handleTimeout(failure, "loading");
-      }
+      }, loadServicesTimeout);
+
+      awaitServices(awaitServicesTimeout);
+    } catch (TimeoutException failure) {
+      this.handleTimeout(failure, "loading", snapshot);
     } catch (RuntimeException failure) {
-      this.handleFailure(failure);
+      this.handleFailure(failure, "loading", snapshot);
     }
 
     this.updatePage();
   }
 
   void performUnload() {
+    final Map<String, Map<String, Nameable>> snapshot = ComponentsHelper.snapshot();
+
     try {
       checkState(loadedServices() == true, "Services already unloaded");
 
@@ -348,30 +348,89 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
         }
       }, unloadServicesTimeout);
     } catch (TimeoutException failure) {
-      this.handleTimeout(failure, "unloading");
+      this.handleTimeout(failure, "unloading", snapshot);
     } catch (Throwable failure) {
-      this.handleFailure(failure);
+      this.handleFailure(failure, "unloading", snapshot);
     }
 
     this.updatePage();
   }
 
-  void handleTimeout(final TimeoutException failure, final String action) {
+  private void handleTimeout(final TimeoutException failure, final String action, final Map<String, Map<String, Nameable>> before) {
+    final Map<String, Map<String, Nameable>> after = ComponentsHelper.snapshot();
+
     String title = "Core Services";
     String message = format("Unexpected timeout while %s services.", action);
+    String description = format("%s%n%n%s", message, ComponentsHelper.message(action, before, after));
 
     openError(this.getShell(), title, message + " See error log for more details.");
 
-    Activator.defaultInstance().getConsole().error(failure, message);
+    Activator.defaultInstance().getConsole().error(failure, description);
   }
 
-  void handleFailure(final Throwable failure) {
+  private void handleFailure(final Throwable failure, final String action, final Map<String, Map<String, Nameable>> before) {
+    final Map<String, Map<String, Nameable>> after = ComponentsHelper.snapshot();
+
     String title = "Core Services";
     String message = firstNonNullOrEmpty(failure.getMessage(), "Unexpected failure") + ".";
+    String description = format("%s%n%n%s", message, ComponentsHelper.message(action, before, after));
 
     openError(this.getShell(), title, message + " See error log for more details.");
 
-    Activator.defaultInstance().getConsole().error(failure, message);
+    Activator.defaultInstance().getConsole().error(failure, description);
+  }
+
+  static final class ComponentsHelper {
+    private ComponentsHelper() {}
+
+    static Map<String, Map<String, Nameable>> snapshot() {
+      ImmutableMap.Builder<String, Map<String, Nameable>> builder = ImmutableMap.builder();
+
+      builder.put("resource", toResourceComponents(resourceService()));
+      builder.put("listener", toListenerComponents(listenerService()));
+
+      return builder.build();
+    }
+
+    static <K> String message(final String action, final Map<?, Map<K, Nameable>> before, final Map<?, Map<K, Nameable>> after) {
+      SmartStringBuilder builder = new SmartStringBuilder().format("snapshot of service components during %s:", action).appendln();
+
+      builder.tab().appendln("before:").tab().lines(toString(before)).untab(2);
+      builder.tab().appendln("after:").tab().lines(toString(after)).untab(2);
+
+      return builder.toString();
+    }
+
+    private static <K> String toString(final Map<?, Map<K, Nameable>> snapshot) {
+      SmartStringBuilder builder = new SmartStringBuilder();
+
+      for (Entry<?, Map<K, Nameable>> entry: snapshot.entrySet()) {
+        builder.append(entry.getKey()).appendln(":").tab();
+        builder.lines(toString(entry.getValue().entrySet())).untab();
+      }
+
+      return builder.toString();
+    }
+
+    private static <K> String toString(final Set<Entry<K, Nameable>> components) {
+      if (components.isEmpty()) {
+        return format("null%n");
+      }
+
+      SmartStringBuilder builder = new SmartStringBuilder();
+
+      for (Entry<?, Nameable> entry: components) {
+        Nameable component = entry.getValue();
+
+        builder.append(entry.getKey()).appendln(":").tab();
+        builder.append("implementation: ").appendln(component.getClass().getName());
+        builder.append("name: ").appendln(component.getName());
+        builder.append("hash: ").appendln(toHexString(component.hashCode()));
+        builder.append("identity: ").appendln(toHexString(identityHashCode(component))).untab();
+      }
+
+      return builder.toString();
+    }
   }
 
   static final class DetailsDialog extends StatusDialog {
