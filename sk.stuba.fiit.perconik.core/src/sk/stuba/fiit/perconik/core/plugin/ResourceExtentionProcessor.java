@@ -39,7 +39,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resour
 
       service = builder.build();
     } else {
-      service = DefaultResources.getDefaultResourceService();
+      service = DefaultResources.createResourceService();
     }
 
     ResourceNamesSupplier supplier = this.resolveResourceNamesSuppliers(this.getExtensions(ResourceNamesSupplier.class));
@@ -49,14 +49,14 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resour
 
   private ResourceService resolveResourceServiceFactories(final List<ResourceServiceFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "resource service")) {
-      return DefaultResources.getDefaultResourceService();
+      return DefaultResources.createResourceService();
     }
 
     return this.createResourceService(factories.get(0));
   }
 
   private ResourceProvider resolveResourceProviderFactories(final List<ResourceProviderFactory> factories) {
-    ResourceProvider provider = DefaultResources.getDefaultResourceProvider();
+    ResourceProvider provider = DefaultResources.createResourceProvider();
 
     for (ResourceProviderFactory factory: factories) {
       provider = this.createResourceProvider(factory, provider);
@@ -67,7 +67,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resour
 
   private ResourceManager resolveResourceManagerFactories(final List<ResourceManagerFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "resource manager")) {
-      return DefaultResources.getDefaultResourceManager();
+      return DefaultResources.createResourceManager();
     }
 
     return this.createResourceManager(factories.get(0));
@@ -75,7 +75,7 @@ final class ResourceExtentionProcessor extends AbstractExtensionProcessor<Resour
 
   private ResourceNamesSupplier resolveResourceNamesSuppliers(final List<ResourceNamesSupplier> suppliers) {
     if (this.emptyWithNotice(suppliers, "registered resources")) {
-      return DefaultResources.getDefaultResourceNamesSupplier();
+      return DefaultResources.createResourceNamesSupplier();
     }
 
     return ResourceProviders.merge(suppliers);

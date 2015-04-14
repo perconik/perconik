@@ -24,6 +24,10 @@ public final class ListenerProviders {
 
   private ListenerProviders() {}
 
+  public static ListenerProvider superListenerProvider() {
+    return SuperListenerProvider.getInstance();
+  }
+
   public static Builder builder() {
     return StandardListenerProvider.builder();
   }
@@ -62,9 +66,5 @@ public final class ListenerProviders {
         return classes;
       }
     };
-  }
-
-  public static ListenerProvider getSystemProvider() {
-    return SystemListenerProvider.getInstance();
   }
 }

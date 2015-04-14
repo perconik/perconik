@@ -23,13 +23,13 @@ public final class Services {
   static {
     Internals.setApi(ResourceService.class, new Supplier<ResourceService>() {
       public ResourceService get() {
-        return DefaultResources.getDefaultResourceService();
+        return DefaultResources.createResourceService();
       }
     });
 
     Internals.setApi(ListenerService.class, new Supplier<ListenerService>() {
       public ListenerService get() {
-        return DefaultListeners.getDefaultListenerService();
+        return DefaultListeners.createListenerService();
       }
     });
   }

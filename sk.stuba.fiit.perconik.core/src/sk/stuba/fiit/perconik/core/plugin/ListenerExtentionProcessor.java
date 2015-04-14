@@ -39,7 +39,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Listen
 
       service = builder.build();
     } else {
-      service = DefaultListeners.getDefaultListenerService();
+      service = DefaultListeners.createListenerService();
     }
 
     ListenerClassesSupplier supplier = this.resolveListenerClassesSuppliers(this.getExtensions(ListenerClassesSupplier.class));
@@ -49,14 +49,14 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Listen
 
   private ListenerService resolveListenerServiceFactories(final List<ListenerServiceFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "listener service")) {
-      return DefaultListeners.getDefaultListenerService();
+      return DefaultListeners.createListenerService();
     }
 
     return this.createListenerService(factories.get(0));
   }
 
   private ListenerProvider resolveListenerProviderFactories(final List<ListenerProviderFactory> factories) {
-    ListenerProvider provider = DefaultListeners.getDefaultListenerProvider();
+    ListenerProvider provider = DefaultListeners.createListenerProvider();
 
     for (ListenerProviderFactory factory: factories) {
       provider = this.createListenerProvider(factory, provider);
@@ -67,7 +67,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Listen
 
   private ListenerManager resolveListenerManagerFactories(final List<ListenerManagerFactory> factories) {
     if (this.emptyOrNotSingletonWithWarning(factories, "listener manager")) {
-      return DefaultListeners.getDefaultListenerManager();
+      return DefaultListeners.createListenerManager();
     }
 
     return this.createListenerManager(factories.get(0));
@@ -75,7 +75,7 @@ final class ListenerExtentionProcessor extends AbstractExtensionProcessor<Listen
 
   private ListenerClassesSupplier resolveListenerClassesSuppliers(final List<ListenerClassesSupplier> suppliers) {
     if (this.emptyWithNotice(suppliers, "registered listeners")) {
-      return DefaultListeners.getDefaultListenerClassesSupplier();
+      return DefaultListeners.createListenerClassesSupplier();
     }
 
     return ListenerProviders.merge(suppliers);

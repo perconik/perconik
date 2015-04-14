@@ -1,5 +1,6 @@
 package sk.stuba.fiit.perconik.core.services;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -7,11 +8,10 @@ import com.google.common.base.Supplier;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Suppliers.ofInstance;
-import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 
 final class Internals {
-  private static Map<Class<?>, Supplier<?>> suppliers = newHashMap();
+  private static Map<Class<?>, Supplier<?>> suppliers = new HashMap<>(4);
 
   private Internals() {}
 

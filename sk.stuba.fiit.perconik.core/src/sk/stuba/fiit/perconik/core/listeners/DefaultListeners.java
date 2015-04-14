@@ -39,103 +39,56 @@ import static sk.stuba.fiit.perconik.core.resources.DefaultResources.unregisterF
 public final class DefaultListeners {
   private DefaultListeners() {}
 
-  private static final class ProviderHolder {
-    static final ListenerProvider instance;
-
-    static {
-      instance = ListenerProviders.builder().build();
-    }
-
-    private ProviderHolder() {}
-  }
-
-  private static final class ManagerHolder {
-    static final ListenerManager instance;
-
-    static {
-      instance = ListenerManagers.create();
-    }
-
-    private ManagerHolder() {}
-  }
-
-  private static final class ServiceHolder {
-    static final ListenerService instance;
-
-    static {
-      ListenerService.Builder builder = ListenerServices.builder();
-
-      builder.provider(ProviderHolder.instance);
-      builder.manager(ManagerHolder.instance);
-
-      instance = builder.build();
-    }
-
-    private ServiceHolder() {}
-  }
-
   /**
-   * Returns the default listener provider. The returned provider is a
+   * Creates the default listener provider. The returned provider is a
    * standard listener provider constructed using the standard provider
    * builder from {@link ListenerProviders#builder()} factory method.
    * Its direct parent and the only predecessor in the listener provider
    * hierarchy is the system listener provider.
    *
-   * <p>The default listener provider is lazily
-   * initialized at the first call of this method.
-   *
    * @return the default listener provider
    *
    * @see ListenerProvider
    * @see ListenerProviders#builder()
-   * @see ListenerProviders#getSystemProvider()
+   * @see ListenerProviders#superListenerProvider()
    */
-  public static ListenerProvider getDefaultListenerProvider() {
-    return ProviderHolder.instance;
+  public static ListenerProvider createListenerProvider() {
+    return ListenerProviders.builder().build();
   }
 
   /**
-   * Returns the default listener manager. The returned
+   * Creates the default listener manager. The returned
    * manager is a standard listener manager constructed by
    * the {@link ListenerManagers#create()} factory method.
-   *
-   * <p>The default listener manager is lazily
-   * initialized at the first call of this method.
    *
    * @return the default listener manager
    *
    * @see ListenerManager
    * @see ListenerManagers#create()
    */
-  public static ListenerManager getDefaultListenerManager() {
-    return ManagerHolder.instance;
+  public static ListenerManager createListenerManager() {
+    return ListenerManagers.create();
   }
 
   /**
-   * Returns the default listener service. The returned service is a
+   * Creates the default listener service. The returned service is a
    * standard listener service constructed using the standard service
    * builder from {@link ListenerServices#builder()} factory method.
    * It contains the default listener provider and manager.
-   *
-   * <p>The default listener service is lazily
-   * initialized at the first call of this method.
-   *
-   * <p><b>Note:</b> The returned service may be unusable if it
-   * has been retrieved by this method earlier and then stopped.
    *
    * @return the default listener service
    *
    * @see ListenerService
    * @see ListenerServices#builder()
-   * @see #getDefaultListenerProvider()
-   * @see #getDefaultListenerManager()
+   * @see #createListenerProvider()
+   * @see #createListenerManager()
    */
-  public static ListenerService getDefaultListenerService() {
-    return ServiceHolder.instance;
+  public static ListenerService createListenerService() {
+    return ListenerServices.builder().provider(createListenerProvider()).manager(createListenerManager()).build();
   }
 
   /**
-   * Returns the default listener implementation classes supplier.
+   * Creates the default listener implementation classes supplier.
    * The built supplier dynamically supplies listener implementation
    * classes based on the currently used {@code ListenerProvider} obtained
    * by this {@code Services.getListenerService().getListenerProvider()}
@@ -149,9 +102,9 @@ public final class DefaultListeners {
    * @return the default listener classes supplier
    *
    * @see ListenerClassesSupplier
-   * @see #getDefaultListenerProvider()
+   * @see #createListenerProvider()
    */
-  public static ListenerClassesSupplier getDefaultListenerClassesSupplier() {
+  public static ListenerClassesSupplier createListenerClassesSupplier() {
     return new ListenerClassesSupplier() {
       public Set<Class<? extends Listener>> get() {
         return Services.getListenerService().getListenerProvider().classes();

@@ -72,7 +72,7 @@ public interface ResourceProvider extends Provider {
    * parent. Standard implementations should return system resource provider
    * if there is no direct parent (only the system resource provider returns
    * {@code null} as it is at the top of the resource provider hierarchy).
-   * @see ResourceProviders#getSystemProvider()
+   * @see ResourceProviders#superResourceProvider()
    */
   @Override
   public ResourceProvider parent();

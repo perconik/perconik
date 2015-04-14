@@ -28,7 +28,7 @@ final class StandardListenerProvider extends AbstractListenerProvider {
   StandardListenerProvider(final Builder builder) {
     this.nameToImplementation = HashBiMap.create(builder.nameToImplementation);
     this.implementationToListenerCache = newConcurrentMap();
-    this.parent = builder.parent.or(ListenerProviders.getSystemProvider());
+    this.parent = builder.parent.or(ListenerProviders.superListenerProvider());
   }
 
   public static class Builder implements ListenerProvider.Builder {

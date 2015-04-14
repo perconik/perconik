@@ -28,7 +28,7 @@ final class StandardResourceProvider extends AbstractResourceProvider {
   StandardResourceProvider(final Builder builder) {
     this.nameToResource = ImmutableBiMap.copyOf(builder.nameToResource);
     this.typeToResources = ImmutableSetMultimap.copyOf(builder.typeToResources);
-    this.parent = builder.parent.or(ResourceProviders.getSystemProvider());
+    this.parent = builder.parent.or(ResourceProviders.superResourceProvider());
 
     assert this.nameToResource.size() == newHashSet(this.typeToResources.values()).size();
   }

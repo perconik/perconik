@@ -62,7 +62,7 @@ public interface ListenerProvider extends Provider {
    * parent. Standard implementations should return system listener provider
    * if there is no direct parent (only the system listener provider returns
    * {@code null} as it is at the top of the listener provider hierarchy).
-   * @see ResourceProviders#getSystemProvider()
+   * @see ResourceProviders#superResourceProvider()
    */
   @Override
   public ListenerProvider parent();

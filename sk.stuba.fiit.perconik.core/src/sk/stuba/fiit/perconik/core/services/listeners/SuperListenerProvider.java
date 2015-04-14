@@ -9,12 +9,12 @@ import sk.stuba.fiit.perconik.core.IllegalListenerClassException;
 import sk.stuba.fiit.perconik.core.Listener;
 import sk.stuba.fiit.perconik.utilities.reflect.accessor.StaticAccessor;
 
-final class SystemListenerProvider extends AbstractListenerProvider {
-  private static final ListenerProvider instance = new SystemListenerProvider();
+final class SuperListenerProvider extends AbstractListenerProvider {
+  private static final ListenerProvider instance = new SuperListenerProvider();
 
   private final BiMap<String, Class<? extends Listener>> nameToImplementation;
 
-  private SystemListenerProvider() {
+  private SuperListenerProvider() {
     this.nameToImplementation = HashBiMap.create();
   }
 

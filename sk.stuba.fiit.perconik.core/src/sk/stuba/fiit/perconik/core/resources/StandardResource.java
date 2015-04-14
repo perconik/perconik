@@ -18,7 +18,7 @@ class StandardResource<L extends Listener> extends AbstractResource<L> {
   }
 
   static final <L extends Listener> Resource<L> newInstance(final Pool<L> pool, final boolean unsupported) {
-    return unsupported ? new UnsupportedStandardResource<>(pool) : new StandardResource<>(pool);
+    return unsupported ? new UnsupportedResource<>(pool) : new StandardResource<>(pool);
   }
 
   public final void register(final L listener) {
@@ -48,8 +48,8 @@ class StandardResource<L extends Listener> extends AbstractResource<L> {
 }
 
 @Unsupported
-class UnsupportedStandardResource<L extends Listener> extends StandardResource<L> {
-  UnsupportedStandardResource(final Pool<L> pool) {
+class UnsupportedResource<L extends Listener> extends StandardResource<L> {
+  UnsupportedResource(final Pool<L> pool) {
     super(pool);
   }
 }

@@ -7,10 +7,10 @@ import sk.stuba.fiit.perconik.core.Resource;
 
 import static java.util.Collections.emptySet;
 
-final class SystemResourceProvider extends AbstractResourceProvider {
-  private static final ResourceProvider instance = new SystemResourceProvider();
+final class SuperResourceProvider extends AbstractResourceProvider {
+  private static final ResourceProvider instance = new SuperResourceProvider();
 
-  private SystemResourceProvider() {}
+  private SuperResourceProvider() {}
 
   static ResourceProvider getInstance() {
     return instance;

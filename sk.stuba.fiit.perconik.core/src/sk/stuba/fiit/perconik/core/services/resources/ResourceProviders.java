@@ -24,6 +24,10 @@ public final class ResourceProviders {
 
   private ResourceProviders() {}
 
+  public static ResourceProvider superResourceProvider() {
+    return SuperResourceProvider.getInstance();
+  }
+
   public static Builder builder() {
     return StandardResourceProvider.builder();
   }
@@ -74,9 +78,5 @@ public final class ResourceProviders {
     }
 
     return names;
-  }
-
-  public static ResourceProvider getSystemProvider() {
-    return SystemResourceProvider.getInstance();
   }
 }
