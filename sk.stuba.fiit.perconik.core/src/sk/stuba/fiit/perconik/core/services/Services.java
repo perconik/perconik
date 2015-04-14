@@ -56,7 +56,9 @@ public final class Services {
    * @param service the service, not {@code null}
    */
   public static void setResourceService(final ResourceService service) {
-    Internals.setApi(ResourceService.class, service);
+    synchronized (Internals.class) {
+      Internals.setApi(ResourceService.class, service);
+    }
   }
 
   /**
@@ -64,34 +66,44 @@ public final class Services {
    * @param service the service, not {@code null}
    */
   public static void setListenerService(final ListenerService service) {
-    Internals.setApi(ListenerService.class, service);
+    synchronized (Internals.class) {
+      Internals.setApi(ListenerService.class, service);
+    }
   }
 
   /**
    * Unsets the resource service.
    */
   public static void unsetResourceService() {
-    Internals.unsetApi(ResourceService.class);
+    synchronized (Internals.class) {
+      Internals.unsetApi(ResourceService.class);
+    }
   }
 
   /**
    * Unsets the listener service.
    */
   public static void unsetListenerService() {
-    Internals.unsetApi(ListenerService.class);
+    synchronized (Internals.class) {
+      Internals.unsetApi(ListenerService.class);
+    }
   }
 
   /**
    * Returns the currently active resource service.
    */
   public static ResourceService getResourceService() {
-    return Internals.getApi(ResourceService.class);
+    synchronized (Internals.class) {
+      return Internals.getApi(ResourceService.class);
+    }
   }
 
   /**
    * Returns the currently active listener service.
    */
   public static ListenerService getListenerService() {
-    return Internals.getApi(ListenerService.class);
+    synchronized (Internals.class) {
+      return Internals.getApi(ListenerService.class);
+    }
   }
 }

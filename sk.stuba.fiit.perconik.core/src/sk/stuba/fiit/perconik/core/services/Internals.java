@@ -4,14 +4,14 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.base.Supplier;
-import com.google.common.collect.MapMaker;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Suppliers.ofInstance;
+import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 
 final class Internals {
-  private static Map<Class<?>, Supplier<?>> suppliers = new MapMaker().concurrencyLevel(1).makeMap();
+  private static Map<Class<?>, Supplier<?>> suppliers = newHashMap();
 
   private Internals() {}
 
