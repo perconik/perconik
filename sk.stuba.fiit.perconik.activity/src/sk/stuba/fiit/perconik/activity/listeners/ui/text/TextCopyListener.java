@@ -24,7 +24,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.3.alpha")
 public final class TextCopyListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextCopyListener() {}
 

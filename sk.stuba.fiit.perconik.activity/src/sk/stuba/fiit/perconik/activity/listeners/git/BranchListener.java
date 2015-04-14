@@ -28,7 +28,7 @@ import static sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories.getBranche
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.1.alpha")
+@Version("0.0.2.alpha")
 public final class BranchListener extends AbstractReferenceListener {
   private final RepositorySetCache<Set<String>> cache;
 

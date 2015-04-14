@@ -23,7 +23,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener.
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.3.alpha")
 public final class TextCutListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextCutListener() {}
 

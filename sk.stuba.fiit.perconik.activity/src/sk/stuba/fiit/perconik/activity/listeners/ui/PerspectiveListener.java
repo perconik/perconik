@@ -30,7 +30,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.3.alpha")
 public final class PerspectiveListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
   // TODO document lifecycle: click eclipse start, click open perspective B, deactivate(A), activate(B), open(B),
   // click close B, deactivate(B), activate(A), close(B)
