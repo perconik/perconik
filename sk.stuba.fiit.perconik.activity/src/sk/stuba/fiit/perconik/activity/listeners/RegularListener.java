@@ -1337,10 +1337,10 @@ public abstract class RegularListener extends AbstractListener implements Scoped
 
       AnyStructuredData data = new AnyStructuredData();
 
-      put(data, RegistrationHook.PRE_REGISTER, tasks);
-      put(data, RegistrationHook.POST_REGISTER, tasks);
-      put(data, RegistrationHook.PRE_UNREGISTER, tasks);
-      put(data, RegistrationHook.POST_UNREGISTER, tasks);
+      this.put(data, RegistrationHook.PRE_REGISTER, tasks);
+      this.put(data, RegistrationHook.POST_REGISTER, tasks);
+      this.put(data, RegistrationHook.PRE_UNREGISTER, tasks);
+      this.put(data, RegistrationHook.POST_UNREGISTER, tasks);
 
       return data;
     }
