@@ -29,7 +29,7 @@ import sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSelectionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.assist.CompletionSessionListener;
-import sk.stuba.fiit.perconik.activity.listeners.ui.selection.ElementSelectionListener;
+import sk.stuba.fiit.perconik.activity.listeners.ui.element.ElementSelectionListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCopyListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener;
 import sk.stuba.fiit.perconik.activity.listeners.ui.text.TextDifferenceListener;

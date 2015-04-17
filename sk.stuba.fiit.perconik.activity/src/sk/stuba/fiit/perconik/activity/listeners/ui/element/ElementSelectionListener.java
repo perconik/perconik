@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.listeners.ui.selection;
+package sk.stuba.fiit.perconik.activity.listeners.ui.element;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
@@ -15,7 +15,7 @@ import sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelect
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 
-import static sk.stuba.fiit.perconik.activity.listeners.ui.selection.ElementSelectionListener.Action.SELECT;
+import static sk.stuba.fiit.perconik.activity.listeners.ui.element.ElementSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializers.asDisplayTask;
