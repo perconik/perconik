@@ -132,9 +132,9 @@ public abstract class ActivityListener extends RegularListener {
 
     public static final OptionAccessor<Boolean> listenerInstance = option(booleanParser(), join(qualifier, "listener", "instance"), true);
 
-    public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), false);
-
     public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), false);
+
+    public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), false);
 
     public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), true);
 
@@ -261,8 +261,8 @@ public abstract class ActivityListener extends RegularListener {
     ImmutableMap.Builder<String, InternalProbe<?>> builder = ImmutableMap.builder();
 
     builder.put(key("listener", "instance"), new RegularInstanceProbe());
-    builder.put(key("listener", "registration"), new RegularRegistrationProbe());
     builder.put(key("listener", "configuration"), new RegularConfigurationProbe());
+    builder.put(key("listener", "registration"), new RegularRegistrationProbe());
     builder.put(key("listener", "options"), new RegularOptionsProbe());
     builder.put(key("listener", "statistics"), new RegularStatisticsProbe());
 
