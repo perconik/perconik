@@ -191,7 +191,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
   }
 
   private void push(final long time, final IWorkbenchPart part, final ITextSelection selection) {
-    // eagerly filter out empty selections, no need to push event
+    // eagerly filter out empty selections, no need to push an event
     // only to be filtered during acceptance phase by such simple operation
 
     if (selection.isEmpty()) {
