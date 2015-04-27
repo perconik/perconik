@@ -2,10 +2,13 @@ package sk.stuba.fiit.perconik.activity.listeners.ui.element;
 
 import java.util.LinkedList;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -15,6 +18,7 @@ import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelectionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
@@ -24,6 +28,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.element.ElementSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializers.asDisplayTask;
+import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferencePart;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 
@@ -33,8 +38,12 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.4.alpha")
-public final class ElementSelectionListener extends ActivityListener implements StructuredSelectionListener {
+@Version("0.0.5.alpha")
+public final class ElementSelectionListener extends ActivityListener implements PartListener, StructuredSelectionListener {
+  // TODO note that an element selection is generated on each part activation meaning that same
+  //      selection events are generated when one switches-by-clicking for example between
+  //      an editor and an outline; should it be fixed or left as is?
+
   static final TimeValue selectionEventPause = of(500L, MILLISECONDS);
 
   static final TimeValue selectionEventWindow = of(10L, SECONDS);
@@ -106,7 +115,7 @@ public final class ElementSelectionListener extends ActivityListener implements 
 
   static final class ElementSelectionEvents extends ContinuousEvent<ElementSelectionListener, ElementSelectionEvent> {
     ElementSelectionEvents(final ElementSelectionListener listener) {
-      super(listener, "selection", selectionEventPause, selectionEventWindow);
+      super(listener, "element-selection", selectionEventPause, selectionEventWindow);
     }
 
     @Override
@@ -151,9 +160,86 @@ public final class ElementSelectionListener extends ActivityListener implements 
     });
   }
 
+  public void partOpened(final IWorkbenchPartReference reference) {
+    // ignore
+  }
+
+  public void partClosed(final IWorkbenchPartReference reference) {
+    // ignore
+  }
+
+  public void partActivated(final IWorkbenchPartReference reference) {
+    // ensures that a selection change is always generated on part activation,
+    // this primarily helps handling selection context switch in some cases,
+    // as a side effect it breaks event continuation
+
+    this.selectionChanged(reference);
+  }
+
+  public void partDeactivated(final IWorkbenchPartReference reference) {
+    // ensures that pending events are flushed on part deactivation,
+    // this primarily handles proper selection termination on shutdown,
+    // as a side effect it breaks event continuation
+
+    this.events.flush();
+  }
+
+  public void partVisible(final IWorkbenchPartReference reference) {
+    // ignore
+  }
+
+  public void partHidden(final IWorkbenchPartReference reference) {
+    // ignore
+  }
+
+  public void partBroughtToTop(final IWorkbenchPartReference reference) {
+    // ignore
+  }
+
+  public void partInputChanged(final IWorkbenchPartReference reference) {
+    // ignore
+  }
+
+  private void push(final long time, final IWorkbenchPart part, final IStructuredSelection selection) {
+    this.events.push(new ElementSelectionEvent(time, part, selection));
+  }
+
+  public void selectionChanged(final IWorkbenchPartReference reference) {
+    final long time = this.currentTime();
+
+    IWorkbenchPart part = dereferencePart(reference);
+    ISelectionProvider provider;
+
+    if (part instanceof ISelectionProvider) {
+      provider = (ISelectionProvider) part;
+    } else {
+      provider = part.getSite().getSelectionProvider();
+    }
+
+    if (provider == null) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: provider not found for %s -> ignore", "element-selection", part);
+      }
+
+      return;
+    }
+
+    ISelection selection = provider.getSelection();
+
+    if (!(selection instanceof IStructuredSelection)) {
+      if (this.log.isEnabled()) {
+        this.log.print("%s: selection not structured in %s of %s -> ignore", "text-selection", provider, part);
+      }
+
+      return;
+    }
+
+    this.push(time, part, (IStructuredSelection) selection);
+  }
+
   public void selectionChanged(final IWorkbenchPart part, final IStructuredSelection selection) {
     final long time = this.currentTime();
 
-    this.events.push(new ElementSelectionEvent(time, part, selection));
+    this.push(time, part, selection);
   }
 }

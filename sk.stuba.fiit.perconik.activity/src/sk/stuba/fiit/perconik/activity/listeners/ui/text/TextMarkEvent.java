@@ -1,14 +1,14 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.text;
 
-import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-final class TextSelectionEvent extends AbstractTextEvent {
+final class TextMarkEvent extends AbstractTextEvent {
   final IWorkbenchPart part;
 
-  final ITextSelection selection;
+  final IMarkSelection selection;
 
-  TextSelectionEvent(final long time, final IWorkbenchPart part, final ITextSelection selection) {
+  TextMarkEvent(final long time, final IWorkbenchPart part, final IMarkSelection selection) {
     super(time);
 
     assert part != null && selection != null;
@@ -17,11 +17,11 @@ final class TextSelectionEvent extends AbstractTextEvent {
     this.selection = selection;
   }
 
-  boolean contentEquals(final TextSelectionEvent other) {
+  boolean contentEquals(final TextMarkEvent other) {
     return this.part == other.part && this.selection.equals(other.selection);
   }
 
-  boolean isContinuousWith(final TextSelectionEvent other) {
+  boolean isContinuousWith(final TextMarkEvent other) {
     if (this.part != other.part) {
       return false;
     }

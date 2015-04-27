@@ -21,6 +21,8 @@ import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener.Action.SELECT;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferencePart;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
@@ -32,8 +34,12 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.6.alpha")
+@Version("0.0.7.alpha")
 public final class TextSelectionListener extends AbstractTextListener implements PartListener, sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
+  // TODO note that a text selection is generated on each part activation meaning that same
+  //      selection events are generated when one switches-by-clicking for example between
+  //      an editor and an outline; should it be fixed or left as is?
+
   // TODO fails on shutdown if both this and text view listener are processing pending events
 
   // TODO note that select must be initiated by user after startup to be sent on shutdown
@@ -95,7 +101,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
   static final class TextSelectionEvents extends ContinuousEvent<TextSelectionListener, TextSelectionEvent> {
     TextSelectionEvents(final TextSelectionListener listener) {
-      super(listener, "selection", selectionEventPause, selectionEventWindow);
+      super(listener, "text-selection", selectionEventPause, selectionEventWindow);
     }
 
     @Override
@@ -104,13 +110,13 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
       if (document == null) {
         if (this.log.isEnabled()) {
-          this.log.print("%s: document not found for %s -> ignore", "selection", event.part);
+          this.log.print("%s: document not found for %s -> ignore", this.identifier, event.part);
         }
 
         return false;
       }
 
-      boolean empty = event.isSelectionTextEmpty();
+      boolean empty = isNullOrEmpty(event.selection.getText());
 
       if (sequence.isEmpty()) {
         return !empty;
@@ -196,7 +202,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
     if (selection.isEmpty()) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: selection empty -> ignore", "selection");
+        this.log.print("%s: selection empty -> ignore", "text-selection");
       }
 
       return;
@@ -213,7 +219,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
     if (viewer == null) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: viewer not found for %s -> ignore", "selection", part);
+        this.log.print("%s: viewer not found for %s -> ignore", "text-selection", part);
       }
 
       return;
@@ -223,7 +229,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
     if (!(selection instanceof ITextSelection)) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: selection not textual in %s of %s -> ignore", "selection", viewer, part);
+        this.log.print("%s: selection not textual in %s of %s -> ignore", "text-selection", viewer, part);
       }
 
       return;
