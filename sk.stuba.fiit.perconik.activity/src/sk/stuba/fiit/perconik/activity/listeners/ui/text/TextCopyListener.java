@@ -24,7 +24,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.equalsIgnoreLineSepar
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class TextCopyListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextCopyListener() {}
 
@@ -62,7 +62,7 @@ public final class TextCopyListener extends AbstractTextClipboardListener implem
     boolean valid = region.text != null && (region.text.equals(selection) || equalsIgnoreLineSeparators(region.text, selection));
 
     if (!valid && this.log.isEnabled()) {
-      this.log.print("%s: clipboard content not equal to part selection '%s' != '%s'", "copy", region.text, selection);
+      this.log.print("%s: clipboard content not equal to part selection '%s' != '%s'", "text-copy", region.text, selection);
     }
 
     return valid;

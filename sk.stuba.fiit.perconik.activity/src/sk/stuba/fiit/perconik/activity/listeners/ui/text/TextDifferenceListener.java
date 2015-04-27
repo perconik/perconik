@@ -108,7 +108,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     final Cache<IDocument, String> cache;
 
     TextDocumentEvents(final TextDifferenceListener listener) {
-      super(listener, "difference", differenceEventPause, differenceEventWindow);
+      super(listener, "text-difference", differenceEventPause, differenceEventWindow);
 
       CacheBuilder<Object, Object> builder = newBuilder();
 
@@ -282,7 +282,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
     if (document == null) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: document not found for %s -> ignore", "difference", buffer);
+        this.log.print("%s: document not found for %s -> ignore", "text-difference", buffer);
       }
 
       return;

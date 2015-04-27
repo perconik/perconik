@@ -23,7 +23,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextCutListener.
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class TextCutListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextCutListener() {}
 
@@ -61,7 +61,7 @@ public final class TextCutListener extends AbstractTextClipboardListener impleme
     boolean valid = region.text != null && selection.isEmpty();
 
     if (!valid && this.log.isEnabled()) {
-      this.log.print("%s: part selection not empty '%s'", "cut", selection);
+      this.log.print("%s: part selection not empty '%s'", "text-cut", selection);
     }
 
     return valid;

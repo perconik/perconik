@@ -27,7 +27,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  */
 @Version("0.0.4.alpha")
 public final class WindowListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.WindowListener {
-  // TODO looks like open / close are never fired by eclipse
+  // TODO looks like open / close are never fired by eclipse on startup / shutdown
 
   public WindowListener() {}
 

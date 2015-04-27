@@ -42,7 +42,14 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener, WorkbenchListener {
   // TODO fails on shutdown if both this and text selection listener are processing pending events
 
-  // TODO note that event generated while workbench.isClosing do not have part.viewer field since the viewer is already disposed
+  // TODO note that a view event is generated on each part activation meaning that same view events
+  //      are generated when one switches-by-clicking on an editor and outline, should the view
+  //      be generated only if the part was hidden before or should it be generated always - as it
+  //      is now - indicating programmer's interest in that part (editor)
+
+  // TODO note that event generated while workbench.isClosing do not have part.viewer field since
+  //      the viewer is already disposed
+
   // TODO note that this listener does not handle viewport changes in consoles
 
   static final TimeValue generateActivePartViewEventTimeout = of(2000, MILLISECONDS);
@@ -102,7 +109,7 @@ public final class TextViewListener extends AbstractTextListener implements Part
 
   static final class TextViewEvents extends ContinuousEvent<TextViewListener, TextViewEvent> {
     protected TextViewEvents(final TextViewListener listener) {
-      super(listener, "view", viewEventPause, viewEventWindow);
+      super(listener, "text-view", viewEventPause, viewEventWindow);
     }
 
     @Override
@@ -135,7 +142,7 @@ public final class TextViewListener extends AbstractTextListener implements Part
         TimeValue timeout = generateActivePartViewEventTimeout.convert(MILLISECONDS);
 
         if (log.isEnabled()) {
-          log.print("%s: generate active part view event -> wait (timeout %s)", "view", timeout);
+          log.print("%s: generate active part view event -> wait (timeout %s)", "text-view", timeout);
         }
 
         boolean done = false;
@@ -146,7 +153,7 @@ public final class TextViewListener extends AbstractTextListener implements Part
         }
 
         if (log.isEnabled()) {
-          log.print("%s: generate active part view event -> process (startup %s, elapse %s)", "view", done, timeout.duration(delta));
+          log.print("%s: generate active part view event -> process (startup %s, elapse %s)", "text-view", done, timeout.duration(delta));
         }
 
         viewportChanged(reference);
@@ -229,7 +236,7 @@ public final class TextViewListener extends AbstractTextListener implements Part
 
     if (viewer == null) {
       if (this.log.isEnabled()) {
-        this.log.print("%s: viewer not found for %s -> ignore", "view", part);
+        this.log.print("%s: viewer not found for %s -> ignore", "text-view", part);
       }
 
       return;
