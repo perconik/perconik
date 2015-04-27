@@ -32,8 +32,8 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  */
 @Version("0.0.3.alpha")
 public final class PerspectiveListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.PerspectiveListener {
-  // TODO document lifecycle: click eclipse start, click open perspective B, deactivate(A), activate(B), open(B),
-  // click close B, deactivate(B), activate(A), close(B)
+  // TODO document lifecycle: click eclipse start, click open perspective B, deactivate(A),
+  //      activate(B), open(B), click close B, deactivate(B), activate(A), close(B)
 
   // TODO SAVE does not work, even for debug listener
 
