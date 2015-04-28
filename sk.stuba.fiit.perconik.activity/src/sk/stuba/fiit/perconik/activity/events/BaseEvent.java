@@ -5,22 +5,23 @@ import java.util.List;
 import java.util.Set;
 
 import sk.stuba.fiit.perconik.activity.data.AnnotableData;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
 import static java.util.Collections.EMPTY_SET;
 
 import static sk.stuba.fiit.perconik.activity.data.DataCollections.toAnnotationData;
 
-public class Event extends AnnotableData {
+public class BaseEvent extends AnnotableData implements Event {
   protected long timestamp;
 
   protected String action;
 
   protected Set<String> tags;
 
-  public Event() {}
+  public BaseEvent() {}
 
-  protected Event(final long timestamp) {
+  protected BaseEvent(final long timestamp) {
     List<Annotation> annotations = Annotations.ofClass(this.getClass());
 
     this.setAnnotations(toAnnotationData(annotations));
@@ -28,18 +29,18 @@ public class Event extends AnnotableData {
     this.setTags(EMPTY_SET);
   }
 
-  protected Event(final long timestamp, final String action) {
+  protected BaseEvent(final long timestamp, final String action) {
     this(timestamp);
 
     this.setAction(action);
   }
 
-  public static Event of(final long timestamp) {
-    return new Event(timestamp);
+  public static BaseEvent of(final long timestamp) {
+    return new BaseEvent(timestamp);
   }
 
-  public static Event of(final long timestamp, final String action) {
-    return new Event(timestamp, action);
+  public static BaseEvent of(final long timestamp, final String action) {
+    return new BaseEvent(timestamp, action);
   }
 
   public void setTimestamp(final long timestamp) {

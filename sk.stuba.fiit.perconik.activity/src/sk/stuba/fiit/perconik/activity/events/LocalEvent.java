@@ -8,7 +8,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 import static sk.stuba.fiit.perconik.data.bind.Defaults.TIME_PATTERN;
 
-public class LocalEvent extends Event {
+public class LocalEvent extends BaseEvent {
   public LocalEvent() {}
 
   protected LocalEvent(final long timestamp) {
