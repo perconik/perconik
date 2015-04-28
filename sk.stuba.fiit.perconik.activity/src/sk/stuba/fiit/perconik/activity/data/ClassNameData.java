@@ -2,16 +2,16 @@ package sk.stuba.fiit.perconik.activity.data;
 
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
-public class NameData extends AnyStructuredData {
+public class ClassNameData extends AnyStructuredData {
   protected String canonical;
 
   protected String normal;
 
   protected String simple;
 
-  public NameData() {}
+  public ClassNameData() {}
 
-  protected NameData(final Class<?> type) {
+  protected ClassNameData(final Class<?> type) {
     if (type == null) {
       return;
     }
@@ -21,8 +21,8 @@ public class NameData extends AnyStructuredData {
     this.setSimple(type.getSimpleName());
   }
 
-  public static NameData of(final Class<?> type) {
-    return new NameData(type);
+  public static ClassNameData of(final Class<?> type) {
+    return new ClassNameData(type);
   }
 
   public void setCanonical(final String canonical) {

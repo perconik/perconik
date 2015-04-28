@@ -31,6 +31,16 @@ public class DataCollections {
     return data;
   }
 
+  public static List<ClassNameData> toClassNameData(final Iterable<? extends Class<?>> types) {
+    List<ClassNameData> data = newArrayListSuitableFor(types);
+  
+    for (Class<?> type: types) {
+      data.add(ClassNameData.of(type));
+    }
+  
+    return data;
+  }
+
   public static List<AnnotationData> toAnnotationData(final Iterable<? extends Annotation> annotations) {
     List<AnnotationData> data = newArrayListSuitableFor(annotations);
 
@@ -46,16 +56,6 @@ public class DataCollections {
 
     for (Annotable annotable: annotables) {
       data.add(AnnotableData.of(annotable));
-    }
-
-    return data;
-  }
-
-  public static List<NameData> toNameData(final Iterable<? extends Class<?>> types) {
-    List<NameData> data = newArrayListSuitableFor(types);
-
-    for (Class<?> type: types) {
-      data.add(NameData.of(type));
     }
 
     return data;

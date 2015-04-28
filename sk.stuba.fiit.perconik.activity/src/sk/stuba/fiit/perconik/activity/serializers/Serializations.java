@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
+import static java.lang.System.identityHashCode;
+
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
@@ -56,7 +58,8 @@ public final class Serializations {
 
   public static void putObjectIdentity(final StructuredContent content, final Object object) {
     content.put(key("class"), object.getClass().getName());
-    content.put(key("hash"), object.hashCode());
+    content.put(key("hash", "identity"), identityHashCode(object));
+    content.put(key("hash", "implementation"), object.hashCode());
   }
 
   public static void putObjectDescription(final StructuredContent content, final Object object) {

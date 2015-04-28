@@ -1,25 +1,29 @@
 package sk.stuba.fiit.perconik.activity.data;
 
 public class ClassData extends AnnotableData {
-  protected NameData name;
+  protected ClassNameData name;
 
   public ClassData() {}
 
   protected ClassData(final Class<?> type) {
     super(type);
 
-    this.setName(NameData.of(type));
+    this.setName(ClassNameData.of(type));
+  }
+
+  public static ClassData of(final Object object) {
+    return of(object.getClass());
   }
 
   public static ClassData of(final Class<?> type) {
     return new ClassData(type);
   }
 
-  public void setName(final NameData name) {
+  public void setName(final ClassNameData name) {
     this.name = name;
   }
 
-  public NameData getName() {
+  public ClassNameData getName() {
     return this.name;
   }
 }

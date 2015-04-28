@@ -1,13 +1,16 @@
 package sk.stuba.fiit.perconik.activity.data;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 
 public class ObjectData extends AnyStructuredData {
-  protected ClassData implementation;
+  protected ClassData type;
 
-  protected String description;
+  protected HashData hash;
 
-  protected int hash;
+  protected String string;
 
   public ObjectData() {}
 
@@ -16,36 +19,38 @@ public class ObjectData extends AnyStructuredData {
       return;
     }
 
-    this.setImplementation(ClassData.of(object.getClass()));
-    this.setHash(object.hashCode());
-    this.setDescription(object.toString());
+    this.setType(ClassData.of(object));
+    this.setHash(HashData.of(object));
+    this.setString(object.toString());
   }
 
   public static ObjectData of(final Object object) {
     return new ObjectData(object);
   }
 
-  public void setImplementation(final ClassData implementation) {
-    this.implementation = implementation;
+  @JsonSetter("class")
+  public void setType(final ClassData type) {
+    this.type = type;
   }
 
-  public void setDescription(final String description) {
-    this.description = description;
-  }
-
-  public void setHash(final int hash) {
+  public void setHash(final HashData hash) {
     this.hash = hash;
   }
 
-  public ClassData getImplementation() {
-    return this.implementation;
+  public void setString(final String string) {
+    this.string = string;
   }
 
-  public String getDescription() {
-    return this.description;
+  @JsonGetter("class")
+  public ClassData getType() {
+    return this.type;
   }
 
-  public int getHash() {
+  public HashData getHash() {
     return this.hash;
+  }
+
+  public String getString() {
+    return this.string;
   }
 }
