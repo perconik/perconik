@@ -11,10 +11,10 @@ import sk.stuba.fiit.perconik.activity.serializers.AbstractConfigurableMultiSeri
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.putObjectIdentity;
+import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.BlockTextSelectionSerializer.putBlockTextSelection;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.MarkSelectionSerializer.putMarkSelection;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.SelectionSerializer.putSelection;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelectionSerializer.putStructuredSelection;
-import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer.putBlockTextSelection;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.TextSelectionSerializer.putTextSelection;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.selection.TreeSelectionSerializer.putTreeSelection;
 

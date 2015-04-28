@@ -1,17 +1,10 @@
 package sk.stuba.fiit.perconik.activity.serializers.ui.selection;
 
-import java.util.Set;
-
-import org.eclipse.jface.text.IBlockTextSelection;
 import org.eclipse.jface.text.ITextSelection;
 
-import sk.stuba.fiit.perconik.activity.serializers.ui.text.RegionSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
-import static java.util.Arrays.asList;
-
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
-
 public final class TextSelectionSerializer extends AbstractSelectionSerializer<ITextSelection> {
   public TextSelectionSerializer(final Option ... options) {
     super(options);
@@ -29,12 +22,5 @@ public final class TextSelectionSerializer extends AbstractSelectionSerializer<I
     content.put(key("row", "end"), selection.getEndLine());
 
     content.put(key("text"), selection.getText());
-  }
-
-  static void putBlockTextSelection(final StructuredContent content, final IBlockTextSelection selection, final Set<Option> options) {
-    content.put(key("column", "start"), selection.getStartColumn());
-    content.put(key("column", "end"), selection.getEndColumn());
-
-    content.put(key("regions"), new RegionSerializer(options).serialize(asList(selection.getRegions())));
   }
 }
