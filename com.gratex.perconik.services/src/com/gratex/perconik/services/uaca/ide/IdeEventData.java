@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import com.gratex.perconik.uaca.GenericUacaEventConstants;
+import com.gratex.perconik.uaca.data.GenericUacaEventConstants;
 
 public class IdeEventData {
   private Date timestamp;

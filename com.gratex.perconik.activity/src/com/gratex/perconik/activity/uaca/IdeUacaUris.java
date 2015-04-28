@@ -2,7 +2,7 @@ package com.gratex.perconik.activity.uaca;
 
 import javax.ws.rs.core.UriBuilder;
 
-import com.gratex.perconik.uaca.GenericUacaEventConstants;
+import com.gratex.perconik.uaca.data.GenericUacaEventConstants;
 
 public final class IdeUacaUris {
   private static final String application = "eclipse";
