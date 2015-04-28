@@ -33,7 +33,7 @@ public final class PlatformExecutors {
     return max(round(min(poolSizeScalingFactor, maximumPoolSizeScalingFactor) * boundedAvailableProcessors()), minimumPoolSize);
   }
 
-  public static final float defaultPoolSizeScalingFactor() {
+  public static float defaultPoolSizeScalingFactor() {
     return defaultPoolSizeScalingFactor;
   }
 

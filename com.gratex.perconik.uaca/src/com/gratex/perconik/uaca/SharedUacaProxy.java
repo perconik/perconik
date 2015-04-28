@@ -14,7 +14,6 @@ import com.google.common.base.Optional;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
-import sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
@@ -29,6 +28,7 @@ import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 
+import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
 
@@ -71,7 +71,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
 
     synchronized static ExecutorService toExecute() {
       if (instance == null || instance.isShutdown()) {
-        instance = PlatformExecutors.newLimitedThreadPool();
+        instance = newLimitedThreadPool();
       }
 
       return instance;
