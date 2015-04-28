@@ -24,6 +24,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextSelectionListener.Action.SELECT;
+import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferencePart;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
@@ -34,7 +35,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.8.alpha")
+@Version("0.0.9.alpha")
 public final class TextSelectionListener extends AbstractTextListener implements PartListener, sk.stuba.fiit.perconik.core.listeners.TextSelectionListener {
   // TODO note that a text selection is generated on each part activation meaning that same
   //      selection events are generated when one switches-by-clicking for example between
@@ -81,10 +82,10 @@ public final class TextSelectionListener extends AbstractTextListener implements
     Event data = this.build(time, action, part, region);
 
     data.put(key("sequence", "first", "timestamp"), sequence.getFirst().time);
-    data.put(key("sequence", "first", "raw"), new TextSelectionSerializer().serialize(sequence.getFirst().selection));
+    data.put(key("sequence", "first", "raw"), new TextSelectionSerializer(TREE).serialize(sequence.getFirst().selection));
 
     data.put(key("sequence", "last", "timestamp"), sequence.getLast().time);
-    data.put(key("sequence", "last", "raw"), new TextSelectionSerializer().serialize(sequence.getLast().selection));
+    data.put(key("sequence", "last", "raw"), new TextSelectionSerializer(TREE).serialize(sequence.getLast().selection));
 
     data.put(key("sequence", "count"), sequence.size());
 

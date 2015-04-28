@@ -26,6 +26,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.element.ElementSelectionListener.Action.SELECT;
+import static sk.stuba.fiit.perconik.activity.serializers.ConfigurableSerializer.StandardOption.TREE;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializations.identifyObject;
 import static sk.stuba.fiit.perconik.activity.serializers.Serializers.asDisplayTask;
 import static sk.stuba.fiit.perconik.activity.serializers.ui.Ui.dereferencePart;
@@ -38,7 +39,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.6.alpha")
+@Version("0.0.7.alpha")
 public final class ElementSelectionListener extends ActivityListener implements PartListener, StructuredSelectionListener {
   // TODO note that an element selection is generated on each part activation meaning that same
   //      selection events are generated when one switches-by-clicking for example between
@@ -96,15 +97,19 @@ public final class ElementSelectionListener extends ActivityListener implements 
   }
 
   Event build(final long time, final Action action, final LinkedList<ElementSelectionEvent> sequence, final IWorkbenchPart part, final IStructuredSelection selection) {
+    assert sequence.getLast().selection.equals(selection);
+
     Event data = this.build(time, action, part);
 
-    data.merge(new StructuredSelectionSerializer().serialize(selection));
-
     data.put(key("sequence", "first", "timestamp"), sequence.getFirst().time);
+    data.put(key("sequence", "first", "raw"), new StructuredSelectionSerializer(TREE).serialize(sequence.getFirst().selection));
 
     data.put(key("sequence", "last", "timestamp"), sequence.getLast().time);
+    data.put(key("sequence", "last", "raw"), new StructuredSelectionSerializer(TREE).serialize(sequence.getLast().selection));
 
     data.put(key("sequence", "count"), sequence.size());
+
+    data.put(key("elements"), data.get("sequence", "last", "raw", "elements"));
 
     return data;
   }
