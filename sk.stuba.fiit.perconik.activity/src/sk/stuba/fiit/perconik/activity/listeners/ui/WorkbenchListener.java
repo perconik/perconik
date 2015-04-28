@@ -4,11 +4,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.ui.IWorkbench;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.WorkbenchSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.WorkbenchListener.Action.SHUTDOWN;

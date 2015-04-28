@@ -15,11 +15,11 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IWorkbenchPart;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DocumentListener;
 import sk.stuba.fiit.perconik.core.listeners.FileBufferListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.jface.text.Documents;
 import sk.stuba.fiit.perconik.eclipse.ui.Parts;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;

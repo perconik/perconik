@@ -21,9 +21,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchListener;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.core.Listener;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayTask;
 import sk.stuba.fiit.perconik.utilities.concurrent.NamedRunnable;
 

@@ -3,13 +3,13 @@ package sk.stuba.fiit.perconik.activity.listeners.test;
 import org.eclipse.jdt.junit.model.ITestCaseElement;
 import org.eclipse.jdt.junit.model.ITestRunSession;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.test.TestRunSessionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Unsupported;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.TestRunListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 
 import static sk.stuba.fiit.perconik.activity.listeners.test.TestSessionListener.Action.FINISH;
 import static sk.stuba.fiit.perconik.activity.listeners.test.TestSessionListener.Action.LAUNCH;

@@ -5,12 +5,12 @@ import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.git.RepositorySerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
+import sk.stuba.fiit.perconik.data.events.Event;
 
 import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newHashSet;

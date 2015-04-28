@@ -6,12 +6,12 @@ import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptorProxy;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringHistoryService;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorProxySerializer;
 import sk.stuba.fiit.perconik.activity.serializers.refactor.RefactoringDescriptorSerializer;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.RefactoringEventProxy;
 
 import static com.google.common.base.Throwables.propagate;

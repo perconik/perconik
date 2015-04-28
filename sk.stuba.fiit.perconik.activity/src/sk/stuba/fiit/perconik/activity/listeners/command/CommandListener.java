@@ -8,13 +8,13 @@ import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ObjectDescriptionSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.command.CommandSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.CommandExecutionListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState;
 
 import static sk.stuba.fiit.perconik.activity.listeners.command.CommandListener.Action.EXECUTE;

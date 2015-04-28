@@ -6,13 +6,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PageSerializer;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PerspectiveDescriptorSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
+import sk.stuba.fiit.perconik.data.events.Event;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.Action.ACTIVATE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PerspectiveListener.Action.CLOSE;

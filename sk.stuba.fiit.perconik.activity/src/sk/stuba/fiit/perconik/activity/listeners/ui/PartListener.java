@@ -6,11 +6,11 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartReferenceSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
+import sk.stuba.fiit.perconik.data.events.Event;
 
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.ACTIVATE;
 import static sk.stuba.fiit.perconik.activity.listeners.ui.PartListener.Action.BRING_TO_TOP;

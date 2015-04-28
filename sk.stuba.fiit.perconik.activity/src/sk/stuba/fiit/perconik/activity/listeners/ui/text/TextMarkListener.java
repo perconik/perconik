@@ -7,12 +7,12 @@ import org.eclipse.jface.text.IMarkSelection;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.selection.MarkSelectionSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.MarkSelectionListener;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.jface.text.LineRegion;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 

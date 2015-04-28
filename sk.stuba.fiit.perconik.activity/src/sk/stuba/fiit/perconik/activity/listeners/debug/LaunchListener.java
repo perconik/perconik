@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.eclipse.debug.core.ILaunch;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.debug.LaunchSerializer;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.LaunchesListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 
 import static java.util.Arrays.asList;
 

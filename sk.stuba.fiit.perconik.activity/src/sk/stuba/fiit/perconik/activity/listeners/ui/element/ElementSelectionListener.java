@@ -12,7 +12,6 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.ui.PartSerializer;
@@ -20,6 +19,7 @@ import sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelect
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;

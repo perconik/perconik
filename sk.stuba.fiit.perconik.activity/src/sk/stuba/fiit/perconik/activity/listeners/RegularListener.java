@@ -27,7 +27,6 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChang
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 
 import sk.stuba.fiit.perconik.activity.data.ObjectData;
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.activity.probes.Prober;
@@ -35,6 +34,7 @@ import sk.stuba.fiit.perconik.activity.probes.Probers;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.content.Content;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.data.store.Store;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor;

@@ -4,11 +4,11 @@ import com.google.common.base.Optional;
 
 import org.eclipse.debug.core.DebugEvent;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.DebugEventsListener;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventDetail;
 import sk.stuba.fiit.perconik.eclipse.debug.core.DebugEventKind;
 

@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 
-import sk.stuba.fiit.perconik.activity.events.Event;
+import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.activity.events.LocalEvent;
 import sk.stuba.fiit.perconik.activity.listeners.ActivityListener;
 import sk.stuba.fiit.perconik.activity.serializers.command.UndoableOperationSerializer;
