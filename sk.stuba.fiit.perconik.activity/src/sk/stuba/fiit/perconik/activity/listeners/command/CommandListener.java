@@ -33,7 +33,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.2.alpha")
+@Version("0.0.3.alpha")
 public final class CommandListener extends ActivityListener implements CommandExecutionListener {
   public CommandListener() {}
 

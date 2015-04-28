@@ -38,7 +38,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.7.alpha")
+@Version("0.0.8.alpha")
 public final class TextViewListener extends AbstractTextListener implements PartListener, ViewportListener, WorkbenchListener {
   // TODO fails on shutdown if both this and text selection listener are processing pending events
 
