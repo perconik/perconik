@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.eclipse.core.commands;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static sk.stuba.fiit.perconik.eclipse.core.commands.CommandExecutionState.WAITING;
-import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAndNotEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 
 public final class CommandExecutionStateHandler {
   private final String identifier;
@@ -11,7 +11,7 @@ public final class CommandExecutionStateHandler {
   final AtomicReference<CommandExecutionState> state;
 
   CommandExecutionStateHandler(final String identifier) {
-    this.identifier = checkNotNullAndNotEmpty(identifier);
+    this.identifier = checkNotNullOrEmpty(identifier);
 
     this.state = new AtomicReference<>(WAITING);
   }

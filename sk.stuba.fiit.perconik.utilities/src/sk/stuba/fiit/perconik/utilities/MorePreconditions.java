@@ -9,37 +9,37 @@ import static com.google.common.base.Preconditions.checkState;
 public final class MorePreconditions {
   private MorePreconditions() {}
 
-  public static <T extends CharSequence> T checkNotNullAndNotEmpty(final T reference) {
+  public static <T extends CharSequence> T checkNotNullOrEmpty(final T reference) {
     checkState(reference.length() > 0);
 
     return reference;
   }
 
-  public static <T extends CharSequence> T checkNotNullAndNotEmpty(final T reference, @Nullable final Object message) {
+  public static <T extends CharSequence> T checkNotNullOrEmpty(final T reference, @Nullable final Object message) {
     checkState(reference.length() > 0, message);
 
     return reference;
   }
 
-  public static <T extends CharSequence> T checkNotNullAndNotEmpty(final T reference, @Nullable final String format, @Nullable final Object ... args) {
+  public static <T extends CharSequence> T checkNotNullOrEmpty(final T reference, @Nullable final String format, @Nullable final Object ... args) {
     checkState(reference.length() > 0, format, args);
 
     return reference;
   }
 
-  public static <T extends Collection<?>> T checkNotNullAndNotEmpty(final T reference) {
+  public static <T extends Collection<?>> T checkNotNullOrEmpty(final T reference) {
     checkState(!reference.isEmpty());
 
     return reference;
   }
 
-  public static <T extends Collection<?>> T checkNotNullAndNotEmpty(final T reference, @Nullable final Object message) {
+  public static <T extends Collection<?>> T checkNotNullOrEmpty(final T reference, @Nullable final Object message) {
     checkState(!reference.isEmpty(), message);
 
     return reference;
   }
 
-  public static <T extends Collection<?>> T checkNotNullAndNotEmpty(final T reference, @Nullable final String format, @Nullable final Object ... args) {
+  public static <T extends Collection<?>> T checkNotNullOrEmpty(final T reference, @Nullable final String format, @Nullable final Object ... args) {
     checkState(!reference.isEmpty(), format, args);
 
     return reference;
