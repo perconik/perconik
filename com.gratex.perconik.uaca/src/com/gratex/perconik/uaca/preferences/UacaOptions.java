@@ -15,19 +15,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
+import static com.gratex.perconik.uaca.GenericUacaProxyConstants.DEFAULT_APPLICATION_URL;
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
 
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.urlParser;
-import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
 public interface UacaOptions extends Options {
   public static final class Schema {
     static final String qualifier = join(PLUGIN_ID, "preferences");
 
-    public static final OptionAccessor<URL> applicationUrl = option(urlParser(), join(qualifier, "applicationUrl"), newUrl("http://localhost:16375"));
+    public static final OptionAccessor<URL> applicationUrl = option(urlParser(), join(qualifier, "applicationUrl"), DEFAULT_APPLICATION_URL);
 
     public static final OptionAccessor<Boolean> checkConnection = option(booleanParser(), join(qualifier, "checkConnection"), true);
 

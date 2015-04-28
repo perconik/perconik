@@ -1,4 +1,4 @@
-package sk.stuba.fiit.perconik.activity.uaca;
+package com.gratex.perconik.uaca.data;
 
 import java.net.URI;
 import java.util.Date;
@@ -8,18 +8,16 @@ import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import com.gratex.perconik.uaca.GenericUacaEventConstants;
-
-import sk.stuba.fiit.perconik.activity.events.Event;
 import sk.stuba.fiit.perconik.data.AnyStructuredData;
 import sk.stuba.fiit.perconik.data.bind.NamingStrategy.Default;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
+import sk.stuba.fiit.perconik.data.events.Event;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
-import static com.gratex.perconik.uaca.GenericUacaEventConstants.EVENT_TYPE_URI_PREFIX;
-import static com.gratex.perconik.uaca.GenericUacaEventConstants.TIMESTAMP_PATTERN;
+import static com.gratex.perconik.uaca.data.GenericUacaEventConstants.EVENT_TYPE_URI_PREFIX;
+import static com.gratex.perconik.uaca.data.GenericUacaEventConstants.TIMESTAMP_PATTERN;
 
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
@@ -55,7 +53,7 @@ public class UacaEvent extends AnyStructuredData {
    * an {@link GenericUacaEventConstants#EVENT_TYPE_URI_PREFIX EVENT_TYPE_URI_PREFIX}.
    */
   public static URI eventTypeUri(final String path) {
-    return newUri(EVENT_TYPE_URI_PREFIX + "/event/" + checkNotNullOrEmpty(path));
+    return newUri(EVENT_TYPE_URI_PREFIX + "/" + checkNotNullOrEmpty(path));
   }
 
   /**

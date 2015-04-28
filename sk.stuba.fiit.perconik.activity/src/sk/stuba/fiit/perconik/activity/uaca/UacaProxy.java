@@ -3,11 +3,14 @@ package sk.stuba.fiit.perconik.activity.uaca;
 import javax.annotation.Nullable;
 
 import com.gratex.perconik.uaca.SharedUacaProxy;
+import com.gratex.perconik.uaca.data.UacaEvent;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.store.Store;
 import sk.stuba.fiit.perconik.utilities.time.TimeSource;
+
+import static com.gratex.perconik.uaca.GenericUacaProxyConstants.GENERIC_EVENT_PATH;
 
 public final class UacaProxy extends SharedUacaProxy implements Store<Object> {
   public UacaProxy() {}
@@ -25,6 +28,6 @@ public final class UacaProxy extends SharedUacaProxy implements Store<Object> {
   }
 
   public void save(final String path, @Nullable final Object resource) {
-    this.send("generic/event", UacaEvent.of(path, resource));
+    this.send(GENERIC_EVENT_PATH, UacaEvent.of(path, resource));
   }
 }

@@ -18,6 +18,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava
 Export-Package: com.gratex.perconik.uaca,
+ com.gratex.perconik.uaca.data,
  com.gratex.perconik.uaca.plugin,
  com.gratex.perconik.uaca.preferences,
  com.gratex.perconik.uaca.ui.preferences
