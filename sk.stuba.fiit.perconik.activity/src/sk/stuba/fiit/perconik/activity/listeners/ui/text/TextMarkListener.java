@@ -98,22 +98,6 @@ public final class TextMarkListener extends AbstractTextListener implements Mark
 
     @Override
     protected boolean accept(final LinkedList<TextMarkEvent> sequence, final TextMarkEvent event) {
-      boolean empty = event.selection.isEmpty();
-
-      if (sequence.isEmpty()) {
-        return !empty;
-      }
-
-      TextMarkEvent last = sequence.getLast();
-
-      if (empty && last.part != event.part) {
-        return false;
-      }
-
-      if (last.contentEquals(event)) {
-        return false;
-      }
-
       return true;
     }
 
