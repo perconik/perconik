@@ -5,12 +5,15 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 
+import com.gratex.perconik.uaca.SharedUacaProxy;
 import com.gratex.perconik.uaca.UacaConsole;
+import com.gratex.perconik.uaca.data.UacaEvent;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 
 import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
@@ -19,8 +22,9 @@ import sk.stuba.fiit.perconik.activity.data.process.StandardProcessProbe;
 import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.Builder;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
-import sk.stuba.fiit.perconik.activity.uaca.UacaProxy;
+import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.events.Event;
+import sk.stuba.fiit.perconik.data.store.Store;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.ForwardingPluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsole;
 import sk.stuba.fiit.perconik.eclipse.core.runtime.PluginConsoles;
@@ -30,6 +34,7 @@ import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
@@ -41,6 +46,8 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Maps.newHashMap;
+
+import static com.gratex.perconik.uaca.GenericUacaProxyConstants.GENERIC_EVENT_PATH;
 
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_REGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_UNREGISTER;
@@ -178,6 +185,49 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
+  private enum UacaLoggingRegisterFailureHandler implements RegisterFailureHandler {
+    instance;
+
+    static void report(final RegularListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
+      listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
+    }
+
+    public void preRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+      report(listener, PRE_REGISTER, task, failure);
+    }
+
+    public void postRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+      report(listener, POST_REGISTER, task, failure);
+    }
+
+    public void preUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+      report(listener, PRE_UNREGISTER, task, failure);
+    }
+
+    public void postUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+      report(listener, POST_UNREGISTER, task, failure);
+    }
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
+  }
+
+  private static final class UacaProxy extends SharedUacaProxy implements Store<Object> {
+    UacaProxy(final UacaOptions options, final TimeSource source) {
+      super(options, source);
+    }
+
+    public Content load(final String path, @Nullable final Object request) {
+      throw new UnsupportedOperationException();
+    }
+
+    public void save(final String path, @Nullable final Object resource) {
+      this.send(GENERIC_EVENT_PATH, UacaEvent.of(path, resource));
+    }
+  }
+
   private enum UacaProxySupplierFunction implements Function<ActivityListener, PersistenceStore> {
     instance;
 
@@ -202,35 +252,6 @@ public abstract class ActivityListener extends RegularListener {
 
     public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
       listener.pluginConsole.error(failure, "%s: unable to save data at %s using UACA proxy", listener, path);
-    }
-
-    @Override
-    public String toString() {
-      return this.getClass().getSimpleName();
-    }
-  }
-
-  private enum UacaLoggingRegisterFailureHandler implements RegisterFailureHandler {
-    instance;
-
-    static void report(final RegularListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
-    }
-
-    public void preRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
-      report(listener, PRE_REGISTER, task, failure);
-    }
-
-    public void postRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
-      report(listener, POST_REGISTER, task, failure);
-    }
-
-    public void preUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
-      report(listener, PRE_UNREGISTER, task, failure);
-    }
-
-    public void postUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
-      report(listener, POST_UNREGISTER, task, failure);
     }
 
     @Override
