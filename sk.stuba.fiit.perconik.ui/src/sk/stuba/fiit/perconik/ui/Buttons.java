@@ -15,25 +15,27 @@ import static java.lang.Math.max;
 public final class Buttons {
   private Buttons() {}
 
-  public static Button createRegular(final Composite parent, final String text, final WidgetListener listener) {
+  public static Button create(final Composite parent, final String text, final WidgetListener listener) {
+    GridData data = new GridData(GridData.FILL, GridData.BEGINNING, false, false);
+  
+    return create(parent, text, data, listener);
+  }
+
+  public static Button create(final Composite parent, final String text, final GridData data, final WidgetListener listener) {
     Button button = new Button(parent, SWT.PUSH);
 
     button.setText(text);
-    button.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, false, false));
+    button.setLayoutData(data);
     button.addListener(SWT.Selection, listener);
 
     return button;
   }
 
   public static Button createCentering(final Composite parent, final String text, final WidgetListener listener) {
-    Button button = new Button(parent, SWT.PUSH);
     GridData data = new GridData(GridData.FILL_HORIZONTAL);
+    Button button = create(parent, text, data, listener);
 
     data.widthHint = computeWidthHint(button);
-
-    button.setText(text);
-    button.setLayoutData(data);
-    button.addListener(SWT.Selection, listener);
 
     return button;
   }

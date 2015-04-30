@@ -9,10 +9,16 @@ public final class Labels {
   private Labels() {}
 
   public static Label create(final Composite parent, final String text) {
+    GridData data = new GridData(GridData.FILL, GridData.CENTER, true, false);
+
+    return create(parent, text, data);
+  }
+
+  public static Label create(final Composite parent, final String text, final GridData data) {
     Label label = new Label(parent, SWT.WRAP);
 
     label.setText(text);
-    label.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
+    label.setLayoutData(data);
 
     return label;
   }
