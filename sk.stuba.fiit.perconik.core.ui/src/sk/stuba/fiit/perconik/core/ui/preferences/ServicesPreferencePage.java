@@ -17,9 +17,9 @@ import org.eclipse.core.runtime.IProduct;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.DialogSettings;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.StatusDialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -129,12 +129,8 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     this.noDefaultAndApplyButton();
 
     Composite composite = new Composite(parent, SWT.NONE);
-    GridLayout layout = new GridLayout();
-    layout.marginWidth = 0;
-    layout.marginHeight = this.convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
-    layout.horizontalSpacing = this.convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-    layout.verticalSpacing = this.convertVerticalDLUsToPixels(10);
-    composite.setLayout(layout);
+
+    composite.setLayout(GridLayoutFactory.fillDefaults().create());
 
     Group environmentGroup = Groups.create(composite, "Environment");
 
@@ -156,7 +152,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     this.resourceLabel = Labels.create(resourceGroup, toState(resourceService));
     this.listenerLabel = Labels.create(listenerGroup, toState(listenerService));
 
-    this.resourceButton = Buttons.createRegular(resourceGroup, "Details", new WidgetListener() {
+    this.resourceButton = Buttons.create(resourceGroup, "Details", new WidgetListener() {
       public void handleEvent(final Event event) {
         DetailsDialog dialog = ServicesPreferencePage.this.detailsDialog;
 
@@ -167,7 +163,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
       }
     });
 
-    this.listenerButton = Buttons.createRegular(listenerGroup, "Details", new WidgetListener() {
+    this.listenerButton = Buttons.create(listenerGroup, "Details", new WidgetListener() {
       public void handleEvent(final Event event) {
         DetailsDialog dialog = ServicesPreferencePage.this.detailsDialog;
 
@@ -211,7 +207,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
     text.format("%s %s%n", StandardSystemProperty.JAVA_VM_NAME.value(), Environment.getJavaVersion());
     text.format("%s %s%n", product.getName(), Products.getVersion(product));
     text.format("PerConIK Core %s%n", defaultInstance().getBundle().getVersion());
-    text.format("Debug plug-in %s%n", Environment.debug ? "enabled" : "disabled");
+    text.format("Debug plug-ins %s%n", Environment.debug ? "enabled" : "disabled");
 
     return text.toString();
   }
