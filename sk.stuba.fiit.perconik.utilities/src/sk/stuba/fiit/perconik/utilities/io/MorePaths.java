@@ -1,14 +1,25 @@
 package sk.stuba.fiit.perconik.utilities.io;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Iterator;
 
 import com.google.common.collect.AbstractSequentialIterator;
 
+import static java.nio.file.Paths.get;
+
 import static com.google.common.base.Preconditions.checkState;
 
 public final class MorePaths {
   private MorePaths() {}
+
+  public static Path path(final URI uri) {
+    return get(uri);
+  }
+
+  public static Path path(final String segment, final String ... more) {
+    return get(segment, more);
+  }
 
   private static final class DownToBaseIterator<T extends Path> extends AbstractSequentialIterator<T> {
     private final int count;
