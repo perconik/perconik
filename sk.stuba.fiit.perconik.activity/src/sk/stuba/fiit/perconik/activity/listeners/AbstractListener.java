@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -355,7 +355,7 @@ public abstract class AbstractListener implements Listener {
     }
 
     protected ToStringHelper toStringHelper() {
-      ToStringHelper helper = Objects.toStringHelper(this);
+      ToStringHelper helper = MoreObjects.toStringHelper(this);
 
       helper.add("pause", this.pause);
       helper.add("window", this.window);

@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Stopwatch;
@@ -55,7 +55,6 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import static com.google.common.base.Functions.constant;
-import static com.google.common.base.Objects.toStringHelper;
 import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -822,7 +821,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     protected ToStringHelper toStringHelper() {
-      ToStringHelper helper = Objects.toStringHelper(this);
+      ToStringHelper helper = MoreObjects.toStringHelper(this);
 
       helper.add("default", this.defaults);
       helper.add("custom", this.custom);
@@ -1262,7 +1261,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
   }
 
   static String toStringDelegate(final Class<?> wrapper, final Object delegate) {
-    return toStringHelper(wrapper).add("delegate", delegate).toString();
+    return MoreObjects.toStringHelper(wrapper).add("delegate", delegate).toString();
   }
 
   private static final class RuntimeStatistics {
@@ -1571,7 +1570,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
 
     protected ToStringHelper toStringHelper() {
-      ToStringHelper helper = Objects.toStringHelper(this);
+      ToStringHelper helper = MoreObjects.toStringHelper(this);
 
       helper.add("closePersistenceStore", this.closePersistenceStore);
       helper.add("shutdownSharedExecutor", this.shutdownSharedExecutor);

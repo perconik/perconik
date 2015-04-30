@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Optional;
 
 import sk.stuba.fiit.perconik.core.Listener;
@@ -91,7 +91,7 @@ final class Utilities {
   }
 
   private static ToStringHelper toStringHelperFor(final Registration registration) {
-    ToStringHelper helper = Objects.toStringHelper(registration);
+    ToStringHelper helper = MoreObjects.toStringHelper(registration);
 
     helper.add("registered", registration.isRegistered());
 

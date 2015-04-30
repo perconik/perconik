@@ -74,7 +74,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.immutableEnumSet;
-import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
@@ -254,7 +254,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
             sleepUninterruptibly(stateTransitionDisplayPause.duration(), stateTransitionDisplayPause.unit());
           }
         }
-      }, sameThreadExecutor());
+      }, directExecutor());
     }
 
     if (listenerService.isPresent()) {
@@ -271,7 +271,7 @@ public final class ServicesPreferencePage extends AbstractWorkbenchPreferencePag
             sleepUninterruptibly(stateTransitionDisplayPause.duration(), stateTransitionDisplayPause.unit());
           }
         }
-      }, sameThreadExecutor());
+      }, directExecutor());
     }
   }
 

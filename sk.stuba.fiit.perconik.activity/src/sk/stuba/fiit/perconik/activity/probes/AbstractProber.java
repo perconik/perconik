@@ -2,8 +2,8 @@ package sk.stuba.fiit.perconik.activity.probes;
 
 import java.util.Map.Entry;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 
 import sk.stuba.fiit.perconik.data.content.AnyContent;
 
@@ -41,7 +41,7 @@ public abstract class AbstractProber<T extends AnyContent, P extends Probe<?>> i
   }
 
   protected ToStringHelper toStringHelper() {
-    ToStringHelper helper = Objects.toStringHelper(this);
+    ToStringHelper helper = MoreObjects.toStringHelper(this);
 
     helper.add("probes", this.probes());
 

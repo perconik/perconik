@@ -3,8 +3,8 @@ package sk.stuba.fiit.perconik.preferences;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Splitter;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
@@ -113,7 +113,7 @@ public abstract class AbstractPreferences {
   }
 
   protected ToStringHelper toStringHelper() {
-    ToStringHelper helper = Objects.toStringHelper(this);
+    ToStringHelper helper = MoreObjects.toStringHelper(this);
 
     helper.add("scope", this.scope);
     helper.add("data", this.data);

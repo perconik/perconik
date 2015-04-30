@@ -1,6 +1,6 @@
 package sk.stuba.fiit.perconik.preferences;
 
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects.ToStringHelper;
 
 import sk.stuba.fiit.perconik.utilities.io.Serialization;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;

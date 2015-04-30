@@ -15,7 +15,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 
 import static java.util.Arrays.asList;
 
-import static com.google.common.base.Objects.firstNonNull;
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Sets.newHashSet;

@@ -6,8 +6,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 
@@ -73,7 +73,7 @@ public final class Probers {
 
     @Override
     protected ToStringHelper toStringHelper() {
-      ToStringHelper helper = Objects.toStringHelper(this);
+      ToStringHelper helper = MoreObjects.toStringHelper(this);
 
       helper.add("proxy", this.prober);
 
