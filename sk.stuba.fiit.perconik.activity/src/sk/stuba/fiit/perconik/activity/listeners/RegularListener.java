@@ -1660,14 +1660,16 @@ public abstract class RegularListener extends AbstractListener implements Scoped
   public final Options getOptions(final Scope scope) {
     if (scope == StandardScope.DEFAULT) {
       return this.defaultOptions();
+    } else if (scope == StandardScope.CUSTOM) {
+      return this.customOptions();
     } else if (scope == StandardScope.EFFECTIVE) {
       return this.effectiveOptions();
     }
 
-    return this.getOptionsForCustomScope(scope);
+    return this.getOptionsForNonStandardScope(scope);
   }
 
-  protected Options getOptionsForCustomScope(final Scope scope) {
+  protected Options getOptionsForNonStandardScope(final Scope scope) {
     throw new IllegalArgumentException(format("%s: unable to get options for %s scope", this, scope));
   }
 
