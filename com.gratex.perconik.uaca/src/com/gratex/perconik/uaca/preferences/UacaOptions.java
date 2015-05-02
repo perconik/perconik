@@ -41,6 +41,10 @@ public interface UacaOptions extends Options {
 
     private Schema() {}
 
+    public static ImmutableList<OptionAccessor<?>> accessors() {
+      return accessors;
+    }
+
     static Map<String, Object> toMap(final UacaOptions options) {
       Map<String, Object> map = newLinkedHashMap();
 
@@ -51,10 +55,6 @@ public interface UacaOptions extends Options {
       map.put(logEvents.getKey(), options.isEventLogEnabled());
 
       return map;
-    }
-
-    public static ImmutableList<OptionAccessor<?>> accessors() {
-      return accessors;
     }
   }
 
