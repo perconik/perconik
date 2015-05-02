@@ -14,6 +14,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.reflect.TypeParameter;
@@ -153,11 +154,15 @@ public final class Configurables {
     };
   }
 
-  public static Map<String, Object> values(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Map<String, Object> destination) {
+  public static <M extends Map<String, Object>> M values(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final M destination) {
     return values(accessors, newReader(source), destination);
   }
 
-  public static Map<String, Object> values(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final Map<String, Object> destination) {
+  public static <M extends Map<String, Object>> M values(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Supplier<? extends M> destination) {
+    return values(accessors, source, destination.get());
+  }
+
+  public static <M extends Map<String, Object>> M values(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final M destination) {
     for (OptionAccessor<?> accessor: accessors) {
       destination.put(accessor.getKey(), accessor.getValue(source));
     }
@@ -165,16 +170,28 @@ public final class Configurables {
     return destination;
   }
 
-  public static Map<String, Object> rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Map<String, Object> destination) {
+  public static <M extends Map<String, Object>> M values(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final Supplier<? extends M> destination) {
+    return values(accessors, source, destination.get());
+  }
+
+  public static <M extends Map<String, Object>> M rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final M destination) {
     return rawValues(accessors, newReader(source), destination);
   }
 
-  public static Map<String, Object> rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final Map<String, Object> destination) {
+  public static <M extends Map<String, Object>> M rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final Options source, final Supplier<? extends M> destination) {
+    return rawValues(accessors, source, destination.get());
+  }
+
+  public static <M extends Map<String, Object>> M rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final M destination) {
     for (OptionAccessor<?> accessor: accessors) {
       destination.put(accessor.getKey(), accessor.getRawValue(source));
     }
 
     return destination;
+  }
+
+  public static <M extends Map<String, Object>> M rawValues(final Iterable<? extends OptionAccessor<?>> accessors, final OptionsReader source, final Supplier<? extends M> destination) {
+    return rawValues(accessors, source, destination.get());
   }
 
   public static <T> OptionMapping<T> option(final TypeToken<T> type, final String key) {
