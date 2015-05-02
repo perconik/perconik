@@ -5,8 +5,6 @@ import javax.annotation.Nullable;
 import com.google.common.reflect.TypeToken;
 
 import static sk.stuba.fiit.perconik.utilities.Nullables.firstNonNullOrNull;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newReader;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newWriter;
 
 public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T> implements OptionAccessor<T> {
   /**
@@ -16,10 +14,14 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
     super(type, key, defaultValue);
   }
 
+  protected abstract OptionsReader reader(final Options options);
+
+  protected abstract OptionsWriter writer(final Options options);
+
   protected abstract OptionParser<? extends T> parser();
 
   public Object putValue(final Options options, @Nullable final T value) {
-    return this.putValue(newWriter(options), value);
+    return this.putValue(this.writer(options), value);
   }
 
   public Object putValue(final OptionsWriter writer, @Nullable final T value) {
@@ -27,7 +29,7 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
   }
 
   public Object putDefaultValue(final Options options) {
-    return this.putDefaultValue(newWriter(options));
+    return this.putDefaultValue(this.writer(options));
   }
 
   public Object putDefaultValue(final OptionsWriter writer) {
@@ -35,7 +37,7 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
   }
 
   public Object putRawValue(final Options options, @Nullable final Object value) {
-    return this.putRawValue(newWriter(options), value);
+    return this.putRawValue(this.writer(options), value);
   }
 
   public Object putRawValue(final OptionsWriter writer, @Nullable final Object value) {
@@ -43,7 +45,7 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
   }
 
   public T getValue(final Options options) {
-    return this.getValue(newReader(options));
+    return this.getValue(this.reader(options));
   }
 
   public T getValue(final OptionsReader reader) {
@@ -52,7 +54,7 @@ public abstract class AbstractOptionAccessor<T> extends AbstractOptionMapping<T>
 
   @Override
   public Object getRawValue(final Options options) {
-    return this.getRawValue(newReader(options));
+    return this.getRawValue(this.reader(options));
   }
 
   public Object getRawValue(final OptionsReader reader) {
