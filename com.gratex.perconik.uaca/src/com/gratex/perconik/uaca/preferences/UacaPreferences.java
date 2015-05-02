@@ -19,7 +19,9 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.displayE
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logErrors;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvents;
 
+import static sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStores.setDefault;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
 public final class UacaPreferences extends AbstractPreferences implements Serializable, UacaOptions {
@@ -43,11 +45,7 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
       UacaPreferences preferences = UacaPreferences.getDefault();
       IPreferenceStore store = preferences.getPreferenceStore();
 
-      store.setDefault(applicationUrl, Schema.applicationUrl.getDefaultValue().toString());
-      store.setDefault(checkConnection, Schema.checkConnection.getDefaultValue());
-      store.setDefault(displayErrors, Schema.displayErrors.getDefaultValue());
-      store.setDefault(logErrors, Schema.logErrors.getDefaultValue());
-      store.setDefault(logEvents, Schema.logEvents.getDefaultValue());
+      setDefault(store, defaults(Schema.accessors()));
     }
   }
 
@@ -124,7 +122,7 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
   }
 
   /**
-   * Returns a read only snapshot of UACA preferences.
+   * Returns a read only snapshot of preferences.
    */
   public Map<String, Object> toMap() {
     return Schema.toMap(this);
@@ -135,10 +133,16 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
     return this.toMap().toString();
   }
 
+  /**
+   * Throws {@code UnsupportedOperationException}.
+   */
   public Object put(final String key, final Object value) {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Returns preference value for specified key.
+   */
   public Object get(final String key) {
     return this.toMap().get(key);
   }
