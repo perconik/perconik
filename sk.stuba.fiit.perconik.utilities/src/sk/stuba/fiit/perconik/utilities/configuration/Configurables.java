@@ -207,11 +207,19 @@ public final class Configurables {
   }
 
   public static <T> OptionAccessor<T> option(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
-    return new RegularOptionAccessor<>(parser, key, defaultValue);
+    return new RegularOptionAccessor<>(parser.type(), parser, key, defaultValue);
   }
 
-  public static <T> OptionAccessor<T> option(final OptionParser<T> parser, final OptionMapping<T> mapping) {
-    return new RegularOptionAccessor<>(parser, mapping.getKey(), mapping.getDefaultValue());
+  public static <T> OptionAccessor<T> option(final OptionParser<? extends T> parser, final OptionMapping<T> mapping) {
+    return option(mapping.getType(), parser, mapping.getKey(), mapping.getDefaultValue());
+  }
+
+  public static <T> OptionAccessor<T> option(final TypeToken<T> type, final OptionParser<? extends T> parser, final String key) {
+    return option(type, parser, key, null);
+  }
+
+  public static <T> OptionAccessor<T> option(final TypeToken<T> type, final OptionParser<? extends T> parser, final String key, @Nullable final T defaultValue) {
+    return new RegularOptionAccessor<>(type, parser, key, defaultValue);
   }
 
   public static <E extends Entry<String, Object>> Equivalence<E> optionEquivalence() {
