@@ -7,7 +7,20 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.base.Splitter;
+import com.google.common.base.Supplier;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.reflect.TypeToken;
@@ -15,10 +28,19 @@ import com.google.common.reflect.TypeToken;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Throwables.propagate;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Maps.newLinkedHashMap;
+import static com.google.common.collect.Sets.newHashSet;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.trimLeading;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.trimTrailing;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
@@ -38,7 +60,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -59,7 +81,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -80,7 +102,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -97,7 +119,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -114,7 +136,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -131,7 +153,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -164,7 +186,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -181,7 +203,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -214,7 +236,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -231,7 +253,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -256,7 +278,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -273,7 +295,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -298,7 +320,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -315,7 +337,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -340,7 +362,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -357,7 +379,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -374,7 +396,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).toString();
     }
   }
 
@@ -416,7 +438,7 @@ public final class OptionParsers {
 
     @Override
     public String toString() {
-      return this.getClass().getSimpleName();
+      return toStringHelper(this).add("type", this.type()).add("resolver", this.resolver).toString();
     }
   }
 
@@ -426,5 +448,311 @@ public final class OptionParsers {
 
   public static OptionParser<Class<?>> classParser(final ClassResolver resolver) {
     return new ClassParser(resolver);
+  }
+
+  private static abstract class CollectionParser<C extends Collection<E>, E> implements OptionParser<C>, Serializable {
+    private static final long serialVersionUID = 0L;
+
+    private final OptionParser<? extends E> elementParser;
+
+    private final String elementSeparator;
+
+    private final String prefix;
+
+    private final String suffix;
+
+    CollectionParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+      this.elementParser = checkNotNull(elementParser);
+      this.elementSeparator = checkNotNull(elementSeparator);
+      this.prefix = checkNotNull(prefix);
+      this.suffix = checkNotNull(suffix);
+    }
+
+    abstract C newCollection();
+
+    public C parse(final Object object) {
+      C result = this.newCollection();
+
+      if (object instanceof Iterable) {
+        Iterable<?> inputs = (Iterable<?>) object;
+
+        for (Object input: inputs) {
+          result.add(this.elementParser.parse(input));
+        }
+
+        return result;
+      }
+
+      String value = trimTrailing(trimLeading(object.toString(), this.prefix), this.suffix);
+
+      for (String input: Splitter.on(this.elementSeparator).split(value)) {
+        result.add(this.elementParser.parse(input));
+      }
+
+      return result;
+    }
+
+    public TypeToken<C> type() {
+      @SuppressWarnings("serial")
+      TypeToken<C> type = new TypeToken<C>(this.getClass()) {};
+
+      return type;
+    }
+
+    @Override
+    public String toString() {
+      ToStringHelper helper = toStringHelper(this);
+
+      helper.add("type", this.type());
+      helper.add("elementParser", this.elementParser);
+      helper.add("elementSeparator", this.elementSeparator);
+      helper.add("prefix", this.prefix);
+      helper.add("suffix", this.suffix);
+
+      return helper.toString();
+    }
+  }
+
+  @SuppressWarnings("serial")
+  private static final class CollectionParsers {
+    static final String COLLECTION_PREFIX = "[";
+
+    static final String COLLECTION_SUFFIX = "]";
+
+    static final String ELEMENT_SEPARATOR = ", ";
+
+    private CollectionParsers() {}
+
+    static <C extends Collection<E>, E> CollectionParser<C, E> collectionParser(final Supplier<? extends C> supplier, final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+      return new CollectionParser<C, E>(elementParser, elementSeparator, prefix, suffix) {
+        @Override
+        C newCollection() {
+          return supplier.get();
+        }
+      };
+    }
+
+    static <E> CollectionParser<ArrayList<E>, E> arrayListParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+      return new CollectionParser<ArrayList<E>, E>(elementParser, elementSeparator, prefix, suffix) {
+        @Override
+        ArrayList<E> newCollection() {
+          return newArrayList();
+        }
+      };
+    }
+
+    static <E> CollectionParser<LinkedList<E>, E> linkedListParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+      return new CollectionParser<LinkedList<E>, E>(elementParser, elementSeparator, prefix, suffix) {
+        @Override
+        LinkedList<E> newCollection() {
+          return newLinkedList();
+        }
+      };
+    }
+
+    static <E> CollectionParser<HashSet<E>, E> hashSetParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+      return new CollectionParser<HashSet<E>, E>(elementParser, elementSeparator, prefix, suffix) {
+        @Override
+        HashSet<E> newCollection() {
+          return newHashSet();
+        }
+      };
+    }
+
+    static <E> CollectionParser<LinkedHashSet<E>, E> linkedHashSetParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+      return new CollectionParser<LinkedHashSet<E>, E>(elementParser, elementSeparator, prefix, suffix) {
+        @Override
+        LinkedHashSet<E> newCollection() {
+          return newLinkedHashSet();
+        }
+      };
+    }
+  }
+
+  public static <C extends Collection<E>, E> OptionParser<C> collectionParser(final Supplier<? extends C> supplier, final OptionParser<E> elementParser) {
+    return CollectionParsers.collectionParser(supplier, elementParser, CollectionParsers.ELEMENT_SEPARATOR, CollectionParsers.COLLECTION_PREFIX, CollectionParsers.COLLECTION_SUFFIX);
+  }
+
+  public static <C extends Collection<E>, E> OptionParser<C> collectionParser(final Supplier<? extends C> supplier, final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+    return CollectionParsers.collectionParser(supplier, elementParser, elementSeparator, prefix, suffix);
+  }
+
+  public static <E> OptionParser<ArrayList<E>> arrayListParser(final OptionParser<E> elementParser) {
+    return CollectionParsers.arrayListParser(elementParser, CollectionParsers.ELEMENT_SEPARATOR, CollectionParsers.COLLECTION_PREFIX, CollectionParsers.COLLECTION_SUFFIX);
+  }
+
+  public static <E> OptionParser<ArrayList<E>> arrayListParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+    return CollectionParsers.arrayListParser(elementParser, elementSeparator, prefix, suffix);
+  }
+
+  public static <E> OptionParser<LinkedList<E>> linkedListParser(final OptionParser<E> elementParser) {
+    return CollectionParsers.linkedListParser(elementParser, CollectionParsers.ELEMENT_SEPARATOR, CollectionParsers.COLLECTION_PREFIX, CollectionParsers.COLLECTION_SUFFIX);
+  }
+
+  public static <E> OptionParser<LinkedList<E>> linkedListParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+    return CollectionParsers.linkedListParser(elementParser, elementSeparator, prefix, suffix);
+  }
+
+  public static <E> OptionParser<HashSet<E>> hashSetParser(final OptionParser<E> elementParser) {
+    return CollectionParsers.hashSetParser(elementParser, CollectionParsers.ELEMENT_SEPARATOR, CollectionParsers.COLLECTION_PREFIX, CollectionParsers.COLLECTION_SUFFIX);
+  }
+
+  public static <E> OptionParser<HashSet<E>> hashSetParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+    return CollectionParsers.hashSetParser(elementParser, elementSeparator, prefix, suffix);
+  }
+
+  public static <E> OptionParser<LinkedHashSet<E>> linkedHashSetParser(final OptionParser<E> elementParser) {
+    return CollectionParsers.linkedHashSetParser(elementParser, CollectionParsers.ELEMENT_SEPARATOR, CollectionParsers.COLLECTION_PREFIX, CollectionParsers.COLLECTION_SUFFIX);
+  }
+
+  public static <E> OptionParser<LinkedHashSet<E>> linkedHashSetParser(final OptionParser<? extends E> elementParser, final String elementSeparator, final String prefix, final String suffix) {
+    return CollectionParsers.linkedHashSetParser(elementParser, elementSeparator, prefix, suffix);
+  }
+
+  private static abstract class MapParser<M extends Map<K, V>, K, V> implements OptionParser<M>, Serializable {
+    private static final long serialVersionUID = 0L;
+
+    private final OptionParser<? extends K> keyParser;
+
+    private final OptionParser<? extends V> valueParser;
+
+    private final String entrySeparator;
+
+    private final String keyValueSeparator;
+
+    private final String prefix;
+
+    private final String suffix;
+
+    MapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+      this.keyParser = checkNotNull(keyParser);
+      this.valueParser = checkNotNull(valueParser);
+      this.entrySeparator = checkNotNull(entrySeparator);
+      this.keyValueSeparator = checkNotNull(keyValueSeparator);
+      this.prefix = checkNotNull(prefix);
+      this.suffix = checkNotNull(suffix);
+    }
+
+    abstract M newMap();
+
+    public M parse(final Object object) {
+      M result = this.newMap();
+
+      if (object instanceof Map || object instanceof Iterable) {
+        Iterable<?> inputs = object instanceof Map ? ((Map<?, ?>) object).entrySet() : (Iterable<?>) object;
+
+        for (Object input: inputs) {
+          if (input instanceof Entry) {
+            Entry<?, ?> entry = (Entry<?, ?>) input;
+
+            result.put(this.keyParser.parse(entry.getKey()), this.valueParser.parse(entry.getValue()));
+
+            continue;
+          }
+
+          String value = input.toString();
+
+          Iterator<?> parts = Splitter.on(this.keyValueSeparator).limit(2).split(value).iterator();
+
+          result.put(this.keyParser.parse(parts.next()), this.valueParser.parse(parts.next()));
+        }
+
+        return result;
+      }
+
+      String value = trimTrailing(trimLeading(object.toString(), this.prefix), this.suffix);
+
+      for (Entry<?, ?> input: Splitter.on(this.entrySeparator).withKeyValueSeparator(this.keyValueSeparator).split(value).entrySet()) {
+        result.put(this.keyParser.parse(input.getKey()), this.valueParser.parse(input.getValue()));
+      }
+
+      return result;
+    }
+
+    public TypeToken<M> type() {
+      @SuppressWarnings("serial")
+      TypeToken<M> type = new TypeToken<M>(this.getClass()) {};
+
+      return type;
+    }
+
+    @Override
+    public String toString() {
+      ToStringHelper helper = toStringHelper(this);
+
+      helper.add("type", this.type());
+      helper.add("keyParser", this.keyParser);
+      helper.add("valueParser", this.valueParser);
+      helper.add("entrySeparator", this.entrySeparator);
+      helper.add("keyValueSeparator", this.keyValueSeparator);
+      helper.add("prefix", this.prefix);
+      helper.add("suffix", this.suffix);
+
+      return helper.toString();
+    }
+  }
+
+  @SuppressWarnings("serial")
+  private static final class MapParsers {
+    static final String MAP_PREFIX = "[";
+
+    static final String MAP_SUFFIX = "]";
+
+    static final String ENTRY_SEPARATOR = ", ";
+
+    static final String KEY_VALUE_SEPARATOR = "=";
+
+    private MapParsers() {}
+
+    static <M extends Map<K, V>, K, V> MapParser<M, K, V> mapParser(final Supplier<? extends M> supplier, final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+      return new MapParser<M, K, V>(keyParser, valueParser, entrySeparator, keyValueSeparator, prefix, suffix) {
+        @Override
+        M newMap() {
+          return supplier.get();
+        }
+      };
+    }
+
+    static <K, V> MapParser<HashMap<K, V>, K, V> hashMapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+      return new MapParser<HashMap<K, V>, K, V>(keyParser, valueParser, entrySeparator, keyValueSeparator, prefix, suffix) {
+        @Override
+        HashMap<K, V> newMap() {
+          return newHashMap();
+        }
+      };
+    }
+
+    static <K, V> MapParser<LinkedHashMap<K, V>, K, V> linkedHashMapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+      return new MapParser<LinkedHashMap<K, V>, K, V>(keyParser, valueParser, entrySeparator, keyValueSeparator, prefix, suffix) {
+        @Override
+        LinkedHashMap<K, V> newMap() {
+          return newLinkedHashMap();
+        }
+      };
+    }
+  }
+
+  public static <M extends Map<K, V>, K, V> OptionParser<M> mapParser(final Supplier<? extends M> supplier, final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser) {
+    return MapParsers.mapParser(supplier, keyParser, valueParser, MapParsers.ENTRY_SEPARATOR, MapParsers.KEY_VALUE_SEPARATOR, MapParsers.MAP_PREFIX, MapParsers.MAP_SUFFIX);
+  }
+
+  public static <M extends Map<K, V>, K, V> OptionParser<M> mapParser(final Supplier<? extends M> supplier, final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+    return MapParsers.mapParser(supplier, keyParser, valueParser, entrySeparator, keyValueSeparator, prefix, suffix);
+  }
+
+  public static <K, V> OptionParser<HashMap<K, V>> hashMapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser) {
+    return MapParsers.hashMapParser(keyParser, valueParser, MapParsers.ENTRY_SEPARATOR, MapParsers.KEY_VALUE_SEPARATOR, MapParsers.MAP_PREFIX, MapParsers.MAP_SUFFIX);
+  }
+
+  public static <K, V> OptionParser<HashMap<K, V>> hashMapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+    return MapParsers.hashMapParser(keyParser, valueParser, entrySeparator, keyValueSeparator, prefix, suffix);
+  }
+
+  public static <K, V> OptionParser<LinkedHashMap<K, V>> linkedHashMapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser) {
+    return MapParsers.linkedHashMapParser(keyParser, valueParser, MapParsers.ENTRY_SEPARATOR, MapParsers.KEY_VALUE_SEPARATOR, MapParsers.MAP_PREFIX, MapParsers.MAP_SUFFIX);
+  }
+
+  public static <K, V> OptionParser<LinkedHashMap<K, V>> linkedHashMapParser(final OptionParser<? extends K> keyParser, final OptionParser<? extends V> valueParser, final String entrySeparator, final String keyValueSeparator, final String prefix, final String suffix) {
+    return MapParsers.linkedHashMapParser(keyParser, valueParser, entrySeparator, keyValueSeparator, prefix, suffix);
   }
 }
