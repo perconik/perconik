@@ -129,6 +129,26 @@ public final class MoreStrings {
     return asList(s.split(lineSeparatorRegex));
   }
 
+  public static String trim(final String s, final String v) {
+    return trimTrailing(trimLeading(s, v), v);
+  }
+
+  public static String trimLeading(final String s, final String v) {
+    if (s.startsWith(v)) {
+      return s.substring(v.length());
+    }
+
+    return s;
+  }
+
+  public static String trimTrailing(final String s, final String v) {
+    if (s.endsWith(v)) {
+      return s.substring(0, s.length() - v.length());
+    }
+
+    return s;
+  }
+
   public static String firstNonNullOrEmpty(@Nullable final String first, @Nullable final String second) {
     return !isNullOrEmpty(first) ? first : checkNotNullOrEmpty(second);
   }
