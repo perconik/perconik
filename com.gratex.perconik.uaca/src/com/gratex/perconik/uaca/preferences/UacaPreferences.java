@@ -75,7 +75,7 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
     return shared;
   }
 
-  private static final class SerializationProxy<E extends Enum<E>> implements Serializable {
+  private static final class SerializationProxy implements Serializable {
     private static final long serialVersionUID = -2729263083624118286L;
 
     private final Scope scope;
@@ -111,7 +111,7 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
   }
 
   private Object writeReplace() {
-    return new SerializationProxy<>(this);
+    return new SerializationProxy(this);
   }
 
   /**
