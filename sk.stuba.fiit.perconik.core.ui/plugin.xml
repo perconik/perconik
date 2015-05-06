@@ -2,23 +2,23 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="sk.stuba.fiit.perconik.ui.preferences"
-         name="PerConIK Preferences UI"
+         id="sk.stuba.fiit.perconik.core.ui.pages"
+         name="PerConIK Core UI Preference Pages"
          point="org.eclipse.ui.preferencePages">
       <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            category="sk.stuba.fiit.perconik.ui.preferences"
             class="sk.stuba.fiit.perconik.core.ui.preferences.ServicesPreferencePage"
             id="sk.stuba.fiit.perconik.core.ui.preferences.services"
             name="Services">
       </page>
       <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            category="sk.stuba.fiit.perconik.ui.preferences"
             class="sk.stuba.fiit.perconik.core.ui.preferences.ResourcesPreferencePage"
             id="sk.stuba.fiit.perconik.core.ui.preferences.resources"
             name="Resources">
       </page>
       <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            category="sk.stuba.fiit.perconik.ui.preferences"
             class="sk.stuba.fiit.perconik.core.ui.preferences.ListenersPreferencePage"
             id="sk.stuba.fiit.perconik.core.ui.preferences.listeners"
             name="Listeners">

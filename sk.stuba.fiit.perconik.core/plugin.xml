@@ -5,7 +5,7 @@
    <extension-point id="sk.stuba.fiit.perconik.core.services.resources" name="PerConIK Resources" schema="schema/sk.stuba.fiit.perconik.core.services.resources.exsd"/>
    <extension
          id="sk.stuba.fiit.perconik.core.startup"
-         name="PerConIK Core"
+         name="PerConIK Core Startup"
          point="org.eclipse.ui.startup">
       <startup
             class="sk.stuba.fiit.perconik.core.plugin.Activator$Startup">

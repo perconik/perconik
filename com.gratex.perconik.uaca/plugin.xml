@@ -2,17 +2,19 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         id="com.gratex.perconik.uaca.preferences"
+         name="PerConIK Gratex UACA Preferences"
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="com.gratex.perconik.uaca.preferences.UacaPreferences$Initializer">
       </initializer>
    </extension>
    <extension
-         id="com.gratex.perconik.uaca"
-         name="UACA Preferences UI"
+         id="com.gratex.perconik.uaca.ui.pages"
+         name="PerConIK Gratex UACA UI Preference Pages"
          point="org.eclipse.ui.preferencePages">
       <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            category="sk.stuba.fiit.perconik.ui.preferences"
             class="com.gratex.perconik.uaca.ui.preferences.UacaPreferencePage"
             id="com.gratex.perconik.uaca.ui.preferences"
             name="UACA">

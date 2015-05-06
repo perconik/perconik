@@ -2,20 +2,26 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         id="sk.stuba.fiit.perconik.activity.listeners"
+         name="PerConIK Activity Listeners"
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
             class="sk.stuba.fiit.perconik.activity.listeners.ListenerProviderExtension"></provider>
    </extension>
    <extension
+         id="sk.stuba.fiit.perconik.activity.preferences"
+         name="PerConIK Activity Preferences"
          point="org.eclipse.core.runtime.preferences">
       <initializer
             class="sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences$Initializer">
       </initializer>
    </extension>
    <extension
+         id="sk.stuba.fiit.perconik.activity.ui"
+         name="PerConIK Activity UI Preference Pages"
          point="org.eclipse.ui.preferencePages">
       <page
-            category="sk.stuba.fiit.perconik.ui.preferences.main"
+            category="sk.stuba.fiit.perconik.ui.preferences"
             class="sk.stuba.fiit.perconik.activity.ui.preferences.ActivityPreferencePage"
             id="sk.stuba.fiit.perconik.activity.ui.preferences"
             name="Activity">

@@ -3,11 +3,8 @@
 <plugin>
    <extension
          id="sk.stuba.fiit.perconik.core.preferences"
-         name="PerConIK Preferences"
+         name="PerConIK Core Preferences"
          point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="sk.stuba.fiit.perconik.preferences.MainPreferences$Initializer">
-      </initializer>
       <initializer
             class="sk.stuba.fiit.perconik.core.preferences.ResourcePreferences$Initializer">
       </initializer>
@@ -16,12 +13,16 @@
       </initializer>
    </extension>
    <extension
+         id="sk.stuba.fiit.perconik.core.preferences.listeners"
+         name="PerConIK Core Preferences for Listeners"
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <registrations
             class="sk.stuba.fiit.perconik.core.preferences.RegisteredListenersSupplier">
       </registrations>
    </extension>
    <extension
+         id="sk.stuba.fiit.perconik.core.preferences.resources"
+         name="PerConIK Core Preferences for Resources"
          point="sk.stuba.fiit.perconik.core.services.resources">
       <registrations
             class="sk.stuba.fiit.perconik.core.preferences.RegisteredResourcesSupplier">

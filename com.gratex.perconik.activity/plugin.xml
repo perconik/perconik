@@ -2,6 +2,8 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         id="com.gratex.perconik.activity.ide.listeners"
+         name="PerConIK Gratex Activity IDE Listeners"
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
             class="com.gratex.perconik.activity.ide.listeners.IdeListenerProviderFactory"></provider>

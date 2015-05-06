@@ -3,13 +3,15 @@
 <plugin>
    <extension
          id="sk.stuba.fiit.perconik.core.debug.startup"
-         name="PerConIK Debug"
+         name="PerConIK Core Debug Startup"
          point="org.eclipse.ui.startup">
       <startup
             class="sk.stuba.fiit.perconik.core.debug.plugin.Activator$Startup">
       </startup>
    </extension>
    <extension
+         id="sk.stuba.fiit.perconik.core.debug.listeners"
+         name="PerConIK Core Debug Components for Listener Service"
          point="sk.stuba.fiit.perconik.core.services.listeners">
       <provider
             class="sk.stuba.fiit.perconik.core.debug.services.listeners.DebugListenerProviderFactory">
@@ -19,6 +21,8 @@
       </manager>
    </extension>
    <extension
+         id="sk.stuba.fiit.perconik.core.debug.resources"
+         name="PerConIK Core Debug Components for Resource Service"
          point="sk.stuba.fiit.perconik.core.services.resources">
       <provider
             class="sk.stuba.fiit.perconik.core.debug.services.resources.DebugResourceProviderFactory">

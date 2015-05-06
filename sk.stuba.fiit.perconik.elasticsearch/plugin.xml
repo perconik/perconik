@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         id="sk.stuba.fiit.perconik.elasticsearch.preferences"
+         name="PerConIK Elasticsearch Preferences"
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchPreferences$Initializer">
+      </initializer>
+   </extension>
+   <extension
+         id="sk.stuba.fiit.perconik.elasticsearch.ui.pages"
+         name="PerConIK Elasticsearch UI Preference Pages"
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="sk.stuba.fiit.perconik.ui.preferences"
+            class="sk.stuba.fiit.perconik.elasticsearch.ui.preferences.ElasticsearchPreferencePage"
+            id="sk.stuba.fiit.perconik.elasticsearch.ui.preferences"
+            name="Elasticsearch">
+      </page>
+   </extension>
 
 </plugin>

@@ -2,18 +2,18 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         id="sk.stuba.fiit.perconik.ui.preferences"
-         name="PerConIK Preferences UI"
+         id="sk.stuba.fiit.perconik.ui.pages"
+         name="PerConIK UI Preference Pages"
          point="org.eclipse.ui.preferencePages">
       <page
             class="sk.stuba.fiit.perconik.ui.preferences.MainPreferencePage"
-            id="sk.stuba.fiit.perconik.ui.preferences.main"
+            id="sk.stuba.fiit.perconik.ui.preferences"
             name="PerConIK">
       </page>
    </extension>
    <extension
          id="sk.stuba.fiit.perconik.ui.startup"
-         name="PerConIK UI"
+         name="PerConIK UI Startup"
          point="org.eclipse.ui.startup">
       <startup
             class="sk.stuba.fiit.perconik.ui.plugin.Activator$Startup"></startup>
