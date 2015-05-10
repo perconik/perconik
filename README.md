@@ -1,17 +1,23 @@
 # PerConIK Eclipse Integration
 
-User activity tracking in Eclipse.
+A collection of Eclipse features and plug-ins to track user activity
 
 ## Requirements
 
+### Minimal
+
 - Java 1.7
 - Eclipse 4.3
+- JDT 3.8
+- EGit 2.2
 - Maven 3.2
 - Tycho 0.20
 
 ### Optional
 
-- [User Activity Client Application](https://github.com/perconik/uaca) 2.0
+- Elasticsearch 1.5
+- [User Activity Client Application 2.0](https://github.com/perconik/uaca)
+- Internet connection
 
 ## Setup
 
@@ -28,7 +34,7 @@ User activity tracking in Eclipse.
 - Use [version-tiger](https://github.com/inventage/version-tiger) for versioning
 - Commit only version changes, never combine source code with version changes
 - Start each version change commit with `Bump`
-- Do not use Maven Tycho for versioning 
+- Do not use Maven Tycho for versioning
 
 ## Contributing
 
