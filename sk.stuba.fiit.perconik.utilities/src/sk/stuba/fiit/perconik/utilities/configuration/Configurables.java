@@ -134,11 +134,11 @@ public final class Configurables {
     return mappings(schema, mappingFunction(accessorOf(type), type));
   }
 
-  public static <M extends OptionMapping<T>, T> Function<OptionMapping<?>, Optional<M>> mappingFunction(final TypeToken<M> map, final Class<T> type) {
+  public static <M extends OptionMapping<T>, T> Function<OptionMapping<?>, Optional<M>> mappingFunction(final TypeToken<? extends M> map, final Class<T> type) {
     return mappingFunction(map, TypeToken.of(type));
   }
 
-  public static <M extends OptionMapping<T>, T> Function<OptionMapping<?>, Optional<M>> mappingFunction(final TypeToken<M> map, final TypeToken<T> type) {
+  public static <M extends OptionMapping<T>, T> Function<OptionMapping<?>, Optional<M>> mappingFunction(final TypeToken<? extends M> map, final TypeToken<T> type) {
     return new Function<OptionMapping<?>, Optional<M>>() {
       public Optional<M> apply(@Nonnull final OptionMapping<?> raw) {
         if (map.getRawType().isInstance(raw) && type.isAssignableFrom(raw.getType())) {
