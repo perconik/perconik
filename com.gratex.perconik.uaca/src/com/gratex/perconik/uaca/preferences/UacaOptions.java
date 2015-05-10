@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 
 import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptions;
@@ -41,7 +42,7 @@ public interface UacaOptions extends Options {
 
     private Schema() {}
 
-    public static ImmutableList<OptionAccessor<?>> accessors() {
+    public static ImmutableCollection<OptionAccessor<?>> accessors() {
       return accessors;
     }
 
