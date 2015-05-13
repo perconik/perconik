@@ -20,6 +20,10 @@ final class StandardPluginConsole implements PluginConsole {
     this.out = checkNotNull(out);
   }
 
+  private String identifier() {
+    return this.plugin.getBundle().getSymbolicName();
+  }
+
   private void log(final Status status) {
     this.plugin.getLog().log(status);
   }
@@ -67,38 +71,34 @@ final class StandardPluginConsole implements PluginConsole {
   }
 
   public void notice(@Nullable final String message) {
-    this.log(new Status(IStatus.INFO, this.getPluginId(), String.format(String.valueOf(message))));
+    this.log(new Status(IStatus.INFO, this.identifier(), String.format(String.valueOf(message))));
   }
 
   public void notice(final String format, final Object ... args) {
-    this.log(new Status(IStatus.INFO, this.getPluginId(), String.format(format, args)));
+    this.log(new Status(IStatus.INFO, this.identifier(), String.format(format, args)));
   }
 
   public void warning(@Nullable final String message) {
-    this.log(new Status(IStatus.WARNING, this.getPluginId(), String.format(String.valueOf(message))));
+    this.log(new Status(IStatus.WARNING, this.identifier(), String.format(String.valueOf(message))));
   }
 
   public void warning(final String format, final Object ... args) {
-    this.log(new Status(IStatus.WARNING, this.getPluginId(), String.format(format, args)));
+    this.log(new Status(IStatus.WARNING, this.identifier(), String.format(format, args)));
   }
 
   public void error(@Nullable final String message) {
-    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(String.valueOf(message))));
+    this.log(new Status(IStatus.ERROR, this.identifier(), String.format(String.valueOf(message))));
   }
 
   public void error(final String format, final Object ... args) {
-    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(format, args)));
+    this.log(new Status(IStatus.ERROR, this.identifier(), String.format(format, args)));
   }
 
   public void error(final Throwable failure, @Nullable final String message) {
-    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(String.valueOf(message)), failure));
+    this.log(new Status(IStatus.ERROR, this.identifier(), String.format(String.valueOf(message)), failure));
   }
 
   public void error(final Throwable failure, final String format, final Object ... args) {
-    this.log(new Status(IStatus.ERROR, this.getPluginId(), String.format(format, args), failure));
-  }
-
-  private String getPluginId() {
-    return this.plugin.getBundle().getSymbolicName();
+    this.log(new Status(IStatus.ERROR, this.identifier(), String.format(format, args), failure));
   }
 }
