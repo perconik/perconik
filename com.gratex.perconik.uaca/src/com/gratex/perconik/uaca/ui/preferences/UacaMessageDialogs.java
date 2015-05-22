@@ -25,7 +25,7 @@ public final class UacaMessageDialogs {
 
         Shell shell = window != null ? window.getShell() : Display.getDefault().getActiveShell();
 
-        String title = "UACA proxy error";
+        String title = "UACA Proxy Error";
 
         IPreferenceStore store = UacaPreferences.getShared().getPreferenceStore();
 
