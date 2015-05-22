@@ -1391,8 +1391,9 @@ public abstract class RegularListener extends AbstractListener implements Scoped
 
       AnyStructuredData data = new AnyStructuredData();
 
-      data.put(key("default"), listener.defaultOptions().toMap());
-      data.put(key("custom"), listener.customOptions().toMap());
+      // TODO consider, but log effective options only by default
+      //data.put(key("default"), listener.defaultOptions().toMap());
+      //data.put(key("custom"), listener.customOptions().toMap());
       data.put(key("effective"), listener.effectiveOptions().toMap());
 
       return data;
