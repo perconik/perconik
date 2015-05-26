@@ -219,6 +219,10 @@ public final class MoreStrings {
     return result;
   }
 
+  public static String toStringOrNull(@Nullable final Object o) {
+    return o != null ? o.toString() : null;
+  }
+
   private enum ToStringComparator implements Comparator<Object> {
     INSTANCE;
 
