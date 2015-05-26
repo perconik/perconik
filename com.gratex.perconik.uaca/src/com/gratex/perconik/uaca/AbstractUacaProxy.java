@@ -1,87 +1,68 @@
 package com.gratex.perconik.uaca;
 
 import java.net.URL;
-import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import sk.stuba.fiit.perconik.data.providers.MapperProvider;
-
 import static java.lang.String.format;
 
-import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.client.Entity.entity;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 
-@SuppressWarnings({"static-method", "unused"})
+import static com.google.common.base.Throwables.propagate;
+
 public abstract class AbstractUacaProxy implements AutoCloseable {
-  private final Client client;
+  protected AbstractUacaProxy() {}
 
-  protected AbstractUacaProxy() {
-    this.client = newClient().register(MapperProvider.class);
-  }
-
-  protected abstract Executor executor();
+  protected abstract Client client();
 
   protected abstract URL url();
 
-  protected final void send(final String path, @Nullable final Object request) {
-    final Runnable command = new Runnable() {
-      public void run() {
-        WebTarget target = null;
-        Response response = null;
+  public final void send(final String path, @Nullable final Object request) {
+    WebTarget target = null;
+    Response response = null;
 
-        try {
-          target = createTarget().path(path);
+    try {
+      try {
+        target = this.buildTarget().path(path);
 
-          filterRequest(target, request);
+        this.filterRequest(target, request);
 
-          response = sendRequest(target, request);
+        response = this.sendRequest(target, request);
 
-          processResponse(target, request, response);
-        } catch (Exception failure) {
-          String uri = target != null ? target.getUri().toString() : "unknown";
-
-          reportFailure(format("UacaProxy: POST %s -> Unexpected failure", uri), failure);
-        } finally {
-          if (response != null) {
-            try {
-              response.close();
-            } catch (Exception e) {
-              // ignore
-            }
-          }
+        this.processResponse(target, request, response);
+      } finally {
+        if (response != null) {
+          response.close();
         }
       }
-    };
+    } catch (Exception failure) {
+      String uri = target != null ? target.getUri().toString() : "unknown";
 
-    this.executor().execute(command);
+      this.reportFailure(format("POST %s -> unexpected failure", uri), failure);
+
+      propagate(failure);
+    }
   }
 
-  protected WebTarget createTarget() {
-    return this.client.target(this.url().toString());
+  protected WebTarget buildTarget() {
+    return this.client().target(this.url().toString());
   }
 
+  @SuppressWarnings("unused")
   protected void filterRequest(final WebTarget target, @Nullable final Object request) {}
 
+  @SuppressWarnings("static-method")
   protected Response sendRequest(final WebTarget target, @Nullable final Object request) {
     return target.request().post(entity(request, APPLICATION_JSON_TYPE));
   }
 
+  @SuppressWarnings("unused")
   protected void processResponse(final WebTarget target, @Nullable final Object request, final Response response) {}
 
+  @SuppressWarnings("unused")
   protected void reportFailure(final String message, @Nullable final Exception failure) {}
-
-  public final void close() throws Exception {
-    this.preClose();
-    this.client.close();
-    this.postClose();
-  }
-
-  protected void preClose() throws Exception {}
-
-  protected void postClose() throws Exception {}
 }

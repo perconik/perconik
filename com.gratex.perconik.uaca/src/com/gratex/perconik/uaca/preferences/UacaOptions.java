@@ -34,9 +34,11 @@ public interface UacaOptions extends Options {
 
     public static final OptionAccessor<Boolean> displayErrors = option(booleanParser(), join(qualifier, "displayErrors"), true);
 
-    public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "logErrors"), true);
+    public static final OptionAccessor<Boolean> logRequests = option(booleanParser(), join(qualifier, "logRequests"), false);
 
-    public static final OptionAccessor<Boolean> logEvents = option(booleanParser(), join(qualifier, "logEvents"), false);
+    public static final OptionAccessor<Boolean> logNotices = option(booleanParser(), join(qualifier, "logNotices"), false);
+
+    public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "logErrors"), true);
 
     static final ImmutableList<OptionAccessor<?>> accessors = copyOf(Configurables.accessors(Schema.class));
 
@@ -52,8 +54,9 @@ public interface UacaOptions extends Options {
       map.put(applicationUrl.getKey(), options.getApplicationUrl());
       map.put(checkConnection.getKey(), options.isConnectionCheckEnabled());
       map.put(displayErrors.getKey(), options.isErrorDialogEnabled());
+      map.put(logRequests.getKey(), options.isRequestLogEnabled());
+      map.put(logNotices.getKey(), options.isErrorLogEnabled());
       map.put(logErrors.getKey(), options.isErrorLogEnabled());
-      map.put(logEvents.getKey(), options.isEventLogEnabled());
 
       return map;
     }
@@ -88,12 +91,16 @@ public interface UacaOptions extends Options {
       return Schema.displayErrors.getValue(this.options);
     }
 
-    public boolean isErrorLogEnabled() {
-      return Schema.logErrors.getValue(this.options);
+    public boolean isRequestLogEnabled() {
+      return Schema.logRequests.getValue(this.options);
     }
 
-    public boolean isEventLogEnabled() {
-      return Schema.logEvents.getValue(this.options);
+    public boolean isNoticeLogEnabled() {
+      return Schema.logNotices.getValue(this.options);
+    }
+
+    public boolean isErrorLogEnabled() {
+      return Schema.logErrors.getValue(this.options);
     }
   }
 
@@ -103,7 +110,9 @@ public interface UacaOptions extends Options {
 
   public boolean isErrorDialogEnabled();
 
-  public boolean isErrorLogEnabled();
+  public boolean isRequestLogEnabled();
 
-  public boolean isEventLogEnabled();
+  public boolean isNoticeLogEnabled();
+
+  public boolean isErrorLogEnabled();
 }

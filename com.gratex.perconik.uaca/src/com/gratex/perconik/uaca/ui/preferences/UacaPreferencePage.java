@@ -14,7 +14,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.gratex.perconik.uaca.SharedUacaProxy;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
-import com.gratex.perconik.uaca.preferences.UacaPreferences.Keys;
 
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference;
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithPreference.Preference;
@@ -22,24 +21,31 @@ import sk.stuba.fiit.perconik.eclipse.jface.preference.ExtendedBooleanFieldEdito
 import sk.stuba.fiit.perconik.eclipse.jface.preference.UrlFieldEditor;
 import sk.stuba.fiit.perconik.ui.Groups;
 
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.applicationUrl;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.checkConnection;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.displayErrors;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logErrors;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logNotices;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logRequests;
+
 public final class UacaPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
-  private UrlFieldEditor uacaUrl;
+  private UrlFieldEditor uacaUrlEditor;
 
-  private ExtendedBooleanFieldEditor checkConnection;
+  private ExtendedBooleanFieldEditor checkConnectionEditor;
 
-  private ExtendedBooleanFieldEditor displayErrors;
+  private ExtendedBooleanFieldEditor displayErrorsEditor;
 
-  private BooleanFieldEditor logErrors;
+  private BooleanFieldEditor logRequestsEditor;
 
-  private BooleanFieldEditor logEvents;
+  private BooleanFieldEditor logNoticesEditor;
+
+  private BooleanFieldEditor logErrorsEditor;
 
   public UacaPreferencePage() {
     super(GRID);
   }
 
-  public void init(final IWorkbench workbench) {
-    this.setPreferenceStore(this.doGetPreferenceStore());
-  }
+  public void init(final IWorkbench workbench) {}
 
   @Override
   protected void createFieldEditors() {
@@ -47,36 +53,38 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
 
     GridDataFactory factory = GridDataFactory.fillDefaults().grab(true, false).span(2, 1);
 
-    Group group = Groups.create(parent, "Service", factory.create());
+    Group serviceGroup = Groups.create(parent, "Service", factory.create());
 
-    this.uacaUrl = new UrlFieldEditor(Keys.applicationUrl, "URL:", group);
+    this.uacaUrlEditor = new UrlFieldEditor(applicationUrl, "URL:", serviceGroup);
 
-    this.uacaUrl.setEmptyStringAllowed(false);
-    this.uacaUrl.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
+    this.uacaUrlEditor.setEmptyStringAllowed(false);
+    this.uacaUrlEditor.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
 
-    this.addField(this.uacaUrl);
+    this.addField(this.uacaUrlEditor);
 
-    Groups.updateMargins(group);
+    Groups.updateMargins(serviceGroup);
 
-    Group secureGroup = Groups.create(parent, "Notification", factory.create());
+    Group notificationGroup = Groups.create(parent, "Notification", factory.create());
 
-    this.checkConnection = new ExtendedBooleanFieldEditor(Keys.checkConnection, "Verify service connection on confirmation", secureGroup);
-    this.displayErrors = new ExtendedBooleanFieldEditor(Keys.displayErrors, "Display warning on service failure", secureGroup);
+    this.checkConnectionEditor = new ExtendedBooleanFieldEditor(checkConnection, "Verify service connection on confirmation", notificationGroup);
+    this.displayErrorsEditor = new ExtendedBooleanFieldEditor(displayErrors, "Display error dialog on service failure", notificationGroup);
 
-    this.addField(this.checkConnection);
-    this.addField(this.displayErrors);
+    this.addField(this.checkConnectionEditor);
+    this.addField(this.displayErrorsEditor);
 
-    Groups.updateMargins(secureGroup);
+    Groups.updateMargins(notificationGroup);
 
-    Group b = Groups.create(parent, "Log", factory.create());
+    Group logGroup = Groups.create(parent, "Log", factory.create());
 
-    this.logErrors = new BooleanFieldEditor(Keys.logErrors, "Write errors to Error Log on service failure", b);
-    this.logEvents = new BooleanFieldEditor(Keys.logEvents, "Write events to Workspace Log (for debug only)", b);
+    this.logRequestsEditor = new BooleanFieldEditor(logRequests, "Write requests to Workspace Log on send (for debug only)", logGroup);
+    this.logNoticesEditor = new BooleanFieldEditor(logNotices, "Write notices to Workspace Log on proxy management", logGroup);
+    this.logErrorsEditor = new BooleanFieldEditor(logErrors, "Write errors to Error Log on service failure", logGroup);
 
-    this.addField(this.logErrors);
-    this.addField(this.logEvents);
+    this.addField(this.logRequestsEditor);
+    this.addField(this.logNoticesEditor);
+    this.addField(this.logErrorsEditor);
 
-    Groups.updateMargins(b);
+    Groups.updateMargins(logGroup);
   }
 
   @Override
@@ -86,17 +94,17 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
 
   @Override
   public boolean performOk() {
-    Preconditions.checkState(this.checkConnection != null);
+    Preconditions.checkState(this.checkConnectionEditor != null);
 
-    return super.performOk() && (this.checkConnection.getBooleanValue() ? this.checkConnection() : true);
+    return super.performOk() && (this.checkConnectionEditor.getBooleanValue() ? this.checkConnection() : true);
   }
 
   boolean checkConnection() {
-    Preconditions.checkState(this.checkConnection != null);
-    Preconditions.checkState(this.uacaUrl != null);
+    Preconditions.checkState(this.checkConnectionEditor != null);
+    Preconditions.checkState(this.uacaUrlEditor != null);
 
     try {
-      SharedUacaProxy.checkConnection(this.uacaUrl.getUrlValue());
+      SharedUacaProxy.checkConnection(this.uacaUrlEditor.getUrlValue());
 
       return true;
     } catch (Exception failure) {
@@ -104,11 +112,11 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
       String message = failure.getMessage();
       String toggle = "Always verify service connection on confirmation";
 
-      Preference preference = Preference.usingToggleState(this.getPreferenceStore(), this.checkConnection.getPreferenceName());
+      Preference preference = Preference.usingToggleState(this.getPreferenceStore(), this.checkConnectionEditor.getPreferenceName());
 
       boolean state = MessageDialogWithPreference.openError(this.getShell(), title, message, toggle, preference).getToggleState();
 
-      this.checkConnection.getChangeControl().setSelection(state);
+      this.checkConnectionEditor.getChangeControl().setSelection(state);
 
       return false;
     }

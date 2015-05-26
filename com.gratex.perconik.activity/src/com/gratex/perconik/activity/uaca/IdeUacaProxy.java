@@ -23,8 +23,8 @@ public final class IdeUacaProxy extends SharedUacaProxy {
   }
 
   @Override
-  protected WebTarget createTarget() {
-    return super.createTarget().path("ide");
+  protected WebTarget buildTarget() {
+    return super.buildTarget().path("ide");
   }
 
   public void sendCheckinEvent(final IdeCheckinEventRequest request) {

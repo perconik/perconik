@@ -4,55 +4,52 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 
 import javax.annotation.Nullable;
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
 
-import com.google.common.base.Optional;
-
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
+import sk.stuba.fiit.perconik.data.providers.MapperProvider;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
-import sk.stuba.fiit.perconik.utilities.time.TimeSource;
 
 import static java.lang.String.format;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.core.Response.Status.Family.CLIENT_ERROR;
 import static javax.ws.rs.core.Response.Status.Family.SERVER_ERROR;
 
-import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
-import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toDefaultString;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
-import static sk.stuba.fiit.perconik.utilities.time.TimeSource.systemTimeSource;
 
 public class SharedUacaProxy extends AbstractUacaProxy {
   private static final String connectionCheckPath = "ide/checkin";
 
-  private static final TimeValue executorTerminationTimeout = of(8, SECONDS);
+  private static final TimeValue waitBeforeClientClose = of(8, SECONDS);
+
+  protected final UacaOptions options;
 
   private final UacaReporter reporter;
 
-  protected final UacaOptions options;
+  private final SharedSecrets secrets;
 
   public SharedUacaProxy() {
     this(UacaPreferences.getShared());
   }
 
   public SharedUacaProxy(final UacaOptions options) {
-    this(options, systemTimeSource());
-  }
-
-  public SharedUacaProxy(final UacaOptions options, final TimeSource source) {
     this.options = checkNotNull(options);
-
-    this.reporter = new UacaReporter(options, source);
+    this.reporter = new UacaReporter(options);
+    this.secrets = SharedSecrets.obtain(this.reporter);
   }
 
   public static final void checkConnection(final String url) {
@@ -63,28 +60,103 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     checkConnection(url.toString());
   }
 
-  private static final class SharedExecutor {
-    @Nullable
-    private static ExecutorService instance;
+  private static final class SharedSecrets {
+    private static final SharedSecrets instance = new SharedSecrets();
 
-    private SharedExecutor() {}
+    private long counter = 0L;
 
-    synchronized static ExecutorService toExecute() {
-      if (instance == null || instance.isShutdown()) {
-        instance = newLimitedThreadPool();
+    private Client client;
+
+    private SharedSecrets() {}
+
+    static SharedSecrets obtain(final UacaReporter reporter) {
+      synchronized (instance) {
+        return instance.connect(reporter);
       }
-
-      return instance;
     }
 
-    synchronized static Optional<ExecutorService> toClose() {
-      return fromNullable(instance);
+    private SharedSecrets connect(final UacaReporter reporter) {
+      long count = this.counter ++;
+
+      assert count > 0;
+
+      reporter.logNotice(format("connect -> %d connections", count));
+
+      return this;
+    }
+
+    private SharedSecrets disconnect(final UacaReporter reporter, final TimeValue wait) {
+      long count = this.counter --;
+
+      assert count >= 0;
+
+      reporter.logNotice(format("disconnect -> %d connections", count));
+
+      if (count == 0L && this.client != null) {
+        close(reporter, this.client, wait);
+      }
+
+      return this;
+    }
+
+    private static Client open(final UacaReporter reporter) {
+      reporter.logNotice(format("opening shared client"));
+
+      try {
+        Client client = newClient().register(MapperProvider.class);
+
+        reporter.logNotice(format("shared client opened -> %s", toDefaultString(client)));
+
+        return client;
+      } catch (Exception failure) {
+        reporter.logError("unable to open shared client", failure);
+
+        throw failure;
+      }
+    }
+
+    private static void close(final UacaReporter reporter, final Client client, final TimeValue wait) {
+      assert client != null;
+
+      checkNotNull(wait);
+
+      reporter.logNotice(format("closing shared client -> %s", toDefaultString(client)));
+
+      ExecutorService service = newSingleThreadExecutor();
+
+      service.execute(new Runnable() {
+        public void run() {
+          sleepUninterruptibly(wait.duration(), wait.unit());
+
+          try {
+            client.close();
+
+            reporter.logNotice("shared client closed");
+          } catch (Exception failure) {
+            reporter.logError(format("unable to close shared client -> %s", toDefaultString(client)), failure);
+          }
+        }
+      });
+
+      shutdownAndAwaitTermination(service, 4 * wait.duration(), wait.unit());
+    }
+
+    synchronized void release(final UacaReporter reporter, final TimeValue wait) {
+      this.disconnect(reporter, wait);
+    }
+
+    synchronized Client client(final UacaReporter reporter) {
+      if (this.client == null) {
+        this.client = open(reporter);
+      }
+
+      return this.client;
     }
   }
 
   @Override
-  protected final ExecutorService executor() {
-    return SharedExecutor.toExecute();
+  protected Client client() {
+    return this.secrets.client(this.reporter);
   }
 
   @Override
@@ -103,7 +175,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     Family family = status.getFamily();
 
     if (family == CLIENT_ERROR || family == SERVER_ERROR) {
-      String message = format("UacaProxy: POST %s -> %s %d %s", target.getUri(), family, status.getStatusCode(), status.getReasonPhrase());
+      String message = format("POST %s -> %s %d %s", target.getUri(), family, status.getStatusCode(), status.getReasonPhrase());
 
       throw new IllegalStateException(message);
     }
@@ -115,12 +187,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     this.reporter.displayError(message, failure);
   }
 
-  @Override
-  protected final void preClose() throws Exception {
-    Optional<ExecutorService> executor = SharedExecutor.toClose();
-
-    if (executor.isPresent()) {
-      shutdownAndAwaitTermination(executor.get(), executorTerminationTimeout.duration(), executorTerminationTimeout.unit());
-    }
+  public void close() {
+    this.secrets.release(this.reporter, waitBeforeClientClose);
   }
 }

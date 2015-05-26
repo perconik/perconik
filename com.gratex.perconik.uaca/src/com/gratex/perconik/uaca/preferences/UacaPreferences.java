@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
+import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
@@ -17,14 +18,15 @@ import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.applicat
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.checkConnection;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.displayErrors;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logErrors;
-import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logEvents;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logNotices;
+import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.logRequests;
 
 import static sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStores.setDefault;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUrl;
 
-public final class UacaPreferences extends AbstractPreferences implements Serializable, UacaOptions {
+public final class UacaPreferences extends AbstractPreferences implements PreferenceStoreOptions, Serializable, UacaOptions {
   private static final long serialVersionUID = -9108586744508719837L;
 
   private static final UacaPreferences shared = new UacaPreferences(Scope.CONFIGURATION);
@@ -56,9 +58,11 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
 
     public static final String displayErrors = Schema.displayErrors.getKey();
 
-    public static final String logErrors = Schema.logErrors.getKey();
+    public static final String logRequests = Schema.logRequests.getKey();
 
-    public static final String logEvents = Schema.logEvents.getKey();
+    public static final String logNotices = Schema.logNotices.getKey();
+
+    public static final String logErrors = Schema.logErrors.getKey();
   }
 
   /**
@@ -168,11 +172,15 @@ public final class UacaPreferences extends AbstractPreferences implements Serial
     return this.getPreferenceStore().getBoolean(displayErrors);
   }
 
-  public boolean isErrorLogEnabled() {
-    return this.getPreferenceStore().getBoolean(logErrors);
+  public boolean isRequestLogEnabled() {
+    return this.getPreferenceStore().getBoolean(logRequests);
   }
 
-  public boolean isEventLogEnabled() {
-    return this.getPreferenceStore().getBoolean(logEvents);
+  public boolean isNoticeLogEnabled() {
+    return this.getPreferenceStore().getBoolean(logNotices);
+  }
+
+  public boolean isErrorLogEnabled() {
+    return this.getPreferenceStore().getBoolean(logErrors);
   }
 }
