@@ -71,7 +71,11 @@ public final class Configurables {
     Builder<String, Object> builder = ImmutableMap.builder();
 
     for (OptionMapping<?> mapping: mappings) {
-      builder.put(mapping.getKey(), mapping.getDefaultValue());
+      Object value = mapping.getDefaultValue();
+
+      if (value != null) {
+        builder.put(mapping.getKey(), value);
+      }
     }
 
     return MapOptions.from(builder.build());
