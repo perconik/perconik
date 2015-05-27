@@ -108,7 +108,7 @@ public final class UacaPreferencePage extends FieldEditorPreferencePage implemen
 
       return true;
     } catch (Exception failure) {
-      String title = "UACA proxy error";
+      String title = "UACA Proxy Error";
       String message = failure.getMessage();
       String toggle = "Always verify service connection on confirmation";
 
