@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
 
 import static java.lang.String.format;
 
@@ -14,8 +13,6 @@ import static com.google.common.base.Optional.of;
 
 public abstract class AbstractElasticsearchProxy implements ElasticsearchProxy {
   public AbstractElasticsearchProxy() {}
-
-  protected abstract Settings settings();
 
   protected abstract TransportClient client();
 
