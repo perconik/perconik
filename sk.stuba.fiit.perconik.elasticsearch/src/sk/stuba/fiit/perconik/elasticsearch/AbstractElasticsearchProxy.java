@@ -12,16 +12,12 @@ import static java.lang.String.format;
 import static com.google.common.base.Optional.absent;
 import static com.google.common.base.Optional.of;
 
-public abstract class AbstractElasticsearchProxy implements AutoCloseable {
+public abstract class AbstractElasticsearchProxy implements ElasticsearchProxy {
   public AbstractElasticsearchProxy() {}
 
   protected abstract Settings settings();
 
   protected abstract TransportClient client();
-
-  public interface Task<T> {
-    public T perform(TransportClient client);
-  }
 
   public final <T> Optional<T> execute(final Task<T> task) {
     final TransportClient client = this.client();
