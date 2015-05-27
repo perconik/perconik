@@ -60,10 +60,10 @@ import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.Registr
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.POST_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_REGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_UNREGISTER;
-import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardLoggingOptionsSchema.logDebug;
-import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardLoggingOptionsSchema.logEvent;
-import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardPersistenceOptionsSchema.persistenceElasticsearch;
-import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardPersistenceOptionsSchema.persistenceUaca;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logDebug;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logEvent;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.PersistenceOptions.Schema.persistenceElasticsearch;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.PersistenceOptions.Schema.persistenceUaca;
 import static sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.builder;
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
@@ -140,63 +140,66 @@ public abstract class ActivityListener extends RegularListener {
     return sharedBuilder.build();
   }
 
-  // TODO refactor schemas hierarchy
-  // TODO add options for event to console logging
+  public interface ProbingOptions extends Options {
+    public static final class Schema {
+      public static final OptionAccessor<Boolean> monitorCore = option(booleanParser(), join(qualifier, "monitor", "core"), false);
 
-  public static final class StandardProbingOptionsSchema {
-    public static final OptionAccessor<Boolean> monitorCore = option(booleanParser(), join(qualifier, "monitor", "core"), false);
+      // TODO public static final OptionAccessor<Boolean> monitorManagement = option(booleanParser(), join(qualifier, "monitor", "management"), false);
 
-    // TODO public static final OptionAccessor<Boolean> monitorManagement = option(booleanParser(), join(qualifier, "monitor", "management"), false);
+      public static final OptionAccessor<Boolean> monitorPlatform = option(booleanParser(), join(qualifier, "monitor", "platform"), false);
 
-    public static final OptionAccessor<Boolean> monitorPlatform = option(booleanParser(), join(qualifier, "monitor", "platform"), false);
+      public static final OptionAccessor<Boolean> monitorProcess = option(booleanParser(), join(qualifier, "monitor", "process"), false);
 
-    public static final OptionAccessor<Boolean> monitorProcess = option(booleanParser(), join(qualifier, "monitor", "process"), false);
+      public static final OptionAccessor<Boolean> monitorSystem = option(booleanParser(), join(qualifier, "monitor", "system"), false);
 
-    public static final OptionAccessor<Boolean> monitorSystem = option(booleanParser(), join(qualifier, "monitor", "system"), false);
+      public static final OptionAccessor<Boolean> listenerInstance = option(booleanParser(), join(qualifier, "listener", "instance"), true);
 
-    public static final OptionAccessor<Boolean> listenerInstance = option(booleanParser(), join(qualifier, "listener", "instance"), true);
+      public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), false);
 
-    public static final OptionAccessor<Boolean> listenerConfiguration = option(booleanParser(), join(qualifier, "listener", "configuration"), false);
+      public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), false);
 
-    public static final OptionAccessor<Boolean> listenerRegistration = option(booleanParser(), join(qualifier, "listener", "registration"), false);
+      public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), true);
 
-    public static final OptionAccessor<Boolean> listenerOptions = option(booleanParser(), join(qualifier, "listener", "options"), true);
+      public static final OptionAccessor<Boolean> listenerStatistics = option(booleanParser(), join(qualifier, "listener", "statistics"), true);
 
-    public static final OptionAccessor<Boolean> listenerStatistics = option(booleanParser(), join(qualifier, "listener", "statistics"), true);
+      static final ImmutableMap<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor;
 
-    static final ImmutableMap<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor;
+      static {
+        Map<String, OptionAccessor<Boolean>> map = newHashMap();
 
-    static {
-      Map<String, OptionAccessor<Boolean>> map = newHashMap();
+        for (OptionAccessor<Boolean> accessor: Configurables.accessors(Schema.class, Boolean.class)) {
+          String key = accessor.getKey();
 
-      for (OptionAccessor<Boolean> accessor: Configurables.accessors(StandardProbingOptionsSchema.class, Boolean.class)) {
-        String key = accessor.getKey();
+          checkState(!map.containsKey(key), "%s: internal probe key conflict detected on %s", Schema.class, key);
 
-        checkState(!map.containsKey(key), "%s: internal probe key conflict detected on %s", StandardProbingOptionsSchema.class, key);
+          map.put(key, accessor);
+        }
 
-        map.put(key, accessor);
+        probeKeyToOptionAccessor = ImmutableMap.copyOf(map);
       }
 
-      probeKeyToOptionAccessor = ImmutableMap.copyOf(map);
+      private Schema() {}
     }
-
-    private StandardProbingOptionsSchema() {}
   }
 
-  public static final class StandardPersistenceOptionsSchema {
-    public static final OptionAccessor<Boolean> persistenceElasticsearch = option(booleanParser(), join(qualifier, "persistence", "elasticsearch"), false);
+  public interface PersistenceOptions extends Options {
+    public static final class Schema {
+      public static final OptionAccessor<Boolean> persistenceElasticsearch = option(booleanParser(), join(qualifier, "persistence", "elasticsearch"), false);
 
-    public static final OptionAccessor<Boolean> persistenceUaca = option(booleanParser(), join(qualifier, "persistence", "uaca"), true);
+      public static final OptionAccessor<Boolean> persistenceUaca = option(booleanParser(), join(qualifier, "persistence", "uaca"), true);
 
-    private StandardPersistenceOptionsSchema() {}
+      private Schema() {}
+    }
   }
 
-  public static final class StandardLoggingOptionsSchema {
-    public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), false);
+  public interface LoggingOptions extends Options {
+    public static final class Schema {
+      public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), false);
 
-    public static final OptionAccessor<Boolean> logEvent = option(booleanParser(), join(qualifier, "log", "event"), false);
+      public static final OptionAccessor<Boolean> logEvent = option(booleanParser(), join(qualifier, "log", "event"), false);
 
-    private StandardLoggingOptionsSchema() {}
+      private Schema() {}
+    }
   }
 
   private enum LoggingRegisterFailureHandler implements RegisterFailureHandler {
@@ -473,7 +476,7 @@ public abstract class ActivityListener extends RegularListener {
   protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
     checkNotNull(this.optionsProvider);
 
-    return StandardProbingOptionsSchema.probeKeyToOptionAccessor;
+    return ProbingOptions.Schema.probeKeyToOptionAccessor;
   }
 
   public interface Action {

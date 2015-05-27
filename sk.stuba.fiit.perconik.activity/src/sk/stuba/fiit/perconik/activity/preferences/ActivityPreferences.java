@@ -1,10 +1,15 @@
 package sk.stuba.fiit.perconik.activity.preferences;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+
 import com.gratex.perconik.uaca.preferences.UacaPreferences;
 
-import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardLoggingOptionsSchema;
-import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.StandardProbingOptionsSchema;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.PersistenceOptions;
+import sk.stuba.fiit.perconik.activity.listeners.ActivityListener.ProbingOptions;
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
+import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchPreferences;
 import sk.stuba.fiit.perconik.preferences.AbstractObjectPreferences;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
@@ -82,7 +87,16 @@ public final class ActivityPreferences extends AbstractObjectPreferences {
   }
 
   static Options defaultOptions() {
-    return compound(UacaPreferences.getShared(), defaults(StandardProbingOptionsSchema.class), defaults(StandardLoggingOptionsSchema.class));
+    Builder<Options> builder = ImmutableList.builder();
+
+    builder.add(defaults(ProbingOptions.Schema.class));
+    builder.add(defaults(PersistenceOptions.Schema.class));
+    builder.add(defaults(LoggingOptions.Schema.class));
+
+    builder.add(ElasticsearchPreferences.getShared());
+    builder.add(UacaPreferences.getShared());
+
+    return compound(builder.build());
   }
 
   private static void reportFailure(final Throwable failure) {
