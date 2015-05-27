@@ -5,6 +5,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+//TODO rm
 final class ElasticsearchOptionsReader extends AbstractPreferenceStoreOptionsReader {
   private final PreferenceStoreOptions options;
 

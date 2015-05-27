@@ -13,6 +13,7 @@ import sk.stuba.fiit.perconik.utilities.configuration.OptionsWriter;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+//TODO rm
 final class ElasticsearchOptionAccessor<T> extends AbstractOptionAccessor<T> {
   private final OptionParser<T> parser;
 

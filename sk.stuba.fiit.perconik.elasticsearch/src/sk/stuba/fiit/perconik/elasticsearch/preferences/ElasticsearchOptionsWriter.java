@@ -9,6 +9,7 @@ import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+//TODO rm
 final class ElasticsearchOptionsWriter extends AbstractPreferenceStoreOptionsWriter {
   private final PreferenceStoreOptions options;
 
