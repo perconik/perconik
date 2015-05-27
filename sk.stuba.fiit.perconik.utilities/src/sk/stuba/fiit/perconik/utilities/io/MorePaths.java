@@ -9,6 +9,7 @@ import com.google.common.collect.AbstractSequentialIterator;
 import static java.nio.file.Paths.get;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Iterators.toArray;
 
 public final class MorePaths {
   private MorePaths() {}
@@ -19,6 +20,14 @@ public final class MorePaths {
 
   public static Path path(final String segment, final String ... more) {
     return get(segment, more);
+  }
+
+  public static Path path(final Iterable<String> segments) {
+    return path(segments.iterator());
+  }
+
+  public static Path path(final Iterator<String> segments) {
+    return path(segments.next(), toArray(segments, String.class));
   }
 
   private static final class DownToBaseIterator<T extends Path> extends AbstractSequentialIterator<T> {
