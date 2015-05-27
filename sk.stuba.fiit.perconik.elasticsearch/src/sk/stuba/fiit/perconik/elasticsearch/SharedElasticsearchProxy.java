@@ -189,7 +189,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
   @Override
   public Settings settings() {
-    synchronized (this.settings) {
+    synchronized (this) {
       if (this.settings == null) {
         this.reload();
       }
@@ -199,7 +199,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   public Settings update() {
-    synchronized (this.settings) {
+    synchronized (this) {
       this.reload();
 
       return this.settings;
