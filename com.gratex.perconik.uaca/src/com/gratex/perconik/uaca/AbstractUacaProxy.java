@@ -14,7 +14,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE;
 
 import static com.google.common.base.Throwables.propagate;
 
-public abstract class AbstractUacaProxy implements AutoCloseable {
+public abstract class AbstractUacaProxy implements UacaProxy {
   protected AbstractUacaProxy() {}
 
   protected abstract Client client();
