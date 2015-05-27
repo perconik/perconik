@@ -2,7 +2,6 @@ package sk.stuba.fiit.perconik.eclipse.jface.dialogs;
 
 import javax.annotation.Nullable;
 
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
@@ -10,6 +9,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import static sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogs.buttonCodeToPreferenceValue;
+import static sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogs.buttonLabels;
 
 public class MessageDialogWithPreference extends MessageDialogWithToggle {
   protected Preference preference;
@@ -58,7 +60,7 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
 
       public void set(final IPreferenceStore store, final String key, final int code, final boolean state) {
         try {
-          store.setValue(key, buttonCodeToValue(code));
+          store.setValue(key, buttonCodeToPreferenceValue(code));
         } catch (IllegalStateException | NullPointerException e) {}
       }
 
@@ -145,51 +147,6 @@ public class MessageDialogWithPreference extends MessageDialogWithToggle {
 
   public static MessageDialogWithPreference openYesNoQuestion(final Shell shell, @Nullable final String title, final String message, final String toggle, final Preference preference) {
     return open(QUESTION, shell, title, message, toggle, preference, SWT.NONE);
-  }
-
-  protected static String buttonCodeToValue(final int code) {
-    switch (code) {
-      case IDialogConstants.YES_ID:
-      case IDialogConstants.YES_TO_ALL_ID:
-      case IDialogConstants.PROCEED_ID:
-      case IDialogConstants.OK_ID:
-        return ALWAYS;
-
-      case IDialogConstants.NO_ID:
-      case IDialogConstants.NO_TO_ALL_ID:
-        return NEVER;
-
-      case IDialogConstants.ABORT_ID:
-      case IDialogConstants.CANCEL_ID:
-      case IDialogConstants.CLOSE_ID:
-      case IDialogConstants.BACK_ID:
-        return null;
-
-      default:
-    }
-
-    throw new IllegalStateException();
-  }
-
-  protected static String[] buttonLabels(final int kind) {
-    switch (kind) {
-      case ERROR:
-      case INFORMATION:
-      case WARNING:
-        return new String[] {IDialogConstants.OK_LABEL};
-
-      case CONFIRM:
-        return new String[] {IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL};
-
-      case QUESTION:
-        return new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL};
-
-      case QUESTION_WITH_CANCEL:
-        return new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL};
-
-      default:
-        throw new IllegalArgumentException();
-    }
   }
 
   @Override
