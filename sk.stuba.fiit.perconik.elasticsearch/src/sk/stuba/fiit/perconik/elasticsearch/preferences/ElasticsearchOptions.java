@@ -1,40 +1,40 @@
 package sk.stuba.fiit.perconik.elasticsearch.preferences;
 
+import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.reflect.TypeToken;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.osgi.service.datalocation.Location;
 
+import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 
-import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
+import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionParser;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.lang.Integer.parseInt;
 import static java.util.UUID.randomUUID;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableMap.builder;
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Maps.transformValues;
 
 import static org.elasticsearch.common.settings.ImmutableSettings.settingsBuilder;
 import static org.elasticsearch.common.unit.TimeValue.timeValueSeconds;
@@ -43,13 +43,16 @@ import static sk.stuba.fiit.perconik.elasticsearch.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptionParsers.byteSizeParser;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptionParsers.timeParser;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringOrNull;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.trimLeading;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.arrayListParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.pathParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.stringParser;
 import static sk.stuba.fiit.perconik.utilities.io.MorePaths.path;
 
-public interface ElasticsearchOptions extends PreferenceStoreOptions {
+public interface ElasticsearchOptions extends Options {
   public static final class Schema {
     static final String qualifier = join(PLUGIN_ID, "preferences");
 
@@ -85,14 +88,14 @@ public interface ElasticsearchOptions extends PreferenceStoreOptions {
 
     public static final OptionAccessor<Boolean> displayErrors = option(booleanParser(), join(qualifier, "display_errors"), true);
 
-    public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "log_errors"), true);
+    public static final OptionAccessor<Boolean> logNotices = option(booleanParser(), join(qualifier, "log_notices"), false);
 
-    public static final OptionAccessor<Boolean> logEvents = option(booleanParser(), join(qualifier, "log_events"), false);
+    public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "log_errors"), true);
 
     static final ImmutableMap<String, OptionAccessor<?>> accessors;
 
     static {
-      Builder<String, OptionAccessor<?>> builder = builder();
+      ImmutableMap.Builder<String, OptionAccessor<?>> builder = builder();
 
       for (OptionAccessor<?> accessor: Configurables.accessors(Schema.class)) {
         builder.put(accessor.getKey(), accessor);
@@ -140,22 +143,58 @@ public interface ElasticsearchOptions extends PreferenceStoreOptions {
       }
     }
 
-    static <T> ElasticsearchOptionAccessor<T> option(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
-      return new ElasticsearchOptionAccessor<>(parser.type(), parser, key, defaultValue);
+    // TODO rm
+    //    static <T> ElasticsearchOptionAccessor<T> option(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
+    //      return new ElasticsearchOptionAccessor<>(parser.type(), parser, key, defaultValue);
+    //    }
+
+    static Map<String, Object> toMap(final Options options) {
+      // TODO rm
+      //return Configurables.values(accessors(), new ElasticsearchOptionsReader(options), new LinkedHashMap<String, Object>());
+
+      return Configurables.values(accessors(), options, new LinkedHashMap<String, Object>());
     }
 
-    static Map<String, Object> toMap(final ElasticsearchOptions options) {
-      return Configurables.values(accessors(), new ElasticsearchOptionsReader(options), new LinkedHashMap<String, Object>());
+    static Settings toSettings(final Options options) {
+      // TODO rm
+      //      ImmutableSettings.Builder builder = settingsBuilder();
+      //      ElasticsearchOptionsWriter writer = new ElasticsearchOptionsWriter(options);
+      //
+      //      for (Entry<String, Object> option: toMap(options).entrySet()) {
+      //        builder.put(trimLeading(option.getKey(), qualifier), writer.fromRawToString(option.getValue()));
+      //      }
+      //
+      //      return builder.build();
+
+      ImmutableSettings.Builder builder = settingsBuilder();
+
+      for (Entry<String, Object> option: toMap(options).entrySet()) {
+        builder.put(trimLeading(option.getKey(), qualifier), toStringOrNull(option.getValue()));
+      }
+
+      return builder.build();
+    }
+  }
+
+  public static final class View extends AbstractOptions implements ElasticsearchOptions, Serializable {
+    private static final long serialVersionUID = 0L;
+
+    private final Options options;
+
+    private View(final Options options) {
+      this.options = checkNotNull(options);
     }
 
-    static Settings toSettings(final ElasticsearchOptions options) {
-      final ElasticsearchOptionsWriter writer = new ElasticsearchOptionsWriter(options);
+    public static ElasticsearchOptions of(final Options options) {
+      return new View(options);
+    }
 
-      return settingsBuilder().put(transformValues(toMap(options), new Function<Object, String>() {
-        public String apply(final Object value) {
-          return writer.fromRawToString(value);
-        }
-      })).build();
+    public Map<String, Object> toMap() {
+      return Schema.toMap(this.options);
+    }
+
+    public Settings toSettings() {
+      return Schema.toSettings(this.options);
     }
   }
 

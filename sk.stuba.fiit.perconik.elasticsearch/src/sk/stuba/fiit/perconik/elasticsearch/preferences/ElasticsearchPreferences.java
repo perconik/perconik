@@ -11,6 +11,7 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import org.elasticsearch.common.settings.Settings;
 
+import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 
@@ -21,7 +22,7 @@ import static sk.stuba.fiit.perconik.elasticsearch.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.defaults;
 
-public final class ElasticsearchPreferences extends AbstractPreferences implements ElasticsearchOptions, Serializable {
+public final class ElasticsearchPreferences extends AbstractPreferences implements ElasticsearchOptions, PreferenceStoreOptions, Serializable {
   private static final long serialVersionUID = -3684186056051078088L;
 
   private static final ElasticsearchPreferences shared = new ElasticsearchPreferences(Scope.CONFIGURATION);
