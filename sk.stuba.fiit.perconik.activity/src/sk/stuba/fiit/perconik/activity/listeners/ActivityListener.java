@@ -47,6 +47,7 @@ import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.transform;
@@ -330,6 +331,11 @@ public abstract class ActivityListener extends RegularListener {
 
       handle(failures);
     }
+
+    @Override
+    public String toString() {
+      return toStringHelper(this).add("elasticsearch", this.elasticsearch).add("uaca", this.uaca).toString();
+    }
   }
 
   private enum ProxySupplierFunction implements Function<ActivityListener, PersistenceStore> {
@@ -362,7 +368,7 @@ public abstract class ActivityListener extends RegularListener {
     }
 
     private static void handleConstructFailure(final RegularListener listener, final Class<? extends Store<?>> implementation, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unable to construct %s", listener, implementation);
+      listener.pluginConsole.error(failure, "%s: unable to construct %s", listener, implementation.getName());
     }
 
     @Override
