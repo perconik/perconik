@@ -17,7 +17,7 @@ public final class Buttons {
 
   public static Button create(final Composite parent, final String text, final WidgetListener listener) {
     GridData data = new GridData(GridData.FILL, GridData.BEGINNING, false, false);
-  
+
     return create(parent, text, data, listener);
   }
 
@@ -32,7 +32,11 @@ public final class Buttons {
   }
 
   public static Button createCentering(final Composite parent, final String text, final WidgetListener listener) {
-    GridData data = new GridData(GridData.FILL_HORIZONTAL);
+    return createCentering(parent, text, GridData.FILL_HORIZONTAL, listener);
+  }
+
+  public static Button createCentering(final Composite parent, final String text, final int style, final WidgetListener listener) {
+    GridData data = new GridData(style);
     Button button = create(parent, text, data, listener);
 
     data.widthHint = computeWidthHint(button);
