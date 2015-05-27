@@ -28,17 +28,17 @@ public interface UacaOptions extends Options {
   public static final class Schema {
     static final String qualifier = join(PLUGIN_ID, "preferences");
 
-    public static final OptionAccessor<URL> applicationUrl = option(urlParser(), join(qualifier, "applicationUrl"), DEFAULT_APPLICATION_URL);
+    public static final OptionAccessor<URL> applicationUrl = option(urlParser(), join(qualifier, "application_url"), DEFAULT_APPLICATION_URL);
 
-    public static final OptionAccessor<Boolean> checkConnection = option(booleanParser(), join(qualifier, "checkConnection"), true);
+    public static final OptionAccessor<Boolean> checkConnection = option(booleanParser(), join(qualifier, "check_connection"), true);
 
-    public static final OptionAccessor<Boolean> displayErrors = option(booleanParser(), join(qualifier, "displayErrors"), true);
+    public static final OptionAccessor<Boolean> displayErrors = option(booleanParser(), join(qualifier, "display_errors"), true);
 
-    public static final OptionAccessor<Boolean> logRequests = option(booleanParser(), join(qualifier, "logRequests"), false);
+    public static final OptionAccessor<Boolean> logRequests = option(booleanParser(), join(qualifier, "log_requests"), false);
 
-    public static final OptionAccessor<Boolean> logNotices = option(booleanParser(), join(qualifier, "logNotices"), false);
+    public static final OptionAccessor<Boolean> logNotices = option(booleanParser(), join(qualifier, "log_notices"), false);
 
-    public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "logErrors"), true);
+    public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "log_errors"), true);
 
     static final ImmutableList<OptionAccessor<?>> accessors = copyOf(Configurables.accessors(Schema.class));
 
