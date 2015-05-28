@@ -76,7 +76,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     }
 
     private SharedSecrets connect(final UacaReporter reporter) {
-      long count = this.counter ++;
+      long count = ++ this.counter;
 
       assert count > 0;
 
@@ -86,7 +86,7 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     }
 
     private SharedSecrets disconnect(final UacaReporter reporter, final TimeValue wait) {
-      long count = this.counter --;
+      long count = -- this.counter;
 
       assert count >= 0;
 
