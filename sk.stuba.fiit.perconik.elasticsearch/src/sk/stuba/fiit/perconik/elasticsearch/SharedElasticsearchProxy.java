@@ -186,12 +186,15 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   private void reload() {
-    if (this.settings != null) {
-      this.secrets.release(this.reporter, this.settings, waitBeforeClientClose);
-    }
+    Settings update = normalizeSettings(this.options.toSettings());
 
-    this.settings = normalizeSettings(this.options.toSettings());
-    this.secrets = SharedSecrets.obtain(this.reporter, this.settings);
+    if (!update.equals(this.settings)) {
+      if (this.settings != null) {
+        this.secrets.release(this.reporter, this.settings, waitBeforeClientClose);
+      }
+
+      this.secrets = SharedSecrets.obtain(this.reporter, this.settings = update);
+    }
   }
 
   @Override
