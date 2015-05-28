@@ -13,6 +13,7 @@ import org.elasticsearch.common.settings.Settings;
 import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
+import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -34,14 +35,15 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
   private final ElasticsearchReporter reporter;
 
-  private final SharedSecrets secrets;
+  private SharedSecrets secrets;
 
   private Settings settings;
 
   public SharedElasticsearchProxy(final ElasticsearchOptions options) {
     this.options = checkNotNull(options);
     this.reporter = new ElasticsearchReporter(options);
-    this.secrets = SharedSecrets.obtain(this.reporter, this.settings());
+
+    this.reload();
   }
 
   private static final class SharedSecrets {
@@ -62,6 +64,10 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
       }
     }
 
+    static String identify(final Settings settings) {
+      return toHexString(settings.hashCode());
+    }
+
     private SharedSecrets connect(final ElasticsearchReporter reporter, final Settings settings) {
       assert settings != null;
 
@@ -69,7 +75,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
       assert count > 0;
 
-      reporter.logNotice(format("connect -> %d connections", count));
+      reporter.logNotice(format("connect to %s -> %d connections", identify(settings), count));
 
       return this;
     }
@@ -81,13 +87,13 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
       assert count >= 0;
 
-      reporter.logNotice(format("disconnect -> %d connections", count));
+      reporter.logNotice(format("disconnect from %s -> %d connections", identify(settings), count));
 
       if (count == 0) {
         TransportClient client = this.clients.remove(settings);
 
         if (client != null) {
-          close(reporter, client, wait);
+          close(reporter, settings, client, wait);
         }
       }
 
@@ -97,27 +103,27 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     private static TransportClient open(final ElasticsearchReporter reporter, final Settings settings) {
       assert settings != null;
 
-      reporter.logNotice(format("opening shared client"));
+      reporter.logNotice(format("opening shared client for %s", identify(settings)));
 
       try {
         TransportClient client = new TransportClient(settings);
 
-        reporter.logNotice(format("shared client opened -> %s", toDefaultString(client)));
+        reporter.logNotice(format("shared client for %s opened -> %s", identify(settings), toDefaultString(client)));
 
         return client;
       } catch (Exception failure) {
-        reporter.logError("unable to open shared client", failure);
+        reporter.logError(format("unable to open shared client for", identify(settings)), failure);
 
         throw failure;
       }
     }
 
-    private static void close(final ElasticsearchReporter reporter, final TransportClient client, final TimeValue wait) {
+    private static void close(final ElasticsearchReporter reporter, final Settings settings, final TransportClient client, final TimeValue wait) {
       assert client != null;
 
       checkNotNull(wait);
 
-      reporter.logNotice(format("closing shared client -> %s", toDefaultString(client)));
+      reporter.logNotice(format("closing shared client for %s -> %s", identify(settings), toDefaultString(client)));
 
       ExecutorService service = newSingleThreadExecutor();
 
@@ -128,9 +134,9 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
           try {
             client.close();
 
-            reporter.logNotice("shared client closed");
+            reporter.logNotice(format("shared client for %s closed", identify(settings)));
           } catch (Exception failure) {
-            reporter.logError(format("unable to close shared client -> %s", toDefaultString(client)), failure);
+            reporter.logError(format("unable to close shared client for %s -> %s", identify(settings), toDefaultString(client)), failure);
           }
         }
       });
@@ -159,7 +165,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     }
   }
 
-  private void adjust(final Settings settings) {
+  private static Settings normalizeSettings(final Settings settings) {
     Builder builder = settingsBuilder();
 
     builder.put(settings);
@@ -176,15 +182,16 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     // disable HTTP
     builder.put("http.enabled", false);
 
-    this.settings = builder.build();
+    return builder.build();
   }
 
   private void reload() {
     if (this.settings != null) {
-      this.secrets.release(this.reporter, this.settings(), waitBeforeClientClose);
+      this.secrets.release(this.reporter, this.settings, waitBeforeClientClose);
     }
 
-    this.adjust(this.options.toSettings());
+    this.settings = normalizeSettings(this.options.toSettings());
+    this.secrets = SharedSecrets.obtain(this.reporter, this.settings);
   }
 
   @Override
@@ -208,7 +215,9 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
   @Override
   protected TransportClient client() {
-    return this.secrets.client(this.reporter, this.settings());
+    synchronized (this) {
+      return this.secrets.client(this.reporter, this.settings());
+    }
   }
 
   @Override
@@ -218,6 +227,8 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   public void close() {
-    this.secrets.release(this.reporter, this.settings(), waitBeforeClientClose);
+    synchronized (this) {
+      this.secrets.release(this.reporter, this.settings(), waitBeforeClientClose);
+    }
   }
 }
