@@ -384,7 +384,7 @@ public abstract class ActivityListener extends RegularListener {
     instance;
 
     public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unable to send data %s to %s using %s", listener, path, toDefaultString(data), listener.persistenceStore);
+      listener.pluginConsole.error(failure, "%s: unable to send %s to %s using %s", listener, toDefaultString(data), path, listener.persistenceStore);
     }
 
     @Override
