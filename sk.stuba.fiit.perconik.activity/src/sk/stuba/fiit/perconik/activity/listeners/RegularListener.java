@@ -739,9 +739,9 @@ public abstract class RegularListener extends AbstractListener implements Scoped
   private final void reloadOptions(final OptionsProvider provider) {
     checkNotNullAsState(this.optionsLoader, "%s: options loader not initialized", this);
 
-    provider.reload(this.optionsLoader, this);
-
-    this.onOptionsReload();
+    if (provider.reload(this.optionsLoader, this)) {
+      this.onOptionsReload();
+    }
   }
 
   public interface OptionsLoader {
@@ -830,14 +830,14 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
   }
 
-  private static interface OptionsProvider {
+  private interface OptionsProvider {
     public Options defaultOptions(OptionsLoader loader, RegularListener listener);
 
     public Options customOptions(OptionsLoader loader, RegularListener listener);
 
     public Options effectiveOptions(OptionsLoader loader, RegularListener listener);
 
-    public void reload(OptionsLoader loader, RegularListener listener);
+    public boolean reload(OptionsLoader loader, RegularListener listener);
   }
 
   // TODO OptionsProvider must be as lazy as possible: options can not be loaded and effectively
@@ -857,13 +857,17 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       this.effective = new EffectiveOptions(loader, listener);
     }
 
-    public void reload(final OptionsLoader loader, final RegularListener listener) {
+    public boolean reload(final OptionsLoader loader, final RegularListener listener) {
       checkNotNull(loader);
       checkNotNull(listener);
+
+      Options effective = this.effective.delegate;
 
       this.defaults.load(loader, listener);
       this.custom.load(loader, listener);
       this.effective.load(loader, listener);
+
+      return effective == null || !this.effective.delegate.toMap().equals(effective.toMap());
     }
 
     private static abstract class LoadingOptions extends ForwardingOptions {
@@ -932,7 +936,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       }
 
       @Override
-      final void load(final OptionsLoader loader, final RegularListener listener) {
+      void load(final OptionsLoader loader, final RegularListener listener) {
         this.delegate = compound(listener.defaultOptions(), listener.customOptions());
       }
     }
