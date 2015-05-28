@@ -155,22 +155,22 @@ public class SharedUacaProxy extends AbstractUacaProxy {
   }
 
   @Override
-  protected Client client() {
+  protected final Client client() {
     return this.secrets.client(this.reporter);
   }
 
   @Override
-  protected URL url() {
+  protected final URL url() {
     return this.options.getApplicationUrl();
   }
 
   @Override
-  protected void filterRequest(final WebTarget target, @Nullable final Object request) {
+  protected final void filterRequest(final WebTarget target, @Nullable final Object request) {
     this.reporter.logRequest(target, request);
   }
 
   @Override
-  protected void processResponse(final WebTarget target, @Nullable final Object request, final Response response) {
+  protected final void processResponse(final WebTarget target, @Nullable final Object request, final Response response) {
     StatusType status = response.getStatusInfo();
     Family family = status.getFamily();
 
@@ -187,7 +187,11 @@ public class SharedUacaProxy extends AbstractUacaProxy {
     this.reporter.displayError(message, failure);
   }
 
-  public void close() {
+  public final void close() {
     this.secrets.release(this.reporter, waitBeforeClientClose);
+
+    this.closeHook();
   }
+
+  protected void closeHook() {}
 }

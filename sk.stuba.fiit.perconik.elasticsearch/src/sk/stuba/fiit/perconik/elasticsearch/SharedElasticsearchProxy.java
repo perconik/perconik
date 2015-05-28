@@ -198,7 +198,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   @Override
-  public Settings settings() {
+  public final Settings settings() {
     synchronized (this) {
       if (this.settings == null) {
         this.reload();
@@ -208,7 +208,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     }
   }
 
-  public Settings update() {
+  public final Settings update() {
     synchronized (this) {
       this.reload();
 
@@ -217,7 +217,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   @Override
-  protected TransportClient client() {
+  protected final TransportClient client() {
     synchronized (this) {
       return this.secrets.client(this.reporter, this.settings());
     }
@@ -229,9 +229,13 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     this.reporter.displayError(message, failure);
   }
 
-  public void close() {
+  public final void close() {
     synchronized (this) {
       this.secrets.release(this.reporter, this.settings(), waitBeforeClientClose);
+
+      this.closeHook();
     }
   }
+
+  protected void closeHook() {}
 }
