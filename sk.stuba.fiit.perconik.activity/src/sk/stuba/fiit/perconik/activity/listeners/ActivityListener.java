@@ -61,7 +61,9 @@ import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.Registr
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_REGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.AbstractListener.RegistrationHook.PRE_UNREGISTER;
 import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logDebug;
-import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logEvent;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logErrors;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logEvents;
+import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.LoggingOptions.Schema.logNotices;
 import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.PersistenceOptions.Schema.persistenceElasticsearch;
 import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.PersistenceOptions.Schema.persistenceUaca;
 import static sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.builder;
@@ -196,7 +198,11 @@ public abstract class ActivityListener extends RegularListener {
     public static final class Schema {
       public static final OptionAccessor<Boolean> logDebug = option(booleanParser(), join(qualifier, "log", "debug"), false);
 
-      public static final OptionAccessor<Boolean> logEvent = option(booleanParser(), join(qualifier, "log", "event"), false);
+      public static final OptionAccessor<Boolean> logEvents = option(booleanParser(), join(qualifier, "log", "events"), false);
+
+      public static final OptionAccessor<Boolean> logNotices = option(booleanParser(), join(qualifier, "log", "notices"), false);
+
+      public static final OptionAccessor<Boolean> logErrors = option(booleanParser(), join(qualifier, "log", "errors"), true);
 
       private Schema() {}
     }
@@ -206,7 +212,9 @@ public abstract class ActivityListener extends RegularListener {
     instance;
 
     static void report(final RegularListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
+      if (logErrors.getValue(listener.getOptions())) {
+        listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
+      }
     }
 
     public void preRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
@@ -276,7 +284,7 @@ public abstract class ActivityListener extends RegularListener {
     public void persist(final String path, final Event data) throws Exception {
       Options options = this.listener.effectiveOptions();
 
-      if (logEvent.getValue(options)) {
+      if (logEvents.getValue(options)) {
         report(this.listener, path, data);
       }
 
@@ -345,33 +353,31 @@ public abstract class ActivityListener extends RegularListener {
     instance;
 
     public PersistenceStore apply(final ActivityListener listener) {
-      // TODO fix potential resource leak
-
-      ElasticsearchProxy elasticsearch;
+      ElasticsearchProxy elasticsearch = null;
 
       try {
         elasticsearch = new ElasticsearchProxy(listener.getElasticsearchOptions());
       } catch (Exception failure) {
         handleConstructFailure(listener, ElasticsearchProxy.class, failure);
-
-        throw failure;
       }
 
-      UacaProxy uaca;
+      UacaProxy uaca = null;
 
       try {
         uaca = new UacaProxy(listener.getUacaOptions());
       } catch (Exception failure) {
         handleConstructFailure(listener, UacaProxy.class, failure);
-
-        throw failure;
       }
+
+      checkState(elasticsearch != null, "%s: unable to construct %s", this, ProxyPersistenceStore.class.getName());
 
       return new ProxyPersistenceStore(listener, elasticsearch, uaca);
     }
 
     private static void handleConstructFailure(final RegularListener listener, final Class<? extends Store<?>> implementation, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unable to construct %s", listener, implementation.getName());
+      if (logErrors.getValue(listener.getOptions())) {
+        listener.pluginConsole.error(failure, "%s: unable to construct %s", listener, implementation.getName());
+      }
     }
 
     @Override
@@ -384,7 +390,9 @@ public abstract class ActivityListener extends RegularListener {
     instance;
 
     public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unable to send %s to %s using %s", listener, toDefaultString(data), path, listener.persistenceStore);
+      if (logErrors.getValue(listener.getOptions())) {
+        listener.pluginConsole.error(failure, "%s: unable to send %s to %s using %s", listener, toDefaultString(data), path, listener.persistenceStore);
+      }
     }
 
     @Override
@@ -405,7 +413,9 @@ public abstract class ActivityListener extends RegularListener {
     }
 
     private static void handleDisposeFailure(final RegularListener listener, final Exception failure) {
-      listener.pluginConsole.error(failure, "%s: unable to dispose %s", listener, listener.persistenceStore);
+      if (logErrors.getValue(listener.getOptions())) {
+        listener.pluginConsole.error(failure, "%s: unable to dispose %s", listener, listener.persistenceStore);
+      }
     }
 
     @Override
@@ -586,18 +596,18 @@ public abstract class ActivityListener extends RegularListener {
 
   @Override
   protected final void onOptionsReload() {
-    // TODO log something here
-    ProxyPersistenceStore store = (ProxyPersistenceStore) this.persistenceStore;
+    super.onOptionsReload();
 
-    store.elasticsearch.update();
+    if (logNotices.getValue(this.getOptions())) {
+      this.pluginConsole.notice("%s: options reloaded, updating Elasticsearch proxy settings", this);
+    }
 
-    this.onOptionsReload2();
+    ((ProxyPersistenceStore) this.persistenceStore).elasticsearch.update();
+
+    this.onOptionsReloadHook();
   }
 
-  // TODO rn
-  protected void onOptionsReload2() {
-
-  }
+  protected void onOptionsReloadHook() {}
 
   final ElasticsearchOptions getElasticsearchOptions() {
     return ElasticsearchOptions.View.of(this.getOptions());
