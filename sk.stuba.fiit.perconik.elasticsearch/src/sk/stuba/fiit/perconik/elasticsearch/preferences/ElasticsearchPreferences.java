@@ -15,8 +15,6 @@ import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import static sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStores.setDefault;
 import static sk.stuba.fiit.perconik.elasticsearch.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeCause;
@@ -136,9 +134,11 @@ public final class ElasticsearchPreferences extends AbstractPreferences implemen
   public Object get(final String key) {
     OptionAccessor<?> accessor = Schema.accessors.get(key);
 
-    checkArgument(accessor != null);
+    if (accessor == null) {
+      return null;
+    }
 
-    return accessor.getValue(this);
+    return accessor.getValue(new ElasticsearchOptionsReader(this));
   }
 
   /**
