@@ -737,7 +737,7 @@ public abstract class RegularListener extends AbstractListener implements Scoped
   }
 
   private final void reloadOptions(final OptionsProvider provider) {
-    checkNotNullAsState(this.optionsLoader, "%s: Options loader not initialized", this);
+    checkNotNullAsState(this.optionsLoader, "%s: options loader not initialized", this);
 
     provider.reload(this.optionsLoader, this);
 
