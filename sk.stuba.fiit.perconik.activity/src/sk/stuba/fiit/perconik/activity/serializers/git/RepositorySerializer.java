@@ -69,7 +69,9 @@ public final class RepositorySerializer extends AbstractConfigurableMultiSeriali
     try {
       content.put(key("branch", "short"), repository.getBranch());
       content.put(key("branch", "full"), repository.getFullBranch());
-    } catch (IOException ignore) {}
+    } catch (IOException ignore) {
+      // ignore
+    }
   }
 
   static void putRepositoryBranches(final StructuredContent content, final Repository repository) {
