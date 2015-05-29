@@ -27,7 +27,7 @@ public class MessageDialogWithTextArea extends MessageDialog {
   public static MessageDialogWithTextArea open(final int kind, final Shell shell, @Nullable final String title, final String message, final String text, int style) {
     MessageDialogWithTextArea dialog = new MessageDialogWithTextArea(shell, title, null, message, kind, buttonLabels(kind), 0);
 
-    style &= (SWT.SHEET | SWT.RESIZE);
+    style &= SWT.SHEET;
 
     dialog.setShellStyle(dialog.getShellStyle() | style);
     dialog.setText(text);
@@ -70,6 +70,7 @@ public class MessageDialogWithTextArea extends MessageDialog {
     gridData.horizontalSpan = 2;
     gridData.heightHint = 200;
 
+    this.area.setBackground(this.getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
     this.area.setLayoutData(gridData);
     this.area.setText(nullToEmpty(this.getText()));
 
@@ -82,5 +83,10 @@ public class MessageDialogWithTextArea extends MessageDialog {
 
   public String getText() {
     return this.text;
+  }
+
+  @Override
+  protected boolean isResizable() {
+    return true;
   }
 }

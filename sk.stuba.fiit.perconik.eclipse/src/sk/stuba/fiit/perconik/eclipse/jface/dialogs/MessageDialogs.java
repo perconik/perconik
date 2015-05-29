@@ -9,6 +9,7 @@ public final class MessageDialogs {
 
   public static String[] buttonLabels(final int kind) {
     switch (kind) {
+      case MessageDialog.NONE:
       case MessageDialog.ERROR:
       case MessageDialog.INFORMATION:
       case MessageDialog.WARNING:
