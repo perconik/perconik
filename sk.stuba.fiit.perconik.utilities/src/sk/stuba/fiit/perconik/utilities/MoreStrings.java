@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
@@ -186,7 +187,7 @@ public final class MoreStrings {
   private enum IsWhitespacePredicate implements Predicate<String> {
     INSTANCE;
 
-    public boolean apply(final String s) {
+    public boolean apply(@Nonnull final String s) {
       return isWhitespace(s);
     }
   }

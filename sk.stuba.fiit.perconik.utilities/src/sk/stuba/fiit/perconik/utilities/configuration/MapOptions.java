@@ -192,13 +192,13 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
   }
 
   public interface Putter {
-    public Object put(final Map<String, Object> map, final String key, final Object value);
+    public Object put(final Map<String, Object> map, final String key, @Nullable final Object value);
   }
 
   private enum StandardPutter implements Putter {
     instance;
 
-    public Object put(final Map<String, Object> map, final String key, final Object value) {
+    public Object put(final Map<String, Object> map, final String key, @Nullable final Object value) {
       checkNotNull(map);
 
       try {
