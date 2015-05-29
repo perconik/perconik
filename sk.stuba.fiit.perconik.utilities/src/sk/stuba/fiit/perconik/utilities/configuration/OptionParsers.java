@@ -415,7 +415,7 @@ public final class OptionParsers {
     return UrlParser.INSTANCE;
   }
 
-  private static enum InetSocketAddressParser implements OptionParser<InetSocketAddress> {
+  private enum InetSocketAddressParser implements OptionParser<InetSocketAddress> {
     INSTANCE;
 
     public InetSocketAddress parse(final Object object) {
