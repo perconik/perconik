@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 
@@ -70,19 +72,19 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
     TableColumn notesColumn = TableColumns.create(table, layout, "Notes", gc, 1);
 
     LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
-      public String apply(final ListenerPersistenceData data) {
+      public String apply(@Nonnull final ListenerPersistenceData data) {
         return data.getListenerClass().getName();
       }
     }));
 
     LocalSetTableSorter versionSorter = new LocalSetTableSorter(table, Ordering.natural().onResultOf(new Function<ListenerPersistenceData, Version>() {
-      public Version apply(final ListenerPersistenceData data) {
+      public Version apply(@Nonnull final ListenerPersistenceData data) {
         return toVersion(((ListenerLabelProvider) ListenersPreferencePage.this.tableViewer.getLabelProvider()).getVersion(data));
       }
     }).compound(listenerSorter.getComparator()));
 
     LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ListenerPersistenceData, String>() {
-      public String apply(final ListenerPersistenceData data) {
+      public String apply(@Nonnull final ListenerPersistenceData data) {
         return ((ListenerLabelProvider) ListenersPreferencePage.this.tableViewer.getLabelProvider()).getNotes(data);
       }
     }).compound(listenerSorter.getComparator()));

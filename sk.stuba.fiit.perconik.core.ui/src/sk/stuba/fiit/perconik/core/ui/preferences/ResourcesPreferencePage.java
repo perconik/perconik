@@ -2,6 +2,8 @@ package sk.stuba.fiit.perconik.core.ui.preferences;
 
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 
@@ -70,25 +72,25 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
     TableColumn notesColumn = TableColumns.create(table, layout, "Notes", gc, 1);
 
     LocalSetTableSorter resourceSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
-      public String apply(final ResourcePersistenceData data) {
+      public String apply(@Nonnull final ResourcePersistenceData data) {
         return data.getResourceName();
       }
     }));
 
     LocalSetTableSorter listenerSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
-      public String apply(final ResourcePersistenceData data) {
+      public String apply(@Nonnull final ResourcePersistenceData data) {
         return data.getListenerType().getName();
       }
     }).compound(resourceSorter.getComparator()));
 
     LocalSetTableSorter versionSorter = new LocalSetTableSorter(table, Ordering.natural().onResultOf(new Function<ResourcePersistenceData, Version>() {
-      public Version apply(final ResourcePersistenceData data) {
+      public Version apply(@Nonnull final ResourcePersistenceData data) {
         return toVersion(((ResourceLabelProvider) ResourcesPreferencePage.this.tableViewer.getLabelProvider()).getVersion(data));
       }
     }).compound(resourceSorter.getComparator()));
 
     LocalSetTableSorter notesSorter = new LocalSetTableSorter(table, Ordering.from(toStringComparator()).onResultOf(new Function<ResourcePersistenceData, String>() {
-      public String apply(final ResourcePersistenceData data) {
+      public String apply(@Nonnull final ResourcePersistenceData data) {
         return ((ResourceLabelProvider) ResourcesPreferencePage.this.tableViewer.getLabelProvider()).getNotes(data);
       }
     }).compound(resourceSorter.getComparator()));
