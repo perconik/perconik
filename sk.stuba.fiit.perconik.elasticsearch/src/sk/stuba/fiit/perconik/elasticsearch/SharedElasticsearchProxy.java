@@ -124,7 +124,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
         return client;
       } catch (Exception failure) {
-        reporter.logError(format("unable to open shared client for", identify(settings)), failure);
+        reporter.logError(format("unable to open shared client for %s", identify(settings)), failure);
 
         throw failure;
       }
