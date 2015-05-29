@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.eclipse.jface.dialogs;
 import javax.annotation.Nullable;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -71,6 +72,7 @@ public class MessageDialogWithTextArea extends MessageDialog {
     gridData.heightHint = 200;
 
     this.area.setBackground(this.getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+    this.area.setFont(JFaceResources.getFont(JFaceResources.TEXT_FONT));
     this.area.setLayoutData(gridData);
     this.area.setText(nullToEmpty(this.getText()));
 
