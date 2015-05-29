@@ -4,14 +4,17 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import com.google.common.base.Splitter;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 
 import org.eclipse.core.runtime.Platform;
@@ -22,19 +25,25 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 
+import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptions;
+import sk.stuba.fiit.perconik.utilities.configuration.AbstractOptionsWriter;
 import sk.stuba.fiit.perconik.utilities.configuration.Configurables;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionParser;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
+import sk.stuba.fiit.perconik.utilities.configuration.OptionsReader;
+import sk.stuba.fiit.perconik.utilities.configuration.OptionsWriter;
 
-import static java.lang.Integer.parseInt;
+import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
 
-import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.isNull;
+import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.ImmutableMap.builder;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.filterValues;
 
 import static org.elasticsearch.common.settings.ImmutableSettings.settingsBuilder;
 import static org.elasticsearch.common.unit.TimeValue.timeValueSeconds;
@@ -43,11 +52,13 @@ import static sk.stuba.fiit.perconik.elasticsearch.plugin.Activator.PLUGIN_ID;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptionParsers.byteSizeParser;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptionParsers.timeParser;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
+import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.separator;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringOrNull;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.trimLeading;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newReader;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.arrayListParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
+import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.inetSocketAddressParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.pathParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.stringParser;
 import static sk.stuba.fiit.perconik.utilities.io.MorePaths.path;
@@ -60,7 +71,7 @@ public interface ElasticsearchOptions extends Options {
 
     public static final OptionAccessor<String> clusterName = option(stringParser(), join(qualifier, "cluster", "name"), "perconik");
 
-    public static final OptionAccessor<ArrayList<InetSocketAddress>> clientTransportAddresses = option(arrayListParser(InetSocketAddressParser.INSTANCE, ",", "", ""), join(qualifier, "client", "transport", "addresses"), newArrayList(new InetSocketAddress("127.0.0.1", 9300)));
+    public static final OptionAccessor<ArrayList<InetSocketAddress>> clientTransportAddresses = option(arrayListParser(inetSocketAddressParser(), ",", "", ""), join(qualifier, "client", "transport", "addresses"), newArrayList(new InetSocketAddress("127.0.0.1", 9300)));
 
     public static final OptionAccessor<Boolean> clientTransportIgnoreClusterName = option(booleanParser(), join(qualifier, "client", "transport", "ignore_cluster_name"), false);
 
@@ -110,66 +121,94 @@ public interface ElasticsearchOptions extends Options {
       return accessors.values();
     }
 
+    public static ImmutableSet<String> keys() {
+      return accessors.keySet();
+    }
+
     static Path defaultPath(final String ... segments) {
       try {
         Location configuration = Platform.getConfigurationLocation();
 
         return path(configuration.getURL().toURI()).resolve(path("..", segments)).normalize();
       } catch (Exception e) {
-        return path(".");
+        return path(".").resolve(path(asList(segments))).normalize();
       }
     }
 
-    static enum InetSocketAddressParser implements OptionParser<InetSocketAddress> {
-      INSTANCE;
+    static <T> OptionAccessor<T> option(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
+      return new CustomOptionAccessor<>(parser.type(), parser, key, defaultValue);
+    }
 
-      public InetSocketAddress parse(final Object object) {
-        if (object instanceof InetSocketAddress) {
-          return (InetSocketAddress) object;
-        }
+    static final class CustomOptionAccessor<T> extends AbstractOptionAccessor<T> {
+      private final OptionParser<T> parser;
 
-        Iterator<String> parts = Splitter.on(':').limit(2).split(object.toString()).iterator();
+      CustomOptionAccessor(final TypeToken<T> type, final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
+        super(type, key, defaultValue);
 
-        return new InetSocketAddress(parts.next(), parseInt(parts.next()));
-      }
-
-      public TypeToken<InetSocketAddress> type() {
-        return TypeToken.of(InetSocketAddress.class);
+        this.parser = parser;
       }
 
       @Override
-      public String toString() {
-        return toStringHelper(this).add("type", this.type()).toString();
+      protected OptionsReader reader(final Options options) {
+        return newReader(options);
+      }
+
+      @Override
+      protected OptionsWriter writer(final Options options) {
+        return new CustomOptionsWriter(options);
+      }
+
+      @Override
+      protected OptionParser<? extends T> parser() {
+        return this.parser;
       }
     }
 
-    // TODO rm
-    //    static <T> ElasticsearchOptionAccessor<T> option(final OptionParser<T> parser, final String key, @Nullable final T defaultValue) {
-    //      return new ElasticsearchOptionAccessor<>(parser.type(), parser, key, defaultValue);
-    //    }
+    static final class CustomOptionsWriter extends AbstractOptionsWriter {
+      private final Options options;
+
+      CustomOptionsWriter(final Options options) {
+        this.options = checkNotNull(options);
+      }
+
+      @Override
+      protected Options options() {
+        return this.options;
+      }
+
+      @Override
+      public Object putRaw(final String key, @Nullable final Object value) {
+        if (clientTransportAddresses.getKey().equals(key)) {
+          StringBuilder builder = new StringBuilder(64);
+
+          for (Object address: (List<?>) value) {
+            builder.append(trimLeading(address.toString(), "/")).append(',');
+          }
+
+          return super.putRaw(key, builder.deleteCharAt(builder.length() - 1).toString());
+        }
+
+        return super.putRaw(key, value);
+      }
+    }
 
     static Map<String, Object> toMap(final Options options) {
-      // TODO rm
-      //return Configurables.values(accessors(), new ElasticsearchOptionsReader(options), new LinkedHashMap<String, Object>());
-
-      return Configurables.values(accessors(), options, new LinkedHashMap<String, Object>());
+      return filterValues(Configurables.values(accessors(), options, new LinkedHashMap<String, Object>()), not(isNull()));
     }
 
     static Settings toSettings(final Options options) {
-      // TODO rm
-      //      ImmutableSettings.Builder builder = settingsBuilder();
-      //      ElasticsearchOptionsWriter writer = new ElasticsearchOptionsWriter(options);
-      //
-      //      for (Entry<String, Object> option: toMap(options).entrySet()) {
-      //        builder.put(trimLeading(option.getKey(), qualifier), writer.fromRawToString(option.getValue()));
-      //      }
-      //
-      //      return builder.build();
+      Set<String> ignore = ImmutableSet.of(displayErrors.getKey(), logNotices.getKey(), logErrors.getKey());
 
       ImmutableSettings.Builder builder = settingsBuilder();
 
+      int prefix = (qualifier + separator).length();
+
       for (Entry<String, Object> option: toMap(options).entrySet()) {
-        builder.put(trimLeading(option.getKey(), qualifier), toStringOrNull(option.getValue()));
+        String key = option.getKey();
+
+        if (!ignore.contains(key)) {
+          builder.put(key.substring(prefix), toStringOrNull(option.getValue()));
+        }
       }
 
       return builder.build();
