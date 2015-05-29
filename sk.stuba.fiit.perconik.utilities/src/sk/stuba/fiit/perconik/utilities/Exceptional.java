@@ -9,7 +9,7 @@ import com.google.common.base.Optional;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class Exceptional<T> implements Serializable {
-  private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 0L;
 
   Exceptional() {}
 
@@ -22,7 +22,7 @@ public abstract class Exceptional<T> implements Serializable {
   }
 
   private static final class Success<T> extends Exceptional<T> {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final T reference;
 
@@ -101,7 +101,7 @@ public abstract class Exceptional<T> implements Serializable {
   }
 
   private static final class Failure<T> extends Exceptional<T> {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final Throwable reference;
 

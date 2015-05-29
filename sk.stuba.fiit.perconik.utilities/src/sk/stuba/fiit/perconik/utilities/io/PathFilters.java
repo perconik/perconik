@@ -18,7 +18,7 @@ public final class PathFilters {
   }
 
   static final class PredicateFilter<T> implements DirectoryStream.Filter<T>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final Predicate<? super T> predicate;
 

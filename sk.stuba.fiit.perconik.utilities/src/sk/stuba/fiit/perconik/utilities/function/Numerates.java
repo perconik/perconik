@@ -12,7 +12,7 @@ public final class Numerates {
   private Numerates() {}
 
   private static final class NumerateFunction<T> implements Function<T, Integer>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final Numerate<T> numerate;
 

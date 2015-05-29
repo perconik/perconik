@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import sk.stuba.fiit.perconik.utilities.reflect.ReflectionException;
 
 public class AccessorConstructionException extends ReflectionException {
-  private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 0L;
 
   /**
    * Creates a new instance with no detail message.

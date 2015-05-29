@@ -34,7 +34,7 @@ public final class PathPredicates {
   }
 
   static final class StartsWithPredicate<T extends Path> implements Predicate<T>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final T prefix;
 
@@ -50,7 +50,7 @@ public final class PathPredicates {
   }
 
   static final class EndsWithPredicate<T extends Path> implements Predicate<T>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final T suffix;
 
@@ -102,7 +102,7 @@ public final class PathPredicates {
   }
 
   static final class IsDirectoryPredicate<T extends Path> implements Predicate<T>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final LinkOption[] options;
 
@@ -128,7 +128,7 @@ public final class PathPredicates {
   }
 
   static final class IsRegularFilePredicate<T extends Path> implements Predicate<T>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final LinkOption[] options;
 

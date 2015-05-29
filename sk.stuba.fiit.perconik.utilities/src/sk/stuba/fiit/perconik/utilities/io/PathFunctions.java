@@ -64,7 +64,7 @@ public final class PathFunctions {
   }
 
   static final class RelativizeFunction implements Function<Path, Path>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     final Path path;
 
@@ -80,7 +80,7 @@ public final class PathFunctions {
   }
 
   static final class ResolveFunction implements Function<Path, Path>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     final Path path;
 
@@ -96,7 +96,7 @@ public final class PathFunctions {
   }
 
   static final class ResolveSiblingFunction implements Function<Path, Path>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     final Path path;
 
@@ -120,7 +120,7 @@ public final class PathFunctions {
   }
 
   static final class NameFunction implements Function<Path, Path>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final int index;
 
@@ -234,7 +234,7 @@ public final class PathFunctions {
   }
 
   static final class ToRealPathFunction implements Function<Path, Path>, Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0L;
 
     private final LinkOption[] options;
 

@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import org.osgi.framework.Version;
 
 public class JavaVerificationException extends Exception {
-  private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 0L;
 
   private final String required;
 

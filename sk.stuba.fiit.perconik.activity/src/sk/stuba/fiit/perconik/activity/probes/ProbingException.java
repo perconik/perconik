@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.activity.probes;
 import javax.annotation.Nullable;
 
 public class ProbingException extends RuntimeException {
-  private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 0L;
 
   /**
    * Creates a new instance with no detail message.

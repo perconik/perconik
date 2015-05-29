@@ -3,7 +3,7 @@ package sk.stuba.fiit.perconik.eclipse.core.runtime;
 import javax.annotation.Nullable;
 
 public class RuntimeCoreException extends RuntimeException {
-  private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 0L;
 
   /**
    * Creates a new instance with no detail message.
