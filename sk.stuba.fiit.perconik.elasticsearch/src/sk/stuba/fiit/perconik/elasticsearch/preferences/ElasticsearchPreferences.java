@@ -57,7 +57,7 @@ public final class ElasticsearchPreferences extends AbstractPreferences implemen
       ElasticsearchPreferences preferences = ElasticsearchPreferences.getDefault();
       IPreferenceStore store = preferences.getPreferenceStore();
 
-      setDefault(store, defaults(Schema.accessors()));
+      setDefault(store, defaults(Schema.accessors()), ElasticsearchOptions.Schema.CustomOptionsConverter.INSTANCE);
     }
   }
 

@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -53,7 +54,6 @@ import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOpti
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptionParsers.timeParser;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.separator;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.toStringOrNull;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.trimLeading;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.newReader;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.arrayListParser;
@@ -178,17 +178,37 @@ public interface ElasticsearchOptions extends Options {
 
       @Override
       public Object putRaw(final String key, @Nullable final Object value) {
-        if (clientTransportAddresses.getKey().equals(key)) {
-          StringBuilder builder = new StringBuilder(64);
+        return super.putRaw(key, CustomOptionsConverter.INSTANCE.apply(value));
+      }
+    }
 
-          for (Object address: (List<?>) value) {
-            builder.append(trimLeading(address.toString(), "/")).append(',');
-          }
+    static enum CustomOptionsConverter implements Function<Object, String> {
+      INSTANCE;
 
-          return super.putRaw(key, builder.deleteCharAt(builder.length() - 1).toString());
+      public String apply(@Nullable final Object input) {
+        if (input == null) {
+          return null;
         }
 
-        return super.putRaw(key, value);
+        if (input instanceof Collection) {
+          Collection<?> collection = (Collection<?>) input;
+
+          StringBuilder builder = new StringBuilder(24 * collection.size());
+
+          for (Object element: collection) {
+            String value = element.toString();
+
+            if (element instanceof InetSocketAddress) {
+              value = trimLeading(value, "/");
+            }
+
+            builder.append(value).append(',');
+          }
+
+          return builder.deleteCharAt(builder.length() - 1).toString();
+        }
+
+        return input.toString();
       }
     }
 
@@ -207,7 +227,7 @@ public interface ElasticsearchOptions extends Options {
         String key = option.getKey();
 
         if (!ignore.contains(key)) {
-          builder.put(key.substring(prefix), toStringOrNull(option.getValue()));
+          builder.put(key.substring(prefix), CustomOptionsConverter.INSTANCE.apply(option.getValue()));
         }
       }
 
