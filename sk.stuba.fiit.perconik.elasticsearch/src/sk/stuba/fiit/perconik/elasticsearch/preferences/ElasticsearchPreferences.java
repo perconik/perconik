@@ -11,9 +11,11 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 
 import org.elasticsearch.common.settings.Settings;
 
+import sk.stuba.fiit.perconik.eclipse.jface.preference.AbstractPreferenceStoreOptionsReader;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionAccessor;
+import sk.stuba.fiit.perconik.utilities.configuration.OptionsReader;
 
 import static sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStores.setDefault;
 import static sk.stuba.fiit.perconik.elasticsearch.plugin.Activator.PLUGIN_ID;
@@ -27,10 +29,24 @@ public final class ElasticsearchPreferences extends AbstractPreferences implemen
 
   private final ScopedPreferenceStore store;
 
+  private final OptionsReader reader;
+
   private ElasticsearchPreferences(final Scope scope) {
     super(scope, Schema.qualifier);
 
     this.store = new ScopedPreferenceStore(scope.context(), PLUGIN_ID);
+
+    this.reader = new AbstractPreferenceStoreOptionsReader() {
+      @Override
+      protected PreferenceStoreOptions options() {
+        return ElasticsearchPreferences.this;
+      }
+
+      @Override
+      protected Object fromStringToRaw(final String value) {
+        return value;
+      }
+    };
   }
 
   public static final class Initializer extends AbstractPreferenceInitializer {
@@ -138,7 +154,7 @@ public final class ElasticsearchPreferences extends AbstractPreferences implemen
       return null;
     }
 
-    return accessor.getValue(new ElasticsearchOptionsReader(this));
+    return accessor.getValue(this.reader);
   }
 
   /**
