@@ -5,6 +5,7 @@ import org.eclipse.jface.text.ITextSelection;
 import sk.stuba.fiit.perconik.data.content.StructuredContent;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
+
 public final class TextSelectionSerializer extends AbstractSelectionSerializer<ITextSelection> {
   public TextSelectionSerializer(final Option ... options) {
     super(options);

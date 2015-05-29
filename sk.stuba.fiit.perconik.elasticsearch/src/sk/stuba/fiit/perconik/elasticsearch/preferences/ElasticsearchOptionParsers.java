@@ -82,15 +82,15 @@ public final class ElasticsearchOptionParsers {
 
   private enum TimeValueParser implements OptionParser<TimeValue> {
     INSTANCE;
-  
+
     public TimeValue parse(final Object object) {
       return object instanceof TimeValue ? (TimeValue) object : parseTimeValue(object.toString(), null);
     }
-  
+
     public TypeToken<TimeValue> type() {
       return TypeToken.of(TimeValue.class);
     }
-  
+
     @Override
     public String toString() {
       return this.getClass().getSimpleName();

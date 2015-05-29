@@ -111,7 +111,7 @@ import static com.gratex.perconik.activity.ide.listeners.Utilities.currentTime;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Dependent({FileSearchQuery.class, FileSearchResult.class})
+@Dependent({ FileSearchQuery.class, FileSearchResult.class })
 public final class IdeFindListener extends IdeListener implements SearchQueryListener {
   public IdeFindListener() {}
 

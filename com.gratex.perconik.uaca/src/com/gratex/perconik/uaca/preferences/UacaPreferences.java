@@ -109,7 +109,7 @@ public final class UacaPreferences extends AbstractPreferences implements Prefer
     }
   }
 
-  @SuppressWarnings({"static-method", "unused"})
+  @SuppressWarnings({ "static-method", "unused" })
   private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }

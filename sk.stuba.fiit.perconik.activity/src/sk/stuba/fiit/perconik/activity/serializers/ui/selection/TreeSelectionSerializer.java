@@ -1,4 +1,5 @@
 package sk.stuba.fiit.perconik.activity.serializers.ui.selection;
+
 import org.eclipse.jface.viewers.ITreeSelection;
 
 import sk.stuba.fiit.perconik.data.content.StructuredContent;

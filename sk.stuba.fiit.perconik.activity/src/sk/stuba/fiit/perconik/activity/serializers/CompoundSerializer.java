@@ -1,4 +1,5 @@
 package sk.stuba.fiit.perconik.activity.serializers;
+
 import com.google.common.collect.ImmutableList;
 
 import sk.stuba.fiit.perconik.data.content.StructuredContent;

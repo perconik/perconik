@@ -33,11 +33,11 @@ public class DataCollections {
 
   public static List<ClassNameData> toClassNameData(final Iterable<? extends Class<?>> types) {
     List<ClassNameData> data = newArrayListSuitableFor(types);
-  
+
     for (Class<?> type: types) {
       data.add(ClassNameData.of(type));
     }
-  
+
     return data;
   }
 

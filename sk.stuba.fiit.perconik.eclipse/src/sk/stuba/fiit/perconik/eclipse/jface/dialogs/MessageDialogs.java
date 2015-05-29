@@ -13,16 +13,16 @@ public final class MessageDialogs {
       case MessageDialog.ERROR:
       case MessageDialog.INFORMATION:
       case MessageDialog.WARNING:
-        return new String[] {IDialogConstants.OK_LABEL};
+        return new String[] { IDialogConstants.OK_LABEL };
 
       case MessageDialog.CONFIRM:
-        return new String[] {IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL};
+        return new String[] { IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL };
 
       case MessageDialog.QUESTION:
-        return new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL};
+        return new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL };
 
       case MessageDialog.QUESTION_WITH_CANCEL:
-        return new String[] {IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL};
+        return new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL };
 
       default:
         throw new IllegalArgumentException();

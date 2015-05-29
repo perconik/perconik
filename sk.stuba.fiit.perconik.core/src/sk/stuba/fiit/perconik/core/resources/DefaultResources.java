@@ -363,11 +363,11 @@ public final class DefaultResources {
 
   private static <L extends Listener> Resource<L> forge(final Class<L> type, final Handler<L> handler, final Builder builder) {
     boolean unsupported = handler.getClass().isAnnotationPresent(Unimplemented.class);
-  
+
     Resource<L> resource = StandardResource.newInstance(Pools.safe(Pools.getListenerPoolFactory().create(handler), type), unsupported);
-  
+
     builder.add(type, resource);
-  
+
     return resource;
   }
 

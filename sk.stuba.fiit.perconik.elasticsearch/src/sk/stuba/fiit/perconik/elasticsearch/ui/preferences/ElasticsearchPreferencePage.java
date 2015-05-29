@@ -230,7 +230,7 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
       }
 
       if (display) {
-        message = "Cluster "+ receivedCluster + " with " + response.getStatus() + "status";
+        message = "Cluster " + receivedCluster + " with " + response.getStatus() + "status";
 
         MessageDialog.openInformation(this.getShell(), "Elasticsearch status", message);
       }

@@ -51,6 +51,6 @@ public final class MoreArrays {
       return (Object[]) o;
     }
 
-    return new Object[] {o};
+    return new Object[] { o };
   }
 }

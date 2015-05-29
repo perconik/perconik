@@ -1,4 +1,5 @@
 package sk.stuba.fiit.perconik.data.content;
+
 import java.util.Map;
 
 import javax.annotation.Nullable;

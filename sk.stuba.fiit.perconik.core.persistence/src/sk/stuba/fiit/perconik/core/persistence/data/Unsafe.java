@@ -7,7 +7,7 @@ import sk.stuba.fiit.perconik.core.Resources;
 final class Unsafe {
   private Unsafe() {}
 
-  @SuppressWarnings({"unchecked", "unused"})
+  @SuppressWarnings({ "unchecked", "unused" })
   static <L extends Listener> Resource<L> cast(final Class<L> type, final Resource<?> resource) {
     return (Resource<L>) resource;
   }

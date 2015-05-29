@@ -369,7 +369,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
     String message = format("PerConIK Core is about to restore defaults for selected options. %s may require to be reregistered for options to take effect.", toUpperCaseFirst(this.name()));
     String toggle = format("Restore all configured options");
 
-    MessageDialogWithToggle dialog = new MessageDialogWithToggle(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] {PROCEED_LABEL, CANCEL_LABEL}, 1, toggle, false);
+    MessageDialogWithToggle dialog = new MessageDialogWithToggle(this.getShell(), title, null, message, MessageDialog.WARNING, new String[] { PROCEED_LABEL, CANCEL_LABEL }, 1, toggle, false);
 
     if (dialog.open() == 1) {
       return;

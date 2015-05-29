@@ -91,7 +91,7 @@ public abstract class GenericNodeVisitor extends NodeVisitor {
     super(options);
   }
 
-  @SuppressWarnings({"unused", "static-method"})
+  @SuppressWarnings({ "unused", "static-method" })
   protected boolean genericVisit(final ASTNode node) {
     return true;
   }

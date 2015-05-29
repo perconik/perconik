@@ -26,7 +26,7 @@ public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> e
   }
 
   @Override
-  @SuppressWarnings({"rawtypes", "unchecked"})
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   Function<E, Class<? extends T>> transformation() {
     return (Function) Transformation.INSTANCE;
   }
@@ -48,7 +48,7 @@ public final class TypeConstantSupport<E extends Enum<E> & TypeConstant<T>, T> e
     }
   }
 
-  @SuppressWarnings({"static-method", "unused"})
+  @SuppressWarnings({ "static-method", "unused" })
   private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }

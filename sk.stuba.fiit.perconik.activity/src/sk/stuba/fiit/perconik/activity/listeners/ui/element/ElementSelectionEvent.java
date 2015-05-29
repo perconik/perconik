@@ -1,4 +1,5 @@
 package sk.stuba.fiit.perconik.activity.listeners.ui.element;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
 

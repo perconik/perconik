@@ -111,7 +111,7 @@ public abstract class NodeVisitor {
     NodeVisitors.accept(node, this);
   }
 
-  @SuppressWarnings({"static-method", "unused"})
+  @SuppressWarnings({ "static-method", "unused" })
   public boolean preVisit(final ASTNode node) {
     return true;
   }
