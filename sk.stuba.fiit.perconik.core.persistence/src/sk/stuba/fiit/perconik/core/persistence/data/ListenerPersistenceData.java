@@ -118,7 +118,7 @@ public final class ListenerPersistenceData extends AbstractListenerRegistration 
     }
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidListenerException("Serialization proxy required");
   }

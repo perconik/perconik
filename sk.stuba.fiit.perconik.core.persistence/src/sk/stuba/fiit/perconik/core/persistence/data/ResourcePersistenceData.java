@@ -130,7 +130,7 @@ public final class ResourcePersistenceData extends AbstractResourceRegistration 
     }
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidResourceException("Serialization proxy required");
   }

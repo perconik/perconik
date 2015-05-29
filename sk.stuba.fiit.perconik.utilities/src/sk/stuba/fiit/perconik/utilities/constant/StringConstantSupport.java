@@ -48,7 +48,7 @@ public final class StringConstantSupport<E extends Enum<E> & StringConstant> ext
     }
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   private void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }

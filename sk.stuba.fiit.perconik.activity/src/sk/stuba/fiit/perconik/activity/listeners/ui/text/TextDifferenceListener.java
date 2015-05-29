@@ -121,7 +121,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
       final Log log = this.log;
 
       builder.removalListener(new RemovalListener<IDocument, String>() {
-        @SuppressWarnings({ "synthetic-access", "unqualified-field-access" })
+        @SuppressWarnings({"synthetic-access", "unqualified-field-access"})
         public void onRemoval(final RemovalNotification<IDocument, String> notification) {
           if (log.isEnabled()) {
             IDocument document = notification.getKey();

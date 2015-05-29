@@ -238,7 +238,7 @@ public abstract class MapOptions extends AbstractMapOptions implements Serializa
     }
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   final void readObject(final ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }

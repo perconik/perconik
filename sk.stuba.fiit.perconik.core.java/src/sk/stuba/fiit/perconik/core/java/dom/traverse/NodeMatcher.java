@@ -369,422 +369,422 @@ public class NodeMatcher {
   @SuppressWarnings("unused")
   public void preMatch(final WildcardType node, final Object other) {}
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final AnnotationTypeDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final AnnotationTypeMemberDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final AnonymousClassDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ArrayAccess node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ArrayCreation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ArrayInitializer node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ArrayType node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final AssertStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final Assignment node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final Block node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final BlockComment node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final BooleanLiteral node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final BreakStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final CastExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final CatchClause node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final CharacterLiteral node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ClassInstanceCreation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final CompilationUnit node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ConditionalExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ConstructorInvocation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ContinueStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final UnionType node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final DoStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final EmptyStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final EnhancedForStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final EnumConstantDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final EnumDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ExpressionStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final FieldAccess node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final FieldDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ForStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final IfStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ImportDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final InfixExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final InstanceofExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final Initializer node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final Javadoc node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final LabeledStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final LineComment node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MarkerAnnotation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MemberRef node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MemberValuePair node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MethodRef node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MethodRefParameter node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MethodDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final MethodInvocation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final Modifier node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final NormalAnnotation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final NullLiteral node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final NumberLiteral node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final PackageDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ParameterizedType node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ParenthesizedExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final PostfixExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final PrefixExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final PrimitiveType node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final QualifiedName node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final QualifiedType node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ReturnStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SimpleName node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SimpleType node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SingleMemberAnnotation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SingleVariableDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final StringLiteral node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SuperConstructorInvocation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SuperFieldAccess node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SuperMethodInvocation node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SwitchCase node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SwitchStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final SynchronizedStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TagElement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TextElement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ThisExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final ThrowStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TryStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TypeDeclaration node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TypeDeclarationStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TypeLiteral node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final TypeParameter node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final VariableDeclarationExpression node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final VariableDeclarationFragment node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final VariableDeclarationStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final WhileStatement node, final Object other, final boolean result) {
     return result;
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   public boolean postMatch(final WildcardType node, final Object other, final boolean result) {
     return result;
   }

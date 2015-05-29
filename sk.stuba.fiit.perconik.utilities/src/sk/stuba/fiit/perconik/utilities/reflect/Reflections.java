@@ -59,7 +59,7 @@ public final class Reflections {
 
   private static <F, T> Function<F, T> cast(final Function<?, ?> function) {
     // only for stateless internal singletons shared across all types
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     Function<F, T> result = (Function) function;
 
     return result;

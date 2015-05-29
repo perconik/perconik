@@ -94,7 +94,7 @@ public class GenericNodeMatcher extends NodeMatcher {
   @SuppressWarnings("unused")
   protected void genericPreMatch(final ASTNode node, final Object other) {}
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   protected boolean genericPostMatch(final ASTNode node, final Object other, final boolean result) {
     return result;
   }

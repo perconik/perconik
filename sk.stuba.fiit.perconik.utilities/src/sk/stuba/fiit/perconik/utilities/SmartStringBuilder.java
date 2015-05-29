@@ -733,7 +733,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     }
   }
 
-  @SuppressWarnings({ "static-method", "unused" })
+  @SuppressWarnings({"static-method", "unused"})
   private void readObject(ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Serialization proxy required");
   }
@@ -2077,9 +2077,9 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return new ValueOptions().units(units);
   }
 
-  private static String[] bits = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+  private static String[] bits = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
-  private static String[] bytes = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB" };
+  private static String[] bytes = {"B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"};
 
   public SmartStringBuilder bits(long value) {
     return this.bits(value, this.options.sizePrecision);
@@ -2097,7 +2097,7 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
     return this.appendValue("%." + precision + "f %s", value, 1024, SmartStringBuilder.bytes, -1);
   }
 
-  private static char[] digits = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+  private static char[] digits = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
   private SmartStringBuilder appendBytes(byte[] values, int size, int shift, String separator) {
     int length = values.length;
@@ -2154,103 +2154,103 @@ public final class SmartStringBuilder implements Appendable, CharSequence, Seria
   // TODO refactor to return int[]
 
   private static byte[] to8(byte a) {
-    return new byte[] { a };
+    return new byte[] {a};
   }
 
   private static byte[] to8(short a, int shift) {
-    return new byte[] { ((byte) ((a >> shift) & 0xff)) };
+    return new byte[] {((byte) ((a >> shift) & 0xff))};
   }
 
   private static byte[] to8(int a, int shift) {
-    return new byte[] { ((byte) ((a >> shift) & 0xff)) };
+    return new byte[] {((byte) ((a >> shift) & 0xff))};
   }
 
   private static byte[] to8(long a, int shift) {
-    return new byte[] { ((byte) ((a >> shift) & 0xff)) };
+    return new byte[] {((byte) ((a >> shift) & 0xff))};
   }
 
   private static byte[] to16(byte a, byte b) {
-    return new byte[] { a, b };
+    return new byte[] {a, b};
   }
 
   private static byte[] to16(short a) {
-    return new byte[] { (byte) (a >> 8), (byte) a };
+    return new byte[] {(byte) (a >> 8), (byte) a};
   }
 
   private static byte[] to16(int a, int shift) {
-    return new byte[] { ((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff)) };
+    return new byte[] {((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff))};
   }
 
   private static byte[] to16(long a, int shift) {
-    return new byte[] { ((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff)) };
+    return new byte[] {((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff))};
   }
 
   private static byte[] to32(byte a, byte b, byte c, byte d) {
-    return new byte[] { a, b, c, d };
+    return new byte[] {a, b, c, d};
   }
 
   private static byte[] to32(short a, short b) {
-    return new byte[] { (byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b };
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b};
   }
 
   private static byte[] to32(int a) {
-    return new byte[] { (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a };
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a};
   }
 
   private static byte[] to32(long a, int shift) {
-    return new byte[] { ((byte) ((a >> (shift + 24)) & 0xff)), ((byte) ((a >> (shift + 16)) & 0xff)), ((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff)) };
+    return new byte[] {((byte) ((a >> (shift + 24)) & 0xff)), ((byte) ((a >> (shift + 16)) & 0xff)), ((byte) ((a >> (shift + 8)) & 0xff)), ((byte) ((a >> (shift)) & 0xff))};
   }
 
   private static byte[] to48(byte a, byte b, byte c, byte d, byte e, byte f) {
-    return new byte[] { a, b, c, d, e, f };
+    return new byte[] {a, b, c, d, e, f};
   }
 
   private static byte[] to48(short a, short b, short c) {
-    return new byte[] { (byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c };
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c};
   }
 
   private static byte[] to64(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h) {
-    return new byte[] { a, b, c, d, e, f, g, h };
+    return new byte[] {a, b, c, d, e, f, g, h};
   }
 
   private static byte[] to64(short a, short b, short c, short d) {
-    return new byte[] { (byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d };
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d};
   }
 
   private static byte[] to64(int a, int b) {
-    return new byte[] { (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b };
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b};
   }
 
   private static byte[] to64(long a) {
-    return new byte[] { (byte) (a >> 56), (byte) (a >> 48), (byte) (a >> 40), (byte) (a >> 32), (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a };
+    return new byte[] {(byte) (a >> 56), (byte) (a >> 48), (byte) (a >> 40), (byte) (a >> 32), (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a};
   }
 
   private static byte[] to96(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l) {
-    return new byte[] { a, b, c, d, e, f, g, h, i, j, k, l };
+    return new byte[] {a, b, c, d, e, f, g, h, i, j, k, l};
   }
 
   private static byte[] to96(short a, short b, short c, short d, short e, short f) {
-    return new byte[] { (byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d, (byte) (e >> 8), (byte) e, (byte) (f >> 8), (byte) f };
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d, (byte) (e >> 8), (byte) e, (byte) (f >> 8), (byte) f};
   }
 
   private static byte[] to96(int a, int b, int c) {
-    return new byte[] { (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b, (byte) (c >> 24), (byte) (c >> 16), (byte) (c >> 8), (byte) c };
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b, (byte) (c >> 24), (byte) (c >> 16), (byte) (c >> 8), (byte) c};
   }
 
   private static byte[] to128(byte a, byte b, byte c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k, byte l, byte m, byte n, byte o, byte p) {
-    return new byte[] { a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p };
+    return new byte[] {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p};
   }
 
   private static byte[] to128(short a, short b, short c, short d, short e, short f, short g, short h) {
-    return new byte[] { (byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d, (byte) (e >> 8), (byte) e, (byte) (f >> 8), (byte) f, (byte) (g >> 8), (byte) g, (byte) (h >> 8), (byte) h };
+    return new byte[] {(byte) (a >> 8), (byte) a, (byte) (b >> 8), (byte) b, (byte) (c >> 8), (byte) c, (byte) (d >> 8), (byte) d, (byte) (e >> 8), (byte) e, (byte) (f >> 8), (byte) f, (byte) (g >> 8), (byte) g, (byte) (h >> 8), (byte) h};
   }
 
   private static byte[] to128(int a, int b, int c, int d) {
-    return new byte[] { (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b, (byte) (c >> 24), (byte) (c >> 16), (byte) (c >> 8), (byte) c, (byte) (d >> 24), (byte) (d >> 16), (byte) (d >> 8), (byte) d };
+    return new byte[] {(byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b, (byte) (c >> 24), (byte) (c >> 16), (byte) (c >> 8), (byte) c, (byte) (d >> 24), (byte) (d >> 16), (byte) (d >> 8), (byte) d};
   }
 
   private static byte[] to128(long a, long b) {
-    return new byte[] { (byte) (a >> 56), (byte) (a >> 48), (byte) (a >> 40), (byte) (a >> 32), (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 56), (byte) (b >> 48), (byte) (b >> 40), (byte) (b >> 32), (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b };
+    return new byte[] {(byte) (a >> 56), (byte) (a >> 48), (byte) (a >> 40), (byte) (a >> 32), (byte) (a >> 24), (byte) (a >> 16), (byte) (a >> 8), (byte) a, (byte) (b >> 56), (byte) (b >> 48), (byte) (b >> 40), (byte) (b >> 32), (byte) (b >> 24), (byte) (b >> 16), (byte) (b >> 8), (byte) b};
   }
 
   public SmartStringBuilder bin8(byte a) {

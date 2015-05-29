@@ -86,7 +86,7 @@ public final class Registrables {
       throw new IllegalArgumentException();
     }
 
-    return (Version) Proxy.newProxyInstance(Version.class.getClassLoader(), new Class[] { Version.class }, new VersionHandler(value));
+    return (Version) Proxy.newProxyInstance(Version.class.getClassLoader(), new Class[] {Version.class}, new VersionHandler(value));
   }
 
   public static <R extends Registrable> Annotable toAnnotable(final Class<R> type) {
