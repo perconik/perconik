@@ -13,6 +13,8 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import sk.stuba.fiit.perconik.eclipse.jface.preference.PreferenceStoreOptions;
 import sk.stuba.fiit.perconik.preferences.AbstractPreferences;
 
+import static com.google.common.base.Functions.toStringFunction;
+
 import static com.gratex.perconik.uaca.plugin.Activator.PLUGIN_ID;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.applicationUrl;
 import static com.gratex.perconik.uaca.preferences.UacaPreferences.Keys.checkConnection;
@@ -47,7 +49,7 @@ public final class UacaPreferences extends AbstractPreferences implements Prefer
       UacaPreferences preferences = UacaPreferences.getDefault();
       IPreferenceStore store = preferences.getPreferenceStore();
 
-      setDefault(store, defaults(Schema.accessors()));
+      setDefault(store, defaults(Schema.accessors()), toStringFunction());
     }
   }
 
