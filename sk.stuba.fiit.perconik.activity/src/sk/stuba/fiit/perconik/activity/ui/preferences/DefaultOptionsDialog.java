@@ -156,7 +156,12 @@ final class DefaultOptionsDialog extends StatusDialog {
     keySorter.attach(keyColumn);
     valueSorter.attach(valueColumn);
 
-    this.tableViewer = new RegularTableViewer(table);
+    this.tableViewer = new RegularTableViewer(table) {
+      {
+        this.normalColor = SWT.COLOR_LINK_FOREGROUND;
+        this.grayColor = SWT.COLOR_LIST_FOREGROUND;
+      }
+    };
 
     this.tableViewer.setComparer(ElementComparers.fromEquivalence(rawOptionType(), optionEquivalence()));
     this.tableViewer.setContentProvider(new MapContentProvider());
