@@ -5,11 +5,11 @@ import java.util.Map;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.BooleanFieldEditor;
-import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -28,11 +28,11 @@ import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions;
 import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchPreferences;
 import sk.stuba.fiit.perconik.ui.Buttons;
 import sk.stuba.fiit.perconik.ui.Groups;
-import sk.stuba.fiit.perconik.ui.Labels;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionParser;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptionParsers.byteSizeParser;
@@ -55,12 +55,17 @@ import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOpti
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.pathWork;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.transportTcpCompress;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.transportTcpConnectTimeout;
+import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.arrayListParser;
+import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.inetSocketAddressParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.pathParser;
+import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.stringParser;
 
 public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
   private final Map<String, FieldEditor> editors;
 
   public ElasticsearchPreferencePage() {
+    super(GRID);
+
     this.editors = newLinkedHashMap();
   }
 
@@ -74,57 +79,53 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
 
     Group nodeGroup = Groups.create(parent, "Node", factory.create());
 
-    this.addField(new StringFieldEditor(nodeName.getKey(), "Name:", nodeGroup));
+    this.addField(newStringFieldEditor(nodeName.getKey(), "Name:", stringParser(), nodeGroup));
 
     Groups.updateMargins(nodeGroup);
 
     Group clusterGroup = Groups.create(parent, "Cluster", factory.create());
 
-    this.addField(new StringFieldEditor(clusterName.getKey(), "Name:", nodeGroup));
+    this.addField(newStringFieldEditor(clusterName.getKey(), "Name:", stringParser(), clusterGroup));
 
     Groups.updateMargins(clusterGroup);
 
     Group clientGroup = Groups.create(parent, "Client", factory.create());
 
-    this.addField(new StringFieldEditor(clientTransportAddresses.getKey(), "Addresses:", clientGroup));
-    this.addField(new BooleanFieldEditor(clientTransportIgnoreClusterName.getKey(), "Ignore cluster name validation", clientGroup));
-    this.addField(new StringOptionFieldEditor<>(timeParser(), clientTransportPingTimeout.getKey(), "Ping timeout", clientGroup));
-    this.addField(new StringOptionFieldEditor<>(timeParser(), clientTransportNodesSamplerInterval.getKey(), "Nodes sampler interval", clientGroup));
+    this.addField(newStringFieldEditor(clientTransportAddresses.getKey(), "Addresses:", arrayListParser(inetSocketAddressParser(), ",", "", ""), clientGroup));
+    this.addField(newStringFieldEditor(clientTransportNodesSamplerInterval.getKey(), "Nodes sampler interval:", timeParser(), clientGroup));
+    this.addField(newStringFieldEditor(clientTransportPingTimeout.getKey(), "Ping timeout:", timeParser(), clientGroup));
+    this.addField(newBooleanFieldEditor(clientTransportIgnoreClusterName.getKey(), "Ignore cluster name validation:", clientGroup));
 
     Groups.updateMargins(clientGroup);
 
     Group transportGroup = Groups.create(parent, "Transport", factory.create());
 
-    this.addField(new StringOptionFieldEditor<>(timeParser(), transportTcpConnectTimeout.getKey(), "TCP connect timeout", transportGroup));
-    this.addField(new BooleanFieldEditor(transportTcpCompress.getKey(), "TCP compress", transportGroup));
+    this.addField(newStringFieldEditor(transportTcpConnectTimeout.getKey(), "Connect timeout:", timeParser(), transportGroup));
+    this.addField(newBooleanFieldEditor(transportTcpCompress.getKey(), "Compress:", transportGroup));
 
     Groups.updateMargins(transportGroup);
 
     Group networkGroup = Groups.create(parent, "Network", factory.create());
 
-    this.addField(new BooleanFieldEditor(networkTcpNoDelay.getKey(), "TCP no delay", networkGroup));
-    this.addField(new BooleanFieldEditor(networkTcpKeepAlive.getKey(), "TCP keep alive", networkGroup));
-    this.addField(new BooleanFieldEditor(networkTcpReuseAddress.getKey(), "TCP reuse address", networkGroup));
+    this.addField(newBooleanFieldEditor(networkTcpNoDelay.getKey(), "No delay:", networkGroup));
+    this.addField(newBooleanFieldEditor(networkTcpKeepAlive.getKey(), "Keep alive:", networkGroup));
+    this.addField(newBooleanFieldEditor(networkTcpReuseAddress.getKey(), "Reuse address:", networkGroup));
 
-    this.addField(new StringOptionFieldEditor<>(byteSizeParser(), networkTcpSendBufferSize.getKey(), "TCP send buffer size", networkGroup));
-    this.addField(new StringOptionFieldEditor<>(byteSizeParser(), networkTcpReceiveBufferSize.getKey(), "TCP receive buffer size", networkGroup));
-
-    Labels.createFieldSeparator(networkGroup);
-    Labels.create(clientGroup, "Leave blank to use default buffer sizes");
+    this.addField(newStringFieldEditor(networkTcpSendBufferSize.getKey(), "Send buffer size:", byteSizeParser(), networkGroup));
+    this.addField(newStringFieldEditor(networkTcpReceiveBufferSize.getKey(), "Receive buffer size:", byteSizeParser(), networkGroup));
 
     Groups.updateMargins(networkGroup);
 
     Group pathGroup = Groups.create(parent, "Path", factory.create());
 
-    // TODO
-    this.addField(new StringOptionFieldEditor<>(pathParser(), pathLogs.getKey(), "Logs path", pathGroup));
-    this.addField(new DirectoryFieldEditor(pathWork.getKey(), "Work path", pathGroup));
+    this.addField(newStringFieldEditor(pathLogs.getKey(), "Logs path:", pathParser(), pathGroup));
+    this.addField(newStringFieldEditor(pathWork.getKey(), "Work path:", pathParser(), pathGroup));
 
     Groups.updateMargins(pathGroup);
 
     Group notificationGroup = Groups.create(parent, "Notification", factory.create());
 
-    this.addField(new BooleanFieldEditor(displayErrors.getKey(), "Display warning on service failure", notificationGroup));
+    this.addField(new BooleanFieldEditor(displayErrors.getKey(), "Display error dialog on service failure", notificationGroup));
 
     Groups.updateMargins(notificationGroup);
 
@@ -146,7 +147,7 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
         String message = "Elasticsearch settings to create a proxy:";
         String text = ElasticsearchHandler.formatSettings(options.toSettings());
 
-        MessageDialogWithTextArea.openInformation(getShell(), title, message, text);
+        MessageDialogWithTextArea.open(MessageDialog.NONE, getShell(), title, message, text, SWT.NONE);
       }
     });
 
@@ -159,10 +160,10 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
     ((GridLayout) parent.getLayout()).numColumns += 2;
   }
 
-  protected static class StringOptionFieldEditor<T> extends StringFieldEditor {
+  static class StringOptionFieldEditor<T> extends StringFieldEditor {
     protected OptionParser<? extends T> parser;
 
-    public StringOptionFieldEditor(final OptionParser<? extends T> parser, final String name, final String label, final Composite parent) {
+    public StringOptionFieldEditor(final String name, final String label, final OptionParser<? extends T> parser, final Composite parent) {
       super(name, label, parent);
 
       this.parser = checkNotNull(parser);
@@ -170,16 +171,30 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
 
     @Override
     protected boolean doCheckState() {
-      return this.getOptionValue() != null;
-    }
+      String value = this.getStringValue();
 
-    public T getOptionValue() {
+      if (this.isEmptyStringAllowed() && isNullOrEmpty(value)) {
+        return true;
+      }
+
       try {
-        return this.parser.parse(this.getStringValue());
+        return this.parser.parse(value) != null;
       } catch (RuntimeException e) {
-        return null;
+        return false;
       }
     }
+  }
+
+  static StringFieldEditor newStringFieldEditor(final String name, final String label, final OptionParser<?> parser, final Composite parent) {
+    StringFieldEditor editor = new StringOptionFieldEditor<>(name, label, parser, parent);
+
+    editor.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
+
+    return editor;
+  }
+
+  static BooleanFieldEditor newBooleanFieldEditor(final String name, final String label, final Composite parent) {
+    return new BooleanFieldEditor(name, label, BooleanFieldEditor.SEPARATE_LABEL, parent);
   }
 
   @Override
@@ -187,13 +202,6 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
     this.editors.put(editor.getPreferenceName(), editor);
 
     super.addField(editor);
-  }
-
-  protected void addField(final StringFieldEditor editor) {
-    editor.setEmptyStringAllowed(false);
-    editor.setValidateStrategy(StringFieldEditor.VALIDATE_ON_KEY_STROKE);
-
-    this.addField((FieldEditor) editor);
   }
 
   @Override
@@ -222,10 +230,9 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
       }
 
       if (display) {
-        message = "Cluster " + receivedCluster + ", ";
-        message += "status " + response.getStatus() + ".";
+        message = "Cluster "+ receivedCluster + " with " + response.getStatus() + "status";
 
-        MessageDialog.openInformation(this.getShell(), "Elasticsearch status", message.toString());
+        MessageDialog.openInformation(this.getShell(), "Elasticsearch status", message);
       }
 
       return true;
@@ -252,10 +259,12 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
     Map<String, Object> options = newLinkedHashMap();
 
     for (FieldEditor editor: this.editors.values()) {
+      String key = editor.getPreferenceName();
+
       if (editor instanceof BooleanFieldEditor) {
-        options.put(editor.getPreferenceName(), ((BooleanFieldEditor) editor).getBooleanValue());
+        options.put(key, ((BooleanFieldEditor) editor).getBooleanValue());
       } else if (editor instanceof StringFieldEditor) {
-        options.put(editor.getPreferenceName(), ((StringFieldEditor) editor).getStringValue());
+        options.put(key, ((StringFieldEditor) editor).getStringValue());
       } else {
         throw new IllegalStateException();
       }
