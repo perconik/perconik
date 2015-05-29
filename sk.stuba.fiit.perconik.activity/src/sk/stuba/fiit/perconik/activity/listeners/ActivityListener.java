@@ -369,7 +369,7 @@ public abstract class ActivityListener extends RegularListener {
         handleConstructFailure(listener, UacaProxy.class, failure);
       }
 
-      checkState(elasticsearch != null, "%s: unable to construct %s", this, ProxyPersistenceStore.class.getName());
+      checkState(elasticsearch != null && uaca != null, "%s: unable to construct %s", this, ProxyPersistenceStore.class.getName());
 
       return new ProxyPersistenceStore(listener, elasticsearch, uaca);
     }
