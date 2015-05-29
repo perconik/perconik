@@ -1,17 +1,21 @@
 package sk.stuba.fiit.perconik.elasticsearch;
 
+import java.net.InetSocketAddress;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
 
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
+import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
@@ -19,14 +23,18 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableMap.copyOf;
+import static com.google.common.collect.Iterables.toArray;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 
 import static org.elasticsearch.common.settings.ImmutableSettings.settingsBuilder;
 
+import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.clientTransportAddresses;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toDefaultString;
 import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
+import static sk.stuba.fiit.perconik.utilities.configuration.MapOptions.from;
 
 public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   private static final TimeValue waitBeforeClientClose = of(8, SECONDS);
@@ -36,6 +44,8 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   private final ElasticsearchReporter reporter;
 
   private SharedSecrets secrets;
+
+  private ImmutableList<InetSocketTransportAddress> addresses;
 
   private Settings settings;
 
@@ -100,13 +110,15 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
       return this;
     }
 
-    private static TransportClient open(final ElasticsearchReporter reporter, final Settings settings) {
+    private static TransportClient open(final ElasticsearchReporter reporter, final Settings settings, final Iterable<InetSocketTransportAddress> addresses) {
       assert settings != null;
 
       reporter.logNotice(format("opening shared client for %s", identify(settings)));
 
       try {
         TransportClient client = new TransportClient(settings);
+
+        client.addTransportAddresses(toArray(addresses, InetSocketTransportAddress.class));
 
         reporter.logNotice(format("shared client for %s opened -> %s", identify(settings), toDefaultString(client)));
 
@@ -150,19 +162,33 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
       this.disconnect(reporter, settings, wait);
     }
 
-    synchronized TransportClient client(final ElasticsearchReporter reporter, final Settings settings) {
+    synchronized TransportClient client(final ElasticsearchReporter reporter, final Settings settings, final Iterable<InetSocketTransportAddress> addresses) {
       assert settings != null;
 
       TransportClient client = this.clients.get(settings);
 
       if (client == null) {
-        client = open(reporter, settings);
+        client = open(reporter, settings, addresses);
 
         this.clients.put(settings, client);
       }
 
       return client;
     }
+  }
+
+  private static ElasticsearchOptions safeOptions(final Options options) {
+    return ElasticsearchOptions.View.of(from(copyOf(options.toMap())));
+  }
+
+  private static ImmutableList<InetSocketTransportAddress> readAddresses(final Options options) {
+    ImmutableList.Builder<InetSocketTransportAddress> builder = ImmutableList.builder();
+
+    for (InetSocketAddress address: clientTransportAddresses.getValue(options)) {
+      builder.add(new InetSocketTransportAddress(address));
+    }
+
+    return builder.build();
   }
 
   private static Settings normalizeSettings(final Settings settings) {
@@ -186,18 +212,31 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   private void reload() {
-    Settings update = normalizeSettings(this.options.toSettings());
+    ElasticsearchOptions options = safeOptions(this.options);
+
+    Settings update = normalizeSettings(options.toSettings());
 
     if (!update.equals(this.settings)) {
       if (this.settings != null) {
         this.secrets.release(this.reporter, this.settings, waitBeforeClientClose);
       }
 
-      this.secrets = SharedSecrets.obtain(this.reporter, this.settings = update);
+      this.settings = update;
+      this.addresses = readAddresses(options);
+      this.secrets = SharedSecrets.obtain(this.reporter, update);
     }
   }
 
-  @Override
+  public final ImmutableList<InetSocketTransportAddress> addresses() {
+    synchronized (this) {
+      if (this.addresses == null) {
+        this.reload();
+      }
+
+      return this.addresses;
+    }
+  }
+
   public final Settings settings() {
     synchronized (this) {
       if (this.settings == null) {
@@ -210,16 +249,22 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
   public final Settings update() {
     synchronized (this) {
+      Settings settings = this.settings;
+
       this.reload();
 
-      return this.settings;
+      return settings;
     }
   }
 
   @Override
   protected final TransportClient client() {
     synchronized (this) {
-      return this.secrets.client(this.reporter, this.settings());
+      if (this.settings == null || this.addresses == null) {
+        this.reload();
+      }
+
+      return this.secrets.client(this.reporter, this.settings, this.addresses);
     }
   }
 
@@ -231,7 +276,11 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
   public final void close() {
     synchronized (this) {
-      this.secrets.release(this.reporter, this.settings(), waitBeforeClientClose);
+      if (this.settings == null) {
+        this.reload();
+      }
+
+      this.secrets.release(this.reporter, this.settings, waitBeforeClientClose);
 
       this.closeHook();
     }
