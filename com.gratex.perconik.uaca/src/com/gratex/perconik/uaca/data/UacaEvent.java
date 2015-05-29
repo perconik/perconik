@@ -60,7 +60,7 @@ public class UacaEvent extends AnyStructuredData {
    * Normalizes event data according to UACA restrictions. Each data of type {@link Content}
    * must be fully structured since UACA does not permit dot characters in JSON field names.
    */
-  public static Object normalizeData(final Object data) {
+  public static Object normalizeData(@Nullable final Object data) {
     if (data instanceof StructuredContent) {
       return ((StructuredContent) data).structure();
     } else if (data instanceof Content) {
