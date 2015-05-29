@@ -15,7 +15,7 @@ public abstract class AbstractPreferenceStoreOptionsWriter extends AbstractOptio
   @Override
   protected abstract PreferenceStoreOptions options();
 
-  protected abstract String fromRawToString(Object value);
+  protected abstract String fromRawToString(@Nullable Object value);
 
   @Override
   public Object putRaw(final String key, @Nullable final Object value) {
