@@ -3,6 +3,7 @@ package sk.stuba.fiit.perconik.utilities.configuration;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
@@ -27,6 +28,8 @@ import com.google.common.reflect.TypeToken;
 
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolver;
 import sk.stuba.fiit.perconik.utilities.reflect.resolver.ClassResolvers;
+
+import static java.lang.Integer.parseInt;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -410,6 +413,33 @@ public final class OptionParsers {
 
   public static OptionParser<URL> urlParser() {
     return UrlParser.INSTANCE;
+  }
+
+  private static enum InetSocketAddressParser implements OptionParser<InetSocketAddress> {
+    INSTANCE;
+
+    public InetSocketAddress parse(final Object object) {
+      if (object instanceof InetSocketAddress) {
+        return (InetSocketAddress) object;
+      }
+
+      Iterator<String> parts = Splitter.on(':').limit(2).split(object.toString()).iterator();
+
+      return new InetSocketAddress(parts.next(), parseInt(parts.next()));
+    }
+
+    public TypeToken<InetSocketAddress> type() {
+      return TypeToken.of(InetSocketAddress.class);
+    }
+
+    @Override
+    public String toString() {
+      return toStringHelper(this).add("type", this.type()).toString();
+    }
+  }
+
+  public static OptionParser<InetSocketAddress> inetSocketAddressParser() {
+    return InetSocketAddressParser.INSTANCE;
   }
 
   private static final class ClassParser implements OptionParser<Class<?>>, Serializable {
