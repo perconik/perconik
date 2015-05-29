@@ -19,6 +19,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.cluster.stats.ClusterStatsResponse;
 
 import sk.stuba.fiit.perconik.eclipse.jface.dialogs.MessageDialogWithTextArea;
@@ -30,6 +31,8 @@ import sk.stuba.fiit.perconik.ui.Buttons;
 import sk.stuba.fiit.perconik.ui.Groups;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.OptionParser;
+
+import static java.lang.String.format;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -55,6 +58,7 @@ import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOpti
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.pathWork;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.transportTcpCompress;
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.transportTcpConnectTimeout;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.arrayListParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.inetSocketAddressParser;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.pathParser;
@@ -153,7 +157,7 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
 
     Buttons.createCentering(parent, "Status", GridData.HORIZONTAL_ALIGN_FILL, new WidgetListener() {
       public void handleEvent(final Event event) {
-        requestClusterState(true);
+        requestClusterState();
       }
     });
 
@@ -209,31 +213,32 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
     return ElasticsearchPreferences.getShared().getPreferenceStore();
   }
 
-  boolean requestClusterState(final boolean display) {
+  boolean requestClusterState() {
     try {
       ElasticsearchOptions options = this.getElasticsearchOptions();
       ElasticsearchProxy proxy = ElasticsearchHandler.createProxy(options);
 
-      ClusterStatsResponse response = ElasticsearchHandler.requestClusterStats(proxy);
+      ClusterStateResponse state = ElasticsearchHandler.requestClusterState(proxy);
+      ClusterStatsResponse stats = ElasticsearchHandler.requestClusterStats(proxy);
 
       String desiredCluster = ((StringFieldEditor) this.editors.get(clusterName.getKey())).getStringValue();
-      String receivedCluster = response.getClusterNameAsString();
+      String receivedCluster = stats.getClusterNameAsString();
 
       String message;
 
       if (!desiredCluster.equals(receivedCluster)) {
-        message = "Connected to cluster " + desiredCluster;
-        message += " instead of " + receivedCluster + ", ";
-        message += "consider connecting to the cluster with correct name";
+        message = "Connected to cluster " + desiredCluster + " instead of " + receivedCluster;
+        message += ", consider connecting to the cluster with correct name.";
 
-        throw new IllegalStateException(message);
+        MessageDialog.openWarning(this.getShell(), "Elasticsearch Warning", message);
       }
 
-      if (display) {
-        message = "Cluster " + receivedCluster + " with " + response.getStatus() + "status";
+      message = "Connected to cluster " + receivedCluster;
+      message += " with " + toLowerCase(stats.getStatus()) + " status.";
 
-        MessageDialog.openInformation(this.getShell(), "Elasticsearch status", message);
-      }
+      String text = format("\"state\" : %s%n%n\"stats\" : %s", state.getState(), stats);
+
+      MessageDialogWithTextArea.openInformation(this.getShell(), "Elasticsearch Status", message, text);
 
       return true;
     } catch (Exception failure) {
@@ -243,9 +248,9 @@ public final class ElasticsearchPreferencePage extends FieldEditorPreferencePage
         ElasticsearchException exception = (ElasticsearchException) failure;
 
         title = "Elasticsearch Error";
-        message = exception.getDetailedMessage() + ", status " + exception.status();
+        message = format("%s%n%n%s", exception.status(), exception.getDetailedMessage());
       } else {
-        title = failure instanceof IllegalStateException ? "Elasticsearch Error" : "Unknown Error";
+        title = "Unknown Error";
         message = failure.getMessage();
       }
 

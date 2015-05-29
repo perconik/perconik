@@ -2,11 +2,11 @@ package sk.stuba.fiit.perconik.elasticsearch.ui.preferences;
 
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.concurrent.ExecutionException;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedMap;
 
+import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.cluster.stats.ClusterStatsResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -17,7 +17,6 @@ import sk.stuba.fiit.perconik.elasticsearch.SharedElasticsearchProxy;
 import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 
-import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.displayErrors;
@@ -48,14 +47,18 @@ final class ElasticsearchHandler {
     return ImmutableSortedMap.copyOf(settings.getAsMap());
   }
 
+  static ClusterStateResponse requestClusterState(final ElasticsearchProxy proxy) {
+    return proxy.execute(new Task<ClusterStateResponse>() {
+      public ClusterStateResponse perform(final TransportClient client) {
+        return client.admin().cluster().prepareState().get();
+      }
+    });
+  }
+
   static ClusterStatsResponse requestClusterStats(final ElasticsearchProxy proxy) {
     return proxy.execute(new Task<ClusterStatsResponse>() {
       public ClusterStatsResponse perform(final TransportClient client) {
-        try {
-          return client.admin().cluster().prepareClusterStats().execute().get();
-        } catch (InterruptedException | ExecutionException failure) {
-          throw propagate(failure);
-        }
+        return client.admin().cluster().prepareClusterStats().get();
       }
     });
   }
