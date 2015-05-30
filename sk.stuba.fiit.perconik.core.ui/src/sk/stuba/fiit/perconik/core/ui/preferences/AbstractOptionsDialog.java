@@ -416,7 +416,7 @@ abstract class AbstractOptionsDialog<P, R extends Registration> extends StatusDi
       String message = "Failed to apply options.";
       String reason = failure.getLocalizedMessage();
 
-      message += !isNullOrEmpty(reason) ? ("\n\n" + reason + "\n\n") : " ";
+      message += !isNullOrEmpty(reason) ? format("%n%n%s%n%n", reason) : " ";
 
       openError(this.getShell(), title, message + "See error log for more details.");
 

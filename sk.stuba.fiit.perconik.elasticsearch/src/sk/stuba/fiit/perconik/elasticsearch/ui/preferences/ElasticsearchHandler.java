@@ -17,6 +17,8 @@ import sk.stuba.fiit.perconik.elasticsearch.SharedElasticsearchProxy;
 import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions;
 import sk.stuba.fiit.perconik.utilities.configuration.MapOptions;
 
+import static java.lang.System.lineSeparator;
+
 import static com.google.common.collect.Maps.newLinkedHashMap;
 
 import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.displayErrors;
@@ -40,7 +42,7 @@ final class ElasticsearchHandler {
   }
 
   static String formatSettings(final Settings settings) {
-    return Joiner.on('\n').withKeyValueSeparator(" = ").join(sortSettings(settings));
+    return Joiner.on(lineSeparator()).withKeyValueSeparator(" = ").join(sortSettings(settings));
   }
 
   static SortedMap<String, ?> sortSettings(final Settings settings) {

@@ -25,6 +25,8 @@ import sk.stuba.fiit.perconik.eclipse.jface.viewers.SortingViewerComparator;
 import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.lang.String.format;
+
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.osgi.framework.Versions.toVersion;
@@ -172,11 +174,11 @@ public final class ResourcesPreferencePage extends AbstractPreferencePage<Resour
         StringBuilder message = new StringBuilder();
 
         message.append("Resource unregistration failed due to one or more listeners registered. ");
-        message.append("Select only resources with currently no registered listeners or unregister all listeners from the resources to be unregistered first.\n\n");
-        message.append(data.getResource());
+        message.append("Select only resources with currently no registered listeners or unregister all listeners from the resources to be unregistered first.");
+        message.append(format("%n%n%s", data.getResource()));
 
         for (Listener listener: data.getResource().registered(Listener.class)) {
-          message.append("\n  " + listener.getClass().getName());
+          message.append(format("%n  ", listener.getClass().getName()));
         }
 
         openError(this.getShell(), "Resource unregistration", message.toString());

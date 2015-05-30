@@ -406,7 +406,7 @@ final class DefaultOptionsDialog extends StatusDialog {
       String message = "Failed to apply default listener options.";
       String reason = failure.getLocalizedMessage();
 
-      message += !isNullOrEmpty(reason) ? ("\n\n" + reason + "\n\n") : " ";
+      message += !isNullOrEmpty(reason) ? format("%n%n%s%n%n", reason) : " ";
 
       openError(this.getShell(), title, message + "See error log for more details.");
 

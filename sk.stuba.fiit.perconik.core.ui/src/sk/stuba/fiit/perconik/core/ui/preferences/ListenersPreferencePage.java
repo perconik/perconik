@@ -26,6 +26,8 @@ import sk.stuba.fiit.perconik.eclipse.jface.viewers.SortingViewerComparator;
 import sk.stuba.fiit.perconik.ui.TableColumns;
 import sk.stuba.fiit.perconik.utilities.configuration.Options;
 
+import static java.lang.String.format;
+
 import static org.eclipse.jface.dialogs.MessageDialog.openError;
 
 import static sk.stuba.fiit.perconik.osgi.framework.Versions.toVersion;
@@ -159,8 +161,8 @@ public final class ListenersPreferencePage extends AbstractPreferencePage<Listen
       StringBuilder message = new StringBuilder();
 
       message.append("Listener registration failed due to one or more unregistered but required resources. ");
-      message.append("Select only listeners with registered resources.\n\n");
-      message.append(failure.getLocalizedMessage() + ".");
+      message.append("Select only listeners with registered resources.");
+      message.append(format("%n%n%s.", failure.getLocalizedMessage()));
 
       openError(this.getShell(), "Listener registration", message.toString());
 
