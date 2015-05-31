@@ -1091,6 +1091,11 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     instance;
 
     public void inject(final String path, final Event data) {}
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
   }
 
   public static final class ProbingDataInjector implements DataInjector {
@@ -1199,6 +1204,11 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     public void persist(final String path, final Event data) {}
 
     public void close() {}
+
+    @Override
+    public String toString() {
+      return this.getClass().getSimpleName();
+    }
   }
 
   public static final class StoreWrapper implements PersistenceStore {
