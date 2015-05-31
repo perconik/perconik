@@ -153,7 +153,7 @@ public abstract class AbstractListener implements Listener {
 
   protected abstract Map<String, InternalProbe<?>> internalProbeMappings();
 
-  public static abstract class ContinuousEvent<E> {
+  protected static abstract class ContinuousEvent<E> {
     private static final long UNSET = -1L;
 
     private final Object lock = new Object();
