@@ -22,7 +22,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 
@@ -744,51 +743,38 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     }
   }
 
+  //TODO parametrize with L
   public interface OptionsLoader {
     public Options loadDefaultOptions(RegularListener listener);
 
     public Options loadCustomOptions(RegularListener listener);
   }
 
-  public static final class UpdatingOptionsLoader implements OptionsLoader {
-    private final ActivityPreferences defaults;
+  public static abstract class AbstractOptionsLoader implements OptionsLoader {
+    private final OptionsReloader reloader;
 
-    private final ListenerPreferences custom;
-
-    final OptionsReloader reloader;
-
-    private UpdatingOptionsLoader(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
-      this.defaults = checkNotNull(defaults);
-      this.custom = checkNotNull(custom);
-
+    protected AbstractOptionsLoader(final RegularListener listener) {
       this.reloader = new OptionsReloader(listener);
 
       this.hook(listener);
     }
 
     private void hook(final RegularListener listener) {
-      final IEclipsePreferences defaults = this.defaults.node();
-      final IEclipsePreferences custom = this.custom.node();
-
       final OptionsReloader reloader = this.reloader;
 
       RegistrationHook.PRE_REGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
         public void run() {
-          defaults.addPreferenceChangeListener(reloader);
-          custom.addPreferenceChangeListener(reloader);
+          defaultPreferences().node().addPreferenceChangeListener(reloader);
+          customPreferences().node().addPreferenceChangeListener(reloader);
         }
       });
 
       RegistrationHook.POST_UNREGISTER.add(listener, new NamedRunnable(OptionsReloader.class) {
         public void run() {
-          defaults.removePreferenceChangeListener(reloader);
-          custom.removePreferenceChangeListener(reloader);
+          defaultPreferences().node().removePreferenceChangeListener(reloader);
+          customPreferences().node().removePreferenceChangeListener(reloader);
         }
       });
-    }
-
-    public static UpdatingOptionsLoader of(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
-      return new UpdatingOptionsLoader(listener, defaults, custom);
     }
 
     private static final class OptionsReloader implements IPreferenceChangeListener {
@@ -807,13 +793,25 @@ public abstract class RegularListener extends AbstractListener implements Scoped
       }
     }
 
-    public Options loadDefaultOptions(final RegularListener listener) {
-      return this.defaults.getListenerDefaultOptions();
+    protected abstract ActivityPreferences defaultPreferences();
+
+    protected abstract ListenerPreferences customPreferences();
+
+    public final Options loadDefaultOptions(final RegularListener listener) {
+      Options defaults = checkNotNull(this.defaultPreferences().getListenerDefaultOptions());
+
+      return compound(defaults, this.adjustDefaultOptions(listener));
     }
 
-    public Options loadCustomOptions(final RegularListener listener) {
-      return this.custom.getListenerConfigurationData().get(listener.getClass());
+    public final Options loadCustomOptions(final RegularListener listener) {
+      Options custom = this.customPreferences().getListenerConfigurationData().get(listener.getClass());
+
+      return compound(custom != null ? custom : emptyOptions(), this.adjustCustomOptions(listener));
     }
+
+    protected abstract Options adjustDefaultOptions(final RegularListener listener);
+
+    protected abstract Options adjustCustomOptions(final RegularListener listener);
 
     @Override
     public String toString() {
@@ -823,10 +821,47 @@ public abstract class RegularListener extends AbstractListener implements Scoped
     protected ToStringHelper toStringHelper() {
       ToStringHelper helper = MoreObjects.toStringHelper(this);
 
-      helper.add("default", this.defaults);
-      helper.add("custom", this.custom);
+      helper.add("default", this.defaultPreferences());
+      helper.add("custom", this.customPreferences());
 
       return helper;
+    }
+  }
+
+  public static final class UpdatingOptionsLoader extends AbstractOptionsLoader {
+    private final ActivityPreferences defaults;
+
+    private final ListenerPreferences custom;
+
+    private UpdatingOptionsLoader(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
+      super(listener);
+
+      this.defaults = checkNotNull(defaults);
+      this.custom = checkNotNull(custom);
+    }
+
+    public static UpdatingOptionsLoader of(final RegularListener listener, final ActivityPreferences defaults, final ListenerPreferences custom) {
+      return new UpdatingOptionsLoader(listener, defaults, custom);
+    }
+
+    @Override
+    protected ActivityPreferences defaultPreferences() {
+      return this.defaults;
+    }
+
+    @Override
+    protected ListenerPreferences customPreferences() {
+      return this.custom;
+    }
+
+    @Override
+    protected Options adjustDefaultOptions(final RegularListener listener) {
+      return emptyOptions();
+    }
+
+    @Override
+    protected Options adjustCustomOptions(final RegularListener listener) {
+      return emptyOptions();
     }
   }
 

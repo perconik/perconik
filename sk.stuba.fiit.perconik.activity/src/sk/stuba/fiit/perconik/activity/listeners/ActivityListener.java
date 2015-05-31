@@ -24,7 +24,9 @@ import sk.stuba.fiit.perconik.activity.data.process.StandardProcessProbe;
 import sk.stuba.fiit.perconik.activity.data.system.StandardSystemProbe;
 import sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.Builder;
 import sk.stuba.fiit.perconik.activity.plugin.Activator;
+import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
+import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
 import sk.stuba.fiit.perconik.data.bind.Mapper;
 import sk.stuba.fiit.perconik.data.bind.Writer;
 import sk.stuba.fiit.perconik.data.content.Content;
@@ -80,6 +82,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defaultPoolSizeScalingFactor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
+import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.emptyOptions;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.option;
 import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.booleanParser;
 
@@ -102,13 +105,14 @@ public abstract class ActivityListener extends RegularListener {
     sharedBuilder = builder();
 
     sharedBuilder.contextType(ActivityListener.class);
+    sharedBuilder.optionsLoader(OptionsSupplier.instance);
 
     sharedBuilder.pluginConsole(PluginConsoles.create(Activator.defaultInstance()));
 
     sharedBuilder.diplayExecutor(defaultSynchronous());
     sharedBuilder.sharedExecutor(newLimitedThreadPool(sharedExecutorPoolSizeScalingFactor));
 
-    sharedBuilder.persistenceStore(ProxySupplierFunction.instance);
+    sharedBuilder.persistenceStore(ProxySupplier.instance);
     sharedBuilder.sendFailureHandler(ProxySendFailureHandler.instance);
 
     Map<String, Probe<?>> probes = newHashMap();
@@ -208,11 +212,51 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
+  private static final class OptionsLoader extends AbstractOptionsLoader {
+    protected OptionsLoader(final ActivityListener listener) {
+      super(listener);
+    }
+
+    @Override
+    protected ActivityPreferences defaultPreferences() {
+      return ActivityPreferences.getShared();
+    }
+
+    @Override
+    protected ListenerPreferences customPreferences() {
+      return ListenerPreferences.getShared();
+    }
+
+    @Override
+    protected Options adjustDefaultOptions(final RegularListener listener) {
+      return ((ActivityListener) listener).adjustDefaultOptions();
+    }
+
+    @Override
+    protected Options adjustCustomOptions(final RegularListener listener) {
+      return emptyOptions();
+    }
+  }
+
+  private enum OptionsSupplier implements Function<ActivityListener, OptionsLoader> {
+    instance;
+
+    public OptionsLoader apply(final ActivityListener listener) {
+      return new OptionsLoader(listener);
+    }
+  }
+
+  // TODO refactor somehow
+  @SuppressWarnings("static-method")
+  protected Options adjustDefaultOptions() {
+    return emptyOptions();
+  }
+
   private enum LoggingRegisterFailureHandler implements RegisterFailureHandler {
     instance;
 
     static void report(final RegularListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
-      if (logErrors.getValue(listener.getOptions())) {
+      if (logErrors.getValue(listener.effectiveOptions())) {
         listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
       }
     }
@@ -270,9 +314,9 @@ public abstract class ActivityListener extends RegularListener {
   private static final class ProxyPersistenceStore implements PersistenceStore {
     private final ActivityListener listener;
 
-    final ElasticsearchProxy elasticsearch;
+    private final ElasticsearchProxy elasticsearch;
 
-    final UacaProxy uaca;
+    private final UacaProxy uaca;
 
     ProxyPersistenceStore(final ActivityListener listener, final ElasticsearchProxy elasticsearch, final UacaProxy uaca) {
       this.listener = checkNotNull(listener);
@@ -334,6 +378,14 @@ public abstract class ActivityListener extends RegularListener {
       }
     }
 
+    void reload() {
+      if (logNotices.getValue(this.listener.effectiveOptions())) {
+        this.listener.pluginConsole.notice("%s: updating %s", this, ElasticsearchProxy.class.getName());
+      }
+
+      this.elasticsearch.update();
+    }
+
     public void close() throws Exception {
       List<Exception> failures = newLinkedList();
 
@@ -349,7 +401,7 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
-  private enum ProxySupplierFunction implements Function<ActivityListener, PersistenceStore> {
+  private enum ProxySupplier implements Function<ActivityListener, PersistenceStore> {
     instance;
 
     public PersistenceStore apply(final ActivityListener listener) {
@@ -375,7 +427,7 @@ public abstract class ActivityListener extends RegularListener {
     }
 
     private static void handleConstructFailure(final RegularListener listener, final Class<? extends Store<?>> implementation, final Exception failure) {
-      if (logErrors.getValue(listener.getOptions())) {
+      if (logErrors.getValue(listener.effectiveOptions())) {
         listener.pluginConsole.error(failure, "%s: unable to construct %s", listener, implementation.getName());
       }
     }
@@ -390,7 +442,7 @@ public abstract class ActivityListener extends RegularListener {
     instance;
 
     public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
-      if (logErrors.getValue(listener.getOptions())) {
+      if (logErrors.getValue(listener.effectiveOptions())) {
         listener.pluginConsole.error(failure, "%s: unable to send %s to %s using %s", listener, toDefaultString(data), path, listener.persistenceStore);
       }
     }
@@ -413,7 +465,7 @@ public abstract class ActivityListener extends RegularListener {
     }
 
     private static void handleDisposeFailure(final RegularListener listener, final Exception failure) {
-      if (logErrors.getValue(listener.getOptions())) {
+      if (logErrors.getValue(listener.effectiveOptions())) {
         listener.pluginConsole.error(failure, "%s: unable to dispose %s", listener, listener.persistenceStore);
       }
     }
@@ -598,11 +650,7 @@ public abstract class ActivityListener extends RegularListener {
   protected final void onOptionsReload() {
     super.onOptionsReload();
 
-    if (logNotices.getValue(this.getOptions())) {
-      this.pluginConsole.notice("%s: options reloaded, updating Elasticsearch proxy settings", this);
-    }
-
-    ((ProxyPersistenceStore) this.persistenceStore).elasticsearch.update();
+    ((ProxyPersistenceStore) this.persistenceStore).reload();
 
     this.onOptionsReloadHook();
   }
@@ -610,10 +658,10 @@ public abstract class ActivityListener extends RegularListener {
   protected void onOptionsReloadHook() {}
 
   final ElasticsearchOptions getElasticsearchOptions() {
-    return ElasticsearchOptions.View.of(this.getOptions());
+    return ElasticsearchOptions.View.of(this.effectiveOptions());
   }
 
   final UacaOptions getUacaOptions() {
-    return UacaOptions.View.of(this.getOptions());
+    return UacaOptions.View.of(this.effectiveOptions());
   }
 }
