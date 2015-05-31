@@ -12,6 +12,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 
 import sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
@@ -45,7 +46,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
 
   private SharedSecrets secrets;
 
-  private ImmutableList<InetSocketTransportAddress> addresses;
+  private ImmutableList<TransportAddress> addresses;
 
   private Settings settings;
 
@@ -110,7 +111,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
       return this;
     }
 
-    private static TransportClient open(final ElasticsearchReporter reporter, final Settings settings, final Iterable<InetSocketTransportAddress> addresses) {
+    private static TransportClient open(final ElasticsearchReporter reporter, final Settings settings, final Iterable<TransportAddress> addresses) {
       assert settings != null;
 
       reporter.logNotice(format("opening shared client for %s", identify(settings)));
@@ -118,7 +119,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
       try {
         TransportClient client = new TransportClient(settings);
 
-        client.addTransportAddresses(toArray(addresses, InetSocketTransportAddress.class));
+        client.addTransportAddresses(toArray(addresses, TransportAddress.class));
 
         reporter.logNotice(format("shared client for %s opened -> %s", identify(settings), toDefaultString(client)));
 
@@ -162,7 +163,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
       this.disconnect(reporter, settings, wait);
     }
 
-    synchronized TransportClient client(final ElasticsearchReporter reporter, final Settings settings, final Iterable<InetSocketTransportAddress> addresses) {
+    synchronized TransportClient client(final ElasticsearchReporter reporter, final Settings settings, final Iterable<TransportAddress> addresses) {
       assert settings != null;
 
       TransportClient client = this.clients.get(settings);
@@ -181,8 +182,8 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     return ElasticsearchOptions.View.of(from(copyOf(options.toMap())));
   }
 
-  private static ImmutableList<InetSocketTransportAddress> readAddresses(final Options options) {
-    ImmutableList.Builder<InetSocketTransportAddress> builder = ImmutableList.builder();
+  private static ImmutableList<TransportAddress> readAddresses(final Options options) {
+    ImmutableList.Builder<TransportAddress> builder = ImmutableList.builder();
 
     for (InetSocketAddress address: clientTransportAddresses.getValue(options)) {
       builder.add(new InetSocketTransportAddress(address));
@@ -227,7 +228,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
     }
   }
 
-  public final ImmutableList<InetSocketTransportAddress> addresses() {
+  public final ImmutableList<TransportAddress> addresses() {
     synchronized (this) {
       if (this.addresses == null) {
         this.reload();
