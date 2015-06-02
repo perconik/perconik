@@ -76,7 +76,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toDefaultString;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
