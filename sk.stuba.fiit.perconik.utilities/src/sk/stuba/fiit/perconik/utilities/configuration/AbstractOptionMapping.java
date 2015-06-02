@@ -6,7 +6,7 @@ import com.google.common.reflect.TypeToken;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 
 public abstract class AbstractOptionMapping<T> implements OptionMapping<T> {
   /**
@@ -30,7 +30,7 @@ public abstract class AbstractOptionMapping<T> implements OptionMapping<T> {
    */
   protected AbstractOptionMapping(final TypeToken<T> type, final String key, @Nullable final T defaultValue) {
     this.type = checkNotNull(type);
-    this.key = checkNotNullOrEmpty(key);
+    this.key = checkNotNullAsState(key);
     this.defaultValue = defaultValue;
   }
 

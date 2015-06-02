@@ -16,7 +16,7 @@ import static com.google.common.collect.Iterators.filter;
 import static com.google.common.collect.Lists.asList;
 
 import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.isNullOrEmptyPredicate;
 
 public class StructuredContents {

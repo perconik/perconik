@@ -18,10 +18,11 @@ import jersey.repackaged.com.google.common.collect.Lists;
 import static java.lang.String.valueOf;
 import static java.util.Arrays.asList;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
+
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -152,12 +153,6 @@ public final class MoreStrings {
 
   public static String firstNonNullOrEmpty(@Nullable final String first, @Nullable final String second) {
     return !isNullOrEmpty(first) ? first : checkNotNullOrEmpty(second);
-  }
-
-  public static String checkNotNullOrEmpty(@Nullable final String s) {
-    checkArgument(!s.isEmpty());
-
-    return s;
   }
 
   public static boolean isWhitespace(final String s) {

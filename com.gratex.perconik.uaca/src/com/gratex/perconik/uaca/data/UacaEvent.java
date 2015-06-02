@@ -19,7 +19,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 import static com.gratex.perconik.uaca.data.GenericUacaEventConstants.EVENT_TYPE_URI_PREFIX;
 import static com.gratex.perconik.uaca.data.GenericUacaEventConstants.TIMESTAMP_PATTERN;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.net.UniformResources.newUri;
 
 @JsonNaming(Default.class)

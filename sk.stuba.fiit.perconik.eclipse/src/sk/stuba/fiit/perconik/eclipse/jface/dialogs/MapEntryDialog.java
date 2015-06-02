@@ -23,7 +23,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.collect.Maps.immutableEntry;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 
 public class MapEntryDialog<K, V> extends StatusDialog {
   private final EntryConverter<K, V> converter;

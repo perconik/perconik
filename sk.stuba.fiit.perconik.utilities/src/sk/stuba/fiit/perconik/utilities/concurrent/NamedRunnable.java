@@ -5,7 +5,7 @@ import com.google.common.base.Supplier;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Suppliers.ofInstance;
 
-import static sk.stuba.fiit.perconik.utilities.MoreStrings.checkNotNullOrEmpty;
+import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 
 public abstract class NamedRunnable implements Runnable {
   private final Supplier<String> toString;
