@@ -270,6 +270,11 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
   }
 
   @Override
+  protected void reportMessage(final String message) {
+    this.reporter.logNotice(message);
+  }
+
+  @Override
   protected void reportFailure(final String message, final Exception failure) {
     this.reporter.logError(message, failure);
     this.reporter.displayError(message, failure);

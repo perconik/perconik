@@ -24,5 +24,8 @@ public abstract class AbstractElasticsearchProxy implements ElasticsearchProxy {
   }
 
   @SuppressWarnings("unused")
+  protected void reportMessage(final String message) {}
+
+  @SuppressWarnings("unused")
   protected void reportFailure(final String message, @Nullable final Exception failure) {}
 }
