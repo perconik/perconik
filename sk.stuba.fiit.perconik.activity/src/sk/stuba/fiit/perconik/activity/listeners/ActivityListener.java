@@ -92,19 +92,21 @@ import static sk.stuba.fiit.perconik.utilities.configuration.OptionParsers.boole
  * @author Pavol Zbell
  * @since 1.0
  */
-public abstract class ActivityListener extends RegularListener {
+public abstract class ActivityListener extends RegularListener<ActivityListener> {
   static final float sharedExecutorPoolSizeScalingFactor = defaultPoolSizeScalingFactor();
 
   static final float probeExecutorPoolSizeScalingFactor = 0.5f;
 
   protected static final String qualifier = join(PLUGIN_ID, "preferences");
 
-  private static final Builder<ActivityListener> sharedBuilder;
+  private static final Builder<ActivityListener, ActivityListener> sharedBuilder;
 
   static {
     sharedBuilder = builder();
 
     sharedBuilder.contextType(ActivityListener.class);
+    sharedBuilder.listenerType(ActivityListener.class);
+
     sharedBuilder.optionsLoader(OptionsSupplier.instance);
 
     sharedBuilder.pluginConsole(PluginConsoles.create(Activator.defaultInstance()));
@@ -142,7 +144,7 @@ public abstract class ActivityListener extends RegularListener {
     this.log = new Log(this);
   }
 
-  static final Configuration<ActivityListener> newConfiguration() {
+  static final Configuration<ActivityListener, ActivityListener> newConfiguration() {
     return sharedBuilder.build();
   }
 
@@ -212,7 +214,7 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
-  private static final class OptionsLoader extends AbstractOptionsLoader {
+  private static final class OptionsLoader extends AbstractOptionsLoader<ActivityListener> {
     protected OptionsLoader(final ActivityListener listener) {
       super(listener);
     }
@@ -228,12 +230,12 @@ public abstract class ActivityListener extends RegularListener {
     }
 
     @Override
-    protected Options adjustDefaultOptions(final RegularListener listener) {
-      return ((ActivityListener) listener).adjustDefaultOptions();
+    protected Options adjustDefaultOptions(final ActivityListener listener) {
+      return listener.adjustDefaultOptions();
     }
 
     @Override
-    protected Options adjustCustomOptions(final RegularListener listener) {
+    protected Options adjustCustomOptions(final ActivityListener listener) {
       return emptyOptions();
     }
   }
@@ -252,28 +254,28 @@ public abstract class ActivityListener extends RegularListener {
     return emptyOptions();
   }
 
-  private enum LoggingRegisterFailureHandler implements RegisterFailureHandler {
+  private enum LoggingRegisterFailureHandler implements RegisterFailureHandler<ActivityListener> {
     instance;
 
-    static void report(final RegularListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
+    static void report(final ActivityListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
         listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
       }
     }
 
-    public void preRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+    public void preRegisterFailure(final ActivityListener listener, final Runnable task, final Exception failure) {
       report(listener, PRE_REGISTER, task, failure);
     }
 
-    public void postRegisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+    public void postRegisterFailure(final ActivityListener listener, final Runnable task, final Exception failure) {
       report(listener, POST_REGISTER, task, failure);
     }
 
-    public void preUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+    public void preUnregisterFailure(final ActivityListener listener, final Runnable task, final Exception failure) {
       report(listener, PRE_UNREGISTER, task, failure);
     }
 
-    public void postUnregisterFailure(final RegularListener listener, final Runnable task, final Exception failure) {
+    public void postUnregisterFailure(final ActivityListener listener, final Runnable task, final Exception failure) {
       report(listener, POST_UNREGISTER, task, failure);
     }
 
@@ -311,7 +313,7 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
-  private static final class ProxyPersistenceStore implements PersistenceStore {
+  private static final class ProxyPersistenceStore implements PersistenceStore<ActivityListener> {
     private final ActivityListener listener;
 
     private final ElasticsearchProxy elasticsearch;
@@ -325,7 +327,7 @@ public abstract class ActivityListener extends RegularListener {
       this.uaca = checkNotNull(uaca);
     }
 
-    public void persist(final String path, final Event data) throws Exception {
+    public void persist(final ActivityListener listener, final String path, final Event data) throws Exception {
       Options options = this.listener.effectiveOptions();
 
       if (logEvents.getValue(options)) {
@@ -401,10 +403,10 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
-  private enum ProxySupplier implements Function<ActivityListener, PersistenceStore> {
+  private enum ProxySupplier implements Function<ActivityListener, PersistenceStore<ActivityListener>> {
     instance;
 
-    public PersistenceStore apply(final ActivityListener listener) {
+    public PersistenceStore<ActivityListener> apply(final ActivityListener listener) {
       ElasticsearchProxy elasticsearch = null;
 
       try {
@@ -438,10 +440,10 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
-  private enum ProxySendFailureHandler implements SendFailureHandler {
+  private enum ProxySendFailureHandler implements SendFailureHandler<ActivityListener> {
     instance;
 
-    public void handleSendFailure(final RegularListener listener, final String path, final Event data, final Exception failure) {
+    public void handleSendFailure(final ActivityListener listener, final String path, final Event data, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
         listener.pluginConsole.error(failure, "%s: unable to send %s to %s using %s", listener, toDefaultString(data), path, listener.persistenceStore);
       }
@@ -453,10 +455,10 @@ public abstract class ActivityListener extends RegularListener {
     }
   }
 
-  private enum ProxyDisposalHook implements DisposalHook {
+  private enum ProxyDisposalHook implements DisposalHook<ActivityListener> {
     instance;
 
-    public void onDispose(final RegularListener listener) {
+    public void onDispose(final ActivityListener listener) {
       try {
         listener.persistenceStore.close();
       } catch (Exception failure) {
