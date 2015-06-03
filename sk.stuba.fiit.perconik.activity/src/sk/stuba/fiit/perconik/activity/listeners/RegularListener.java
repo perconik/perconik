@@ -55,6 +55,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import static com.google.common.base.Functions.constant;
+import static com.google.common.base.Functions.toStringFunction;
 import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -63,6 +64,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Suppliers.ofInstance;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.Maps.transformValues;
 
 import static sk.stuba.fiit.perconik.activity.data.DataCollections.toObjectData;
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.defaultInstance;
@@ -1478,7 +1480,7 @@ public abstract class RegularListener<L extends RegularListener<L>> extends Abst
 
       AnyStructuredData data = new AnyStructuredData();
 
-      data.put(key("effective"), listener.effectiveOptions().toMap());
+      data.put(key("effective"), transformValues(listener.effectiveOptions().toMap(), toStringFunction()));
 
       return data;
     }
