@@ -72,7 +72,6 @@ import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsS
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toDefaultString;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.compound;
 import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.emptyOptions;
-import static sk.stuba.fiit.perconik.utilities.configuration.Configurables.inheritedRawOptions;
 
 /**
  * TODO
@@ -1479,11 +1478,7 @@ public abstract class RegularListener<L extends RegularListener<L>> extends Abst
 
       AnyStructuredData data = new AnyStructuredData();
 
-      Map<String, Object> defaults = listener.defaultOptions().toMap();
-      Map<String, Object> custom = listener.customOptions().toMap();
-
-      data.put(key("custom"), custom);
-      data.put(key("inherited"), inheritedRawOptions(custom, defaults));
+      data.put(key("effective"), listener.effectiveOptions().toMap());
 
       return data;
     }
