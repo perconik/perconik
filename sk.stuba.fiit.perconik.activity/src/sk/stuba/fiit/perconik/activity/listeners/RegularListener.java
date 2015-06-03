@@ -99,7 +99,7 @@ public abstract class RegularListener<L extends RegularListener<L>> extends Abst
   protected final TimeContext timeContext;
 
   /**
-   * Underlying plug-in console for logging.
+   * Underlying plug-in console for general logging.
    */
   protected final PluginConsole pluginConsole;
 

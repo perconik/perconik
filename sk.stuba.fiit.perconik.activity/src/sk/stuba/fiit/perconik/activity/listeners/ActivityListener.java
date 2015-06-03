@@ -53,6 +53,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.transform;
+import static com.google.common.collect.Lists.asList;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Maps.newHashMap;
 
@@ -79,6 +80,7 @@ import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsS
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toDefaultString;
 import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCaseFunction;
+import static sk.stuba.fiit.perconik.utilities.MoreStrings.trimLeading;
 import static sk.stuba.fiit.perconik.utilities.MoreThrowables.initializeSuppressor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.defaultPoolSizeScalingFactor;
 import static sk.stuba.fiit.perconik.utilities.concurrent.PlatformExecutors.newLimitedThreadPool;
@@ -133,6 +135,20 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     sharedBuilder.disposalHook(ProxyDisposalHook.instance);
   }
 
+  /**
+   * Underlying listener specific console, output does not depend on any options.
+   * <p>
+   * Note that underlying {@code pluginConsole} provides not-listener-specific
+   * access to respective plug-in console and therefore should not be used directly.
+   */
+  protected final Console console;
+
+  /**
+   * Underlying listener debug log, output depends on the {@code log.debug} option.
+   * <p>
+   * Note that underlying {@code pluginConsole} provides not-listener-specific
+   * access to respective plug-in console and therefore should not be used directly.
+   */
   protected final Log log;
 
   /**
@@ -141,6 +157,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
   protected ActivityListener() {
     super(newConfiguration());
 
+    this.console = new Console(this);
     this.log = new Log(this);
   }
 
@@ -254,12 +271,68 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     return emptyOptions();
   }
 
+  protected static final class Console extends ForwardingPluginConsole {
+    private final ActivityListener listener;
+
+    private final PluginConsole console;
+
+    Console(final ActivityListener listener) {
+      this.listener = checkNotNull(listener);
+      this.console = checkNotNull(listener.pluginConsole);
+    }
+
+    @Override
+    protected PluginConsole delegate() {
+      return this.console;
+    }
+
+    @Override
+    public void notice(@Nullable final String message) {
+      super.notice("%s: %s", this.listener, message);
+    }
+
+    @Override
+    public void notice(final String format, final Object ... args) {
+      super.notice("%s: " + format, this.listener, asList(this.listener, args));
+    }
+
+    @Override
+    public void warning(@Nullable final String message) {
+      super.warning("%s: %s", this.listener, message);
+    }
+
+    @Override
+    public void warning(final String format, final Object ... args) {
+      super.warning("%s: " + format, this.listener, asList(this.listener, args));
+    }
+
+    @Override
+    public void error(@Nullable final String message) {
+      super.error("%s: %s", this.listener, message);
+    }
+
+    @Override
+    public void error(final String format, final Object ... args) {
+      super.error("%s: " + format, this.listener, asList(this.listener, args));
+    }
+
+    @Override
+    public void error(final Throwable failure, @Nullable final String message) {
+      super.error(failure, "%s: %s", this.listener, message);
+    }
+
+    @Override
+    public void error(final Throwable failure, final String format, final Object ... args) {
+      super.error(failure, "%s: " + format, this.listener, asList(this.listener, args));
+    }
+  }
+
   private enum LoggingRegisterFailureHandler implements RegisterFailureHandler<ActivityListener> {
     instance;
 
     static void report(final ActivityListener listener, final RegistrationHook hook, final Runnable task, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
-        listener.pluginConsole.error(failure, "%s: unexpected failure while executing %s as %s hook", listener, task, hook);
+        listener.console.error(failure, "unexpected failure while executing %s as %s hook", task, hook);
       }
     }
 
@@ -314,24 +387,20 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
   }
 
   private static final class ProxyPersistenceStore implements PersistenceStore<ActivityListener> {
-    private final ActivityListener listener;
-
     private final ElasticsearchProxy elasticsearch;
 
     private final UacaProxy uaca;
 
-    ProxyPersistenceStore(final ActivityListener listener, final ElasticsearchProxy elasticsearch, final UacaProxy uaca) {
-      this.listener = checkNotNull(listener);
-
+    ProxyPersistenceStore(final ElasticsearchProxy elasticsearch, final UacaProxy uaca) {
       this.elasticsearch = checkNotNull(elasticsearch);
       this.uaca = checkNotNull(uaca);
     }
 
     public void persist(final ActivityListener listener, final String path, final Event data) throws Exception {
-      Options options = this.listener.effectiveOptions();
+      Options options = listener.effectiveOptions();
 
       if (logEvents.getValue(options)) {
-        report(this.listener, path, data);
+        report(listener, path, data);
       }
 
       List<Exception> failures = newLinkedList();
@@ -352,9 +421,9 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         Map<?, ?> raw = Mapper.getShared().convertValue(data, Mapper.getMapType());
         String serial = Writer.getPretty().writeValueAsString(raw);
 
-        listener.pluginConsole.notice(format("%s: %s%n%s", listener, path, serial));
+        listener.console.notice(format("%s%n%s", path, serial));
       } catch (JsonProcessingException | RuntimeException failure) {
-        listener.pluginConsole.error(failure, "%s: unable to format %s", listener, toDefaultString(data));
+        listener.console.error(failure, "unable to format %s", toDefaultString(data));
       }
     }
 
@@ -380,9 +449,9 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       }
     }
 
-    void reload() {
-      if (logNotices.getValue(this.listener.effectiveOptions())) {
-        this.listener.pluginConsole.notice("%s: updating %s", this, ElasticsearchProxy.class.getName());
+    void reload(final ActivityListener listener) {
+      if (logNotices.getValue(listener.effectiveOptions())) {
+        listener.console.notice("updating %s", ElasticsearchProxy.class.getName());
       }
 
       this.elasticsearch.update();
@@ -425,12 +494,12 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
       checkState(elasticsearch != null && uaca != null, "%s: unable to construct %s", this, ProxyPersistenceStore.class.getName());
 
-      return new ProxyPersistenceStore(listener, elasticsearch, uaca);
+      return new ProxyPersistenceStore(elasticsearch, uaca);
     }
 
-    private static void handleConstructFailure(final RegularListener listener, final Class<? extends Store<?>> implementation, final Exception failure) {
+    private static void handleConstructFailure(final ActivityListener listener, final Class<? extends Store<?>> implementation, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
-        listener.pluginConsole.error(failure, "%s: unable to construct %s", listener, implementation.getName());
+        listener.console.error(failure, "unable to construct %s", implementation.getName());
       }
     }
 
@@ -445,7 +514,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     public void handleSendFailure(final ActivityListener listener, final String path, final Event data, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
-        listener.pluginConsole.error(failure, "%s: unable to send %s to %s using %s", listener, toDefaultString(data), path, listener.persistenceStore);
+        listener.console.error(failure, "unable to send %s to %s using %s", toDefaultString(data), path, listener.persistenceStore);
       }
     }
 
@@ -466,9 +535,9 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       }
     }
 
-    private static void handleDisposeFailure(final RegularListener listener, final Exception failure) {
+    private static void handleDisposeFailure(final ActivityListener listener, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
-        listener.pluginConsole.error(failure, "%s: unable to dispose %s", listener, listener.persistenceStore);
+        listener.console.error(failure, "unable to dispose %s", listener.persistenceStore);
       }
     }
 
@@ -534,7 +603,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
   }
 
   protected static String probeKeyToOptionKey(final String key) {
-    return qualifier + separator + key.replace(internalProbeKeyPrefix + separator, "");
+    return qualifier + separator + trimLeading(key, internalProbeKeyPrefix + separator);
   }
 
   protected Map<String, OptionAccessor<Boolean>> probeKeyToOptionAccessor() {
@@ -618,8 +687,6 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     }
   }
 
-  // TODO note that this is the debug log, not to be confused with plug-in console
-
   protected static final class Log extends ForwardingPluginConsole {
     private final Options options;
 
@@ -652,7 +719,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
   protected final void onOptionsReload() {
     super.onOptionsReload();
 
-    ((ProxyPersistenceStore) this.persistenceStore).reload();
+    ((ProxyPersistenceStore) this.persistenceStore).reload(this);
 
     this.onOptionsReloadHook();
   }
