@@ -407,7 +407,9 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       source.put("path", path);
 
       try {
-        this.index(index, type, source);
+        IndexResponse response = this.index(index, type, source);
+
+        checkState(response.isCreated(), "%s: document %s not created", listener, toDefaultString(data));
       } catch (IndexMissingException failure) {
         if (logNotices.getValue(listener.effectiveOptions())) {
           listener.console.notice("index %s not exists, create index and reindex event", index);
@@ -421,14 +423,16 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     void create(final ActivityListener listener, final String index, final String type) {
       try {
         Map<String, Object> source = IndexSource.get(listener, type);
-
+    
         if (logNotices.getValue(listener.effectiveOptions())) {
           String raw = AnyStructuredData.of(source).toString(true);
-
+    
           listener.console.notice("creating index %s from source: %s", index, raw);
         }
-
-        this.createIndex(index, source);
+    
+        CreateIndexResponse response = this.createIndex(index, source);
+    
+        checkState(response.isAcknowledged(), "%s: index %s not acknowledged", listener, index);
       } catch (IndexAlreadyExistsException failure) {
         if (logNotices.getValue(listener.effectiveOptions())) {
           listener.console.notice("index %s already exists, reindex event", index);
