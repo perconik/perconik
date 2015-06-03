@@ -1,5 +1,7 @@
 package sk.stuba.fiit.perconik.activity.listeners;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,11 +15,18 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.elasticsearch.Version;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.indices.IndexAlreadyExistsException;
+import org.elasticsearch.indices.IndexMissingException;
 
 import com.gratex.perconik.uaca.SharedUacaProxy;
 import com.gratex.perconik.uaca.data.UacaEvent;
 import com.gratex.perconik.uaca.preferences.UacaOptions;
 
+import sk.stuba.fiit.perconik.activity.data.core.ListenerData;
 import sk.stuba.fiit.perconik.activity.data.core.StandardCoreProbe;
 import sk.stuba.fiit.perconik.activity.data.platform.StandardPlatformProbe;
 import sk.stuba.fiit.perconik.activity.data.process.StandardProcessProbe;
@@ -27,8 +36,11 @@ import sk.stuba.fiit.perconik.activity.plugin.Activator;
 import sk.stuba.fiit.perconik.activity.preferences.ActivityPreferences;
 import sk.stuba.fiit.perconik.activity.probes.Probe;
 import sk.stuba.fiit.perconik.core.preferences.ListenerPreferences;
+import sk.stuba.fiit.perconik.data.AnyStructuredData;
+import sk.stuba.fiit.perconik.data.bind.Defaults;
 import sk.stuba.fiit.perconik.data.bind.Mapper;
 import sk.stuba.fiit.perconik.data.bind.Writer;
+import sk.stuba.fiit.perconik.data.content.AnyStructuredContent;
 import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.data.store.Store;
@@ -75,6 +87,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
+import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.nodeName;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
@@ -358,30 +371,212 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     }
   }
 
-  private static final class ElasticsearchProxy extends SharedElasticsearchProxy implements Store<Object> {
+  private static final class ElasticsearchProxy extends SharedElasticsearchProxy implements Store<ActivityListener, Event> {
     ElasticsearchProxy(final ElasticsearchOptions options) {
       super(options);
     }
 
-    public Content load(final String path, @Nullable final Object request) {
+    private enum IndexSupplier implements Function<Event, String> {
+      instance;
+
+      public String apply(final Event data) {
+        long timestamp = data.getTimestamp();
+
+        return "perconik-events-" + new SimpleDateFormat("yyyyMMdd").format(new Date(timestamp));
+      }
+    }
+
+    private enum TypeSupplier implements Function<Event, String> {
+      instance;
+
+      public String apply(final Event data) {
+        return "event";
+      }
+    }
+
+    public Content load(final ActivityListener listener, final String path, @Nullable final Event data) {
       throw new UnsupportedOperationException();
     }
 
-    public void save(final String path, @Nullable final Object resource) {
-      // TODO ensure index exists, index resource
+    public void save(final ActivityListener listener, final String path, @Nullable final Event data) {
+      String index = IndexSupplier.instance.apply(data);
+      String type = TypeSupplier.instance.apply(data);
+
+      Map<String, Object> source = data.toMap();
+
+      source.put("path", path);
+
+      try {
+        this.index(index, type, source);
+      } catch (IndexMissingException failure) {
+        if (logNotices.getValue(listener.effectiveOptions())) {
+          listener.console.notice("index %s not exists, create index and reindex event", index);
+        }
+
+        this.create(listener, index, type);
+        this.index(index, type, source);
+      }
+    }
+
+    void create(final ActivityListener listener, final String index, final String type) {
+      try {
+        Map<String, Object> source = IndexSource.get(listener, type);
+
+        if (logNotices.getValue(listener.effectiveOptions())) {
+          String raw = AnyStructuredData.of(source).toString(true);
+
+          listener.console.notice("creating index %s from source: %s", index, raw);
+        }
+
+        this.createIndex(index, source);
+      } catch (IndexAlreadyExistsException failure) {
+        if (logNotices.getValue(listener.effectiveOptions())) {
+          listener.console.notice("index %s already exists, reindex event", index);
+        }
+      }
+    }
+
+    private static final class IndexSource {
+      private IndexSource() {}
+
+      private static Map<String, Object> settings() {
+        AnyStructuredContent settings = new AnyStructuredData();
+
+        settings.put(key("number_of_shards"), 1);
+        settings.put(key("number_of_replicas"), 0);
+
+        settings.put(key("analysis"), analysis());
+
+        return settings.toMap();
+      }
+
+      private static Map<String, Object> analysis() {
+        AnyStructuredContent analysis = new AnyStructuredData();
+
+        analysis.put(key("analyzer", "action_analyzer", "type"), "custom");
+        analysis.put(key("analyzer", "action_analyzer", "tokenizer"), "action_tokenizer");
+
+        analysis.put(key("analyzer", "path_analyzer", "type"), "custom");
+        analysis.put(key("analyzer", "path_analyzer", "tokenizer"), "path_tokenizer");
+
+        analysis.put(key("tokenizer", "action_tokenizer", "type"), "PathHierarchy");
+        analysis.put(key("tokenizer", "action_tokenizer", "delimeter"), '.');
+
+        analysis.put(key("tokenizer", "path_tokenizer", "type"), "PathHierarchy");
+        analysis.put(key("tokenizer", "path_tokenizer", "delimeter"), '/');
+
+        return analysis.toMap();
+      }
+
+      private static Map<String, Object> mappings(final ActivityListener listener) {
+        AnyStructuredContent mappings = new AnyStructuredData();
+
+        mappings.put(key("_all", "enabled"), true);
+        mappings.put(key("_uid", "enabled"), false);
+        mappings.put(key("_source", "enabled"), true);
+
+        mappings.put(key("_index", "enabled"), true);
+        mappings.put(key("_index", "type"), "string");
+        mappings.put(key("_index", "store"), true);
+        mappings.put(key("_index", "index"), "not_analyzed");
+
+        mappings.put(key("_type", "enabled"), true);
+        mappings.put(key("_type", "type"), "string");
+        mappings.put(key("_type", "store"), true);
+        mappings.put(key("_type", "index"), "not_analyzed");
+
+        mappings.put(key("_id", "enabled"), true);
+        mappings.put(key("_id", "type"), "string");
+        mappings.put(key("_id", "store"), true);
+        mappings.put(key("_id", "index"), "not_analyzed");
+
+        mappings.put(key("_timestamp", "enabled"), true);
+        mappings.put(key("_timestamp", "type"), "date");
+        mappings.put(key("_timestamp", "store"), true);
+        mappings.put(key("_timestamp", "index"), "not_analyzed");
+        mappings.put(key("_timestamp", "format"), Defaults.TIME_PATTERN);
+
+        mappings.put(key("_meta"), meta(listener));
+
+        mappings.put(key("properties"), properties());
+
+        return mappings.toMap();
+      }
+
+      private static Map<String, Object> meta(final ActivityListener listener) {
+        AnyStructuredContent meta = new AnyStructuredData();
+
+        Options options = listener.effectiveOptions();
+
+        meta.put(key("creator", "node", "name"), options.get(nodeName.getKey()));
+        meta.put(key("creator", "node", "version"), Version.CURRENT.toString());
+
+        meta.put(key("creator", "listener"), ListenerData.of(listener));
+
+        meta.put(key("tagline"), "You Know, for Research");
+
+        return meta.toMap();
+      }
+
+      private static Map<String, Object> properties() {
+        AnyStructuredContent properties = new AnyStructuredData();
+
+        properties.put(key("path", "type"), "string");
+        properties.put(key("path", "store"), true);
+        properties.put(key("path", "index"), "analyzed");
+        properties.put(key("path", "analyzer"), "path_analyzer");
+
+        properties.put(key("action", "type"), "string");
+        properties.put(key("action", "store"), true);
+        properties.put(key("action", "index"), "analyzed");
+        properties.put(key("action", "analyzer"), "action_analyzer");
+
+        properties.put(key("timestamp", "type"), "date");
+        properties.put(key("timestamp", "store"), true);
+        properties.put(key("timestamp", "index"), "not_analyzed");
+        properties.put(key("timestamp", "format"), Defaults.TIME_PATTERN);
+
+        return properties.toMap();
+      }
+
+      static Map<String, Object> get(final ActivityListener listener, final String type) {
+        AnyStructuredContent source = new AnyStructuredData();
+
+        source.put(key("settings"), settings());
+
+        source.put(key("mappings", type), mappings(listener));
+
+        return source.toMap();
+      }
+    }
+
+    private CreateIndexResponse createIndex(final String index, final Map<String, Object> source) {
+      return this.execute(new Task<CreateIndexResponse>() {
+        public CreateIndexResponse perform(final TransportClient client) {
+          return client.admin().indices().prepareCreate(index).setSource(source).get();
+        }
+      });
+    }
+
+    private IndexResponse index(final String index, final String type, final Map<String, Object> source) {
+      return this.execute(new Task<IndexResponse>() {
+        public IndexResponse perform(final TransportClient client) {
+          return client.prepareIndex(index, type).setSource(source).get();
+        }
+      });
     }
   }
 
-  private static final class UacaProxy extends SharedUacaProxy implements Store<Object> {
+  private static final class UacaProxy extends SharedUacaProxy implements Store<ActivityListener, Object> {
     UacaProxy(final UacaOptions options) {
       super(options);
     }
 
-    public Content load(final String path, @Nullable final Object request) {
+    public Content load(final ActivityListener listener, final String path, @Nullable final Object request) {
       throw new UnsupportedOperationException();
     }
 
-    public void save(final String path, @Nullable final Object resource) {
+    public void save(final ActivityListener listener, final String path, @Nullable final Object resource) {
       this.send(GENERIC_EVENT_PATH, UacaEvent.of(path, resource));
     }
   }
@@ -406,11 +601,11 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       List<Exception> failures = newLinkedList();
 
       if (persistenceElasticsearch.getValue(options)) {
-        save(this.elasticsearch, path, data, failures);
+        save(this.elasticsearch, listener, path, data, failures);
       }
 
       if (persistenceUaca.getValue(options)) {
-        save(this.uaca, path, data, failures);
+        save(this.uaca, listener, path, data, failures);
       }
 
       handle(failures);
@@ -427,15 +622,15 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       }
     }
 
-    private static void save(final Store<? super Event> store, final String path, final Event data, final List<Exception> failures) {
+    private static void save(final Store<? super ActivityListener, ? super Event> store, final ActivityListener listener, final String path, final Event data, final List<Exception> failures) {
       try {
-        store.save(path, data);
+        store.save(listener, path, data);
       } catch (Exception failure) {
         failures.add(failure);
       }
     }
 
-    private static void close(final Store<? super Event> store, final List<Exception> failures) {
+    private static void close(final Store<? super ActivityListener, ? super Event> store, final List<Exception> failures) {
       try {
         store.close();
       } catch (Exception failure) {
@@ -497,7 +692,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       return new ProxyPersistenceStore(elasticsearch, uaca);
     }
 
-    private static void handleConstructFailure(final ActivityListener listener, final Class<? extends Store<?>> implementation, final Exception failure) {
+    private static void handleConstructFailure(final ActivityListener listener, final Class<? extends Store<?, ?>> implementation, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
         listener.console.error(failure, "unable to construct %s", implementation.getName());
       }
