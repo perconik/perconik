@@ -1286,19 +1286,19 @@ public abstract class RegularListener<L extends RegularListener<L>> extends Abst
     }
   }
 
-  public static final class StoreWrapper implements PersistenceStore<Listener> {
-    private final Store<? super Event> store;
+  public static final class StoreWrapper<L extends Listener> implements PersistenceStore<L> {
+    private final Store<? super L, ? super Event> store;
 
-    private StoreWrapper(final Store<? super Event> store) {
+    private StoreWrapper(final Store<? super L, ? super Event> store) {
       this.store = checkNotNull(store);
     }
 
-    public static StoreWrapper of(final Store<? super Event> store) {
-      return new StoreWrapper(store);
+    public static <L extends Listener> StoreWrapper<L> of(final Store<? super L, ? super Event> store) {
+      return new StoreWrapper<>(store);
     }
 
-    public void persist(final Listener listener, final String path, final Event data) throws Exception {
-      this.store.save(path, data);
+    public void persist(final L listener, final String path, final Event data) throws Exception {
+      this.store.save(listener, path, data);
     }
 
     public void close() throws Exception {
