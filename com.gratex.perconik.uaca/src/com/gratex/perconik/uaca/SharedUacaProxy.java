@@ -34,7 +34,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 public class SharedUacaProxy extends AbstractUacaProxy {
   private static final String connectionCheckPath = "ide/checkin";
 
-  private static final TimeValue waitBeforeClientClose = of(8, SECONDS);
+  private static final TimeValue waitBeforeClientClose = of(4, SECONDS);
 
   protected final UacaOptions options;
 
