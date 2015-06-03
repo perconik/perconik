@@ -21,6 +21,7 @@ import sk.stuba.fiit.perconik.utilities.reflect.Reflections;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotable;
 import sk.stuba.fiit.perconik.utilities.reflect.annotation.Annotations;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Lists.newArrayList;
@@ -109,6 +110,10 @@ public final class Registrables {
     annotations.add(version(type));
 
     return Annotations.asAnnotable(annotations);
+  }
+
+  public static String getVersion(final Class<? extends Registrable> type) {
+    return firstNonNull(type.getAnnotation(Version.class), version(type)).value();
   }
 
   public static boolean isExperimental(final Class<? extends Registrable> type) {
