@@ -1739,11 +1739,28 @@ public abstract class RegularListener<L extends RegularListener<L>> extends Abst
     this.disposalHook.onDispose(this.asSubtype());
   }
 
+  /**
+   * Gets effective options of this configurable instance.
+   *
+   * <p><b>Note:</b> always returns the same instance.
+   */
   public final Options getOptions() {
     return this.effectiveOptions();
   }
 
+  /**
+   * Gets scoped options of this configurable instance.
+   *
+   * <p><b>Note:</b> always returns the same instance.
+   *
+   * @param scope the scope to be applied, not {@code null}
+   *
+   * @throws IllegalArgumentException {@inheritDoc}
+   * @throws NullPointerException {@inheritDoc}
+   */
   public final Options getOptions(final Scope scope) {
+    checkNotNull(scope);
+
     if (scope == StandardScope.DEFAULT) {
       return this.defaultOptions();
     } else if (scope == StandardScope.CUSTOM) {
