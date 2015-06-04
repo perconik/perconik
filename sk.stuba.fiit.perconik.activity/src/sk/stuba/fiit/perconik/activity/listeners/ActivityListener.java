@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 
@@ -64,6 +65,8 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
+import static com.google.common.base.Optional.absent;
+import static com.google.common.base.Optional.fromNullable;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -613,40 +616,20 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
   }
 
   private static final class ProxyPersistenceStore implements PersistenceStore<ActivityListener> {
-    private final ElasticsearchProxy elasticsearch;
+    private final ProxyHolder<ElasticsearchProxy> elasticsearch;
 
-    private final UacaProxy uaca;
+    private final ProxyHolder<UacaProxy> uaca;
 
-    ProxyPersistenceStore(final ElasticsearchProxy elasticsearch, final UacaProxy uaca) {
+    ProxyPersistenceStore(final ProxyHolder<ElasticsearchProxy> elasticsearch, final ProxyHolder<UacaProxy> uaca) {
       this.elasticsearch = checkNotNull(elasticsearch);
       this.uaca = checkNotNull(uaca);
-    }
-
-    public void persist(final ActivityListener listener, final String path, final Event data) throws Exception {
-      Options options = listener.effectiveOptions();
-
-      if (logEvents.getValue(options)) {
-        report(listener, path, data);
-      }
-
-      List<Exception> failures = newLinkedList();
-
-      if (persistenceElasticsearch.getValue(options)) {
-        save(this.elasticsearch, listener, path, data, failures);
-      }
-
-      if (persistenceUaca.getValue(options)) {
-        save(this.uaca, listener, path, data, failures);
-      }
-
-      handle(failures);
     }
 
     private static void report(final ActivityListener listener, final String path, final Event data) {
       try {
         Map<?, ?> raw = Mapper.getShared().convertValue(data, Mapper.getMapType());
         String serial = Writer.getPretty().writeValueAsString(raw);
-
+    
         listener.console.notice(format("%s%n%s", path, serial));
       } catch (JsonProcessingException | RuntimeException failure) {
         listener.console.error(failure, "unable to format %s", toDefaultString(data));
@@ -661,9 +644,13 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       }
     }
 
-    private static void close(final Store<? super ActivityListener, ? super Event> store, final List<Exception> failures) {
+    private static void close(final Optional<? extends Store<? super ActivityListener, ? super Event>> store, final List<Exception> failures) {
+      if (!store.isPresent()) {
+        return;
+      }
+    
       try {
-        store.close();
+        store.get().close();
       } catch (Exception failure) {
         failures.add(failure);
       }
@@ -671,8 +658,28 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     private static void handle(final List<Exception> failures) throws Exception {
       if (!failures.isEmpty()) {
-        throw initializeSuppressor(new Exception(), failures);
+        throw initializeSuppressor(new RuntimeException(), failures);
       }
+    }
+
+    public void persist(final ActivityListener listener, final String path, final Event data) throws Exception {
+      Options options = listener.effectiveOptions();
+    
+      if (logEvents.getValue(options)) {
+        report(listener, path, data);
+      }
+    
+      List<Exception> failures = newLinkedList();
+    
+      if (persistenceElasticsearch.getValue(options)) {
+        save(this.elasticsearch.openOrReuse(), listener, path, data, failures);
+      }
+    
+      if (persistenceUaca.getValue(options)) {
+        save(this.uaca.openOrReuse(), listener, path, data, failures);
+      }
+    
+      handle(failures);
     }
 
     void reload(final ActivityListener listener) {
@@ -680,14 +687,18 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         listener.console.notice("updating %s", ElasticsearchProxy.class.getName());
       }
 
-      this.elasticsearch.update();
+      Optional<ElasticsearchProxy> elasticsearch = this.elasticsearch.tryToReuse();
+
+      if (elasticsearch.isPresent()) {
+        elasticsearch.get().update();
+      }
     }
 
     public void close() throws Exception {
       List<Exception> failures = newLinkedList();
 
-      close(this.elasticsearch, failures);
-      close(this.uaca, failures);
+      close(this.elasticsearch.tryToReuse(), failures);
+      close(this.uaca.tryToReuse(), failures);
 
       handle(failures);
     }
@@ -698,35 +709,80 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     }
   }
 
+  private static abstract class ProxyHolder<T extends Store<? super ActivityListener, ?>> {
+    private volatile boolean opened;
+
+    private T store;
+
+    ProxyHolder() {}
+
+    abstract T open();
+
+    final T openOrReuse() {
+      if (!this.opened) {
+        synchronized (this) {
+          if (!this.opened) {
+            T store = open();
+
+            this.store = store;
+            this.opened = true;
+
+            return store;
+          }
+        }
+      }
+
+      return this.store;
+    }
+
+    final Optional<T> tryToReuse() {
+      if (!this.opened) {
+        synchronized (this) {
+          if (!this.opened) {
+            return absent();
+          }
+        }
+      }
+
+      return fromNullable(this.store);
+    }
+  }
+
   private enum ProxySupplier implements Function<ActivityListener, PersistenceStore<ActivityListener>> {
     instance;
 
     public PersistenceStore<ActivityListener> apply(final ActivityListener listener) {
-      ElasticsearchProxy elasticsearch = null;
+      ProxyHolder<ElasticsearchProxy> elasticsearch = new ProxyHolder<ElasticsearchProxy>() {
+        @Override
+        ElasticsearchProxy open() {
+          try {
+            return new ElasticsearchProxy(listener.getElasticsearchOptions());
+          } catch (Exception failure) {
+            throw handleConstructFailure(listener, ElasticsearchProxy.class, failure);
+          }
+        }
+      };
 
-      try {
-        elasticsearch = new ElasticsearchProxy(listener.getElasticsearchOptions());
-      } catch (Exception failure) {
-        handleConstructFailure(listener, ElasticsearchProxy.class, failure);
-      }
-
-      UacaProxy uaca = null;
-
-      try {
-        uaca = new UacaProxy(listener.getUacaOptions());
-      } catch (Exception failure) {
-        handleConstructFailure(listener, UacaProxy.class, failure);
-      }
-
-      checkState(elasticsearch != null && uaca != null, "%s: unable to construct %s", this, ProxyPersistenceStore.class.getName());
+      ProxyHolder<UacaProxy> uaca = new ProxyHolder<UacaProxy>() {
+        @Override
+        UacaProxy open() {
+          try {
+            return new UacaProxy(listener.getUacaOptions());
+          } catch (Exception failure) {
+            throw handleConstructFailure(listener, UacaProxy.class, failure);
+          }
+        }
+      };
 
       return new ProxyPersistenceStore(elasticsearch, uaca);
     }
 
-    private static void handleConstructFailure(final ActivityListener listener, final Class<? extends Store<?, ?>> implementation, final Exception failure) {
+    static RuntimeException handleConstructFailure(final ActivityListener listener, final Class<? extends Store<?, ?>> implementation, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
         listener.console.error(failure, "unable to construct %s", implementation.getName());
       }
+
+      throw new IllegalStateException(format("%s: unexpected failure while opening %", listener, implementation.getName()), failure);
     }
 
     @Override
@@ -761,7 +817,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       }
     }
 
-    private static void handleDisposeFailure(final ActivityListener listener, final Exception failure) {
+    static void handleDisposeFailure(final ActivityListener listener, final Exception failure) {
       if (logErrors.getValue(listener.effectiveOptions())) {
         listener.console.error(failure, "unable to dispose %s", listener.persistenceStore);
       }
