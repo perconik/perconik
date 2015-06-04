@@ -20,6 +20,7 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
 import org.elasticsearch.indices.IndexMissingException;
 
@@ -88,7 +89,6 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
 import static sk.stuba.fiit.perconik.eclipse.swt.widgets.DisplayExecutor.defaultSynchronous;
-import static sk.stuba.fiit.perconik.elasticsearch.preferences.ElasticsearchOptions.Schema.nodeName;
 import static sk.stuba.fiit.perconik.preferences.AbstractPreferences.Keys.join;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullAsState;
 import static sk.stuba.fiit.perconik.utilities.MorePreconditions.checkNotNullOrEmpty;
@@ -429,7 +429,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
           reportMessage(format("%s -> index %s not exists, create index and reindex event", listener, index));
         }
 
-        this.create(listener, client, index, IndexSource.get(listener, type));
+        this.create(listener, client, index, IndexSource.get(listener, client, index, type));
 
         IndexResponse response = client.index(request).actionGet();
 
@@ -457,7 +457,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     }
 
     private static final class IndexSource {
-      private static final String VERSION = "0.0.1";
+      private static final String VERSION = "0.0.2.alpha";
 
       private IndexSource() {}
 
@@ -466,8 +466,6 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
         settings.put(key("number_of_shards"), 1);
         settings.put(key("number_of_replicas"), 0);
-
-        settings.put(key("mapper", "allow_dynamic"), false);
 
         settings.put(key("analysis"), analysis());
 
@@ -492,7 +490,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         return analysis.toMap();
       }
 
-      private static Map<String, Object> mappings(final ActivityListener listener) {
+      private static Map<String, Object> mappings(final ActivityListener listener, final TransportClient client, final String index, final String type) {
         AnyStructuredContent mappings = new AnyStructuredData();
 
         mappings.put(key("_all", "enabled"), true);
@@ -515,29 +513,37 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         mappings.put(key("_id", "index"), "not_analyzed");
 
         mappings.put(key("_timestamp", "enabled"), true);
-        mappings.put(key("_timestamp", "type"), "date");
+        mappings.put(key("_timestamp", "type"), "long");
         mappings.put(key("_timestamp", "store"), true);
-        mappings.put(key("_timestamp", "index"), "not_analyzed");
-        mappings.put(key("_timestamp", "format"), Defaults.TIME_PATTERN);
+        mappings.put(key("_timestamp", "index"), "no");
 
-        mappings.put(key("_meta"), meta(listener));
+        mappings.put(key("_meta"), meta(listener, client, index, type));
+
+        mappings.put(key("dynamic"), false);
 
         mappings.put(key("properties"), properties());
 
         return mappings.toMap();
       }
 
-      private static Map<String, Object> meta(final ActivityListener listener) {
+      private static Map<String, Object> meta(final ActivityListener listener, final TransportClient client, final String index, final String type) {
         AnyStructuredContent meta = new AnyStructuredData();
 
-        Options options = listener.effectiveOptions();
+        Settings settings = client.settings();
 
-        meta.put(key("creator", "node", "name"), options.get(nodeName.getKey()));
-        meta.put(key("creator", "node", "version"), Version.CURRENT.toString());
+        meta.put(key("creator", "node", "name"), settings.get("name"));
+        meta.put(key("creator", "node", "client"), settings.get("node.client"));
+        meta.put(key("creator", "node", "master"), settings.get("node.master"));
+        meta.put(key("creator", "node", "data"), settings.get("node.data"));
+
+        meta.put(key("creator", "client", "type"), settings.get("client.type"));
+        meta.put(key("creator", "client", "version"), Version.CURRENT.toString());
 
         meta.put(key("creator", "listener", "class"), listener.getClass().getName());
         meta.put(key("creator", "listener", "version"), Registrables.getVersion(listener.getClass()));
 
+        meta.put(key("index"), index);
+        meta.put(key("types"), asList(type));
         meta.put(key("version"), VERSION);
 
         meta.put(key("tagline"), "You Know, for Research");
@@ -558,20 +564,24 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         properties.put(key("action", "index"), "analyzed");
         properties.put(key("action", "analyzer"), "action_analyzer");
 
-        properties.put(key("timestamp", "type"), "date");
+        properties.put(key("time", "type"), "date");
+        properties.put(key("time", "store"), true);
+        properties.put(key("time", "index"), "not_analyzed");
+        properties.put(key("time", "format"), Defaults.TIME_PATTERN);
+
+        properties.put(key("timestamp", "type"), "long");
         properties.put(key("timestamp", "store"), true);
-        properties.put(key("timestamp", "index"), "not_analyzed");
-        properties.put(key("timestamp", "format"), Defaults.TIME_PATTERN);
+        properties.put(key("timestamp", "index"), "no");
 
         return properties.toMap();
       }
 
-      static Map<String, Object> get(final ActivityListener listener, final String type) {
+      static Map<String, Object> get(final ActivityListener listener, final TransportClient client, final String index, final String type) {
         AnyStructuredContent source = new AnyStructuredData();
 
         source.put(key("settings"), settings());
 
-        source.put(key("mappings", type), mappings(listener));
+        source.put(key("mappings", type), mappings(listener, client, index, type));
 
         return source.toMap();
       }
@@ -579,9 +589,9 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     private static Map<String, Object> source(final String path, final Event data) {
       final Map<String, Object> source = data.toMap();
-    
+
       source.put("path", path);
-    
+
       return source;
     }
   }
