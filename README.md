@@ -26,10 +26,10 @@ A collection of Eclipse features and plug-ins to track user activity
 
 ### Elasticsearch
 
-- disable automatic index creation for all PerConIK event indices in all cluster nodes,
+- disable automatic index creation for PerConIK event indices in all cluster nodes,
 (event type mapping will otherwise not work as expected), this can be achieved via setting
 `action.auto_create_index: "-perconik-events*,+*"` in `elasticsearch.yml` which disables
-automatic index creation for all PerConIK event indices and leaves it enabled for other indices 
+automatic index creation for PerConIK event indices and leaves it enabled for other indices
 
 ## Building
 
