@@ -24,6 +24,13 @@ A collection of Eclipse features and plug-ins to track user activity
 - Clone [perconik project](https://github.com/perconik/perconik) into workspace
 - Clone [perconik update repository](https://github.com/perconik/perconik.github.io) into workspace
 
+### Elasticsearch
+
+- disable automatic index creation for all PerConIK event indices in all cluster nodes,
+(event type mapping will otherwise not work as expected), this can be achieved via setting
+`action.auto_create_index: "-perconik-events*,+*"` in `elasticsearch.yml` which disables
+automatic index creation for all PerConIK event indices and leaves it enabled for other indices 
+
 ## Building
 
 1. Download external libraries with `sk.stuba.fiit.perconik.libraries/download/run`
