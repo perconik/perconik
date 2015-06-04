@@ -71,9 +71,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Lists.asList;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.ObjectArrays.concat;
 
 import static com.gratex.perconik.uaca.GenericUacaProxyConstants.GENERIC_EVENT_PATH;
 
@@ -278,7 +278,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
   private enum OptionsSupplier implements Function<ActivityListener, OptionsLoader> {
     instance;
 
-    public OptionsLoader apply(final ActivityListener listener) {
+    public OptionsLoader apply(@Nonnull final ActivityListener listener) {
       return new OptionsLoader(listener);
     }
   }
@@ -311,7 +311,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void notice(final String format, final Object ... args) {
-      super.notice("%s: " + format, asList(this.listener, args));
+      super.notice("%s: " + format, concat(this.listener, args));
     }
 
     @Override
@@ -321,7 +321,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void warning(final String format, final Object ... args) {
-      super.warning("%s: " + format, asList(this.listener, args));
+      super.warning("%s: " + format, concat(this.listener, args));
     }
 
     @Override
@@ -331,7 +331,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void error(final String format, final Object ... args) {
-      super.error("%s: " + format, asList(this.listener, args));
+      super.error("%s: " + format, concat(this.listener, args));
     }
 
     @Override
@@ -341,7 +341,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void error(final Throwable failure, final String format, final Object ... args) {
-      super.error(failure, "%s: " + format, asList(this.listener, args));
+      super.error(failure, "%s: " + format, concat(this.listener, args));
     }
   }
 
@@ -384,7 +384,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     private enum IndexSupplier implements Function<Event, String> {
       instance;
 
-      public String apply(final Event data) {
+      public String apply(@Nonnull final Event data) {
         long timestamp = data.getTimestamp();
 
         return "perconik-events-" + new SimpleDateFormat("yyyyMMdd").format(new Date(timestamp));
@@ -394,16 +394,16 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     private enum TypeSupplier implements Function<Event, String> {
       instance;
 
-      public String apply(final Event data) {
+      public String apply(@Nonnull final Event data) {
         return "event";
       }
     }
 
-    public Content load(final ActivityListener listener, final String path, @Nullable final Event data) {
+    public Content load(final ActivityListener listener, final String path, @Nonnull final Event data) {
       throw new UnsupportedOperationException();
     }
 
-    public void save(final ActivityListener listener, final String path, @Nullable final Event data) {
+    public void save(final ActivityListener listener, final String path, @Nonnull final Event data) {
       // in order for index creation and type mapping to work properly,
       // action.auto_create_index setting must be disabled on every node
 
@@ -782,7 +782,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         listener.console.error(failure, "unable to construct %s", implementation.getName());
       }
 
-      throw new IllegalStateException(format("%s: unexpected failure while opening %", listener, implementation.getName()), failure);
+      throw new IllegalStateException(format("%s: unexpected failure while opening %s", listener, implementation.getName()), failure);
     }
 
     @Override
