@@ -399,13 +399,15 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     }
 
     public void save(final ActivityListener listener, final String path, @Nullable final Event data) {
+      // in order for index creation and type mapping to work properly,
+      // action.auto_create_index setting must be disabled on every node
+
       String index = IndexSupplier.instance.apply(data);
       String type = TypeSupplier.instance.apply(data);
 
       Map<String, Object> source = data.toMap();
 
       source.put("path", path);
-
 
       try {
         IndexResponse response = this.index(index, type, source);
