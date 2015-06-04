@@ -38,7 +38,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
 import static sk.stuba.fiit.perconik.utilities.configuration.MapOptions.from;
 
 public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
-  private static final TimeValue waitBeforeClientClose = of(4, SECONDS);
+  private static final TimeValue waitBeforeClientClose = of(12, SECONDS);
 
   protected final ElasticsearchOptions options;
 
@@ -154,7 +154,7 @@ public class SharedElasticsearchProxy extends AbstractElasticsearchProxy {
         }
       });
 
-      shutdownAndAwaitTermination(service, 4 * wait.duration(), wait.unit());
+      shutdownAndAwaitTermination(service, wait.duration(), wait.unit());
     }
 
     synchronized void release(final ElasticsearchReporter reporter, final Settings settings, final TimeValue wait) {
