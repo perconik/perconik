@@ -78,7 +78,7 @@ public class Data implements Content {
     }
 
     try {
-      return Writer.getPretty().writeValueAsString(this);
+      return Writer.getPretty().writeValueAsString(this.toMap());
     } catch (Exception e) {
       throw new DataException(e);
     }
