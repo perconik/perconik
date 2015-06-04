@@ -327,10 +327,12 @@ public final class Activator extends ExtendedPlugin {
    */
   @Override
   public void stop(final BundleContext context) throws Exception {
+    final TimeValue timeout = TimeValue.of(12, SECONDS);
+
     synchronized (this) {
       if (loadedServices()) {
         try {
-          unloadServices(doNothing(), 16, SECONDS);
+          unloadServices(doNothing(), timeout);
         } catch (TimeoutException failure) {
           defaultConsole().error(failure, "Unexpected timeout while unloading services");
         }
