@@ -17,6 +17,7 @@ import com.google.common.collect.ImmutableMap;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.elasticsearch.Version;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.indices.IndexAlreadyExistsException;
@@ -402,46 +403,55 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       // in order for index creation and type mapping to work properly,
       // action.auto_create_index setting must be disabled on every node
 
-      String index = IndexSupplier.instance.apply(data);
-      String type = TypeSupplier.instance.apply(data);
+      final String index = IndexSupplier.instance.apply(data);
+      final String type = TypeSupplier.instance.apply(data);
 
-      Map<String, Object> source = data.toMap();
+      final Map<String, Object> source = source(path, data);
 
-      source.put("path", path);
+      this.execute(new Task<Void>() {
+        public Void perform(final TransportClient client) {
+          index(listener, client, index, type, source);
 
-      try {
-        IndexResponse response = this.index(index, type, source);
-
-        checkState(response.isCreated(), "%s: document %s not created", listener, toDefaultString(data));
-      } catch (IndexMissingException failure) {
-        if (ElasticsearchOptions.Schema.logNotices.getValue(this.options)) {
-          this.reportMessage(format("index %s not exists, create index and reindex event", index));
+          return null;
         }
-
-        this.create(listener, index, type);
-
-        IndexResponse response = this.index(index, type, source);
-
-        checkState(response.isCreated(), "%s: document %s not created", listener, toDefaultString(data));
-      }
+      });
     }
 
-    void create(final ActivityListener listener, final String index, final String type) {
-      try {
-        Map<String, Object> source = IndexSource.get(listener, type);
+    void index(final ActivityListener listener, final TransportClient client, final String index, final String type, final Map<String, Object> source) {
+      IndexRequest request = client.prepareIndex(index, type).setSource(source).request();
 
+      try {
+        IndexResponse response = client.index(request).actionGet();
+
+        checkState(response.isCreated(), "%s -> event %s not created", listener, source.get("action"));
+      } catch (IndexMissingException failure) {
+        if (ElasticsearchOptions.Schema.logNotices.getValue(this.options)) {
+          reportMessage(format("%s -> index %s not exists, create index and reindex event", listener, index));
+        }
+
+        this.create(listener, client, index, IndexSource.get(listener, type));
+
+        IndexResponse response = client.index(request).actionGet();
+
+        checkState(response.isCreated(), "%s -> event %s not created", listener, source.get("action"));
+      }
+
+    }
+
+    void create(final ActivityListener listener, final TransportClient client, final String index, final Map<String, Object> source) {
+      try {
         if (ElasticsearchOptions.Schema.logNotices.getValue(this.options)) {
           String raw = AnyStructuredData.of(source).toString(true);
 
-          this.reportMessage(format("creating index %s from source: %s", index, raw));
+          this.reportMessage(format("%s -> creating index %s from source: %s", listener, index, raw));
         }
 
-        CreateIndexResponse response = this.createIndex(index, source);
+        CreateIndexResponse response = client.admin().indices().prepareCreate(index).setSource(source).get();
 
-        checkState(response.isAcknowledged(), "%s: index %s not acknowledged", listener, index);
+        checkState(response.isAcknowledged(), "%s -> index %s not acknowledged", listener, index);
       } catch (IndexAlreadyExistsException failure) {
         if (ElasticsearchOptions.Schema.logNotices.getValue(this.options)) {
-          this.reportMessage(format("index %s already exists, reindex event", index));
+          this.reportMessage(format("%s -> index %s already exists, reindex event", listener, index));
         }
       }
     }
@@ -567,20 +577,12 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       }
     }
 
-    private CreateIndexResponse createIndex(final String index, final Map<String, Object> source) {
-      return this.execute(new Task<CreateIndexResponse>() {
-        public CreateIndexResponse perform(final TransportClient client) {
-          return client.admin().indices().prepareCreate(index).setSource(source).get();
-        }
-      });
-    }
-
-    private IndexResponse index(final String index, final String type, final Map<String, Object> source) {
-      return this.execute(new Task<IndexResponse>() {
-        public IndexResponse perform(final TransportClient client) {
-          return client.prepareIndex(index, type).setSource(source).get();
-        }
-      });
+    private static Map<String, Object> source(final String path, final Event data) {
+      final Map<String, Object> source = data.toMap();
+    
+      source.put("path", path);
+    
+      return source;
     }
   }
 
