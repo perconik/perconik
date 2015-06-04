@@ -311,7 +311,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void notice(final String format, final Object ... args) {
-      super.notice("%s: " + format, this.listener, asList(this.listener, args));
+      super.notice("%s: " + format, asList(this.listener, args));
     }
 
     @Override
@@ -321,7 +321,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void warning(final String format, final Object ... args) {
-      super.warning("%s: " + format, this.listener, asList(this.listener, args));
+      super.warning("%s: " + format, asList(this.listener, args));
     }
 
     @Override
@@ -331,7 +331,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void error(final String format, final Object ... args) {
-      super.error("%s: " + format, this.listener, asList(this.listener, args));
+      super.error("%s: " + format, asList(this.listener, args));
     }
 
     @Override
@@ -341,7 +341,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     @Override
     public void error(final Throwable failure, final String format, final Object ... args) {
-      super.error(failure, "%s: " + format, this.listener, asList(this.listener, args));
+      super.error(failure, "%s: " + format, asList(this.listener, args));
     }
   }
 
@@ -629,7 +629,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       try {
         Map<?, ?> raw = Mapper.getShared().convertValue(data, Mapper.getMapType());
         String serial = Writer.getPretty().writeValueAsString(raw);
-    
+
         listener.console.notice(format("%s%n%s", path, serial));
       } catch (JsonProcessingException | RuntimeException failure) {
         listener.console.error(failure, "unable to format %s", toDefaultString(data));
@@ -648,7 +648,7 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
       if (!store.isPresent()) {
         return;
       }
-    
+
       try {
         store.get().close();
       } catch (Exception failure) {
@@ -664,21 +664,21 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
 
     public void persist(final ActivityListener listener, final String path, final Event data) throws Exception {
       Options options = listener.effectiveOptions();
-    
+
       if (logEvents.getValue(options)) {
         report(listener, path, data);
       }
-    
+
       List<Exception> failures = newLinkedList();
-    
+
       if (persistenceElasticsearch.getValue(options)) {
         save(this.elasticsearch.openOrReuse(), listener, path, data, failures);
       }
-    
+
       if (persistenceUaca.getValue(options)) {
         save(this.uaca.openOrReuse(), listener, path, data, failures);
       }
-    
+
       handle(failures);
     }
 
