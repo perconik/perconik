@@ -2,7 +2,7 @@
 <feature
       id="com.gratex.perconik.uaca.feature"
       label="PerConIK Gratex UACA"
-      version="0.12.1.qualifier"
+      version="0.13.0.qualifier"
       provider-name="Gratex International">
 
    <description url="http://perconik.github.io">

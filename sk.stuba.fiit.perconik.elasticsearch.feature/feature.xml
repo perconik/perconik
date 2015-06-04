@@ -2,7 +2,7 @@
 <feature
       id="sk.stuba.fiit.perconik.elasticsearch.feature"
       label="PerConIK Elasticsearch Proxy"
-      version="0.0.1.qualifier"
+      version="0.1.0.qualifier"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description url="http://perconik.github.io">
