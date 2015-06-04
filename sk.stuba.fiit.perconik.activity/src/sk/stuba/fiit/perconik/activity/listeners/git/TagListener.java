@@ -28,7 +28,7 @@ import static sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories.getTags;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class TagListener extends AbstractReferenceListener {
   private final RepositorySetCache<Set<String>> cache;
 

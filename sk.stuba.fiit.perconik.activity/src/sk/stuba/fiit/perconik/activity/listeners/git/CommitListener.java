@@ -21,7 +21,7 @@ import static sk.stuba.fiit.perconik.eclipse.jgit.lib.GitRepositories.getMostRec
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class CommitListener extends AbstractReferenceListener {
   private final RepositoryMapCache<String, String> cache;
 

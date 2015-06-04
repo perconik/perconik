@@ -39,7 +39,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.7.alpha")
+@Version("0.0.8.alpha")
 public final class ElementSelectionListener extends ActivityListener implements PartListener, StructuredSelectionListener {
   // TODO note that an element selection is generated on each part activation meaning that same
   //      selection events are generated when one switches-by-clicking for example between

@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.eclipse.core.commands.operations.OperationH
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class UndoableHistoryListener extends AbstractUndoableListener {
   public UndoableHistoryListener() {}
 

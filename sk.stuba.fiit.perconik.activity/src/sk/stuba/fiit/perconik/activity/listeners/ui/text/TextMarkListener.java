@@ -30,7 +30,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.4.alpha")
+@Version("0.0.5.alpha")
 public final class TextMarkListener extends AbstractTextListener implements MarkSelectionListener, PartListener {
   // TODO note that mark selection is generated only on incremental search (ctrl + j)
   //      or for marked regions used in Emacs style editing

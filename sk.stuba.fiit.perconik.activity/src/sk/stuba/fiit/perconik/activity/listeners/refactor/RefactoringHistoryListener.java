@@ -24,7 +24,7 @@ import static sk.stuba.fiit.perconik.eclipse.ltk.core.refactoring.history.Refact
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class RefactoringHistoryListener extends AbstractRefactoringListener implements sk.stuba.fiit.perconik.core.listeners.RefactoringHistoryListener {
   public RefactoringHistoryListener() {}
 

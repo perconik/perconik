@@ -28,7 +28,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.3.alpha")
+@Version("0.0.4.alpha")
 public final class SearchResultListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.SearchResultListener {
   public SearchResultListener() {}
 

@@ -40,7 +40,7 @@ import static sk.stuba.fiit.perconik.utilities.concurrent.TimeValue.of;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.7.alpha")
+@Version("0.0.8.alpha")
 public final class TextDifferenceListener extends AbstractTextListener implements DocumentListener, FileBufferListener {
   // TODO note that difference must be initiated by user after startup to be sent on shutdown
   // TODO note that this listener does not handle text differences in consoles

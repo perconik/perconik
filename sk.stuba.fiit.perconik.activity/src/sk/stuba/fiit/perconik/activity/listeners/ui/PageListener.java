@@ -25,7 +25,7 @@ import static sk.stuba.fiit.perconik.utilities.MoreStrings.toLowerCase;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.4.alpha")
+@Version("0.0.5.alpha")
 public final class PageListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.PageListener {
   public PageListener() {}
 

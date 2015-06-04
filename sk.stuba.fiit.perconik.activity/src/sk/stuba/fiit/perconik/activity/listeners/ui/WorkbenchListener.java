@@ -32,7 +32,7 @@ import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.8.alpha")
+@Version("0.0.9.alpha")
 public final class WorkbenchListener extends ActivityListener implements sk.stuba.fiit.perconik.core.listeners.WorkbenchListener {
   private static final Options defaults;
 
