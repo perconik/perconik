@@ -31,6 +31,10 @@ A collection of Eclipse features and plug-ins to track user activity
 `action.auto_create_index: "-perconik-events*,+*"` in `elasticsearch.yml` which disables
 automatic index creation for PerConIK event indices and leaves it enabled for other indices
 
+### User Activity Client Application
+
+- refer to User Activity Client Application [Installation Guide](http://perconik.fiit.stuba.sk/UserActivity/Default/InstallationGuide)
+
 ## Building
 
 1. Download external libraries with `sk.stuba.fiit.perconik.libraries/download/run`
