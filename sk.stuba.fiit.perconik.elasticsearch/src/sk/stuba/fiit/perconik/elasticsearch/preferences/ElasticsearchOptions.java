@@ -73,11 +73,11 @@ public interface ElasticsearchOptions extends Options {
 
     public static final OptionAccessor<ArrayList<InetSocketAddress>> clientTransportAddresses = option(arrayListParser(inetSocketAddressParser(), ",", "", ""), join(qualifier, "client", "transport", "addresses"), newArrayList(new InetSocketAddress("127.0.0.1", 9300)));
 
-    public static final OptionAccessor<Boolean> clientTransportIgnoreClusterName = option(booleanParser(), join(qualifier, "client", "transport", "ignore_cluster_name"), false);
+    public static final OptionAccessor<TimeValue> clientTransportNodesSamplerInterval = option(timeParser(), join(qualifier, "client", "transport", "nodes_sampler_interval"), timeValueSeconds(5));
 
     public static final OptionAccessor<TimeValue> clientTransportPingTimeout = option(timeParser(), join(qualifier, "client", "transport", "ping_timeout"), timeValueSeconds(5));
 
-    public static final OptionAccessor<TimeValue> clientTransportNodesSamplerInterval = option(timeParser(), join(qualifier, "client", "transport", "nodes_sampler_interval"), timeValueSeconds(5));
+    public static final OptionAccessor<Boolean> clientTransportIgnoreClusterName = option(booleanParser(), join(qualifier, "client", "transport", "ignore_cluster_name"), false);
 
     public static final OptionAccessor<TimeValue> transportTcpConnectTimeout = option(timeParser(), join(qualifier, "transport", "tcp", "connect_timeout"), timeValueSeconds(30));
 
