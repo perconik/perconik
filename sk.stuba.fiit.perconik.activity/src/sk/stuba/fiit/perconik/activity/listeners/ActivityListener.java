@@ -424,6 +424,8 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
     void index(final ActivityListener listener, final TransportClient client, final String index, final String type, final Map<String, Object> source) {
       IndexRequest request = client.prepareIndex(index, type).setSource(source).request();
 
+      // TODO refactor this to use index templates
+
       try {
         IndexResponse response = client.index(request).actionGet();
 
