@@ -65,6 +65,8 @@ final class UacaReporter {
       return;
     }
 
-    UacaMessageDialogs.openError(Keys.displayErrors, format("UacaProxy: %s", isNullOrEmpty(message) ? failure.getMessage() : message));
+    synchronized (UacaReporter.class) {
+      UacaMessageDialogs.openError(Keys.displayErrors, format("UacaProxy: %s", isNullOrEmpty(message) ? failure.getMessage() : message));
+    }
   }
 }

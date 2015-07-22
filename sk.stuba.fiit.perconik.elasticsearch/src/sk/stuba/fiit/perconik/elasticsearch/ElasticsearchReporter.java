@@ -44,6 +44,8 @@ final class ElasticsearchReporter {
       return;
     }
 
-    ElasticsearchMessageDialogs.openError(Schema.displayErrors.getKey(), format("ElasticsearchProxy: %s", isNullOrEmpty(message) ? failure.getMessage() : message));
+    synchronized (ElasticsearchReporter.class) {
+      ElasticsearchMessageDialogs.openError(Schema.displayErrors.getKey(), format("ElasticsearchProxy: %s", isNullOrEmpty(message) ? failure.getMessage() : message));
+    }
   }
 }
