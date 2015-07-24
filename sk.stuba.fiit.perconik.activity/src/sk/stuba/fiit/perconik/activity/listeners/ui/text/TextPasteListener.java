@@ -23,7 +23,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ui.text.TextPasteListene
  * @author Pavol Zbell
  * @since 1.0
  */
-@Version("0.0.7.alpha")
+@Version("0.1.0.alpha")
 public final class TextPasteListener extends AbstractTextClipboardListener implements CommandExecutionListener {
   public TextPasteListener() {}
 
