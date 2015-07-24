@@ -9,6 +9,6 @@
   </parent>
 
   <artifactId>com.gratex.perconik.uaca</artifactId>
-  <version>0.13.0-SNAPSHOT</version>
+  <version>0.13.1-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
 </project>
