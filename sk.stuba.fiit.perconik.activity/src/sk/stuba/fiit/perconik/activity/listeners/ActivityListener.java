@@ -89,6 +89,7 @@ import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.Persist
 import static sk.stuba.fiit.perconik.activity.listeners.ActivityListener.PersistenceOptions.Schema.persistenceUaca;
 import static sk.stuba.fiit.perconik.activity.listeners.RegularListener.RegularConfiguration.builder;
 import static sk.stuba.fiit.perconik.activity.plugin.Activator.PLUGIN_ID;
+import static sk.stuba.fiit.perconik.activity.serializers.References.referenceStrings;
 import static sk.stuba.fiit.perconik.data.content.StructuredContent.separator;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.key;
 import static sk.stuba.fiit.perconik.data.content.StructuredContents.sequence;
@@ -969,6 +970,14 @@ public abstract class ActivityListener extends RegularListener<ActivityListener>
         this.log.print("%s: %s -> process", this.identifier, this.formatElapsedTime(delta, this.total()));
       }
     }
+  }
+
+  // TODO make intern optional, read from this.getOptions()
+  @SuppressWarnings("static-method")
+  protected final Event intern(final Event data) {
+    referenceStrings(data);
+
+    return data;
   }
 
   protected static final class Log extends ForwardingPluginConsole {

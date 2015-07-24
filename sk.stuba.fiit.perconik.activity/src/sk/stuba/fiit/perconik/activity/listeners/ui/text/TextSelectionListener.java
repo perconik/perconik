@@ -97,7 +97,7 @@ public final class TextSelectionListener extends AbstractTextListener implements
 
     LineRegion region = LineRegion.compute(document, selection.getOffset(), selection.getLength(), selection.getText()).normalize();
 
-    this.send(action.getPath(), this.build(time, action, sequence, part, selection, region));
+    this.send(action.getPath(), this.intern(this.build(time, action, sequence, part, selection, region)));
   }
 
   static final class TextSelectionEvents extends ContinuousEvent<TextSelectionListener, TextSelectionEvent> {

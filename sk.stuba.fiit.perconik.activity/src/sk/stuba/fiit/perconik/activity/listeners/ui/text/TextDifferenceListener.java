@@ -82,7 +82,7 @@ public final class TextDifferenceListener extends AbstractTextListener implement
     }
   }
 
-  Event build(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final IWorkbenchPart part, final String before, final String after) {
+  Event build(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final IWorkbenchPart part, final String original, final String revision) {
     Event data = this.build(time, action, part);
 
     data.put(key("sequence", "first", "timestamp"), sequence.getFirst().time);
@@ -91,17 +91,17 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
     data.put(key("sequence", "count"), sequence.size());
 
-    data.put(key("text", "before"), before);
-    data.put(key("text", "after"), after);
+    data.put(key("content", "original", "text"), original);
+    data.put(key("content", "revision", "text"), revision);
 
     return data;
   }
 
-  void process(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final String before, final String after) {
+  void process(final long time, final Action action, final LinkedList<TextDocumentEvent> sequence, final String original, final String revision) {
     IDocument document = sequence.getLast().document;
     IWorkbenchPart part = Parts.forDocument(document);
 
-    this.send(action.getPath(), this.build(time, action, sequence, part, before, after));
+    this.send(action.getPath(), this.intern(this.build(time, action, sequence, part, original, revision)));
   }
 
   static final class TextDocumentEvents extends ContinuousEvent<TextDifferenceListener, TextDocumentEvent> {
@@ -190,20 +190,20 @@ public final class TextDifferenceListener extends AbstractTextListener implement
 
       IDocument document = last.document;
 
-      String before = this.cache.getIfPresent(document);
-      String after = document.get();
+      String original = this.cache.getIfPresent(document);
+      String revision = document.get();
 
-      if (before == null) {
+      if (original == null) {
         if (this.log.isEnabled()) {
           this.log.print("%s: text for document %x not cached, nothing to process", this.identifier, document.hashCode());
         }
 
-        this.update(document, after, true);
+        this.update(document, revision, true);
 
         return;
       }
 
-      if (before.equals(after)) {
+      if (original.equals(revision)) {
         if (this.log.isEnabled()) {
           this.log.print("%s: document %x texts equal, nothing to process", this.identifier, document.hashCode());
         }
@@ -215,18 +215,18 @@ public final class TextDifferenceListener extends AbstractTextListener implement
         this.log.print("%s: document %x texts not equal -> difference", this.identifier, document.hashCode());
       }
 
-      this.update(document, after, true);
+      this.update(document, revision, true);
 
-      this.listener.handleDocumentEvents(sequence, before, after);
+      this.listener.handleDocumentEvents(sequence, original, revision);
     }
   }
 
-  void handleDocumentEvents(final LinkedList<TextDocumentEvent> sequence, final String before, final String after) {
+  void handleDocumentEvents(final LinkedList<TextDocumentEvent> sequence, final String original, final String revision) {
     this.execute(new Runnable() {
       public void run() {
         TextDocumentEvent event = sequence.getLast();
 
-        process(event.time, DIFFERENCE, sequence, before, after);
+        process(event.time, DIFFERENCE, sequence, original, revision);
       }
     });
   }

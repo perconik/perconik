@@ -55,6 +55,6 @@ abstract class AbstractTextListener extends ActivityListener {
   }
 
   final void process(final long time, final Action action, final IWorkbenchPart part, final LineRegion region) {
-    this.send(action.getPath(), this.build(time, action, part, region));
+    this.send(action.getPath(), this.intern(this.build(time, action, part, region)));
   }
 }

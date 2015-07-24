@@ -87,7 +87,7 @@ public final class TextMarkListener extends AbstractTextListener implements Mark
 
     LineRegion region = LineRegion.compute(document, selection.getOffset(), selection.getLength()).normalize();
 
-    this.send(action.getPath(), this.build(time, action, sequence, part, selection, region));
+    this.send(action.getPath(), this.intern(this.build(time, action, sequence, part, selection, region)));
   }
 
   static final class TextMarkEvents extends ContinuousEvent<TextMarkListener, TextMarkEvent> {

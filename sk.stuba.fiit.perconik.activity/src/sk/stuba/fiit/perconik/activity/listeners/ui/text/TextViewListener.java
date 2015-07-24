@@ -104,7 +104,7 @@ public final class TextViewListener extends AbstractTextListener implements Part
 
     LineRegion region = sequence.getLast().region;
 
-    this.send(action.getPath(), this.build(time, action, sequence, part, region));
+    this.send(action.getPath(), this.intern(this.build(time, action, sequence, part, region)));
   }
 
   static final class TextViewEvents extends ContinuousEvent<TextViewListener, TextViewEvent> {

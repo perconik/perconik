@@ -19,6 +19,7 @@ import sk.stuba.fiit.perconik.activity.serializers.ui.selection.StructuredSelect
 import sk.stuba.fiit.perconik.core.annotations.Version;
 import sk.stuba.fiit.perconik.core.listeners.PartListener;
 import sk.stuba.fiit.perconik.core.listeners.StructuredSelectionListener;
+import sk.stuba.fiit.perconik.data.content.Content;
 import sk.stuba.fiit.perconik.data.events.Event;
 import sk.stuba.fiit.perconik.utilities.concurrent.TimeValue;
 
@@ -109,13 +110,13 @@ public final class ElementSelectionListener extends ActivityListener implements 
 
     data.put(key("sequence", "count"), sequence.size());
 
-    data.put(key("elements"), data.get("sequence", "last", "raw", "elements"));
+    data.put(key("elements"), ((Content) data.get("sequence", "last", "raw")).toMap().get("elements"));
 
     return data;
   }
 
   void process(final long time, final Action action, final LinkedList<ElementSelectionEvent> sequence, final IWorkbenchPart part, final IStructuredSelection selection) {
-    this.send(action.getPath(), this.build(time, action, sequence, part, selection));
+    this.send(action.getPath(), this.intern(this.build(time, action, sequence, part, selection)));
   }
 
   static final class ElementSelectionEvents extends ContinuousEvent<ElementSelectionListener, ElementSelectionEvent> {
