@@ -60,8 +60,8 @@ automatic index creation for PerConIK event indices and leaves it enabled for ot
 This Software is the partial result of the Research and Development
 Operational Programme for the project Research of methods for acquisition,
 analysis and personalized conveying of information and knowledge,
-ITMS 26240220039, co-funded by the ERDF.
+ITMS 26240220039, co-funded by the ERDF
 
 ## License
 
-This software is released under the [MIT License](LICENSE.md).
+This software is released under the [MIT License](LICENSE.md)
