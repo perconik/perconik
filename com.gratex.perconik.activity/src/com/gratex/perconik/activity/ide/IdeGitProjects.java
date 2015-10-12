@@ -14,6 +14,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 
+import static com.google.common.base.Throwables.propagate;
+
 //TODO resolve: not sure why is egit core restricted
 @SuppressWarnings("restriction")
 public final class IdeGitProjects {
@@ -66,7 +68,17 @@ public final class IdeGitProjects {
         }
       }
     } finally {
-      walk.release();
+      // TODO resolve: jgit 2.2.0 (and its successors up to Luna) have TreeWalk.release()
+      // but jgit 4.0.0 (as of Mars) replaces it with TreeWalk.close()
+      try {
+        try {
+          walk.getClass().getDeclaredMethod("release").invoke(walk);
+        } catch (NoSuchMethodException e) {
+          walk.getClass().getDeclaredMethod("close").invoke(walk);
+        }
+      } catch (Exception e) {
+        propagate(e);
+      }
     }
 
     return false;
