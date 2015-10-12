@@ -35,6 +35,8 @@ public enum TreeApiLevel implements IntegralConstant {
   @SuppressWarnings("deprecation")
   JLS4(AST.JLS4);
 
+  // TODO what about AST.JLS8 since 3.10?
+
   static final TreeApiLevel latest;
 
   static {
