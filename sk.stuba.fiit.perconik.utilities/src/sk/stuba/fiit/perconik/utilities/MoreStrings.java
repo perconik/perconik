@@ -12,11 +12,11 @@ import javax.annotation.Nullable;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
 
 import jersey.repackaged.com.google.common.collect.Lists;
 
 import static java.lang.String.valueOf;
-import static java.util.Arrays.asList;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -128,7 +128,7 @@ public final class MoreStrings {
   }
 
   public static List<String> lines(final String s) {
-    return asList(s.split(lineSeparatorRegex));
+    return Splitter.onPattern(lineSeparatorRegex).splitToList(s);
   }
 
   public static String trim(final String s, final String v) {
