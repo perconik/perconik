@@ -91,6 +91,7 @@ import org.eclipse.jdt.core.dom.WhileStatement;
 import org.eclipse.jdt.core.dom.WildcardType;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.EMPTY_SET;
 
 import static sk.stuba.fiit.perconik.core.java.dom.traverse.NodeVisitOption.INCLUDE_JAVADOC_TAGS;
 
@@ -98,7 +99,7 @@ public abstract class NodeVisitor {
   final Internals internals;
 
   protected NodeVisitor(final NodeVisitOption ... options) {
-    Set<NodeVisitOption> set = EnumSet.copyOf(asList(options));
+    Set<NodeVisitOption> set = options.length != 0 ? EnumSet.copyOf(asList(options)) : EMPTY_SET;
 
     this.internals = new Internals(this, set.contains(INCLUDE_JAVADOC_TAGS));
   }
