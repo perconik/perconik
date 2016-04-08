@@ -126,11 +126,11 @@ public final class NodeCounters {
   }
 
   @SafeVarargs
-  public static <N extends ASTNode> Numerate<N> ofClass(final Class<? extends N> implementation, final Class<? extends N> ... rest) {
+  public static <N extends ASTNode> Numerate<N> ofClass(final Class<? extends ASTNode> implementation, final Class<? extends ASTNode> ... rest) {
     return usingFilter(NodeClassFilter.of(implementation, rest));
   }
 
-  public static <N extends ASTNode> Numerate<N> ofClass(final Iterable<Class<? extends N>> implementations) {
+  public static <N extends ASTNode> Numerate<N> ofClass(final Iterable<Class<? extends ASTNode>> implementations) {
     return usingFilter(NodeClassFilter.of(implementations));
   }
 
