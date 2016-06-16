@@ -2,7 +2,7 @@
 <feature
       id="sk.stuba.fiit.perconik.activity.feature"
       label="PerConIK Eclipse Activity Tracker"
-      version="0.22.0.qualifier"
+      version="0.22.1.qualifier"
       provider-name="Faculty of Informatics and Information Technologies, Slovak University of Technology in Bratislava">
 
    <description url="http://perconik.github.io">
