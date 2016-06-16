@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2015 Faculty of Informatics and Information Technologies,
+Copyright (c) 2013 - 2016 Faculty of Informatics and Information Technologies,
 Slovak University of Technology in Bratislava
 
 Acknowledgement. This Software is the partial result of the Research and
